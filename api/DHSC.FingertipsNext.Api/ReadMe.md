@@ -38,7 +38,7 @@ Instance, TenantId and ClientId are all parameters available within the Entra Ex
 Specifying the AdminRole role ID (a GUID) is optional allows the definition of a global administration role group. 
 A user presenting a claim with membership to this group will be seen by the fingertips API as an admin user with global indicator permissions.
 
-### Local Authantication
+### Local Authentication
 
 Fingertips has been configured to run in a development authentication mode supported by the local jwt tokens supplied by the dotnet user-jwts command.
 
