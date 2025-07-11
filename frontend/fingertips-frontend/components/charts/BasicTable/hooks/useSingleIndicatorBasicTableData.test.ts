@@ -55,7 +55,7 @@ describe('useSingleIndicatorBasicTableData', () => {
     mockUseSearchStateParams.mockReturnValue(testSearch);
   });
 
-  it('should return 3 rows of basic table data', async () => {
+  it('should return 3 rows of basic table data', () => {
     const { result } = renderHook(() => useSingleIndicatorBasicTableData(), {
       wrapper: testRenderWrapper(seedData),
     });
@@ -63,7 +63,7 @@ describe('useSingleIndicatorBasicTableData', () => {
     expect(result.current).toHaveLength(3);
   });
 
-  it('should return null if healthData is not loaded', async () => {
+  it('should return null if healthData is not loaded', () => {
     const { result } = renderHook(() => useSingleIndicatorBasicTableData(), {
       wrapper: testRenderWrapper({
         '/indicator/41101': mockIndicatorDocument(),
@@ -73,7 +73,7 @@ describe('useSingleIndicatorBasicTableData', () => {
     expect(result.current).toBeNull();
   });
 
-  it('should return null if indicatorMetaData is not loaded', async () => {
+  it('should return null if indicatorMetaData is not loaded', () => {
     const { result } = renderHook(() => useSingleIndicatorBasicTableData(), {
       wrapper: testRenderWrapper({
         [queryKey]: testHealthData,
@@ -83,7 +83,7 @@ describe('useSingleIndicatorBasicTableData', () => {
     expect(result.current).toBeNull();
   });
 
-  it('should return null if the area is not in the loaded data', async () => {
+  it('should return null if the area is not in the loaded data', () => {
     const clone = deepClone(testHealthData);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
