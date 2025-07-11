@@ -40,6 +40,7 @@ public class TrendDataProcessor(
     {
         var healthMeasures = await healthMeasureRepository.GetByIndicator(indicator.IndicatorKey);
         var groupedHealthMeasures = healthMeasures
+            .Where(hm => hm.PublishedAt <= DateTime.UtcNow)
             .GroupBy(hm => new {
                 hm.AgeKey,
                 hm.AreaKey,
