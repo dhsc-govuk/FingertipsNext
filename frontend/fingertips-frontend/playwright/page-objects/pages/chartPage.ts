@@ -51,7 +51,7 @@ export default class ChartPage extends AreaFilter {
     'barChartEmbeddedTable-component';
   static readonly spineChartTableComponent = 'spineChartTable-component';
   static readonly inequalitiesForSingleTimePeriodComponent =
-    'inequalitiesForSingleTimePeriod-component';
+    'inequalitiesComparisonForOneTimePeriod-component';
   static readonly inequalitiesTrendComponent = 'inequalitiesTrend-component';
   readonly timePeriodDropDownComponent = 'timePeriod-dropDown-component';
   readonly inequalitiesTypesDropDownComponentBC =
