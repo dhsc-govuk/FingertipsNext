@@ -174,7 +174,7 @@ public class CsvValidationTests
     {
         // Arrange
         var result = ReadAndValidateCsv(@"Services/Validation/CSVs/SwitchedHeadersAndValidDataRows.csv");
-        
+
         // Assert
         result.Success.ShouldBeFalse();
         result.Errors.ShouldHaveSingleItem();
