@@ -3,9 +3,9 @@ using Azure.Storage.Blobs;
 using DHSC.FingertipsNext.Modules.DataManagement.Mappings;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
-using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.UnitTests.TestData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
@@ -122,7 +122,7 @@ public class DataManagementServiceTests
         // Arrange
         _blobClient
             .When(x => x.UploadAsync(Arg.Any<Stream>()))
-            .Do(x => throw new RequestFailedException("failed"));
+            .Do(_ => throw new RequestFailedException("failed"));
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
         // Act
@@ -154,23 +154,17 @@ public class DataManagementServiceTests
         // Arrange
         var indicatorIds = new[] { 1234, 5678 };
 
-        const string batchId = "batch_id";
-        const string originalFileName = "upload.csv";
-        var createdAt = new DateTime(2017, 6, 30);
-        var publishedAt = new DateTime(2020, 3, 7);
-        var userId = Guid.NewGuid();
-
         var batchesInDb = new[]
         {
-            new BatchModel
+            BatchExamples.BatchModel with
             {
-                BatchId = batchId, IndicatorId = 1234, OriginalFileName = originalFileName,
-                CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Received
+                IndicatorId = 1234,
+                Status = BatchStatus.Received
             },
-            new BatchModel
+            BatchExamples.BatchModel with
             {
-                BatchId = batchId, IndicatorId = 5678, OriginalFileName = originalFileName,
-                CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Deleted
+                IndicatorId = 5678,
+                Status = BatchStatus.Deleted
             }
         };
         _repository.GetBatchesByIdsAsync(indicatorIds).Returns(batchesInDb);
@@ -181,24 +175,14 @@ public class DataManagementServiceTests
         // Assert
         var batchList = batches.ToList();
         batchList.Count.ShouldBe(2);
-        batchList.ShouldContain(new Batch
+        batchList.ShouldContain(BatchExamples.Batch with
         {
-            BatchId = batchId,
             IndicatorId = 1234,
-            OriginalFileName = originalFileName,
-            CreatedAt = createdAt,
-            PublishedAt = publishedAt,
-            UserId = userId.ToString(),
             Status = BatchStatus.Received
         });
-        batchList.ShouldContain(new Batch
+        batchList.ShouldContain(BatchExamples.Batch with
         {
-            BatchId = batchId,
             IndicatorId = 5678,
-            OriginalFileName = originalFileName,
-            CreatedAt = createdAt,
-            PublishedAt = publishedAt,
-            UserId = userId.ToString(),
             Status = BatchStatus.Deleted
         });
     }
@@ -207,24 +191,17 @@ public class DataManagementServiceTests
     public async Task ListBatchesShouldReturnAllBatchesIfNoIndicatorsSpecified()
     {
         // Arrange
-        // TODO: Create BatchModel example
-        const string batchId = "batch_id";
-        const string originalFileName = "upload.csv";
-        var createdAt = new DateTime(2017, 6, 30);
-        var publishedAt = new DateTime(2020, 3, 7);
-        var userId = Guid.NewGuid();
-
         var batchesInDb = new[]
         {
-            new BatchModel
+            BatchExamples.BatchModel with
             {
-                BatchId = batchId, IndicatorId = 1234, OriginalFileName = originalFileName,
-                CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Received
+                IndicatorId = 1234,
+                Status = BatchStatus.Received
             },
-            new BatchModel
+            BatchExamples.BatchModel with
             {
-                BatchId = batchId, IndicatorId = 5678, OriginalFileName = originalFileName,
-                CreatedAt = createdAt, PublishedAt = publishedAt, UserId = userId, Status = BatchStatus.Deleted
+                IndicatorId = 5678,
+                Status = BatchStatus.Deleted
             }
         };
         _repository.GetAllBatchesAsync().Returns(batchesInDb);
@@ -235,24 +212,14 @@ public class DataManagementServiceTests
         // Assert
         var batchList = batches.ToList();
         batchList.Count.ShouldBe(2);
-        batchList.ShouldContain(new Batch
+        batchList.ShouldContain(BatchExamples.Batch with
         {
-            BatchId = batchId,
             IndicatorId = 1234,
-            OriginalFileName = originalFileName,
-            CreatedAt = createdAt,
-            PublishedAt = publishedAt,
-            UserId = userId.ToString(),
             Status = BatchStatus.Received
         });
-        batchList.ShouldContain(new Batch
+        batchList.ShouldContain(BatchExamples.Batch with
         {
-            BatchId = batchId,
             IndicatorId = 5678,
-            OriginalFileName = originalFileName,
-            CreatedAt = createdAt,
-            PublishedAt = publishedAt,
-            UserId = userId.ToString(),
             Status = BatchStatus.Deleted
         });
     }

@@ -224,37 +224,31 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     public async Task ListBatchesEndpointShouldListAllBatches()
     {
         // Arrange
+        var batch = new Batch
+        {
+            BatchId = "41101_2020-03-07T14:22:37.123",
+            IndicatorId = 41101,
+            Status = BatchStatus.Received,
+            OriginalFileName = "integration-test.csv",
+            UserId = "4fbbbb61-ed6d-4777-943c-7d597f90445a",
+            CreatedAt = new DateTime(2017, 6, 30, 18, 49, 37),
+            PublishedAt = new DateTime(2025, 8, 9, 0, 0, 0, 0)
+        };
         Batch[] expectedResult =
         [
-            new()
-            {
-                BatchId = "41101_2020-03-07T14:22:37.123",
-                CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
-                IndicatorId = 41101,
-                PublishedAt = new DateTime(2025, 8, 9, 0, 0, 0, 0),
-                Status = BatchStatus.Received,
-                UserId = "fd89acd7-c91f-49c0-89ab-c46d3b25b4f0",
-                OriginalFileName = "integration-test.csv"
-            },
-            new()
+            batch,
+            batch with
             {
                 BatchId = "383_2017-06-30T14:22:37.123",
-                CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
                 IndicatorId = 383,
-                PublishedAt = new DateTime(2025, 9, 9, 0, 0, 0, 0),
                 Status = BatchStatus.Deleted,
-                UserId = "833347c4-4f1d-425e-a66c-fa701d1bbd53",
-                OriginalFileName = "integration-test.csv"
+                PublishedAt = new DateTime(2025, 9, 9, 0, 0, 0, 0)
             },
-            new()
+            batch with
             {
                 BatchId = "22401_2017-06-30T14:22:37.123",
-                CreatedAt = new DateTime(2025, 7, 9, 16, 15, 0, 0),
                 IndicatorId = 22401,
-                PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0),
-                Status = BatchStatus.Received,
-                UserId = "10cefea6-5b2e-43bb-9cbc-bcaec8b27e0d",
-                OriginalFileName = "integration-test.csv"
+                PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
             }
         ];
 

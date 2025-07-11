@@ -1,5 +1,6 @@
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.UnitTests.TestData;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
@@ -7,45 +8,25 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Repository;
 
 public class DataManagementRepositoryTests : IDisposable
 {
-    private const string OriginalFilename = "upload.csv";
-    private static readonly DateTime CreatedAt = new(2025, 1, 1, 0, 0, 0);
-    private static readonly DateTime PublishedAt = new(2025, 2, 1, 0, 0, 0);
-    private static readonly Guid UserId = Guid.NewGuid();
-
-    private readonly BatchModel _batchFor22401 = new()
+    private readonly BatchModel _batchFor22401 = BatchExamples.BatchModel with
     {
-        BatchKey = 3,
         BatchId = "22401_2017-06-30T14:22:37.123Z",
-        IndicatorId = 22401,
-        CreatedAt = CreatedAt,
-        OriginalFileName = OriginalFilename,
-        PublishedAt = PublishedAt,
-        UserId = UserId,
-        Status = BatchStatus.Received
+        IndicatorId = 22401
     };
 
-    private readonly BatchModel _batchFor383 = new()
+    private readonly BatchModel _batchFor383 = BatchExamples.BatchModel with
     {
-        BatchKey = 2,
         BatchId = "383_2017-06-30T14:22:37.123Z",
         IndicatorId = 383,
-        CreatedAt = CreatedAt,
-        OriginalFileName = OriginalFilename,
-        PublishedAt = PublishedAt,
-        UserId = UserId,
         Status = BatchStatus.Deleted
     };
 
-    private readonly BatchModel _batchFor41101 = new()
+    private readonly BatchModel _batchFor41101 = BatchExamples.BatchModel with
     {
-        BatchKey = 1,
         BatchId = "41101_2020-03-07T14:22:37.123Z",
         IndicatorId = 41101,
-        CreatedAt = CreatedAt,
-        OriginalFileName = OriginalFilename,
-        PublishedAt = PublishedAt,
-        UserId = UserId,
-        Status = BatchStatus.Received
+        CreatedAt = new DateTime(2028, 2, 29, 12, 00, 00),
+        PublishedAt = new DateTime(2028, 2, 29, 12, 00, 00)
     };
 
     private readonly DataManagementRepository _dataManagementRepository;
@@ -127,7 +108,6 @@ public class DataManagementRepositoryTests : IDisposable
     {
         await _dataManagementRepository.GetBatchesByIdsAsync(null!).ShouldThrowAsync(typeof(ArgumentNullException));
     }
-
 
     [Fact]
     public async Task GetAllBatchesAsyncShouldReturnAllBatches()
