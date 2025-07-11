@@ -13,7 +13,7 @@ import {
   Cell,
   Row,
   Indicator,
-} from './heatmapTypes';
+} from './heatmap.types';
 
 export const DEFAULT_BACKGROUND_COLOUR = GovukColours.White;
 

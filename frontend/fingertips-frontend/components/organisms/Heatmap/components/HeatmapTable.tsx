@@ -4,7 +4,7 @@ import React, { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
 import { Table } from 'govuk-react';
 import { useRotatedHeaders } from '@/components/organisms/Heatmap/useRotatedHeaders';
-import { Cell, Header, Row } from '../heatmapTypes';
+import { Cell, Header, Row } from '../heatmap.types';
 
 const StyledTable = styled(Table)({
   borderCollapse: 'separate',

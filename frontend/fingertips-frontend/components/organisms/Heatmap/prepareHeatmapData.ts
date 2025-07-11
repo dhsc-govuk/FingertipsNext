@@ -7,7 +7,7 @@ import {
   Area,
   Indicator,
   DataPoint,
-} from './heatmapTypes';
+} from './heatmap.types';
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],

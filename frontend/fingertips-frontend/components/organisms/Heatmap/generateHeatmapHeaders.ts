@@ -2,7 +2,7 @@ import {
   Area,
   Header,
   HeaderType,
-} from '@/components/organisms/Heatmap/heatmapTypes';
+} from '@/components/organisms/Heatmap/heatmap.types';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const generateHeaders = (

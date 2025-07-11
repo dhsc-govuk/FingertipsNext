@@ -14,7 +14,7 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { render, screen, within } from '@testing-library/react';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapTypes';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmap.types';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   mockHealthDataForArea,

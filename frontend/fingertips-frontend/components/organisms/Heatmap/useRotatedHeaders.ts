@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Header } from './heatmapTypes';
+import { Header } from './heatmap.types';
 
 // start with the table having a header row with a fixed generous height
 // when rendered, measure the height of the rotated heading and

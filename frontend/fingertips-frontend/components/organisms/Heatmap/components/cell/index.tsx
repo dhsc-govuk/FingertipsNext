@@ -1,4 +1,4 @@
-import { CellType } from '../../heatmapTypes';
+import { CellType } from '../../heatmap.types';
 import { FC, MouseEventHandler } from 'react';
 import { IndicatorTitleCell } from './IndicatorTitleCell';
 import { IndicatorValueUnitCell } from './IndicatorValueUnitCell';

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { CellHoverProps } from '../../heatmapTypes';
+import { CellHoverProps } from '../../heatmap.types';
 import { HeatmapHoverBenchmarkPill } from './BenchmarkPill';
 import {
   Hover,

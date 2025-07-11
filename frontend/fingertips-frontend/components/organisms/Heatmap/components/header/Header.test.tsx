@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { HeatmapHeader } from '.';
-import { HeaderType } from '../../heatmapTypes';
+import { HeaderType } from '../../heatmap.types';
 
 describe('header types', () => {
   it.each([

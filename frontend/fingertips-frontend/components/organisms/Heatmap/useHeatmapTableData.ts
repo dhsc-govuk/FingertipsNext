@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
-import { Header, HeatmapIndicatorData, Row } from './heatmapTypes';
+import { Header, HeatmapIndicatorData, Row } from './heatmap.types';
 import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
 import { generateRows } from './generateHeatmapRows';
 import { generateHeaders } from './generateHeatmapHeaders';
