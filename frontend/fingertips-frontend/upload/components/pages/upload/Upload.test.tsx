@@ -40,7 +40,7 @@ describe('Upload page component', () => {
     const user = userEvent.setup();
 
     render(<Upload batches={[mockBatch()]} />);
-    await user.click(screen.getByRole('button'));
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
 
     expect(
       await screen.findByTestId(apiResponsePanelTestId)
@@ -50,7 +50,7 @@ describe('Upload page component', () => {
   it('should render the page heading', () => {
     render(<Upload batches={[mockBatch()]} />);
 
-    expect(screen.getByRole('heading')).toHaveTextContent(
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
       'Indicator data portal'
     );
   });

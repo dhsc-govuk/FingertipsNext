@@ -7,24 +7,33 @@ import {
   StyledTableCell,
   StyledTableCellHeader,
 } from './BatchListTable.styles';
+import { mockBatch } from '@/mock/data/mockBatch';
 
-type BatchListTableProps = {
-  batches: Batch[];
-};
+// type BatchListTableProps = {
+//   batches: Batch[];
+// };
 
-export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
+const batches: Batch[] = [mockBatch()];
+
+export enum BatchListTableHeaders {
+  OriginalFilename = 'Original filename',
+  Timestamp = 'Timestamp',
+  UserId = 'User ID',
+  PublishDate = 'Publish date',
+  IndicatorId = 'Indicator ID',
+  BatchId = 'Batch ID',
+  Status = 'Status',
+}
+
+export const BatchListTable = () => {
   return batches.length ? (
     <div data-testid="batch-list-table-container">
       <H4>Manage upload data</H4>
       <StyledTable data-testid="batch-list-table">
         <Table.Row>
-          <StyledTableCellHeader>Original filename</StyledTableCellHeader>
-          <StyledTableCellHeader>Timestamp</StyledTableCellHeader>
-          <StyledTableCellHeader>User ID</StyledTableCellHeader>
-          <StyledTableCellHeader>Publish date</StyledTableCellHeader>
-          <StyledTableCellHeader>Indicator ID</StyledTableCellHeader>
-          <StyledTableCellHeader>Batch ID</StyledTableCellHeader>
-          <StyledTableCellHeader>Status</StyledTableCellHeader>
+          {Object.values(BatchListTableHeaders).map((header) => (
+            <StyledTableCellHeader key={header}>{header}</StyledTableCellHeader>
+          ))}
           <StyledTableCellHeader></StyledTableCellHeader>
         </Table.Row>
         {batches.map((batch, index) => (
