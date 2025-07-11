@@ -8,6 +8,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { Mock } from 'vitest';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 const mockAreaCodes = ['E12000001', 'E12000002'];
 let mockSearchState: SearchStateParams = {};
@@ -64,7 +65,7 @@ describe('ThematicMap', () => {
   it('should render the correct title', async () => {
     testRender();
     const title = await screen.findByRole('heading', { level: 3 });
-    expect(title).toHaveTextContent('Compare an indicator by areas');
+    expect(title).toHaveTextContent(ChartTitlesEnum.ThematicMap);
   });
 
   it('should render the correct chart title', async () => {

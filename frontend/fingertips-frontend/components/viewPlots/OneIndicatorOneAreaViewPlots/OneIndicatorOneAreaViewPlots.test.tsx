@@ -23,6 +23,7 @@ import {
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 mockUsePathname.mockReturnValue('some-mock-path');
 mockSetIsLoading.mockReturnValue(false);
@@ -107,7 +108,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: 'Indicator trends over time',
+        name: ChartTitlesEnum.LineChart,
       })
     ).toBeInTheDocument();
 
@@ -157,7 +158,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(highcharts[0]).not.toHaveTextContent('Benchmark');
     expect(
       screen.getByRole('heading', {
-        name: 'Indicator trends over time',
+        name: ChartTitlesEnum.LineChart,
       })
     ).toBeInTheDocument();
     expect(
@@ -190,7 +191,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await waitFor(() =>
         screen.queryByRole('heading', {
-          name: 'Indicator trends over time',
+          name: ChartTitlesEnum.LineChart,
         })
       )
     ).not.toBeInTheDocument();
@@ -217,19 +218,19 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     await testRender(mockSearchState, testHealthData, testMetaData);
     
     expect(
-      screen.getByRole('link', { name: 'Indicator trends over time' })
+      screen.getByRole('link', { name: ChartTitlesEnum.LineChart})
     ).toHaveAttribute('href', '#line-chart');
     
     expect(
-      screen.getByRole('link', { name: 'Inequalities comparison for one time period' })
+      screen.getByRole('link', { name: ChartTitlesEnum.InequalitiesBarChart })
     ).toHaveAttribute('href', '#inequalities-bar-chart');
     
     expect(
-      screen.getByRole('link', { name: 'Inequalities trends over time' })
+      screen.getByRole('link', { name: ChartTitlesEnum.InequalitiesLineChart })
     ).toHaveAttribute('href', '#inequalities-line-chart');
     
     expect(
-      screen.getByRole('link', { name: 'Related population data' })
+      screen.getByRole('link', { name: ChartTitlesEnum.PopulationPyramid })
     ).toHaveAttribute('href', '#population-pyramid-chart');
   })
 });

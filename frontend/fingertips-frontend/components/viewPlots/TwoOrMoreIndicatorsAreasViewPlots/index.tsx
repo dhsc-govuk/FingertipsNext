@@ -23,6 +23,7 @@ import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { H3 } from 'govuk-react';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 function shouldShowHeatmap(
   areaCodes: string[],
@@ -114,7 +115,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
         <StyleChartWrapper>
-          <H3>Overview of indicators and areas</H3>
+          <H3>{ChartTitlesEnum.Heatmap}</H3>
           <Heatmap
             indicatorData={buildHeatmapIndicatorData(
               indicatorData,

@@ -24,6 +24,7 @@ import {
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockQuartileData } from '@/mock/data/mockQuartileData';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 mockUsePathname.mockReturnValue('some-mock-pathname');
 mockSetIsLoading(false);
@@ -197,7 +198,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     );
 
     expect(
-      screen.getByRole('heading', { name: 'Overview of indicators and areas' })
+      screen.getByRole('heading', { name: ChartTitlesEnum.Heatmap })
     ).toBeInTheDocument();
   });
 });

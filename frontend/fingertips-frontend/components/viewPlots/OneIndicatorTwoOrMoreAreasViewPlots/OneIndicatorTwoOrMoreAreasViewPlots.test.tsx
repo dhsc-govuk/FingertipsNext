@@ -25,6 +25,7 @@ import {
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 const mockPath = 'some-mock-path';
 mockUsePathname.mockReturnValue(mockPath);
@@ -33,7 +34,7 @@ mockSetIsLoading(false);
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
-const lineChartContainerTitle = 'Indicator trends over time';
+const lineChartContainerTitle = ChartTitlesEnum.LineChart;
 const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
 const lineChartSegmentationOptions = 'segmentation-options';
 
@@ -209,7 +210,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should render the title for BarChartEmbeddedTable', async () => {
       await testRender(mockSearchState, testHealthData, testMetaData);
       expect(
-        await screen.findByText('Compare areas for one time period')
+        await screen.findByText(ChartTitlesEnum.BarChartEmbeddedTable)
       ).toBeInTheDocument();
     });
   });
@@ -235,7 +236,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         ).toBeInTheDocument();
 
         expect(
-          await screen.findAllByText('Compare an indicator by areas')
+          await screen.findAllByText(ChartTitlesEnum.ThematicMap)
         ).toHaveLength(1);
       });
     });
