@@ -17,19 +17,19 @@ internal sealed class UserHasIndicatorManagementRolesRequirementHandler(IIndicat
             throw new InvalidOperationException("Cannot handle requirement without a valid http context.");
         }
 
-        List<int> routeIndicators = new List<int>();
+        var requestIndicators = new List<int>();
 
-        if (TryGetIndicatorFromRoute(contextAccessor.HttpContext.GetRouteData(), out var indicator))
+        if (TryGetIndicatorFromRoute(contextAccessor.HttpContext.GetRouteData(), out var routeIndicator))
         {
-            routeIndicators.Add(indicator);
+            requestIndicators.Add(routeIndicator);
         }
 
-        if (TryGetIndicatorsFromQueryString(contextAccessor.HttpContext.Request.QueryString, out var indicators))
+        if (TryGetIndicatorsFromQueryString(contextAccessor.HttpContext.Request.QueryString, out var queryIndicators))
         {
-            routeIndicators.AddRange(indicators);
+            requestIndicators.AddRange(queryIndicators);
         }
 
-        if (routeIndicators.Count == 0)
+        if (requestIndicators.Count == 0)
         {
             throw new InvalidOperationException("Indicator management policy applied to a route that does not contain a valid indicator id route or query parameter.");
         }
@@ -52,7 +52,7 @@ internal sealed class UserHasIndicatorManagementRolesRequirementHandler(IIndicat
 
         var userIndicatorPermissions = await lookupService.GetIndicatorsForRoles(userRoles);
 
-        if (routeIndicators.All(id => userIndicatorPermissions.Contains(id)))
+        if (requestIndicators.All(id => userIndicatorPermissions.Contains(id)))
         {
             context.Succeed(requirement);
         }
