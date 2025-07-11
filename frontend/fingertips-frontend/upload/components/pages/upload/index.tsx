@@ -9,8 +9,14 @@ import {
   InterimWarningText,
   PageHeading,
 } from './Upload.styles';
+import { BatchListTable } from '../../organisms/BatchListTable';
+import { Batch } from '@/generated-sources/ft-api-client';
 
-export const Upload = () => {
+type UploadProps = {
+  batches: Batch[];
+};
+
+export const Upload = ({ batches }: Readonly<UploadProps>) => {
   const [uploadResponse, uploadFileAction, uploadPending] = useActionState(
     uploadFile,
     undefined
@@ -35,6 +41,8 @@ export const Upload = () => {
         action={uploadFileAction}
         uploadPending={uploadPending}
       />
+
+      <BatchListTable batches={batches} />
     </>
   );
 };
