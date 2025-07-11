@@ -43,7 +43,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
       <OneIndicatorSegmentationOptions />
       {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}
       {showThematicMap ? <ThematicMapWrapper /> : null}
-      {showCompareAreasTable ? <CompareAreasTable session={session} /> : null}
+      {showCompareAreasTable ? <CompareAreasTable /> : null}
     </section>
   );
 }

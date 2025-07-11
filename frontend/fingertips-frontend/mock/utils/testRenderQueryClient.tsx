@@ -5,6 +5,7 @@ import { ReactNode } from 'react';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { SessionProvider } from 'next-auth/react';
+import { auth } from '@/lib/auth';
 
 export const testRenderQueryClient = async (
   children: ReactNode,
@@ -12,7 +13,7 @@ export const testRenderQueryClient = async (
 ) => {
   let htmlContainer: HTMLElement | undefined;
 
-  const Wrapper = testRenderWrapper(seedData);
+  const Wrapper = await testRenderWrapper(seedData);
 
   await act(async () => {
     const { container } = render(<Wrapper>{children}</Wrapper>);
@@ -24,14 +25,16 @@ export const testRenderQueryClient = async (
   };
 };
 
-export const testRenderWrapper = (
+export const testRenderWrapper = async (
   seedData: SeedData,
   queryClient?: QueryClient
 ) => {
+  const session = await auth();
+
   const Wrapper = ({ children }: { children: ReactNode }) => {
     const _queryClient = queryClient ?? new QueryClient();
     return (
-      <SessionProvider>
+      <SessionProvider session={session}>
         <QueryClientProvider client={_queryClient}>
           <SeedQueryCache seedData={seedData} />
           {children}

@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
-        <SessionProvider>
+        <SessionProvider session={session}>
           <StyledComponentsRegistry>
             <HeaderFooterWrapper
               tag={tag}

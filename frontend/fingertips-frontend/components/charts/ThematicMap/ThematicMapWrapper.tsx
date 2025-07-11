@@ -9,13 +9,11 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { useApiAvailableAreas } from '@/components/charts/hooks/useApiAvailableAreas';
-import { useSession } from 'next-auth/react';
 
 export function ThematicMapWrapper() {
   const searchState = useSearchStateParams();
   const { availableAreas } = useApiAvailableAreas();
-  const { data: session } = useSession();
-  const data = useCompareAreasTableData(session);
+  const data = useCompareAreasTableData();
 
   if (!data) return null;
 

@@ -23,6 +23,7 @@ import {
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
+import { SessionProvider } from 'next-auth/react';
 
 mockUsePathname.mockReturnValue('some-mock-path');
 mockSetIsLoading.mockReturnValue(false);
@@ -71,11 +72,14 @@ const testRender = async (
     indicatorMetadata
   );
 
+  // DHSCFT-1039: can this be replaced with custom hook?
   await act(() =>
     render(
-      <QueryClientProvider client={client}>
-        <OneIndicatorOneAreaViewPlots indicatorData={healthData} />
-      </QueryClientProvider>
+      <SessionProvider>
+        <QueryClientProvider client={client}>
+          <OneIndicatorOneAreaViewPlots indicatorData={healthData} />
+        </QueryClientProvider>
+      </SessionProvider>
     )
   );
 };

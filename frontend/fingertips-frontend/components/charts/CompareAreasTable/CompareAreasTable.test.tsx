@@ -33,7 +33,7 @@ describe('CompareAreasTable', () => {
 
   it('renders nothing when hook returns null', () => {
     mockUseCompareAreasTableData.mockReturnValue(null);
-    const { container } = render(<CompareAreasTable session={null} />);
+    const { container } = render(<CompareAreasTable />);
     expect(container.firstChild).toBeNull();
   });
 
@@ -49,7 +49,7 @@ describe('CompareAreasTable', () => {
       indicatorMetaData: mockIndicatorDocument(),
     });
 
-    render(<CompareAreasTable session={null} />);
+    render(<CompareAreasTable />);
 
     expect(
       screen.getByRole('heading', { name: /Compare an indicator by areas/ })

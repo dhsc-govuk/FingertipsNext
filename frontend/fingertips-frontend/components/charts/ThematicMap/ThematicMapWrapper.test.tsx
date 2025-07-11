@@ -22,7 +22,6 @@ import {
   mockHealthDataForArea,
   mockHealthDataForArea_England,
 } from '@/mock/data/mockHealthDataForArea';
-import { SessionProvider } from 'next-auth/react';
 
 mockHighChartsWrapperSetup();
 

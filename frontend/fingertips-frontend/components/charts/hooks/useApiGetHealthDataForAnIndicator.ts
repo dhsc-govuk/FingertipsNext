@@ -10,7 +10,6 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
 type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
