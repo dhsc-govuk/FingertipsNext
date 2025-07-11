@@ -66,11 +66,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Api.UnitTests", "DHSC.FingertipsNext.Api.UnitTests\DHSC.FingertipsNext.Api.UnitTests.csproj", "{1DD2E62F-7A4C-4AA7-AE33-B8955EC14BB8}"
 EndProject
-<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.Schemas", "DHSC.FingertipsNext.Modules.DataManagement.Schemas\DHSC.FingertipsNext.Modules.DataManagement.Schemas.csproj", "{FABF23C1-71BF-4CB4-A29E-DC14CFDBB182}"
-=======
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.UserAuth.Repository", "DHSC.FingertipsNext.Modules.UserAuth.Repository\DHSC.FingertipsNext.Modules.UserAuth.Repository.csproj", "{E4DE8C43-D9D5-4EDE-8667-54F3EB66459D}"
->>>>>>> 7a4488c6 (DHSCFT-887 - Implementing indicator authorization and adding new user schema)
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
