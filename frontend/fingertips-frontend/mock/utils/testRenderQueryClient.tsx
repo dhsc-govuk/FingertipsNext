@@ -4,6 +4,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
+import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 export const testRenderQueryClient = async (
   children: ReactNode,
@@ -23,14 +25,20 @@ export const testRenderQueryClient = async (
   };
 };
 
-export const testRenderWrapper = (seedData: SeedData) => {
+export const testRenderWrapper = (
+  seedData: SeedData,
+  queryClient?: QueryClient,
+  session: Session | null = null
+) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {
-    const queryClient = new QueryClient();
+    const _queryClient = queryClient ?? new QueryClient();
     return (
-      <QueryClientProvider client={queryClient}>
-        <SeedQueryCache seedData={seedData} />
-        {children}
-      </QueryClientProvider>
+      <SessionProvider session={session}>
+        <QueryClientProvider client={_queryClient}>
+          <SeedQueryCache seedData={seedData} />
+          {children}
+        </QueryClientProvider>
+      </SessionProvider>
     );
   };
   Wrapper.displayName = 'TestRenderQueryHookWrapper';
