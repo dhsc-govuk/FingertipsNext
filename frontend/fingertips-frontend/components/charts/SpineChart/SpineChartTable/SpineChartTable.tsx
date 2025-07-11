@@ -18,7 +18,7 @@ import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { SubTitle } from '@/components/atoms/SubTitle/SubTitle';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
-import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 export interface SpineChartTableProps {
   indicatorData: SpineChartIndicatorData[];

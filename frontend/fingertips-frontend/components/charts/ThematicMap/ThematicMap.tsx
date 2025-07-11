@@ -22,7 +22,7 @@ import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/Co
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { ThematicMapTooltip } from '@/components/charts/ThematicMap/ThematicMapTooltip';
-import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 interface ThematicMapProps {
   healthIndicatorData: HealthDataForArea[];

@@ -24,7 +24,7 @@ import {
   determineYear,
 } from './populationPyramidHelpers';
 import { AreaWithoutAreaType } from '@/lib/common-types';
-import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];

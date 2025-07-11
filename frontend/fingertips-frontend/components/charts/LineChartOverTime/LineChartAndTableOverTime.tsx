@@ -5,7 +5,7 @@ import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChart
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 import { LineChartOverTime } from '@/components/charts/LineChartOverTime/LineChartOverTime';
 import { LineChartTableOverTime } from '@/components/charts/LineChartOverTime/LineChartTableOverTime';
-import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 export function LineChartAndTableOverTime() {
   const lineChartOverTimeData = useLineChartOverTimeData();

@@ -1,15 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks/index';
-import { ChartTitlesEnum } from '@/lib/chartTitleEnums';
+import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
+
+const availableCharts = ['']
 
 describe('AvailableChartLinks', () => {
   it('should render the Available charts heading', () => {
-    render(<AvailableChartLinks />);
+    render(<AvailableChartLinks availableCharts={availableCharts}  />);
     expect(screen.getByText('Available charts')).toBeInTheDocument();
   });
 
   it('should render all chart links with the correct labels and hrefs', () => {
-    render(<AvailableChartLinks />);
+    render(<AvailableChartLinks availableCharts={availableCharts} />);
 
     expect(
       screen.getByRole('link', { name: ChartTitlesEnum.LineChart })
@@ -38,7 +40,7 @@ describe('AvailableChartLinks', () => {
   });
 
   it('renders the correct number of list items', () => {
-    render(<AvailableChartLinks />);
+    render(<AvailableChartLinks availableCharts={availableCharts} />);
     expect(screen.getAllByRole('listitem')).toHaveLength(8);
   });
 });

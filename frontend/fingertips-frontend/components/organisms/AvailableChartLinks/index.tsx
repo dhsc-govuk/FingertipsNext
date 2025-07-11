@@ -15,6 +15,7 @@ export const AvailableChartLinks = ({availableCharts} : Readonly<AvailableChartL
   
   const filteredChartLinks = Object.keys(chartLinks).filter(chart => availableCharts.includes(chart));
 
+  console.log('filteredChartLinks:', filteredChartLinks);
   console.log('filtered charts:', filterCharts);
   
   return (
