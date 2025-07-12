@@ -23,11 +23,12 @@ export default async function RootLayout({
   // vars read SSR and passed down to the footer component
   const tag = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG;
   const hash = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH;
+  const authBasePath = process.env.AUTH_URL; // TODO: DHSCFT-1039 include in pipeline
 
   return (
     <html lang="en">
       <body style={{ margin: 0 }}>
-        <SessionProvider session={session}>
+        <SessionProvider session={session} basePath={authBasePath}>
           <StyledComponentsRegistry>
             <HeaderFooterWrapper
               tag={tag}
