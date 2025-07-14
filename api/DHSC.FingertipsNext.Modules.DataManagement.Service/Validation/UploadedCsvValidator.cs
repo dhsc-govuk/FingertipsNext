@@ -78,7 +78,7 @@ public static class UploadedCsvValidator
         {
             unexpectedHeaders = headers.Except(validHeaderList).ToList();
 
-            // If there aren't any unexpected headers, then the header order is incorrect
+            // If there are no unexpected headers, then it must be that the order of the headers is incorrect
             if (unexpectedHeaders.Count == 0)
                 unexpectedHeaders = ["Please ensure that the headers are in the correct order"];
 
