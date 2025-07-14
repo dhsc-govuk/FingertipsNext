@@ -4,6 +4,8 @@ import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams'
 import { renderHook } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { useMultipleIndicatorRequestParams } from '@/components/charts/hooks/useMultipleIndicatorRequestParams';
+import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
+import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 
 mockUseSearchStateParams.mockReturnValue({
   [SearchParams.AreasSelected]: ['E09000002', 'E09000003'],
@@ -15,7 +17,13 @@ mockUseSearchStateParams.mockReturnValue({
 
 describe('useSpineChartRequestParams', () => {
   it('returns memoized request params from search state', () => {
-    const { result } = renderHook(() => useMultipleIndicatorRequestParams());
+    const seedData: SeedData = {
+      '/availableAreas': [],
+    };
+
+    const { result } = renderHook(() => useMultipleIndicatorRequestParams(), {
+      wrapper: testRenderWrapper(seedData),
+    });
 
     expect(result.current).toHaveLength(6);
   });
