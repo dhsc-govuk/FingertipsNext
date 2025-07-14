@@ -42,6 +42,7 @@ jobs:
         env:
           FINGERTIPS_API_URL: http://localhost:5144
           DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
+          AUTH_SECRET: "some value"
 
       - name: Upload playwright report and screenshot if ui tests fail - always on failure
         uses: actions/upload-artifact@v4
