@@ -1,6 +1,7 @@
 import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import {
   allAgesAge,
@@ -17,6 +18,11 @@ export const MOCK_ENGLAND_DATA: HealthDataForArea = {
   healthData: [
     {
       year: 2004,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2004-01-01'),
+        to: new Date('2004-12-31'),
+      },
       count: 200,
       value: 904.874,
       lowerCi: 0,
@@ -28,6 +34,11 @@ export const MOCK_ENGLAND_DATA: HealthDataForArea = {
     },
     {
       year: 2008,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2008-01-01'),
+        to: new Date('2008-12-31'),
+      },
       count: 500,
       value: 965.9843,
       lowerCi: 0,
@@ -47,6 +58,11 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
     healthData: [
       {
         year: 2008,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
         count: 222,
         value: 890.305692,
         lowerCi: 441.69151,
@@ -59,6 +75,11 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         count: 267,
         value: 703.420759,
         lowerCi: 441.69151,
@@ -71,6 +92,11 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         count: 267,
         value: 703.420759,
         lowerCi: 441.69151,
@@ -83,6 +109,11 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         count: 267,
         value: 703.420759,
         lowerCi: 441.69151,
@@ -101,6 +132,11 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
     healthData: [
       {
         year: 2008,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
         count: 222,
         value: 135.149304,
         lowerCi: 441.69151,
@@ -113,6 +149,11 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2008,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
         count: 131,
         value: 890.328253,
         lowerCi: 441.69151,
@@ -125,6 +166,11 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2008,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
         count: 131,
         value: 890.328253,
         lowerCi: 441.69151,
@@ -137,6 +183,11 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
       },
       {
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         count: 131,
         value: 890.328253,
         lowerCi: 441.69151,
@@ -157,6 +208,11 @@ export const MOCK_PARENT_DATA: HealthDataForArea = {
   healthData: [
     {
       year: 2008,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2008-01-01'),
+        to: new Date('2008-12-31'),
+      },
       count: 777,
       value: 1000,
       lowerCi: 500,
@@ -168,6 +224,11 @@ export const MOCK_PARENT_DATA: HealthDataForArea = {
     },
     {
       year: 2004,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2004-01-01'),
+        to: new Date('2004-12-31'),
+      },
       count: 777,
       value: 1000,
       lowerCi: 500,
@@ -200,6 +261,11 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
     healthData: [
       {
         year: 2019,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2019-01-01'),
+          to: new Date('2019-12-31'),
+        },
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -211,6 +277,11 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2022,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2022-01-01'),
+          to: new Date('2022-12-31'),
+        },
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -222,6 +293,11 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2023,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2023-01-01'),
+          to: new Date('2023-12-31'),
+        },
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -233,6 +309,11 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2024,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2024-01-01'),
+          to: new Date('2024-12-31'),
+        },
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -250,6 +331,11 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
     healthData: [
       {
         year: 2019,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2019-01-01'),
+          to: new Date('2019-12-31'),
+        },
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -261,6 +347,11 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2022,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2022-01-01'),
+          to: new Date('2022-12-31'),
+        },
         count: 1400,
         value: 222.305692,
         lowerCi: 220.69151,
@@ -272,6 +363,11 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2023,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2023-01-01'),
+          to: new Date('2023-12-31'),
+        },
         count: 1566,
         value: 240.305692,
         lowerCi: 237.69151,
@@ -283,6 +379,11 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
       },
       {
         year: 2024,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2024-01-01'),
+          to: new Date('2024-12-31'),
+        },
         count: 1700,
         value: 260.305692,
         lowerCi: 258.69151,

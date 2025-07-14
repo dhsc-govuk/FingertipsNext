@@ -98,5 +98,7 @@ export const lineChartOverTimeData = (
     polarity,
     benchmarkComparisonMethod,
     benchmarkToUse,
+    periodType,
+    frequency,
   };
 };

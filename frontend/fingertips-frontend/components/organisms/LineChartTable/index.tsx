@@ -3,10 +3,12 @@
 import { Table } from 'govuk-react';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
   IndicatorPolarity,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { FC } from 'react';
@@ -25,8 +27,8 @@ import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import {
   getConfidenceLimitNumber,
-  getFirstYearForAreas,
-  getLatestYearForAreas,
+  getFirstPeriodForAreas,
+  getLatestPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -41,6 +43,7 @@ import {
   StyledAreaNameHeader,
 } from './BenchmarkingCellWrapper';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
+import { formatterXAxisLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -61,6 +64,8 @@ export interface LineChartTableProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
   benchmarkToUse?: string;
+  periodType: PeriodType;
+  frequency: Frequency;
 }
 
 export interface LineChartTableRowData {
@@ -199,6 +204,7 @@ const getConfidenceLimitCellSpan = (index: number): number =>
 
 interface AreaDataMatchedByYear {
   year: number;
+  period: string;
   areas: (HealthDataPoint | null)[];
   benchmarkValue?: number;
   groupValue?: number;
@@ -213,6 +219,8 @@ export function LineChartTable({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
   benchmarkToUse,
+  periodType,
+  frequency,
 }: Readonly<LineChartTableProps>) {
   const englandColumnPrefix =
     benchmarkToUse !== areaCodeForEngland ? '' : 'Benchmark: ';
@@ -240,10 +248,12 @@ export function LineChartTable({
     ...(englandIndicatorData?.healthData ?? []),
     ...(groupIndicatorData?.healthData ?? []),
     ...healthIndicatorData.flatMap((area) => area.healthData),
-  ].map(({ year }) => year);
+  ].map(({ datePeriod }) =>
+    datePeriod ? new Date(datePeriod?.from).getTime() : 0
+  );
 
-  const firstYear = getFirstYearForAreas(healthIndicatorData);
-  const lastYear = getLatestYearForAreas(healthIndicatorData);
+  const firstYear = getFirstPeriodForAreas(healthIndicatorData);
+  const lastYear = getLatestPeriodForAreas(healthIndicatorData);
   if (!firstYear || !lastYear) {
     return null;
   }
@@ -255,11 +265,15 @@ export function LineChartTable({
   const rowData = allYears
     .map((year) => {
       const englandHealthPoint = englandIndicatorData?.healthData.find(
-        (healthPoint) => healthPoint.year === year
+        (healthPoint) =>
+          new Date(healthPoint.datePeriod?.from ?? '').getTime() === year
       );
+
+      const period = formatterXAxisLabel(periodType, year, frequency, 1);
 
       const row: AreaDataMatchedByYear = {
         year,
+        period,
         areas: [],
         benchmarkValue: englandHealthPoint?.value,
       };
@@ -267,14 +281,16 @@ export function LineChartTable({
       // find a health point for each area for the given year
       healthIndicatorData.forEach((areaData) => {
         const matchByYear = areaData.healthData.find(
-          (healthPoint) => healthPoint.year === year
+          (healthPoint) =>
+            new Date(healthPoint.datePeriod?.from ?? '').getTime() === year
         );
         row.areas.push(matchByYear ?? null);
       });
 
       // find the group value for the given year
       const groupMatchedByYear = groupIndicatorData?.healthData.find(
-        (healthPoint) => healthPoint.year === year
+        (healthPoint) =>
+          new Date(healthPoint.datePeriod?.from ?? '').getTime() === year
       );
       row.groupValue = groupMatchedByYear?.value;
 
@@ -424,55 +440,60 @@ export function LineChartTable({
             </>
           }
         >
-          {rowData.map(({ year, areas, benchmarkValue, groupValue }) => (
-            <Table.Row key={`lineChartTableRow-${year}`}>
-              <StyledAlignLeftStickyTableCell numeric>
-                {year}
-              </StyledAlignLeftStickyTableCell>
-              {areas.map((area, areaIndex) => (
-                <React.Fragment
-                  key={`lineChartTableRow-${year}-area-${areaIndex}`}
-                >
-                  <BenchmarkCell
-                    benchmarkComparison={area?.benchmarkComparison}
-                    benchmarkComparisonMethod={benchmarkComparisonMethod}
-                    polarity={polarity}
-                    border={areaIndex > 0}
-                  />
-                  <StyledAlignRightTableCell numeric>
-                    {formatWholeNumber(area?.count)}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {formatNumber(area?.value)}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {formatNumber(area?.lowerCi)}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {formatNumber(area?.upperCi)}
-                  </StyledAlignRightTableCell>
-                </React.Fragment>
-              ))}
-              {showGroupColumn ? (
-                <BenchmarkWrapper
-                  label="group"
-                  benchmarkToUse={benchmarkToUse}
-                  cellType={CellTypeEnum.Cell}
-                >
-                  {formatNumber(groupValue)}
-                </BenchmarkWrapper>
-              ) : null}
-              {showEnglandColumn ? (
-                <BenchmarkWrapper
-                  label="england"
-                  benchmarkToUse={benchmarkToUse}
-                  cellType={CellTypeEnum.Cell}
-                >
-                  {formatNumber(benchmarkValue)}
-                </BenchmarkWrapper>
-              ) : null}
-            </Table.Row>
-          ))}
+          {rowData.map(
+            ({ year, areas, benchmarkValue, groupValue, period }) => (
+              <Table.Row
+                key={`lineChartTableRow-${year}`}
+                data-testid={`lineChartTableRow-${year}`}
+              >
+                <StyledAlignLeftStickyTableCell numeric>
+                  {period}
+                </StyledAlignLeftStickyTableCell>
+                {areas.map((area, areaIndex) => (
+                  <React.Fragment
+                    key={`lineChartTableRow-${year}-area-${areaIndex}`}
+                  >
+                    <BenchmarkCell
+                      benchmarkComparison={area?.benchmarkComparison}
+                      benchmarkComparisonMethod={benchmarkComparisonMethod}
+                      polarity={polarity}
+                      border={areaIndex > 0}
+                    />
+                    <StyledAlignRightTableCell numeric>
+                      {formatWholeNumber(area?.count)}
+                    </StyledAlignRightTableCell>
+                    <StyledAlignRightTableCell numeric>
+                      {formatNumber(area?.value)}
+                    </StyledAlignRightTableCell>
+                    <StyledAlignRightTableCell numeric>
+                      {formatNumber(area?.lowerCi)}
+                    </StyledAlignRightTableCell>
+                    <StyledAlignRightTableCell numeric>
+                      {formatNumber(area?.upperCi)}
+                    </StyledAlignRightTableCell>
+                  </React.Fragment>
+                ))}
+                {showGroupColumn ? (
+                  <BenchmarkWrapper
+                    label="group"
+                    benchmarkToUse={benchmarkToUse}
+                    cellType={CellTypeEnum.Cell}
+                  >
+                    {formatNumber(groupValue)}
+                  </BenchmarkWrapper>
+                ) : null}
+                {showEnglandColumn ? (
+                  <BenchmarkWrapper
+                    label="england"
+                    benchmarkToUse={benchmarkToUse}
+                    cellType={CellTypeEnum.Cell}
+                  >
+                    {formatNumber(benchmarkValue)}
+                  </BenchmarkWrapper>
+                ) : null}
+              </Table.Row>
+            )
+          )}
         </StyledTable>
         <ExportOnlyWrapper>
           <ExportCopyright />

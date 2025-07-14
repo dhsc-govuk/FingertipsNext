@@ -185,10 +185,23 @@ export function getLatestYear(
 ): number | undefined {
   if (!points || points.length < 1) return undefined;
 
-  const year = points.reduce((previous, point) => {
+  const dateAsNumber = points.reduce((previous, point) => {
     return Math.max(previous, point.year);
   }, points[0].year);
-  return year;
+  return dateAsNumber;
+}
+
+export function getLatestPeriod(
+  points: HealthDataPoint[] | undefined
+): number | undefined {
+  if (!points || points.length < 1) return undefined;
+
+  const dateAsNumber = points.reduce(
+    (previous, point) =>
+      Math.max(previous, new Date(point.datePeriod?.from ?? '').getTime()),
+    new Date(points[0].datePeriod?.from ?? '').getTime()
+  );
+  return dateAsNumber;
 }
 
 export function getFirstYear(
@@ -201,6 +214,19 @@ export function getFirstYear(
     points[0].year
   );
   return year;
+}
+
+export function getFirstPeriod(
+  points: HealthDataPoint[] | undefined
+): number | undefined {
+  if (!points || points.length < 1) return undefined;
+
+  const dateAsNumber = points.reduce(
+    (previous, point) =>
+      Math.min(previous, new Date(point.datePeriod?.from ?? '').getTime()),
+    new Date(points[0].datePeriod?.from ?? '').getTime()
+  );
+  return dateAsNumber;
 }
 
 export function getLatestYearForAreas(
@@ -217,6 +243,20 @@ export function getLatestYearForAreas(
   return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 
+export function getLatestPeriodForAreas(
+  healthDataForAreas: HealthDataForArea[]
+): number | undefined {
+  if (!healthDataForAreas.length) {
+    return undefined;
+  }
+
+  const latestPeriodForAreas = healthDataForAreas.map(
+    (area) => getLatestPeriod(area.healthData) ?? 0
+  );
+  const mostRecentYear = Math.max(...latestPeriodForAreas);
+  return mostRecentYear === 0 ? undefined : mostRecentYear;
+}
+
 export function getFirstYearForAreas(
   healthDataForAreas: HealthDataForArea[]
 ): number | undefined {
@@ -228,6 +268,20 @@ export function getFirstYearForAreas(
     (area) => getFirstYear(area.healthData) ?? 0
   );
   const mostRecentYear = Math.min(...years);
+  return mostRecentYear === 0 ? undefined : mostRecentYear;
+}
+
+export function getFirstPeriodForAreas(
+  healthDataForAreas: HealthDataForArea[]
+): number | undefined {
+  if (!healthDataForAreas.length) {
+    return undefined;
+  }
+
+  const firstPeriodForAreas = healthDataForAreas.map(
+    (area) => getFirstPeriod(area.healthData) ?? 0
+  );
+  const mostRecentYear = Math.min(...firstPeriodForAreas);
   return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 

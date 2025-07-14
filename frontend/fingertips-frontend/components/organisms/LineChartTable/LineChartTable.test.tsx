@@ -15,8 +15,10 @@ import {
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -38,6 +40,11 @@ describe('Line chart table suite', () => {
       healthData: [
         {
           year: 2008,
+          datePeriod: {
+            type: PeriodType.Calendar,
+            from: new Date('2008-01-01'),
+            to: new Date('2008-12-31'),
+          },
           count: 222,
           value: 890.305692,
           lowerCi: 441.69151,
@@ -52,6 +59,11 @@ describe('Line chart table suite', () => {
         },
         {
           year: 2004,
+          datePeriod: {
+            type: PeriodType.Calendar,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -72,6 +84,11 @@ describe('Line chart table suite', () => {
         ...MOCK_HEALTH_DATA[1].healthData.slice(0, -1),
         {
           year: 2004,
+          datePeriod: {
+            type: PeriodType.Calendar,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 222,
           value: 135.149304,
           lowerCi: 441.69151,
@@ -98,6 +115,8 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -110,6 +129,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
       const lineChart = screen.getByTestId('lineChartTable-component');
@@ -126,6 +147,8 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -166,6 +189,8 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
           }
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -186,6 +211,8 @@ describe('Line chart table suite', () => {
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_HEALTH_DATA[0].areaCode}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -203,6 +230,8 @@ describe('Line chart table suite', () => {
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_ENGLAND_DATA.areaCode}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -218,6 +247,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -231,6 +262,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -252,6 +285,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[MOCK_HEALTH_DATA_WITH_TRENDS[0]]}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -274,6 +309,8 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -289,6 +326,8 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -325,6 +364,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
       expect(
@@ -342,6 +383,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -355,6 +398,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={MOCK_HEALTH_DATA_WITH_TRENDS}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -383,6 +428,8 @@ describe('Line chart table suite', () => {
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_ENGLAND_DATA.areaCode}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -402,6 +449,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
       expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
@@ -417,6 +466,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -431,6 +482,8 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[MOCK_ENGLAND_DATA]}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -503,6 +556,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -519,6 +574,11 @@ describe('Line chart table suite', () => {
       mockHealthArea1.healthData[1] = {
         ...mockHealthArea1.healthData[1],
         year: 2005,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2005-01-01'),
+          to: new Date('2005-12-31'),
+        },
       };
 
       const mockHealthArea2 = JSON.parse(JSON.stringify(MOCK_ENGLAND_DATA));
@@ -527,6 +587,11 @@ describe('Line chart table suite', () => {
       mockHealthArea2.healthData[0] = {
         ...mockHealthArea2.healthData[0],
         year: 1999,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('1999-01-01'),
+          to: new Date('1999-12-31'),
+        },
       };
 
       render(
@@ -538,6 +603,8 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -569,6 +636,11 @@ describe('Line chart table suite', () => {
       mockBenchmarkAreaWithEarlyYear.healthData[1] = {
         ...mockBenchmarkAreaWithEarlyYear.healthData[1],
         year: 1999,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('1999-01-01'),
+          to: new Date('1999-12-31'),
+        },
       };
 
       const mockGroupAreaWithLateYear = JSON.parse(
@@ -577,6 +649,11 @@ describe('Line chart table suite', () => {
       mockGroupAreaWithLateYear.healthData[1] = {
         ...mockBenchmarkAreaWithEarlyYear.healthData[1],
         year: 2036,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2036-01-01'),
+          to: new Date('2036-12-31'),
+        },
       };
 
       render(
@@ -589,6 +666,8 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       );
 
