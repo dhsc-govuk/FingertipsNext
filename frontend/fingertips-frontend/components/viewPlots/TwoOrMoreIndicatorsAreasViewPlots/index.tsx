@@ -1,24 +1,19 @@
 'use client';
 
 import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
-import { Heatmap } from '@/components/charts/HeatMap';
 import { SearchParams } from '@/lib/searchStateManager';
 import {
   determineAreaCodes,
   determineAreasForBenchmarking,
-  determineBenchmarkToUse,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
-import { englandAreaString } from '@/lib/chartHelpers/constants';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
-import { H3 } from 'govuk-react';
-import { buildHeatmapIndicatorData } from '@/components/charts/HeatMap/helpers/buildHeatMapIndicatorData';
+import { MultipleIndicatorHeatMap } from '@/components/charts/HeatMap/MultipleIndicatorHeatMap';
 import {
-  chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
@@ -32,7 +27,6 @@ function shouldShowHeatmap(
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
   indicatorData,
-  indicatorMetadata,
   availableAreas,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const searchState = useSearchStateParams();
@@ -41,7 +35,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
-    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = searchState;
 
   const areaCodes = determineAreaCodes(
@@ -60,8 +53,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     areasSelected,
     groupAreaSelected
   );
-
-  const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
   const showSpine = spineChartIsRequired(searchState);
 
@@ -82,24 +73,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
         </StyleChartWrapper>
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
-        <StyleChartWrapper>
-          <H3 id={ChartTitleKeysEnum.Heatmap}>
-            {chartTitleConfig[ChartTitleKeysEnum.Heatmap].title}
-          </H3>
-          <Heatmap
-            indicatorData={buildHeatmapIndicatorData(
-              indicatorData,
-              indicatorMetadata
-            )}
-            groupAreaCode={selectedGroupCode}
-            benchmarkAreaCode={benchmarkToUse}
-            benchmarkAreaName={
-              availableAreasForBenchmarking?.find((area) => {
-                return area.code === benchmarkToUse;
-              })?.name ?? englandAreaString
-            }
-          />
-        </StyleChartWrapper>
+        <MultipleIndicatorHeatMap />
       ) : null}
     </section>
   );

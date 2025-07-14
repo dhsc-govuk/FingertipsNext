@@ -141,7 +141,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
       <SeedQueryCache seedData={seedData} />
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={combinedIndicatorData}
-        indicatorMetadata={selectedIndicatorsData}
         benchmarkStatistics={benchmarkQuartiles}
         availableAreas={availableAreas}
       />
