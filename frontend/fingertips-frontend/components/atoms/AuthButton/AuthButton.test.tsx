@@ -55,7 +55,7 @@ describe('auth button', () => {
   });
 
   it('should call getSession when the SignIn button is rendered', async () => {
-    const screen = render(<AuthButton />);
+    render(<AuthButton />);
 
     expect(getSession).toHaveBeenCalled();
   });
