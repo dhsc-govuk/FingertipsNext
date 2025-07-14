@@ -1,4 +1,4 @@
-import { getHoverAreaName } from '@/components/organisms/Heatmap/generateHeatmapRows';
+import { getHoverAreaName } from '@/components/charts/HeatMap/helpers/generateHeatmapRows';
 import { mockArea } from '@/mock/data/mockArea';
 
 describe('get hover area name', () => {

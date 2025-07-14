@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
-import { Heatmap } from '.';
+import { Heatmap } from './index';
 import {
   placeholderGroupAreaCode,
   placeholderHeatmapIndicatorData as placeholderIndicatorData,
-} from './prepareHeatmapData.test';
+} from './helpers/prepareHeatmapData.test';
 import {
   areaCodeForEngland,
   englandAreaString,

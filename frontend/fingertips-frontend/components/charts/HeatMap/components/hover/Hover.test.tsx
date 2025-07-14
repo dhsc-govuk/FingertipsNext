@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { HeatmapHover } from '.';
+import { HeatmapHover } from './index';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,

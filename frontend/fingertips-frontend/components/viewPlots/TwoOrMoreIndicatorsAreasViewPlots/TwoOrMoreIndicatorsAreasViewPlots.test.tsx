@@ -4,17 +4,14 @@ import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
 //
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import {
-  extractHeatmapIndicatorData,
-  TwoOrMoreIndicatorsAreasViewPlot,
-} from '.';
+import { TwoOrMoreIndicatorsAreasViewPlot } from '.';
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { render, screen, within } from '@testing-library/react';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmap.types';
+import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   mockHealthDataForArea,
@@ -24,6 +21,7 @@ import {
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockQuartileData } from '@/mock/data/mockQuartileData';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
+import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,

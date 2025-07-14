@@ -1,4 +1,4 @@
-import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
+import { convertHeatmapToCsv } from '@/components/charts/HeatMap/helpers/convertHeatmapToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
 

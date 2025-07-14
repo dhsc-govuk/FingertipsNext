@@ -1,9 +1,9 @@
-import { HeatmapHeader } from '@/components/organisms/Heatmap/components/header';
-import { HeatmapCell } from '@/components/organisms/Heatmap/components/cell';
+import { HeatmapHeader } from '@/components/charts/HeatMap/components/header';
+import { HeatmapCell } from '@/components/charts/HeatMap/components/cell';
 import React, { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
 import { Table } from 'govuk-react';
-import { useRotatedHeaders } from '@/components/organisms/Heatmap/useRotatedHeaders';
+import { useRotatedHeaders } from '@/components/charts/HeatMap/hooks/useRotatedHeaders';
 import { Cell, Header, Row } from '../heatmap.types';
 
 const StyledTable = styled(Table)({

@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
-import { convertHeatmapToCsv } from '@/components/organisms/Heatmap/convertHeatmapToCsv';
-import { Header, HeatmapIndicatorData, Row } from './heatmap.types';
-import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
-import { generateRows } from './generateHeatmapRows';
-import { generateHeaders } from './generateHeatmapHeaders';
+import { convertHeatmapToCsv } from '@/components/charts/HeatMap/helpers/convertHeatmapToCsv';
+import { Header, HeatmapIndicatorData, Row } from '../heatmap.types';
+import { extractSortedAreasIndicatorsAndDataPoints } from '../helpers/prepareHeatmapData';
+import { generateRows } from '../helpers/generateHeatmapRows';
+import { generateHeaders } from '../helpers/generateHeatmapHeaders';
 
 interface MemoDataPrep {
   headers: Header[];

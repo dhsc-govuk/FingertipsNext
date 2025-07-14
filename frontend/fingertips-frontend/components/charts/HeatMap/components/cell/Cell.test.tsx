@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { HeatmapCell } from '.';
+import { HeatmapCell } from './index';
 import { CellType } from '../../heatmap.types';
 
 describe('cell types', () => {

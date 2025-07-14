@@ -4,7 +4,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { generateRows } from './generateHeatmapRows';
 import { generateHeaders } from './generateHeatmapHeaders';
-import { HeaderType } from './heatmap.types';
+import { HeaderType } from '../heatmap.types';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('generate headers and rows - benchmark area is England', () => {

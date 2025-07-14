@@ -1,7 +1,7 @@
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { HeatmapData } from './heatmap.types';
+import { HeatmapData } from '../heatmap.types';
 
 export const convertHeatmapToCsv = (
   { areas, indicators, dataPoints }: HeatmapData,

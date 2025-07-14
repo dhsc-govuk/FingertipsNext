@@ -3,9 +3,9 @@
 import { HeatmapIndicatorData } from './heatmap.types';
 import { HeatmapHover } from './components/hover';
 import React, { FC } from 'react';
-import HeatmapTable from '@/components/organisms/Heatmap/components/HeatmapTable';
-import { useHeatmapTableData } from '@/components/organisms/Heatmap/useHeatmapTableData';
-import { useHeatmapHover } from '@/components/organisms/Heatmap/useHeatmapHover';
+import HeatmapTable from '@/components/charts/HeatMap/components/HeatmapTable';
+import { useHeatmapTableData } from '@/components/charts/HeatMap/hooks/useHeatmapTableData';
+import { useHeatmapHover } from '@/components/charts/HeatMap/hooks/useHeatmapHover';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
@@ -69,3 +69,4 @@ export const Heatmap: FC<HeatmapProps> = ({
     </ContainerWithOutline>
   );
 };
+export { extractHeatmapIndicatorData } from '@/components/charts/HeatMap/helpers/extractHeatMapIndicatorData';

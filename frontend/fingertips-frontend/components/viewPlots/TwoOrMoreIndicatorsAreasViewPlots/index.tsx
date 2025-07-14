@@ -1,15 +1,8 @@
 'use client';
 
 import { TwoOrMoreIndicatorsViewPlotProps } from '@/components/viewPlots/ViewPlot.types';
-import { Heatmap } from '@/components/organisms/Heatmap';
-import {
-  BenchmarkComparisonMethod,
-  IndicatorPolarity,
-  IndicatorWithHealthDataForArea,
-} from '@/generated-sources/ft-api-client';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { Heatmap } from '@/components/charts/HeatMap';
 import { SearchParams } from '@/lib/searchStateManager';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmap.types';
 import {
   determineAreaCodes,
   determineAreasForBenchmarking,
@@ -23,6 +16,7 @@ import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { H3 } from 'govuk-react';
+import { buildHeatmapIndicatorData } from '@/components/charts/HeatMap/helpers/buildHeatMapIndicatorData';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
@@ -34,25 +28,6 @@ function shouldShowHeatmap(
   groupAreaSelected?: string
 ): boolean {
   return areaCodes.length > 1 || groupAreaSelected === ALL_AREAS_SELECTED;
-}
-
-export function extractHeatmapIndicatorData(
-  indicatorData: IndicatorWithHealthDataForArea,
-  metadata: IndicatorDocument
-): HeatmapIndicatorData | undefined {
-  if (!indicatorData.areaHealthData) {
-    return undefined;
-  }
-
-  return {
-    indicatorId: metadata.indicatorID,
-    indicatorName: metadata.indicatorName,
-    healthDataForAreas: indicatorData.areaHealthData,
-    unitLabel: metadata.unitLabel,
-    benchmarkComparisonMethod:
-      indicatorData.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
-    polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
-  };
 }
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
@@ -78,25 +53,6 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
   if (!areaCodes || !selectedGroupCode) {
     throw new Error('Invalid parameters provided to view plot');
   }
-
-  const buildHeatmapIndicatorData = (
-    allIndicatorData: IndicatorWithHealthDataForArea[],
-    indicatorMetadata: IndicatorDocument[]
-  ): HeatmapIndicatorData[] => {
-    return allIndicatorData
-      .map((indicatorData) => {
-        const metadata = indicatorMetadata.find((metadata) => {
-          return metadata.indicatorID === indicatorData.indicatorId?.toString();
-        });
-
-        if (!metadata) return undefined;
-
-        return extractHeatmapIndicatorData(indicatorData, metadata);
-      })
-      .filter((data) => {
-        return data !== undefined;
-      });
-  };
 
   const availableAreasForBenchmarking = determineAreasForBenchmarking(
     indicatorData[0].areaHealthData ?? [],
