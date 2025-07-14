@@ -2,3 +2,7 @@
 DELETE FROM DataManagement.Batch
 WHERE IndicatorId = 9000
   AND OriginalFileName = 'valid.csv'
+
+DELETE
+FROM DataManagement.Batch
+WHERE OriginalFileName = 'integration-test.csv'

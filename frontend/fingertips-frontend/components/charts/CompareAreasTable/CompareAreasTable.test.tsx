@@ -52,7 +52,7 @@ describe('CompareAreasTable', () => {
     render(<CompareAreasTable />);
 
     expect(
-      screen.getByRole('heading', { name: /Compare an indicator by areas/ })
+      screen.getByRole('heading', { name: /Compare areas for one time period/ })
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('barChartEmbeddedTable-component')

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
 [Serializable]
+[Table("IndicatorDimension", Schema = "dbo")]
 public class IndicatorDimensionModel
 {
     private string? collectionFrequency;

@@ -1,14 +1,10 @@
 import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
-import { extractSortedAreasIndicatorsAndDataPoints } from '@/components/organisms/Heatmap/heatmapUtil';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { HeatmapData } from './heatmap.types';
 
 export const convertHeatmapToCsv = (
-  {
-    areas,
-    indicators,
-    dataPoints,
-  }: ReturnType<typeof extractSortedAreasIndicatorsAndDataPoints>,
+  { areas, indicators, dataPoints }: HeatmapData,
   groupAreaCode?: string,
   benchmarkAreaCode?: string
 ): CsvData => {

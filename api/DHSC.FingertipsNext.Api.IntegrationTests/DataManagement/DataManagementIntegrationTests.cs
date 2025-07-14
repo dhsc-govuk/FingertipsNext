@@ -4,7 +4,6 @@ using System.Net.Http.Json;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
-using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DotNetEnv;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +13,16 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
-public sealed class DataManagementIntegrationTests : IClassFixture<DataManagementWebApplicationFactory<Program>>, IDisposable
+public sealed class DataManagementIntegrationTests : IClassFixture<DataManagementWebApplicationFactory<Program>>,
+    IDisposable
 {
-    private SqlConnection _sqlConnection;
-    private DataManagementWebApplicationFactory<Program> _factory;
     private const string TestDataDir = "TestData";
-    private readonly string _blobName;
     private const int IndicatorId = 9000;
     private const string FingertipsStorageContainerName = "fingertips-upload-container";
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
+    private readonly string _blobName;
+    private readonly DataManagementWebApplicationFactory<Program> _factory;
+    private readonly SqlConnection _sqlConnection;
 
     public DataManagementIntegrationTests(DataManagementWebApplicationFactory<Program> factory)
     {
@@ -62,7 +62,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         _sqlConnection.Dispose();
     }
 
-    private static HttpClient GetApiClient(DataManagementWebApplicationFactory<Program> factory, string blobContainerName = FingertipsStorageContainerName)
+    private static HttpClient GetApiClient(DataManagementWebApplicationFactory<Program> factory,
+        string blobContainerName = FingertipsStorageContainerName)
     {
         return factory.WithWebHostBuilder(builder =>
         {
@@ -219,9 +220,52 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
     }
 
+    [Fact]
+    public async Task ListBatchesEndpointShouldListAllBatches()
+    {
+        // Arrange
+        var batch = new Batch
+        {
+            BatchId = "41101_2020-03-07T14:22:37.123",
+            IndicatorId = 41101,
+            Status = BatchStatus.Received,
+            OriginalFileName = "integration-test.csv",
+            UserId = "4fbbbb61-ed6d-4777-943c-7d597f90445a",
+            CreatedAt = new DateTime(2017, 6, 30, 18, 49, 37),
+            PublishedAt = new DateTime(2025, 8, 9, 0, 0, 0, 0)
+        };
+        Batch[] expectedResult =
+        [
+            batch,
+            batch with
+            {
+                BatchId = "383_2017-06-30T14:22:37.123",
+                IndicatorId = 383,
+                Status = BatchStatus.Deleted,
+                PublishedAt = new DateTime(2025, 9, 9, 0, 0, 0, 0)
+            },
+            batch with
+            {
+                BatchId = "22401_2017-06-30T14:22:37.123",
+                IndicatorId = 22401,
+                PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
+            }
+        ];
+
+        var apiClient = GetApiClient(_factory);
+
+        // Act
+        var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
+
+        // Assert
+        response.ShouldBeEquivalentTo(expectedResult);
+    }
+
     private static void InitialiseDb(SqlConnection sqlConnection)
     {
         sqlConnection.Open();
+        var setupPath = Path.Combine(AppContext.BaseDirectory, "DataManagement/setup.sql");
+        RunSqlScript(setupPath, sqlConnection);
     }
 
     private static void RunSqlScript(string path, SqlConnection connection)

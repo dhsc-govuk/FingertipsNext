@@ -30,7 +30,7 @@ export function FTHeader({
         <AuthHeader session={session} />
         <TopNav
           serviceTitle={
-            <TopNav.NavLink href="/">
+            <TopNav.NavLink href="/" data-testid="header-home-nav">
               <ServiceTitle>{siteTitle}</ServiceTitle>
             </TopNav.NavLink>
           }
