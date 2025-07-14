@@ -1,6 +1,5 @@
 import csv
 import subprocess
-import uuid
 
 # Input CSV file containing IndicatorID and IndicatorName columns
 INPUT_FILE = "indicators.csv"
