@@ -37,7 +37,7 @@ export default async function ChartPage(
   // We don't want to render this page statically
   await connection();
   const session = await auth();
-  const authBasePath = process.env.AUTH_URL; // TODO: DHSCFT-1039 include in pipeline
+  const authBasePath = process.env.AUTH_URL;
 
   try {
     const searchParams = await props.searchParams;
