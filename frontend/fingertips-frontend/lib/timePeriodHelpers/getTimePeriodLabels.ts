@@ -232,3 +232,13 @@ export const formatterXAxisLabel = (
 
   return formatter.datePointLabel(datePeriod, reportingPeriod);
 };
+export const getPeriodLabel = (
+  periodType: PeriodType,
+  collectionFrequency: Frequency
+): string => {
+  const formatter = labelFormatters[periodType]?.[collectionFrequency];
+
+  if (!formatter) return '';
+
+  return formatter.periodLabelText;
+};

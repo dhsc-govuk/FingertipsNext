@@ -64,6 +64,8 @@ export const lineChartOverTimeData = (
     withoutEnglandOrGroup,
     true,
     benchmarkToUse,
+    periodType,
+    frequency,
     {
       indicatorName: indicatorMetaData?.indicatorName,
       englandData: englandData,

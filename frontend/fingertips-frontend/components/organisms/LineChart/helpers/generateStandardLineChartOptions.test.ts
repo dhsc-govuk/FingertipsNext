@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  Frequency,
+  HealthDataForArea,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { generateStandardLineChartOptions } from './generateStandardLineChartOptions';
@@ -11,6 +15,8 @@ describe('generateStandardLineChartOptions', () => {
       [mockIndicatorData[0]],
       false,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       {
         englandData: undefined,
         groupIndicatorData: undefined,
@@ -32,6 +38,8 @@ describe('generateStandardLineChartOptions', () => {
       [mockIndicatorData[0]],
       false,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
@@ -77,6 +85,8 @@ describe('generateStandardLineChartOptions', () => {
       [mockIndicatorData[0]],
       false,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockBenchmarkAreaWithEarlyYear,
@@ -97,6 +107,8 @@ describe('generateStandardLineChartOptions', () => {
       [],
       false,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,

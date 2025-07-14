@@ -1,6 +1,8 @@
 import {
   HealthDataForArea,
   BenchmarkComparisonMethod,
+  PeriodType,
+  Frequency,
 } from '@/generated-sources/ft-api-client';
 import {
   sortHealthDataForAreasByDate,
@@ -16,6 +18,10 @@ import { generateAccessibility } from './generateAccessibility';
 import { generateSeriesData } from './generateSeriesData';
 import Highcharts from 'highcharts';
 import { getMinAndMaxXAxisEntries } from './getMinAndMaxXAxisEntries';
+import {
+  formatterXAxisLabel,
+  getPeriodLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -75,6 +81,8 @@ export function generateStandardLineChartOptions(
   healthIndicatorData: HealthDataForArea[],
   lineChartCI: boolean,
   benchmarkToUse: string,
+  periodType: PeriodType,
+  frequency: Frequency,
   optionalParams?: {
     indicatorName?: string;
     englandData?: HealthDataForArea;
@@ -135,9 +143,26 @@ export function generateStandardLineChartOptions(
 
   const { minXAxisEntries, maxXAxisEntries } = getMinAndMaxXAxisEntries(series);
 
-  const fromTo = `from ${new Date(minXAxisEntries).getFullYear()} to ${new Date(maxXAxisEntries).getFullYear()}`;
+  const periodLabel = getPeriodLabel(periodType, frequency);
+  const periodLabelText = periodLabel ? `${periodLabel} ` : '';
+
+  const fromDateLabel = formatterXAxisLabel(
+    periodType,
+    minXAxisEntries,
+    frequency,
+    1
+  );
+
+  const toDateLabel = formatterXAxisLabel(
+    periodType,
+    maxXAxisEntries,
+    frequency,
+    1
+  );
+
+  const fromTo = `from ${fromDateLabel} to ${toDateLabel}`;
   const titleText = optionalParams?.indicatorName
-    ? `${optionalParams?.indicatorName} ${fromTo}`
+    ? `${optionalParams?.indicatorName} ${periodLabelText}${fromTo}`
     : fromTo;
 
   return {
