@@ -1,5 +1,5 @@
 import { SearchParams } from '@/lib/searchStateManager';
-import { spineChartRequestParams } from '@/components/charts/SpineChart/helpers/spineChartRequestParams';
+import { multipleIndicatorRequestParams } from '@/components/charts/helpers/multipleIndicatorRequestParams';
 import { BenchmarkReferenceType } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
@@ -19,12 +19,12 @@ const searchState = {
 describe('spineChartRequestParams', () => {
   describe('scenario with group type and 2 areas', () => {
     it('should return 3 params (areas, group and england) per indicator', () => {
-      const result = spineChartRequestParams(searchState);
+      const result = multipleIndicatorRequestParams(searchState);
       expect(result).toHaveLength(6);
     });
 
     it('should have a param object for each indicator for the areas selected', () => {
-      const result = spineChartRequestParams(searchState);
+      const result = multipleIndicatorRequestParams(searchState);
       expect(result).toContainEqual({
         indicatorId: Number(indicators[0]),
         areaCodes: areas,
@@ -43,7 +43,7 @@ describe('spineChartRequestParams', () => {
     });
 
     it('should have a param object for each indicator for England', () => {
-      const result = spineChartRequestParams(searchState);
+      const result = multipleIndicatorRequestParams(searchState);
       expect(result).toContainEqual({
         indicatorId: Number(indicators[0]),
         areaCodes: [areaCodeForEngland],
@@ -62,7 +62,7 @@ describe('spineChartRequestParams', () => {
     });
 
     it('should have a param object for each indicator for the group', () => {
-      const result = spineChartRequestParams(searchState);
+      const result = multipleIndicatorRequestParams(searchState);
       expect(result).toContainEqual({
         indicatorId: Number(indicators[0]),
         areaCodes: [group],
@@ -87,7 +87,9 @@ describe('spineChartRequestParams', () => {
       [SearchParams.BenchmarkAreaSelected]: group,
     };
 
-    const result = spineChartRequestParams(searchStateNonEnglandBenchmark);
+    const result = multipleIndicatorRequestParams(
+      searchStateNonEnglandBenchmark
+    );
     expect(
       result.every(
         (params) =>
@@ -105,7 +107,7 @@ describe('spineChartRequestParams', () => {
       [SearchParams.BenchmarkAreaSelected]: 'ENG',
     };
 
-    const result = spineChartRequestParams(searchState);
+    const result = multipleIndicatorRequestParams(searchState);
     expect(result).toHaveLength(0);
   });
 });

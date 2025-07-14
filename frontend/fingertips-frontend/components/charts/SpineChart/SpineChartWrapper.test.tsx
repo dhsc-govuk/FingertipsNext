@@ -13,7 +13,7 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { mockQuartileData } from '@/mock/data/mockQuartileData';
-import { spineChartRequestParams } from '@/components/charts/SpineChart/helpers/spineChartRequestParams';
+import { multipleIndicatorRequestParams } from '@/components/charts/helpers/multipleIndicatorRequestParams';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import {
   mockHealthDataForArea,
@@ -49,7 +49,7 @@ seedData[quartilesKey] = [
 ];
 
 // mock the health data
-const reqParams = spineChartRequestParams(searchState);
+const reqParams = multipleIndicatorRequestParams(searchState);
 const queryKeys = reqParams.map((params) =>
   queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, params)
 );

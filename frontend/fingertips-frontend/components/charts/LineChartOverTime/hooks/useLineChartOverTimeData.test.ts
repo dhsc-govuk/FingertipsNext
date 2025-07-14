@@ -13,6 +13,7 @@ import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWit
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { MockedFunction } from 'vitest';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
+import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
 
 vi.mock('@/components/charts/hooks/useOneIndicatorRequestParams');
 vi.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
@@ -32,6 +33,10 @@ const mockLineChartOverTimeIsRequired =
 const mockLineChartOverTimeData = lineChartOverTimeData as MockedFunction<
   typeof lineChartOverTimeData
 >;
+const mockUseOneIndicatorRequestParams =
+  useOneIndicatorRequestParams as MockedFunction<
+    typeof useOneIndicatorRequestParams
+  >;
 
 describe('useLineChartOverTimeData', () => {
   const mockSearchState: SearchStateParams = {
@@ -59,6 +64,10 @@ describe('useLineChartOverTimeData', () => {
       indicatorMetaDataError: null,
       indicatorMetaDataLoading: false,
     };
+
+    mockUseOneIndicatorRequestParams.mockReturnValue({
+      indicatorId: Number(mockMetaQuery.indicatorMetaData?.indicatorID ?? 0),
+    });
   });
 
   it('returns null if healthData is missing', () => {

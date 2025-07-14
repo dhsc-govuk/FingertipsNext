@@ -3,7 +3,7 @@ import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams'
 //
 import { renderHook } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
-import { useSpineChartRequestParams } from '@/components/charts/SpineChart/hooks/useSpineChartRequestParams';
+import { useMultipleIndicatorRequestParams } from '@/components/charts/hooks/useMultipleIndicatorRequestParams';
 
 mockUseSearchStateParams.mockReturnValue({
   [SearchParams.AreasSelected]: ['E09000002', 'E09000003'],
@@ -15,7 +15,7 @@ mockUseSearchStateParams.mockReturnValue({
 
 describe('useSpineChartRequestParams', () => {
   it('returns memoized request params from search state', () => {
-    const { result } = renderHook(() => useSpineChartRequestParams());
+    const { result } = renderHook(() => useMultipleIndicatorRequestParams());
 
     expect(result.current).toHaveLength(6);
   });
