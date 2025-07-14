@@ -160,22 +160,20 @@ export default async function ChartPage(
     }
 
     return (
-      <>
-        <SessionProvider session={session} basePath={authBasePath}>
-          <SeedQueryCache seedData={seedData} />
-          <ViewsContext
-            searchState={stateManager.getSearchState()}
-            selectedAreasData={selectedAreasData}
-            selectedIndicatorsData={selectedIndicatorsData}
-            areaFilterData={{
-              availableAreaTypes,
-              availableGroupTypes,
-              availableGroups,
-              availableAreas,
-            }}
-          />
-        </SessionProvider>
-      </>
+      <SessionProvider session={session} basePath={authBasePath}>
+        <SeedQueryCache seedData={seedData} />
+        <ViewsContext
+          searchState={stateManager.getSearchState()}
+          selectedAreasData={selectedAreasData}
+          selectedIndicatorsData={selectedIndicatorsData}
+          areaFilterData={{
+            availableAreaTypes,
+            availableGroupTypes,
+            availableGroups,
+            availableAreas,
+          }}
+        />
+      </SessionProvider>
     );
   } catch (error) {
     console.log(`Error response received from call: ${error}`);
