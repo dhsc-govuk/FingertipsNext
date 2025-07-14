@@ -11,31 +11,34 @@ export interface FingertipsProfile {
 interface FTAProviderConfig {
   clientId: string;
   clientSecret: string;
-  tenantId: string;
+  issuer: string;
+  wellKnown: string;
 }
 
 export function getFTAProviderConfig(): FTAProviderConfig | undefined {
   const clientId = tryReadEnvVar('AUTH_CLIENT_ID');
   const clientSecret = tryReadEnvVar('AUTH_CLIENT_SECRET');
-  const tenantId = tryReadEnvVar('AUTH_TENANT_ID');
+  const issuer = tryReadEnvVar('AUTH_ISSUER');
+  const wellKnown = tryReadEnvVar('AUTH_WELLKNOWN');
 
-  return clientId && clientSecret && tenantId
-    ? { clientId, clientSecret, tenantId }
+  return clientId && clientSecret && issuer && wellKnown
+    ? { clientId, clientSecret, issuer, wellKnown }
     : undefined;
 }
 
 export const FingertipsAuthProvider = ({
   clientId,
   clientSecret,
-  tenantId,
+  issuer,
+  wellKnown,
 }: FTAProviderConfig): OIDCConfig<FingertipsProfile> => ({
   id: 'fta',
   name: 'FTA',
   type: 'oidc',
-  issuer: `https://${tenantId}.ciamlogin.com/${tenantId}/v2.0`,
+  issuer: issuer,
   clientId: clientId,
   clientSecret: clientSecret,
-  wellKnown: `https://login.microsoftonline.com/${tenantId}/v2.0/.well-known/openid-configuration`,
+  wellKnown: wellKnown,
   authorization: {
     params: {
       scope: `api://${clientId}/.default openid`,

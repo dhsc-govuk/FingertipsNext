@@ -26,9 +26,7 @@ describe('validate user', () => {
   });
 
   it('should return false if the api throws an error', async () => {
-    mockUserApi.getUserInfo.mockImplementation(async () => {
-      throw new Error('some error');
-    });
+    mockUserApi.getUserInfo.mockRejectedValue(new Error('some error'));
 
     const result = await validateAccessToken('123');
 

@@ -20,6 +20,7 @@ async function getUser(accessToken: string) {
       headers: { Authorization: `bearer ${accessToken}` },
     });
   } catch {
+    console.log('unable to validate user');
     return undefined;
   }
 
