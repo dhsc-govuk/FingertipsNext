@@ -7,9 +7,10 @@ export enum ChartTitlesEnum {
   InequalitiesLineChart = 'Inequalities trends over time',
   ThematicMap = 'Compare an indicator by areas',
   PopulationPyramid = 'Related population data',
+  BasicTableChart = 'Compare indicators for an area',
 }
 
-export enum ChartTitleKeysEnum { 
+export enum ChartTitleKeysEnum {
   LineChart = 'line-chart',
   BarChartEmbeddedTable = 'bar-chart-embedded-table-chart',
   Heatmap = 'heatmap-chart',
@@ -18,4 +19,5 @@ export enum ChartTitleKeysEnum {
   InequalitiesLineChart = 'inequalities-line-chart',
   ThematicMap = 'thematic-map-chart',
   PopulationPyramid = 'population-pyramid-chart',
+  BasicTableChart = 'basic-table-chart',
 }

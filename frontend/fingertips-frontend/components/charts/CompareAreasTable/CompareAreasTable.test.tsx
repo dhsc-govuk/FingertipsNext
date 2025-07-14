@@ -53,7 +53,9 @@ describe('CompareAreasTable', () => {
     render(<CompareAreasTable />);
 
     expect(
-      screen.getByRole('heading', { name: ChartTitlesEnum.BarChartEmbeddedTable })
+      screen.getByRole('heading', {
+        name: ChartTitlesEnum.BarChartEmbeddedTable,
+      })
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('barChartEmbeddedTable-component')

@@ -210,7 +210,9 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should render the title for BarChartEmbeddedTable', async () => {
       await testRender(mockSearchState, testHealthData, testMetaData);
       expect(
-        await screen.findByText(ChartTitlesEnum.BarChartEmbeddedTable)
+        await screen.findByRole('heading', {
+          name: ChartTitlesEnum.BarChartEmbeddedTable,
+        })
       ).toBeInTheDocument();
     });
   });
@@ -237,7 +239,7 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
         expect(
           await screen.findAllByText(ChartTitlesEnum.ThematicMap)
-        ).toHaveLength(1);
+        ).toHaveLength(2);
       });
     });
 
@@ -253,5 +255,40 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         ).not.toBeInTheDocument();
       });
     });
+  });
+
+  it('should render the available chart links when not all areas are selected', async () => {
+    await testRender(mockSearchState, testHealthData, testMetaData);
+
+    const availableChartLinks = screen.getByTestId(
+      'availableChartLinks-component'
+    );
+    expect(availableChartLinks).toBeInTheDocument();
+
+    const links = within(availableChartLinks).getAllByRole('link');
+
+    expect(links[0]).toHaveTextContent(ChartTitlesEnum.LineChart);
+    expect(links[1]).toHaveTextContent(ChartTitlesEnum.BarChartEmbeddedTable);
+    expect(links[2]).toHaveTextContent(ChartTitlesEnum.PopulationPyramid);
+  });
+
+  it('should render the Thematic Map link when all areas are selected', async () => {
+    const mockSearchStateAllAreas = {
+      [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
+      [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+      [SearchParams.GroupSelected]: 'E12000003',
+      [SearchParams.AreaTypeSelected]: 'regions',
+    };
+
+    await testRender(mockSearchStateAllAreas, testHealthData, testMetaData);
+    const availableChartLinks = screen.getByTestId(
+      'availableChartLinks-component'
+    );
+    expect(availableChartLinks).toBeInTheDocument();
+
+    const links = within(availableChartLinks).getAllByRole('link');
+    expect(links[0]).toHaveTextContent(ChartTitlesEnum.ThematicMap);
+    expect(links[1]).toHaveTextContent(ChartTitlesEnum.BarChartEmbeddedTable);
+    expect(links[2]).toHaveTextContent(ChartTitlesEnum.PopulationPyramid);
   });
 });

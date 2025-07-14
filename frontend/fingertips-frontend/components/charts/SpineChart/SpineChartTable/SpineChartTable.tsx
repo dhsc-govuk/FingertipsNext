@@ -56,7 +56,7 @@ export function SpineChartTable({
 
   return (
     <>
-      <SubTitle id='spine-chart'>{ChartTitlesEnum.SpineChart}</SubTitle>
+      <SubTitle id="spine-chart">{ChartTitlesEnum.SpineChart}</SubTitle>
       <ContainerWithOutline>
         <div id={'spineChartTable'} data-testid="spineChartTable-component">
           <ChartTitle>{title}</ChartTitle>

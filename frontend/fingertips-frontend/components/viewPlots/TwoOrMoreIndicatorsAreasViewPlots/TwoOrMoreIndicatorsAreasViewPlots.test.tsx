@@ -201,6 +201,26 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       screen.getByRole('heading', { name: ChartTitlesEnum.Heatmap })
     ).toBeInTheDocument();
   });
+
+  it('should render the available chart links when two areas have been selected', () => {
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot
+        indicatorData={mockIndicatorData}
+        indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockQuartiles}
+      />
+    );
+
+    const availableChartLinks = screen.getByTestId(
+      'availableChartLinks-component'
+    );
+    expect(availableChartLinks).toBeInTheDocument();
+
+    const chartLinks = within(availableChartLinks).getAllByRole('link');
+
+    expect(chartLinks[0]).toHaveTextContent(ChartTitlesEnum.Heatmap);
+    expect(chartLinks[1]).toHaveTextContent(ChartTitlesEnum.PopulationPyramid);
+  });
 });
 
 describe('extractHeatmapIndicatorData', () => {

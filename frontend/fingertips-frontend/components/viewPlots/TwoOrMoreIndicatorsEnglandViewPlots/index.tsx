@@ -8,6 +8,8 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { H3 } from 'govuk-react';
 import { BasicTableData, BasicTable } from '@/components/organisms/BasicTable';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
+import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
@@ -74,10 +76,18 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
     indicatorData.find((item) => item.areaHealthData?.[0]?.areaName)
       ?.areaHealthData?.[0]?.areaName ?? '';
 
+  const availableChartLinks: string[] = [
+    ChartTitleKeysEnum.BasicTableChart,
+    ChartTitleKeysEnum.PopulationPyramid,
+  ];
+
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
+      <AvailableChartLinks
+        availableCharts={availableChartLinks}
+      ></AvailableChartLinks>
       <StyleChartWrapper>
-        <H3>Compare indicators for an area</H3>
+        <H3 id="basic-table-chart">Compare indicators for an area</H3>
         <BasicTable indicatorData={englandIndicatorData} areaName={areaName} />
       </StyleChartWrapper>
     </section>

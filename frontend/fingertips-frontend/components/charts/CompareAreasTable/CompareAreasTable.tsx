@@ -20,7 +20,9 @@ export function CompareAreasTable() {
 
   return (
     <StyleChartWrapper>
-      <H3 id='bar-chart-embedded-table-chart'>{ChartTitlesEnum.BarChartEmbeddedTable}</H3>
+      <H3 id="bar-chart-embedded-table-chart">
+        {ChartTitlesEnum.BarChartEmbeddedTable}
+      </H3>
       <BarChartEmbeddedTable
         key={`barchart-${benchmarkToUse}`}
         data-testid="barChartEmbeddedTable-component"

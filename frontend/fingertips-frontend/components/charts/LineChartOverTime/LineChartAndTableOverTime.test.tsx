@@ -32,7 +32,7 @@ describe('LineChartAndTableOverTime', () => {
     render(<LineChartAndTableOverTime />);
 
     expect(
-      screen.getByRole('heading', { name: ChartTitlesEnum.LineChart})
+      screen.getByRole('heading', { name: ChartTitlesEnum.LineChart })
     ).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart')).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart-table')).toBeInTheDocument();

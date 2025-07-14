@@ -96,7 +96,7 @@ export function ThematicMap({
 
   return (
     <>
-      <H3 id='thematic-map-chart'>{ChartTitlesEnum.ThematicMap}</H3>
+      <H3 id="thematic-map-chart">{ChartTitlesEnum.ThematicMap}</H3>
       <ContainerWithOutline>
         <div id={'thematicMap'} data-testid="thematicMap-component">
           <ChartTitle>{title}</ChartTitle>

@@ -30,13 +30,21 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
-  
-  const availableChartLinks: string[] = [showLineChartOverTime ? ChartTitleKeysEnum.LineChart : '', ChartTitleKeysEnum.InequalitiesBarChart, ChartTitleKeysEnum.InequalitiesLineChart, ChartTitleKeysEnum.PopulationPyramid];
-  console.log('availableChartLinks',availableChartLinks)
-  
+
+  const availableChartLinks: string[] = [
+    ChartTitleKeysEnum.InequalitiesBarChart,
+    ChartTitleKeysEnum.InequalitiesLineChart,
+    ChartTitleKeysEnum.PopulationPyramid,
+  ];
+
+  if (showLineChartOverTime)
+    availableChartLinks.unshift(ChartTitleKeysEnum.LineChart);
+
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
-      <AvailableChartLinks availableCharts={availableChartLinks}></AvailableChartLinks>
+      <AvailableChartLinks
+        availableCharts={availableChartLinks}
+      ></AvailableChartLinks>
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       {showLineChartOverTime ? (
         <>

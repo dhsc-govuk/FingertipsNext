@@ -12,6 +12,8 @@ import { CompareAreasTable } from '@/components/charts/CompareAreasTable/Compare
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
 import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
 import { ThematicMapWrapper } from '@/components/charts/ThematicMap/ThematicMapWrapper';
+import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
+import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
@@ -37,8 +39,20 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const showCompareAreasTable = compareAreasTableIsRequired(searchState);
   const showThematicMap = selectedGroupArea === ALL_AREAS_SELECTED;
 
+  const availableChartLinks = [];
+
+  if (showLineChartOverTime)
+    availableChartLinks.push(ChartTitleKeysEnum.LineChart);
+  if (showThematicMap) availableChartLinks.push(ChartTitleKeysEnum.ThematicMap);
+  if (showCompareAreasTable)
+    availableChartLinks.push(ChartTitleKeysEnum.BarChartEmbeddedTable);
+  availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
+
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
+      <AvailableChartLinks
+        availableCharts={availableChartLinks}
+      ></AvailableChartLinks>
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       <OneIndicatorSegmentationOptions />
       {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}

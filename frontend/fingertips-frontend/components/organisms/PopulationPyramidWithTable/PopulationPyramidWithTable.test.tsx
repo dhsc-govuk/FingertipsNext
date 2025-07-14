@@ -116,7 +116,9 @@ describe('PopulationPyramidWithTable', () => {
 
   test('renders component with default title', () => {
     setupUI(mockHealthDataForArea);
-    expect(screen.getByText(ChartTitlesEnum.PopulationPyramid)).toBeInTheDocument();
+    expect(
+      screen.getByText(ChartTitlesEnum.PopulationPyramid)
+    ).toBeInTheDocument();
   });
 
   test('renders tabs correctly', () => {

@@ -213,24 +213,24 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       await screen.findByTestId('inequalities-component')
     ).toBeInTheDocument();
   });
-  
+
   it('should render the available chart links', async () => {
     await testRender(mockSearchState, testHealthData, testMetaData);
-    
+
     expect(
-      screen.getByRole('link', { name: ChartTitlesEnum.LineChart})
+      screen.getByRole('link', { name: ChartTitlesEnum.LineChart })
     ).toHaveAttribute('href', '#line-chart');
-    
+
     expect(
       screen.getByRole('link', { name: ChartTitlesEnum.InequalitiesBarChart })
     ).toHaveAttribute('href', '#inequalities-bar-chart');
-    
+
     expect(
       screen.getByRole('link', { name: ChartTitlesEnum.InequalitiesLineChart })
     ).toHaveAttribute('href', '#inequalities-line-chart');
-    
+
     expect(
       screen.getByRole('link', { name: ChartTitlesEnum.PopulationPyramid })
     ).toHaveAttribute('href', '#population-pyramid-chart');
-  })
+  });
 });

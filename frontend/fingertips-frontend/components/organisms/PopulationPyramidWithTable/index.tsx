@@ -109,7 +109,9 @@ export const PopulationPyramidWithTable = ({
   return (
     <div data-testid="populationPyramidWithTable-component">
       <StyleChartWrapper>
-        <H3 style={{ fontSize: '24px' }} id='population-pyramid-chart'>{ChartTitlesEnum.PopulationPyramid}</H3>
+        <H3 style={{ fontSize: '24px' }} id="population-pyramid-chart">
+          {ChartTitlesEnum.PopulationPyramid}
+        </H3>
         <ArrowExpander
           openTitle="Show population data"
           closeTitle="Hide population data"

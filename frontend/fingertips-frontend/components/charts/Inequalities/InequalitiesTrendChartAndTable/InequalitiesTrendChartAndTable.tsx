@@ -33,7 +33,9 @@ export function InequalitiesTrendChartAndTable() {
 
   return (
     <StyleChartWrapper data-testid="inequalitiesTrend-component">
-      <H3 id='inequalities-line-chart'>{ChartTitlesEnum.InequalitiesLineChart}</H3>
+      <H3 id="inequalities-line-chart">
+        {ChartTitlesEnum.InequalitiesLineChart}
+      </H3>
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
         inequalityTypeSelectedSearchParam={
