@@ -7,7 +7,7 @@ import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { FC } from 'react';
-import { HeatmapBenchmarkOutcome } from '../../heatmapUtil';
+import { HeatmapBenchmarkOutcome } from '../../heatmap.types';
 import {
   BenchmarkPillParagraph,
   NotComparedBenchmarkIcon,

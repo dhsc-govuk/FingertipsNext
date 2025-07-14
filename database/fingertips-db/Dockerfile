@@ -1,6 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS dacpacbuild
 WORKDIR /dacpac
-COPY . .
+COPY . ./
+# Restore as distinct layers
+RUN dotnet restore
 RUN dotnet build "fingertips-db.sqlproj" -c Release -o build
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dacpacdeploy

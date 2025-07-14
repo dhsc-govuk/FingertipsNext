@@ -1,3 +1,5 @@
+import { mockHighChartsWrapperSetup } from '@/mock/utils/mockHighChartsWrapper';
+//
 import { render, screen } from '@testing-library/react';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { ThematicMap } from './ThematicMap';
@@ -8,6 +10,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { Mock } from 'vitest';
+
+mockHighChartsWrapperSetup();
 
 const mockAreaCodes = ['E12000001', 'E12000002'];
 let mockSearchState: SearchStateParams = {};

@@ -14,7 +14,7 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { render, screen, within } from '@testing-library/react';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmap.types';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   mockHealthDataForArea,
@@ -104,7 +104,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     );
 
     const benchmarkAreaDropDown = screen.getByRole('combobox', {
-      name: 'Select a benchmark',
+      name: 'Select a benchmark for all charts',
     });
     const benchmarkAreaDropDownOptions = within(
       benchmarkAreaDropDown
@@ -185,6 +185,20 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
+  });
+
+  it('should render the heatmap title', () => {
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot
+        indicatorData={mockIndicatorData}
+        indicatorMetadata={mockMetaData}
+        benchmarkStatistics={mockQuartiles}
+      />
+    );
+
+    expect(
+      screen.getByRole('heading', { name: 'Overview of indicators and areas' })
+    ).toBeInTheDocument();
   });
 });
 

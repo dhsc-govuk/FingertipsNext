@@ -19,7 +19,7 @@ export function CompareAreasTable() {
 
   return (
     <StyleChartWrapper>
-      <H3>Compare an indicator by areas</H3>
+      <H3>Compare areas for one time period</H3>
       <BarChartEmbeddedTable
         key={`barchart-${benchmarkToUse}`}
         data-testid="barChartEmbeddedTable-component"

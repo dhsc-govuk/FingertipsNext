@@ -1,6 +1,6 @@
 import { MouseEvent, useCallback, useRef, useState } from 'react';
 import { TransientHeatmapHoverProps } from '@/components/organisms/Heatmap/components/hover';
-import { HeatmapDataCell } from '@/components/organisms/Heatmap/heatmapUtil';
+import { Cell } from './heatmap.types';
 
 export const useHeatmapHover = () => {
   const [hover, setHover] = useState<TransientHeatmapHoverProps | null>(null);
@@ -10,7 +10,7 @@ export const useHeatmapHover = () => {
   let top = 0;
 
   const handleMouseOverCell = useCallback(
-    (cell?: HeatmapDataCell) => (event: MouseEvent) => {
+    (cell?: Cell) => (event: MouseEvent) => {
       setHover(cell?.hoverProps ?? null);
       refHoverRect.current = cell
         ? event.currentTarget.getBoundingClientRect()

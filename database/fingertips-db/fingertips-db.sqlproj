@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Sdk Name="Microsoft.Build.Sql" Version="0.2.0-preview" />
   <PropertyGroup>
     <Name>fingertips-db</Name>
@@ -8,6 +8,7 @@
     <ModelCollation>1033, CI</ModelCollation>
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <DefaultFileStructure>BySchemaType</DefaultFileStructure>
+    <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="PostDeployment" />
@@ -16,6 +17,10 @@
     <Folder Include="Security\" />
     <Folder Include="StoredProcedures" />
     <Folder Include="StoredFunctions" />
+    <Folder Include="Tables\HealthData\" />
+    <Folder Include="Tables\Areas\" />
+    <Folder Include="Tables\DataManagement\" />
+    <Folder Include="Tables\User" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\PopulateFingertips.sql" />
@@ -37,26 +42,24 @@
     <Build Include="Tables\DataManagement\Batch.sql" />
     <Build Include="StoredProcedures\GetIndicatorDataWithQuintileBenchmarkComparison.sql" />
     <Build Include="StoredProcedures\GetIndicatorQuartileDataForLatestYear.sql" />
+    <Build Include="Security\User.sql" />
+    <Build Include="Tables\User\IndicatorRole.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="BlobStorageLocation">
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <Value>$(SqlCmdVar__4)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="LocalFilePath">
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <Value>$(SqlCmdVar__2)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="MasterKeyPassword">
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <Value>$(SqlCmdVar__3)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="UseAzureBlob">
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
   </ItemGroup>

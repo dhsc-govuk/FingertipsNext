@@ -41,7 +41,7 @@ export function BenchmarkSelectArea({
 
   return (
     <StyledFilterSelect
-      label="Select a benchmark"
+      label="Select a benchmark for all charts"
       data-testid={`${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`}
       input={{
         value: selectedArea,

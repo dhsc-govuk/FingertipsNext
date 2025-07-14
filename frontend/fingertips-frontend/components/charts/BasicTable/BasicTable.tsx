@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  type HealthDataPoint,
-  HealthDataPointTrendEnum,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import React from 'react';
 import {
@@ -13,50 +10,35 @@ import {
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { StyledCenterTableCell } from '@/lib/tableHelpers';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
-import { convertBasicTableToCsvData } from './convertBasicTableToCsvData';
+import { convertBasicTableToCsvData } from './helpers/convertBasicTableToCsvData';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
-import styled from 'styled-components';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
-
-export enum BasicTableEnum {
-  Indicator = 'Indicator',
-  Period = 'Period',
-  Count = 'Count',
-  ValueUnit = 'Value unit',
-  Value = 'Value',
-  RecentTrend = 'Recent trend',
-}
-
-export interface BasicTableData {
-  indicatorId?: number;
-  indicatorName?: string;
-  period?: string;
-  latestEnglandHealthData?: HealthDataPoint;
-  unitLabel?: string;
-}
+import {
+  BasicTableData,
+  BasicTableEnum,
+} from '@/components/charts/BasicTable/basicTable.types';
+import { StyledTable } from '@/components/charts/BasicTable/BasicTable.styles';
 
 interface BasicTableProps {
-  indicatorData: BasicTableData[];
-  areaName: string;
+  tableData: BasicTableData[];
+  id?: string;
+  title?: string;
 }
 
-const StyledTable = styled(Table)({
-  marginBottom: '1rem',
-});
-const id = 'basicTable';
-
 export function BasicTable({
-  indicatorData,
-  areaName,
+  tableData,
+  id = 'basicTable',
+  title = 'Overview of selected indicators',
 }: Readonly<BasicTableProps>) {
-  const csvData = convertBasicTableToCsvData(indicatorData);
+  const areaName = tableData.at(0)?.areaName;
+  const csvData = convertBasicTableToCsvData(tableData);
   return (
     <div data-testid={`${id}-component`}>
       <ContainerWithOutline>
         <div id={id}>
-          <ChartTitle>Overview of selected indicators</ChartTitle>
+          <ChartTitle>{title}</ChartTitle>
           <StyledTable
             head={
               <React.Fragment>
@@ -102,8 +84,8 @@ export function BasicTable({
               </React.Fragment>
             }
           >
-            {indicatorData.map((item) => (
-              <Table.Row key={item.indicatorId}>
+            {tableData.map((item) => (
+              <Table.Row key={item.indicatorName}>
                 <CheckValueInTableCell
                   value={item?.indicatorName}
                   style={{ paddingLeft: '10px' }}
@@ -113,7 +95,7 @@ export function BasicTable({
                   style={{ textAlign: 'right' }}
                 />
                 <FormatNumberInTableCell
-                  value={item?.latestEnglandHealthData?.count}
+                  value={item?.count}
                   numberStyle={'whole'}
                   style={{ textAlign: 'right' }}
                 />
@@ -122,14 +104,13 @@ export function BasicTable({
                   style={{ textAlign: 'left' }}
                 />
                 <FormatNumberInTableCell
-                  value={item?.latestEnglandHealthData?.value}
+                  value={item?.value}
                   style={{ textAlign: 'right' }}
                 />
                 <StyledCenterTableCell>
                   <TrendTag
                     trendFromResponse={
-                      item?.latestEnglandHealthData?.trend ??
-                      HealthDataPointTrendEnum.CannotBeCalculated
+                      item?.trend ?? HealthDataPointTrendEnum.CannotBeCalculated
                     }
                   />
                 </StyledCenterTableCell>
