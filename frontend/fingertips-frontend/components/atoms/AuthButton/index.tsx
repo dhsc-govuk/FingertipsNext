@@ -13,6 +13,8 @@ export function AuthButton({ session }: Readonly<AuthButtonProps>) {
 }
 
 function SignInButton() {
+  // refresh the session in SessionProvider
+  // to trigger rerender of chart/Page
   useEffect(() => {
     getSession();
   }, []);

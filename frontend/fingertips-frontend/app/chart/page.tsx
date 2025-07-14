@@ -27,6 +27,7 @@ import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTab
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { auth } from '@/lib/auth';
+import { SessionProvider } from 'next-auth/react';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -36,6 +37,7 @@ export default async function ChartPage(
   // We don't want to render this page statically
   await connection();
   const session = await auth();
+  const authBasePath = process.env.AUTH_URL; // TODO: DHSCFT-1039 include in pipeline
 
   try {
     const searchParams = await props.searchParams;
@@ -159,18 +161,20 @@ export default async function ChartPage(
 
     return (
       <>
-        <SeedQueryCache seedData={seedData} />
-        <ViewsContext
-          searchState={stateManager.getSearchState()}
-          selectedAreasData={selectedAreasData}
-          selectedIndicatorsData={selectedIndicatorsData}
-          areaFilterData={{
-            availableAreaTypes,
-            availableGroupTypes,
-            availableGroups,
-            availableAreas,
-          }}
-        />
+        <SessionProvider session={session} basePath={authBasePath}>
+          <SeedQueryCache seedData={seedData} />
+          <ViewsContext
+            searchState={stateManager.getSearchState()}
+            selectedAreasData={selectedAreasData}
+            selectedIndicatorsData={selectedIndicatorsData}
+            areaFilterData={{
+              availableAreaTypes,
+              availableGroupTypes,
+              availableGroups,
+              availableAreas,
+            }}
+          />
+        </SessionProvider>
       </>
     );
   } catch (error) {
