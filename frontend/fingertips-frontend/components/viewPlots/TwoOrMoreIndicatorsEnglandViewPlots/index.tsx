@@ -6,8 +6,14 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { H3 } from 'govuk-react';
-import { BasicTableData, BasicTable } from '@/components/organisms/BasicTable';
+
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { BasicTableData } from '@/components/charts/BasicTable/basicTable.types';
+import { BasicTable } from '@/components/charts/BasicTable/BasicTable';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
@@ -56,9 +62,13 @@ export const getEnglandIndicatorTableData = (
     return {
       indicatorId: indicator.indicatorId,
       indicatorName: indicator.name,
+      areaName: englandAreaString,
+      areaCode: areaCodeForEngland,
       period: latestPeriod,
-      latestEnglandHealthData,
       unitLabel,
+      count: latestEnglandHealthData?.count,
+      value: latestEnglandHealthData?.value,
+      trend: latestEnglandHealthData?.trend,
     };
   });
 };
@@ -72,10 +82,6 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
     indicatorMetadata
   );
 
-  const areaName =
-    indicatorData.find((item) => item.areaHealthData?.[0]?.areaName)
-      ?.areaHealthData?.[0]?.areaName ?? '';
-
   const availableChartLinks: string[] = [
     ChartTitleKeysEnum.BasicTableChart,
     ChartTitleKeysEnum.PopulationPyramid,
@@ -88,7 +94,7 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
       ></AvailableChartLinks>
       <StyleChartWrapper>
         <H3 id="basic-table-chart">Compare indicators for an area</H3>
-        <BasicTable indicatorData={englandIndicatorData} areaName={areaName} />
+        <BasicTable tableData={englandIndicatorData} />
       </StyleChartWrapper>
     </section>
   );

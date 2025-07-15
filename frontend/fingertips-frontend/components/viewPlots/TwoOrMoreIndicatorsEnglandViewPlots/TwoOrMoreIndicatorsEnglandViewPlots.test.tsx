@@ -3,10 +3,14 @@ import {
   getLatestPeriodHealthDataPoint,
   TwoOrMoreIndicatorsEnglandViewPlots,
 } from '@/components/viewPlots/TwoOrMoreIndicatorsEnglandViewPlots/index';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
 import {
   BenchmarkComparisonMethod,
   HealthDataForArea,
+  HealthDataPointTrendEnum,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -107,14 +111,22 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
         {
           indicatorId: 1,
           indicatorName: 'indicator 1',
-          latestEnglandHealthData: mockEnglandHealthData.healthData[0],
           period: '2006',
           unitLabel: '%',
+          areaCode: areaCodeForEngland,
+          areaName: englandAreaString,
+          count: 389,
+          trend: HealthDataPointTrendEnum.NotYetCalculated,
+          value: 278.29134,
         },
         {
           indicatorId: 2,
           indicatorName: 'indicator 2',
-          latestEnglandHealthData: undefined,
+          areaCode: areaCodeForEngland,
+          areaName: englandAreaString,
+          value: undefined,
+          count: undefined,
+          trend: undefined,
           period: undefined,
           unitLabel: undefined,
         },

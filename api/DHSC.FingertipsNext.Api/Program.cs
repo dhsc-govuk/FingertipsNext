@@ -83,7 +83,6 @@ public class Program
                 options.SubstituteApiVersionInUrl = true;
             });
 
-
         RegisterModules(builder.Services, builder.Configuration);
 
         builder.Services.AddFingertipsUserAuth(builder.Configuration);

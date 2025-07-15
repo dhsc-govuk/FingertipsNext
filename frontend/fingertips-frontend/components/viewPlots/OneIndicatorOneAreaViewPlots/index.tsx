@@ -9,6 +9,8 @@ import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
+import { SingleIndicatorBasicTable } from '@/components/charts/BasicTable/SingleIndicatorBasicTable';
+import { singleIndicatorBasicTableIsRequired } from '@/components/charts/BasicTable/helpers/singleIndicatorBasicTableIsRequired';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
@@ -30,6 +32,7 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
+  const showBasicTable = singleIndicatorBasicTableIsRequired(searchState);
 
   const availableChartLinks: string[] = [
     ChartTitleKeysEnum.InequalitiesBarChart,
@@ -46,6 +49,7 @@ export function OneIndicatorOneAreaViewPlots({
         availableCharts={availableChartLinks}
       ></AvailableChartLinks>
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
+      {showBasicTable ? <SingleIndicatorBasicTable /> : null}
       {showLineChartOverTime ? (
         <>
           <OneIndicatorSegmentationOptions />

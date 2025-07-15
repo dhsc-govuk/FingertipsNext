@@ -1,6 +1,7 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 //
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorOneAreaViewPlots } from '.';
@@ -23,6 +24,7 @@ import {
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
+import { mockSexData } from '@/mock/data/mockSexData';
 import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 mockUsePathname.mockReturnValue('some-mock-path');
@@ -43,16 +45,12 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
 });
 
 const mockSearch = 'test';
-const mockAreas = [testHealthData.name as string];
+const mockAreas = testHealthData.areaHealthData?.map((area) => area.areaCode);
 const mockSearchState = {
   [SearchParams.SearchedIndicator]: mockSearch,
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
   [SearchParams.AreasSelected]: mockAreas,
 };
-const mockUseSearchStateParams = vi.fn();
-vi.mock('@/components/hooks/useSearchStateParams', () => ({
-  useSearchStateParams: () => mockUseSearchStateParams(),
-}));
 
 const testRender = async (
   searchState: SearchStateParams,
@@ -212,6 +210,53 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await screen.findByTestId('inequalities-component')
     ).toBeInTheDocument();
+  });
+
+  it('should render the single indicator basic table component', async () => {
+    const englandHealthData = mockIndicatorWithHealthDataForArea({
+      areaHealthData: [
+        mockHealthDataForArea({
+          areaCode: areaCodeForEngland,
+          healthData: [],
+          indicatorSegments: [
+            mockIndicatorSegment({
+              healthData: mockHealthDataPoints([
+                { year: 2023 },
+                { year: 2022 },
+              ]),
+            }),
+            mockIndicatorSegment({
+              sex: mockSexData({ value: 'Male' }),
+              healthData: mockHealthDataPoints([
+                { year: 2023 },
+                { year: 2022 },
+              ]),
+            }),
+          ],
+        }),
+      ],
+    });
+
+    await testRender(
+      {
+        ...mockSearchState,
+        [SearchParams.AreasSelected]: [areaCodeForEngland],
+      },
+      englandHealthData,
+      testMetaData
+    );
+
+    expect(
+      await screen.findByTestId('singleIndicatorBasicTable-component')
+    ).toBeInTheDocument();
+  });
+
+  it('should not render the single indicator basic table component when there is only one segment', async () => {
+    await testRender(mockSearchState, testHealthData, testMetaData);
+
+    expect(
+      await screen.queryByTestId('singleIndicatorBasicTable-component')
+    ).not.toBeInTheDocument();
   });
 
   it('should render the available chart links', async () => {

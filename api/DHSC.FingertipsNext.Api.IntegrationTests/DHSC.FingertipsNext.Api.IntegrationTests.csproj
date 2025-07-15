@@ -43,6 +43,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DHSC.FingertipsNext.Api\DHSC.FingertipsNext.Api.csproj" />
+        <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Schemas\DHSC.FingertipsNext.Modules.DataManagement.Schemas.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -60,6 +61,9 @@
         </None>
         <None Update="DataManagement\cleanup.sql">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="DataManagement\setup.sql">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
