@@ -20,12 +20,10 @@ namespace DHSC.FingertipsNext.Api.Middleware
                     .EnableTokenAcquisitionToCallDownstreamApi()
                     .AddInMemoryTokenCaches();
             }
-#if DEBUG
             else if (config.GetSection("Authentication:Schemes:Bearer:ValidIssuer").Value != null)
             {
                 collection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
             }
-#endif
 
             collection.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

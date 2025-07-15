@@ -25,3 +25,28 @@ HEAD http://localhost:5144/user/indicator?indicator_ids=123
     //     client.assert(response.status === 401, "Response status should indicate user is unauthorized");
     // });
 %}
+
+
+## Call authorised indicator permissions endpoint with a query string, with a valid bearer token and verify 200 ok response
+{{+
+    const { spawnSync } = require('child_process');
+    const path = require('node:path');
+
+    const entrypoint = path.join(__dirname, '..','..','DHSC.FingertipsNext.Api');
+
+    const result = spawnSync('dotnet user-jwts create', ['-o', 'token', '--audience', 'http://localhost:8080'], {
+        cwd: entrypoint,
+        shell: true, 
+        encoding: 'utf-8' // So the output is a string, not a Buffer
+    });
+    
+    exports.token = result.stdout.trim();
+}}
+GET http://localhost:5144/user/info
+Authorization: Bearer {{token}}
+> {%
+    client.test("Expected authenticated endpoint returns authentication success", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status should indicate user is authorized");
+    });
+%}
+

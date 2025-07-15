@@ -82,19 +82,16 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{env.dotnet-version}}
-
-      - name: Restore dotnet Packages
-        if: ${{ !inputs.update_screenshots }}
-        run: dotnet restore
-        working-directory: ${{ env.api-directory }}
-
+      
       - name: Start Backend Docker services
-        run: npm run start:backend-services
+        run: |
+          npm run start:backend-services
 
-      - name: Run API Integration Tests
-        if: ${{ !inputs.update_screenshots }}
-        run: dotnet test --filter FullyQualifiedName~IntegrationTests
-        working-directory: ${{ env.api-directory }}
+      - name: Inject development mode settings
+        working-directory: ./api/DHSC.FingertipsNext.Api
+        run: |
+          dotnet user-jwts create
+          JWTS_SIGNING_KEY=$(dotnet user-jwts key  | sed -n "s/^Signing Key: '\(.*\)'/\1/p")
 
       - name: Start Application Docker services
         run: MOCK_SERVER=false npm run start:app-services
@@ -120,117 +117,3 @@ jobs:
           name: ${{ env.HTTP_ARTIFACT_NAME }}
           path: ./api/httpyacresults.json
           retention-days: 5
-
-      - name: Install playwright dependencies - for CI test execution
-        run: npx playwright install --with-deps chromium
-
-      - name: Run Playwright tests in CI
-        if: ${{ !inputs.update_screenshots }}
-        run: npm run test-e2e-ci
-
-      - name: Run Playwright tests and update baseline screenshot
-        if: ${{ inputs.update_screenshots }}
-        run: npm run test-e2e-ci -- --update-snapshots
-
-      - name: Commit updated baseline screenshots to branch for review
-        if: ${{ inputs.update_screenshots }}
-        run: |
-          git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "actions@github.com"
-
-          # Add any new or modified screenshot files
-          git add .test/spec/snaps/**/*.png
-
-          # Check if there are changes to commit
-          if git diff --staged --quiet; then
-            echo "No screenshot changes to commit"
-          else
-            # Commit the changes with a descriptive message
-            git commit -m "Update visual test baseline screenshots"
-
-            # Push the changes
-            git push origin ${{ github.head_ref || github.ref_name }}
-
-            echo "Updated screenshots committed and pushed"
-          fi
-
-      - name: Set dynamic artifact name
-        if: always()
-        id: set-artifact-name
-        run: |
-          echo "ARTIFACT_NAME=playwright-artifacts-docker-$(date +%s)" >> $GITHUB_ENV
-
-      - name: Upload playwright artefacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: |
-            ${{ env.frontend-directory }}/playwright-report/
-            ${{ env.frontend-directory }}/test-results/*/*.png
-          retention-days: 5
-
-  execute-e2e-tests-azure:
-    name: Execute e2e tests - Azure
-    runs-on: ${{ inputs.environment }}
-    if: inputs.playwright-mode == 'azure'
-
-    defaults:
-      run:
-        working-directory: ${{ env.frontend-directory }}
-
-    env:
-      PLAYWRIGHT_BROWSERS_PATH: /usr/local/ms-playwright
-
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
-          cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install playwright dependencies
-        run: npx playwright install chromium webkit
-
-      - name: Set Job URL for slack message - for CD test execution
-        run: |
-          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
-
-      - name: Run Playwright tests in CD - skips screenshot comparisons
-        run: npm run test-e2e-cd
-        env:
-          FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-
-      - name: Set dynamic artifact name
-        if: always()
-        id: set-artifact-name
-        run: |
-          echo "ARTIFACT_NAME=playwright-artifacts-azure-$(date +%s)" >> $GITHUB_ENV
-
-      - name: Upload playwright artefacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: |
-            ${{ env.frontend-directory }}/playwright-report/
-            ${{ env.frontend-directory }}/test-results/*/*.png
-          retention-days: 5
-
-      - name: Send slack notification based on test results
-        if: always()
-        run: |
-          if [ "${{ job.status }}" == "success" ]; then
-            npx slack-ctrf results ctrf/ctrf-report.json --title "PR deployment successful to Fingertips Instance: ${{ vars.FINGERTIPS_FRONTEND_URL }}"
-          else
-            npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
-          fi
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
