@@ -1,6 +1,6 @@
 import { ChartTitlesEnum } from './chartTitleEnums';
 
-type ChartLinksKeyType = {
+export type ChartLinksKeyType = {
   key: string;
   href: string;
   title: ChartTitlesEnum;

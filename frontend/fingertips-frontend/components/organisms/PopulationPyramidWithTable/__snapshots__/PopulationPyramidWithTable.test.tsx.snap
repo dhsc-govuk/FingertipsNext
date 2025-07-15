@@ -10,6 +10,7 @@ exports[`PopulationPyramidWithTable > take a snapshot 1`] = `
     >
       <h3
         class="heading__StyledHeading-sc-1dsobun-0 bRbIzR"
+        id="population-pyramid-chart"
         style="font-size: 24px;"
       >
         Related population data

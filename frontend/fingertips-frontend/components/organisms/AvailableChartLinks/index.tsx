@@ -1,19 +1,29 @@
 import { Link, ListItem, UnorderedList } from 'govuk-react';
 import { ZeroMarginParagraph } from '@/components/pages/home';
-import { chartLinks } from '@/lib/ChartTitles/chartTitleLinksKey';
+import {
+  chartLinks,
+  ChartLinksKeyType,
+} from '@/lib/ChartTitles/chartTitleLinksKey';
 
 interface AvailableChartLinksProps {
   availableCharts: string[];
 }
 
-export const AvailableChartLinks = ({
-  availableCharts,
-}: Readonly<AvailableChartLinksProps>) => {
-  const filteredChartLinks = chartLinks
+export function filterChartLinks(
+  chartLinks: ChartLinksKeyType,
+  availableCharts: string[]
+) {
+  return chartLinks
     .filter((chart) => availableCharts.includes(chart.key))
     .sort(
       (a, b) => availableCharts.indexOf(a.key) - availableCharts.indexOf(b.key)
     );
+}
+
+export const AvailableChartLinks = ({
+  availableCharts,
+}: Readonly<AvailableChartLinksProps>) => {
+  const filteredChartLinks = filterChartLinks(chartLinks, availableCharts);
 
   return (
     <section data-testid="availableChartLinks-component">
