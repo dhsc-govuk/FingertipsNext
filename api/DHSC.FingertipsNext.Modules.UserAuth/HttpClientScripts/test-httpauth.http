@@ -34,7 +34,7 @@ HEAD http://localhost:5144/user/indicator?indicator_ids=123
 
     const entrypoint = path.join(__dirname, '..','..','DHSC.FingertipsNext.Api');
 
-    const result = spawnSync('dotnet user-jwts create', ['-o', 'token', '--audience', 'http://localhost:8080'], {
+    const result = spawnSync('dotnet user-jwts create', ['-o', 'token', '--audience', 'http://localhost:5144'], {
         cwd: entrypoint,
         shell: true, 
         encoding: 'utf-8' // So the output is a string, not a Buffer
