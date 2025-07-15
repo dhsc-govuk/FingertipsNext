@@ -42,7 +42,10 @@ test.describe(
         await uploadPage.checkApiResponsePanelContains('202');
       });
       await test.step('Check that the batch list table is displayed', async () => {
-        await uploadPage.checkUploadedBatchListContainerIsVisible();
+        await uploadPage.checkUploadedBatchListContainerIsVisible(
+          csvFileName,
+          indicatorId
+        );
       });
     });
   }

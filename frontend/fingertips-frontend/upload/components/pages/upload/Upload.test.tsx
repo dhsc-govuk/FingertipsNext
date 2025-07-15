@@ -60,4 +60,10 @@ describe('Upload page component', () => {
 
     expect(screen.getByLabelText(/Add indicator ID/)).toBeInTheDocument();
   });
+
+  it('snapshot test', () => {
+    const component = render(<Upload batches={[mockBatch()]} />);
+
+    expect(component.asFragment()).toMatchSnapshot();
+  });
 });

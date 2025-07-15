@@ -1,0 +1,288 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Upload page component > snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    class="src__StyledWarningText-sc-14ghfbq-0 iiTzwf sc-kAyceB jkvpBD"
+  >
+    <div
+      class="src__IconImportantWrapper-sc-14ghfbq-1 cEUjzt"
+    >
+      <svg
+        class="SVGBase__StyledSvg-sc-16k4s64-0 fzOiHV"
+        fill="currentColor"
+        height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        version="1.1"
+        viewBox="0 0 35.000000 35.000000"
+        width="100%"
+      >
+        <title>
+          icon important
+        </title>
+        <g
+          transform="translate(0.000000,35.000000) scale(0.100000,-0.100000)"
+        >
+          <path
+            d="M100 332 c-87 -48 -125 -155 -82 -232 48 -87 155 -125 232 -82 87 48
+125 155 82 232 -48 87 -155 125 -232 82z m100 -122 c0 -53 -2 -60 -20 -60 -18
+0 -20 7 -20 60 0 53 2 60 20 60 18 0 20 -7 20 -60z m0 -111 c0 -12 -7 -19 -20
+-19 -19 0 -28 28 -14 43 11 11 34 -5 34 -24z"
+          />
+        </g>
+      </svg>
+    </div>
+    <strong
+      class="src__WarningTextWrapper-sc-14ghfbq-2 cIfUOd"
+    >
+      <span
+        class="sc-imWYAI cvzslG"
+      >
+        This is an interim tool to allow developers to demonstrate data upload to the API
+      </span>
+    </strong>
+  </div>
+  <h1
+    class="heading__StyledHeading-sc-1dsobun-0 eaMQId sc-jXbUNg dJyqsT"
+  >
+    Indicator data portal
+  </h1>
+  <form
+    action="javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
+  >
+    <label
+      class="src__Label-sc-iqzvxn-0 cjKMYe sc-aXZVg iybZny"
+    >
+      <span
+        class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+      >
+        <div
+          class="sc-gEvEer gpmWer"
+        >
+          Add indicator ID
+        </div>
+      </span>
+      <span
+        class="src__HintText-sc-tq1z5r-0 PfjNt"
+      >
+        This is a unique identification number
+      </span>
+      <input
+        class="src__Input-sc-1ch9crp-0 hYZdGo"
+        name="indicatorId"
+        type="number"
+      />
+    </label>
+    <div
+      class="src__StyledContainer-sc-1l2t4xv-0 dbrEkK sc-fqkvVR hpBnMO"
+    >
+      <span
+        class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+      >
+        <div
+          class="sc-gEvEer gpmWer"
+        >
+          Add a publish date
+        </div>
+      </span>
+      <span
+        class="src__HintText-sc-tq1z5r-0 PfjNt"
+      >
+        The date must be today or in the future
+      </span>
+      <div
+        class="input__StyledList-sc-una33r-1 fGlhYe"
+      >
+        <label
+          class="src__Label-sc-iqzvxn-0 input__StyledLabel-sc-una33r-0 cjKMYe hNChCj"
+        >
+          <span
+            class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+          >
+            Day
+          </span>
+          <input
+            class="src__Input-sc-1ch9crp-0 hYZdGo"
+            name="publishDateDay"
+            type="number"
+          />
+        </label>
+        <label
+          class="src__Label-sc-iqzvxn-0 input__StyledLabel-sc-una33r-0 cjKMYe hNChCj"
+        >
+          <span
+            class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+          >
+            Month
+          </span>
+          <input
+            class="src__Input-sc-1ch9crp-0 hYZdGo"
+            name="publishDateMonth"
+            type="number"
+          />
+        </label>
+        <label
+          class="src__Label-sc-iqzvxn-0 input__StyledLabel-sc-una33r-0 cjKMYe gaqalV"
+        >
+          <span
+            class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+          >
+            Year
+          </span>
+          <input
+            class="src__Input-sc-1ch9crp-0 hYZdGo"
+            name="publishDateYear"
+            type="number"
+          />
+        </label>
+      </div>
+    </div>
+    <label
+      class="src__Label-sc-iqzvxn-0 cjKMYe sc-dcJsrY bVOTul"
+    >
+      <span
+        class="src__LabelText-sc-1lbxenh-0 bKqlAx"
+      >
+        <div
+          class="sc-gEvEer gpmWer"
+        >
+          Upload a file
+        </div>
+      </span>
+      <span
+        class="src__HintText-sc-tq1z5r-0 PfjNt"
+      >
+        The file must be the CSV format provided by this service
+      </span>
+      <input
+        accept=".csv"
+        class="src__StyledInput-sc-176u3do-0 inprkn"
+        name="file"
+        type="file"
+      />
+    </label>
+    <div
+      class="sc-iGgWBj kVSmVC"
+    >
+      <div
+        class="sc-gEvEer sc-eqUAAy gpmWer dRIFMJ"
+      >
+        Submit the uploaded file and information
+      </div>
+      <button
+        class="src__StyledButton-sc-19ocyxv-0 eEShVH"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+  <div
+    data-testid="batch-list-table-container"
+  >
+    <h4
+      class="heading__StyledHeading-sc-1dsobun-0 EoZyU"
+    >
+      Manage upload data
+    </h4>
+    <table
+      class="src__StyledTable-sc-16s660v-0 duOufa sc-dhKdcB egpXem"
+      data-testid="batch-list-table"
+    >
+      <tbody
+        class="TableBody-sc-1qqarm8-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-dAlyuH eiLaTR"
+          >
+            Original filename
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-dAlyuH eiLaTR"
+          >
+            Timestamp
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-dAlyuH eiLaTR"
+          >
+            User ID
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-dAlyuH eiLaTR"
+          >
+            Publish date
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-dAlyuH eiLaTR"
+          >
+            Indicator ID
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-dAlyuH eiLaTR"
+          >
+            Batch ID
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-dAlyuH eiLaTR"
+          >
+            Status
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-dAlyuH eiLaTR"
+          />
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc imUseA"
+          >
+            test-file.csv
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc imUseA"
+          >
+            Sat Mar 07 2020 14:22:37 GMT+0000 (Greenwich Mean Time)
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc imUseA"
+          >
+            fd89acd7-c91f-49c0-89ab-c46d3b25b4f0
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc imUseA"
+          >
+            Sun Mar 08 2020 14:22:37 GMT+0000 (Greenwich Mean Time)
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc imUseA"
+          >
+            41101
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc imUseA"
+          >
+            41101_2020-03-07T14:22:37.123
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc imUseA"
+          >
+            Received
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-jlZhew gaSlHc fBsBcN"
+          >
+            <button
+              class="src__StyledButton-sc-19ocyxv-0 eEShVH"
+            >
+              Delete Submission
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;

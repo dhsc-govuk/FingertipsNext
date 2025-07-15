@@ -23,7 +23,9 @@ export enum BatchListTableHeaders {
 }
 
 export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
-  return batches.length ? (
+  if (!batches.length) return null;
+
+  return (
     <div data-testid="batch-list-table-container">
       <H4>Manage upload data</H4>
       <StyledTable data-testid="batch-list-table">
@@ -33,8 +35,8 @@ export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
           ))}
           <StyledTableCellHeader></StyledTableCellHeader>
         </Table.Row>
-        {batches.map((batch, index) => (
-          <Table.Row key={batch.batchId + index}>
+        {batches.map((batch) => (
+          <Table.Row key={batch.batchId}>
             <StyledTableCell>{batch.originalFilename}</StyledTableCell>
             <StyledTableCell>{batch.createdAt.toString()}</StyledTableCell>
             <StyledTableCell>{batch.userId}</StyledTableCell>
@@ -49,5 +51,5 @@ export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
         ))}
       </StyledTable>
     </div>
-  ) : null;
+  );
 };
