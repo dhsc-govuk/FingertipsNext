@@ -14,6 +14,7 @@ import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndic
 import { ThematicMapWrapper } from '@/components/charts/ThematicMap/ThematicMapWrapper';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
@@ -38,11 +39,11 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
   const showCompareAreasTable = compareAreasTableIsRequired(searchState);
   const showThematicMap = selectedGroupArea === ALL_AREAS_SELECTED;
+  const showLineChartLink = useLineChartOverTimeData();
 
   const availableChartLinks = [];
 
-  if (showLineChartOverTime)
-    availableChartLinks.push(ChartTitleKeysEnum.LineChart);
+  if (showLineChartLink) availableChartLinks.push(ChartTitleKeysEnum.LineChart);
   if (showThematicMap) availableChartLinks.push(ChartTitleKeysEnum.ThematicMap);
   if (showCompareAreasTable)
     availableChartLinks.push(ChartTitleKeysEnum.BarChartEmbeddedTable);

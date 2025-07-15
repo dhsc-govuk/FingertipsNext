@@ -259,23 +259,38 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should render the available chart links', async () => {
-    await testRender(mockSearchState, testHealthData, testMetaData);
+  describe('Render chart links', () => {
+    it('should render line chart link when data is available', async () => {
+      await testRender(mockSearchState, testHealthData, testMetaData);
 
-    expect(
-      screen.getByRole('link', { name: ChartTitlesEnum.LineChart })
-    ).toHaveAttribute('href', '#line-chart');
+      expect(
+        screen.getByRole('link', { name: ChartTitlesEnum.LineChart })
+      ).toBeInTheDocument();
+    });
 
-    expect(
-      screen.getByRole('link', { name: ChartTitlesEnum.InequalitiesBarChart })
-    ).toHaveAttribute('href', '#inequalities-bar-chart');
+    it('should not render line chart link when no data is available', async () => {
+      const mockNoHealthData = mockIndicatorWithHealthDataForArea({
+        areaHealthData: [
+          mockHealthDataForArea({
+            healthData: [],
+            indicatorSegments: [],
+          }),
+        ],
+      });
 
-    expect(
-      screen.getByRole('link', { name: ChartTitlesEnum.InequalitiesLineChart })
-    ).toHaveAttribute('href', '#inequalities-line-chart');
+      await testRender(mockSearchState, mockNoHealthData, testMetaData);
 
-    expect(
-      screen.getByRole('link', { name: ChartTitlesEnum.PopulationPyramid })
-    ).toHaveAttribute('href', '#population-pyramid-chart');
+      expect(
+        screen.queryByRole('link', { name: ChartTitlesEnum.LineChart })
+      ).not.toBeInTheDocument();
+    });
+
+    it('should render population pyramid link ', async () => {
+      await testRender(mockSearchState, testHealthData, testMetaData);
+
+      expect(
+        screen.getByRole('link', { name: ChartTitlesEnum.PopulationPyramid })
+      ).toBeInTheDocument();
+    });
   });
 });

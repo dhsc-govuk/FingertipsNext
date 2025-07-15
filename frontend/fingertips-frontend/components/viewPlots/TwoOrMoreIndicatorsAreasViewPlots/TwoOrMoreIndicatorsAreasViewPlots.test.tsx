@@ -202,7 +202,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     ).toBeInTheDocument();
   });
 
-  it('should render the available chart links when two areas have been selected', () => {
+  it('should render the heat map and population pyramid links when two areas have been selected', () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={mockIndicatorData}

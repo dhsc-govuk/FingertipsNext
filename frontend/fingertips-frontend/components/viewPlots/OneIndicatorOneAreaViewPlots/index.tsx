@@ -13,6 +13,8 @@ import { SingleIndicatorBasicTable } from '@/components/charts/BasicTable/Single
 import { singleIndicatorBasicTableIsRequired } from '@/components/charts/BasicTable/helpers/singleIndicatorBasicTableIsRequired';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import { useInequalitiesData } from '@/components/charts/Inequalities/hooks/useInequalitiesData';
+import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -33,15 +35,19 @@ export function OneIndicatorOneAreaViewPlots({
 
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
   const showBasicTable = singleIndicatorBasicTableIsRequired(searchState);
+  const showInequalities = useInequalitiesData();
+  const showLineChartLink = useLineChartOverTimeData();
 
-  const availableChartLinks: string[] = [
-    ChartTitleKeysEnum.InequalitiesBarChart,
-    ChartTitleKeysEnum.InequalitiesLineChart,
-    ChartTitleKeysEnum.PopulationPyramid,
-  ];
+  const availableChartLinks: string[] = [];
 
-  if (showLineChartOverTime)
-    availableChartLinks.unshift(ChartTitleKeysEnum.LineChart);
+  if (showLineChartLink) availableChartLinks.push(ChartTitleKeysEnum.LineChart);
+  if (showInequalities)
+    availableChartLinks.push(
+      ChartTitleKeysEnum.InequalitiesBarChart,
+      ChartTitleKeysEnum.InequalitiesLineChart
+    );
+
+  availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
 
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
