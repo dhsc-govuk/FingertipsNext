@@ -13,7 +13,7 @@ services:
       NEXT_PUBLIC_FINGERTIPS_GIT_TAG: ${NEXT_PUBLIC_FINGERTIPS_GIT_TAG}
       AUTH_SECRET: ${AUTH_SECRET}
       AUTH_ISSUER: ${AUTH_ISSUER}
-      AUTH_WELLKNOWN: https://login.microsoftonline.com/${AUTH_TENANT_ID}/v2.0/.well-known/openid-configuration
+      AUTH_WELLKNOWN: ${AUTH_WELLKNOWN}
       AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET}
       AUTH_TRUST_HOST: true
