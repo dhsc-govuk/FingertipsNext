@@ -25,13 +25,14 @@ export const useApiGetQuartiles = (options: IndicatorsQuartilesGetRequest) => {
       });
 
       const indicatorsApiInstance = new IndicatorsApi(config);
-      return indicatorsApiInstance.indicatorsQuartilesGet(options);
+      const quartileData : QuartileData[] = await indicatorsApiInstance.indicatorsQuartilesGet(options);
+      return quartileData.filter(q => q.isAggregate === true);
     },
     enabled: indicatorIds.length >= 2,
   });
 
   return useMemo(() => {
-    return {
+    return {  
       quartileData: query.data,
       quartileDataLoading: query.isLoading,
       quartileDataError: query.error,
