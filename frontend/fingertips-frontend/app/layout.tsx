@@ -23,7 +23,7 @@ export default async function RootLayout({
   // vars read SSR and passed down to the footer component
   const tag = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_TAG;
   const hash = process.env.NEXT_PUBLIC_FINGERTIPS_GIT_HASH;
-  const authBasePath = process.env.AUTH_URL;
+  const authBasePath = process.env.NEXT_PUBLIC_AUTH_URL;
 
   return (
     <html lang="en">
