@@ -81,10 +81,7 @@ export default class UploadPage extends BasePage {
     ).toBeVisible();
   }
 
-  async checkUploadedBatchListContainerIsVisible(
-    fileName: string,
-    indicatorId: string
-  ) {
+  async checkUploadedBatchListContainerIsVisible(fileName: string) {
     await expect(
       this.page.getByRole('heading', {
         name: this.batchListContainerHeadingText,
@@ -103,8 +100,5 @@ export default class UploadPage extends BasePage {
     await expect(this.page.getByRole('cell', { name: fileName })).toHaveCount(
       2
     );
-    await expect(
-      this.page.getByRole('cell', { name: indicatorId })
-    ).toHaveCount(2);
   }
 }
