@@ -5,10 +5,10 @@ exports[`Header > should match snapshot 1`] = `
   <header>
     <div>
       <div
-        class="sc-gEvEer EJneB"
+        class="sc-gEvEer BCeNE"
       >
         <div
-          class="sc-eqUAAy kOTYac"
+          class="sc-eqUAAy hgRCKa"
         >
           <button
             class="sc-aXZVg kBvuNF"
@@ -72,6 +72,7 @@ exports[`Header > should match snapshot 1`] = `
             >
               <a
                 class="top-nav-anchor__TopNavAnchor-sc-lt39h5-0 nav-link-anchor__NavLinkAnchor-sc-1pr115z-0 dlfbAW eawaIf"
+                data-testid="header-home-nav"
                 href="/"
               >
                 <span

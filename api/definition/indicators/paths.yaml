@@ -95,18 +95,26 @@ indicators_by_indicator_id_data:
         multipart/form-data:
           schema:
             type: object
+            required:
+              - file
+              - publishedAt
             properties:
               file:
                 type: string
                 format: binary
+              publishedAt:
+                type: string
+                format: date-time
+                example: '2023-01-01T00:00:00.000'
+                description: The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published 
     responses:
       "202":
         description: The file has been accepted by the API and further processing will be conducted.
         content:
-          text/plain:
+          application/json:
             schema:
-              type: string
-              example: The file has been accepted.
+              $ref: "../schemas.yaml#/Batch"
+              
       "400":
         $ref: "../responses.yaml#/BadRequest"
 indicators_by_indicator_id_all_data:

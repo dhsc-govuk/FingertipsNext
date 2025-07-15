@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { DataCellHoverProps } from '../../heatmapUtil';
+import { CellHoverProps } from '../../heatmap.types';
 import { HeatmapHoverBenchmarkPill } from './BenchmarkPill';
 import {
   Hover,
@@ -9,7 +9,7 @@ import {
   HoverParagraph,
 } from './Hover.styles';
 
-export interface TransientHeatmapHoverProps extends DataCellHoverProps {
+export interface TransientHeatmapHoverProps extends CellHoverProps {
   areaName: string;
   left?: number;
   top?: number;

@@ -1,6 +1,12 @@
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
+using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
+
 namespace DHSC.FingertipsNext.Modules.DataManagement.Service;
 
 public interface IDataManagementService
 {
-    Task<bool> UploadFileAsync(Stream fileStream, int indicatorId);
+    Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId, DateTime publishedAt, string originalFileName);
+
+    ICollection<string> ValidateCsv(Stream fileStream);
+    Task<IEnumerable<Batch>> ListBatches(int[] indicatorIds);
 }

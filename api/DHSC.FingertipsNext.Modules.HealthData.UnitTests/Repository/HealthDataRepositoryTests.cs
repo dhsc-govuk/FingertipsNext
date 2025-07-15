@@ -3,7 +3,6 @@ using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
-using System.Runtime.CompilerServices;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Repository;
 

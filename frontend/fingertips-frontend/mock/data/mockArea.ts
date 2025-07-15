@@ -7,3 +7,6 @@ export const mockArea = (overrides?: Partial<Area>) => ({
   areaType: regionsAreaType,
   ...overrides,
 });
+
+export const mockAreas = (overrides: Partial<Area>[]) =>
+  overrides.map((override) => mockArea(override));

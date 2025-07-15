@@ -9,7 +9,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { SearchParams } from '@/lib/searchStateManager';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmapUtil';
+import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmap.types';
 import {
   determineAreaCodes,
   determineAreasForBenchmarking,
@@ -22,6 +22,7 @@ import { englandAreaString } from '@/lib/chartHelpers/constants';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
+import { H3 } from 'govuk-react';
 
 function shouldShowHeatmap(
   areaCodes: string[],
@@ -113,6 +114,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
         <StyleChartWrapper>
+          <H3>Overview of indicators and areas</H3>
           <Heatmap
             indicatorData={buildHeatmapIndicatorData(
               indicatorData,

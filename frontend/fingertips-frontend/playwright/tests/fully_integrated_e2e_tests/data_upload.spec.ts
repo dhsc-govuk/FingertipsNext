@@ -39,10 +39,7 @@ test.describe(
         await uploadPage.clickUploadButton();
       });
       await test.step('Check API response is displayed', async () => {
-        await uploadPage.checkApiResponsePanelContains(
-          '202',
-          `File ${csvFileName} has been accepted for indicator ${indicatorId}.`
-        );
+        await uploadPage.checkApiResponsePanelContains('202');
       });
     });
   }
