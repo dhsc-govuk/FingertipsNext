@@ -82,6 +82,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
+    mockIndicatorsApi.indicatorsQuartilesGet.mockResolvedValue([]);
   });
 
   it('should call indicators API with correct parameters', async () => {

@@ -142,9 +142,11 @@ HealthData AS (
         toDate.Date AS ToDate,
         reportingPeriod.Period AS ReportingPeriod,
         NTILE(4) OVER(
-            PARTITION BY hm.indicatorKey,
+            PARTITION BY 
+            hm.indicatorKey,
             fromDate.Date,
-            toDate.Date
+            toDate.Date,
+            hm.SexKey
             ORDER BY hm.Value
         ) AS Quartile,
         hm.Value

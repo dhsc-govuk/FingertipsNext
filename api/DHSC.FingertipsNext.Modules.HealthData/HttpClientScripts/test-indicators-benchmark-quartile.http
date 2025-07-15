@@ -967,3 +967,194 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=22401&area_code=E12
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
 %}
+
+### Check quartile calculation for indicator with three segments
+GET http://localhost:5144/indicators/quartiles?indicator_ids=22401&area_code=E12000004&area_type=regions&ancestor_code=E92000001
+> {%
+    client.test("Check quartile calculation for indicator with three segments", function (callbackfn, thisArg) {
+        const expected = [
+    {
+    "sex": {
+      "value": "Female",
+      "isAggregate": false
+    },
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Financial",
+      "from": "2023-04-01",
+      "to": "2024-03-31"
+    },
+    "q0Value": 1956.32418,
+    "q1Value": 2166.67966,
+    "q2Value": 2231.32874,
+    "q3Value": 2255.32344,
+    "q4Value": 2399.78208,
+    "areaValue": 2166.67966,
+    "ancestorValue": 2203.2213,
+    "englandValue": 2203.2213,
+    "indicatorId": 22401,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "sex": {
+      "value": "Male",
+      "isAggregate": false
+    },
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Financial",
+      "from": "2023-04-01",
+      "to": "2024-03-31"
+    },
+    "q0Value": 1476.6374,
+    "q1Value": 1578.54939,
+    "q2Value": 1683.08712,
+    "q3Value": 1740.22877,
+    "q4Value": 1834.67254,
+    "areaValue": 1578.54939,
+    "ancestorValue": 1661.48634,
+    "englandValue": 1661.48634,
+    "indicatorId": 22401,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "sex": {
+      "value": "Persons",
+      "isAggregate": true
+    },
+    "isAggregate": true,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Financial",
+      "from": "2023-04-01",
+      "to": "2024-03-31"
+    },
+    "q0Value": 1826.50684,
+    "q1Value": 1908.49625,
+    "q2Value": 1997.62913,
+    "q3Value": 2060.81065,
+    "q4Value": 2121.51501,
+    "areaValue": 1908.49625,
+    "ancestorValue": 1983.96075,
+    "englandValue": 1983.96075,
+    "indicatorId": 22401,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  }
+
+            ]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+GET http://localhost:5144/indicators/quartiles?indicator_ids=93763&indicator_ids=93861&area_code=E06000008&area_type=counties-and-unitary-authorities&ancestor_code=E12000002
+> {%
+    client.test("Check quartile calculation for indicator with three segments", function (callbackfn, thisArg) {
+        const expected = [
+  {
+    "sex": {
+      "value": "Female",
+      "isAggregate": false
+    },
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 11.09163637,
+    "q1Value": 18.69820945,
+    "q2Value": 22.51041987,
+    "q3Value": 25.69228524,
+    "q4Value": 42.7122575,
+    "areaValue": 24.66636114,
+    "ancestorValue": 26.88721774,
+    "englandValue": 22.08863091,
+    "indicatorId": 93763,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "sex": {
+      "value": "Male",
+      "isAggregate": false
+    },
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 37.27646954,
+    "q1Value": 53.94435077,
+    "q2Value": 63.5984499,
+    "q3Value": 74.51833078,
+    "q4Value": 112.9889005,
+    "areaValue": 85.39449579,
+    "ancestorValue": 73.74691052,
+    "englandValue": 62.13045118,
+    "indicatorId": 93763,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "sex": {
+      "value": "Persons",
+      "isAggregate": true
+    },
+    "isAggregate": true,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 24.62869762,
+    "q1Value": 35.31168865,
+    "q2Value": 41.37843818,
+    "q3Value": 48.80372774,
+    "q4Value": 76.13918592,
+    "areaValue": 54.00447893,
+    "ancestorValue": 48.7434503,
+    "englandValue": 40.65913464,
+    "indicatorId": 93763,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "sex": {
+      "value": "Persons",
+      "isAggregate": true
+    },
+    "isAggregate": true,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 3.26941,
+    "q1Value": 4.81031,
+    "q2Value": 5.3042,
+    "q3Value": 5.73332,
+    "q4Value": 7.36706,
+    "areaValue": 4.82771,
+    "ancestorValue": 4.92924,
+    "englandValue": 5.2205,
+    "indicatorId": 93861,
+    "polarity": "NoJudgement",
+    "frequency": "Annually"
+  }
+
+            ]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
