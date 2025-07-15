@@ -80,7 +80,7 @@ As the route default auth route `/api/auth` conflicts with the fingertips API ro
 AUTH_URL="http://localhost:3000/auth"
 ```
 
-When the application is running behind a reverse proxy - or in a docker container - `AUTH_TRUST_HOST` 
+When the application is running behind a reverse proxy - or in a docker container - `AUTH_TRUST_HOST` needs to be set to 'true' - see the auth.js deployment docs 
 ```
 AUTH_TRUST_HOST: true
 ```
