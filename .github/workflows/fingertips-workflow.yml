@@ -755,7 +755,7 @@ jobs:
             name        = "AUTH_ISSUER"
             secret_name = null
             value       = "https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0"
-          }
+          },
           {
             name        = "AUTH_WELLKNOWN"
             secret_name = null
