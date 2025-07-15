@@ -3,7 +3,7 @@ import {
   Frequency,
   PeriodType,
 } from '@/generated-sources/ft-api-client';
-import { format, addYears, subMonths } from 'date-fns';
+import { format, addYears, subMonths, addQuarters, subDays } from 'date-fns';
 
 /**
  * The following types are temporary.
@@ -224,10 +224,19 @@ export const formatterXAxisLabel = (
 
   if (!formatter) return '';
 
+  let toDate = new Date();
+  if (collectionFrequency === Frequency.Quarterly) {
+    toDate = addQuarters(new Date(fromDate), 1);
+    toDate = subDays(toDate, 1);
+  } else {
+    toDate = addYears(new Date(fromDate), 1);
+    toDate = subDays(toDate, 1);
+  }
+
   const datePeriod: DatePeriod = {
     type: periodType,
     from: new Date(fromDate),
-    to: new Date(fromDate),
+    to: new Date(toDate),
   };
 
   return formatter.datePointLabel(datePeriod, reportingPeriod);
