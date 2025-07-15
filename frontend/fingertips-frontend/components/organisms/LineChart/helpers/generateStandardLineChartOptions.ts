@@ -182,6 +182,8 @@ export function generateStandardLineChartOptions(
     tooltip: generateTooltip(
       sortedHealthIndicatorData,
       benchmarkToUse,
+      periodType,
+      frequency,
       optionalParams?.benchmarkComparisonMethod,
       optionalParams?.measurementUnit
     ),

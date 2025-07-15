@@ -1,13 +1,19 @@
 import { generateTooltip } from './generateTooltip';
 import { mockIndicatorData } from '../mocks';
-import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkComparisonMethod,
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('generateTooltip', () => {
   it('should return a Highcharts.TooltipOptions object', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
-      areaCodeForEngland
+      areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually
     );
 
     expect(tooltipOptions).toHaveProperty('headerFormat', '');
@@ -20,6 +26,8 @@ describe('generateTooltip', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       BenchmarkComparisonMethod.Unknown,
       '%'
     );
@@ -44,7 +52,9 @@ describe('generateTooltip', () => {
   it('should handle missing benchmark and group data gracefully', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
-      areaCodeForEngland
+      areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually
     );
     const mockPoint = {
       x: 2004,
@@ -65,6 +75,8 @@ describe('generateTooltip', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       undefined,
       'cases'
     );
@@ -87,6 +99,8 @@ describe('generateTooltip', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       BenchmarkComparisonMethod.Unknown
     );
 
@@ -109,6 +123,8 @@ describe('generateTooltip', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       BenchmarkComparisonMethod.Unknown
     );
     const mockPoint = {
@@ -130,6 +146,8 @@ describe('generateTooltip', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
       'A1', // group benchmark
+      PeriodType.Calendar,
+      Frequency.Annually,
       BenchmarkComparisonMethod.Unknown
     );
     const mockPoint = {
@@ -151,6 +169,8 @@ describe('generateTooltip', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
       'A1', // group benchmark
+      PeriodType.Calendar,
+      Frequency.Annually,
       BenchmarkComparisonMethod.Unknown
     );
     const mockPoint = {
