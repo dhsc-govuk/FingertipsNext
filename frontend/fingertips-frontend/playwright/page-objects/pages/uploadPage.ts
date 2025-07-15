@@ -76,4 +76,24 @@ export default class UploadPage extends BasePage {
       this.page.getByTestId(this.apiResponsePanelMessageTestId)
     ).toBeVisible();
   }
+
+  async checkUploadedBatchListIsNotVisible() {
+    await expect(
+      this.page.getByTestId('batch-list-table-container')
+    ).not.toBeVisible();
+    await expect(this.page.getByTestId('batch-list-table')).not.toBeVisible();
+  }
+
+  async checkUploadedBatchListContainerIsVisible() {
+    await expect(
+      this.page.getByRole('heading', { name: 'Manage upload data' })
+    ).toBeVisible();
+    await expect(
+      this.page.getByTestId('batch-list-table-container')
+    ).toBeVisible();
+    await expect(this.page.getByTestId('batch-list-table')).toBeVisible();
+    await expect(
+      this.page.getByRole('button', { name: 'Delete Submission' })
+    ).toHaveCount(1);
+  }
 }
