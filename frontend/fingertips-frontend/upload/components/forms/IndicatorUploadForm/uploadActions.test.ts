@@ -7,6 +7,10 @@ import { mockDeep } from 'vitest-mock-extended';
 import { uploadFile } from './uploadActions';
 import { UTCDateMini } from '@date-fns/utc';
 
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}));
+
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 

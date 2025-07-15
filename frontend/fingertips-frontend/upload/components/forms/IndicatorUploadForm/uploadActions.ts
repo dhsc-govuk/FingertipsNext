@@ -3,6 +3,7 @@
 import { ResponseError } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { UTCDateMini } from '@date-fns/utc';
+import { revalidatePath } from 'next/cache';
 
 export type ApiResponse = {
   status?: number;
@@ -33,6 +34,8 @@ export async function uploadFile(
       file,
       publishedAt,
     });
+
+    revalidatePath('/batches');
 
     return { status: response.raw.status, message: await response.raw.text() };
   } catch (error) {

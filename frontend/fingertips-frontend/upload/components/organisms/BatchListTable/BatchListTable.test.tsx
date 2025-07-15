@@ -15,7 +15,7 @@ describe('BatchListTable', () => {
       'Manage upload data'
     );
     expect(
-      screen.getByRole('button', { name: 'Delete Submission' })
+      screen.getByRole('button', { name: 'Delete submission' })
     ).toBeInTheDocument();
     Object.values(BatchListTableHeaders).forEach((header) => {
       expect(screen.getByText(header)).toBeInTheDocument();
@@ -32,5 +32,11 @@ describe('BatchListTable', () => {
       screen.queryByTestId('batch-list-table-container')
     ).not.toBeInTheDocument();
     expect(screen.queryByTestId('batch-list-table')).not.toBeInTheDocument();
+  });
+
+  it('snapshot test', () => {
+    const container = render(<BatchListTable batches={[mockBatch()]} />);
+
+    expect(container.asFragment()).toMatchSnapshot();
   });
 });
