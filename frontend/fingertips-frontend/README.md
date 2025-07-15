@@ -10,7 +10,6 @@ Before starting development on this application you need to do the following:
 
 1. Ensure that you are using the correct Node.js version. The currently-supported version is specified in the [.nvmrc](.nvmrc) file. It is recommended you install nvm and use it to manage your Node.js version. With nvm installed you can install and use the correct Node.js version by running `nvm install` in this directory. This applies to a Mac but doesn't work on Windows. If you use Windows use [nvm-windows](https://github.com/coreybutler/nvm-windows) and follow [this](https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/). Unfortunately this tool doesn't recognise the .nvmrc file, so use the `nvm install` and `nvm use` commands and specify the node version defined in the [.nvmrc](.nvmrc) file explicitly e.g. `nvm use 20.18.0`.
 2. Install the necessary dependencies: `npm install`.
-3. 
 
 ### Linting
 
@@ -80,7 +79,7 @@ As the route default auth route `/api/auth` conflicts with the fingertips API ro
 AUTH_URL="http://localhost:3000/auth"
 ```
 
-When the application is running behind a reverse proxy - or in a docker container - `AUTH_TRUST_HOST` 
+When the application is running behind a reverse proxy - or in a docker container - `AUTH_TRUST_HOST` needs to be set to 'true' - see the auth.js deployment docs 
 ```
 AUTH_TRUST_HOST: true
 ```
