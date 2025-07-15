@@ -1,11 +1,11 @@
-import {
-  HealthDataPoint,
-  HealthDataPointTrendEnum,
-} from '@/generated-sources/ft-api-client';
-import { BasicTableData } from '.';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { convertBasicTableToCsvData } from './convertBasicTableToCsvData';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  areaCodeForEngland,
+  englandAreaString,
+} from '@/lib/chartHelpers/constants';
+import { BasicTableData } from '@/components/charts/BasicTable/basicTable.types';
 
 describe('convertBasicTableToCsvData', () => {
   const basicTableData: BasicTableData[] = [
@@ -13,33 +13,33 @@ describe('convertBasicTableToCsvData', () => {
       indicatorId: 1,
       indicatorName: 'testIndicator1',
       period: '2020',
-      latestEnglandHealthData: {
-        count: 200,
-        value: 350,
-        trend: HealthDataPointTrendEnum.Increasing,
-      } as unknown as HealthDataPoint,
+      count: 200,
+      value: 350,
+      trend: HealthDataPointTrendEnum.Increasing,
       unitLabel: '%',
+      areaCode: areaCodeForEngland,
+      areaName: englandAreaString,
     },
     {
       indicatorId: 2,
       indicatorName: 'testIndicator2',
       period: '2022',
-      latestEnglandHealthData: {
-        count: 100,
-        value: 500,
-        trend: HealthDataPointTrendEnum.Decreasing,
-      } as unknown as HealthDataPoint,
+      count: 100,
+      value: 500,
+      trend: HealthDataPointTrendEnum.Decreasing,
       unitLabel: 'per 100,000',
+      areaCode: areaCodeForEngland,
+      areaName: englandAreaString,
     },
     {
       indicatorId: 3,
       indicatorName: 'testIndicator3',
       period: '2025',
-      latestEnglandHealthData: {
-        count: 100,
-        value: 500,
-      } as unknown as HealthDataPoint,
+      count: 100,
+      value: 500,
       unitLabel: '%',
+      areaCode: areaCodeForEngland,
+      areaName: englandAreaString,
     },
   ];
 

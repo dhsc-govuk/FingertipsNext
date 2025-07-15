@@ -1,6 +1,6 @@
 import { Table } from 'govuk-react';
 import styled from 'styled-components';
-import { heatmapIndicatorTitleColumnWidth } from '../../heatmapUtil';
+import { heatmapIndicatorTitleColumnWidth } from '../../heatmapConstants';
 import { BorderColour } from '@/lib/styleHelpers/colours';
 
 export const IndicatorCell = styled(Table.Cell)({
