@@ -4,6 +4,7 @@ import {
   Configuration,
   IndicatorsApi,
   SystemApi,
+  UserApi,
 } from '@/generated-sources/ft-api-client';
 import { readEnvVar } from '../envUtils';
 
@@ -13,6 +14,7 @@ export class ApiClientFactory {
   private static areasApiInstance: AreasApi | null;
   private static indicatorsApiInstance: IndicatorsApi | null;
   private static systemApiInstance: SystemApi | null;
+  private static userApiInstance: UserApi | null;
   private static batchesApiInstance: BatchesApi | null;
 
   public static getAreasApiClient(): AreasApi {
@@ -55,6 +57,20 @@ export class ApiClientFactory {
     }
 
     return this.systemApiInstance;
+  }
+
+  public static getUserApiClient(): UserApi {
+    if (!this.userApiInstance) {
+      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
+      const config: Configuration = new Configuration({
+        basePath: apiUrl,
+        fetchApi: fetch,
+      });
+
+      this.userApiInstance = new UserApi(config);
+    }
+
+    return this.userApiInstance;
   }
 
   public static getBatchesApiClient(): BatchesApi {
