@@ -17,7 +17,7 @@ export default class UploadPage extends BasePage {
   private readonly batchListContainerHeadingText = 'Manage upload data';
   private readonly batchListTableContainerTestId = 'batch-list-table-container';
   private readonly batchListTableTestId = 'batch-list-table';
-  private readonly deleteSubmissionButtonText = 'Delete Submission';
+  private readonly deleteSubmissionButtonText = 'Delete submission';
 
   async fillInUploadForm({
     indicatorId,
