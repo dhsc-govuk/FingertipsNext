@@ -44,7 +44,7 @@ jobs:
           DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
           AUTH_SECRET: "some value"
           AUTH_URL: http://localhost:3000/auth
-          NEXT_PUBLIC_AUTH_URL: $AUTH_URL
+          NEXT_PUBLIC_AUTH_URL: http://localhost:3000/auth
 
       - name: Upload playwright report and screenshot if ui tests fail - always on failure
         uses: actions/upload-artifact@v4
