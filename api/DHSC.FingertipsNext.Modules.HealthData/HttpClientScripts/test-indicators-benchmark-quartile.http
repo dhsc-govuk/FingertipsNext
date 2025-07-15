@@ -5,11 +5,16 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
-            "type": "Financial",
-            "from": "2023-04-01",
-            "to": "2024-03-31"
+                "type": "Financial",
+                "from": "2023-04-01",
+                "to": "2024-03-31"
             },
             "q0Value": 15.7894736842105,
             "q1Value": 64.9253731343284,
@@ -36,6 +41,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [
             {
+                "sex": {
+                    "value": "Female",
+                    "isAggregate": true
+                },
+                "isAggregate": true,
                 "year": 2023,
                 "datePeriod": {
                 "type": "Financial",
@@ -67,6 +77,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
     client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
         const expected = [
          {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2024,
             "datePeriod": {
               "type": "Calendar",
@@ -86,6 +101,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
             "frequency": "Annually"
         },
         {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Financial",
@@ -115,6 +135,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
     client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
         const expected = [
             {
+                "sex": {
+                    "value": "Persons",
+                    "isAggregate": true
+                },
+                "isAggregate": true,
                 "year": 2024,
                 "datePeriod": {
                 "type": "Calendar",
@@ -134,6 +159,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
                 "frequency": "Annually"
             },
             {
+                "sex": {
+                    "value": "Female",
+                    "isAggregate": true
+                },
+                "isAggregate": true,
                 "year": 2023,
                 "datePeriod": {
                 "type": "Financial",
@@ -164,6 +194,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N8500
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Financial",
@@ -196,6 +231,8 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N8
     client.test("check Quartile comparison where indicator is unknown", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": null,
+            "isAggregate": null,
             "year": null,
             "datePeriod": null,
             "q0Value": null,
@@ -223,6 +260,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85
     client.test("check Quartile comparison where area group is undefined", function (callbackfn, thisArg) {
         const expected = [
             {
+                "sex": {
+                    "value": "Persons",
+                    "isAggregate": true
+                },
+                "isAggregate": true,
                 "year": 2024,
                 "datePeriod": {
                 "type": "Calendar",
@@ -254,6 +296,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=gps
     client.test("check Quartile comparison where area_code is undefined", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2024,
             "datePeriod": {
             "type": "Calendar",
@@ -285,6 +332,8 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
     client.test("check Quartile comparison where area_type is erroneous", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": null,
+            "isAggregate": null,
             "year": null,
             "datePeriod": null,
             "q0Value": null,
@@ -294,7 +343,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
             "q4Value": null,
             "areaValue": null,
             "ancestorValue": null,
-            "englandValue": 27.15399,
+            "englandValue": null,
             "indicatorId": 90453,
             "polarity": "NoJudgement",
             "frequency": "Annually"
@@ -337,6 +386,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
     client.test("check Quartile comparison for county", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2019,
             "datePeriod": {
             "type": "Calendar",
@@ -367,6 +421,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
     client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,            
             "year": 2019,
             "datePeriod": {
             "type": "Calendar",
@@ -409,6 +468,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54
     client.test("check Quartile comparison for NHS Integrated Care Boards Place of death: Dementia", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Calendar",
@@ -438,7 +502,12 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93085&area_code=E09
 > {%
     client.test("check Quartile comparison for district", function (callbackfn, thisArg) {
         const expected = [
-        {
+  {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Financial",
@@ -469,6 +538,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83
     client.test("check Quartile comparison when there is in sufficient data", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2024,
             "datePeriod": {
             "type": "Calendar",
@@ -500,6 +574,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Financial",
@@ -531,6 +610,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Financial",
@@ -562,6 +646,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Financial",
@@ -593,6 +682,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Female",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Financial",
@@ -626,6 +720,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
         const expected = [{
             "indicatorId": 93861,
             "polarity": "NoJudgement",
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
                 "type": "Calendar",
@@ -647,12 +746,15 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
 
 ### Basic Quartile District benchmarked against Region
 GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07000223&area_type=districts-and-unitary-authorities&ancestor_code=E12000008&benchmark_ref_type=SubNational
-
-
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Calendar",
@@ -683,6 +785,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2023,
             "datePeriod": {
             "type": "Calendar",
@@ -713,6 +820,11 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=K84
     client.test("Ensure unpublished data is not returned", function (callbackfn, thisArg) {
                 const expected = [
         {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2024,
             "datePeriod": {
             "type": "Calendar",
@@ -743,6 +855,11 @@ GET http://localhost:5144/indicators/quartiles/all?indicator_ids=90453&area_code
     client.test("Ensure published data is returned", function (callbackfn, thisArg) {
         const expected = [
         {
+            "sex": {
+                "value": "Persons",
+                "isAggregate": true
+            },
+            "isAggregate": true,
             "year": 2025,
             "datePeriod": {
             "type": "Calendar",
@@ -762,6 +879,90 @@ GET http://localhost:5144/indicators/quartiles/all?indicator_ids=90453&area_code
             "frequency": "Annually"
         }
         ]
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+
+### check quartile calculation for indicator with three segments
+GET http://localhost:5144/indicators/quartiles?indicator_ids=22401&area_code=E12000004&area_type=regions&ancestor_code=E92000001
+> {%
+    client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
+        const expected = [
+  {
+    "sex": {
+      "value": "Female",
+      "isAggregate": false
+    },
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Financial",
+      "from": "2023-04-01",
+      "to": "2024-03-31"
+    },
+    "q0Value": 1956.32418,
+    "q1Value": null,
+    "q2Value": 1956.32418,
+    "q3Value": 2166.67966,
+    "q4Value": 2399.78208,
+    "areaValue": 2166.67966,
+    "ancestorValue": 2203.2213,
+    "englandValue": 2203.2213,
+    "indicatorId": 22401,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "sex": {
+      "value": "Male",
+      "isAggregate": false
+    },
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Financial",
+      "from": "2023-04-01",
+      "to": "2024-03-31"
+    },
+    "q0Value": 1476.6374,
+    "q1Value": 1740.22877,
+    "q2Value": 1834.67254,
+    "q3Value": null,
+    "q4Value": 1834.67254,
+    "areaValue": 1578.54939,
+    "ancestorValue": 1661.48634,
+    "englandValue": 1661.48634,
+    "indicatorId": 22401,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "sex": {
+      "value": "Persons",
+      "isAggregate": true
+    },
+    "isAggregate": true,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Financial",
+      "from": "2023-04-01",
+      "to": "2024-03-31"
+    },
+    "q0Value": 1826.50684,
+    "q1Value": null,
+    "q2Value": 1963.81109,
+    "q3Value": 2121.51501,
+    "q4Value": 2121.51501,
+    "areaValue": 1908.49625,
+    "ancestorValue": 1983.96075,
+    "englandValue": 1983.96075,
+    "indicatorId": 22401,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  }
+            ]
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });
