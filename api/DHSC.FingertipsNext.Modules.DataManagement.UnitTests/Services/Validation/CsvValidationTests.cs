@@ -169,6 +169,18 @@ public class CsvValidationTests
         result.Errors.ShouldBeEmpty();
     }
 
+    [Fact]
+    public void TestSwitchedHeaders()
+    {
+        // Arrange
+        var result = ReadAndValidateCsv(@"Services/Validation/CSVs/SwitchedHeadersAndValidDataRows.csv");
+
+        // Assert
+        result.Success.ShouldBeFalse();
+        result.Errors.ShouldHaveSingleItem();
+        result.Errors.First().ErrorMessage.ShouldBe("Unexpected header(s) found: Please ensure that the headers are in the correct order");
+    }
+
     private static CsvValidationResult ReadAndValidateCsv(string file)
     {
         string path = Path.Combine(Directory.GetCurrentDirectory(), file);

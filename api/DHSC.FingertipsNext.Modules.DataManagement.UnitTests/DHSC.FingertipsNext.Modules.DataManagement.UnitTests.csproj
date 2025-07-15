@@ -35,6 +35,9 @@
       <None Update="TestData\valid.csv">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="Services\Validation\CSVs\SwitchedHeadersAndValidDataRows.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
