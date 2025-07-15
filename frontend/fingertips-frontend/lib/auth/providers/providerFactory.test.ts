@@ -1,11 +1,12 @@
-import { AuthProvidersFactory, buildAuthConfig } from '@/lib/auth/config';
+import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
 
 describe('build auth providers', () => {
   beforeEach(() => {
     vi.stubEnv('AUTH_USE_PASSWORD_MOCK', undefined);
-    vi.stubEnv('AUTH_FTA_ID', undefined);
-    vi.stubEnv('AUTH_FTA_SECRET', undefined);
-    vi.stubEnv('AUTH_FTA_ISSUER', undefined);
+    vi.stubEnv('AUTH_CLIENT_ID', undefined);
+    vi.stubEnv('AUTH_CLIENT_SECRET', undefined);
+    vi.stubEnv('AUTH_ISSUER', undefined);
+    vi.stubEnv('AUTH_WELLKNOWN', undefined);
 
     AuthProvidersFactory.reset();
   });
@@ -23,9 +24,10 @@ describe('build auth providers', () => {
   });
 
   it('should return config with one provider with id "fta" if auth env vars set', () => {
-    vi.stubEnv('AUTH_FTA_ID', 'foo');
-    vi.stubEnv('AUTH_FTA_SECRET', 'bar');
-    vi.stubEnv('AUTH_FTA_ISSUER', 'baz');
+    vi.stubEnv('AUTH_CLIENT_ID', 'foo');
+    vi.stubEnv('AUTH_CLIENT_SECRET', 'bar');
+    vi.stubEnv('AUTH_ISSUER', 'baz');
+    vi.stubEnv('AUTH_WELLKNOWN', 'alsobaz');
 
     expect(AuthProvidersFactory.getProviders()).toHaveLength(1);
     expect(AuthProvidersFactory.getProviders()[0].id).toEqual('fta');
@@ -34,31 +36,11 @@ describe('build auth providers', () => {
   it('should return config with two providers with id "fta" if auth env vars set and AUTH_USE_PASSWORD_MOCK set', () => {
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv('AUTH_USE_PASSWORD_MOCK', 'true');
-    vi.stubEnv('AUTH_FTA_ID', 'foo');
-    vi.stubEnv('AUTH_FTA_SECRET', 'bar');
-    vi.stubEnv('AUTH_FTA_ISSUER', 'baz');
+    vi.stubEnv('AUTH_CLIENT_ID', 'foo');
+    vi.stubEnv('AUTH_CLIENT_SECRET', 'bar');
+    vi.stubEnv('AUTH_ISSUER', 'baz');
+    vi.stubEnv('AUTH_WELLKNOWN', 'alsobaz');
 
     expect(AuthProvidersFactory.getProviders()).toHaveLength(2);
-  });
-});
-
-describe('build config', () => {
-  it('should not populate the secret field if auth secret is set on env', () => {
-    vi.stubEnv('AUTH_SECRET', 'foobar');
-
-    const config = buildAuthConfig();
-
-    expect(config.secret).toBeUndefined();
-  });
-
-  it('should populate the secret field and log a warning if auth secret is not set on env', () => {
-    vi.stubEnv('AUTH_SECRET', undefined);
-
-    const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => {});
-
-    const config = buildAuthConfig();
-
-    expect(config.secret).not.toBeUndefined();
-    expect(consoleMock).toHaveBeenCalled();
   });
 });

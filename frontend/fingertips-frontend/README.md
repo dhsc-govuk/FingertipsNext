@@ -57,6 +57,42 @@ To run the Next development server against the MSW (Mock Service Worker) rather 
 npm run dev
 ```
 
+### Authentication
+
+The fingertips frontend uses a library called [Auth.js](https://authjs.dev) to provide auth integration. This section discusses both [Auth.js environment variables for deployment](https://authjs.dev/getting-started/deployment) and custom environment variables for integrating with the fingertips authentication provider. 
+
+The fingertips frontend requires at bare minimum a local secret set through the environment variable `AUTH_SECRET`. This can either be set manually or by running `npx auth generate` to populate `.env.local` with this variable. For running the development server locally an insecure default is provided in `.env.development`.
+
+For deployed environments this should be a cryptographically secure secret as outlined in the Auth.js docs. For local development any string will suffice.
+```
+AUTH_SECRET="hunter2"
+```
+
+For UI testing (without integration with the API) a password mock can be used. This can be enabled by setting `AUTH_USE_PASSWORD_MOCK`. It successfully authenticates when signed in with the password "password". This has no integration with the API and no roles assigned, and should not be enabled for deployed environments.
+```
+AUTH_USE_PASSWORD_MOCK=true
+```
+
+As the route default auth route `/api/auth` conflicts with the fingertips API route `/api`,  `AUTH_URL` is set to use the authentication route to `http://localhost:3000/auth`.
+
+```
+AUTH_URL="http://localhost:3000/auth"
+```
+
+When the application is running behind a reverse proxy - or in a docker container - `AUTH_TRUST_HOST` needs to be set to 'true' - see the auth.js deployment docs 
+```
+AUTH_TRUST_HOST: true
+```
+
+The OIDC client ID, client secret, issuer, and OIDC configuration endpoint (well-known endpoint) are required to integrate with an external authentication provider.
+
+```
+AUTH_CLIENT_ID="example-client-id"
+AUTH_CLIENT_SECRET="example-client-secret"
+AUTH_ISSUER="https://example-tenant-id.ciamlogin.com/example-tenant-id/v2.0"
+AUTH_WELLKNOWN="https://login.microsoftonline.com/example-tenant-id/v2.0/.well-known/openid-configuration"
+```
+
 ## Building
 
 ### Building the Next Application

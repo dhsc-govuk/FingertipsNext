@@ -381,7 +381,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
-              "trend": "Not yet calculated",
+              "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
                 "benchmarkAreaCode": "E12000007",
@@ -764,7 +764,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
-              "trend": "Not yet calculated",
+              "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
                 "benchmarkAreaCode": "E12000007",
@@ -1097,7 +1097,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
-              "trend": "Not yet calculated",
+              "trend": "Cannot be calculated",
               "benchmarkComparison": null,
               "isAggregate": true
             }
@@ -2100,7 +2100,7 @@
             "value": "Female",
             "isAggregate": false
           },
-          "trend": "Not yet calculated",
+          "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Better",
             "benchmarkAreaCode": "E12000007",
@@ -2134,7 +2134,7 @@
             "value": "Male",
             "isAggregate": false
           },
-          "trend": "Not yet calculated",
+          "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
@@ -2168,7 +2168,7 @@
             "value": "Persons",
             "isAggregate": true
           },
-          "trend": "Not yet calculated",
+          "trend": "Cannot be calculated",
           "benchmarkComparison": null,
           "isAggregate": true
         }
