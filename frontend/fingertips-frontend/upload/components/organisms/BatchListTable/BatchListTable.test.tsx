@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { BatchListTable, BatchListTableHeaders } from '.';
+import { mockBatch } from '@/mock/data/mockBatch';
 
 describe('BatchListTable', () => {
   it('should render the expected elements', () => {
-    render(<BatchListTable />);
+    const batchMock = mockBatch();
+    render(<BatchListTable batches={[batchMock]} />);
 
     expect(
       screen.getByTestId('batch-list-table-container')
@@ -17,6 +19,9 @@ describe('BatchListTable', () => {
     ).toBeInTheDocument();
     Object.values(BatchListTableHeaders).forEach((header) => {
       expect(screen.getByText(header)).toBeInTheDocument();
+    });
+    Object.values(batchMock).forEach((value) => {
+      expect(screen.getByText(value.toString())).toBeInTheDocument();
     });
   });
 });

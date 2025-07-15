@@ -7,13 +7,10 @@ import {
   StyledTableCell,
   StyledTableCellHeader,
 } from './BatchListTable.styles';
-import { mockBatch } from '@/mock/data/mockBatch';
 
-// type BatchListTableProps = {
-//   batches: Batch[];
-// };
-
-const batches: Batch[] = [mockBatch()];
+type BatchListTableProps = {
+  batches: Batch[];
+};
 
 export enum BatchListTableHeaders {
   OriginalFilename = 'Original filename',
@@ -25,7 +22,7 @@ export enum BatchListTableHeaders {
   Status = 'Status',
 }
 
-export const BatchListTable = () => {
+export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
   return batches.length ? (
     <div data-testid="batch-list-table-container">
       <H4>Manage upload data</H4>
