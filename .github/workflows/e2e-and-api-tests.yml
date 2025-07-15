@@ -91,7 +91,7 @@ jobs:
         working-directory: ./api/DHSC.FingertipsNext.Api
         run: |
           dotnet user-jwts create
-          JWTS_SIGNING_KEY=$(dotnet user-jwts key  | sed -n "s/^Signing Key: '\(.*\)'/\1/p")
+          echo "JWTS_SIGNING_KEY=$(dotnet user-jwts key  | sed -n "s/^Signing Key: '\(.*\)'/\1/p")" >> $GITHUB_ENV
 
       - name: Start Application Docker services
         run: MOCK_SERVER=false npm run start:app-services
