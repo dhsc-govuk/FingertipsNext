@@ -5,7 +5,8 @@ describe('build auth providers', () => {
     vi.stubEnv('AUTH_USE_PASSWORD_MOCK', undefined);
     vi.stubEnv('AUTH_CLIENT_ID', undefined);
     vi.stubEnv('AUTH_CLIENT_SECRET', undefined);
-    vi.stubEnv('AUTH_TENANT_ID', undefined);
+    vi.stubEnv('AUTH_ISSUER', undefined);
+    vi.stubEnv('AUTH_WELLKNOWN', undefined);
 
     AuthProvidersFactory.reset();
   });
@@ -25,7 +26,8 @@ describe('build auth providers', () => {
   it('should return config with one provider with id "fta" if auth env vars set', () => {
     vi.stubEnv('AUTH_CLIENT_ID', 'foo');
     vi.stubEnv('AUTH_CLIENT_SECRET', 'bar');
-    vi.stubEnv('AUTH_TENANT_ID', 'baz');
+    vi.stubEnv('AUTH_ISSUER', 'baz');
+    vi.stubEnv('AUTH_WELLKNOWN', 'alsobaz');
 
     expect(AuthProvidersFactory.getProviders()).toHaveLength(1);
     expect(AuthProvidersFactory.getProviders()[0].id).toEqual('fta');
@@ -36,7 +38,8 @@ describe('build auth providers', () => {
     vi.stubEnv('AUTH_USE_PASSWORD_MOCK', 'true');
     vi.stubEnv('AUTH_CLIENT_ID', 'foo');
     vi.stubEnv('AUTH_CLIENT_SECRET', 'bar');
-    vi.stubEnv('AUTH_TENANT_ID', 'baz');
+    vi.stubEnv('AUTH_ISSUER', 'baz');
+    vi.stubEnv('AUTH_WELLKNOWN', 'alsobaz');
 
     expect(AuthProvidersFactory.getProviders()).toHaveLength(2);
   });

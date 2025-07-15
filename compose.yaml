@@ -12,7 +12,8 @@ services:
       NEXT_PUBLIC_FINGERTIPS_GIT_HASH: ${NEXT_PUBLIC_FINGERTIPS_GIT_HASH}
       NEXT_PUBLIC_FINGERTIPS_GIT_TAG: ${NEXT_PUBLIC_FINGERTIPS_GIT_TAG}
       AUTH_SECRET: "${AUTH_SECRET}"
-      AUTH_TENANT_ID: ${AUTH_TENANT_ID}
+      AUTH_ISSUER: https://${AUTH_TENANT_ID}.ciamlogin.com/${AUTH_TENANT_ID}/v2.0
+      AUTH_WELLKNOWN: https://login.microsoftonline.com/${AUTH_TENANT_ID}/v2.0/.well-known/openid-configuration
       AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET}
       AUTH_TRUST_HOST: true
@@ -44,8 +45,10 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       TRUST_CERT: "True"
-      UPLOAD_STORAGE_ACCOUNT_URI: "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}" # These are the publicly-available connection details for the Azurite storage emulator.
-      UPLOAD_STORAGE_ACCOUNT_NAME: "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}" # DO NOT commit the details of an actual Azure Storage account here!
+      # These are the publicly-available connection details for the Azurite storage emulator.
+      # DO NOT commit the details of an actual Azure Storage account here!
+      UPLOAD_STORAGE_ACCOUNT_URI: "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}"
+      UPLOAD_STORAGE_ACCOUNT_NAME: "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}"
       UPLOAD_STORAGE_ACCOUNT_KEY: "${UPLOAD_STORAGE_ACCOUNT_KEY:-Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==}"
       UPLOAD_STORAGE_CONTAINER_NAME: ${UPLOAD_STORAGE_CONTAINER_NAME}
       AzureAD__Instance: ${AZUREAD__INSTANCE}
@@ -145,6 +148,8 @@ services:
       - container
       - create
       - --blob-endpoint
+      # These are the publicly-available connection details for the Azurite storage emulator.
+      # DO NOT commit the details of an actual Azure Storage account here!
       - "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}"
       - --account-name
       - "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}"
