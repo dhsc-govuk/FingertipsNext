@@ -10,6 +10,8 @@ export type ApiResponse = {
   message: string;
 };
 
+const BATCHES_API_PATH = '/batches';
+
 export async function uploadFile(
   _prevState: ApiResponse | undefined,
   formData: FormData
@@ -35,7 +37,7 @@ export async function uploadFile(
       publishedAt,
     });
 
-    revalidatePath('/batches');
+    revalidatePath(BATCHES_API_PATH);
 
     return { status: response.raw.status, message: await response.raw.text() };
   } catch (error) {
