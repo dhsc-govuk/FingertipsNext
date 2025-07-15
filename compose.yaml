@@ -55,6 +55,7 @@ services:
       AzureAD__ClientId: ${AZUREAD__CLIENTID}
       Graph__Scopes: "User.Read"
       AUTHENTICATION__SCHEMES__BEARER__VALIDAUDIENCES__0 : "http://localhost:8080"
+      AUTHENTICATION__SCHEMES__BEARER__VALIDAUDIENCES__1 : "http://localhost:5144"
       AUTHENTICATION__SCHEMES__BEARER__VALIDISSUER: "dotnet-user-jwts"
       AUTHENTICATION__SCHEMES__BEARER__SIGNINGKEYS__0__ID : "88a400e7"
       AUTHENTICATION__SCHEMES__BEARER__SIGNINGKEYS__0__ISSUER: "dotnet-user-jwts"
