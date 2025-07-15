@@ -77,13 +77,6 @@ export default class UploadPage extends BasePage {
     ).toBeVisible();
   }
 
-  async checkUploadedBatchListIsNotVisible() {
-    await expect(
-      this.page.getByTestId('batch-list-table-container')
-    ).not.toBeVisible();
-    await expect(this.page.getByTestId('batch-list-table')).not.toBeVisible();
-  }
-
   async checkUploadedBatchListContainerIsVisible() {
     await expect(
       this.page.getByRole('heading', { name: 'Manage upload data' })

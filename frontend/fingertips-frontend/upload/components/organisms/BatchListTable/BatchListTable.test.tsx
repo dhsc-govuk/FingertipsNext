@@ -24,4 +24,13 @@ describe('BatchListTable', () => {
       expect(screen.getByText(value.toString())).toBeInTheDocument();
     });
   });
+
+  it('should not render the table if no batches are provided', () => {
+    render(<BatchListTable batches={[]} />);
+
+    expect(
+      screen.queryByTestId('batch-list-table-container')
+    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId('batch-list-table')).not.toBeInTheDocument();
+  });
 });
