@@ -885,10 +885,10 @@ GET http://localhost:5144/indicators/quartiles/all?indicator_ids=90453&area_code
 %}
 
 
-### check quartile calculation for indicator with three segments
+### Check quartile calculation for indicator with three segments
 GET http://localhost:5144/indicators/quartiles?indicator_ids=22401&area_code=E12000004&area_type=regions&ancestor_code=E92000001
 > {%
-    client.test("Calculate Quartile for two indicators", function (callbackfn, thisArg) {
+    client.test("Check quartile calculation for indicator with three segments", function (callbackfn, thisArg) {
         const expected = [
   {
     "sex": {

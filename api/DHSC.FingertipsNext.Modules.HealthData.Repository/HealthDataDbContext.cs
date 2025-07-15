@@ -32,13 +32,5 @@ public class HealthDataDbContext : DbContext
             return HealthMeasure;
         return HealthMeasure.Where(hm => hm.PublishedAt <= DateTime.UtcNow);
     }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-        ArgumentNullException.ThrowIfNull(modelBuilder);
-        modelBuilder.Entity<QuartileDataModel>()
-            .HasKey(q => new { q.IndicatorId, q.SexName });
-    }
 
 }
