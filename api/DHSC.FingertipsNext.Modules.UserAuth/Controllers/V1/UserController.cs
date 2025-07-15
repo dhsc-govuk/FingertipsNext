@@ -29,8 +29,13 @@ namespace DHSC.FingertipsNext.Modules.UserAuth.Controllers.V1
         }
 
         [HttpHead]
-        [Route("indicator/{indicatorId}")]
+        [Route("indicator/{indicatorId:int}")]
         [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
         public IActionResult HasIndicatorPermission(string indicatorId) => new OkResult();
+
+        [HttpHead]
+        [Route("indicator")]
+        [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
+        public IActionResult HasIndicatorPermission([FromQuery(Name = "indicator_ids")] string[] indicatorIds) => new OkResult();
     }
 }

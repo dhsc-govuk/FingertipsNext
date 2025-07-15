@@ -9,6 +9,8 @@ import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
+import { SingleIndicatorBasicTable } from '@/components/charts/BasicTable/SingleIndicatorBasicTable';
+import { singleIndicatorBasicTableIsRequired } from '@/components/charts/BasicTable/helpers/singleIndicatorBasicTableIsRequired';
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -28,10 +30,12 @@ export function OneIndicatorOneAreaViewPlots({
   );
 
   const showLineChartOverTime = lineChartOverTimeIsRequired(searchState);
+  const showBasicTable = singleIndicatorBasicTableIsRequired(searchState);
 
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
+      {showBasicTable ? <SingleIndicatorBasicTable /> : null}
       {showLineChartOverTime ? (
         <>
           <OneIndicatorSegmentationOptions />
