@@ -21,7 +21,9 @@ describe('BatchListTable', () => {
       expect(screen.getByText(header)).toBeInTheDocument();
     });
     Object.values(batchMock).forEach((value) => {
-      expect(screen.getByText(value.toString())).toBeInTheDocument();
+      if (value instanceof Date)
+        expect(screen.getByText(value.toISOString())).toBeInTheDocument();
+      else expect(screen.getByText(value)).toBeInTheDocument();
     });
   });
 

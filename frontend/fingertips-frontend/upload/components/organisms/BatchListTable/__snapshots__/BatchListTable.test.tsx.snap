@@ -81,7 +81,7 @@ exports[`BatchListTable > snapshot test 1`] = `
           <td
             class="Cell-sc-msv0l6-0 gaSlHc"
           >
-            Sat Mar 07 2020 14:22:37 GMT+0000 (Greenwich Mean Time)
+            2020-03-07T14:22:37.123Z
           </td>
           <td
             class="Cell-sc-msv0l6-0 gaSlHc"
@@ -91,7 +91,7 @@ exports[`BatchListTable > snapshot test 1`] = `
           <td
             class="Cell-sc-msv0l6-0 gaSlHc"
           >
-            Sun Mar 08 2020 14:22:37 GMT+0000 (Greenwich Mean Time)
+            2020-03-08T14:22:37.123Z
           </td>
           <td
             class="Cell-sc-msv0l6-0 gaSlHc"

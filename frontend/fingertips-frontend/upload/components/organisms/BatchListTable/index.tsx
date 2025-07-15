@@ -34,9 +34,9 @@ export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
         {batches.map((batch) => (
           <Table.Row key={batch.batchId}>
             <Table.Cell>{batch.originalFilename}</Table.Cell>
-            <Table.Cell>{batch.createdAt.toString()}</Table.Cell>
+            <Table.Cell>{batch.createdAt.toISOString()}</Table.Cell>
             <Table.Cell>{batch.userId}</Table.Cell>
-            <Table.Cell>{batch.publishedAt.toString()}</Table.Cell>
+            <Table.Cell>{batch.publishedAt.toISOString()}</Table.Cell>
             <Table.Cell>{batch.indicatorId}</Table.Cell>
             <Table.Cell>{batch.batchId}</Table.Cell>
             <Table.Cell></Table.Cell>
