@@ -99,7 +99,9 @@ export default class UploadPage extends BasePage {
     await expect(
       this.page.getByRole('button', { name: this.deleteSubmissionButtonText })
     ).toHaveCount(1);
-    await expect(this.page.getByText(fileName)).toBeVisible();
-    await expect(this.page.getByText(indicatorId)).toBeVisible();
+    await expect(this.page.getByRole('cell', { name: fileName })).toBeVisible();
+    await expect(
+      this.page.getByRole('cell', { name: indicatorId })
+    ).toBeVisible();
   }
 }
