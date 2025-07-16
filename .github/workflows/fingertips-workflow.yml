@@ -765,12 +765,12 @@ jobs:
           {
             name        = "AUTH_URL"
             secret_name = null
-            value       = "http://localhost:3000/auth"
+            value       = "http://20.26.160.30/auth/session"
           },
           {
             name        = "NEXT_PUBLIC_AUTH_URL"
             secret_name = null
-            value       = "http://localhost:3000/auth"
+            value       = "http://20.26.160.30/auth/session"
           }
         ]
       container_liveness_probe: |
