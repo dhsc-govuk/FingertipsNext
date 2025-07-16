@@ -6,10 +6,10 @@ import {
 } from '@/generated-sources/ft-api-client';
 import {
   sortHealthDataForAreasByDate,
-  getFirstYearForAreas,
-  getLatestYearForAreas,
   sortHealthDataForAreaByDate,
   AXIS_LABEL_FONT_SIZE,
+  getFirstPeriodForAreas,
+  getLatestPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { generateYAxis } from './generateYAxis';
 import { generateXAxis } from './generateXAxis';
@@ -19,6 +19,7 @@ import { generateSeriesData } from './generateSeriesData';
 import Highcharts from 'highcharts';
 import { getMinAndMaxXAxisEntries } from './getMinAndMaxXAxisEntries';
 import {
+  convertDateToNumber,
   formatterXAxisLabel,
   getPeriodLabel,
 } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
@@ -97,8 +98,9 @@ export function generateStandardLineChartOptions(
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
-  const firstYear = getFirstYearForAreas(sortedHealthIndicatorData);
-  const lastYear = getLatestYearForAreas(sortedHealthIndicatorData);
+
+  const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
+  const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
 
   const sortedEnglandData = optionalParams?.englandData
     ? sortHealthDataForAreaByDate(optionalParams?.englandData)
@@ -107,13 +109,16 @@ export function generateStandardLineChartOptions(
   const filteredSortedEnglandData =
     sortedEnglandData &&
     sortedHealthIndicatorData.length &&
-    firstYear &&
-    lastYear
+    firstDateAsNumber &&
+    lastDateAsNumber
       ? {
           ...sortedEnglandData,
           healthData:
             sortedEnglandData?.healthData.filter(
-              (data) => data.year >= firstYear && data.year <= lastYear
+              (data) =>
+                convertDateToNumber(data.datePeriod?.from) >=
+                  firstDateAsNumber &&
+                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
             ) ?? [],
         }
       : sortedEnglandData;
@@ -123,12 +128,18 @@ export function generateStandardLineChartOptions(
     : undefined;
 
   const filteredSortedGroupData =
-    sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
+    sortedGroupData &&
+    sortedHealthIndicatorData.length &&
+    firstDateAsNumber &&
+    lastDateAsNumber
       ? {
           ...sortedGroupData,
           healthData:
             sortedGroupData?.healthData.filter(
-              (data) => data.year >= firstYear && data.year <= lastYear
+              (data) =>
+                convertDateToNumber(data.datePeriod?.from) >=
+                  firstDateAsNumber &&
+                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
             ) ?? [],
         }
       : sortedGroupData;

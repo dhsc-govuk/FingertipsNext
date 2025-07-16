@@ -206,7 +206,7 @@ const getConfidenceLimitCellSpan = (index: number): number =>
   index === 0 ? 4 : 3;
 
 interface AreaDataMatchedByYear {
-  year: number;
+  dateAsNumber: number;
   period: string;
   areas: (HealthDataPoint | null)[];
   benchmarkValue?: number;
@@ -253,14 +253,17 @@ export function LineChartTable({
     ...healthIndicatorData.flatMap((area) => area.healthData),
   ].map(({ datePeriod }) => convertDateToNumber(datePeriod?.from));
 
-  const firstYear = getFirstPeriodForAreas(healthIndicatorData);
-  const lastYear = getLatestPeriodForAreas(healthIndicatorData);
-  if (!firstYear || !lastYear) {
+  const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
+  const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
+  if (!firstDateAsNumber || !lastDateAsNumber) {
     return null;
   }
 
   const allDatesAsNumbers = [...new Set(allHealthPointDatesAsNumbers)]
-    .filter((year) => year >= firstYear && year <= lastYear)
+    .filter(
+      (dateAsNumber) =>
+        dateAsNumber >= firstDateAsNumber && dateAsNumber <= lastDateAsNumber
+    )
     .sort((a, b) => a - b);
 
   const rowData = allDatesAsNumbers
@@ -278,7 +281,7 @@ export function LineChartTable({
       );
 
       const row: AreaDataMatchedByYear = {
-        year: dateAsNumber,
+        dateAsNumber,
         period,
         areas: [],
         benchmarkValue: englandHealthPoint?.value,
@@ -302,7 +305,7 @@ export function LineChartTable({
 
       return row;
     })
-    .toSorted((a, b) => a.year - b.year);
+    .toSorted((a, b) => a.dateAsNumber - b.dateAsNumber);
 
   const csvData = indicatorMetadata
     ? convertLineChartTableToCsvData(
@@ -447,7 +450,13 @@ export function LineChartTable({
           }
         >
           {rowData.map(
-            ({ year, areas, benchmarkValue, groupValue, period }) => (
+            ({
+              dateAsNumber: year,
+              areas,
+              benchmarkValue,
+              groupValue,
+              period,
+            }) => (
               <Table.Row
                 key={`lineChartTableRow-${year}`}
                 data-testid={`lineChartTableRow-${year}`}

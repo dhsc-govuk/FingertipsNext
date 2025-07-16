@@ -51,7 +51,11 @@ export function sortHealthDataForAreaByDate(
 ): HealthDataForArea {
   return {
     ...data,
-    healthData: data.healthData.toSorted((a, b) => a.year - b.year),
+    healthData: data.healthData.toSorted(
+      (a, b) =>
+        convertDateToNumber(a.datePeriod?.from) -
+        convertDateToNumber(b.datePeriod?.from)
+    ),
   };
 }
 
@@ -70,7 +74,11 @@ export function sortHealthDataPointsByDescendingYear(
   if (!data || data.length === 0) {
     return [];
   }
-  return data.toSorted((a, b) => b.year - a.year);
+  return data.toSorted(
+    (a, b) =>
+      convertDateToNumber(b.datePeriod?.from) -
+      convertDateToNumber(a.datePeriod?.from)
+  );
 }
 
 export function seriesDataForIndicatorIndexAndArea(
