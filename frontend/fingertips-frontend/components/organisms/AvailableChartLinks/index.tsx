@@ -1,37 +1,38 @@
 import { Link, ListItem, UnorderedList } from 'govuk-react';
 import { ZeroMarginParagraph } from '@/components/pages/home';
-import {
-  chartLinks,
-  ChartLinksKeyType,
-} from '@/lib/ChartTitles/chartTitleLinksKey';
+import { chartTitleConfig, ChartTitleConfigType } from '@/lib/ChartTitles/chartTitleEnums';
 
 interface AvailableChartLinksProps {
   availableCharts: string[];
 }
 
 export function filterChartLinks(
-  chartLinks: ChartLinksKeyType,
+  chartTitleConfig: ChartTitleConfigType,
   availableCharts: string[]
 ) {
-  return chartLinks
-    .filter((chart) => availableCharts.includes(chart.key))
+  const chart = Object.entries(chartTitleConfig)
+
+    .filter(([key]) => availableCharts.includes(key))
     .sort(
-      (a, b) => availableCharts.indexOf(a.key) - availableCharts.indexOf(b.key)
+      ([aKey], [bKey]) => availableCharts.indexOf(aKey) - availableCharts.indexOf(bKey)
     );
+  return chart 
 }
 
 export const AvailableChartLinks = ({
   availableCharts,
 }: Readonly<AvailableChartLinksProps>) => {
-  const filteredChartLinks = filterChartLinks(chartLinks, availableCharts);
+  const filteredChartLinks = filterChartLinks(chartTitleConfig, availableCharts);
+  
+  console.log('Filtered Chart Links:', filteredChartLinks);
 
   return (
     <section data-testid="availableChartLinks-component">
       <ZeroMarginParagraph>Available charts</ZeroMarginParagraph>
       <UnorderedList listStyleType='"— "'>
-        {filteredChartLinks.map((link) => (
-          <ListItem key={link.key}>
-            <Link href={link.href}>{link.title}</Link>
+        {filteredChartLinks.map(([key, value]) => (
+          <ListItem key={key}>
+            <Link href={value.href}>{value.title}</Link>
           </ListItem>
         ))}
       </UnorderedList>

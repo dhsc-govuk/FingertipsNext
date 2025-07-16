@@ -4,8 +4,8 @@ import {
   filterChartLinks,
 } from '@/components/organisms/AvailableChartLinks/index';
 import {
+  chartTitleConfig,
   ChartTitleKeysEnum,
-  ChartTitlesEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
 
 const mockAvailableCharts = [
@@ -13,31 +13,52 @@ const mockAvailableCharts = [
   ChartTitleKeysEnum.InequalitiesLineChart,
 ];
 
-const mockChartLinks = [
-  {
-    key: 'population-pyramid-chart',
-    title: ChartTitlesEnum.PopulationPyramid,
+const mockChartLinks = {
+  [ChartTitleKeysEnum.PopulationPyramid]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.ThematicMap].title,
     href: '#population-pyramid-chart',
   },
-  {
-    key: 'inequalities-line-chart',
-    title: ChartTitlesEnum.InequalitiesLineChart,
-    href: '#inequalities-line-chart',
-  },
-  {
-    key: 'line-chart',
-    title: ChartTitlesEnum.LineChart,
+    [ChartTitleKeysEnum.InequalitiesLineChart]: {
+      title: chartTitleConfig[ChartTitleKeysEnum.InequalitiesLineChart].title,
+      href: '#inequalities-line-chart',
+    },
+  [ChartTitleKeysEnum.LineChart]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
     href: '#line-chart',
   },
-];
-
-const mockInvalidChartLinks = [
-  {
-    key: 'not-a-chart',
-    title: ChartTitlesEnum.LineChart,
-    href: '#not-a-chart',
+  [ChartTitleKeysEnum.InequalitiesBarChart]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.InequalitiesBarChart].title,
+    href: '#inequalities-bar-chart',
   },
-];
+  [ChartTitleKeysEnum.BarChartEmbeddedTable]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title,
+    href: '#bar-chart-embedded-table-chart',
+  },
+  [ChartTitleKeysEnum.Heatmap]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.Heatmap].title,
+    href: '#heatmap-chart',
+  },
+  [ChartTitleKeysEnum.SpineChart]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.SpineChart].title,
+    href: '#spine-chart',
+  },
+  [ChartTitleKeysEnum.ThematicMap]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.ThematicMap].title,
+    href: '#thematic-map-chart',
+  },
+  [ChartTitleKeysEnum.BasicTableChart]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title,
+    href: '#basic-table-chart',
+  },
+};
+
+const mockInvalidChartLinks = {
+    ['not-a-chart']: {
+      title: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
+      href: '#not-a-chart',
+    },
+  }
+;
 
 describe('AvailableChartLinks', () => {
   it('should render the Available charts heading', () => {
@@ -65,6 +86,7 @@ describe('filterChartLinks', () => {
     expect(filteredLinks).toHaveLength(2);
     expect(filteredLinks[0].title).toBe(ChartTitlesEnum.LineChart);
     expect(filteredLinks[1].title).toBe(ChartTitlesEnum.InequalitiesLineChart);
+  
   });
 
   it('should sort the filtered chart links based on available charts order', () => {
