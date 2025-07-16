@@ -11,7 +11,10 @@ import {
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
 import { MockedFunction } from 'vitest';
-import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 vi.mock(
   '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable',
@@ -54,7 +57,7 @@ describe('CompareAreasTable', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: ChartTitlesEnum.BarChartEmbeddedTable,
+        name: chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title,
       })
     ).toBeInTheDocument();
     expect(

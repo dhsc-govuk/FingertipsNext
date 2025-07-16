@@ -23,7 +23,10 @@ import {
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
-import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
@@ -95,10 +98,14 @@ describe('Inequalities', () => {
     await testRender(testData);
 
     expect(
-      screen.getByText(ChartTitlesEnum.InequalitiesBarChart)
+      screen.getByText(
+        chartTitleConfig[ChartTitleKeysEnum.InequalitiesBarChart].title
+      )
     ).toBeInTheDocument();
     expect(
-      screen.getByText(ChartTitlesEnum.InequalitiesLineChart)
+      screen.getByText(
+        chartTitleConfig[ChartTitleKeysEnum.InequalitiesLineChart].title
+      )
     ).toBeInTheDocument();
   });
 });

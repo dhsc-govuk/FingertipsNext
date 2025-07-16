@@ -24,7 +24,10 @@ import {
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockQuartileData } from '@/mock/data/mockQuartileData';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 mockUsePathname.mockReturnValue('some-mock-pathname');
 mockSetIsLoading(false);
@@ -198,7 +201,9 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     );
 
     expect(
-      screen.getByRole('heading', { name: ChartTitlesEnum.Heatmap })
+      screen.getByRole('heading', {
+        name: chartTitleConfig[ChartTitleKeysEnum.Heatmap].title,
+      })
     ).toBeInTheDocument();
   });
 
@@ -218,8 +223,12 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 
     const chartLinks = within(availableChartLinks).getAllByRole('link');
 
-    expect(chartLinks[0]).toHaveTextContent(ChartTitlesEnum.Heatmap);
-    expect(chartLinks[1]).toHaveTextContent(ChartTitlesEnum.PopulationPyramid);
+    expect(chartLinks[0]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.Heatmap].title
+    );
+    expect(chartLinks[1]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
+    );
   });
 });
 

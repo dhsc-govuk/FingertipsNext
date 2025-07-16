@@ -24,8 +24,8 @@ import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrap
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { H3 } from 'govuk-react';
 import {
+  chartTitleConfig,
   ChartTitleKeysEnum,
-  ChartTitlesEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
 
@@ -127,7 +127,9 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       ) : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
         <StyleChartWrapper>
-          <H3 id="heatmap-chart">{ChartTitlesEnum.Heatmap}</H3>
+          <H3 id={ChartTitleKeysEnum.Heatmap}>
+            {chartTitleConfig[ChartTitleKeysEnum.Heatmap].title}
+          </H3>
           <Heatmap
             indicatorData={buildHeatmapIndicatorData(
               indicatorData,

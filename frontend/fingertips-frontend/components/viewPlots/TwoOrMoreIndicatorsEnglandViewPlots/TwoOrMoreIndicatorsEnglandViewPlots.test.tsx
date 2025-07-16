@@ -16,7 +16,10 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { render, screen, within } from '@testing-library/react';
 import { healthDataPoint } from '@/lib/mocks';
-import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 const mockEnglandHealthData: HealthDataForArea = {
   areaCode: areaCodeForEngland,
@@ -150,9 +153,11 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
 
       const chartLinks = within(availableChartLinks).getAllByRole('link');
 
-      expect(chartLinks[0]).toHaveTextContent(ChartTitlesEnum.BasicTableChart);
+      expect(chartLinks[0]).toHaveTextContent(
+        chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title
+      );
       expect(chartLinks[1]).toHaveTextContent(
-        ChartTitlesEnum.PopulationPyramid
+        chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
       );
     });
   });

@@ -25,7 +25,10 @@ import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { mockSexData } from '@/mock/data/mockSexData';
-import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 mockUsePathname.mockReturnValue('some-mock-path');
 mockSetIsLoading.mockReturnValue(false);
@@ -106,7 +109,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: ChartTitlesEnum.LineChart,
+        name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
       })
     ).toBeInTheDocument();
 
@@ -156,7 +159,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(highcharts[0]).not.toHaveTextContent('Benchmark');
     expect(
       screen.getByRole('heading', {
-        name: ChartTitlesEnum.LineChart,
+        name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
       })
     ).toBeInTheDocument();
     expect(
@@ -189,7 +192,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await waitFor(() =>
         screen.queryByRole('heading', {
-          name: ChartTitlesEnum.LineChart,
+          name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
         })
       )
     ).not.toBeInTheDocument();
@@ -264,7 +267,9 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       await testRender(mockSearchState, testHealthData, testMetaData);
 
       expect(
-        screen.getByRole('link', { name: ChartTitlesEnum.LineChart })
+        screen.getByRole('link', {
+          name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
+        })
       ).toBeInTheDocument();
     });
 
@@ -281,15 +286,19 @@ describe('OneIndicatorOneAreaViewPlots', () => {
       await testRender(mockSearchState, mockNoHealthData, testMetaData);
 
       expect(
-        screen.queryByRole('link', { name: ChartTitlesEnum.LineChart })
+        screen.queryByRole('link', {
+          name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
+        })
       ).not.toBeInTheDocument();
     });
 
-    it('should render population pyramid link ', async () => {
+    it('should render population pyramid link', async () => {
       await testRender(mockSearchState, testHealthData, testMetaData);
 
       expect(
-        screen.getByRole('link', { name: ChartTitlesEnum.PopulationPyramid })
+        screen.getByRole('link', {
+          name: chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title,
+        })
       ).toBeInTheDocument();
     });
   });

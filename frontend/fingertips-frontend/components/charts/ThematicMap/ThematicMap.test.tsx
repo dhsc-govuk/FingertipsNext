@@ -10,7 +10,10 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { Mock } from 'vitest';
-import { ChartTitlesEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 mockHighChartsWrapperSetup();
 
@@ -69,7 +72,9 @@ describe('ThematicMap', () => {
   it('should render the correct title', async () => {
     testRender();
     const title = await screen.findByRole('heading', { level: 3 });
-    expect(title).toHaveTextContent(ChartTitlesEnum.ThematicMap);
+    expect(title).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.ThematicMap].title
+    );
   });
 
   it('should render the correct chart title', async () => {
