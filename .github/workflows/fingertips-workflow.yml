@@ -334,6 +334,7 @@ jobs:
     environment: development
     runs-on: dev
     if: >
+      false && 
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
@@ -760,6 +761,11 @@ jobs:
             name        = "AUTH_WELLKNOWN"
             secret_name = null
             value       = "https://login.microsoftonline.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0/.well-known/openid-configuration"
+          },
+          {
+            name        = "AUTH_URL"
+            secret_name = null
+            value       = "http://localhost:3000/auth"
           }
         ]
       container_liveness_probe: |
