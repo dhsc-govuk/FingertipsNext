@@ -229,7 +229,7 @@ describe('extract sorted areas, indicators, and data points - benchmark area is 
     expect(areas).toEqual(expectedSortedAreas);
   });
 
-  it('should NOT reorder the indicators this is done in buildHeatmapIndicatorData() ', () => {
+  it('should NOT reorder the indicators this is done in buildHeatmapIndicatorData()', () => {
     const ids = indicators.map((indicator) => indicator.id);
     expect(ids).toEqual([
       'indicator1-sex:persons',

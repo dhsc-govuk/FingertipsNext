@@ -14,7 +14,7 @@ describe('segmentCombinations', () => {
     expect(result).toEqual([]);
   });
 
-  it('should return empty string when sex has no options', () => {
+  it('should return empty string for sex when sex has no options but still populate other values', () => {
     const input = {
       [SegmentationId.Sex]: [],
       [SegmentationId.Age]: ['Child', 'Adult'],
@@ -31,7 +31,7 @@ describe('segmentCombinations', () => {
     ]);
   });
 
-  it('should return empty string when age has no options', () => {
+  it('should return empty string for age when age has no options but still populate other values', () => {
     const input = {
       [SegmentationId.Sex]: ['Persons', 'Male'],
       [SegmentationId.Age]: [],
@@ -48,7 +48,7 @@ describe('segmentCombinations', () => {
     ]);
   });
 
-  it('should return empty string when frequency has no options', () => {
+  it('should return empty string for frequency when frequency has no options but still populate other values', () => {
     const input = {
       [SegmentationId.Sex]: ['Persons', 'Male'],
       [SegmentationId.Age]: ['Child', 'Adult'],

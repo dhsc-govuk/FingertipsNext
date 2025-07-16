@@ -17,9 +17,6 @@ import {
   mockHealthDataForArea_Group,
 } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
-import { mockQuartileData } from '@/mock/data/mockQuartileData';
-import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
@@ -184,8 +181,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     render(
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockQuartiles}
       />
     );
 
