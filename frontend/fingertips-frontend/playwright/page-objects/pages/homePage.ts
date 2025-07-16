@@ -24,8 +24,9 @@ export default class HomePage extends AreaFilter {
   readonly pillContainer = 'pill-container';
   readonly signInButton = 'sign-in-button';
   readonly signOutButton = 'sign-out-button';
-  readonly email = 'test@email.com';
-  readonly password = 'password123';
+  readonly email = 'fallback@email.com';
+  readonly password =
+    process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD || 'password';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -177,34 +178,25 @@ export default class HomePage extends AreaFilter {
     if (signInRequired.administrator) {
       return {
         email:
-          process.env.FINGERTIPS_FRONTEND_USER_WITH_ADMIN_PERMISSIONS_EMAIL ||
+          process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN ||
           this.email,
-        password:
-          process.env
-            .FINGERTIPS_FRONTEND_USER_WITH_ADMIN_PERMISSIONS_PASSWORD ||
-          this.password,
+        password: this.password,
       };
     } else if (signInRequired.userWithIndicatorPermissions) {
       return {
         email:
           process.env
-            .FINGERTIPS_FRONTEND_USER_WITH_INDICATOR_PERMISSIONS_EMAIL ||
+            .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS ||
           this.email,
-        password:
-          process.env
-            .FINGERTIPS_FRONTEND_USER_WITH_INDICATOR_PERMISSIONS_PASSWORD ||
-          this.password,
+        password: this.password,
       };
     } else if (signInRequired.userWithoutIndicatorPermissions) {
       return {
         email:
           process.env
-            .FINGERTIPS_FRONTEND_USER_WITHOUT_INDICATOR_PERMISSIONS_EMAIL ||
+            .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS ||
           this.email,
-        password:
-          process.env
-            .FINGERTIPS_FRONTEND_USER_WITHOUT_INDICATOR_PERMISSIONS_PASSWORD ||
-          this.password,
+        password: this.password,
       };
     } else {
       return {
@@ -238,10 +230,10 @@ export default class HomePage extends AreaFilter {
     );
   }
 
-  async signInToMock(password: string) {
+  async signInToMock() {
     await this.fillAndAwaitLoadingComplete(
       this.page.getByRole('textbox', { name: 'Password' }),
-      password
+      this.password
     );
 
     await this.clickAndAwaitLoadingComplete(

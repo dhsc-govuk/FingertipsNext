@@ -36,7 +36,6 @@ const areaFiltersToSelect: AreaFilters = {
   groupType: 'nhs-sub-integrated-care-boards',
   group: '',
 };
-const password = 'password';
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
   (indicator: RawIndicatorDocument) => ({
@@ -161,7 +160,7 @@ test.describe('Home Page Tests', () => {
       });
 
       await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
-        await homePage.signInToMock(password);
+        await homePage.signInToMock();
 
         await homePage.checkSignOutDisplayed();
       });
