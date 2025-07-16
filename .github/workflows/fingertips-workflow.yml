@@ -766,11 +766,6 @@ jobs:
             name        = "AUTH_URL"
             secret_name = null
             value       = "http://localhost:3000/auth"
-          },
-          {
-            name        = "NEXT_PUBLIC_AUTH_URL"
-            secret_name = null
-            value       = "http://localhost:3000/auth"
           }
         ]
       container_liveness_probe: |
