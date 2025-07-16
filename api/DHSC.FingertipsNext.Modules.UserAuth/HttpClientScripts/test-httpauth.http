@@ -45,7 +45,7 @@ HEAD http://localhost:5144/user/indicator?indicator_ids=123
     console.log(exports.token)
 }}
 GET http://localhost:5144/user/info
-Authorization: Beareer {{token}}
+Authorization: Bearer {{token}}
 > {%
     client.test("Expected authenticated endpoint returns authentication success", function (callbackfn, thisArg) {
         const authHeader = request.headers.findByName('Authorization').getRawValue();
