@@ -6,4 +6,8 @@ export const heatMapText = {
     title: 'Indicator segmentations overview',
     subTitle: 'Segmentation overview of selected indicator',
   },
+  multipleIndicator: {
+    title: 'Overview of indicators and areas',
+    subTitle: 'Overview of selected indicators',
+  },
 };

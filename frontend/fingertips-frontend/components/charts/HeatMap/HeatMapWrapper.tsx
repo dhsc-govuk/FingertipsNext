@@ -11,6 +11,7 @@ import { HeatMap } from '@/components/charts/HeatMap/HeatMap';
 import { buildHeatmapIndicatorData } from '@/components/charts/HeatMap/helpers/buildHeatMapIndicatorData';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
 
 interface HeatMapWrapperProps {
   indicatorMetaData: IndicatorDocument[];
@@ -22,7 +23,7 @@ interface HeatMapWrapperProps {
 export function HeatMapWrapper({
   indicatorMetaData,
   healthData,
-  title = 'Overview of indicators and areas',
+  title = heatMapText.multipleIndicator.title,
   subTitle,
 }: Readonly<HeatMapWrapperProps>) {
   const searchState = useSearchStateParams();

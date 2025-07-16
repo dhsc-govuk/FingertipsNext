@@ -1,11 +1,10 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import { mockUseApiGetHealthDataForAnIndicatorSetup } from '@/mock/utils/mockUseApiGetHealthDataForAnIndicator';
-import { mockUseApiGetIndicatorMetaDataSetup } from '@/mock/utils/mockUseApiGetIndicatorMetaData';
 import { mockUseApiAvailableAreasSetup } from '@/mock/utils/mockUseApiAvailableAreas';
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
+import { mockUseApiGetHealthDataForMultipleIndicatorsSetup } from '@/mock/utils/mockUseApiGetHealthDataForMultipleIndicators';
+import { mockUseApiGetIndicatorMetaDatasSetup } from '@/mock/utils/mockUseApiGetIndicatorMetaDatas';
 //
 import { render, screen } from '@testing-library/react';
-import { SingleIndicatorHeatMap } from './SingleIndicatorHeatMap';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import {
@@ -18,6 +17,18 @@ import { mockSexData } from '@/mock/data/mockSexData';
 import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
 
 import { SearchParams } from '@/lib/searchStateManager';
+import { MultipleIndicatorHeatMap } from '@/components/charts/HeatMap/MultipleIndicatorHeatMap';
+
+const testIndicatorOne = mockIndicatorDocument({
+  indicatorID: '1',
+  indicatorName: 'One',
+});
+const testIndicatorTwo = mockIndicatorDocument({
+  indicatorID: '2',
+  indicatorName: 'Two',
+});
+
+const testIndicators = [testIndicatorOne, testIndicatorTwo];
 
 const testSegments = [
   mockIndicatorSegment({ sex: mockSexData({ value: 'Persons' }) }),
@@ -29,50 +40,45 @@ const testSegments = [
   }),
 ];
 
-const testHealthData = mockIndicatorWithHealthDataForArea({
-  areaHealthData: [
-    mockHealthDataForArea({
-      indicatorSegments: testSegments,
-    }),
-    mockHealthDataForArea_Group({
-      indicatorSegments: testSegments,
-    }),
-    mockHealthDataForArea_England({
-      indicatorSegments: testSegments,
-    }),
-  ],
-});
+const testAreaData = [
+  mockHealthDataForArea({
+    indicatorSegments: testSegments,
+  }),
+  mockHealthDataForArea_Group({
+    indicatorSegments: testSegments,
+  }),
+  mockHealthDataForArea_England({
+    indicatorSegments: testSegments,
+  }),
+];
 
-describe('SingleIndicatorHeatMap', () => {
+const testHealthData = [
+  mockIndicatorWithHealthDataForArea({
+    indicatorId: 1,
+    name: 'One',
+    areaHealthData: testAreaData,
+  }),
+  mockIndicatorWithHealthDataForArea({
+    indicatorId: 2,
+    name: 'Two',
+    areaHealthData: testAreaData,
+  }),
+];
+
+describe('MultipleIndicatorHeatMap', () => {
   beforeEach(() => {
     mockUseSearchStateParams.mockReturnValue({
       [SearchParams.GroupTypeSelected]: 'regions',
-      [SearchParams.GroupSelected]:
-        testHealthData.areaHealthData?.at(1)?.areaCode,
+      [SearchParams.GroupSelected]: testHealthData?.at(0)?.areaHealthData?.at(1)
+        ?.areaCode,
     });
     mockUseApiAvailableAreasSetup();
-    mockUseApiGetIndicatorMetaDataSetup(mockIndicatorDocument());
-    mockUseApiGetHealthDataForAnIndicatorSetup(testHealthData);
-  });
-
-  it('should not render anything if healthData is not available', () => {
-    mockUseApiGetHealthDataForAnIndicatorSetup(undefined);
-
-    const { container } = render(<SingleIndicatorHeatMap />);
-
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('should not render anything if metaData is not available', () => {
-    mockUseApiGetIndicatorMetaDataSetup(undefined);
-
-    const { container } = render(<SingleIndicatorHeatMap />);
-
-    expect(container.firstChild).toBeNull();
+    mockUseApiGetIndicatorMetaDatasSetup(testIndicators);
+    mockUseApiGetHealthDataForMultipleIndicatorsSetup(testHealthData);
   });
 
   it('should render a row for each segment', () => {
-    render(<SingleIndicatorHeatMap />);
+    render(<MultipleIndicatorHeatMap />);
 
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
 
@@ -80,14 +86,17 @@ describe('SingleIndicatorHeatMap', () => {
     const firstCellContents = trs.map((tr) => tr.firstChild?.textContent);
     expect(firstCellContents).toEqual([
       'Indicators',
-      `${testHealthData.name} (Persons)`,
-      `${testHealthData.name} (Male)`,
-      `${testHealthData.name} (Female)`,
+      `${testIndicatorOne.indicatorName} (Persons)`,
+      `${testIndicatorOne.indicatorName} (Male)`,
+      `${testIndicatorOne.indicatorName} (Female)`,
+      `${testIndicatorTwo.indicatorName} (Persons)`,
+      `${testIndicatorTwo.indicatorName} (Male)`,
+      `${testIndicatorTwo.indicatorName} (Female)`,
     ]);
   });
 
   it('should render the correct table headers in the first row', () => {
-    render(<SingleIndicatorHeatMap />);
+    render(<MultipleIndicatorHeatMap />);
 
     const ths = screen.getAllByRole('columnheader');
     const thContent = ths.map((th) => th.textContent);
@@ -101,20 +110,20 @@ describe('SingleIndicatorHeatMap', () => {
     ]);
   });
 
-  it('should render the title and subtitle for singleIndicatorHeatMap', () => {
-    render(<SingleIndicatorHeatMap />);
+  it('should render the title and subtitle for MultipleIndicatorHeatMap', () => {
+    render(<MultipleIndicatorHeatMap />);
 
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: heatMapText.singleIndicator.title,
+        name: heatMapText.multipleIndicator.title,
       })
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('heading', {
         level: 4,
-        name: heatMapText.singleIndicator.subTitle,
+        name: heatMapText.multipleIndicator.subTitle,
       })
     ).toBeInTheDocument();
   });
