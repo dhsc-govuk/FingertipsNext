@@ -53,11 +53,10 @@ export const getHealthDataForIndicator = async (
             reqOptions
           );
 
-          const promiseOfData =
-            indicatorApi.getPublishedHealthDataForAnIndicator(
-              reqOptions,
-              API_CACHE_CONFIG
-            );
+          const promiseOfData = indicatorApi.getHealthDataForAnIndicator(
+            reqOptions,
+            API_CACHE_CONFIG
+          );
           if (seedPromises) {
             seedPromises[queryKey] = promiseOfData;
           }
@@ -138,7 +137,7 @@ async function getLatestYearDataForGroupAndEngland(
 
   if (!areasSelected.includes(areaCodeForEngland)) {
     indicatorRequestArray.push(
-      indicatorApi.getPublishedHealthDataForAnIndicator(
+      indicatorApi.getHealthDataForAnIndicator(
         {
           ...defaultApiRequestParams,
           areaCodes: [areaCodeForEngland],
@@ -151,7 +150,7 @@ async function getLatestYearDataForGroupAndEngland(
 
   if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
     indicatorRequestArray.push(
-      indicatorApi.getPublishedHealthDataForAnIndicator(
+      indicatorApi.getHealthDataForAnIndicator(
         {
           ...defaultApiRequestParams,
           areaCodes: [selectedGroupCode],
@@ -195,7 +194,7 @@ export async function getIndicatorData(
 
   const indicatorRequestArray = chunkArray(areasSelected).map(
     (requestAreas) => {
-      return indicatorApi.getPublishedHealthDataForAnIndicator(
+      return indicatorApi.getHealthDataForAnIndicator(
         {
           indicatorId: Number(indicatorSelected[0]),
           areaCodes: [...requestAreas],
@@ -211,7 +210,7 @@ export async function getIndicatorData(
 
   if (!areasSelected.includes(areaCodeForEngland) && !latestOnly) {
     indicatorRequestArray.push(
-      indicatorApi.getPublishedHealthDataForAnIndicator(
+      indicatorApi.getHealthDataForAnIndicator(
         {
           indicatorId: Number(indicatorSelected[0]),
           areaCodes: [areaCodeForEngland],
@@ -231,7 +230,7 @@ export async function getIndicatorData(
     !latestOnly
   ) {
     indicatorRequestArray.push(
-      indicatorApi.getPublishedHealthDataForAnIndicator(
+      indicatorApi.getHealthDataForAnIndicator(
         {
           indicatorId: Number(indicatorSelected[0]),
           areaCodes: [selectedGroupCode],

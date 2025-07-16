@@ -70,7 +70,7 @@ export default async function OneIndicatorOneAreaView({
           : undefined,
     };
 
-    indicatorData = await indicatorApi.getPublishedHealthDataForAnIndicator(
+    indicatorData = await indicatorApi.getHealthDataForAnIndicator(
       requestOptions,
       API_CACHE_CONFIG
     );

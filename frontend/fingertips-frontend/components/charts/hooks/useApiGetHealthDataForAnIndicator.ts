@@ -33,7 +33,7 @@ export const queryFnHealthDataForAnIndicator =
       ? indicatorsApiInstance.getHealthDataForAnIndicatorIncludingUnpublishedData(
           options
         )
-      : indicatorsApiInstance.getPublishedHealthDataForAnIndicator(options);
+      : indicatorsApiInstance.getHealthDataForAnIndicator(options);
   };
 
 export const useApiGetHealthDataForAnIndicator = (

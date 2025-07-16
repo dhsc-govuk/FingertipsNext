@@ -39,7 +39,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
         [SearchParams.AreasSelected]: testAreas,
       };
 
-      mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue({
+      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue({
         areaHealthData: [],
       });
       await expect(async () => {
@@ -60,7 +60,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
     const mockIndicatorData = {
       areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
     };
-    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
       mockIndicatorData
     );
 
@@ -77,9 +77,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.AreasSelected]: ['E12000004', 'E12000006', 'E12000007'],
     };
 
-    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
-      {}
-    );
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue({});
 
     await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
@@ -90,9 +88,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       ],
     });
 
-    expect(
-      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
-    ).toHaveBeenCalledWith(
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
       {
         areaCodes: ['E12000004', 'E12000006', 'E12000007'],
         indicatorId: 1,
@@ -109,9 +105,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       [SearchParams.AreasSelected]: ['E12000004', 'E12000006'],
     };
 
-    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
-      {}
-    );
+    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue({});
 
     await OneIndicatorTwoOrMoreAreasView({
       searchState: searchState,
@@ -121,9 +115,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       ],
     });
 
-    expect(
-      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
-    ).toHaveBeenCalledWith(
+    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
       {
         areaCodes: ['E12000004', 'E12000006'],
         indicatorId: 1,
