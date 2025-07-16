@@ -1,6 +1,8 @@
 import { Session } from 'next-auth';
 import { signOutHandler, signInHandler } from '@/lib/auth/handlers';
 import { StyledAuthButton } from './AuthButton.styles';
+import { useLoadingState } from '@/context/LoaderContext';
+import { useEffect } from 'react';
 
 interface AuthButtonProps {
   session?: Session;
@@ -11,16 +13,38 @@ export function AuthButton({ session }: Readonly<AuthButtonProps>) {
 }
 
 function SignInButton() {
+  const { setIsLoading } = useLoadingState();
+  useEffect(() => {
+    setIsLoading(false);
+  });
+
   return (
-    <StyledAuthButton data-testid="sign-in-button" onClick={signInHandler}>
+    <StyledAuthButton
+      data-testid="sign-in-button"
+      onClick={() => {
+        setIsLoading(true);
+        signInHandler();
+      }}
+    >
       Sign in
     </StyledAuthButton>
   );
 }
 
 function SignOutButton() {
+  const { setIsLoading } = useLoadingState();
+  useEffect(() => {
+    setIsLoading(false);
+  });
+
   return (
-    <StyledAuthButton data-testid="sign-out-button" onClick={signOutHandler}>
+    <StyledAuthButton
+      data-testid="sign-out-button"
+      onClick={() => {
+        setIsLoading(true);
+        signOutHandler();
+      }}
+    >
       Sign out
     </StyledAuthButton>
   );

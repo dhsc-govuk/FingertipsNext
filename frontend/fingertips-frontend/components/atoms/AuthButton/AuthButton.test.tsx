@@ -2,11 +2,24 @@ import { render } from '@testing-library/react';
 import { AuthButton } from '.';
 import userEvent from '@testing-library/user-event';
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
+import { LoaderContext } from '@/context/LoaderContext';
 
 vi.mock('@/lib/auth/handlers', () => {
   return {
     signInHandler: vi.fn(),
     signOutHandler: vi.fn(),
+  };
+});
+
+const mockSetIsLoading = vi.fn();
+const mockLoaderContext: LoaderContext = {
+  getIsLoading: vi.fn(),
+  setIsLoading: mockSetIsLoading,
+};
+
+vi.mock('@/context/LoaderContext', () => {
+  return {
+    useLoadingState: () => mockLoaderContext,
   };
 });
 
