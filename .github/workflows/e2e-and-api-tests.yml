@@ -106,7 +106,7 @@ jobs:
         if: ${{ !inputs.update_screenshots }}
         working-directory: ./api
         run: |
-          npx httpyac send ./**/*.http --all --json --filter only-failed -o headers --raw --output-failed exchange -v | tee httpyacresults.json
+          npx httpyac send ./**/*.http --all -o headers --raw  
           HTTP_EXIT_CODE=${PIPESTATUS[0]}
 
           # Exit with the same code that httpyac returned
