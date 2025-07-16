@@ -15,7 +15,6 @@ export default class UploadPage extends BasePage {
   private readonly fileUploadLabel = 'Upload a file';
   private readonly uploadButtonText = 'Submit';
   private readonly batchListContainerHeadingText = 'Manage upload data';
-  private readonly batchListTableContainerTestId = 'batch-list-table-container';
   private readonly batchListTableTestId = 'batch-list-table';
   private readonly deleteSubmissionButtonText = 'Delete submission';
 
@@ -81,14 +80,11 @@ export default class UploadPage extends BasePage {
     ).toBeVisible();
   }
 
-  async checkUploadedBatchListContainerIsVisible() {
+  async checkUploadedBatchListContainerIsVisible(fileName: string) {
     await expect(
       this.page.getByRole('heading', {
         name: this.batchListContainerHeadingText,
       })
-    ).toBeVisible();
-    await expect(
-      this.page.getByTestId(this.batchListTableContainerTestId)
     ).toBeVisible();
     await expect(
       this.page.getByTestId(this.batchListTableTestId)
@@ -96,5 +92,8 @@ export default class UploadPage extends BasePage {
     await expect(
       this.page.getByRole('button', { name: this.deleteSubmissionButtonText })
     ).toHaveCount(1);
+    await expect(this.page.getByRole('cell', { name: fileName })).toHaveCount(
+      2
+    );
   }
 }
