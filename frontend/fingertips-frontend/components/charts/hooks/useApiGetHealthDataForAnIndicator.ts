@@ -10,8 +10,6 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
-import { useSession } from 'next-auth/react';
-import { Session } from 'next-auth';
 
 type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
   healthData: IndicatorWithHealthDataForArea | undefined;
@@ -20,8 +18,7 @@ type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
 }>;
 
 export const queryFnHealthDataForAnIndicator =
-  (options: GetHealthDataForAnIndicatorRequest, session?: Session | null) =>
-  async () => {
+  (options: GetHealthDataForAnIndicatorRequest) => async () => {
     const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
     const config: Configuration = new Configuration({
       basePath: apiUrl,
@@ -29,29 +26,19 @@ export const queryFnHealthDataForAnIndicator =
     });
 
     const indicatorsApiInstance = new IndicatorsApi(config);
-    return session
-      ? indicatorsApiInstance.getHealthDataForAnIndicatorIncludingUnpublishedData(
-          options
-        )
-      : indicatorsApiInstance.getHealthDataForAnIndicator(options);
+    return indicatorsApiInstance.getHealthDataForAnIndicator(options);
   };
 
 export const useApiGetHealthDataForAnIndicator = (
   options: GetHealthDataForAnIndicatorRequest
 ) => {
-  const { data: session } = useSession();
-  const queryKey = session
-    ? [
-        queryKeyFromRequestParams(
-          EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-          options
-        ),
-      ]
-    : [queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options)];
+  const queryKey = [
+    queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options),
+  ];
 
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,
-    queryFn: queryFnHealthDataForAnIndicator(options, session),
+    queryFn: queryFnHealthDataForAnIndicator(options),
     enabled: !!options.indicatorId,
   });
 

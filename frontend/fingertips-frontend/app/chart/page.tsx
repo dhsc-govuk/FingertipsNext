@@ -26,7 +26,6 @@ import {
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
-import { auth } from '@/lib/auth';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -35,7 +34,6 @@ export default async function ChartPage(
 ) {
   // We don't want to render this page statically
   await connection();
-  const session = await auth();
 
   try {
     const searchParams = await props.searchParams;
@@ -96,32 +94,21 @@ export default async function ChartPage(
       compareAreasTableIsRequired(searchState)
     ) {
       let healthData: IndicatorWithHealthDataForArea | undefined;
-      let queryKeyLineChart;
       const apiRequestParams = oneIndicatorRequestParams(
         searchState,
         availableAreas ?? []
       );
       try {
-        if (session) {
-          healthData =
-            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-              apiRequestParams,
-              API_CACHE_CONFIG
-            );
-          queryKeyLineChart = queryKeyFromRequestParams(
-            EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-            apiRequestParams
-          );
-        } else {
-          healthData = await indicatorApi.getHealthDataForAnIndicator(
-            apiRequestParams,
-            API_CACHE_CONFIG
-          );
-          queryKeyLineChart = queryKeyFromRequestParams(
-            EndPoints.HealthDataForAnIndicator,
-            apiRequestParams
-          );
-        }
+        healthData = await indicatorApi.getHealthDataForAnIndicator(
+          apiRequestParams,
+          API_CACHE_CONFIG
+        );
+
+        // store data in query cache
+        const queryKeyLineChart = queryKeyFromRequestParams(
+          EndPoints.HealthDataForAnIndicator,
+          apiRequestParams
+        );
         seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
