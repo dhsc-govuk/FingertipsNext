@@ -13,6 +13,7 @@ import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { formatNumber } from '../numberFormatter';
 import { AreaWithoutAreaType } from '../common-types';
+import { convertDateToNumber } from '../timePeriodHelpers/getTimePeriodLabels';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
@@ -196,12 +197,12 @@ export function getLatestPeriod(
 ): number | undefined {
   if (!points || points.length < 1) return undefined;
 
-  const dateAsNumber = points.reduce(
+  const latestDateAsNumber = points.reduce(
     (previous, point) =>
-      Math.max(previous, new Date(point.datePeriod?.from ?? '').getTime()),
-    new Date(points[0].datePeriod?.from ?? '').getTime()
+      Math.max(previous, convertDateToNumber(point.datePeriod?.from)),
+    convertDateToNumber(points[0].datePeriod?.from)
   );
-  return dateAsNumber;
+  return latestDateAsNumber;
 }
 
 export function getFirstYear(
@@ -221,12 +222,12 @@ export function getFirstPeriod(
 ): number | undefined {
   if (!points || points.length < 1) return undefined;
 
-  const dateAsNumber = points.reduce(
+  const firstDateAsNumber = points.reduce(
     (previous, point) =>
-      Math.min(previous, new Date(point.datePeriod?.from ?? '').getTime()),
-    new Date(points[0].datePeriod?.from ?? '').getTime()
+      Math.min(previous, convertDateToNumber(point.datePeriod?.from)),
+    convertDateToNumber(points[0].datePeriod?.from)
   );
-  return dateAsNumber;
+  return firstDateAsNumber;
 }
 
 export function getLatestYearForAreas(

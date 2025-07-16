@@ -43,7 +43,10 @@ import {
   StyledAreaNameHeader,
 } from './BenchmarkingCellWrapper';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
-import { formatterXAxisLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import {
+  convertDateToNumber,
+  formatterXAxisLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -244,13 +247,11 @@ export function LineChartTable({
     groupIndicatorData &&
     groupIndicatorData?.healthData?.length > 0;
 
-  const allHealthPointYears = [
+  const allHealthPointDatesAsNumbers = [
     ...(englandIndicatorData?.healthData ?? []),
     ...(groupIndicatorData?.healthData ?? []),
     ...healthIndicatorData.flatMap((area) => area.healthData),
-  ].map(({ datePeriod }) =>
-    datePeriod ? new Date(datePeriod?.from).getTime() : 0
-  );
+  ].map(({ datePeriod }) => convertDateToNumber(datePeriod?.from));
 
   const firstYear = getFirstPeriodForAreas(healthIndicatorData);
   const lastYear = getLatestPeriodForAreas(healthIndicatorData);
@@ -258,21 +259,26 @@ export function LineChartTable({
     return null;
   }
 
-  const allYears = [...new Set(allHealthPointYears)]
+  const allDatesAsNumbers = [...new Set(allHealthPointDatesAsNumbers)]
     .filter((year) => year >= firstYear && year <= lastYear)
     .sort((a, b) => a - b);
 
-  const rowData = allYears
-    .map((year) => {
+  const rowData = allDatesAsNumbers
+    .map((dateAsNumber) => {
       const englandHealthPoint = englandIndicatorData?.healthData.find(
         (healthPoint) =>
-          new Date(healthPoint.datePeriod?.from ?? '').getTime() === year
+          convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
       );
 
-      const period = formatterXAxisLabel(periodType, year, frequency, 1);
+      const period = formatterXAxisLabel(
+        periodType,
+        dateAsNumber,
+        frequency,
+        1
+      );
 
       const row: AreaDataMatchedByYear = {
-        year,
+        year: dateAsNumber,
         period,
         areas: [],
         benchmarkValue: englandHealthPoint?.value,
@@ -282,7 +288,7 @@ export function LineChartTable({
       healthIndicatorData.forEach((areaData) => {
         const matchByYear = areaData.healthData.find(
           (healthPoint) =>
-            new Date(healthPoint.datePeriod?.from ?? '').getTime() === year
+            convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
         );
         row.areas.push(matchByYear ?? null);
       });
@@ -290,7 +296,7 @@ export function LineChartTable({
       // find the group value for the given year
       const groupMatchedByYear = groupIndicatorData?.healthData.find(
         (healthPoint) =>
-          new Date(healthPoint.datePeriod?.from ?? '').getTime() === year
+          convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
       );
       row.groupValue = groupMatchedByYear?.value;
 

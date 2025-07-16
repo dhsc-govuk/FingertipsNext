@@ -241,6 +241,7 @@ export const formatterXAxisLabel = (
 
   return formatter.datePointLabel(datePeriod, reportingPeriod);
 };
+
 export const getPeriodLabel = (
   periodType: PeriodType,
   collectionFrequency: Frequency
@@ -250,4 +251,10 @@ export const getPeriodLabel = (
   if (!formatter) return '';
 
   return formatter.periodLabelText;
+};
+
+export const convertDateToNumber = (
+  date: Date | string | undefined
+): number => {
+  return new Date(date ?? '').getTime();
 };
