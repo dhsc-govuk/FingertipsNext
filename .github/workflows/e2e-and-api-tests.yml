@@ -90,8 +90,9 @@ jobs:
       - name: Inject development mode settings
         working-directory: ./api/DHSC.FingertipsNext.Api
         run: |
-          echo "JWTS_SIGNING_KEY=$(dotnet user-jwts key  | sed -n "s/^Signing Key: '\(.*\)'/\1/p")" >> $GITHUB_ENV
-          echo JWTS_SIGNING_KEY
+          echo "OUTPUTVAR=$(dotnet user-jwts key  | sed -n "s/^Signing Key: '\(.*\)'/\1/p")" 
+          echo OUTPUTVAR
+          echo OUTPUTVAR >> $GITHUB_ENV 
 
       - name: Start Application Docker services
         run: MOCK_SERVER=false npm run start:app-services
