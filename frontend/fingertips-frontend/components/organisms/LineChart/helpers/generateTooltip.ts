@@ -12,7 +12,7 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
-import { formatterXAxisLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 const getBenchmarkForYear = (
   year: number,
@@ -83,7 +83,7 @@ function generateTooltipPointForSelectedAreas(
   measurementUnit?: string
 ) {
   return (point: Highcharts.Point, symbol: string) => {
-    const period = formatterXAxisLabel(periodType, point.x, frequency, 1);
+    const period = formatDatePointLabel(periodType, point.x, frequency, 1);
 
     return [
       `

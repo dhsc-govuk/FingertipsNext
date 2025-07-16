@@ -3,18 +3,20 @@ import {
   Frequency,
   PeriodType,
 } from '@/generated-sources/ft-api-client';
-import { format, addYears, subMonths, addQuarters, subDays } from 'date-fns';
+import {
+  format,
+  addYears,
+  subMonths,
+  addQuarters,
+  subDays,
+  addMonths,
+} from 'date-fns';
 
 /**
  * The following types are temporary.
  * Once the swagger has been updated then these types will come from the generated code.
  */
 export type ReportingPeriod = 1 | 3 | 5;
-
-type TimePeriodLabels = {
-  periodLabelText: string;
-  datePointLabel: string;
-};
 
 function getRollingYears(date: Date) {
   const year = date.getFullYear();
@@ -170,7 +172,7 @@ const labelFormatters: {
       datePointLabel: (datePeriod, reportingPeriod) => {
         const fromDate = new Date(datePeriod.from);
         fromDate.setFullYear(fromDate.getFullYear() - 1);
-        const dayMonth = format(datePeriod.to, 'dd MMM');
+        const dayMonth = format(datePeriod.from, 'dd MMM');
 
         if (reportingPeriod === 1) {
           return `${dayMonth} ${getRollingYears(fromDate)}`;
@@ -197,46 +199,36 @@ const labelFormatters: {
   },
 };
 
-export const getTimePeriodLabels = (
-  datePeriod: DatePeriod | undefined,
-  collectionFrequency: Frequency,
-  reportingPeriod: ReportingPeriod
-): TimePeriodLabels => {
-  if (!datePeriod) return { periodLabelText: '', datePointLabel: '' };
+const calculateToDate = (fromDate: Date, frequency: Frequency): Date => {
+  let toDate = new Date();
+  if (frequency === Frequency.Quarterly) {
+    toDate = addQuarters(fromDate, 1);
+  } else if (frequency === Frequency.Monthly) {
+    toDate = addMonths(fromDate, 1);
+  } else {
+    toDate = addYears(fromDate, 1);
+  }
 
-  const formatter = labelFormatters[datePeriod.type]?.[collectionFrequency];
-
-  if (!formatter) return { periodLabelText: '', datePointLabel: 'X' };
-
-  return {
-    periodLabelText: formatter.periodLabelText,
-    datePointLabel: formatter.datePointLabel(datePeriod, reportingPeriod),
-  };
+  return subDays(toDate, 1);
 };
 
-export const formatterXAxisLabel = (
+export const formatDatePointLabel = (
   periodType: PeriodType,
-  fromDate: number,
-  collectionFrequency: Frequency,
+  fromDateAsNumber: number,
+  frequency: Frequency,
   reportingPeriod: ReportingPeriod
 ): string => {
-  const formatter = labelFormatters[periodType]?.[collectionFrequency];
+  const formatter = labelFormatters[periodType]?.[frequency];
 
-  if (!formatter) return '';
+  if (!formatter) return 'X';
 
-  let toDate = new Date();
-  if (collectionFrequency === Frequency.Quarterly) {
-    toDate = addQuarters(new Date(fromDate), 1);
-    toDate = subDays(toDate, 1);
-  } else {
-    toDate = addYears(new Date(fromDate), 1);
-    toDate = subDays(toDate, 1);
-  }
+  const fromDate = new Date(fromDateAsNumber);
+  const toDate = calculateToDate(fromDate, frequency);
 
   const datePeriod: DatePeriod = {
     type: periodType,
-    from: new Date(fromDate),
-    to: new Date(toDate),
+    from: fromDate,
+    to: toDate,
   };
 
   return formatter.datePointLabel(datePeriod, reportingPeriod);

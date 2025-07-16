@@ -20,7 +20,7 @@ import Highcharts from 'highcharts';
 import { getMinAndMaxXAxisEntries } from './getMinAndMaxXAxisEntries';
 import {
   convertDateToNumber,
-  formatterXAxisLabel,
+  formatDatePointLabel,
   getPeriodLabel,
 } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
@@ -157,14 +157,14 @@ export function generateStandardLineChartOptions(
   const periodLabel = getPeriodLabel(periodType, frequency);
   const periodLabelText = periodLabel ? `${periodLabel} ` : '';
 
-  const fromDateLabel = formatterXAxisLabel(
+  const fromDateLabel = formatDatePointLabel(
     periodType,
     minXAxisEntries,
     frequency,
     1
   );
 
-  const toDateLabel = formatterXAxisLabel(
+  const toDateLabel = formatDatePointLabel(
     periodType,
     maxXAxisEntries,
     frequency,

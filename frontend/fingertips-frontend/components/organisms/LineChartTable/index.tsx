@@ -45,7 +45,7 @@ import {
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import {
   convertDateToNumber,
-  formatterXAxisLabel,
+  formatDatePointLabel,
 } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export enum LineChartTableHeadingEnum {
@@ -273,7 +273,7 @@ export function LineChartTable({
           convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
       );
 
-      const period = formatterXAxisLabel(
+      const period = formatDatePointLabel(
         periodType,
         dateAsNumber,
         frequency,

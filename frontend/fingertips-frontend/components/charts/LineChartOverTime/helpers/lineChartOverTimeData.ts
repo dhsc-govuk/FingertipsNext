@@ -11,7 +11,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { AxisLabelsFormatterContextObject } from 'highcharts';
-import { formatterXAxisLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
@@ -76,7 +76,7 @@ export const lineChartOverTimeData = (
       xAxisLabelFormatter: function (
         this: AxisLabelsFormatterContextObject
       ): string {
-        const xAxisLabel = formatterXAxisLabel(
+        const xAxisLabel = formatDatePointLabel(
           periodType,
           this.value as number,
           frequency,
