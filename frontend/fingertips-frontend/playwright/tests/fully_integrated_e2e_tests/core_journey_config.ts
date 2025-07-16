@@ -32,7 +32,7 @@ export const coreTestJourneys: TestParameters[] = [
     ],
     checkExports: true,
     typeOfInequalityToSelect: InequalitiesTypes.Sex,
-    signInToCheckUnpublishedData: { administrator: true }, // this journey requires sign in to view the unpublished data
+    signInAsUserToCheckUnpublishedData: { administrator: true }, // this journey requires sign in to view the unpublished data
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,

@@ -46,7 +46,7 @@ test.describe(
         areaFiltersToSelect,
         checkExports,
         typeOfInequalityToSelect,
-        signInToCheckUnpublishedData,
+        signInAsUserToCheckUnpublishedData,
       }) => {
         test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
           homePage,
@@ -65,7 +65,9 @@ test.describe(
             await homePage.navigateToHomePage();
             await homePage.checkOnHomePage();
 
-            await homePage.signInIfRequired(signInToCheckUnpublishedData!);
+            await homePage.signInIfRequired(
+              signInAsUserToCheckUnpublishedData!
+            );
 
             await homePage.searchForIndicators(
               searchMode,

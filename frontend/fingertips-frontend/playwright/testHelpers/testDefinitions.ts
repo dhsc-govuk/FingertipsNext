@@ -60,7 +60,7 @@ export interface TestParameters {
   areaFiltersToSelect?: AreaFilters;
   checkExports?: boolean;
   typeOfInequalityToSelect?: InequalitiesTypes;
-  signInToCheckUnpublishedData?: SignInAs;
+  signInAsUserToCheckUnpublishedData?: SignInAs;
 }
 
 export enum PersistentCsvHeaders {
