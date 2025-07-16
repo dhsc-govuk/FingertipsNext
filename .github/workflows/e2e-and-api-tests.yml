@@ -32,16 +32,16 @@ on:
         required: false
       fingertips_e2e_automation_password:
         description: 'Password for all three of the fingertips e2e automation user accounts'
-        required: false
+        required: true
       fingertips_e2e_automation_email_address_admin:
         description: 'email address for the fingertips e2e automation user account with admin permissions'
-        required: false
+        required: true
       fingertips_e2e_automation_email_address_assigned_indicators:
         description: 'email address for the fingertips e2e automation user account with assigned indicators permissions'
-        required: false
+        required: true
       fingertips_e2e_automation_email_address_no_indicators:
         description: 'email address for the fingertips e2e automation user account with no indicators permissions'
-        required: false
+        required: true
 
 jobs:
   execute-e2e-tests-docker:
