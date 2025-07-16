@@ -123,16 +123,18 @@ internal static class BenchmarkComparisonEngine
             if (benchmarkSegment == null)
             {
                 newIndicatorSegments.Add(targetSegment);
-                continue;
             }
-            var newSegment = ProcessBenchmarkComparisonsForAreaSegment(
-                targetSegment,
-                benchmarkSegment,
-                benchmarkHealthData.AreaCode,
-                benchmarkHealthData.AreaName,
-                polarity
-            );
-            newIndicatorSegments.Add(newSegment);
+            else
+            {
+                var newSegment = ProcessBenchmarkComparisonsForAreaSegment(
+                    targetSegment,
+                    benchmarkSegment,
+                    benchmarkHealthData.AreaCode,
+                    benchmarkHealthData.AreaName,
+                    polarity
+                );
+                newIndicatorSegments.Add(newSegment);
+            }
         }
 
         return new HealthDataForArea
@@ -150,7 +152,7 @@ internal static class BenchmarkComparisonEngine
             return null;
 
         return benchmarkSegments.FirstOrDefault(
-            segment => segment.Sex.Value == targetSegment.Sex.Value
+            segment => segment.Sex.Value == targetSegment.Sex.Value & segment.Age.Value == targetSegment.Age.Value
         );
     }
 
@@ -174,8 +176,7 @@ internal static class BenchmarkComparisonEngine
             var benchmarkDataPoint = benchmarkSegment.HealthData.FirstOrDefault(benchmark =>
                 benchmark.DatePeriod.To == targetDataPoint.DatePeriod.To &&
                 benchmark.DatePeriod.From == targetDataPoint.DatePeriod.From &&
-                benchmark.Deprivation.IsAggregate &&
-                benchmark.AgeBand.IsAggregate
+                benchmark.Deprivation.IsAggregate
             );
 
             if (benchmarkDataPoint == null || benchmarkDataPoint == targetDataPoint)
@@ -206,6 +207,7 @@ internal static class BenchmarkComparisonEngine
 
         return new IndicatorSegment
         {
+            Age = targetSegment.Age,
             Sex = targetSegment.Sex,
             IsAggregate = targetSegment.IsAggregate,
             HealthData = newHealthDataPoints

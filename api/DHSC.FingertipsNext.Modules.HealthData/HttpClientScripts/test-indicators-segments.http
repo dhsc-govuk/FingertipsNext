@@ -20,18 +20,18 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=
         client.assert(response.status === 200, "Response status is not 200");
 
         const expectedResults = [ 
-            {areaCode:"E12000007", sex:"Female", from:"2020-04-01", value:15.7},  
-            {areaCode:"E12000007", sex:"Female", from:"2021-04-01", value:14.4},  
-            {areaCode:"E12000007", sex:"Female", from:"2022-04-01", value:14.1},  
-            {areaCode:"E12000007", sex:"Female", from:"2023-04-01", value:14.4},  
-            {areaCode:"E12000007", sex:"Male", from:"2020-04-01", value:16.6},  
-            {areaCode:"E12000007", sex:"Male", from:"2021-04-01", value:15.5},  
-            {areaCode:"E12000007", sex:"Male", from:"2022-04-01", value:14.9},  
-            {areaCode:"E12000007", sex:"Male", from:"2023-04-01", value:15.3},  
-            {areaCode:"E12000007", sex:"Persons", from:"2020-04-01", value:16.1},  
-            {areaCode:"E12000007", sex:"Persons", from:"2021-04-01", value:14.9},  
-            {areaCode:"E12000007", sex:"Persons", from:"2022-04-01", value:14.5},  
-            {areaCode:"E12000007", sex:"Persons", from:"2023-04-01", value:14.8},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2020-04-01", value:15.7},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2021-04-01", value:14.4},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2022-04-01", value:14.1},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2023-04-01", value:14.4},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2020-04-01", value:16.6},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2021-04-01", value:15.5},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2022-04-01", value:14.9},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2023-04-01", value:15.3},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2020-04-01", value:16.1},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2021-04-01", value:14.9},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2022-04-01", value:14.5},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2023-04-01", value:14.8},  
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
@@ -46,10 +46,10 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
-                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+                `failed for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.from}`
             );
 
         })
@@ -63,18 +63,18 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&to_date=202
         client.assert(response.status === 200, "Response status is not 200");
 
         const expectedResults = [ 
-            {areaCode:"E12000007", sex:"Female", from:"2020-04-01", value:15.7},  
-            {areaCode:"E12000007", sex:"Female", from:"2021-04-01", value:14.4},  
-            {areaCode:"E12000007", sex:"Male", from:"2020-04-01", value:16.6},  
-            {areaCode:"E12000007", sex:"Male", from:"2021-04-01", value:15.5},  
-            {areaCode:"E12000007", sex:"Persons", from:"2020-04-01", value:16.1},  
-            {areaCode:"E12000007", sex:"Persons", from:"2021-04-01", value:14.9},  
-            {areaCode:"E92000001", sex:"Female", from:"2020-04-01", value:15.2},  
-            {areaCode:"E92000001", sex:"Female", from:"2021-04-01", value:14.2},  
-            {areaCode:"E92000001", sex:"Male", from:"2020-04-01", value:15.7},  
-            {areaCode:"E92000001", sex:"Male", from:"2021-04-01", value:14.5},  
-            {areaCode:"E92000001", sex:"Persons", from:"2020-04-01", value:15.4},  
-            {areaCode:"E92000001", sex:"Persons", from:"2021-04-01", value:14.3},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2020-04-01", value:15.7},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2021-04-01", value:14.4},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2020-04-01", value:16.6},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2021-04-01", value:15.5},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2020-04-01", value:16.1},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2021-04-01", value:14.9},  
+            {areaCode:"E92000001", age:"All ages", sex:"Female", from:"2020-04-01", value:15.2},  
+            {areaCode:"E92000001", age:"All ages", sex:"Female", from:"2021-04-01", value:14.2},  
+            {areaCode:"E92000001", age:"All ages", sex:"Male", from:"2020-04-01", value:15.7},  
+            {areaCode:"E92000001", age:"All ages", sex:"Male", from:"2021-04-01", value:14.5},  
+            {areaCode:"E92000001", age:"All ages", sex:"Persons", from:"2020-04-01", value:15.4},  
+            {areaCode:"E92000001", age:"All ages", sex:"Persons", from:"2021-04-01", value:14.3},  
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
@@ -89,10 +89,10 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&to_date=202
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
-                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+                `failed for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.from}`
             );
 
         })
@@ -106,8 +106,8 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=
         client.assert(response.status === 200, "Response status is not 200");
 
         const expectedResults = [ 
-            {areaCode:"N85008", sex:"Female", from:"2022-04-01", value:74.7899159663866},  
-            {areaCode:"N85008", sex:"Female", from:"2023-04-01", value:76.1904761904762},  
+            {areaCode:"N85008", age:"53-70 yrs", sex:"Female", from:"2022-04-01", value:74.7899159663866},  
+            {areaCode:"N85008", age:"53-70 yrs", sex:"Female", from:"2023-04-01", value:76.1904761904762},  
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
@@ -122,10 +122,10 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
-                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+                `failed for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.from}`
             );
 
         })
@@ -139,10 +139,10 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_codes=U79
         client.assert(response.status === 200, "Response status is not 200");
 
         const expectedResults = [ 
-            {areaCode:"N85008", sex:"Female", from:"2022-04-01", value:74.7899159663866},  
-            {areaCode:"N85008", sex:"Female", from:"2023-04-01", value:76.1904761904762},  
-            {areaCode:"U79121", sex:"Female", from:"2022-04-01", value:74.4345081536034},  
-            {areaCode:"U79121", sex:"Female", from:"2023-04-01", value:76.4550264550265},  
+            {areaCode:"N85008", age:"53-70 yrs", sex:"Female", from:"2022-04-01", value:74.7899159663866},  
+            {areaCode:"N85008", age:"53-70 yrs", sex:"Female", from:"2023-04-01", value:76.1904761904762},  
+            {areaCode:"U79121", age:"53-70 yrs", sex:"Female", from:"2022-04-01", value:74.4345081536034},  
+            {areaCode:"U79121", age:"53-70 yrs", sex:"Female", from:"2023-04-01", value:76.4550264550265},  
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
@@ -157,10 +157,10 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&area_codes=U79
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
-                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+                `failed for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.from}`
             );
 
         })
@@ -175,18 +175,18 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=
         client.assert(response.status === 200, "Response status is not 200");
 
         const expectedResults = [ 
-            {areaCode:"E12000007", sex:"Female", from:"2020-04-01", value:15.7},  
-            {areaCode:"E12000007", sex:"Female", from:"2021-04-01", value:14.4},  
-            {areaCode:"E12000007", sex:"Female", from:"2022-04-01", value:14.1},  
-            {areaCode:"E12000007", sex:"Female", from:"2023-04-01", value:14.4},  
-            {areaCode:"E12000007", sex:"Male", from:"2020-04-01", value:16.6},  
-            {areaCode:"E12000007", sex:"Male", from:"2021-04-01", value:15.5},  
-            {areaCode:"E12000007", sex:"Male", from:"2022-04-01", value:14.9},  
-            {areaCode:"E12000007", sex:"Male", from:"2023-04-01", value:15.3},  
-            {areaCode:"E12000007", sex:"Persons", from:"2020-04-01", value:16.1},  
-            {areaCode:"E12000007", sex:"Persons", from:"2021-04-01", value:14.9},  
-            {areaCode:"E12000007", sex:"Persons", from:"2022-04-01", value:14.5},  
-            {areaCode:"E12000007", sex:"Persons", from:"2023-04-01", value:14.8},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2020-04-01", value:15.7},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2021-04-01", value:14.4},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2022-04-01", value:14.1},  
+            {areaCode:"E12000007", age:"All ages", sex:"Female", from:"2023-04-01", value:14.4},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2020-04-01", value:16.6},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2021-04-01", value:15.5},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2022-04-01", value:14.9},  
+            {areaCode:"E12000007", age:"All ages", sex:"Male", from:"2023-04-01", value:15.3},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2020-04-01", value:16.1},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2021-04-01", value:14.9},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2022-04-01", value:14.5},  
+            {areaCode:"E12000007", age:"All ages", sex:"Persons", from:"2023-04-01", value:14.8},  
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
@@ -201,10 +201,10 @@ GET http://localhost:5144/indicators/41101/data?from_date=2020-01-01&area_codes=
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age)
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value == expected.value,
-                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+                `failed for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.from}`
             );
 
         })
@@ -219,19 +219,27 @@ GET http://localhost:5144/indicators/93015/data?from_date=2018-11-01&to_date=201
         client.assert(response.status === 200, "Response status is not 200");
 
         const expectedResults = [ 
-            {areaCode:"E92000001", sex:"Female", from:"2018-11-01", imd:11, value:22.39396},  
-            {areaCode:"E92000001", sex:"Male", from:"2018-11-01", imd:11, value:20.20188},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:11, value:21.39067},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:10, value:30.98408},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:9, value:25.67045},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:8, value:22.77385},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:7, value:20.73382},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:6, value:19.78991},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:5, value:19.36575},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:4, value:17.98728},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:3, value:18.12104},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:2, value:17.41959},  
-            {areaCode:"E92000001", sex:"Persons", from:"2018-11-01", imd:1, value:15.88334},  
+            {areaCode:"E92000001", age:"19-24 yrs", sex:"Persons", from:"2018-11-01", imd:11, value:16.27572},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Female", from:"2018-11-01", imd:11, value:22.39396},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Male", from:"2018-11-01", imd:11, value:20.20188},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:11, value:21.39067},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:10, value:30.98408},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:9, value:25.67045},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:8, value:22.77385},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:7, value:20.73382},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:6, value:19.78991},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:5, value:19.36575},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:4, value:17.98728},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:3, value:18.12104},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:2, value:17.41959},  
+            {areaCode:"E92000001", age:"19+ yrs", sex:"Persons", from:"2018-11-01", imd:1, value:15.88334},  
+            {areaCode:"E92000001", age:"25-34 yrs", sex:"Persons", from:"2018-11-01", imd:11, value:19.21716},  
+            {areaCode:"E92000001", age:"35-44 yrs", sex:"Persons", from:"2018-11-01", imd:11, value:18.86875},  
+            {areaCode:"E92000001", age:"45-54 yrs", sex:"Persons", from:"2018-11-01", imd:11, value:18.26623},  
+            {areaCode:"E92000001", age:"55-64 yrs", sex:"Persons", from:"2018-11-01", imd:11, value:21.18175},  
+            {areaCode:"E92000001", age:"65-74 yrs", sex:"Persons", from:"2018-11-01", imd:11, value:21.46176},  
+            {areaCode:"E92000001", age:"75-84 yrs", sex:"Persons", from:"2018-11-01", imd:11, value:34.40169},  
+            {areaCode:"E92000001", age:"85+ yrs", sex:"Persons", from:"2018-11-01", imd:11, value:57.41861},  
         ];
 
         var numHealthDataPoints = response.body.areaHealthData
@@ -246,13 +254,13 @@ GET http://localhost:5144/indicators/93015/data?from_date=2018-11-01&to_date=201
         expectedResults.forEach(expected =>{
             client.assert(
                 response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
-                .indicatorSegments.find(segment => segment.sex.value == expected.sex)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age)
                 .healthData.find(dataPoint => 
                     dataPoint.datePeriod.from === expected.from && 
                     dataPoint.deprivation.sequence== expected.imd
                     )
                 .value == expected.value,
-                `failed for ${expected.areaCode}:${expected.sex}:${expected.from}`
+                `failed for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.from}`
             );
 
         })

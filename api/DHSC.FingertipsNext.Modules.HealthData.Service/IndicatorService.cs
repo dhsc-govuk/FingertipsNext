@@ -176,23 +176,27 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                     AreaCode = areaGroup.Key.code,
                     AreaName = areaGroup.Key.name,
                     HealthData = healthDataMapper.Map(areaGroup.ToList())
-                    .Where(dataPoint => dataPoint.Sex.IsAggregate)
                     .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                    .Where(dataPoint => dataPoint.IsAggregate & dataPoint.AgeBand.IsAggregate)
                     .ToList(),
                     IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
                     {
+                        ageName = healthMeasure.AgeDimensionName,
+                        ageIsAggregate = healthMeasure.AgeDimensionIsAggregate,
                         sexName = healthMeasure.SexDimensionName,
-                        isAggregate = healthMeasure.SexDimensionIsAggregate
+                        sexIsAggregate = healthMeasure.SexDimensionIsAggregate
                     })
                 .Select(segmentGroup => new IndicatorSegment
                 {
-                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.isAggregate },
-                    IsAggregate = segmentGroup.Key.isAggregate,
+                    Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
+                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
+                    IsAggregate = segmentGroup.Key.ageIsAggregate & segmentGroup.Key.sexIsAggregate,
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())
                       .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                       .ToList()
                 })
                 .OrderBy(segment => segment.Sex.Value)
+                .ThenBy(segment => segment.Age.Value)
                 .ToList()
                 })
                 .ToList();
@@ -239,22 +243,27 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 AreaName = areaGroup.Key.name,
                 HealthData = healthDataMapper.Map(areaGroup.ToList())
                     .Where(hdp => hdp.Sex.IsAggregate || inequalitiesList.Contains("sex"))
+                    .Where(hdp => hdp.AgeBand.IsAggregate || inequalitiesList.Contains("age"))
                     .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                     .ToList(),
                 IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
                 {
+                    ageName = healthMeasure.AgeDimension.Name,
+                    ageIsAggregate = healthMeasure.AgeDimension.IsAggregate,
                     sexName = healthMeasure.SexDimension.Name,
-                    isAggregate = healthMeasure.SexDimension.IsAggregate
+                    sexIsAggregate = healthMeasure.SexDimension.IsAggregate
                 })
                 .Select(segmentGroup => new IndicatorSegment
                 {
-                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.isAggregate },
-                    IsAggregate = segmentGroup.Key.isAggregate,
+                    Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
+                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
+                    IsAggregate = segmentGroup.Key.ageIsAggregate & segmentGroup.Key.sexIsAggregate,
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())
                       .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                       .ToList()
                 })
                 .OrderBy(segment => segment.Sex.Value)
+                .OrderBy(segment => segment.Age.Value)
                 .ToList()
             })
             .ToList();
