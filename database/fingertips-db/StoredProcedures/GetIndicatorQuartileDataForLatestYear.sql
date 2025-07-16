@@ -141,6 +141,8 @@ HealthData AS (
         NTILE(4) OVER(
             PARTITION BY 
             hm.indicatorKey,
+            PARTITION BY 
+            hm.indicatorKey,
             fromDate.Date,
             toDate.Date,
             hm.AgeKey,
@@ -260,6 +262,7 @@ LEFT JOIN
 LEFT JOIN
 	dbo.AgeDimension AS ageDim ON ageDim.AgeKey = qd.AgeKey
 LEFT JOIN
+	dbo.SexDimension AS sexDim ON sexDim.SexKey = qd.SexKey
 	dbo.SexDimension AS sexDim ON sexDim.SexKey = qd.SexKey
 ORDER BY 
     rii.IndicatorId, ageDim.Name, sexDim.Name

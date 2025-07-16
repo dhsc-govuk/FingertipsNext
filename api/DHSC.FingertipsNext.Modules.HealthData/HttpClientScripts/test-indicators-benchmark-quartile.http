@@ -19,6 +19,9 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
                 "type": "Financial",
                 "from": "2023-04-01",
                 "to": "2024-03-31"
+                "type": "Financial",
+                "from": "2023-04-01",
+                "to": "2024-03-31"
             },
             "q0Value": 15.7894736842105,
             "q1Value": 64.9253731343284,
@@ -381,6 +384,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
             "q4Value": null,
             "areaValue": null,
             "ancestorValue": null,
+            "englandValue": null,
             "englandValue": null,
             "indicatorId": 90453,
             "polarity": "NoJudgement",
