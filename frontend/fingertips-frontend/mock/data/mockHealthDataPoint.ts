@@ -60,20 +60,9 @@ export const mockDatePeriod = (
 
 export const mockHealthDataPoints = (
   manyOverrides: (Partial<HealthDataPoint> | number | undefined)[]
-) =>
-  manyOverrides.map((overrides) => {
-    if (overrides === undefined || typeof overrides === 'number') {
-      return mockHealthDataPoint({ year: overrides, value: overrides });
-    }
-
-    return mockHealthDataPoint(overrides);
-  });
-
-export const mockHealthDataPointsNew = (
-  manyOverrides: (Partial<HealthDataPoint> | number | undefined | DatePeriod)[]
-) =>
-  manyOverrides.map((overrides) => {
-    if (overrides === undefined || typeof overrides === 'number') {
+) => {
+  return manyOverrides.map((overrides) => {
+    if (overrides == undefined || typeof overrides === 'number') {
       return mockHealthDataPoint({
         year: overrides,
         value: overrides,
@@ -81,12 +70,11 @@ export const mockHealthDataPointsNew = (
       });
     }
 
-    if (typeof overrides === 'object') {
-      const datePeriodOverride = overrides as DatePeriod;
-      return mockHealthDataPoint({
-        datePeriod: mockDatePeriod(datePeriodOverride),
-      });
-    }
+    const override: Partial<HealthDataPoint> = {
+      ...overrides,
+      datePeriod: mockDatePeriod(overrides.year),
+    };
 
-    return mockHealthDataPoint(overrides);
+    return mockHealthDataPoint(override);
   });
+};

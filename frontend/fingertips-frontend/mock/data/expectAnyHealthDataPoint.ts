@@ -1,14 +1,8 @@
 import { expectAnyHealthPointInequality } from '@/mock/data/expectAnyHealthPointInequality';
 import { expectAnyHealthPointBenchmark } from '@/mock/data/expectAnyHealthPointBenchmark';
 import { expectAnyHealthPointDeprivation } from '@/mock/data/expectAnyHealthPointDeprivation';
-import { DatePeriod, HealthDataPoint } from '@/generated-sources/ft-api-client';
-
-export const expectAnyDatePeriod = (overrides?: Partial<DatePeriod>) => ({
-  type: expect.any(String),
-  from: expect.any(Date),
-  to: expect.any(Date),
-  ...overrides,
-});
+import { HealthDataPoint } from '@/generated-sources/ft-api-client';
+import { expectAnyDatePeriod } from './expectAnyDatePeriod';
 
 export const expectAnyHealthDataPoint = (
   overrides?: Partial<HealthDataPoint>

@@ -15,7 +15,7 @@ import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
-import { mockHealthDataPointsNew } from '@/mock/data/mockHealthDataPoint';
+import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
@@ -70,20 +70,20 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
     mockHealthDataForArea({
       areaCode: 'E12000004',
       areaName: 'Area1',
-      healthData: mockHealthDataPointsNew([{ year: 2023 }, { year: 2022 }]),
+      healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
       indicatorSegments: [
         mockIndicatorSegment({
-          healthData: mockHealthDataPointsNew([{ year: 2023 }, { year: 2022 }]),
+          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
         }),
       ],
     }),
     mockHealthDataForArea({
       areaCode: 'E12000006',
       areaName: 'Area2',
-      healthData: mockHealthDataPointsNew([{ year: 2023 }, { year: 2022 }]),
+      healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
       indicatorSegments: [
         mockIndicatorSegment({
-          healthData: mockHealthDataPointsNew([{ year: 2023 }, { year: 2022 }]),
+          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
         }),
       ],
     }),
