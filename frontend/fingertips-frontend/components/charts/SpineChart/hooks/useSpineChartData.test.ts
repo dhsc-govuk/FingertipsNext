@@ -57,7 +57,7 @@ describe('useSpineChartData', () => {
     seedData['/indicator/22401'] = indicator2;
 
     const { result } = renderHook(() => useSpineChartData(), {
-      wrapper: await testRenderWrapper(seedData),
+      wrapper: testRenderWrapper(seedData),
     });
 
     expect(mockUseApiGetQuartiles).toHaveBeenCalled();
