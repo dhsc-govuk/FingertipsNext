@@ -78,8 +78,8 @@ const fullSelectedIndicatorsData: IndicatorDocument[] = [
 
 describe('TwoOrMoreIndicatorsAreasView', () => {
   beforeEach(() => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockClear();
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockClear();
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
   });
@@ -90,12 +90,12 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       selectedIndicatorsData: fullSelectedIndicatorsData,
     });
 
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      6
-    );
+    expect(
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
+    ).toHaveBeenCalledTimes(6);
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       1,
       {
@@ -109,7 +109,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       2,
       {
@@ -123,7 +123,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       3,
       {
@@ -137,7 +137,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       4,
       {
@@ -151,7 +151,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       5,
       {
@@ -165,7 +165,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       6,
       {

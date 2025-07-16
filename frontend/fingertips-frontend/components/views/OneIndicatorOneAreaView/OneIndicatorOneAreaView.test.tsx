@@ -44,9 +44,11 @@ describe('OneIndicatorOneAreaView', () => {
         [SearchParams.IndicatorsSelected]: testIndicators,
         [SearchParams.AreasSelected]: testAreas,
       };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
-        areaHealthData: [],
-      });
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
+        {
+          areaHealthData: [],
+        }
+      );
       await expect(async () => {
         await OneIndicatorOneAreaView({ searchState: searchState });
       }).rejects.toThrow('Invalid parameters provided to view');
@@ -84,14 +86,16 @@ describe('OneIndicatorOneAreaView', () => {
         [SearchParams.GroupSelected]: testGroup,
         [SearchParams.AreaTypeSelected]: testAreaType,
       };
-      mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
-        areaHealthData: [],
-      });
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
+        {
+          areaHealthData: [],
+        }
+      );
 
       await OneIndicatorOneAreaView({ searchState: searchState });
 
       expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
+        mockIndicatorsApi.getPublishedHealthDataForAnIndicator
       ).toHaveBeenNthCalledWith(
         1,
         {
@@ -113,12 +117,14 @@ describe('OneIndicatorOneAreaView', () => {
     const searchState: SearchStateParams = {
       [SearchParams.IndicatorsSelected]: ['1'],
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({});
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
+      {}
+    );
 
     await OneIndicatorOneAreaView({ searchState: searchState });
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       1,
       {
@@ -146,7 +152,7 @@ describe('OneIndicatorOneAreaView', () => {
         BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
       areaHealthData: [mockHealthData['108'][1]],
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
     );
 

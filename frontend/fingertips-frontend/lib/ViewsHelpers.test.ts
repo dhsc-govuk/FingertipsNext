@@ -38,7 +38,7 @@ describe('getHealthDataForIndicator', () => {
   });
 
   it('should return the health data for indicator', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
     );
 
@@ -49,7 +49,9 @@ describe('getHealthDataForIndicator', () => {
       BenchmarkReferenceType.England
     );
 
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
+    expect(
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
+    ).toHaveBeenCalledWith(
       {
         indicatorId: 5555,
         areaCodes: ['A001'],
@@ -67,7 +69,7 @@ describe('getHealthDataForIndicator', () => {
       maxNumAreasThatCanBeRequestedAPI + 1
     );
 
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
     );
 
@@ -83,7 +85,7 @@ describe('getHealthDataForIndicator', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       1,
       {
@@ -99,7 +101,7 @@ describe('getHealthDataForIndicator', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       2,
       {
@@ -118,19 +120,21 @@ describe('getHealthDataForIndicator', () => {
       maxNumAreasThatCanBeRequestedAPI + 1
     );
 
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
     );
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce({
-      ...mockIndicator,
-      areaHealthData: [
-        {
-          areaCode: 'A002',
-          areaName: 'South FooBar',
-          healthData: [healthDataPoint],
-        },
-      ],
-    });
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
+      {
+        ...mockIndicator,
+        areaHealthData: [
+          {
+            areaCode: 'A002',
+            areaName: 'South FooBar',
+            healthData: [healthDataPoint],
+          },
+        ],
+      }
+    );
 
     const result = await getHealthDataForIndicator(
       mockIndicatorsApi,
@@ -159,10 +163,10 @@ describe('getHealthDataForIndicator', () => {
   it('should throw an error if there is an error making a request', async () => {
     const testAreas = new Array(101).fill('a', 0, 101);
 
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
       mockIndicator
     );
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockRejectedValueOnce(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockRejectedValueOnce(
       'Something went wrong.'
     );
 
@@ -178,7 +182,7 @@ describe('getHealthDataForIndicator', () => {
   });
 
   it('should make multiple requests if different area types are given', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
     const mockAreaCode1 = 'A001';
@@ -203,7 +207,7 @@ describe('getHealthDataForIndicator', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       1,
       {
@@ -216,7 +220,7 @@ describe('getHealthDataForIndicator', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       2,
       {
@@ -245,17 +249,17 @@ describe('getIndicatorData', () => {
   });
 
   it('should make appropriate calls to the healthIndicatorApi when no group is specified', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
 
     await getIndicatorData(testParams, BenchmarkReferenceType.England);
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      2
-    );
+    expect(
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
+    ).toHaveBeenCalledTimes(2);
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       1,
       {
@@ -268,7 +272,7 @@ describe('getIndicatorData', () => {
     );
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       2,
       {
@@ -288,17 +292,17 @@ describe('getIndicatorData', () => {
   };
 
   it('should make appropriate calls to the healthIndicatorApi when a group is specified', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
 
     await getIndicatorData(testParamsWithGroup, BenchmarkReferenceType.England);
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      3
-    );
+    expect(
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
+    ).toHaveBeenCalledTimes(3);
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       3,
       {
@@ -312,7 +316,7 @@ describe('getIndicatorData', () => {
   });
 
   it('should make appropriate calls to the healthIndicatorApi when benchmarkRefType is SubNational', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
 
@@ -320,12 +324,12 @@ describe('getIndicatorData', () => {
       testParamsWithGroup,
       BenchmarkReferenceType.SubNational
     );
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      3
-    );
+    expect(
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
+    ).toHaveBeenCalledTimes(3);
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       3,
       {
@@ -345,7 +349,7 @@ describe('getIndicatorData', () => {
   };
 
   it('should make appropriate calls to the healthIndicatorApi when a long list of areas is specified', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
 
@@ -353,12 +357,12 @@ describe('getIndicatorData', () => {
       testParamsWithManyAreas,
       BenchmarkReferenceType.England
     );
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      4
-    );
+    expect(
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
+    ).toHaveBeenCalledTimes(4);
 
     const call1arg =
-      mockIndicatorsApi.getHealthDataForAnIndicator.mock.calls[0][0];
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mock.calls[0][0];
     expect(call1arg).toHaveProperty(
       'areaCodes',
       testParamsWithManyAreas.areasSelected.slice(
@@ -368,7 +372,7 @@ describe('getIndicatorData', () => {
     );
 
     const call2arg =
-      mockIndicatorsApi.getHealthDataForAnIndicator.mock.calls[1][0];
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mock.calls[1][0];
     expect(call2arg).toHaveProperty(
       'areaCodes',
       testParamsWithManyAreas.areasSelected.slice(
@@ -379,7 +383,7 @@ describe('getIndicatorData', () => {
   });
 
   it('should specify the year in the calls for England and group when the latest only parameter is provided', async () => {
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
 
@@ -388,12 +392,12 @@ describe('getIndicatorData', () => {
       BenchmarkReferenceType.England,
       true
     );
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      3
-    );
+    expect(
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
+    ).toHaveBeenCalledTimes(3);
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       1,
       {
@@ -406,7 +410,7 @@ describe('getIndicatorData', () => {
       { next: { revalidate: 600 } }
     );
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       2,
       {
@@ -418,7 +422,7 @@ describe('getIndicatorData', () => {
       { next: { revalidate: 600 } }
     );
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       3,
       {
@@ -450,10 +454,10 @@ describe('getIndicatorData', () => {
         },
       ],
     };
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValueOnce(
       mockEmptyIndicatorData
     );
-    mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
+    mockIndicatorsApi.getPublishedHealthDataForAnIndicator.mockResolvedValue(
       mockIndicator
     );
 
@@ -462,12 +466,12 @@ describe('getIndicatorData', () => {
       BenchmarkReferenceType.England,
       true
     );
-    expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledTimes(
-      3
-    );
+    expect(
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
+    ).toHaveBeenCalledTimes(3);
 
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       1,
       {
@@ -480,7 +484,7 @@ describe('getIndicatorData', () => {
       { next: { revalidate: 600 } }
     );
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       2,
       {
@@ -492,7 +496,7 @@ describe('getIndicatorData', () => {
       { next: { revalidate: 600 } }
     );
     expect(
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
     ).toHaveBeenNthCalledWith(
       3,
       {

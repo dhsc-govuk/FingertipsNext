@@ -113,7 +113,7 @@ export default async function ChartPage(
             apiRequestParams
           );
         } else {
-          healthData = await indicatorApi.getHealthDataForAnIndicator(
+          healthData = await indicatorApi.getPublishedHealthDataForAnIndicator(
             apiRequestParams,
             API_CACHE_CONFIG
           );
@@ -145,7 +145,7 @@ export default async function ChartPage(
     ) {
       try {
         seedData[inequalitiesQueryKey] =
-          await indicatorApi.getHealthDataForAnIndicator(
+          await indicatorApi.getPublishedHealthDataForAnIndicator(
             inequalitiesQueryParams,
             API_CACHE_CONFIG
           );

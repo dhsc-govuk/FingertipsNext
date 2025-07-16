@@ -204,7 +204,7 @@ describe('Chart Page', () => {
       const actualSeedData = page.props.children[0].props.seedData;
 
       expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
+        mockIndicatorsApi.getPublishedHealthDataForAnIndicator
       ).toHaveBeenCalledTimes(2);
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
@@ -239,7 +239,7 @@ describe('Chart Page', () => {
       const actualSeedData = page.props.children[0].props.seedData;
 
       expect(
-        mockIndicatorsApi.getHealthDataForAnIndicator
+        mockIndicatorsApi.getPublishedHealthDataForAnIndicator
       ).toHaveBeenCalledTimes(1);
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData

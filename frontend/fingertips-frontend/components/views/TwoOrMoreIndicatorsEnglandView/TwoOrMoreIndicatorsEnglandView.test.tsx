@@ -97,7 +97,7 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
 
   describe('TwoOrMoreIndicatorsEnglandView when the area code is england', () => {
     beforeEach(() => {
-      mockIndicatorsApi.getHealthDataForAnIndicator
+      mockIndicatorsApi.getPublishedHealthDataForAnIndicator
         .mockResolvedValueOnce(mockIndicator)
         .mockResolvedValueOnce(mockIndicatorWithHealthData);
     });
