@@ -1,28 +1,4 @@
 services:
-  frontend:
-    profiles:
-      - all
-      - app-services
-      - frontend
-
-    build: frontend/fingertips-frontend
-    environment:
-      FINGERTIPS_API_URL: "http://api:8080"
-      DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
-      NEXT_PUBLIC_FINGERTIPS_GIT_HASH: ${NEXT_PUBLIC_FINGERTIPS_GIT_HASH}
-      NEXT_PUBLIC_FINGERTIPS_GIT_TAG: ${NEXT_PUBLIC_FINGERTIPS_GIT_TAG}
-      AUTH_SECRET: ${AUTH_SECRET}
-      AUTH_ISSUER: ${AUTH_ISSUER}
-      AUTH_WELLKNOWN: ${AUTH_WELLKNOWN}
-      AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
-      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET}
-      AUTH_TRUST_HOST: true
-      AUTH_URL: "http://localhost:3000/auth"
-      AUTH_USE_PASSWORD_MOCK: ${AUTH_USE_PASSWORD_MOCK}
-
-    ports:
-      - 3000:3000
-
   api:
     profiles:
       - all
@@ -30,9 +6,7 @@ services:
       - api
 
     depends_on:
-      db-setup:
-        condition: service_completed_successfully
-      db-apply-trends:
+      db:
         condition: service_completed_successfully
       storage-setup:
         condition: service_completed_successfully
@@ -54,6 +28,13 @@ services:
       AzureAD__TenantId: ${AZUREAD__TENANTID}
       AzureAD__ClientId: ${AZUREAD__CLIENTID}
       Graph__Scopes: "User.Read"
+      AUTHENTICATION__SCHEMES__BEARER__VALIDAUDIENCES__0 : "http://localhost:8080"
+      AUTHENTICATION__SCHEMES__BEARER__VALIDAUDIENCES__1 : "http://localhost:5144"
+      AUTHENTICATION__SCHEMES__BEARER__VALIDISSUER: "dotnet-user-jwts"
+      AUTHENTICATION__SCHEMES__BEARER__SIGNINGKEYS__0__ID : "88a400e7"
+      AUTHENTICATION__SCHEMES__BEARER__SIGNINGKEYS__0__ISSUER: "dotnet-user-jwts"
+      AUTHENTICATION__SCHEMES__BEARER__SIGNINGKEYS__0__VALUE : ${JWTS_SIGNING_KEY}
+      AUTHENTICATION__SCHEMES__BEARER__SIGNINGKEYS__0__LENGTH: 32
 
     ports:
       - 5144:8080
@@ -63,39 +44,6 @@ services:
       timeout: 5s
       retries: 15
       start_period: 60s
-
-  db-setup:
-    profiles:
-      - all
-      - api
-      - backend-services
-      - db
-
-    depends_on:
-      - db
-
-    build: database/fingertips-db
-    environment:
-      DB_SERVER: db
-      DB_NAME: ${DB_NAME}
-      SA_USERNAME: ${DB_USER}
-      SA_PASSWORD: ${DB_PASSWORD}
-      TRUST_CERT: "True"
-
-  db-apply-trends:
-    profiles:
-      - all
-      - api
-      - backend-services
-      - db
-
-    depends_on:
-      db-setup:
-        condition: service_completed_successfully
-
-    build: trend-analysis/TrendAnalysisApp
-    environment:
-      SQLCONNSTR_FINGERTIPS_DB: Server=db;Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};Encrypt=False;TrustServerCertificate=False;
 
   db:
     profiles:
