@@ -2,7 +2,7 @@ import {
   mockGetHealthDataForAnIndicator,
   mockGetHealthDataForAnIndicatorIncludingUnpublishedData,
 } from '@/mock/utils/mockApiClient';
-//
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForAnIndicator } from './useApiGetHealthDataForAnIndicator';
 import { renderHook, waitFor } from '@testing-library/react';

@@ -86,7 +86,7 @@ describe('useSpineChartData', () => {
     seedData['/indicator/5678'] = indicator2;
 
     const { result } = renderHook(() => useSpineChartData(), {
-      wrapper: await testRenderWrapper(seedData),
+      wrapper: testRenderWrapper(seedData),
     });
 
     expect(result.current).toBe(undefined);
