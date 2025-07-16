@@ -13,7 +13,7 @@ import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/Co
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 
-export interface HeatmapProps {
+export interface HeatMapProps {
   indicatorData: HeatmapIndicatorData[];
   groupAreaCode: string;
   benchmarkAreaCode: string;
@@ -21,7 +21,7 @@ export interface HeatmapProps {
   title?: string;
 }
 
-export const Heatmap: FC<HeatmapProps> = ({
+export const HeatMap: FC<HeatMapProps> = ({
   indicatorData,
   groupAreaCode,
   benchmarkAreaCode,
@@ -33,6 +33,7 @@ export const Heatmap: FC<HeatmapProps> = ({
     groupAreaCode,
     benchmarkAreaCode
   );
+
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
 
   const id = 'heatmapChart';

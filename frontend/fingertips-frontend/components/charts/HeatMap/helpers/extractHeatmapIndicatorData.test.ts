@@ -5,7 +5,7 @@ import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap';
+import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap/HeatMap';
 
 describe('extractHeatmapIndicatorData', () => {
   const populatedIndicatorData = mockIndicatorWithHealthDataForArea();

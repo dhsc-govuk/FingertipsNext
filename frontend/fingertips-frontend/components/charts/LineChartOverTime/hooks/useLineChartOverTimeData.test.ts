@@ -1,6 +1,6 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
-import { mockUseApiGetHealthDataForAnIndicator } from '@/mock/utils/mockUseApiGetHealthData';
+import { mockUseApiGetHealthDataForAnIndicator } from '@/mock/utils/mockUseApiGetHealthDataForAnIndicator';
 //
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';

@@ -7,7 +7,7 @@ import {
   determineAreasForBenchmarking,
   determineBenchmarkToUse,
 } from '@/lib/chartHelpers/chartHelpers';
-import { Heatmap } from '@/components/charts/HeatMap/index';
+import { HeatMap } from '@/components/charts/HeatMap/HeatMap';
 import { buildHeatmapIndicatorData } from '@/components/charts/HeatMap/helpers/buildHeatMapIndicatorData';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
@@ -47,7 +47,7 @@ export function HeatMapWrapper({
   return (
     <StyleChartWrapper>
       <H3>{title}</H3>
-      <Heatmap
+      <HeatMap
         title={subTitle}
         indicatorData={buildHeatmapIndicatorData(healthData, indicatorMetaData)}
         groupAreaCode={selectedGroupCode ?? ''}

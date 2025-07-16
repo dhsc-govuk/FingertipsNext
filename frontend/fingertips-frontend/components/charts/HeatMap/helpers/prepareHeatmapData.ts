@@ -37,7 +37,7 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
 
   return {
     areas: sortedAreas,
-    indicators: Object.values(indicators), //sortedIndicators,
+    indicators: Object.values(indicators),
     dataPoints: dataPoints,
   };
 };

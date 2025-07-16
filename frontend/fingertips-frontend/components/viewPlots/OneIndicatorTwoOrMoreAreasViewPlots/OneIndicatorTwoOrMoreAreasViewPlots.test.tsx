@@ -32,7 +32,7 @@ import {
 
 const mockPath = 'some-mock-path';
 mockUsePathname.mockReturnValue(mockPath);
-mockSetIsLoading(false);
+mockSetIsLoading.mockReturnValue(true);
 
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';

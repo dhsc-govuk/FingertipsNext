@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { Heatmap } from './index';
+import { HeatMap } from './HeatMap';
 import {
   placeholderGroupAreaCode,
   placeholderHeatmapIndicatorData as placeholderIndicatorData,
@@ -21,7 +21,7 @@ describe('heatmap', () => {
 
   it('snapshot test - england benchmark', () => {
     const container = render(
-      <Heatmap
+      <HeatMap
         indicatorData={placeholderIndicatorData}
         groupAreaCode={placeholderGroupAreaCode}
         benchmarkAreaCode={areaCodeForEngland}
@@ -34,7 +34,7 @@ describe('heatmap', () => {
 
   it('snapshot test - group area benchmark', () => {
     const container = render(
-      <Heatmap
+      <HeatMap
         indicatorData={placeholderIndicatorData}
         groupAreaCode={placeholderGroupAreaCode}
         benchmarkAreaCode={placeholderGroupAreaCode}

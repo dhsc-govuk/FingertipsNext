@@ -1,7 +1,7 @@
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
-import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap';
+import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap/HeatMap';
 import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { segmentCombinations } from '@/lib/healthDataHelpers/segmentCombinations';
