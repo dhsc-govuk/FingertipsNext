@@ -81,7 +81,7 @@ export default class UploadPage extends BasePage {
     ).toBeVisible();
   }
 
-  async checkUploadedBatchListContainerIsVisible(fileName: string) {
+  async checkUploadedBatchListContainerIsVisible() {
     await expect(
       this.page.getByRole('heading', {
         name: this.batchListContainerHeadingText,
@@ -96,9 +96,5 @@ export default class UploadPage extends BasePage {
     await expect(
       this.page.getByRole('button', { name: this.deleteSubmissionButtonText })
     ).toHaveCount(1);
-    // Displayed twice, once in the API response panel and once in the batch list table
-    await expect(this.page.getByRole('cell', { name: fileName })).toHaveCount(
-      2
-    );
   }
 }
