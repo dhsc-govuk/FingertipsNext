@@ -8,6 +8,7 @@ import {
   Indicator,
   DataPoint,
 } from '../heatmap.types';
+import { filterDefined } from '@/lib/chartHelpers/filterDefined';
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],
@@ -30,18 +31,13 @@ export const extractSortedAreasIndicatorsAndDataPoints = (
   }
 
   const { areaCodes } = orderAreaByPrecedingThenByName(areas, precedingAreas);
-  const sortedAreas: Area[] = areaCodes.map((areaCode) => {
-    return areas[areaCode];
-  });
-
-  const { indicatorIds } = orderIndicatorsByName(indicators);
-  const sortedIndicators: Indicator[] = indicatorIds.map((indicatorId) => {
-    return indicators[indicatorId];
-  });
+  const sortedAreas: Area[] = areaCodes
+    .map((areaCode) => areas[areaCode])
+    .filter(filterDefined);
 
   return {
     areas: sortedAreas,
-    indicators: sortedIndicators,
+    indicators: Object.values(indicators), //sortedIndicators,
     dataPoints: dataPoints,
   };
 };
@@ -61,9 +57,9 @@ export const extractAreasIndicatorsAndDataPoints = (
   const dataPoints: Record<string, Record<string, DataPoint>> = {};
 
   indicatorDataForAllAreas.forEach((indicatorData) => {
-    if (!indicators[indicatorData.indicatorId]) {
-      indicators[indicatorData.indicatorId] = {
-        id: indicatorData.indicatorId,
+    if (!indicators[indicatorData.rowId]) {
+      indicators[indicatorData.rowId] = {
+        id: indicatorData.rowId,
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: 0,
@@ -71,7 +67,7 @@ export const extractAreasIndicatorsAndDataPoints = (
         polarity: indicatorData.polarity,
       };
 
-      dataPoints[indicatorData.indicatorId] = {};
+      dataPoints[indicatorData.rowId] = {};
     }
 
     if (
@@ -131,15 +127,15 @@ export const extractAreasIndicatorsAndDataPoints = (
         benchmarkAreaCode: benchmarkAreaCode,
       };
 
-      dataPoints[indicatorData.indicatorId][healthData.areaCode] = {
+      dataPoints[indicatorData.rowId][healthData.areaCode] = {
         value: healthDataForYear?.value,
         benchmark: benchmark,
         areaCode: healthData.areaCode,
-        indicatorId: indicatorData.indicatorId,
+        indicatorId: indicatorData.rowId,
       };
     });
 
-    indicators[indicatorData.indicatorId].latestDataPeriod = latestDataPeriod;
+    indicators[indicatorData.rowId].latestDataPeriod = latestDataPeriod;
   });
 
   return {
@@ -166,19 +162,4 @@ const orderAreaByPrecedingThenByName = (
   areaCodes.sort((a, b) => areas[a].name.localeCompare(areas[b].name));
 
   return { areaCodes: precedingCodes.concat(areaCodes) };
-};
-
-const orderIndicatorsByName = (
-  indicators: Record<string, Indicator>
-): { indicatorIds: string[] } => {
-  const indicatorIds: string[] = [];
-  for (const indicatorId in indicators) {
-    indicatorIds.push(indicatorId);
-  }
-
-  indicatorIds.sort((a, b) =>
-    indicators[a].name.localeCompare(indicators[b].name)
-  );
-
-  return { indicatorIds };
 };

@@ -18,6 +18,7 @@ export interface HeatmapProps {
   groupAreaCode: string;
   benchmarkAreaCode: string;
   benchmarkAreaName: string;
+  title?: string;
 }
 
 export const Heatmap: FC<HeatmapProps> = ({
@@ -25,6 +26,7 @@ export const Heatmap: FC<HeatmapProps> = ({
   groupAreaCode,
   benchmarkAreaCode,
   benchmarkAreaName,
+  title = 'Overview of selected indicators',
 }) => {
   const { headers, rows, legendsToShow, csvData } = useHeatmapTableData(
     indicatorData,
@@ -38,7 +40,7 @@ export const Heatmap: FC<HeatmapProps> = ({
   return (
     <ContainerWithOutline>
       <div id={id} data-testid={`${id}-component`}>
-        <ChartTitle>Overview of selected indicators</ChartTitle>
+        <ChartTitle>{title}</ChartTitle>
         <BenchmarkLegends
           title={`Compared to ${benchmarkAreaName}`}
           legendsToShow={legendsToShow}

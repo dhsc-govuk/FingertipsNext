@@ -4,14 +4,17 @@ import {
   IndicatorPolarity,
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 
 export interface HeatmapIndicatorData {
+  rowId: string;
   indicatorId: string;
   indicatorName: string;
   healthDataForAreas: HealthDataForArea[];
   unitLabel: string;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
+  segmentInfo: Record<SegmentationId, string>;
 }
 
 export interface Area {

@@ -7,6 +7,7 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
+import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
 
 export const placeholderGroupAreaCode = 'area3';
 
@@ -118,7 +119,7 @@ const data: HealthDataPoint[][][] = [
   ],
 ];
 
-export const placeholderHeatmapIndicatorData = [
+export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
   {
     indicatorId: indicator1.id,
     indicatorName: indicator1.name,
@@ -128,7 +129,6 @@ export const placeholderHeatmapIndicatorData = [
         areaCode: areaEngland.code,
         areaName: areaEngland.name,
         healthData: data[0][0],
-        benchmarkComparison: { benchmarkAreaCode: areaCodeForEngland },
       },
       {
         areaCode: area2.code,
@@ -148,6 +148,8 @@ export const placeholderHeatmapIndicatorData = [
     ],
     benchmarkComparisonMethod: indicator1.benchmarkMethod,
     polarity: indicator1.polarity,
+    rowId: `${indicator1.id}-sex:persons`,
+    segmentInfo: { sex: 'Persons', age: '', frequency: '' },
   },
   {
     indicatorId: indicator2.id,
@@ -177,6 +179,8 @@ export const placeholderHeatmapIndicatorData = [
     ],
     benchmarkComparisonMethod: indicator2.benchmarkMethod,
     polarity: indicator2.polarity,
+    rowId: `${indicator2.id}-sex:persons`,
+    segmentInfo: { sex: 'Persons', age: '', frequency: '' },
   },
   {
     indicatorId: indicator3.id,
@@ -206,10 +210,11 @@ export const placeholderHeatmapIndicatorData = [
     ],
     benchmarkComparisonMethod: indicator3.benchmarkMethod,
     polarity: indicator3.polarity,
+    rowId: `${indicator3.id}-sex:persons`,
+    segmentInfo: { sex: 'Persons', age: '', frequency: '' },
   },
 ];
 
-const expectedSortedIndicators = [indicator3, indicator2, indicator1];
 const expectedSortedAreas = [areaEngland, area3, area4, area2];
 
 describe('extract sorted areas, indicators, and data points - benchmark area is england', () => {
@@ -224,31 +229,28 @@ describe('extract sorted areas, indicators, and data points - benchmark area is 
     expect(areas).toEqual(expectedSortedAreas);
   });
 
-  it('should order indicators correctly', () => {
-    expect(indicators).toEqual(expectedSortedIndicators);
+  it('should NOT reorder the indicators this is done in buildHeatmapIndicatorData() ', () => {
+    const ids = indicators.map((indicator) => indicator.id);
+    expect(ids).toEqual([
+      'indicator1-sex:persons',
+      'indicator2-sex:persons',
+      'indicator3-sex:persons',
+    ]);
   });
 
   it('should only extract data from the most recent period', () => {
-    expect(
-      dataPoints[indicator1.id][expectedSortedAreas[0].code].value
-    ).toBeUndefined();
-    expect(
-      dataPoints[indicator1.id][expectedSortedAreas[1].code].value
-    ).toBeUndefined();
-    expect(
-      dataPoints[indicator1.id][expectedSortedAreas[2].code].value
-    ).toEqual(41);
-    expect(
-      dataPoints[indicator1.id][expectedSortedAreas[3].code].value
-    ).toBeUndefined();
+    const id = 'indicator1-sex:persons';
+    expect(dataPoints[id][expectedSortedAreas[0].code].value).toBeUndefined();
+    expect(dataPoints[id][expectedSortedAreas[1].code].value).toBeUndefined();
+    expect(dataPoints[id][expectedSortedAreas[2].code].value).toEqual(41);
+    expect(dataPoints[id][expectedSortedAreas[3].code].value).toBeUndefined();
   });
 
   it('should populate data points with benchmarking information', () => {
     const indicators = [indicator1, indicator2, indicator3];
     indicators.forEach((indicator) => {
-      expect(
-        dataPoints[indicator.id][expectedSortedAreas[1].code].benchmark
-      ).toEqual({
+      const id = `${indicator.id}-sex:persons`;
+      expect(dataPoints[id][expectedSortedAreas[1].code].benchmark).toEqual({
         outcome: BenchmarkOutcome.NotCompared,
         benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,
@@ -260,7 +262,8 @@ describe('extract sorted areas, indicators, and data points - benchmark area is 
   it('should populate data points with benchmarking information with england as baseline', () => {
     const indicators = [indicator1, indicator2, indicator3];
     indicators.forEach((indicator) => {
-      expect(dataPoints[indicator.id][areaCodeForEngland].benchmark).toEqual({
+      const id = `${indicator.id}-sex:persons`;
+      expect(dataPoints[id][areaCodeForEngland].benchmark).toEqual({
         outcome: 'Baseline',
         benchmarkMethod: indicator.benchmarkMethod,
         polarity: indicator.polarity,

@@ -75,7 +75,7 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
     mockHealthDataForArea({
       areaCode: 'E12000004',
       areaName: 'Area1',
-      healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+      // healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
       indicatorSegments: [
         mockIndicatorSegment({
           healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
@@ -85,7 +85,7 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
     mockHealthDataForArea({
       areaCode: 'E12000006',
       areaName: 'Area2',
-      healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+      // healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
       indicatorSegments: [
         mockIndicatorSegment({
           healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),

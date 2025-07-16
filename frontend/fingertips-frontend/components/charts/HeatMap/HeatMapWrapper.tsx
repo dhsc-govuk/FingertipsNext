@@ -1,0 +1,63 @@
+import { H3 } from 'govuk-react';
+import { englandAreaString } from '@/lib/chartHelpers/constants';
+import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { SearchParams } from '@/lib/searchStateManager';
+import {
+  determineAreasForBenchmarking,
+  determineBenchmarkToUse,
+} from '@/lib/chartHelpers/chartHelpers';
+import { Heatmap } from '@/components/charts/HeatMap/index';
+import { buildHeatmapIndicatorData } from '@/components/charts/HeatMap/helpers/buildHeatMapIndicatorData';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+
+interface HeatMapWrapperProps {
+  indicatorMetaData: IndicatorDocument[];
+  healthData: IndicatorWithHealthDataForArea[];
+  title?: string;
+  subTitle?: string;
+}
+
+export function HeatMapWrapper({
+  indicatorMetaData,
+  healthData,
+  title = 'Overview of indicators and areas',
+  subTitle,
+}: Readonly<HeatMapWrapperProps>) {
+  const searchState = useSearchStateParams();
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
+    [SearchParams.GroupAreaSelected]: groupAreaSelected,
+  } = searchState;
+
+  if (!indicatorMetaData.length || !healthData.length) return null;
+
+  const availableAreasForBenchmarking = determineAreasForBenchmarking(
+    healthData[0].areaHealthData ?? [],
+    selectedGroupCode,
+    areasSelected,
+    groupAreaSelected
+  );
+
+  const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
+
+  return (
+    <StyleChartWrapper>
+      <H3>{title}</H3>
+      <Heatmap
+        title={subTitle}
+        indicatorData={buildHeatmapIndicatorData(healthData, indicatorMetaData)}
+        groupAreaCode={selectedGroupCode ?? ''}
+        benchmarkAreaCode={benchmarkToUse}
+        benchmarkAreaName={
+          availableAreasForBenchmarking?.find((area) => {
+            return area.code === benchmarkToUse;
+          })?.name ?? englandAreaString
+        }
+      />
+    </StyleChartWrapper>
+  );
+}

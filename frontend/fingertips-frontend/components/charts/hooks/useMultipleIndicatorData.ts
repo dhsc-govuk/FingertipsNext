@@ -9,6 +9,7 @@ export const useMultipleIndicatorData = () => {
   const { [SearchParams.IndicatorsSelected]: indicatorIds = [] } = searchState;
   const { indicatorMetaData } = useApiGetIndicatorMetaDatas(indicatorIds);
   const requestParams = useMultipleIndicatorRequestParams();
+
   const { healthData } =
     useApiGetHealthDataForMultipleIndicators(requestParams);
 

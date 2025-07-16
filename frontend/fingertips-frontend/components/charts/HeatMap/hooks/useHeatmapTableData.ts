@@ -25,7 +25,9 @@ export const useHeatmapTableData = (
       groupAreaCode,
       benchmarkAreaCode
     );
+
     const { areas, indicators, dataPoints } = sortedData;
+
     const legendsToShow = getMethodsAndOutcomes(indicatorData);
     return {
       headers: generateHeaders(areas, groupAreaCode, benchmarkAreaCode),

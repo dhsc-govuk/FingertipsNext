@@ -2,22 +2,48 @@ import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-clien
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
 import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap';
+import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { segmentCombinations } from '@/lib/healthDataHelpers/segmentCombinations';
+import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
+import { indicatorsSorted } from '@/lib/healthDataHelpers/indicatorsSorted';
 
 export const buildHeatmapIndicatorData = (
   allIndicatorData: IndicatorWithHealthDataForArea[],
   indicatorMetadata: IndicatorDocument[]
 ): HeatmapIndicatorData[] => {
-  return allIndicatorData
-    .map((indicatorData) => {
-      const metadata = indicatorMetadata.find((metadata) => {
-        return metadata.indicatorID === indicatorData.indicatorId?.toString();
-      });
+  const heatmapIndicatorData: HeatmapIndicatorData[] = [];
 
-      if (!metadata) return undefined;
+  const indicatorsInOrder = indicatorsSorted(allIndicatorData);
 
-      return extractHeatmapIndicatorData(indicatorData, metadata);
-    })
-    .filter((data) => {
-      return data !== undefined;
+  indicatorsInOrder.forEach((indicator) => {
+    const metadata = indicatorMetadata.find(
+      ({ indicatorID }) => indicatorID === indicator.indicatorId?.toString()
+    );
+
+    if (!metadata) return;
+
+    const segValues = segmentValues(indicator);
+    const combinations = segmentCombinations(segValues);
+    combinations.forEach((combination) => {
+      const search: SearchStateParams = {
+        [SearchParams.SegmentationSex]: combination.sex,
+        [SearchParams.SegmentationAge]: combination.age,
+        [SearchParams.SegmentationFrequency]: combination.frequency,
+      };
+      const extractedSegment = flattenSegment(indicator, search);
+
+      const extractedData = extractHeatmapIndicatorData(
+        extractedSegment,
+        metadata,
+        combination
+      );
+
+      if (!extractedData) return;
+
+      heatmapIndicatorData.push(extractedData);
     });
+  });
+
+  return heatmapIndicatorData;
 };
