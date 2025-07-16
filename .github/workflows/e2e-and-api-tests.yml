@@ -90,7 +90,7 @@ jobs:
       - name: Inject development mode settings
         working-directory: ./api/DHSC.FingertipsNext.Api
         run: |
-          echo "JWTS_SIGNING_KEY=$(dotnet user-jwts key --reset | sed -n "s/^Signing Key: '\(.*\)'/\1/p")" >> $GITHUB_ENV
+          echo "JWTS_SIGNING_KEY=$(dotnet user-jwts key --reset --force | sed -n "s/^Signing Key: '\(.*\)'/\1/p")" >> $GITHUB_ENV
           dotnet user-jwts key
 
       - name: Check development mode settings
