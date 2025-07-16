@@ -26,12 +26,13 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'Emergency',
     indicatorsToSelect: [
       {
-        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
+        indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available',
       },
     ],
     checkExports: true,
     typeOfInequalityToSelect: InequalitiesTypes.Sex,
+    signInToCheckUnpublishedData: { administrator: true }, // this journey requires sign in to view the unpublished data
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,

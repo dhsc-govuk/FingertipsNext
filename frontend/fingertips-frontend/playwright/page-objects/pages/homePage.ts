@@ -1,9 +1,22 @@
-import { SearchMode } from '@/playwright/testHelpers/genericTestUtilities';
+import {
+  SearchMode,
+  SignInAs,
+} from '@/playwright/testHelpers/genericTestUtilities';
+import type { Page as PlaywrightPage } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 import { expect } from '../pageFactory';
 import { siteTitle } from '@/lib/constants';
+import EntraPage from './entraPage';
 
 export default class HomePage extends AreaFilter {
+  private entraPage: EntraPage;
+
+  constructor(page: PlaywrightPage) {
+    // adjust constructor params as needed
+    super(page);
+    this.entraPage = new EntraPage(page);
+  }
+
   readonly subjectSearchField = 'indicator-search-form-input';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
@@ -11,6 +24,8 @@ export default class HomePage extends AreaFilter {
   readonly pillContainer = 'pill-container';
   readonly signInButton = 'sign-in-button';
   readonly signOutButton = 'sign-out-button';
+  readonly email = 'test@email.com';
+  readonly password = 'password123';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -149,10 +164,72 @@ export default class HomePage extends AreaFilter {
     );
   }
 
-  async clickSignIn() {
+  async clickSignInOnHomePage() {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.signInButton)
     );
+  }
+
+  private determineSignInCredentials(signInRequired: SignInAs): {
+    email: string;
+    password: string;
+  } {
+    if (signInRequired.administrator) {
+      return {
+        email:
+          process.env.FINGERTIPS_FRONTEND_USER_WITH_ADMIN_PERMISSIONS_EMAIL ||
+          this.email,
+        password:
+          process.env
+            .FINGERTIPS_FRONTEND_USER_WITH_ADMIN_PERMISSIONS_PASSWORD ||
+          this.password,
+      };
+    } else if (signInRequired.userWithIndicatorPermissions) {
+      return {
+        email:
+          process.env
+            .FINGERTIPS_FRONTEND_USER_WITH_INDICATOR_PERMISSIONS_EMAIL ||
+          this.email,
+        password:
+          process.env
+            .FINGERTIPS_FRONTEND_USER_WITH_INDICATOR_PERMISSIONS_PASSWORD ||
+          this.password,
+      };
+    } else if (signInRequired.userWithoutIndicatorPermissions) {
+      return {
+        email:
+          process.env
+            .FINGERTIPS_FRONTEND_USER_WITHOUT_INDICATOR_PERMISSIONS_EMAIL ||
+          this.email,
+        password:
+          process.env
+            .FINGERTIPS_FRONTEND_USER_WITHOUT_INDICATOR_PERMISSIONS_PASSWORD ||
+          this.password,
+      };
+    } else {
+      return {
+        // this should never be used, but is a fallback that will correctly cause the test to fail if no sign in credentials are found
+        email: this.email,
+        password: this.password,
+      };
+    }
+  }
+
+  async signInIfRequired(signInRequired: SignInAs) {
+    if (signInRequired) {
+      const { email, password } =
+        this.determineSignInCredentials(signInRequired);
+
+      await this.clickSignInOnHomePage();
+
+      await this.entraPage.checkOnEntraSignInPage();
+
+      await this.entraPage.enterEmailAndPassword(email, password);
+
+      await this.entraPage.clickSignIn();
+
+      await this.checkSignOutDisplayed();
+    }
   }
 
   async clickSignOut() {

@@ -46,6 +46,7 @@ test.describe(
         areaFiltersToSelect,
         checkExports,
         typeOfInequalityToSelect,
+        signInToCheckUnpublishedData,
       }) => {
         test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
           homePage,
@@ -60,9 +61,11 @@ test.describe(
                   subjectSearchTerm!
                 );
 
-          await test.step('Navigate to home page and search for indicators', async () => {
+          await test.step('Navigate to home page, sign in if required and then search for indicators', async () => {
             await homePage.navigateToHomePage();
             await homePage.checkOnHomePage();
+
+            await homePage.signInIfRequired(signInToCheckUnpublishedData!);
 
             await homePage.searchForIndicators(
               searchMode,

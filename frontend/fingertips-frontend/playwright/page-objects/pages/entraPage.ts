@@ -47,6 +47,12 @@ export default class EntraPage extends BasePage {
     );
   }
 
+  async enterEmailAndPassword(email: string, password: string) {
+    await this.typeEmail(email);
+    await this.clickNext();
+    await this.typePassword(password, email);
+  }
+
   async typeEmail(email: string) {
     await this.fillAndAwaitLoadingComplete(
       this.page.getByLabel(this.emailAriaLabel),

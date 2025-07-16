@@ -45,6 +45,12 @@ export interface AreaFilters {
   group: string;
 }
 
+export type SignInAs = {
+  administrator?: boolean;
+  userWithIndicatorPermissions?: boolean;
+  userWithoutIndicatorPermissions?: boolean;
+};
+
 export interface TestParameters {
   indicatorMode: IndicatorMode;
   areaMode: AreaMode;
@@ -54,6 +60,7 @@ export interface TestParameters {
   areaFiltersToSelect?: AreaFilters;
   checkExports?: boolean;
   typeOfInequalityToSelect?: InequalitiesTypes;
+  signInToCheckUnpublishedData?: SignInAs;
 }
 
 export enum PersistentCsvHeaders {

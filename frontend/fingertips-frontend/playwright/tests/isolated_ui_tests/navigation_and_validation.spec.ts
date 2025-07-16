@@ -157,7 +157,7 @@ test.describe('Home Page Tests', () => {
       });
 
       await test.step('Click Sign in button', async () => {
-        await homePage.clickSignIn();
+        await homePage.clickSignInOnHomePage();
       });
 
       await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
