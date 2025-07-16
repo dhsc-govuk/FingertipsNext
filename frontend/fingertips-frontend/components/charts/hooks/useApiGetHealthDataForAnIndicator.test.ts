@@ -64,12 +64,13 @@ describe('useApiGetHealthDataForAnIndicator', () => {
       expect(actualData).toBeUndefined();
     });
   });
+
   it('should call the unpublished healthdata data endpoint if there is a session', async () => {
     // arrange
     const queryClient = new QueryClient();
     // act
     renderHook(() => useApiGetHealthDataForAnIndicator(params), {
-      wrapper: await testRenderWrapper({}, queryClient, {
+      wrapper: testRenderWrapper({}, queryClient, {
         expires: 'some string',
       }),
     });
