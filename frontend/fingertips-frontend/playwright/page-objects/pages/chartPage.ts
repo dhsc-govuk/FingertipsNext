@@ -8,7 +8,10 @@ import {
   PersistentCsvHeaders,
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
-import { ChartComponentDefinition } from '../../testHelpers/testDefinitions';
+import {
+  ChartComponentDefinition,
+  // SignInAs,
+} from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -91,6 +94,7 @@ export default class ChartPage extends AreaFilter {
     selectedAreaFilters: AreaFilters,
     checkExports: boolean,
     typeOfInequalityToSelect: InequalitiesTypes
+    // signInAsUserToCheckUnpublishedData: SignInAs
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -120,6 +124,7 @@ export default class ChartPage extends AreaFilter {
         selectedAreaFilters,
         checkExports,
         typeOfInequalityToSelect
+        // signInAsUserToCheckUnpublishedData
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -140,6 +145,7 @@ export default class ChartPage extends AreaFilter {
     selectedAreaFilters: AreaFilters,
     checkExports: boolean,
     typeOfInequalityToSelect: InequalitiesTypes
+    // signInAsUserToCheckUnpublishedData: SignInAs
   ) {
     const { chartComponentLocator, chartComponentProps } = component;
 
@@ -219,6 +225,13 @@ export default class ChartPage extends AreaFilter {
         action: async () =>
           await this.toggleConfidenceInterval(chartComponentLocator),
       },
+      // {
+      //   condition: chartComponentProps.canShowUnpublishedData,
+      //   action: async () =>
+      //     await this.verifyUnpublishedDataDisplayed(
+      //       signInAsUserToCheckUnpublishedData
+      //     ),
+      // },
     ];
 
     for (const { condition, action } of interactions) {

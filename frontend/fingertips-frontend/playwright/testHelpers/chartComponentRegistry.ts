@@ -10,6 +10,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
       hasConfidenceIntervals: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -20,6 +21,7 @@ export const allComponents: ChartComponentDefinition[] = [
       isTabTable: true,
       hasRecentTrend: true,
       hasBenchmarkComparisons: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -96,6 +98,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasSVGExport: true,
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -107,6 +110,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
       hasConfidenceIntervals: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -115,6 +119,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       hasRecentTrend: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -125,6 +130,7 @@ export const allComponents: ChartComponentDefinition[] = [
       isWideComponent: true,
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -136,6 +142,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasRecentTrend: true,
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
+      canShowUnpublishedData: true,
     },
   },
 ];
