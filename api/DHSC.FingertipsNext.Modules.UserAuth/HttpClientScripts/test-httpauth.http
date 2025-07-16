@@ -41,7 +41,7 @@ HEAD http://localhost:5144/user/indicator?indicator_ids=123
     });
     
     exports.token = result.stdout.trim();
-    console.log(token)
+    console.log(exports.token)
 }}
 GET http://localhost:5144/user/info
 Authorization: Bearer {{token}}
