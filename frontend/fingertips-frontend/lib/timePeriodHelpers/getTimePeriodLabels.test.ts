@@ -1,5 +1,9 @@
 import { Frequency, PeriodType } from '@/generated-sources/ft-api-client';
-import { getPeriodLabel, formatDatePointLabel } from './getTimePeriodLabels';
+import {
+  getPeriodLabel,
+  formatDatePointLabel,
+  getAdditionalPeriodLabel,
+} from './getTimePeriodLabels';
 
 describe('periodLabelText', () => {
   it('should return "" when periodType is Calendar and collectionFrequency is Annually', () => {
@@ -44,9 +48,7 @@ describe('periodLabelText', () => {
       Frequency.Annually
     );
 
-    expect(periodLabelText).toEqual(
-      'Yearly (month to month e.g. November to October)'
-    );
+    expect(periodLabelText).toEqual('Yearly');
   });
 
   it('should return "Financial year" when periodType is Financial and collectionFrequency is Annually', () => {
@@ -103,6 +105,36 @@ describe('periodLabelText', () => {
     );
 
     expect(periodLabelText).toEqual('');
+  });
+});
+
+describe('getAdditionalPeriodLabel', () => {
+  it('should return the correct label for PeriodType.Yearly with a valid date', () => {
+    const date = new Date('2023-11-01').getTime();
+
+    const label = getAdditionalPeriodLabel(PeriodType.Yearly, date);
+
+    expect(label).toEqual('(month to month e.g. November to November) ');
+  });
+
+  it('should return an empty string for PeriodType.Yearly with undefined date', () => {
+    const label = getAdditionalPeriodLabel(PeriodType.Yearly, undefined);
+
+    expect(label).toEqual('');
+  });
+
+  it('should return an empty string for non-Yearly period types', () => {
+    const date = new Date('2023-11-01').getTime();
+
+    const label = getAdditionalPeriodLabel(PeriodType.Calendar, date);
+
+    expect(label).toEqual('');
+  });
+
+  it('should return an empty string for non-Yearly period types and undefined date', () => {
+    const label = getAdditionalPeriodLabel(PeriodType.Calendar, undefined);
+
+    expect(label).toEqual('');
   });
 });
 

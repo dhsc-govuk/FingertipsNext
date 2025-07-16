@@ -102,7 +102,7 @@ const labelFormatters: {
   },
   [PeriodType.Yearly]: {
     [Frequency.Annually]: {
-      periodLabelText: 'Yearly (month to month e.g. November to October)',
+      periodLabelText: 'Yearly',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
           const fromYear = datePeriod.from.getFullYear();
@@ -243,6 +243,19 @@ export const getPeriodLabel = (
   if (!formatter) return '';
 
   return formatter.periodLabelText;
+};
+
+export const getAdditionalPeriodLabel = (
+  periodType: PeriodType,
+  fromDateAsNumber: number | undefined
+): string => {
+  if (periodType === PeriodType.Yearly && fromDateAsNumber) {
+    const month = format(new Date(fromDateAsNumber), 'LLLL');
+
+    return `(month to month e.g. ${month} to ${month}) `;
+  }
+
+  return '';
 };
 
 export const convertDateToNumber = (

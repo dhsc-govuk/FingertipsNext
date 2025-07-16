@@ -21,6 +21,7 @@ import { getMinAndMaxXAxisEntries } from './getMinAndMaxXAxisEntries';
 import {
   convertDateToNumber,
   formatDatePointLabel,
+  getAdditionalPeriodLabel,
   getPeriodLabel,
 } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
@@ -156,6 +157,10 @@ export function generateStandardLineChartOptions(
 
   const periodLabel = getPeriodLabel(periodType, frequency);
   const periodLabelText = periodLabel ? `${periodLabel} ` : '';
+  const additionalPeriodLabelText = getAdditionalPeriodLabel(
+    periodType,
+    minXAxisEntries
+  );
 
   const fromDateLabel = formatDatePointLabel(
     periodType,
@@ -173,7 +178,7 @@ export function generateStandardLineChartOptions(
 
   const fromTo = `from ${fromDateLabel} to ${toDateLabel}`;
   const titleText = optionalParams?.indicatorName
-    ? `${optionalParams?.indicatorName} ${periodLabelText}${fromTo}`
+    ? `${optionalParams?.indicatorName} ${periodLabelText}${additionalPeriodLabelText}${fromTo}`
     : fromTo;
 
   return {
