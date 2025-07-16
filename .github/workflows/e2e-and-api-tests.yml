@@ -63,7 +63,7 @@ jobs:
       AZUREAD__TENANTID: ${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}
       AZUREAD__CLIENTID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
       ADMINROLE: ${{ vars.DEVELOPMENT_ADMINISTRATOR_GROUP_ID }}
-      AUTH_URL: http://localhost:3000/auth
+
     defaults:
       run:
         working-directory: ${{ env.frontend-directory }}
