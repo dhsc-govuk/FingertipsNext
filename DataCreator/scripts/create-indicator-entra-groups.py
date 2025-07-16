@@ -39,8 +39,10 @@ def create_group(indicator_id, indicator_name, mail_nickname):
 This script creates Microsoft Entra ID groups (roles) for each indicator defined in an input CSV file.
 Each group represents the administrators for a given indicator.
 
-Expected input CSV format (indicators.csv):
-    IndicatorID,IndicatorName
+The environment must have the Azure CLI (https://learn.microsoft.com/en-us/cli/azure/?view=azure-cli-latest) installed and logged into subscription hosting the entra instance to configure roles against.
+
+Input:
+    This script reads the the indicators.csv from the data output folder. This must be available within the same directory for the script to run.
 
 Output:
     A CSV file (indicatorroles.csv) mapping each IndicatorId to the created Entra group ID (RoleId),
