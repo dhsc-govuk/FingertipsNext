@@ -12,8 +12,8 @@ public class IndicatorSegment
     ///     Age which the segment is for.
     /// </summary>
     [JsonPropertyName("age")]
-    public required Age Age { get; init; }    
-    
+    public required Age Age { get; init; }
+
     /// <summary>
     ///     Sex which the segment is for.
     /// </summary>
