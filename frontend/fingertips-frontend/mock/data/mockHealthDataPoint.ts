@@ -43,7 +43,7 @@ export const mockDatePeriod = (
   overrides: Partial<DatePeriod> | number | undefined
 ) => {
   if (overrides === undefined || typeof overrides === 'number') {
-    const year = overrides ? overrides : 2023;
+    const year = overrides ?? 2023;
     return {
       type: PeriodType.Calendar,
       from: new Date(`${year}-01-01`),
