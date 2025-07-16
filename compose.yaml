@@ -1,28 +1,4 @@
 services:
-  frontend:
-    profiles:
-      - all
-      - app-services
-      - frontend
-
-    build: frontend/fingertips-frontend
-    environment:
-      FINGERTIPS_API_URL: "http://api:8080"
-      DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
-      NEXT_PUBLIC_FINGERTIPS_GIT_HASH: ${NEXT_PUBLIC_FINGERTIPS_GIT_HASH}
-      NEXT_PUBLIC_FINGERTIPS_GIT_TAG: ${NEXT_PUBLIC_FINGERTIPS_GIT_TAG}
-      AUTH_SECRET: ${AUTH_SECRET}
-      AUTH_ISSUER: ${AUTH_ISSUER}
-      AUTH_WELLKNOWN: ${AUTH_WELLKNOWN}
-      AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
-      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET}
-      AUTH_TRUST_HOST: true
-      AUTH_URL: "http://localhost:3000/auth"
-      AUTH_USE_PASSWORD_MOCK: ${AUTH_USE_PASSWORD_MOCK}
-
-    ports:
-      - 3000:3000
-
   api:
     profiles:
       - all
