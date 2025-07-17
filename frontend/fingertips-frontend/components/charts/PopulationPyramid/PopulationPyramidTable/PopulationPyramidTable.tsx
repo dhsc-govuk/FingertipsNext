@@ -76,7 +76,7 @@ const computeFooterItems = (
   return { age: 'All ages', male: totalMales ?? 0, female: totalFemales ?? 0 };
 };
 
-export const PopulationDataTable = ({
+export const PopulationPyramidTable = ({
   headers,
   healthDataForArea,
   title,

@@ -1,4 +1,3 @@
-import { PopulationPyramidWithTableDataProvider } from './index';
 import { render } from '@testing-library/react';
 import { SearchParams } from '@/lib/searchStateManager';
 import { HierarchyNameTypes } from '@/lib/areaFilterHelpers/areaType';
@@ -6,6 +5,7 @@ import { Area } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { API_CACHE_CONFIG } from '@/lib/apiClient/apiClientFactory';
 import { maxNumAreasThatCanBeRequestedAPI } from '@/lib/chunkArray';
+import { PopulationPyramidWithTableDataProvider } from '@/app/chart/PopulationPyramidWithTableDataProvider/index';
 
 const mockGetHealthDataForAnIndicator = vi.fn();
 
@@ -25,8 +25,8 @@ vi.mock('@/lib/apiClient/apiClientFactory', async () => {
     },
   };
 });
-vi.mock('@/components/organisms/PopulationPyramidWithTable', () => ({
-  PopulationPyramidWithTable: () => <div>PopulationPyramidWithTable</div>,
+vi.mock('@/components/charts/PopulationPyramid/PopulationPyramid', () => ({
+  PopulationPyramid: () => <div>PopulationPyramid</div>,
 }));
 
 describe('PopulationPyramidWithTableDataProvider', () => {
@@ -52,7 +52,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     });
     const view = render(jsxView);
     expect(view).toBeTruthy();
-    expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
+    expect(view.getByText('PopulationPyramid')).toBeInTheDocument();
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(1);
   });
 
@@ -95,7 +95,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     });
     const view = render(jsxView);
     expect(view).toBeTruthy();
-    expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
+    expect(view.getByText('PopulationPyramid')).toBeInTheDocument();
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
   });
 
@@ -106,7 +106,7 @@ describe('PopulationPyramidWithTableDataProvider', () => {
     });
     const view = render(jsxView);
     expect(view).toBeTruthy();
-    expect(view.getByText('PopulationPyramidWithTable')).toBeInTheDocument();
+    expect(view.getByText('PopulationPyramid')).toBeInTheDocument();
     expect(mockGetHealthDataForAnIndicator).toHaveBeenCalledWith(
       {
         areaCodes: [areaCodeForEngland],

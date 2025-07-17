@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { PopulationDataTable } from './PopulationDataTable';
+import { PopulationPyramidTable } from './PopulationPyramidTable';
 
 const mockHealthDataForArea = {
   areaName: 'Test Area',
@@ -12,7 +12,7 @@ const mockHealthDataForArea = {
 describe('PopulationDataTable', () => {
   test('renders table with correct headers and data', () => {
     render(
-      <PopulationDataTable
+      <PopulationPyramidTable
         headers={['Age Band', 'Females', 'Males']}
         title="Population Data"
         healthDataForArea={mockHealthDataForArea}
@@ -30,7 +30,7 @@ describe('PopulationDataTable', () => {
 
   test('renders empty when no data is provided', () => {
     const { container } = render(
-      <PopulationDataTable
+      <PopulationPyramidTable
         headers={['Age Band', 'Females', 'Males']}
         title="Population Data"
         healthDataForArea={undefined}
@@ -41,7 +41,7 @@ describe('PopulationDataTable', () => {
 
   it('check the number of rows rendered including header and footer is correctly', () => {
     render(
-      <PopulationDataTable
+      <PopulationPyramidTable
         headers={['Age Band', 'Females', 'Males']}
         title="Population Data"
         healthDataForArea={mockHealthDataForArea}
@@ -54,7 +54,7 @@ describe('PopulationDataTable', () => {
 
   test('take a snapshot', () => {
     const { asFragment } = render(
-      <PopulationDataTable
+      <PopulationPyramidTable
         headers={['Age Band', 'Females', 'Males']}
         title="Population Data"
         healthDataForArea={mockHealthDataForArea}

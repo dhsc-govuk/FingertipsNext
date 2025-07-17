@@ -11,7 +11,7 @@ import {
 } from '@/lib/areaFilterHelpers/areaType';
 
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { PopulationPyramidWithTable } from '@/components/organisms/PopulationPyramidWithTable';
+import { PopulationPyramid } from '../../../components/charts/PopulationPyramid/PopulationPyramid';
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
 
 const getPopulationData = (
@@ -74,7 +74,7 @@ export const PopulationPyramidWithTableDataProvider = async ({
   const { indicatorId, name: indicatorName } = populationData;
 
   return (
-    <PopulationPyramidWithTable
+    <PopulationPyramid
       healthDataForAreas={populationData?.areaHealthData ?? []}
       searchState={searchState}
       xAxisTitle="Age"

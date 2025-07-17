@@ -2,14 +2,14 @@
 
 import Highcharts from 'highcharts';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
-import { createChartPyramidOptions } from './createChartOptions';
+import { createChartPyramidOptions } from '../helpers/createChartOptions';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { ExportOnlyWrapper } from '@/components/molecules/Export/ExportOnlyWrapper';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 
-interface PyramidChartProps {
+interface PopulationPyramidChartProps {
   title: string;
   dataForSelectedArea: PopulationDataForArea;
   dataForBenchmark?: PopulationDataForArea;
@@ -19,7 +19,7 @@ interface PyramidChartProps {
   accessibilityLabel?: string;
 }
 
-export function PopulationPyramid({
+export function PopulationPyramidChart({
   title,
   dataForSelectedArea,
   dataForBenchmark,
@@ -27,7 +27,7 @@ export function PopulationPyramid({
   xAxisTitle,
   yAxisTitle,
   accessibilityLabel,
-}: Readonly<PyramidChartProps>) {
+}: Readonly<PopulationPyramidChartProps>) {
   Highcharts.Templating.helpers.abs = (value) => Math.abs(value);
 
   const populationPyramidOptions: Highcharts.Options =

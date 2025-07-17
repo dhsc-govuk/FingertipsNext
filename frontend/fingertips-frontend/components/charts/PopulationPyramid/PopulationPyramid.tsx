@@ -1,7 +1,7 @@
 'use client';
 
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
-import { PopulationPyramid } from '@/components/organisms/PopulationPyramid';
+import { PopulationPyramidChart } from '@/components/charts/PopulationPyramid/PopulationPyramidChart/PopulationPyramidChart';
 import {
   createPyramidPopulationDataFrom,
   PopulationDataForArea,
@@ -14,7 +14,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
-import { PopulationPyramidChartTable } from '../PopulationPyramidChartTable';
+import { PopulationPyramidChartTable } from './PopulationPyramidTable/PopulationPyramidTableGroup';
 import { ChartSelectArea } from '@/components/molecules/ChartSelectArea';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
@@ -22,7 +22,7 @@ import {
   determineHeaderTitle,
   determinePopulationDataForArea,
   determineYear,
-} from './populationPyramidHelpers';
+} from './helpers/populationPyramidHelpers';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 import {
   chartTitleConfig,
@@ -37,7 +37,7 @@ interface PyramidPopulationChartViewProps {
   indicatorId: string;
   indicatorName: string;
 }
-export const PopulationPyramidWithTable = ({
+export const PopulationPyramid = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
@@ -134,7 +134,7 @@ export const PopulationPyramidWithTable = ({
                   id: 'populationPyramidChart',
                   title: 'Population pyramid',
                   content: (
-                    <PopulationPyramid
+                    <PopulationPyramidChart
                       title={title}
                       dataForSelectedArea={populationDataForSelectedArea}
                       dataForGroup={groupToUse}
