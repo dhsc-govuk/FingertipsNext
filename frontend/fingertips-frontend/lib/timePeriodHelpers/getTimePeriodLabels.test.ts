@@ -110,16 +110,21 @@ describe('periodLabelText', () => {
 
 describe('getAdditionalPeriodLabel', () => {
   it('should return the correct label for PeriodType.Yearly with a valid date', () => {
-
     const label = getAdditionalPeriodLabel({
-      type: PeriodType.Yearly, from: new Date('2023-11-01'), to: new Date('2024-11-01')
+      type: PeriodType.Yearly,
+      from: new Date('2023-11-01'),
+      to: new Date('2024-11-01'),
     });
 
     expect(label).toEqual('(month to month e.g. November to November) ');
   });
 
   it('should return an empty string when periodType is not Yearly', () => {
-    const label = getAdditionalPeriodLabel({ type: PeriodType.Calendar, from: new Date('2022-01-01'), to: new Date('2022-01-01') });
+    const label = getAdditionalPeriodLabel({
+      type: PeriodType.Calendar,
+      from: new Date('2022-01-01'),
+      to: new Date('2022-01-01'),
+    });
 
     expect(label).toEqual('');
   });
@@ -129,7 +134,11 @@ describe('formatDatePointLabel', () => {
   describe('when reportingPeriod is 1', () => {
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-01-01'), to: new Date('2023-01-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-01'),
+        },
         Frequency.Annually,
         1
       );
@@ -138,7 +147,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Quarterly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-01-01'), to: new Date('2023-03-31') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-01-01'),
+          to: new Date('2023-03-31'),
+        },
         Frequency.Quarterly,
         1
       );
@@ -147,7 +160,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-04-01'), to: new Date('2023-04-30') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-04-01'),
+          to: new Date('2023-04-30'),
+        },
         Frequency.Monthly,
         1
       );
@@ -156,7 +173,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly (Leap year)', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2024-02-01'), to: new Date('2024-02-29') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2024-02-01'),
+          to: new Date('2024-02-29'),
+        },
         Frequency.Monthly,
         1
       );
@@ -165,7 +186,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Academic and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Academic, from: new Date('2023-09-01'), to: new Date('2023-09-01') },
+        {
+          type: PeriodType.Academic,
+          from: new Date('2023-09-01'),
+          to: new Date('2023-09-01'),
+        },
         Frequency.Annually,
         1
       );
@@ -174,7 +199,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Yearly and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Yearly, from: new Date('2023-11-01'), to: new Date('2024-10-31') },
+        {
+          type: PeriodType.Yearly,
+          from: new Date('2023-11-01'),
+          to: new Date('2024-10-31'),
+        },
         Frequency.Annually,
         1
       );
@@ -183,7 +212,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2023-04-01'), to: new Date('2023-04-01') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2023-04-01'),
+          to: new Date('2023-04-01'),
+        },
         Frequency.Annually,
         1
       );
@@ -192,7 +225,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is FinancialYearEndPoint and collectionFrequency is Quarterly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2022-04-01'), to: new Date('2022-06-30') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2022-04-01'),
+          to: new Date('2022-06-30'),
+        },
         Frequency.Quarterly,
         1
       );
@@ -201,7 +238,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Monthly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2023-04-01'), to: new Date('2023-04-30') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2023-04-01'),
+          to: new Date('2023-04-30'),
+        },
         Frequency.Monthly,
         1
       );
@@ -210,7 +251,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is FinancialYearEndPoint and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialYearEndPoint, from: new Date('2023-03-31'), to: new Date('2023-03-31') },
+        {
+          type: PeriodType.FinancialYearEndPoint,
+          from: new Date('2023-03-31'),
+          to: new Date('2023-03-31'),
+        },
         Frequency.Annually,
         1
       );
@@ -219,7 +264,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is FinancialMultiYear and collectionFrequency is Cumulative quarters', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialMultiYear, from: new Date('2022-04-01'), to: new Date('2022-06-30') },
+        {
+          type: PeriodType.FinancialMultiYear,
+          from: new Date('2022-04-01'),
+          to: new Date('2022-06-30'),
+        },
         Frequency.Quarterly,
         1
       );
@@ -228,7 +277,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return "X" when periodType and collectionFrequency is combination is not mapped', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialMultiYear, from: new Date('2022-04-01'), to: new Date('2022-06-30') },
+        {
+          type: PeriodType.FinancialMultiYear,
+          from: new Date('2022-04-01'),
+          to: new Date('2022-06-30'),
+        },
         Frequency.Annually,
         1
       );
@@ -239,7 +292,11 @@ describe('formatDatePointLabel', () => {
   describe('when reportingPeriod is 3', () => {
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-01-01'), to: new Date('2025-01-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-01-01'),
+          to: new Date('2025-01-01'),
+        },
         Frequency.Annually,
         3
       );
@@ -248,7 +305,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Quarterly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-01-01'), to: new Date('2024-12-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-01-01'),
+          to: new Date('2024-12-01'),
+        },
         Frequency.Quarterly,
         3
       );
@@ -257,7 +318,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-04-01'), to: new Date('2025-03-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-04-01'),
+          to: new Date('2025-03-01'),
+        },
         Frequency.Monthly,
         3
       );
@@ -266,7 +331,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly (Leap year)', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2024-02-01'), to: new Date('2026-01-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2024-02-01'),
+          to: new Date('2026-01-01'),
+        },
         Frequency.Monthly,
         3
       );
@@ -275,7 +344,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Academic and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Academic, from: new Date('2023-09-01'), to: new Date('2025-09-01') },
+        {
+          type: PeriodType.Academic,
+          from: new Date('2023-09-01'),
+          to: new Date('2025-09-01'),
+        },
         Frequency.Annually,
         3
       );
@@ -284,7 +357,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Yearly and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Yearly, from: new Date('2023-11-01'), to: new Date('2025-10-31') },
+        {
+          type: PeriodType.Yearly,
+          from: new Date('2023-11-01'),
+          to: new Date('2025-10-31'),
+        },
         Frequency.Annually,
         3
       );
@@ -293,7 +370,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2023-04-01'), to: new Date('2025-04-01') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2023-04-01'),
+          to: new Date('2025-04-01'),
+        },
         Frequency.Annually,
         3
       );
@@ -302,7 +383,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Quarterly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2022-04-01'), to: new Date('2024-03-01') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2022-04-01'),
+          to: new Date('2024-03-01'),
+        },
         Frequency.Quarterly,
         3
       );
@@ -311,7 +396,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Monthly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2023-04-01'), to: new Date('2025-03-01') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2023-04-01'),
+          to: new Date('2025-03-01'),
+        },
         Frequency.Monthly,
         3
       );
@@ -320,7 +409,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is FinancialYearEndPoint and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialYearEndPoint, from: new Date('2023-03-31'), to: new Date('2025-03-31') },
+        {
+          type: PeriodType.FinancialYearEndPoint,
+          from: new Date('2023-03-31'),
+          to: new Date('2025-03-31'),
+        },
         Frequency.Annually,
         3
       );
@@ -329,7 +422,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is FinancialMultiYear and collectionFrequency is Cumulative quarters', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialMultiYear, from: new Date('2022-04-01'), to: new Date('2024-06-30') },
+        {
+          type: PeriodType.FinancialMultiYear,
+          from: new Date('2022-04-01'),
+          to: new Date('2024-06-30'),
+        },
         Frequency.Quarterly,
         3
       );
@@ -338,7 +435,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return "X" when periodType and collectionFrequency is combination is not mapped', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialMultiYear, from: new Date('2022-04-01'), to: new Date('2024-06-30') },
+        {
+          type: PeriodType.FinancialMultiYear,
+          from: new Date('2022-04-01'),
+          to: new Date('2024-06-30'),
+        },
         Frequency.Annually,
         3
       );
@@ -349,7 +450,11 @@ describe('formatDatePointLabel', () => {
   describe('when reportingPeriod is 5', () => {
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-01-01'), to: new Date('2027-01-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-01-01'),
+          to: new Date('2027-01-01'),
+        },
         Frequency.Annually,
         5
       );
@@ -358,7 +463,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Quarterly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-01-01'), to: new Date('2026-12-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-01-01'),
+          to: new Date('2026-12-01'),
+        },
         Frequency.Quarterly,
         5
       );
@@ -367,7 +476,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2023-04-01'), to: new Date('2027-03-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2023-04-01'),
+          to: new Date('2027-03-01'),
+        },
         Frequency.Monthly,
         5
       );
@@ -376,7 +489,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly (Leap year)', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Calendar, from: new Date('2024-02-01'), to: new Date('2028-01-01') },
+        {
+          type: PeriodType.Calendar,
+          from: new Date('2024-02-01'),
+          to: new Date('2028-01-01'),
+        },
         Frequency.Monthly,
         5
       );
@@ -385,7 +502,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Academic and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Academic, from: new Date('2023-09-01'), to: new Date('2027-09-01') },
+        {
+          type: PeriodType.Academic,
+          from: new Date('2023-09-01'),
+          to: new Date('2027-09-01'),
+        },
         Frequency.Annually,
         5
       );
@@ -394,7 +515,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Yearly and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Yearly, from: new Date('2023-11-01'), to: new Date('2027-10-31') },
+        {
+          type: PeriodType.Yearly,
+          from: new Date('2023-11-01'),
+          to: new Date('2027-10-31'),
+        },
         Frequency.Annually,
         5
       );
@@ -403,7 +528,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2023-04-01'), to: new Date('2027-04-01') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2023-04-01'),
+          to: new Date('2027-04-01'),
+        },
         Frequency.Annually,
         5
       );
@@ -412,7 +541,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Quarterly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2022-04-01'), to: new Date('2026-03-01') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2022-04-01'),
+          to: new Date('2026-03-01'),
+        },
         Frequency.Quarterly,
         5
       );
@@ -421,7 +554,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Monthly', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.Financial, from: new Date('2023-04-01'), to: new Date('2027-03-01') },
+        {
+          type: PeriodType.Financial,
+          from: new Date('2023-04-01'),
+          to: new Date('2027-03-01'),
+        },
         Frequency.Monthly,
         5
       );
@@ -430,7 +567,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is FinancialYearEndPoint and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialYearEndPoint, from: new Date('2023-03-31'), to: new Date('2027-03-31') },
+        {
+          type: PeriodType.FinancialYearEndPoint,
+          from: new Date('2023-03-31'),
+          to: new Date('2027-03-31'),
+        },
         Frequency.Annually,
         5
       );
@@ -439,7 +580,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return the correct datePointLabel when periodType is FinancialMultiYear and collectionFrequency is Cumulative quarters', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialMultiYear, from: new Date('2022-04-01'), to: new Date('2026-06-30') },
+        {
+          type: PeriodType.FinancialMultiYear,
+          from: new Date('2022-04-01'),
+          to: new Date('2026-06-30'),
+        },
         Frequency.Quarterly,
         5
       );
@@ -448,7 +593,11 @@ describe('formatDatePointLabel', () => {
 
     it('should return "X" when periodType and collectionFrequency is combination is not mapped', () => {
       const datePointLabel = formatDatePointLabel(
-        { type: PeriodType.FinancialMultiYear, from: new Date('2022-04-01'), to: new Date('2026-06-30') },
+        {
+          type: PeriodType.FinancialMultiYear,
+          from: new Date('2022-04-01'),
+          to: new Date('2026-06-30'),
+        },
         Frequency.Annually,
         5
       );

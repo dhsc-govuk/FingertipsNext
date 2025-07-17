@@ -8,7 +8,9 @@ import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels
 describe('addShowHideLinkedSeries', () => {
   let generatedSeriesData: SeriesOptionsType[];
   let setVisibility: Dispatch<SetStateAction<Record<string, boolean>>>;
-  const mockXCategoryKeys = mockIndicatorData[0].healthData.map(point => convertDateToNumber(point.datePeriod?.from))
+  const mockXCategoryKeys = mockIndicatorData[0].healthData.map((point) =>
+    convertDateToNumber(point.datePeriod?.from)
+  );
 
   beforeEach(() => {
     generatedSeriesData = generateSeriesData(

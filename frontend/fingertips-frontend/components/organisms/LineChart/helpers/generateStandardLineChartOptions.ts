@@ -109,19 +109,19 @@ export function generateStandardLineChartOptions(
 
   const filteredSortedEnglandData =
     sortedEnglandData &&
-      sortedHealthIndicatorData.length &&
-      firstDateAsNumber &&
-      lastDateAsNumber
+    sortedHealthIndicatorData.length &&
+    firstDateAsNumber &&
+    lastDateAsNumber
       ? {
-        ...sortedEnglandData,
-        healthData:
-          sortedEnglandData?.healthData.filter(
-            (data) =>
-              convertDateToNumber(data.datePeriod?.from) >=
-              firstDateAsNumber &&
-              convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
-          ) ?? [],
-      }
+          ...sortedEnglandData,
+          healthData:
+            sortedEnglandData?.healthData.filter(
+              (data) =>
+                convertDateToNumber(data.datePeriod?.from) >=
+                  firstDateAsNumber &&
+                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
+            ) ?? [],
+        }
       : sortedEnglandData;
 
   const sortedGroupData = optionalParams?.groupIndicatorData
@@ -130,19 +130,19 @@ export function generateStandardLineChartOptions(
 
   const filteredSortedGroupData =
     sortedGroupData &&
-      sortedHealthIndicatorData.length &&
-      firstDateAsNumber &&
-      lastDateAsNumber
+    sortedHealthIndicatorData.length &&
+    firstDateAsNumber &&
+    lastDateAsNumber
       ? {
-        ...sortedGroupData,
-        healthData:
-          sortedGroupData?.healthData.filter(
-            (data) =>
-              convertDateToNumber(data.datePeriod?.from) >=
-              firstDateAsNumber &&
-              convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
-          ) ?? [],
-      }
+          ...sortedGroupData,
+          healthData:
+            sortedGroupData?.healthData.filter(
+              (data) =>
+                convertDateToNumber(data.datePeriod?.from) >=
+                  firstDateAsNumber &&
+                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
+            ) ?? [],
+        }
       : sortedGroupData;
 
   const categories: { key: number; value: string }[] =
@@ -151,8 +151,10 @@ export function generateStandardLineChartOptions(
       value: formatDatePointLabel(point.datePeriod, frequency, 1),
     })) ?? [];
 
-  const xCategoryKeys: number[] = categories.map(category => category.key);
-  const xCategoryValues: string[] = categories.map(category => category.value);
+  const xCategoryKeys: number[] = categories.map((category) => category.key);
+  const xCategoryValues: string[] = categories.map(
+    (category) => category.value
+  );
 
   const series = generateSeriesData(
     xCategoryKeys,
@@ -167,12 +169,11 @@ export function generateStandardLineChartOptions(
 
   const periodLabel = getPeriodLabel(periodType, frequency);
   const periodLabelText = periodLabel ? `${periodLabel} ` : '';
-  const additionalPeriodLabelText = getAdditionalPeriodLabel(
-    {
-      type: periodType,
-      from: new Date(minXAxisEntries),
-      to: new Date(maxXAxisEntries)
-    });
+  const additionalPeriodLabelText = getAdditionalPeriodLabel({
+    type: periodType,
+    from: new Date(minXAxisEntries),
+    to: new Date(maxXAxisEntries),
+  });
 
   const fromDateLabel = xCategoryValues.at(0);
   const toDateLabel = xCategoryValues.at(-1);

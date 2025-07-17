@@ -29,7 +29,7 @@ function generateSeries(
       if (xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))) {
         return [point.value];
       }
-      return [null]
+      return [null];
     }),
     marker: {
       symbol,
@@ -49,14 +49,21 @@ export function generateSeriesData(
 ): Highcharts.SeriesOptionsType[] {
   if (englandData && areasData.length === 0) {
     return [
-      generateSeries(xCategoryKeys, englandData, 'circle', GovukColours.DarkGrey),
+      generateSeries(
+        xCategoryKeys,
+        englandData,
+        'circle',
+        GovukColours.DarkGrey
+      ),
       generateConfidenceIntervalSeries(
         englandData.areaName,
         englandData.healthData.map((point) => {
-          if (xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))) {
+          if (
+            xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))
+          ) {
             return [point.lowerCi, point.upperCi];
           }
-          return [null, null]
+          return [null, null];
         }),
         showConfidenceIntervalsData
       ),
@@ -77,10 +84,14 @@ export function generateSeriesData(
         generateConfidenceIntervalSeries(
           item.areaName,
           item.healthData.map((point) => {
-            if (xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))) {
+            if (
+              xCategoryKeys.includes(
+                convertDateToNumber(point.datePeriod?.from)
+              )
+            ) {
               return [point.lowerCi, point.upperCi];
             }
-            return [null, null]
+            return [null, null];
           }),
           showConfidenceIntervalsData
         );
@@ -91,7 +102,13 @@ export function generateSeriesData(
     });
 
   const groupBenchmarkSeries = groupData
-    ? generateSeries(xCategoryKeys, groupData, 'diamond', GovukColours.Turquoise, 'Group')
+    ? generateSeries(
+        xCategoryKeys,
+        groupData,
+        'diamond',
+        GovukColours.Turquoise,
+        'Group'
+      )
     : undefined;
 
   const alternateBenchmarkSeries = englandData

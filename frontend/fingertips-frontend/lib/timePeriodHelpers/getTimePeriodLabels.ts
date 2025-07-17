@@ -3,12 +3,7 @@ import {
   Frequency,
   PeriodType,
 } from '@/generated-sources/ft-api-client';
-import {
-  format,
-  addYears,
-  subMonths,
-  subYears,
-} from 'date-fns';
+import { format, addYears, subMonths, subYears } from 'date-fns';
 
 /**
  * The following types are temporary.
@@ -41,10 +36,10 @@ const labelFormatters: {
           return format(datePeriod.from, 'yyyy');
         }
         const fromYear = format(datePeriod.from, 'yyyy');
-        const toYear = format(addYears(
-          datePeriod.from,
-          reportingPeriod - 1
-        ), 'yyyy');
+        const toYear = format(
+          addYears(datePeriod.from, reportingPeriod - 1),
+          'yyyy'
+        );
         return `${fromYear} to ${toYear}`;
       },
     },
@@ -103,7 +98,7 @@ const labelFormatters: {
       periodLabelText: 'Yearly',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
-          const fromYear = format(datePeriod.from, 'yyyy');;
+          const fromYear = format(datePeriod.from, 'yyyy');
           const toYearShort = format(datePeriod.to, 'yy');
           return `${fromYear}/${toYearShort}`;
         }
@@ -221,9 +216,7 @@ export const getPeriodLabel = (
   return formatter.periodLabelText;
 };
 
-export const getAdditionalPeriodLabel = (
-  datePeriod: DatePeriod
-): string => {
+export const getAdditionalPeriodLabel = (datePeriod: DatePeriod): string => {
   if (datePeriod.type === PeriodType.Yearly) {
     const fromMonth = format(datePeriod.from, 'LLLL');
     const toMonth = format(datePeriod.to, 'LLLL');

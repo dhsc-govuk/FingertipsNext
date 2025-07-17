@@ -11,17 +11,21 @@ const twoAreasWithIndicatorData = [
   area1WithIndicatorData,
   area2WithIndicatorData,
 ];
-const area1XCategoryKeys = area1WithIndicatorData.healthData.map(point => convertDateToNumber(point.datePeriod?.from))
-const area2XCategoryKeys = area2WithIndicatorData.healthData.map(point => convertDateToNumber(point.datePeriod?.from))
+const area1XCategoryKeys = area1WithIndicatorData.healthData.map((point) =>
+  convertDateToNumber(point.datePeriod?.from)
+);
+const area2XCategoryKeys = area2WithIndicatorData.healthData.map((point) =>
+  convertDateToNumber(point.datePeriod?.from)
+);
 
-const twoAreasXCategoryKeys = [
-  ...area1XCategoryKeys,
-  ...area2XCategoryKeys
-]
+const twoAreasXCategoryKeys = [...area1XCategoryKeys, ...area2XCategoryKeys];
 
 describe('generateSeriesData', () => {
   it('should generate series for areas only', () => {
-    const result = generateSeriesData(twoAreasXCategoryKeys, twoAreasWithIndicatorData);
+    const result = generateSeriesData(
+      twoAreasXCategoryKeys,
+      twoAreasWithIndicatorData
+    );
     expect(result).toHaveLength(2);
 
     result.forEach((areaSeriesData, i) => {

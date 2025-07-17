@@ -270,13 +270,9 @@ export function LineChartTable({
           convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
       );
 
-      const datePeriod = englandHealthPoint?.datePeriod
+      const datePeriod = englandHealthPoint?.datePeriod;
 
-      const formattedPeriod = formatDatePointLabel(
-        datePeriod,
-        frequency,
-        1
-      );
+      const formattedPeriod = formatDatePointLabel(datePeriod, frequency, 1);
 
       const row: AreaDataMatchedByYear = {
         dateAsNumber,
