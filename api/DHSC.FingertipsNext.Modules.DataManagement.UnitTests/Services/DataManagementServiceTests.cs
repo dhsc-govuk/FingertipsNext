@@ -258,7 +258,7 @@ public class DataManagementServiceTests
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.Ok);
-        
+
         result.Model.ShouldNotBeNull();
         result.Model.BatchId.ShouldBe("123");
         result.Model.ShouldBeEquivalentTo(mappedModel);
