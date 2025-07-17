@@ -1,3 +1,6 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+//
 import { render, screen } from '@testing-library/react';
 import { FTHeader } from '.';
 
@@ -7,6 +10,8 @@ vi.mock('@/lib/auth/handlers', () => {
     signOutHandler: vi.fn(),
   };
 });
+
+mockSetIsLoading.mockReturnValue(false);
 
 describe('Header', () => {
   it('should match snapshot', () => {
