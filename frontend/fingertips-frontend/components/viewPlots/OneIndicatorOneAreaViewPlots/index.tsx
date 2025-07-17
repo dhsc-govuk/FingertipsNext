@@ -38,7 +38,7 @@ export function OneIndicatorOneAreaViewPlots({
   const showInequalities = useInequalitiesData();
   const showLineChartLink = useLineChartOverTimeData();
 
-  const availableChartLinks: string[] = [];
+  const availableChartLinks: ChartTitleKeysEnum[] = [];
 
   if (showLineChartLink) availableChartLinks.push(ChartTitleKeysEnum.LineChart);
   if (showInequalities)

@@ -111,7 +111,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   const showHeatmap = shouldShowHeatmap(areaCodes, groupAreaSelected);
 
-  const availableChartLinks: string[] = [];
+  const availableChartLinks: ChartTitleKeysEnum[] = [];
   if (showSpine) availableChartLinks.push(ChartTitleKeysEnum.SpineChart);
   if (showHeatmap) availableChartLinks.push(ChartTitleKeysEnum.Heatmap);
   availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);

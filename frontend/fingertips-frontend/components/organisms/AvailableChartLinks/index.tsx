@@ -3,22 +3,21 @@ import { ZeroMarginParagraph } from '@/components/pages/home';
 import {
   chartTitleConfig,
   ChartTitleConfigType,
+  ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import { filterDefined } from '@/lib/chartHelpers/filterDefined';
 
 interface AvailableChartLinksProps {
-  availableCharts: string[];
+  availableCharts: ChartTitleKeysEnum[];
 }
 
 export function filterChartLinks(
   chartTitleConfig: ChartTitleConfigType,
-  availableCharts: string[]
+  availableCharts: ChartTitleKeysEnum[]
 ) {
-  return Object.entries(chartTitleConfig)
-    .filter(([key]) => availableCharts.includes(key))
-    .sort(
-      ([aKey], [bKey]) =>
-        availableCharts.indexOf(aKey) - availableCharts.indexOf(bKey)
-    );
+  return availableCharts
+    .map((key) => chartTitleConfig[key])
+    .filter(filterDefined);
 }
 
 export const AvailableChartLinks = ({
@@ -33,9 +32,9 @@ export const AvailableChartLinks = ({
     <section data-testid="availableChartLinks-component">
       <ZeroMarginParagraph>Available charts</ZeroMarginParagraph>
       <UnorderedList listStyleType='"— "'>
-        {filteredChartLinks.map(([key, value]) => (
-          <ListItem key={key}>
-            <Link href={value.href}>{value.title}</Link>
+        {filteredChartLinks.map((item) => (
+          <ListItem key={item.href}>
+            <Link href={item.href}>{item.title}</Link>
           </ListItem>
         ))}
       </UnorderedList>

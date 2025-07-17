@@ -41,7 +41,7 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const showThematicMap = selectedGroupArea === ALL_AREAS_SELECTED;
   const showLineChartLink = useLineChartOverTimeData();
 
-  const availableChartLinks = [];
+  const availableChartLinks: ChartTitleKeysEnum[] = [];
 
   if (showLineChartLink) availableChartLinks.push(ChartTitleKeysEnum.LineChart);
   if (showThematicMap) availableChartLinks.push(ChartTitleKeysEnum.ThematicMap);

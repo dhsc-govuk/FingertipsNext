@@ -27,31 +27,7 @@ const mockChartLinks = {
     title: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
     href: '#line-chart',
   },
-  [ChartTitleKeysEnum.InequalitiesBarChart]: {
-    title: chartTitleConfig[ChartTitleKeysEnum.InequalitiesBarChart].title,
-    href: '#inequalities-bar-chart',
-  },
-  [ChartTitleKeysEnum.BarChartEmbeddedTable]: {
-    title: chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title,
-    href: '#bar-chart-embedded-table-chart',
-  },
-  [ChartTitleKeysEnum.Heatmap]: {
-    title: chartTitleConfig[ChartTitleKeysEnum.Heatmap].title,
-    href: '#heatmap-chart',
-  },
-  [ChartTitleKeysEnum.SpineChart]: {
-    title: chartTitleConfig[ChartTitleKeysEnum.SpineChart].title,
-    href: '#spine-chart',
-  },
-  [ChartTitleKeysEnum.ThematicMap]: {
-    title: chartTitleConfig[ChartTitleKeysEnum.ThematicMap].title,
-    href: '#thematic-map-chart',
-  },
-  [ChartTitleKeysEnum.BasicTableChart]: {
-    title: chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title,
-    href: '#basic-table-chart',
-  },
-};
+} as unknown as ChartTitleConfigType;
 
 const mockInvalidChartLinks = {
   'not-a-chart': { title: 'Not a valid chart', href: '#not-a-chart' },
@@ -66,7 +42,6 @@ describe('AvailableChartLinks', () => {
 
   it('should render the available chart links', () => {
     render(<AvailableChartLinks availableCharts={mockAvailableCharts} />);
-    filterChartLinks(mockChartLinks, mockAvailableCharts);
 
     const listItems = screen.getAllByRole('listitem');
 
@@ -81,21 +56,17 @@ describe('filterChartLinks', () => {
     const filteredLinks = filterChartLinks(mockChartLinks, mockAvailableCharts);
 
     expect(filteredLinks).toHaveLength(2);
-    expect(filteredLinks[0][1]).toBe(
-      mockChartLinks[ChartTitleKeysEnum.LineChart]
-    );
-    expect(filteredLinks[1][1]).toBe(
+    expect(filteredLinks[0]).toBe(mockChartLinks[ChartTitleKeysEnum.LineChart]);
+    expect(filteredLinks[1]).toBe(
       mockChartLinks[ChartTitleKeysEnum.InequalitiesLineChart]
     );
   });
 
-  it('should sort the filtered chart links based on available charts order', () => {
+  it('should return only the defined chart links', () => {
     const filteredLinks = filterChartLinks(mockChartLinks, mockAvailableCharts);
 
-    expect(filteredLinks[0][1]).toBe(
-      mockChartLinks[ChartTitleKeysEnum.LineChart]
-    );
-    expect(filteredLinks[1][1]).toBe(
+    expect(filteredLinks[0]).toBe(mockChartLinks[ChartTitleKeysEnum.LineChart]);
+    expect(filteredLinks[1]).toBe(
       mockChartLinks[ChartTitleKeysEnum.InequalitiesLineChart]
     );
   });

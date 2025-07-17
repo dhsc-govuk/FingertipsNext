@@ -85,7 +85,7 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
     indicatorMetadata
   );
 
-  const availableChartLinks: string[] = [
+  const availableChartLinks: ChartTitleKeysEnum[] = [
     ChartTitleKeysEnum.BasicTableChart,
     ChartTitleKeysEnum.PopulationPyramid,
   ];
