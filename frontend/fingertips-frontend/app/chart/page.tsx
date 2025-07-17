@@ -38,6 +38,10 @@ export default async function ChartPage(
   await connection();
   const session = await auth();
 
+  const healthEndpoint = session
+    ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
+    : EndPoints.HealthDataForAnIndicator;
+
   try {
     const searchParams = await props.searchParams;
     const stateManager = SearchStateManager.initialise(searchParams);
@@ -103,24 +107,20 @@ export default async function ChartPage(
         availableAreas ?? []
       );
       try {
+        queryKeyLineChart = queryKeyFromRequestParams(
+          healthEndpoint,
+          apiRequestParams
+        );
         if (session) {
           healthData =
             await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
               apiRequestParams,
               API_CACHE_CONFIG
             );
-          queryKeyLineChart = queryKeyFromRequestParams(
-            EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-            apiRequestParams
-          );
         } else {
           healthData = await indicatorApi.getHealthDataForAnIndicator(
             apiRequestParams,
             API_CACHE_CONFIG
-          );
-          queryKeyLineChart = queryKeyFromRequestParams(
-            EndPoints.HealthDataForAnIndicator,
-            apiRequestParams
           );
         }
         seedData[queryKeyLineChart] = healthData;
@@ -166,16 +166,24 @@ export default async function ChartPage(
       availableAreas ?? []
     );
     const populationPyramidQueryKey = queryKeyFromRequestParams(
-      EndPoints.HealthDataForAnIndicator,
+      healthEndpoint,
       populationPyramidQueryParams
     );
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
       try {
-        seedData[populationPyramidQueryKey] =
-          await indicatorApi.getHealthDataForAnIndicator(
-            populationPyramidQueryParams,
-            API_CACHE_CONFIG
-          );
+        if (session) {
+          seedData[populationPyramidQueryKey] =
+            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+              populationPyramidQueryParams,
+              API_CACHE_CONFIG
+            );
+        } else {
+          seedData[populationPyramidQueryKey] =
+            await indicatorApi.getHealthDataForAnIndicator(
+              populationPyramidQueryParams,
+              API_CACHE_CONFIG
+            );
+        }
       } catch (e) {
         console.error(
           'error getting health indicator data for population pyramid',
