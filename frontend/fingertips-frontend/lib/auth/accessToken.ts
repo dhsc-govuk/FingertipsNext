@@ -4,20 +4,26 @@ import { auth } from '@/lib/auth';
 import { getToken } from 'next-auth/jwt';
 import { cookies, headers } from 'next/headers';
 
-export const addTokenToHeaders = async (
-  headers: HeadersInit = {}
-): Promise<HeadersInit> => {
-  const session = await auth();
-  if (!session) {
-    return headers;
-  }
+export const getAuthHeader = async (): Promise<HeadersInit | undefined> => {
+  const accessToken = await getAccessToken();
 
-  const jwt = await getJwt();
+  if (!accessToken) return undefined;
 
-  return { ...headers, Authorization: `bearer ${jwt?.accessToken}` };
+  return { Authorization: `bearer ${accessToken}` };
 };
 
-const getJwt = async () => {
+const getAccessToken = async () => {
+  const session = await auth();
+  if (!session) {
+    return undefined;
+  }
+
+  const jwt = await getJWT();
+
+  return jwt?.accessToken;
+};
+
+const getJWT = async () => {
   const req = {
     headers: Object.fromEntries(await headers()),
     cookies: Object.fromEntries(

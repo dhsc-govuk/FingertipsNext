@@ -34,7 +34,7 @@ export class AuthConfigFactory {
           // nextjs still complains that the user api code isn't built for the edge runtime
           // even if it will never be called
           if (process.env.NEXT_RUNTIME === 'nodejs') {
-            const { validateAccessToken } = await import(
+            const { validateUser: validateAccessToken } = await import(
               '@/lib/auth/validation'
             );
 
@@ -48,5 +48,11 @@ export class AuthConfigFactory {
     };
 
     return config;
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string;
   }
 }
