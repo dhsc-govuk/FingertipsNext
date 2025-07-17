@@ -53,7 +53,7 @@ describe('generateStandardLineChartOptions', () => {
     expect(generatedOptions).toMatchSnapshot();
   });
 
-  it('should not include benchmark or group years before or after the areas have data', () => {
+  it('should include england years before or after the areas have data', () => {
     const mockBenchmarkAreaWithEarlyYear: HealthDataForArea = {
       ...mockEnglandData,
       healthData: [
@@ -72,19 +72,7 @@ describe('generateStandardLineChartOptions', () => {
         },
       ],
     };
-    const mockGroupAreaWithLateYear: HealthDataForArea = {
-      ...mockParentData,
-      healthData: [
-        ...mockParentData.healthData,
-        {
-          year: 2036,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: 'Not yet calculated',
-          deprivation: noDeprivation,
-        },
-      ],
-    };
+    const mockGroupAreaWithMissingYear = mockParentData;
 
     const generatedOptions = generateStandardLineChartOptions(
       [mockIndicatorData[0]],
@@ -95,15 +83,14 @@ describe('generateStandardLineChartOptions', () => {
       {
         indicatorName: 'Hospital admissions',
         englandData: mockBenchmarkAreaWithEarlyYear,
-        groupIndicatorData: mockGroupAreaWithLateYear,
+        groupIndicatorData: mockGroupAreaWithMissingYear,
         yAxisTitle: 'yAxis',
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
       }
     );
-    expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
-    expect((generatedOptions.series?.[1] as any).data).toHaveLength(2);
+    expect((generatedOptions.series?.[0] as any).data).toHaveLength(3);
     expect(generatedOptions).toMatchSnapshot();
   });
 

@@ -24,13 +24,17 @@ function generateSeries(
   return {
     type: 'line',
     name: namePrefix ? `${namePrefix}: ${data.areaName}` : data.areaName,
+    data: xCategoryKeys.map((xCategoryKey) => {
+      const healthDataPointForYear = data.healthData.find(
+        (point) => convertDateToNumber(point.datePeriod?.from) === xCategoryKey
+      );
 
-    data: data.healthData.map((point) => {
-      if (xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))) {
-        return [point.value];
+      if (healthDataPointForYear) {
+        return [healthDataPointForYear.value];
       }
       return [null];
     }),
+    connectNulls: true,
     marker: {
       symbol,
     },
@@ -57,11 +61,17 @@ export function generateSeriesData(
       ),
       generateConfidenceIntervalSeries(
         englandData.areaName,
-        englandData.healthData.map((point) => {
-          if (
-            xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))
-          ) {
-            return [point.lowerCi, point.upperCi];
+        xCategoryKeys.map((xCategoryKey) => {
+          const healthDataPointForYear = englandData.healthData.find(
+            (point) =>
+              convertDateToNumber(point.datePeriod?.from) === xCategoryKey
+          );
+
+          if (healthDataPointForYear) {
+            return [
+              healthDataPointForYear.lowerCi,
+              healthDataPointForYear.upperCi,
+            ];
           }
           return [null, null];
         }),
@@ -83,13 +93,17 @@ export function generateSeriesData(
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
           item.areaName,
-          item.healthData.map((point) => {
-            if (
-              xCategoryKeys.includes(
-                convertDateToNumber(point.datePeriod?.from)
-              )
-            ) {
-              return [point.lowerCi, point.upperCi];
+          xCategoryKeys.map((xCategoryKey) => {
+            const healthDataPointForYear = item.healthData.find(
+              (point) =>
+                convertDateToNumber(point.datePeriod?.from) === xCategoryKey
+            );
+
+            if (healthDataPointForYear) {
+              return [
+                healthDataPointForYear.lowerCi,
+                healthDataPointForYear.upperCi,
+              ];
             }
             return [null, null];
           }),
