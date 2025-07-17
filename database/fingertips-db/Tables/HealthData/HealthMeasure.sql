@@ -184,6 +184,7 @@ CREATE NONCLUSTERED INDEX QuartileAggregateIndex
 ON [dbo].[HealthMeasure] (
     [IndicatorKey],
     [PeriodKey],
+	[AgeKey],
 	[SexKey],
     [FromDateKey],
     [IsSexAggregatedOrSingle],

@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockDeep } from 'vitest-mock-extended';
 import { Upload } from '.';
+import { mockBatch } from '@/mock/data/mockBatch';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -12,7 +13,7 @@ const apiResponsePanelTestId = 'api-response-panel';
 
 describe('Upload page component', () => {
   it('should render the warning text', () => {
-    render(<Upload />);
+    render(<Upload batches={[mockBatch()]} />);
 
     expect(
       screen.getByText(
@@ -22,7 +23,7 @@ describe('Upload page component', () => {
   });
 
   it('should not render the API response panel before the submit button has not been clicked', () => {
-    render(<Upload />);
+    render(<Upload batches={[mockBatch()]} />);
 
     expect(
       screen.queryByTestId(apiResponsePanelTestId)
@@ -38,8 +39,8 @@ describe('Upload page component', () => {
     });
     const user = userEvent.setup();
 
-    render(<Upload />);
-    await user.click(screen.getByRole('button'));
+    render(<Upload batches={[mockBatch()]} />);
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
 
     expect(
       await screen.findByTestId(apiResponsePanelTestId)
@@ -47,15 +48,15 @@ describe('Upload page component', () => {
   });
 
   it('should render the page heading', () => {
-    render(<Upload />);
+    render(<Upload batches={[mockBatch()]} />);
 
-    expect(screen.getByRole('heading')).toHaveTextContent(
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
       'Indicator data portal'
     );
   });
 
   it('should render the upload form', () => {
-    render(<Upload />);
+    render(<Upload batches={[mockBatch()]} />);
 
     expect(screen.getByLabelText(/Add indicator ID/)).toBeInTheDocument();
   });
