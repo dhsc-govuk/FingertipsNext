@@ -334,6 +334,7 @@ jobs:
     environment: development
     runs-on: dev
     if: >
+      false && 
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
@@ -755,11 +756,21 @@ jobs:
             name        = "AUTH_ISSUER"
             secret_name = null
             value       = "https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0"
-          }
+          },
           {
             name        = "AUTH_WELLKNOWN"
             secret_name = null
             value       = "https://login.microsoftonline.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0/.well-known/openid-configuration"
+          },
+          {
+            name        = "AUTH_URL"
+            secret_name = null
+            value       = "http://20.26.160.30/auth/session"
+          },
+          {
+            name        = "NEXT_PUBLIC_AUTH_URL"
+            secret_name = null
+            value       = "http://20.26.160.30/auth/session"
           }
         ]
       container_liveness_probe: |
