@@ -284,6 +284,12 @@ paths:
                 $ref: '#/components/schemas/Batch'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/{indicator_id}/data/all:
     parameters:
       - $ref: '#/components/parameters/indicator_id'
@@ -511,7 +517,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
-          description: The user does not have administration permissions for the specified indicator.
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
@@ -561,10 +567,12 @@ components:
             Too many years:
               value:
                 message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
-    UserBadRequest:
-      description: User token was missing required claims.
     Unauthorized:
       description: Authorization information is missing or invalid.
+    Forbidden:
+      description: The user does not have administration permissions for the specified indicator.
+    UserBadRequest:
+      description: User token was missing required claims.
   parameters:
     hierarchy_type:
       in: query

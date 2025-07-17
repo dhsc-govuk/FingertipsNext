@@ -114,9 +114,15 @@ indicators_by_indicator_id_data:
           application/json:
             schema:
               $ref: "../schemas.yaml#/Batch"
-              
+
       "400":
         $ref: "../responses.yaml#/BadRequest"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "403":
+        $ref: "../responses.yaml#/Forbidden"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
 indicators_by_indicator_id_all_data:
   parameters:
     - $ref: "./parameters.yaml#/indicator_id"

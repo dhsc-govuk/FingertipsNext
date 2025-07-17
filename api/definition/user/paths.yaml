@@ -43,8 +43,8 @@ indicator_permissions:
       "400":
         $ref: "../responses.yaml#/UserBadRequest"
       "403":
-        description: The user does not have administration permissions for the specified indicator.
+        $ref: "../responses.yaml#/Forbidden"
       "401":
         $ref: "../responses.yaml#/Unauthorized"
-      "500": 
+      "500":
         $ref: "../responses.yaml#/InternalServerError"
