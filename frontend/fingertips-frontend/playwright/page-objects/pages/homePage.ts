@@ -9,7 +9,7 @@ import { siteTitle } from '@/lib/constants';
 import EntraPage from './entraPage';
 
 export default class HomePage extends AreaFilter {
-  private entraPage: EntraPage;
+  private readonly entraPage: EntraPage;
 
   constructor(page: PlaywrightPage) {
     // adjust constructor params as needed
