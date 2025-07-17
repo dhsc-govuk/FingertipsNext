@@ -176,8 +176,8 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                     AreaCode = areaGroup.Key.code,
                     AreaName = areaGroup.Key.name,
                     HealthData = healthDataMapper.Map(areaGroup.ToList())
-                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                     .Where(dataPoint => dataPoint.IsAggregate & dataPoint.AgeBand.IsAggregate)
+                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                     .ToList(),
                     IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
                     {
@@ -190,7 +190,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 {
                     Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
                     Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
-                    IsAggregate = segmentGroup.Key.ageIsAggregate & segmentGroup.Key.sexIsAggregate,
+                    IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())
                       .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                       .ToList()
@@ -257,13 +257,13 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 {
                     Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
                     Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
-                    IsAggregate = segmentGroup.Key.ageIsAggregate & segmentGroup.Key.sexIsAggregate,
+                    IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())
                       .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                       .ToList()
                 })
                 .OrderBy(segment => segment.Sex.Value)
-                .OrderBy(segment => segment.Age.Value)
+                .ThenBy(segment => segment.Age.Value)
                 .ToList()
             })
             .ToList();
