@@ -89,6 +89,17 @@ type BaseChartComponentProps = {
   canShowUnpublishedData?: boolean;
 };
 
+export interface ComponentInteractionConfig {
+  component: ChartComponentDefinition;
+  selectedIndicators: SimpleIndicatorDocument[];
+  areaMode: AreaMode;
+  indicatorMode: IndicatorMode;
+  selectedAreaFilters: AreaFilters;
+  checkExports: boolean;
+  typeOfInequalityToSelect: InequalitiesTypes;
+  signInAsUserToCheckUnpublishedData: SignInAs;
+}
+
 export type ChartComponentDefinition = {
   chartComponentLocator: string;
   chartComponentProps: BaseChartComponentProps;

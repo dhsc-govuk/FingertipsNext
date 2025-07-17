@@ -10,6 +10,7 @@ import {
 } from '@/playwright/testHelpers/genericTestUtilities';
 import {
   ChartComponentDefinition,
+  ComponentInteractionConfig,
   SignInAs,
 } from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
@@ -116,16 +117,17 @@ export default class ChartPage extends AreaFilter {
     );
 
     for (const visibleComponent of visibleComponents) {
-      await this.handleComponentInteractions(
-        visibleComponent,
+      const config: ComponentInteractionConfig = {
+        component: visibleComponent,
         selectedIndicators,
         areaMode,
         indicatorMode,
         selectedAreaFilters,
         checkExports,
         typeOfInequalityToSelect,
-        signInAsUserToCheckUnpublishedData
-      );
+        signInAsUserToCheckUnpublishedData,
+      };
+      await this.handleComponentInteractions(config);
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
         testName
@@ -138,15 +140,19 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async handleComponentInteractions(
-    component: ChartComponentDefinition,
-    selectedIndicators: SimpleIndicatorDocument[],
-    areaMode: AreaMode,
-    indicatorMode: IndicatorMode,
-    selectedAreaFilters: AreaFilters,
-    checkExports: boolean,
-    typeOfInequalityToSelect: InequalitiesTypes,
-    signInAsUserToCheckUnpublishedData: SignInAs
+    config: ComponentInteractionConfig
   ) {
+    const {
+      component,
+      selectedIndicators,
+      areaMode,
+      indicatorMode,
+      selectedAreaFilters,
+      checkExports,
+      typeOfInequalityToSelect,
+      signInAsUserToCheckUnpublishedData,
+    } = config;
+
     const { chartComponentLocator, chartComponentProps } = component;
 
     const interactions = [
@@ -853,9 +859,7 @@ export default class ChartPage extends AreaFilter {
     // Check that the unpublished data year is displayed or not based on the user type
     const checkForPresenceOrAbsenceOfUnpublishedDataYear =
       signInAsUserToCheckUnpublishedData.administrator ||
-      signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions
-        ? true
-        : false;
+      signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions;
     await expect(
       this.page
         .getByTestId(chartComponentLocator)
