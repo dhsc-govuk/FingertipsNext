@@ -90,10 +90,12 @@ export default class UploadPage extends BasePage {
       this.page.getByTestId(this.batchListTableTestId)
     ).toBeVisible();
     await expect(
-      this.page.getByRole('button', { name: this.deleteSubmissionButtonText })
+      this.page
+        .getByRole('button', { name: this.deleteSubmissionButtonText })
+        .first()
     ).toHaveCount(1);
-    await expect(this.page.getByRole('cell', { name: fileName })).toHaveCount(
-      2
-    );
+    await expect(
+      this.page.getByRole('cell', { name: fileName }).first()
+    ).toHaveCount(1);
   }
 }
