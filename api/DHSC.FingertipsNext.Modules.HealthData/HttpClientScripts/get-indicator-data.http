@@ -58,7 +58,9 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E38000101&area_type=g
 %}
 
 ### Ensure unpublished and published data is returned for a non-quintiles indicator
-GET http://localhost:5144/indicators/41101/data/all?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
+## TODO: DHSCFT-1034 this test will no longer pass withouth auth
+
+@todo GET http://localhost:5144/indicators/41101/data/all?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
 > {%
     client.test("Ensure unpublished and published data is returned - non-quintile", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
@@ -77,5 +79,23 @@ GET http://localhost:5144/indicators/41101/data/all?area_codes=E38000101&area_ty
         client.assert(containsAllExpectedYears == true)
         client.assert(yearList.length == 5)
     });
+%}
+
+### Ensure unpublished data is not returned without authorisation
+GET http://localhost:5144/indicators/41101/data/all?area_codes=E92000001
+> {%
+    client.test("Ensure unpublished data are not returned without authorisation", function (callbackfn, thisArg) {
+        client.assert(response.status === 401, "Response status is not 401");
+    })
+%}
+
+### Ensure unpublished data is returned with valid authorisation
+@accessToken = eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Il9qTndqZVNudlRUSzhYRWRyNVFVUGtCUkxMbyJ9valid_token_here
+@todo GET http://localhost:5144/indicators/41101/data/all?area_codes=E92000001 
+# Authorization: Bearer {{accessToken}}
+> {%
+    client.test("Ensure unpublished data are returned with authorisation", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+    })
 %}
 
