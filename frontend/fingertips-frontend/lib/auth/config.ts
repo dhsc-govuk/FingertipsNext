@@ -38,8 +38,10 @@ export class AuthConfigFactory {
               '@/lib/auth/validation'
             );
 
-            if (await validateAccessToken()) {
-              console.log(`validated user ${user.id}`);
+            if (await validateAccessToken(account.access_token)) {
+              return { ...token, accessToken: account.access_token };
+            } else {
+              console.log(`failed to validate user ${user.id}`);
             }
           }
           return token;
