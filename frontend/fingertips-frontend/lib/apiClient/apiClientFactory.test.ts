@@ -1,4 +1,8 @@
-import { AreasApi, IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  AreasApi,
+  BatchesApi,
+  IndicatorsApi,
+} from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from './apiClientFactory';
 import { Mock } from 'vitest';
 
@@ -19,5 +23,11 @@ describe('apiClientFactory', () => {
     const apiClient = ApiClientFactory.getIndicatorsApiClient();
 
     expect(apiClient).toBeInstanceOf(IndicatorsApi);
+  });
+
+  it('getBatchesApiClient return an instance of the BatchesApi', () => {
+    const apiClient = ApiClientFactory.getBatchesApiClient();
+
+    expect(apiClient).toBeInstanceOf(BatchesApi);
   });
 });

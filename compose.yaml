@@ -11,8 +11,16 @@ services:
       DHSC_AI_SEARCH_USE_MOCK_SERVICE: true
       NEXT_PUBLIC_FINGERTIPS_GIT_HASH: ${NEXT_PUBLIC_FINGERTIPS_GIT_HASH}
       NEXT_PUBLIC_FINGERTIPS_GIT_TAG: ${NEXT_PUBLIC_FINGERTIPS_GIT_TAG}
+      AUTH_SECRET: ${AUTH_SECRET}
+      AUTH_ISSUER: ${AUTH_ISSUER}
+      AUTH_WELLKNOWN: ${AUTH_WELLKNOWN}
+      AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
+      AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET}
       AUTH_TRUST_HOST: true
-      AUTH_URL: "http://frontend:3000/auth"
+      AUTH_URL: ${AUTH_URL}
+      NEXT_PUBLIC_AUTH_URL: $AUTH_URL
+      AUTH_USE_PASSWORD_MOCK: ${AUTH_USE_PASSWORD_MOCK}
+
     ports:
       - 3000:3000
 
@@ -37,13 +45,17 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       TRUST_CERT: "True"
-
       # These are the publicly-available connection details for the Azurite storage emulator.
       # DO NOT commit the details of an actual Azure Storage account here!
       UPLOAD_STORAGE_ACCOUNT_URI: "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}"
       UPLOAD_STORAGE_ACCOUNT_NAME: "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}"
       UPLOAD_STORAGE_ACCOUNT_KEY: "${UPLOAD_STORAGE_ACCOUNT_KEY:-Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==}"
       UPLOAD_STORAGE_CONTAINER_NAME: ${UPLOAD_STORAGE_CONTAINER_NAME}
+      AzureAD__Instance: ${AZUREAD__INSTANCE}
+      AzureAD__TenantId: ${AZUREAD__TENANTID}
+      AzureAD__ClientId: ${AZUREAD__CLIENTID}
+      Graph__Scopes: "User.Read"
+
     ports:
       - 5144:8080
     healthcheck:
@@ -136,7 +148,6 @@ services:
       - container
       - create
       - --blob-endpoint
-
       # These are the publicly-available connection details for the Azurite storage emulator.
       # DO NOT commit the details of an actual Azure Storage account here!
       - "${UPLOAD_STORAGE_ACCOUNT_URI:-http://storage:10000/devstoreaccount1}"
@@ -144,6 +155,5 @@ services:
       - "${UPLOAD_STORAGE_ACCOUNT_NAME:-devstoreaccount1}"
       - --account-key
       - "${UPLOAD_STORAGE_ACCOUNT_KEY:-Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==}"
-
       - --name
       - ${UPLOAD_STORAGE_CONTAINER_NAME}

@@ -1,54 +1,70 @@
-import {
-  FingertipsAuthProvider,
-  FingertipsProfile,
-  getFTAProviderConfig,
-} from '@/lib/auth/providers/fingertipsAuthProvider';
-import { MockAuthProvider } from '@/lib/auth/providers/mockProvider';
+import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
+import { tryReadEnvVar } from '@/lib/envUtils';
 import { NextAuthConfig } from 'next-auth';
-import { CredentialsConfig, OIDCConfig } from 'next-auth/providers';
+import 'next-auth/jwt';
 
-export class AuthProvidersFactory {
-  private static providers:
-    | (CredentialsConfig | OIDCConfig<FingertipsProfile>)[]
-    | null;
-
-  public static getProviders() {
-    this.providers ??= this.buildProviders();
-
-    return this.providers;
-  }
-
-  public static reset() {
-    this.providers = null;
-  }
-
-  private static buildProviders() {
-    const providers = [];
-
-    const ftaProviderConfig = getFTAProviderConfig();
-    if (ftaProviderConfig) {
-      providers.push(FingertipsAuthProvider(ftaProviderConfig));
-    }
-
-    if (process.env.AUTH_USE_PASSWORD_MOCK === 'true') {
-      providers.push(MockAuthProvider);
-    }
-
-    return providers;
+declare module 'next-auth' {
+  interface Session {
+    accessToken?: string;
   }
 }
 
-export function buildAuthConfig(): NextAuthConfig {
-  const config: NextAuthConfig = {
-    providers: AuthProvidersFactory.getProviders(),
-  };
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string;
+  }
+}
 
-  if (!process.env.AUTH_SECRET) {
-    // this will be removed when auth is integrated and AUTH_SECRET is provided from build
-    // for now it is here to keep e2e and ui tests from breaking
-    console.log('WARNING - AUTH_SECRET NOT PROVIDED');
-    config.secret = 'insecure';
+export class AuthConfigFactory {
+  private static config: NextAuthConfig | null;
+
+  public static getConfig() {
+    if (!tryReadEnvVar('AUTH_SECRET')) {
+      // This can happen either because AUTH_SECRET is not set
+      // or during build when nextjs can't read the runtime env
+      // if it matters, authjs will log an error
+      return {
+        providers: [],
+      };
+    }
+
+    this.config ??= this.buildConfig();
+
+    return this.config;
   }
 
-  return config;
+  private static buildConfig() {
+    const config: NextAuthConfig = {
+      providers: AuthProvidersFactory.getProviders(),
+      callbacks: {
+        jwt: async ({ token, user: _, account }) => {
+          if (!account?.access_token) return token;
+          // this callback gets invoked on both the node and edge runtime,
+          // but the state where account is present (signin)
+          // only happens on the node runtime
+          // BUT
+          // nextjs still complains that the user api code isn't built for the edge runtime
+          // even if it will never be called
+          if (process.env.NEXT_RUNTIME === 'nodejs') {
+            const { validateAccessToken } = await import(
+              '@/lib/auth/validation'
+            );
+
+            if (await validateAccessToken(account.access_token)) {
+              return { ...token, accessToken: account?.access_token };
+            }
+          }
+          return token;
+        },
+
+        session: ({ session, token }) => {
+          session.accessToken = token.accessToken;
+
+          return session;
+        },
+      },
+    };
+
+    return config;
+  }
 }

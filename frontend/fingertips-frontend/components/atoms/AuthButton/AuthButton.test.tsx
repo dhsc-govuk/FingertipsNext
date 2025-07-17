@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import { AuthButton } from '.';
 import userEvent from '@testing-library/user-event';
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
+import { getSession } from 'next-auth/react';
 
 vi.mock('@/lib/auth/handlers', () => {
   return {
@@ -10,22 +11,17 @@ vi.mock('@/lib/auth/handlers', () => {
   };
 });
 
+vi.mock('next-auth/react', () => {
+  return {
+    getSession: vi.fn(),
+  };
+});
+
 describe('auth button', () => {
   beforeEach(vi.clearAllMocks);
 
   it('should display a button labelled "Sign in" when no session is provided', () => {
     const screen = render(<AuthButton />);
-
-    expect(screen.getByRole('button')).toBeInTheDocument();
-    expect(screen.getByTestId('sign-in-button')).toBeInTheDocument();
-    expect(screen.getByRole('button')).toHaveTextContent('Sign in');
-  });
-
-  it.skip('should display a button labelled "Sign in" when past expires session is provided', () => {
-    const pastTime = Date.now() - 60 * 60 * 1000; // 1 hour ago
-    const screen = render(
-      <AuthButton session={{ expires: String(pastTime) }} />
-    );
 
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByTestId('sign-in-button')).toBeInTheDocument();
@@ -56,5 +52,11 @@ describe('auth button', () => {
     await user.click(screen.getByRole('button'));
 
     expect(signOutHandler).toHaveBeenCalled();
+  });
+
+  it('should call getSession when the SignIn button is rendered', async () => {
+    render(<AuthButton />);
+
+    expect(getSession).toHaveBeenCalled();
   });
 });

@@ -385,7 +385,7 @@ jobs:
             --account-name "${{ secrets.SQL_DATA_STORAGE_ACCOUNT }}" \
             --auth-mode "login" \
             --overwrite true
-                  
+
       - name: Deploy Database
         run: |
           sqlpackage \
@@ -752,9 +752,24 @@ jobs:
             value       = "${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}"
           },
           {
-            name        = "AUTH_TENANT_ID"
+            name        = "AUTH_ISSUER"
             secret_name = null
-            value       = "${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}"
+            value       = "https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0"
+          },
+          {
+            name        = "AUTH_WELLKNOWN"
+            secret_name = null
+            value       = "https://login.microsoftonline.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0/.well-known/openid-configuration"
+          },
+          {
+            name        = "AUTH_URL"
+            secret_name = null
+            value       = "${{ vars.FINGERTIPS_FRONTEND_URL }}/auth"
+          },
+          {
+            name        = "NEXT_PUBLIC_AUTH_URL"
+            secret_name = null
+            value       = "${{ vars.FINGERTIPS_FRONTEND_URL }}/auth"
           }
         ]
       container_liveness_probe: |
