@@ -109,19 +109,19 @@ export function generateStandardLineChartOptions(
 
   const filteredSortedEnglandData =
     sortedEnglandData &&
-      sortedHealthIndicatorData.length &&
-      firstDateAsNumber &&
-      lastDateAsNumber
+    sortedHealthIndicatorData.length &&
+    firstDateAsNumber &&
+    lastDateAsNumber
       ? {
-        ...sortedEnglandData,
-        healthData:
-          sortedEnglandData?.healthData.filter(
-            (data) =>
-              convertDateToNumber(data.datePeriod?.from) >=
-              firstDateAsNumber &&
-              convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
-          ) ?? [],
-      }
+          ...sortedEnglandData,
+          healthData:
+            sortedEnglandData?.healthData.filter(
+              (data) =>
+                convertDateToNumber(data.datePeriod?.from) >=
+                  firstDateAsNumber &&
+                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
+            ) ?? [],
+        }
       : sortedEnglandData;
 
   const sortedGroupData = optionalParams?.groupIndicatorData
@@ -130,19 +130,19 @@ export function generateStandardLineChartOptions(
 
   const filteredSortedGroupData =
     sortedGroupData &&
-      sortedHealthIndicatorData.length &&
-      firstDateAsNumber &&
-      lastDateAsNumber
+    sortedHealthIndicatorData.length &&
+    firstDateAsNumber &&
+    lastDateAsNumber
       ? {
-        ...sortedGroupData,
-        healthData:
-          sortedGroupData?.healthData.filter(
-            (data) =>
-              convertDateToNumber(data.datePeriod?.from) >=
-              firstDateAsNumber &&
-              convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
-          ) ?? [],
-      }
+          ...sortedGroupData,
+          healthData:
+            sortedGroupData?.healthData.filter(
+              (data) =>
+                convertDateToNumber(data.datePeriod?.from) >=
+                  firstDateAsNumber &&
+                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
+            ) ?? [],
+        }
       : sortedGroupData;
 
   const series = generateSeriesData(
