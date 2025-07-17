@@ -1,5 +1,8 @@
+using System.Net;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
+using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.UnitTests.TestData;
@@ -40,6 +43,34 @@ public class DataManagementBatchControllerTests
         response.ShouldNotBeNull();
         response.StatusCode?.ShouldBe(StatusCodes.Status200OK);
         response.Value.ShouldBeEquivalentTo(expectedResponse);
+    }
+
+    [Fact]
+    public async Task DeleteReturnsAccepted()
+    {
+        // Arrange
+        var expectedModel = new Batch
+        {
+            BatchId = "12345_2025-01-01T00:00:00.000",
+            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
+            DeletedAt = DateTime.UtcNow,
+            DeletedUserId = Guid.NewGuid().ToString(),
+            IndicatorId = 12345,
+            OriginalFileName = "upload.csv",
+            PublishedAt = DateTime.UtcNow.AddMonths(1),
+            Status = BatchStatus.Received,
+            UserId = Guid.NewGuid().ToString(),
+        };
+
+        var expectedServiceResponse = new UploadHealthDataResponse(OutcomeType.Ok, expectedModel);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(expectedServiceResponse);
+
+        // Act
+        var response = await _controller.DeleteBatch("12345_2025-01-01T00:00:00.000") as ObjectResult;
+
+        // Assert
+        response.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
+        response.Value.ShouldBeEquivalentTo(expectedModel);
     }
 
     [Theory]

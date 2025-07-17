@@ -49,7 +49,7 @@ public class DataManagementBatchController(IDataManagementService dataManagement
             case OutcomeType.Ok:
                 return new AcceptedResult
                 {
-                    StatusCode = StatusCodes.Status204NoContent,
+                    StatusCode = StatusCodes.Status202Accepted,
                     Value = result.Model
                 };
             case OutcomeType.ClientError:

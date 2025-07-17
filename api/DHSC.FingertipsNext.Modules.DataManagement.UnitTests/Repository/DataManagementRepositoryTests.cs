@@ -143,7 +143,7 @@ public class DataManagementRepositoryTests : IDisposable
         success.ShouldNotBeNull();
         success.BatchId.ShouldBeEquivalentTo(_batchFor383.BatchId);
         success.IndicatorId.ShouldBeEquivalentTo(_batchFor383.IndicatorId);
-        
+
         var batch = await _dataManagementRepository.GetBatchesByIdsAsync([383]);
         batch.FirstOrDefault().DeletedAt.ShouldNotBe(null);
     }
