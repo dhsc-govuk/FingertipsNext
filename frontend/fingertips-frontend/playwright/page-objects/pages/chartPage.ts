@@ -10,7 +10,7 @@ import {
 } from '@/playwright/testHelpers/genericTestUtilities';
 import {
   ChartComponentDefinition,
-  // SignInAs,
+  SignInAs,
 } from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
@@ -93,8 +93,8 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[],
     selectedAreaFilters: AreaFilters,
     checkExports: boolean,
-    typeOfInequalityToSelect: InequalitiesTypes
-    // signInAsUserToCheckUnpublishedData: SignInAs
+    typeOfInequalityToSelect: InequalitiesTypes,
+    signInAsUserToCheckUnpublishedData: SignInAs
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -123,8 +123,8 @@ export default class ChartPage extends AreaFilter {
         indicatorMode,
         selectedAreaFilters,
         checkExports,
-        typeOfInequalityToSelect
-        // signInAsUserToCheckUnpublishedData
+        typeOfInequalityToSelect,
+        signInAsUserToCheckUnpublishedData
       );
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
@@ -144,8 +144,8 @@ export default class ChartPage extends AreaFilter {
     indicatorMode: IndicatorMode,
     selectedAreaFilters: AreaFilters,
     checkExports: boolean,
-    typeOfInequalityToSelect: InequalitiesTypes
-    // signInAsUserToCheckUnpublishedData: SignInAs
+    typeOfInequalityToSelect: InequalitiesTypes,
+    signInAsUserToCheckUnpublishedData: SignInAs
   ) {
     const { chartComponentLocator, chartComponentProps } = component;
 
@@ -225,13 +225,19 @@ export default class ChartPage extends AreaFilter {
         action: async () =>
           await this.toggleConfidenceInterval(chartComponentLocator),
       },
-      // {
-      //   condition: chartComponentProps.canShowUnpublishedData,
-      //   action: async () =>
-      //     await this.verifyUnpublishedDataDisplayed(
-      //       signInAsUserToCheckUnpublishedData
-      //     ),
-      // },
+      {
+        condition:
+          chartComponentProps.canShowUnpublishedData &&
+          (selectedIndicators[0].unpublishedDataYear ||
+            selectedIndicators[1].unpublishedDataYear ||
+            selectedIndicators[2].unpublishedDataYear),
+        action: async () =>
+          await this.verifyUnpublishedDataDisplayed(
+            chartComponentLocator,
+            signInAsUserToCheckUnpublishedData,
+            selectedIndicators
+          ),
+      },
     ];
 
     for (const { condition, action } of interactions) {
@@ -827,5 +833,33 @@ export default class ChartPage extends AreaFilter {
     replaceWith: string = ''
   ): string {
     return inputString.replaceAll('-component', replaceWith);
+  }
+
+  async verifyUnpublishedDataDisplayed(
+    chartComponentLocator: string,
+    signInAsUserToCheckUnpublishedData: SignInAs,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    const unpublishedDataYear =
+      selectedIndicators[0].unpublishedDataYear ||
+      selectedIndicators[1].unpublishedDataYear ||
+      selectedIndicators[2].unpublishedDataYear;
+    if (!unpublishedDataYear) {
+      throw new Error(
+        `Selected indicator ${selectedIndicators[0].indicatorID} should have an unpublished data year stored in core_journey_config.ts.`
+      );
+    }
+
+    // Check that the unpublished data year is displayed or not based on the user type
+    const checkForPresenceOrAbsenceOfUnpublishedDataYear =
+      signInAsUserToCheckUnpublishedData.administrator ||
+      signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions
+        ? true
+        : false;
+    await expect(
+      this.page
+        .getByTestId(chartComponentLocator)
+        .getByText(String(unpublishedDataYear))
+    ).toBeVisible({ visible: checkForPresenceOrAbsenceOfUnpublishedDataYear });
   }
 }

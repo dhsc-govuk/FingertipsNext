@@ -30,6 +30,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasSVGExport: true,
       hasConfidenceIntervals: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -38,6 +39,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasInequalitiesTimePeriodDropDown: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -45,6 +47,7 @@ export const allComponents: ChartComponentDefinition[] = [
     chartComponentProps: {
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -55,6 +58,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasInequalityTypeDropDown: true,
       isWideComponent: true,
       hasConfidenceIntervals: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -64,6 +68,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -73,6 +78,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
+      canShowUnpublishedData: true,
     },
   },
   {
@@ -81,6 +87,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasSVGExport: true,
       hasDetailsExpander: true,
+      // canShowUnpublishedData: true, // wont be done until DHSCFT-1160
     },
   },
   {
@@ -89,6 +96,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
+      // canShowUnpublishedData: true, // wont be done until DHSCFT-1160
     },
   },
   {
@@ -142,7 +150,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasRecentTrend: true,
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
-      canShowUnpublishedData: true,
+      // canShowUnpublishedData: true, // wont be done until DHSCFT-1093
     },
   },
 ];

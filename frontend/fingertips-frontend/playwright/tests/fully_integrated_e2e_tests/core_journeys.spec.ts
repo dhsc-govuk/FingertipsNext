@@ -130,8 +130,8 @@ test.describe(
               selectedIndicatorsData,
               areaFiltersToSelect!,
               checkExports!,
-              typeOfInequalityToSelect!
-              // signInAsUserToCheckUnpublishedData!
+              typeOfInequalityToSelect!,
+              signInAsUserToCheckUnpublishedData!
             );
           });
         });

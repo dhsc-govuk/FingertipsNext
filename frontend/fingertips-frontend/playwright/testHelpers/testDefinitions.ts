@@ -38,6 +38,7 @@ export interface SimpleIndicatorDocument {
   associatedAreaCodes: string[];
   dataSource: string;
   knownTrend?: string;
+  unpublishedDataYear?: number;
 }
 
 export interface AreaFilters {
