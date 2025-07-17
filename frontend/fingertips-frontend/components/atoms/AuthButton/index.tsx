@@ -3,7 +3,6 @@ import { signOutHandler, signInHandler } from '@/lib/auth/handlers';
 import { StyledAuthButton } from './AuthButton.styles';
 import { useLoadingState } from '@/context/LoaderContext';
 import { useEffect } from 'react';
-
 interface AuthButtonProps {
   session?: Session;
 }
@@ -14,9 +13,6 @@ export function AuthButton({ session }: Readonly<AuthButtonProps>) {
 
 function SignInButton() {
   const { setIsLoading } = useLoadingState();
-  useEffect(() => {
-    setIsLoading(false);
-  });
 
   return (
     <StyledAuthButton
