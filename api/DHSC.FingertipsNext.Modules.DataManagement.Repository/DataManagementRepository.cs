@@ -42,4 +42,26 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
             .Where(b => indicators.Contains(b.IndicatorId))
             .ToListAsync();
     }
+
+    public async Task<BatchModel?> DeleteAsync(string batchId, Guid userId)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(batchId);
+
+        // Batch must be unpublished
+        var model = await _dbContext.Batch.Where(b => b.BatchId == batchId && b.DeletedAt == null).FirstOrDefaultAsync();
+        if (model == null)
+        {
+            throw new ArgumentException($"BatchNotFound");
+        }
+
+        if (model.PublishedAt <= DateTime.UtcNow)
+        {
+            throw new ArgumentException($"BatchPublished");
+        }
+
+        model.DeletedAt = DateTime.UtcNow;
+        model.DeletedUserId = userId;
+        await _dbContext.SaveChangesAsync();
+        return model;
+    }
 }

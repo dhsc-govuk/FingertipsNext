@@ -1285,11 +1285,10 @@ public class IndicatorServiceTests
     {
         // Arrange
         var stubBatchId = "batch1";
-        var stubIndicatorId = 1;
-        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId).Returns(true);
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubBatchId).Returns(true);
 
         // Act
-        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubBatchId);
 
         // Assert
         result.Status.ShouldBe(ResponseStatus.Success);
@@ -1300,11 +1299,10 @@ public class IndicatorServiceTests
     {
         // Arrange
         var stubBatchId = "batch1";
-        var stubIndicatorId = 1;
-        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId).Returns(false);
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubBatchId).Returns(false);
 
         // Act
-        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubBatchId);
 
         // Assert
         result.Status.ShouldBe(ResponseStatus.BatchNotFound);
@@ -1315,12 +1313,11 @@ public class IndicatorServiceTests
     {
         // Arrange
         var stubBatchId = "batch1";
-        var stubIndicatorId = 1;
-        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId)
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubBatchId)
             .Throws(new InvalidOperationException());
 
         // Act
-        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubBatchId);
 
         // Assert
         result.Status.ShouldBe(ResponseStatus.ErrorDeletingPublishedBatch);
@@ -1331,12 +1328,11 @@ public class IndicatorServiceTests
     {
         // Arrange
         var stubBatchId = "batch1";
-        var stubIndicatorId = 1;
-        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubIndicatorId, stubBatchId)
+        _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(stubBatchId)
             .Throws(new DbUpdateException());
 
         // Act
-        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubIndicatorId, stubBatchId);
+        var result = await _indicatorService.DeleteUnpublishedDataAsync(stubBatchId);
 
         // Assert
         result.Status.ShouldBe(ResponseStatus.Unknown);

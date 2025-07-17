@@ -12,5 +12,6 @@ public class UploadHealthDataResponse(OutcomeType errorType, Batch? model = null
 public enum OutcomeType
 {
     Ok,
-    ServerError
+    ServerError,
+    ClientError
 }

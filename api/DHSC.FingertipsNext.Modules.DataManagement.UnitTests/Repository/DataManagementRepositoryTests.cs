@@ -11,14 +11,16 @@ public class DataManagementRepositoryTests : IDisposable
     private readonly BatchModel _batchFor22401 = BatchExamples.BatchModel with
     {
         BatchId = "22401_2017-06-30T14:22:37.123Z",
-        IndicatorId = 22401
+        IndicatorId = 22401,
+        PublishedAt = DateTime.UtcNow.AddYears(1)
     };
 
     private readonly BatchModel _batchFor383 = BatchExamples.BatchModel with
     {
         BatchId = "383_2017-06-30T14:22:37.123Z",
         IndicatorId = 383,
-        Status = BatchStatus.Deleted
+        Status = BatchStatus.Deleted,
+        PublishedAt = DateTime.UtcNow.AddYears(1)
     };
 
     private readonly BatchModel _batchFor41101 = BatchExamples.BatchModel with
@@ -126,4 +128,31 @@ public class DataManagementRepositoryTests : IDisposable
         batchModels.ShouldContain(_batchFor383);
         batchModels.ShouldContain(_batchFor22401);
     }
+
+    [Fact]
+    public async Task EnsureBatchIsSoftDeleted()
+    {
+        // Arrange
+        await _dbContext.Batch.AddRangeAsync(_batchFor41101, _batchFor383);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var success = await _dataManagementRepository.DeleteAsync(_batchFor383.BatchId, Guid.Empty);
+
+        // Assert
+        success.ShouldNotBeNull();
+        success.BatchId.ShouldBeEquivalentTo(_batchFor383.BatchId);
+        success.IndicatorId.ShouldBeEquivalentTo(_batchFor383.IndicatorId);
+        
+        var batch = await _dataManagementRepository.GetBatchesByIdsAsync([383]);
+        batch.FirstOrDefault().DeletedAt.ShouldNotBe(null);
+    }
+
+    [Fact]
+    public async Task EnsureNonExistentBatchIsNotSoftDeleted()
+    {
+        // Act
+        await _dataManagementRepository.DeleteAsync("123", Guid.Empty).ShouldThrowAsync<ArgumentException>();
+    }
+
 }

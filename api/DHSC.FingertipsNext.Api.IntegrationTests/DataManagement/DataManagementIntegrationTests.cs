@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
@@ -249,6 +250,12 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
                 BatchId = "22401_2017-06-30T14:22:37.123",
                 IndicatorId = 22401,
                 PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
+            },
+            batch with
+            {
+                BatchId = "12345_2017-06-30T14:22:37.123",
+                IndicatorId = 12345,
+                PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
             }
         ];
 
@@ -259,6 +266,36 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
 
         // Assert
         response.ShouldBeEquivalentTo(expectedResult);
+    }
+
+    [Fact]
+    public async Task DeleteBatchEndpointShouldReturn204Response()
+    {
+        // Arrange
+        var apiClient = GetApiClient(_factory);
+        var batchId = "12345_2017-06-30T14:22:37.123";
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task DeleteBatchEndpointShouldReturn400Response()
+    {
+        // Arrange
+        var apiClient = GetApiClient(_factory);
+        var batchId = "1234";
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        var error = await response.Content.ReadAsStringAsync();
+        error.ShouldContain("Not found");
     }
 
     private static void InitialiseDb(SqlConnection sqlConnection)

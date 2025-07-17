@@ -46,37 +46,6 @@ public class HealthDataRepositoryDeleteTests : IDisposable
     }
 
     [Fact]
-    public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldDeleteUnpublishedDataForBatchIdBelongingToSpecifiedIndicator()
-    {
-        // Arrange
-        PopulateDatabase(new HealthMeasureModelHelper(key: 100, isPublished: false)
-            .WithBatchId("batchId1")
-            .WithIndicatorDimension(indicatorId: 1)
-            .Build());
-        PopulateDatabase(new HealthMeasureModelHelper(key: 101, isPublished: false)
-            .WithBatchId("batchId1")
-            .WithIndicatorDimension(indicatorId: 1)
-            .Build());
-        PopulateDatabase(new HealthMeasureModelHelper(key: 102, isPublished: false)
-            .WithBatchId("batchId1")
-            .WithIndicatorDimension(indicatorId: 2)
-            .Build());
-
-        var resultBeforeDeletion = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
-        resultBeforeDeletion.Count.ShouldBe(2);
-
-        // Act
-        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(1, "batchId1");
-        var resultAfterDeletion = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
-        var unrelatedIndicator = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 2).ToListAsync();
-
-        // Assert
-        resultAfterDeletion.Count.ShouldBe(0);
-        unrelatedIndicator.Count.ShouldBe(1);
-        result.ShouldBe(true);
-    }
-
-    [Fact]
     public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldThrowErrorIfThereIsAttemptToDeletePublishedData()
     {
         // Arrange
@@ -90,7 +59,7 @@ public class HealthDataRepositoryDeleteTests : IDisposable
             .Build());
 
         // Act
-        var act = async () => await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(1, "batchId1");
+        var act = async () => await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync("batchId1");
         var dbContent = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
 
         // Assert
@@ -103,19 +72,18 @@ public class HealthDataRepositoryDeleteTests : IDisposable
     public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldReturnFalseWhenIndicatorIdNotFound()
     {
         // Arrange
-        var nonExistentIndicatorId = 2;
         PopulateDatabase(new HealthMeasureModelHelper(key: 100, isPublished: false)
             .WithBatchId("batchId1")
             .WithIndicatorDimension(indicatorId: 1)
             .Build());
 
         // Act
-        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(nonExistentIndicatorId, "batchId1");
+        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync("batchId1");
         var populatedIndicator = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
 
         // Assert
-        result.ShouldBe(false);
-        populatedIndicator.Count.ShouldBe(1);
+        result.ShouldBe(true);
+        populatedIndicator.Count.ShouldBe(0);
     }
 
     [Fact]
@@ -129,7 +97,7 @@ public class HealthDataRepositoryDeleteTests : IDisposable
             .Build());
 
         // Act
-        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(1, nonExistentBatchId);
+        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(nonExistentBatchId);
         var populatedIndicator = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
 
         // Assert
