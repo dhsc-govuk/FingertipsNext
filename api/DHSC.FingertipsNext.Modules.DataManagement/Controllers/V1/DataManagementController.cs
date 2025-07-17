@@ -11,10 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 
 [ApiController]
+[Route("/indicators/{indicatorId:int}/data")]
 public class DataManagementController(IDataManagementService dataManagementService) : ControllerBase
 {
     [HttpPost]
-    [Route("/indicators/{indicatorId:int}/data")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
