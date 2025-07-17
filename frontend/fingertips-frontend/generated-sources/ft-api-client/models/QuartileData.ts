@@ -34,6 +34,13 @@ import {
     SexDataToJSON,
     SexDataToJSONTyped,
 } from './SexData';
+import type { AgeData } from './AgeData';
+import {
+    AgeDataFromJSON,
+    AgeDataFromJSONTyped,
+    AgeDataToJSON,
+    AgeDataToJSONTyped,
+} from './AgeData';
 import type { IndicatorPolarity } from './IndicatorPolarity';
 import {
     IndicatorPolarityFromJSON,
@@ -54,6 +61,12 @@ export interface QuartileData {
      * @memberof QuartileData
      */
     indicatorId?: number;
+    /**
+     * 
+     * @type {AgeData}
+     * @memberof QuartileData
+     */
+    age?: AgeData;
     /**
      * 
      * @type {SexData}
@@ -160,6 +173,7 @@ export function QuartileDataFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'indicatorId': json['indicatorId'] == null ? undefined : json['indicatorId'],
+        'age': json['age'] == null ? undefined : AgeDataFromJSON(json['age']),
         'sex': json['sex'] == null ? undefined : SexDataFromJSON(json['sex']),
         'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'year': json['year'] == null ? undefined : json['year'],
@@ -189,6 +203,7 @@ export function QuartileDataToJSONTyped(value?: QuartileData | null, ignoreDiscr
     return {
         
         'indicatorId': value['indicatorId'],
+        'age': AgeDataToJSON(value['age']),
         'sex': SexDataToJSON(value['sex']),
         'isAggregate': value['isAggregate'],
         'year': value['year'],

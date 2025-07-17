@@ -6,6 +6,11 @@ import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { mockDeep } from 'vitest-mock-extended';
 import { uploadFile } from './uploadActions';
 import { UTCDateMini } from '@date-fns/utc';
+import { revalidatePath } from 'next/cache';
+
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}));
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -113,5 +118,18 @@ describe('uploadActions', () => {
     expect(response).toEqual({
       message: `An error occurred when calling the API: Error: ${error.message}`,
     });
+  });
+
+  it('should revalidate the batches API path after a successful upload', async () => {
+    const expectedIndicatorId = 4321;
+    const expectedFile = new File([], 'indicator-data.csv');
+    const formData = buildFormData({
+      indicatorId: expectedIndicatorId,
+      file: expectedFile,
+    });
+
+    await uploadFile(undefined, formData);
+
+    expect(revalidatePath).toHaveBeenCalledWith('/batches');
   });
 });

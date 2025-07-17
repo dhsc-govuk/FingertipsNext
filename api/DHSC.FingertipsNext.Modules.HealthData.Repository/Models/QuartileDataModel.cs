@@ -9,6 +9,8 @@ public class QuartileDataModel
     public required int IndicatorId { get; set; }
     public required string? Polarity { get; set; }
     public required short? Year { get; set; }
+    public required string? AgeName { get; set; }
+    public required bool? IsAgeAggregatedOrSingle { get; set; }
     public required string? SexName { get; set; }
     public required bool? IsSexAggregatedOrSingle { get; set; }
     public required DateTime? FromDate { get; set; }
