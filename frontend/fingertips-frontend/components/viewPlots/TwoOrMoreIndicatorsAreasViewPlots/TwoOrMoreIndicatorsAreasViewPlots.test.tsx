@@ -179,9 +179,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 
   it('should render the heat map and population pyramid links when two areas have been selected', () => {
     render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={mockIndicatorData}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
     const availableChartLinks = screen.getByTestId(

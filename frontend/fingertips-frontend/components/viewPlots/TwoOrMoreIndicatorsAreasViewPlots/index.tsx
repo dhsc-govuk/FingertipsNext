@@ -13,9 +13,7 @@ import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { MultipleIndicatorHeatMap } from '@/components/charts/HeatMap/MultipleIndicatorHeatMap';
-import {
-  ChartTitleKeysEnum,
-} from '@/lib/ChartTitles/chartTitleEnums';
+import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
 
 function shouldShowHeatmap(
