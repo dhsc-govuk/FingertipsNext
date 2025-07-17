@@ -82,5 +82,6 @@ namespace DataCreator
         public const string TwoYearly = "2 yearly";
         public const string ThreeYearly = "3 yearly";
         public const string FiveYearly = "5 yearly";
+        public const string CumulativeQuarterly = "cumulative quarterly";
     }
 }
