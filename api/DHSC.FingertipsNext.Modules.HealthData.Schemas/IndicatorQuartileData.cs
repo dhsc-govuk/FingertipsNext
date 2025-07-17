@@ -4,6 +4,21 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 
 public class IndicatorQuartileData : IndicatorBase
 {
+    /// <summary>
+    ///     Age which the data are for.
+    /// </summary>
+    [JsonPropertyName("age")]
+    public required Age? Age { get; init; }
+
+    /// <summary>
+    ///     Sex which the data are for.
+    /// </summary>
+    [JsonPropertyName("sex")]
+    public required Sex? Sex { get; init; }
+
+    [JsonPropertyName("isAggregate")]
+    public bool? IsAggregate { get; init; }
+
     [JsonPropertyName("year")]
     public short? Year { get; init; }
 

@@ -5,11 +5,18 @@ import { render } from '@testing-library/react';
 import { AuthButton } from '.';
 import userEvent from '@testing-library/user-event';
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
+import { getSession } from 'next-auth/react';
 
 vi.mock('@/lib/auth/handlers', () => {
   return {
     signInHandler: vi.fn(),
     signOutHandler: vi.fn(),
+  };
+});
+
+vi.mock('next-auth/react', () => {
+  return {
+    getSession: vi.fn(),
   };
 });
 
@@ -50,5 +57,11 @@ describe('auth button', () => {
     await user.click(screen.getByRole('button'));
 
     expect(signOutHandler).toHaveBeenCalled();
+  });
+
+  it('should call getSession when the SignIn button is rendered', async () => {
+    render(<AuthButton />);
+
+    expect(getSession).toHaveBeenCalled();
   });
 });

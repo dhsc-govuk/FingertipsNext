@@ -173,6 +173,9 @@ public class HealthDataMapper : IHealthDataMapper
     {
         IndicatorId = source.IndicatorId,
         Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
+        Sex = (source.SexName != null && source.IsSexAggregatedOrSingle != null) ? new Sex { Value = source.SexName, IsAggregate = (bool)source.IsSexAggregatedOrSingle } : null,
+        Age = (source.AgeName != null && source.IsAgeAggregatedOrSingle != null) ? new Age { Value = source.AgeName, IsAggregate = (bool)source.IsAgeAggregatedOrSingle } : null,
+        IsAggregate = source.IsSexAggregatedOrSingle & source.IsAgeAggregatedOrSingle,
         Year = source.Year,
         DatePeriod = (source.FromDate.HasValue && source.ToDate.HasValue && source.PeriodType != null)
                 ? Map(source.FromDate.Value, source.ToDate.Value, source.PeriodType)

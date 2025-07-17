@@ -1,13 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 
+[Keyless]
 public class QuartileDataModel
 {
-    [Key]
     public required int IndicatorId { get; set; }
     public required string? Polarity { get; set; }
     public required short? Year { get; set; }
+    public required string? AgeName { get; set; }
+    public required bool? IsAgeAggregatedOrSingle { get; set; }
+    public required string? SexName { get; set; }
+    public required bool? IsSexAggregatedOrSingle { get; set; }
     public required DateTime? FromDate { get; set; }
     public required DateTime? ToDate { get; set; }
     public required string? PeriodType { get; set; }

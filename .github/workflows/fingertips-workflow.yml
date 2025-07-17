@@ -760,6 +760,16 @@ jobs:
             name        = "AUTH_WELLKNOWN"
             secret_name = null
             value       = "https://login.microsoftonline.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0/.well-known/openid-configuration"
+          },
+          {
+            name        = "AUTH_URL"
+            secret_name = null
+            value       = "${{ vars.FINGERTIPS_FRONTEND_URL }}/auth"
+          },
+          {
+            name        = "NEXT_PUBLIC_AUTH_URL"
+            secret_name = null
+            value       = "${{ vars.FINGERTIPS_FRONTEND_URL }}/auth"
           }
         ]
       container_liveness_probe: |
