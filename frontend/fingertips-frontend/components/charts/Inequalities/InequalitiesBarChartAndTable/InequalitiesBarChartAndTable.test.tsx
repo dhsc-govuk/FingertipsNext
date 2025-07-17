@@ -22,6 +22,10 @@ import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { mockDeprivationData } from '@/mock/data/mockDeprivationData';
 import { SessionProvider } from 'next-auth/react';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
@@ -119,7 +123,9 @@ describe('InequalitiesBarChartAndTable', () => {
       screen.getByTestId('tabContainer-inequalitiesBarChartAndTable')
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Inequalities comparison for one time period/)
+      screen.getByText(
+        chartTitleConfig[ChartTitleKeysEnum.InequalitiesBarChart].title
+      )
     ).toBeInTheDocument();
 
     expect(timePeriodDropDown).toBeInTheDocument();
