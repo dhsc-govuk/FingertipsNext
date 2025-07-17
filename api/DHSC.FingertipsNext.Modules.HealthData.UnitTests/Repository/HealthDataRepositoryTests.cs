@@ -507,14 +507,14 @@ public class HealthDataRepositoryTests : IDisposable
     {
         // arrange
         var healthMeasureWithAge1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithAgeDimension(hasValue: true)
+            .WithAgeDimension(hasValue: true, ageIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         healthMeasureWithAge1.IsAgeAggregatedOrSingle = false;
         PopulateDatabase(healthMeasureWithAge1);
 
         var healthMeasureWithAge2 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithAgeDimension(hasValue: true)
+            .WithAgeDimension(hasValue: true, ageIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         healthMeasureWithAge2.IsAgeAggregatedOrSingle = false;
@@ -581,14 +581,14 @@ public class HealthDataRepositoryTests : IDisposable
     {
         // arrange
         var healthMeasure15_44 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithAgeDimension(ageKey: 1, name: "15-44 yrs", hasValue: true)
+            .WithAgeDimension(ageKey: 1, name: "15-44 yrs", hasValue: true, ageIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         healthMeasure15_44.IsAgeAggregatedOrSingle = false;
         PopulateDatabase(healthMeasure15_44);
 
         var healthMeasure65 = new HealthMeasureModelHelper(key: 2, year: 2022)
-            .WithAgeDimension(ageKey: 2, name: "65+ yrs", hasValue: true)
+            .WithAgeDimension(ageKey: 2, name: "65+ yrs", hasValue: true, ageIsAggregate: false)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
         healthMeasure65.IsAgeAggregatedOrSingle = false;
@@ -743,7 +743,7 @@ public class HealthDataRepositoryTests : IDisposable
 
         // assert
         result.ShouldNotBeEmpty();
-        result.Count().ShouldBe(2);
+        result.Count().ShouldBe(3);
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
