@@ -21,7 +21,8 @@ namespace DataCreator
                     IndicatorID = int.Parse(split[0]),
                     IndicatorName = split[1],
                     BenchmarkComparisonMethod = split[2],
-                    Polarity = split[3]
+                    Polarity = split[3],
+                    Frequency = split[4]
                 });
             }
 
