@@ -69,17 +69,12 @@ vi.mock('./TwoOrMoreIndicatorsEnglandView/', () => {
   };
 });
 
-vi.mock('@/app/chart/PopulationPyramidWithTableDataProvider', async () => {
-  const originalModule = await vi.importActual(
-    '@/app/chart/PopulationPyramidWithTableDataProvider'
-  );
-  return {
-    ...originalModule,
-    PopulationPyramidWithTableDataProvider: vi
-      .fn()
-      .mockImplementation(() => <div />),
-  };
-});
+vi.mock(
+  '@/components/charts/PopulationPyramid/PopulationPyramidWrapper',
+  () => ({
+    PopulationPyramidWrapper: vi.fn().mockImplementation(() => <div />),
+  })
+);
 
 const mockAvailableAreas = [
   {

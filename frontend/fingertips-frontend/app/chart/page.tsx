@@ -26,6 +26,7 @@ import {
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
+import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
 
 export default async function ChartPage(
@@ -128,12 +129,14 @@ export default async function ChartPage(
       }
     }
 
+    // seed availableAreas
     seedData[`availableAreas`] = availableAreas ?? [];
 
     if (updatedSearchState) {
       stateManager.setState(updatedSearchState);
     }
 
+    // seed data for inequalities
     const inequalitiesQueryParams = inequalitiesRequestParams(searchState);
     const inequalitiesQueryKey = queryKeyFromRequestParams(
       EndPoints.HealthDataForAnIndicator,
@@ -152,6 +155,30 @@ export default async function ChartPage(
       } catch (e) {
         console.error(
           'error getting health indicator data for inequalities',
+          e
+        );
+      }
+    }
+
+    // seed data for population pyramid
+    const populationPyramidQueryParams = populationPyramidRequestParams(
+      searchState,
+      availableAreas ?? []
+    );
+    const populationPyramidQueryKey = queryKeyFromRequestParams(
+      EndPoints.HealthDataForAnIndicator,
+      populationPyramidQueryParams
+    );
+    if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
+      try {
+        seedData[populationPyramidQueryKey] =
+          await indicatorApi.getHealthDataForAnIndicator(
+            populationPyramidQueryParams,
+            API_CACHE_CONFIG
+          );
+      } catch (e) {
+        console.error(
+          'error getting health indicator data for population pyramid',
           e
         );
       }

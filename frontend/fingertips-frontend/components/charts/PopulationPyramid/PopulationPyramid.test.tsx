@@ -74,7 +74,6 @@ describe('PopulationPyramidWithTable', () => {
     return render(
       <PopulationPyramid
         healthDataForAreas={dataForArea}
-        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
         indicatorId={'1'}
@@ -147,7 +146,6 @@ describe('PopulationPyramidWithTable', () => {
     const container = render(
       <PopulationPyramid
         healthDataForAreas={mockHealthData['337']}
-        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
         indicatorId={'1'}

@@ -12,7 +12,7 @@ import {
   determineHealthDataForArea,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SearchParams } from '@/lib/searchStateManager';
 import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 import { PopulationPyramidChartTable } from './PopulationPyramidTable/PopulationPyramidTableGroup';
 import { ChartSelectArea } from '@/components/molecules/ChartSelectArea';
@@ -24,6 +24,7 @@ import {
   determineYear,
 } from './helpers/populationPyramidHelpers';
 import { AreaWithoutAreaType } from '@/lib/common-types';
+import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
@@ -33,7 +34,6 @@ interface PyramidPopulationChartViewProps {
   healthDataForAreas: HealthDataForArea[];
   xAxisTitle: string;
   yAxisTitle: string;
-  searchState: SearchStateParams;
   indicatorId: string;
   indicatorName: string;
 }
@@ -41,10 +41,10 @@ export const PopulationPyramid = ({
   healthDataForAreas,
   xAxisTitle,
   yAxisTitle,
-  searchState,
   indicatorId,
   indicatorName,
 }: Readonly<PyramidPopulationChartViewProps>) => {
+  const searchState = useSearchStateParams();
   const {
     [SearchParams.PopulationAreaSelected]: populationAreaSelected,
     [SearchParams.GroupSelected]: groupSelected,
@@ -122,7 +122,7 @@ export const PopulationPyramid = ({
           openTitle="Show population data"
           closeTitle="Hide population data"
         >
-          <div key={`population-pyramid-${JSON.stringify(searchState)}`}>
+          <div>
             <ChartSelectArea
               availableAreas={availableAreas}
               chartAreaSelectedKey={SearchParams.PopulationAreaSelected}
