@@ -269,7 +269,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     }
 
     [Fact]
-    public async Task DeleteBatchEndpointShouldReturn204Response()
+    public async Task DeleteBatchEndpointShouldReturn202Response()
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
@@ -279,7 +279,11 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
+        response.StatusCode.ShouldBe(HttpStatusCode.Accepted);
+        var batch = await response.Content.ReadFromJsonAsync(typeof(Batch)) as Batch;
+        batch.BatchId.ShouldBe(batchId);
+        batch.DeletedAt.ShouldNotBeNull();
+        batch.IndicatorId.ShouldBe(12345);
     }
 
     [Fact]
