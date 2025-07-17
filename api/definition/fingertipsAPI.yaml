@@ -1232,6 +1232,8 @@ components:
           type: integer
           example: 21404
           description: Unique ID of the indicator
+        age:
+          $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
         isAggregate:
