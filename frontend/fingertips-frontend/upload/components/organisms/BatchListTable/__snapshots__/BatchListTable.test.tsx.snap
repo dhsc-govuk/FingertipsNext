@@ -1,0 +1,131 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BatchListTable > snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="batch-list-table-container"
+  >
+    <h4
+      class="heading__StyledHeading-sc-1dsobun-0 EoZyU"
+      style="font-size: 20px;"
+    >
+      Manage upload data
+    </h4>
+    <table
+      class="src__StyledTable-sc-16s660v-0 duOufa"
+      data-testid="batch-list-table"
+    >
+      <tbody
+        class="TableBody-sc-1qqarm8-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            Original filename
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            Timestamp
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            User ID
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            Publish date
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            Indicator ID
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            Batch ID
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            Deleted timestamp
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            Deletion user ID
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          >
+            Status
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc"
+          />
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          >
+            test-file.csv
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          >
+            2020-03-07T14:22:37.123Z
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          >
+            fd89acd7-c91f-49c0-89ab-c46d3b25b4f0
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          >
+            2020-03-08T14:22:37.123Z
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          >
+            41101
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          >
+            41101_2020-03-07T14:22:37.123
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          />
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          />
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          >
+            Received
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 gaSlHc"
+          >
+            <button
+              class="src__StyledButton-sc-19ocyxv-0 eEShVH"
+            >
+              Delete submission
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;

@@ -41,6 +41,9 @@ test.describe(
       await test.step('Check API response is displayed', async () => {
         await uploadPage.checkApiResponsePanelContains('202');
       });
+      await test.step('Check that the batch list table is displayed', async () => {
+        await uploadPage.checkUploadedBatchListContainerIsVisible(csvFileName);
+      });
     });
   }
 );

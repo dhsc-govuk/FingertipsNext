@@ -25,6 +25,11 @@ import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { mockSexData } from '@/mock/data/mockSexData';
+import { SessionProvider } from 'next-auth/react';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 mockUsePathname.mockReturnValue('some-mock-path');
 mockSetIsLoading.mockReturnValue(false);
@@ -71,9 +76,11 @@ const testRender = async (
 
   await act(() =>
     render(
-      <QueryClientProvider client={client}>
-        <OneIndicatorOneAreaViewPlots indicatorData={healthData} />
-      </QueryClientProvider>
+      <SessionProvider>
+        <QueryClientProvider client={client}>
+          <OneIndicatorOneAreaViewPlots indicatorData={healthData} />
+        </QueryClientProvider>
+      </SessionProvider>
     )
   );
 };
@@ -105,7 +112,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: 'Indicator trends over time',
+        name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
       })
     ).toBeInTheDocument();
 
@@ -155,7 +162,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(highcharts[0]).not.toHaveTextContent('Benchmark');
     expect(
       screen.getByRole('heading', {
-        name: 'Indicator trends over time',
+        name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
       })
     ).toBeInTheDocument();
     expect(
@@ -188,7 +195,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await waitFor(() =>
         screen.queryByRole('heading', {
-          name: 'Indicator trends over time',
+          name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
         })
       )
     ).not.toBeInTheDocument();
@@ -256,5 +263,46 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await screen.queryByTestId('singleIndicatorBasicTable-component')
     ).not.toBeInTheDocument();
+  });
+
+  describe('Render chart links', () => {
+    it('should render line chart link when data is available', async () => {
+      await testRender(mockSearchState, testHealthData, testMetaData);
+
+      expect(
+        screen.getByRole('link', {
+          name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
+        })
+      ).toBeInTheDocument();
+    });
+
+    it('should not render line chart link when no data is available', async () => {
+      const mockNoHealthData = mockIndicatorWithHealthDataForArea({
+        areaHealthData: [
+          mockHealthDataForArea({
+            healthData: [],
+            indicatorSegments: [],
+          }),
+        ],
+      });
+
+      await testRender(mockSearchState, mockNoHealthData, testMetaData);
+
+      expect(
+        screen.queryByRole('link', {
+          name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
+        })
+      ).not.toBeInTheDocument();
+    });
+
+    it('should render population pyramid link', async () => {
+      await testRender(mockSearchState, testHealthData, testMetaData);
+
+      expect(
+        screen.getByRole('link', {
+          name: chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title,
+        })
+      ).toBeInTheDocument();
+    });
   });
 });
