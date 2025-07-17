@@ -3,18 +3,6 @@ import { tryReadEnvVar } from '@/lib/envUtils';
 import { NextAuthConfig } from 'next-auth';
 import 'next-auth/jwt';
 
-declare module 'next-auth' {
-  interface Session {
-    accessToken?: string;
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    accessToken?: string;
-  }
-}
-
 export class AuthConfigFactory {
   private static config: NextAuthConfig | null;
 
@@ -37,7 +25,7 @@ export class AuthConfigFactory {
     const config: NextAuthConfig = {
       providers: AuthProvidersFactory.getProviders(),
       callbacks: {
-        jwt: async ({ token, user: _, account }) => {
+        jwt: async ({ token, user, account }) => {
           if (!account?.access_token) return token;
           // this callback gets invoked on both the node and edge runtime,
           // but the state where account is present (signin)
@@ -50,17 +38,11 @@ export class AuthConfigFactory {
               '@/lib/auth/validation'
             );
 
-            if (await validateAccessToken(account.access_token)) {
-              return { ...token, accessToken: account?.access_token };
+            if (await validateAccessToken()) {
+              console.log(`validated user ${user.id}`);
             }
           }
           return token;
-        },
-
-        session: ({ session, token }) => {
-          session.accessToken = token.accessToken;
-
-          return session;
         },
       },
     };

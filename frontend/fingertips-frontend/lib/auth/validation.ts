@@ -1,23 +1,22 @@
 import { UserInfoType } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { addTokenToHeaders } from '@/lib/auth/headers';
 
-export const validateAccessToken = async (
-  accessToken: string
-): Promise<boolean> => {
-  const userResponse = await getUser(accessToken);
+export const validateAccessToken = async (): Promise<boolean> => {
+  const userResponse = await getUser();
   if (userResponse) {
     return true;
   }
   return false;
 };
 
-async function getUser(accessToken: string) {
+async function getUser() {
   const userApi = ApiClientFactory.getUserApiClient();
   let userInfoResponse: UserInfoType;
 
   try {
     userInfoResponse = await userApi.getUserInfo({
-      headers: { Authorization: `bearer ${accessToken}` },
+      headers: await addTokenToHeaders(),
     });
   } catch {
     console.log('unable to validate user');
