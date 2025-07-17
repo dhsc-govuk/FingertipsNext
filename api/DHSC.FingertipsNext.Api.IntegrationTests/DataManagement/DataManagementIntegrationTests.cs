@@ -19,12 +19,12 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     private const int IndicatorId = 41101;
     private const string FingertipsStorageContainerName = "fingertips-upload-container";
     private const string AdminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
-    private const string Indicator41101GroupRoleId = "6a953232-afad-4406-a457-9960eec316ac";
+    private const string Indicator41101GroupRoleId = "90ac52f4-8513-4050-873a-24340bc89bd3";
+    private const string IntegrationTestFileName = "integration-test.csv";
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
     private readonly string _blobName;
     private readonly DataManagementWebApplicationFactory<Program> _factory;
     private readonly SqlConnection _sqlConnection;
-    public const string IntegrationTestFileName = "integration-test.csv";
 
     public DataManagementIntegrationTests(DataManagementWebApplicationFactory<Program> factory)
     {
@@ -67,7 +67,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     [Theory]
     [InlineData(AdminRoleGuid)]
     [InlineData(Indicator41101GroupRoleId)]
-
     public async Task AuthorisedRequestToDataManagementEndpointShouldUploadAFile(string userRoleId)
     {
         // Arrange
@@ -152,7 +151,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([Indicator41101GroupRoleId]));
 
         // Act
-        var response = await apiClient.PostAsync(new Uri($"/indicators/9999/data", UriKind.Relative), content);
+        var response = await apiClient.PostAsync(new Uri("/indicators/9999/data", UriKind.Relative), content);
 
         //Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
