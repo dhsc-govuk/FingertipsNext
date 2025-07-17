@@ -1,9 +1,7 @@
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  Frequency,
   HealthDataForArea,
-  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import {
   AreaTypeLabelEnum,
@@ -12,7 +10,6 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
-import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 const getBenchmarkForYear = (
   year: number,
@@ -77,13 +74,11 @@ function generateBenchmarkComparison(
 function generateTooltipPointForSelectedAreas(
   areasHealthIndicatorData: HealthDataForArea[],
   benchmarkToUse: string,
-  periodType: PeriodType,
-  frequency: Frequency,
   benchmarkComparisonMethod?: BenchmarkComparisonMethod,
   measurementUnit?: string
 ) {
   return (point: Highcharts.Point, symbol: string) => {
-    const period = formatDatePointLabel(periodType, point.x, frequency, 1);
+    const period = point.category;
 
     return [
       `
@@ -105,8 +100,6 @@ function generateTooltipPointForSelectedAreas(
 export function generateTooltip(
   areasHealthIndicatorData: HealthDataForArea[],
   benchmarkToUse: string,
-  periodType: PeriodType,
-  frequency: Frequency,
   benchmarkComparisonMethod?: BenchmarkComparisonMethod,
   measurementUnit?: string
 ): Highcharts.TooltipOptions {
@@ -118,8 +111,6 @@ export function generateTooltip(
         generateTooltipPointForSelectedAreas(
           areasHealthIndicatorData,
           benchmarkToUse,
-          periodType,
-          frequency,
           benchmarkComparisonMethod,
           measurementUnit
         )

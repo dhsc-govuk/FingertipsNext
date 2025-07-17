@@ -10,8 +10,6 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { AxisLabelsFormatterContextObject } from 'highcharts';
-import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
@@ -73,17 +71,6 @@ export const lineChartOverTimeData = (
       groupIndicatorData: groupData,
       yAxisTitle,
       xAxisTitle: 'Period',
-      xAxisLabelFormatter: function (
-        this: AxisLabelsFormatterContextObject
-      ): string {
-        const xAxisLabel = formatDatePointLabel(
-          periodType,
-          this.value as number,
-          frequency,
-          1
-        );
-        return xAxisLabel;
-      },
       measurementUnit: indicatorMetaData?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
     }

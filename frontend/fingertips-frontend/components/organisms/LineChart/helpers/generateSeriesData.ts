@@ -3,7 +3,6 @@ import { generateConfidenceIntervalSeries } from '@/lib/chartHelpers/chartHelper
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 import { SymbolKeyValue } from 'highcharts';
 
 export const chartSymbols: SymbolKeyValue[] = [
@@ -23,10 +22,10 @@ function generateSeries(
   return {
     type: 'line',
     name: namePrefix ? `${namePrefix}: ${data.areaName}` : data.areaName,
-    data: data.healthData.map((point) => [
-      convertDateToNumber(point.datePeriod?.from),
-      point.value,
-    ]),
+
+    data: data.healthData.map((point) => {
+      return [point.value];
+    }),
     marker: {
       symbol,
     },
@@ -47,11 +46,9 @@ export function generateSeriesData(
       generateSeries(englandData, 'circle', GovukColours.DarkGrey),
       generateConfidenceIntervalSeries(
         englandData.areaName,
-        englandData.healthData.map((point) => [
-          convertDateToNumber(point.datePeriod?.from),
-          point.lowerCi,
-          point.upperCi,
-        ]),
+        englandData.healthData.map((point) => {
+          return [point.lowerCi, point.upperCi];
+        }),
         showConfidenceIntervalsData
       ),
     ];
@@ -69,11 +66,9 @@ export function generateSeriesData(
       const confidenceIntervalSeries: Highcharts.SeriesOptionsType =
         generateConfidenceIntervalSeries(
           item.areaName,
-          item.healthData.map((point) => [
-            convertDateToNumber(point.datePeriod?.from),
-            point.lowerCi,
-            point.upperCi,
-          ]),
+          item.healthData.map((point) => {
+            return [point.lowerCi, point.upperCi];
+          }),
           showConfidenceIntervalsData
         );
 

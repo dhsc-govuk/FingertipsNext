@@ -18,7 +18,7 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       {
-        englandData: undefined,
+        englandData: mockEnglandData,
         groupIndicatorData: undefined,
         yAxisTitle: 'yAxis',
         xAxisTitle: 'xAxis',
@@ -60,6 +60,11 @@ describe('generateStandardLineChartOptions', () => {
         ...mockEnglandData.healthData,
         {
           year: 1999,
+          datePeriod: {
+            type: PeriodType.Calendar,
+            from: new Date('1999-01-01'),
+            to: new Date('1999-12-31'),
+          },
           ageBand: allAgesAge,
           sex: personsSex,
           trend: 'Not yet calculated',

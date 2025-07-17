@@ -31,17 +31,34 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
   },
   "series": [
     {
+      "color": "#505A5F",
+      "custom": {
+        "areaCode": "E92000001",
+      },
+      "data": [
+        [
+          703.420759,
+        ],
+        [
+          278.29134,
+        ],
+      ],
+      "marker": {
+        "symbol": "circle",
+      },
+      "name": "Benchmark: England",
+      "type": "line",
+    },
+    {
       "color": "#F46A25",
       "custom": {
         "areaCode": "A1425",
       },
       "data": [
         [
-          1080777600000,
           703.420759,
         ],
         [
-          1143849600000,
           278.29134,
         ],
       ],
@@ -65,8 +82,11 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
   },
   "xAxis": {
     "allowDecimals": false,
+    "categories": [
+      "2004",
+      "2006",
+    ],
     "labels": {
-      "formatter": undefined,
       "style": {
         "fontSize": 16,
       },
@@ -137,11 +157,9 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       },
       "data": [
         [
-          1080777600000,
           703.420759,
         ],
         [
-          1143849600000,
           278.29134,
         ],
       ],
@@ -158,11 +176,9 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       },
       "data": [
         [
-          1080777600000,
           301,
         ],
         [
-          1143849600000,
           300,
         ],
       ],
@@ -179,11 +195,9 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       },
       "data": [
         [
-          1080777600000,
           703.420759,
         ],
         [
-          1143849600000,
           278.29134,
         ],
       ],
@@ -207,8 +221,11 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
   },
   "xAxis": {
     "allowDecimals": false,
+    "categories": [
+      "2004",
+      "2006",
+    ],
     "labels": {
-      "formatter": undefined,
       "style": {
         "fontSize": 16,
       },
@@ -279,11 +296,9 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
       },
       "data": [
         [
-          1080777600000,
           703.420759,
         ],
         [
-          1143849600000,
           278.29134,
         ],
       ],
@@ -300,11 +315,9 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
       },
       "data": [
         [
-          1080777600000,
           301,
         ],
         [
-          1143849600000,
           300,
         ],
       ],
@@ -321,11 +334,9 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
       },
       "data": [
         [
-          1080777600000,
           703.420759,
         ],
         [
-          1143849600000,
           278.29134,
         ],
       ],
@@ -340,7 +351,7 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
     "style": {
       "display": "none",
     },
-    "text": "Hospital admissions from 2004 to 2006",
+    "text": "Hospital admissions from 1999 to 2006",
   },
   "tooltip": {
     "formatter": [Function],
@@ -349,8 +360,12 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
   },
   "xAxis": {
     "allowDecimals": false,
+    "categories": [
+      "1999",
+      "2004",
+      "2006",
+    ],
     "labels": {
-      "formatter": undefined,
       "style": {
         "fontSize": 16,
       },
