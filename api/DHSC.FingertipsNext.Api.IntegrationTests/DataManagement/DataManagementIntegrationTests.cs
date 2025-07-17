@@ -17,7 +17,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
 {
     private const string TestDataDir = "TestData";
     private const int IndicatorId = 41101;
-    private const string FingertipsStorageContainerName = "fingertips-upload-container";
     private const string AdminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
     private const string Indicator41101GroupRoleId = "90ac52f4-8513-4050-873a-24340bc89bd3";
     private const string IntegrationTestFileName = "integration-test.csv";
@@ -29,7 +28,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     public DataManagementIntegrationTests(DataManagementWebApplicationFactory<Program> factory)
     {
         _factory = factory;
-        _factory.StorageContainerName = FingertipsStorageContainerName;
         _factory.AdminRoleGuid = AdminRoleGuid;
 
         using var scope = _factory.Services.CreateScope();
@@ -269,8 +267,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     public async Task UploadToBlobStorageShouldFailIfContainerDoesNotExist(string userRoleId)
     {
         // Arrange
-        _factory.StorageContainerName = "invalid-container-name";
-        var apiClient = _factory.WithWebHostBuilder(config => config.UseSetting("UPLOAD_STORAGE_CONTAINER_NAME", _factory.StorageContainerName)).CreateClient();
+        var apiClient = _factory.WithWebHostBuilder(config => config.UseSetting("UPLOAD_STORAGE_CONTAINER_NAME", "invalid-container-name")).CreateClient();
 
         var publishedAt = DateTime.UtcNow.AddMonths(1);
 

@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DHSC.FingertipsNext.Api.IntegrationTests;
+namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
 public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> where T : class
 {
@@ -18,17 +18,13 @@ public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> w
 
     public FakeTimeProvider MockTime { get; } = new();
 
-    public string? StorageContainerName { get; set; }
     public string? AdminRoleGuid { get; set; }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         Env.Load(string.Empty, new LoadOptions(true, true, false));
 
-        builder?.ConfigureTestServices(services =>
-        {
-            services.AddSingleton<TimeProvider>(MockTime);
-        }).ConfigureTestServices(services =>
+        builder.ConfigureTestServices(services => { services.AddSingleton<TimeProvider>(MockTime); }).ConfigureTestServices(services =>
         {
             // Remove the existing authentication schemes if necessary
             services.AddAuthentication("TestScheme")
@@ -46,12 +42,11 @@ public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> w
                         ClockSkew = TimeSpan.Zero
                     };
                 });
-        }).ConfigureAppConfiguration((context, config) =>
+        }).ConfigureAppConfiguration((_, config) =>
         {
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
-                ["UPLOAD_STORAGE_CONTAINER_NAME"] = StorageContainerName,
-                ["ADMINROLE"] = AdminRoleGuid,
+                ["ADMINROLE"] = AdminRoleGuid
             });
         });
     }
@@ -73,7 +68,7 @@ public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> w
             }
         }
 
-        DateTime tokenExpiry = DateTime.UtcNow.AddMinutes(30);
+        var tokenExpiry = DateTime.UtcNow.AddMinutes(30);
 
         if (tokenIsExpired)
         {
