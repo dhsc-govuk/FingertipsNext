@@ -14,8 +14,12 @@ import {
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { healthDataPoint } from '@/lib/mocks';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 const mockEnglandHealthData: HealthDataForArea = {
   areaCode: areaCodeForEngland,
@@ -130,6 +134,31 @@ describe('TwoOrMoreIndicatorsEnglandView', () => {
           unitLabel: undefined,
         },
       ]);
+    });
+  });
+
+  describe('Available chart links', () => {
+    it('should render the basic table and population pyramid chart links', () => {
+      render(
+        <TwoOrMoreIndicatorsEnglandViewPlots
+          indicatorData={mockIndicatorData}
+          indicatorMetadata={mockIndicatorMetaData}
+        />
+      );
+
+      const availableChartLinks = screen.getByTestId(
+        'availableChartLinks-component'
+      );
+      expect(availableChartLinks).toBeInTheDocument();
+
+      const chartLinks = within(availableChartLinks).getAllByRole('link');
+
+      expect(chartLinks[0]).toHaveTextContent(
+        chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title
+      );
+      expect(chartLinks[1]).toHaveTextContent(
+        chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
+      );
     });
   });
 });

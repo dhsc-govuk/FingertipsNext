@@ -25,6 +25,10 @@ import {
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 const mockPath = 'some-mock-path';
 mockUsePathname.mockReturnValue(mockPath);
@@ -33,7 +37,8 @@ mockSetIsLoading(false);
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
 const lineChartContainerTestId = 'tabContainer-lineChartAndTable';
-const lineChartContainerTitle = 'Indicator trends over time';
+const lineChartContainerTitle =
+  chartTitleConfig[ChartTitleKeysEnum.LineChart].title;
 const barChartEmbeddedTable = 'barChartEmbeddedTable-component';
 const lineChartSegmentationOptions = 'segmentation-options';
 
@@ -209,7 +214,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should render the title for BarChartEmbeddedTable', async () => {
       await testRender(mockSearchState, testHealthData, testMetaData);
       expect(
-        await screen.findByText('Compare areas for one time period')
+        await screen.findByRole('heading', {
+          name: chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable]
+            .title,
+        })
       ).toBeInTheDocument();
     });
   });
@@ -235,8 +243,10 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         ).toBeInTheDocument();
 
         expect(
-          await screen.findAllByText('Compare an indicator by areas')
-        ).toHaveLength(1);
+          await screen.findAllByText(
+            chartTitleConfig[ChartTitleKeysEnum.ThematicMap].title
+          )
+        ).toHaveLength(2);
       });
     });
 
@@ -252,5 +262,69 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
         ).not.toBeInTheDocument();
       });
     });
+  });
+
+  it('should render the available chart links when not all areas are selected', async () => {
+    await testRender(mockSearchState, testHealthData, testMetaData);
+
+    const availableChartLinks = screen.getByTestId(
+      'availableChartLinks-component'
+    );
+    expect(availableChartLinks).toBeInTheDocument();
+
+    const links = within(availableChartLinks).getAllByRole('link');
+
+    expect(links[0]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.LineChart].title
+    );
+    expect(links[1]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title
+    );
+    expect(links[2]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
+    );
+  });
+
+  it('should render the Thematic Map link when all areas are selected', async () => {
+    const mockSearchStateAllAreas = {
+      [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
+      [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+      [SearchParams.GroupSelected]: 'E12000003',
+      [SearchParams.AreaTypeSelected]: 'regions',
+    };
+
+    await testRender(mockSearchStateAllAreas, testHealthData, testMetaData);
+    const availableChartLinks = screen.getByTestId(
+      'availableChartLinks-component'
+    );
+    expect(availableChartLinks).toBeInTheDocument();
+
+    const links = within(availableChartLinks).getAllByRole('link');
+    expect(links[0]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.ThematicMap].title
+    );
+    expect(links[1]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title
+    );
+    expect(links[2]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
+    );
+  });
+
+  it('should not render the line chart link when there is no data available', async () => {
+    const mockSearchStateNoAreas = {
+      [SearchParams.IndicatorsSelected]: ['indicator-id'],
+      [SearchParams.GroupAreaSelected]: undefined,
+      [SearchParams.GroupSelected]: 'E12000003',
+      [SearchParams.AreaTypeSelected]: 'regions',
+    };
+
+    await testRender(mockSearchStateNoAreas, { areaHealthData: [] }, undefined);
+
+    expect(
+      screen.queryByRole('link', {
+        name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
+      })
+    ).not.toBeInTheDocument();
   });
 });
