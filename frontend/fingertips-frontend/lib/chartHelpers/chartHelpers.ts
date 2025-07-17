@@ -169,7 +169,7 @@ export const getBenchmarkColour = (
 
 export function generateConfidenceIntervalSeries(
   areaName: string | undefined,
-  data: (number | undefined)[][],
+  data: (number | undefined | null)[][],
   showConfidenceIntervalsData?: boolean,
   optionalParams?: {
     color?: GovukColours;
@@ -291,6 +291,7 @@ export function getFirstPeriodForAreas(
     (area) => getFirstPeriod(area.healthData) ?? 0
   );
   const mostRecentYear = Math.min(...firstPeriodForAreas);
+
   return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 

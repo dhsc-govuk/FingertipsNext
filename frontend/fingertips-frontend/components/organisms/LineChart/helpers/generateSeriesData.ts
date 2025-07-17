@@ -3,6 +3,7 @@ import { generateConfidenceIntervalSeries } from '@/lib/chartHelpers/chartHelper
 import { chartColours } from '@/lib/chartHelpers/colours';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 import { SymbolKeyValue } from 'highcharts';
 
 export const chartSymbols: SymbolKeyValue[] = [
@@ -14,6 +15,7 @@ export const chartSymbols: SymbolKeyValue[] = [
 ];
 
 function generateSeries(
+  xCategoryKeys: number[],
   data: HealthDataForArea,
   symbol: SymbolKeyValue,
   colour: Highcharts.ColorString,
@@ -24,7 +26,10 @@ function generateSeries(
     name: namePrefix ? `${namePrefix}: ${data.areaName}` : data.areaName,
 
     data: data.healthData.map((point) => {
-      return [point.value];
+      if (xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))) {
+        return [point.value];
+      }
+      return [null]
     }),
     marker: {
       symbol,
@@ -35,6 +40,7 @@ function generateSeries(
 }
 
 export function generateSeriesData(
+  xCategoryKeys: number[],
   areasData: HealthDataForArea[],
   englandData?: HealthDataForArea,
   groupData?: HealthDataForArea,
@@ -43,11 +49,14 @@ export function generateSeriesData(
 ): Highcharts.SeriesOptionsType[] {
   if (englandData && areasData.length === 0) {
     return [
-      generateSeries(englandData, 'circle', GovukColours.DarkGrey),
+      generateSeries(xCategoryKeys, englandData, 'circle', GovukColours.DarkGrey),
       generateConfidenceIntervalSeries(
         englandData.areaName,
         englandData.healthData.map((point) => {
-          return [point.lowerCi, point.upperCi];
+          if (xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))) {
+            return [point.lowerCi, point.upperCi];
+          }
+          return [null, null]
         }),
         showConfidenceIntervalsData
       ),
@@ -58,6 +67,7 @@ export function generateSeriesData(
     .toSorted((a, b) => a.areaName.localeCompare(b.areaName))
     .flatMap((item, index) => {
       const lineSeries: Highcharts.SeriesOptionsType = generateSeries(
+        xCategoryKeys,
         item,
         chartSymbols[index % chartSymbols.length],
         chartColours[index % chartColours.length]
@@ -67,7 +77,10 @@ export function generateSeriesData(
         generateConfidenceIntervalSeries(
           item.areaName,
           item.healthData.map((point) => {
-            return [point.lowerCi, point.upperCi];
+            if (xCategoryKeys.includes(convertDateToNumber(point.datePeriod?.from))) {
+              return [point.lowerCi, point.upperCi];
+            }
+            return [null, null]
           }),
           showConfidenceIntervalsData
         );
@@ -78,11 +91,11 @@ export function generateSeriesData(
     });
 
   const groupBenchmarkSeries = groupData
-    ? generateSeries(groupData, 'diamond', GovukColours.Turquoise, 'Group')
+    ? generateSeries(xCategoryKeys, groupData, 'diamond', GovukColours.Turquoise, 'Group')
     : undefined;
 
   const alternateBenchmarkSeries = englandData
-    ? generateSeries(englandData, 'diamond', GovukColours.Pink)
+    ? generateSeries(xCategoryKeys, englandData, 'diamond', GovukColours.Pink)
     : undefined;
 
   if (benchmarkToUse === areaCodeForEngland) {
@@ -92,6 +105,7 @@ export function generateSeriesData(
 
     if (englandData) {
       const primaryBenchmarkSeries = generateSeries(
+        xCategoryKeys,
         englandData,
         'circle',
         GovukColours.DarkGrey,
@@ -106,6 +120,7 @@ export function generateSeriesData(
 
     if (groupData) {
       const primaryBenchmarkSeries = generateSeries(
+        xCategoryKeys,
         groupData,
         'circle',
         GovukColours.DarkGrey,

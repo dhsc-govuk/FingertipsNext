@@ -14,7 +14,6 @@ export function LineChartTableOverTime() {
     polarity,
     benchmarkComparisonMethod,
     benchmarkToUse,
-    periodType,
     frequency,
   } = lineChartOverTimeData;
   return (
@@ -27,7 +26,6 @@ export function LineChartTableOverTime() {
       benchmarkComparisonMethod={benchmarkComparisonMethod}
       polarity={polarity}
       benchmarkToUse={benchmarkToUse}
-      periodType={periodType}
       frequency={frequency}
     />
   );

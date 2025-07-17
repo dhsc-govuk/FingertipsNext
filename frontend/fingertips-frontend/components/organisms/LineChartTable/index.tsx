@@ -8,7 +8,6 @@ import {
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
   IndicatorPolarity,
-  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { FC } from 'react';
@@ -67,7 +66,6 @@ export interface LineChartTableProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
   benchmarkToUse?: string;
-  periodType: PeriodType;
   frequency: Frequency;
 }
 
@@ -222,7 +220,6 @@ export function LineChartTable({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
   benchmarkToUse,
-  periodType,
   frequency,
 }: Readonly<LineChartTableProps>) {
   const englandColumnPrefix =
@@ -273,16 +270,17 @@ export function LineChartTable({
           convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
       );
 
-      const period = formatDatePointLabel(
-        periodType,
-        dateAsNumber,
+      const datePeriod = englandHealthPoint?.datePeriod
+
+      const formattedPeriod = formatDatePointLabel(
+        datePeriod,
         frequency,
         1
       );
 
       const row: AreaDataMatchedByYear = {
         dateAsNumber,
-        period,
+        period: formattedPeriod,
         areas: [],
         benchmarkValue: englandHealthPoint?.value,
       };

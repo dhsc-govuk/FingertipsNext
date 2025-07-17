@@ -109,19 +109,19 @@ export function generateStandardLineChartOptions(
 
   const filteredSortedEnglandData =
     sortedEnglandData &&
-    sortedHealthIndicatorData.length &&
-    firstDateAsNumber &&
-    lastDateAsNumber
+      sortedHealthIndicatorData.length &&
+      firstDateAsNumber &&
+      lastDateAsNumber
       ? {
-          ...sortedEnglandData,
-          healthData:
-            sortedEnglandData?.healthData.filter(
-              (data) =>
-                convertDateToNumber(data.datePeriod?.from) >=
-                  firstDateAsNumber &&
-                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
-            ) ?? [],
-        }
+        ...sortedEnglandData,
+        healthData:
+          sortedEnglandData?.healthData.filter(
+            (data) =>
+              convertDateToNumber(data.datePeriod?.from) >=
+              firstDateAsNumber &&
+              convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
+          ) ?? [],
+      }
       : sortedEnglandData;
 
   const sortedGroupData = optionalParams?.groupIndicatorData
@@ -130,22 +130,32 @@ export function generateStandardLineChartOptions(
 
   const filteredSortedGroupData =
     sortedGroupData &&
-    sortedHealthIndicatorData.length &&
-    firstDateAsNumber &&
-    lastDateAsNumber
+      sortedHealthIndicatorData.length &&
+      firstDateAsNumber &&
+      lastDateAsNumber
       ? {
-          ...sortedGroupData,
-          healthData:
-            sortedGroupData?.healthData.filter(
-              (data) =>
-                convertDateToNumber(data.datePeriod?.from) >=
-                  firstDateAsNumber &&
-                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
-            ) ?? [],
-        }
+        ...sortedGroupData,
+        healthData:
+          sortedGroupData?.healthData.filter(
+            (data) =>
+              convertDateToNumber(data.datePeriod?.from) >=
+              firstDateAsNumber &&
+              convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
+          ) ?? [],
+      }
       : sortedGroupData;
 
+  const categories: { key: number; value: string }[] =
+    sortedEnglandData?.healthData.map((point) => ({
+      key: convertDateToNumber(point.datePeriod?.from),
+      value: formatDatePointLabel(point.datePeriod, frequency, 1),
+    })) ?? [];
+
+  const xCategoryKeys: number[] = categories.map(category => category.key);
+  const xCategoryValues: string[] = categories.map(category => category.value);
+
   const series = generateSeriesData(
+    xCategoryKeys,
     sortedHealthIndicatorData,
     filteredSortedEnglandData,
     filteredSortedGroupData,
@@ -153,27 +163,19 @@ export function generateStandardLineChartOptions(
     benchmarkToUse
   );
 
-  const { minXAxisEntries } = getMinAndMaxXAxisEntries(series);
+  const { minXAxisEntries, maxXAxisEntries } = getMinAndMaxXAxisEntries(series);
 
   const periodLabel = getPeriodLabel(periodType, frequency);
   const periodLabelText = periodLabel ? `${periodLabel} ` : '';
   const additionalPeriodLabelText = getAdditionalPeriodLabel(
-    periodType,
-    minXAxisEntries
-  );
+    {
+      type: periodType,
+      from: new Date(minXAxisEntries),
+      to: new Date(maxXAxisEntries)
+    });
 
-  const categories =
-    sortedEnglandData?.healthData.map((point) => {
-      return formatDatePointLabel(
-        periodType,
-        convertDateToNumber(point.datePeriod?.from),
-        frequency,
-        1
-      );
-    }) ?? [];
-
-  const fromDateLabel = categories.at(0);
-  const toDateLabel = categories.at(-1);
+  const fromDateLabel = xCategoryValues.at(0);
+  const toDateLabel = xCategoryValues.at(-1);
 
   const fromTo = `from ${fromDateLabel} to ${toDateLabel}`;
   const titleText = optionalParams?.indicatorName
@@ -189,7 +191,7 @@ export function generateStandardLineChartOptions(
       },
     },
     yAxis: generateYAxis(optionalParams?.yAxisTitle),
-    xAxis: generateXAxis(categories, optionalParams?.xAxisTitle),
+    xAxis: generateXAxis(xCategoryValues, optionalParams?.xAxisTitle),
     series,
     tooltip: generateTooltip(
       sortedHealthIndicatorData,
