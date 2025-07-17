@@ -148,6 +148,10 @@ public class HealthDataMapperTests
             new()
             {
                 IndicatorId = 0,
+                AgeName = "All ages",
+                IsAgeAggregatedOrSingle = true,
+                SexName = "Persons",
+                IsSexAggregatedOrSingle = true,
                 Polarity = "High is good",
                 Year = 2024,
                 FromDate = new DateTime(2024, 1, 1),
@@ -172,6 +176,9 @@ public class HealthDataMapperTests
             {
                 IndicatorId = 0,
                 Polarity = IndicatorPolarity.HighIsGood,
+                Age = new Age { Value = "All ages", IsAggregate = true },
+                Sex = new Sex { Value = "Persons", IsAggregate = true },
+                IsAggregate = true,
                 Year = 2024,
                 DatePeriod =  new DatePeriod { From = new DateOnly(2024, 1, 1), To = new DateOnly(2024, 12, 31), PeriodType = DatePeriodType.Calendar },
                 Q0Value = 10,

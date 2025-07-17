@@ -1,8 +1,9 @@
 import { Session } from 'next-auth';
 import { signOutHandler, signInHandler } from '@/lib/auth/handlers';
 import { StyledAuthButton } from './AuthButton.styles';
-import { useLoadingState } from '@/context/LoaderContext';
+import { getSession } from 'next-auth/react';
 import { useEffect } from 'react';
+import { useLoadingState } from '@/context/LoaderContext';
 interface AuthButtonProps {
   session?: Session;
 }
@@ -12,6 +13,11 @@ export function AuthButton({ session }: Readonly<AuthButtonProps>) {
 }
 
 function SignInButton() {
+  // refresh the session in SessionProvider
+  // to trigger rerender of chart/Page
+  useEffect(() => {
+    getSession();
+  }, []);
   const { setIsLoading } = useLoadingState();
 
   return (

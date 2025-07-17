@@ -15,6 +15,7 @@ import { ErrorIdPrefix } from '@/mock/ErrorTriggeringIds';
 import { mockHealthDataForArea } from '../data/mockHealthDataForArea';
 import { mockIndicatorWithHealthDataForArea } from '../data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataPoints } from '../data/mockHealthDataPoint';
+import { mockBatch } from '../data/mockBatch';
 
 faker.seed(1);
 
@@ -174,6 +175,15 @@ export const handlers = [
 
   http.get(`${baseURL}/healthcheck`, async () => {
     const resultArray = [[getGetHealthcheck200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+
+  http.get(`${baseURL}/batches`, async () => {
+    const resultArray = [
+      [mockBatch(), { status: 200 }],
+      [getGetIndicator500Response(), { status: 500 }],
+    ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),

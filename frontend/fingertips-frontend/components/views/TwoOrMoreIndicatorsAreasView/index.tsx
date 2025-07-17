@@ -98,16 +98,18 @@ export default async function TwoOrMoreIndicatorsAreasView({
     return Number(indicatorAsAString);
   });
 
-  const benchmarkQuartiles = await indicatorApi.indicatorsQuartilesGet(
-    {
-      indicatorIds: indicatorList,
-      areaCode: areaCodes[0],
-      ancestorCode: selectedGroupCode ?? areaCodeForEngland,
-      areaType: selectedAreaType,
-      benchmarkRefType,
-    },
-    API_CACHE_CONFIG
-  );
+  const benchmarkQuartiles = (
+    await indicatorApi.indicatorsQuartilesGet(
+      {
+        indicatorIds: indicatorList,
+        areaCode: areaCodes[0],
+        ancestorCode: selectedGroupCode ?? areaCodeForEngland,
+        areaType: selectedAreaType,
+        benchmarkRefType,
+      },
+      API_CACHE_CONFIG
+    )
+  ).filter((q) => q.isAggregate === true);
 
   // load quartiles data and seed if we don't have it already
   const quartilesParams = quartilesQueryParams(searchState);
@@ -120,10 +122,12 @@ export default async function TwoOrMoreIndicatorsAreasView({
     !Object.keys(seedData).includes(quartilesKey)
   ) {
     try {
-      seedData[quartilesKey] = await indicatorApi.indicatorsQuartilesGet(
-        quartilesParams,
-        API_CACHE_CONFIG
-      );
+      seedData[quartilesKey] = (
+        await indicatorApi.indicatorsQuartilesGet(
+          quartilesParams,
+          API_CACHE_CONFIG
+        )
+      ).filter((q) => q.isAggregate === true);
     } catch (e) {
       console.error('error getting quartile data', e);
     }
