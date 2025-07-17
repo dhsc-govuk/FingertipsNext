@@ -503,22 +503,22 @@ public class HealthDataRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsyncShouldOnlyIncludeResultsWithoutAnAgeDimensionValue()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOrWithoutAnAgeDimensionValue()
     {
         // arrange
-        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+        var healthMeasureWithAge1 = new HealthMeasureModelHelper(key: 1, year: 2020)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
-        unexpectedHealthMeasure1.IsAgeAggregatedOrSingle = false;
-        PopulateDatabase(unexpectedHealthMeasure1);
+        healthMeasureWithAge1.IsAgeAggregatedOrSingle = false;
+        PopulateDatabase(healthMeasureWithAge1);
 
-        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+        var healthMeasureWithAge2 = new HealthMeasureModelHelper(key: 2, year: 2022)
             .WithAgeDimension(hasValue: true)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
-        unexpectedHealthMeasure2.IsAgeAggregatedOrSingle = false;
-        PopulateDatabase(unexpectedHealthMeasure2);
+        healthMeasureWithAge2.IsAgeAggregatedOrSingle = false;
+        PopulateDatabase(healthMeasureWithAge2);
 
         var expectedHealthMeasure = new HealthMeasureModelHelper(key: 3, year: 2024)
             .WithAgeDimension(hasValue: false)
@@ -531,9 +531,9 @@ public class HealthDataRepositoryTests : IDisposable
 
         // assert
         result.ShouldNotBeEmpty();
-        result.Count().ShouldBe(1);
+        result.Count().ShouldBe(3);
         result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>() { expectedHealthMeasure }
+            new List<HealthMeasureModel>() { healthMeasureWithAge1, healthMeasureWithAge2, expectedHealthMeasure }
         );
     }
 
@@ -577,28 +577,36 @@ public class HealthDataRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsyncShouldNotReturnResultsWhenIndicatorHasMultipleAgeDimensionValuesAndNoneWithoutAgeDimension()
+    public async Task GetIndicatorDataAsyncShouldReturnResultsWhenIndicatorHasMultipleAgeDimensionValuesAndNoneWithoutAgeDimension()
     {
         // arrange
-        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
+        var healthMeasure15_44 = new HealthMeasureModelHelper(key: 1, year: 2020)
             .WithAgeDimension(ageKey: 1, name: "15-44 yrs", hasValue: true)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
-        unexpectedHealthMeasure1.IsAgeAggregatedOrSingle = false;
-        PopulateDatabase(unexpectedHealthMeasure1);
+        healthMeasure15_44.IsAgeAggregatedOrSingle = false;
+        PopulateDatabase(healthMeasure15_44);
 
-        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2022)
+        var healthMeasure65 = new HealthMeasureModelHelper(key: 2, year: 2022)
             .WithAgeDimension(ageKey: 2, name: "65+ yrs", hasValue: true)
             .WithIndicatorDimension(_indicatorDimension)
             .Build();
-        unexpectedHealthMeasure2.IsAgeAggregatedOrSingle = false;
-        PopulateDatabase(unexpectedHealthMeasure2);
+        healthMeasure65.IsAgeAggregatedOrSingle = false;
+        PopulateDatabase(healthMeasure65);
 
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
 
         // assert
-        result.ShouldBeEmpty();
+        result.ShouldNotBeEmpty();
+        result.Count().ShouldBe(2);
+        result.ShouldBeEquivalentTo(
+            new List<HealthMeasureModel>()
+            {
+                healthMeasure15_44,
+                healthMeasure65,
+            }
+        );
     }
 
     [Fact]
@@ -705,7 +713,7 @@ public class HealthDataRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOnlySexDimensionDataIfSexInequalityIsSpecified()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithEitherAgeOrSexDimensionDataIfSexInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithSex = new HealthMeasureModelHelper(1, 2020)
@@ -715,7 +723,7 @@ public class HealthDataRepositoryTests : IDisposable
         healthMeasureWithSex.IsSexAggregatedOrSingle = false;
         PopulateDatabase(healthMeasureWithSex);
 
-        // should NOT be in the results because it is not aggregated for age and age is not specified
+        // should be in the results because we include data segmented by age and sex as standard
         var healthMeasureWithSexAndAge = new HealthMeasureModelHelper(2, 2021)
             .WithSexDimension(hasValue: true, sexIsAggregate: false)
             .WithAgeDimension(hasValue: true, ageIsAggregate: false)
@@ -740,6 +748,7 @@ public class HealthDataRepositoryTests : IDisposable
             new List<HealthMeasureModel>
             {
                 healthMeasureWithSex,
+                healthMeasureWithSexAndAge,
                 healthMeasureWithNoSexAndNoAge,
             }
         );
@@ -799,7 +808,7 @@ public class HealthDataRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithOnlyDeprivationDimensionDataIfDeprivationInequalityIsSpecified()
+    public async Task GetIndicatorDataAsyncShouldIncludeResultsWithBothAgeAndDeprivationDimensionDataIfDeprivationInequalityIsSpecified()
     {
         // arrange
         var healthMeasureWithAgeAndNoDeprivation = new HealthMeasureModelHelper(1, 2020)
@@ -844,10 +853,12 @@ public class HealthDataRepositoryTests : IDisposable
 
         // assert
         result.ShouldNotBeEmpty();
-        result.Count().ShouldBe(2);
+        result.Count().ShouldBe(4);
         result.ShouldBeEquivalentTo(
             new List<HealthMeasureModel>
             {
+                healthMeasureWithAgeAndNoDeprivation,
+                healthMeasureWithAgeAndDeprivation,
                 healthMeasureWithNoAgeAndDeprivation,
                 healthMeasureWithNoAgeAndNoDeprivation,
             }
