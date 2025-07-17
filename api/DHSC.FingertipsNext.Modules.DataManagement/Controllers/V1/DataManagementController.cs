@@ -14,14 +14,13 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 public class DataManagementController(IDataManagementService dataManagementService) : ControllerBase
 {
     [HttpPost]
-    [Route("indicators/{indicatorId:int}/data")]
+    [Route("/indicators/{indicatorId:int}/data")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-
     public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt, [FromRoute] int indicatorId)
     {
         if (file == null || file.Length == 0)
