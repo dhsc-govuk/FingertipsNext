@@ -15,6 +15,7 @@ internal static class HealthDataForAreaBuilder
         foreach (var sexValue in sexes)
         {
             var sex = new Sex { Value = sexValue, IsAggregate = sexValue == "Persons" };
+            var age = new Age { Value = "All ages", IsAggregate = true };
             var healthDataPoints = new List<HealthDataPoint>();
             var vals = sexValue switch
             {
@@ -56,6 +57,7 @@ internal static class HealthDataForAreaBuilder
 
             indicatorSegments.Add(new IndicatorSegment
             {
+                Age = age,
                 Sex = sex,
                 IsAggregate = sexValue == "Persons",
                 HealthData = healthDataPoints
