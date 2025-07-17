@@ -11,6 +11,10 @@ import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { useInequalitiesData } from '@/components/charts/Inequalities/hooks/useInequalitiesData';
 import { useIndicatorMetaData } from '@/components/charts/hooks/useIndicatorMetaData';
 import { ChartType } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 export function InequalitiesTrendChartAndTable() {
   const data = useInequalitiesData(ChartType.Trend);
@@ -32,7 +36,9 @@ export function InequalitiesTrendChartAndTable() {
 
   return (
     <StyleChartWrapper data-testid="inequalitiesTrend-component">
-      <H3>Inequalities trends over time</H3>
+      <H3 id={ChartTitleKeysEnum.InequalitiesLineChart}>
+        {chartTitleConfig[ChartTitleKeysEnum.InequalitiesLineChart].title}
+      </H3>
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
         inequalityTypeSelectedSearchParam={

@@ -146,26 +146,24 @@ test.describe('Home Page Tests', () => {
     });
   });
 
-  // fails due to loading screen notyet implemented on auth flow
-  test.fixme(
-    'should display Sign out after successful mock sign in',
-    async ({ homePage }) => {
-      await test.step('Navigate to home page', async () => {
-        await homePage.navigateToHomePage();
-        await homePage.checkOnHomePage();
-      });
+  test('should display Sign out after successful mock sign in', async ({
+    homePage,
+  }) => {
+    await test.step('Navigate to home page', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+    });
 
-      await test.step('Click Sign in button', async () => {
-        await homePage.clickSignInOnHomePage();
-      });
+    await test.step('Click Sign in button', async () => {
+      await homePage.clickSignInOnHomePage();
+    });
 
-      await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
-        await homePage.signInToMock();
+    await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
+      await homePage.signInToMock();
 
-        await homePage.checkSignOutDisplayed();
-      });
-    }
-  );
+      await homePage.checkSignOutDisplayed();
+    });
+  });
 
   test('header nav link should return user to home page', async ({
     homePage,
