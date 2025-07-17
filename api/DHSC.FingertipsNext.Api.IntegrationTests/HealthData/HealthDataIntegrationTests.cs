@@ -99,6 +99,24 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         await AssertExpectedHealthDataCount(client, 3);
     }
 
+    [Fact(Skip = "Not implemented yet")]
+    public static void GetIndicatorDataIncludingUnpublishedWithoutAuth401Response()
+    {
+        // not yet implemented 
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public static void GetIndicatorDataIncludingUnpublishedWithInvalidAuth403Response()
+    {
+        // not yet implemented 
+    }
+    
+    [Fact(Skip = "Not implemented yet")]
+    public static void GetIndicatorDataIncludingUnpublishedWithValidAuth200ResponseWithExpectedBody()
+    {
+        // not yet implemented 
+    }
+
     private static async Task AssertExpectedHealthDataCount(HttpClient client, int count)
     {
         var availableHealthDataResponse = await client.GetAsync(new Uri($"/indicators/{IndicatorId}/data/all?area_codes=E12000002", UriKind.Relative));
