@@ -10,6 +10,10 @@ import { AreaDocument } from '@/lib/search/searchTypes';
 import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
 import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateParams } from '@/lib/searchStateManager';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 const mockPath = 'some-mock-path';
 const mockReplace = vi.fn();
@@ -115,7 +119,11 @@ describe('PopulationPyramidWithTable', () => {
 
   test('renders component with default title', () => {
     setupUI(mockHealthDataForArea);
-    expect(screen.getByText('Related population data')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
+      )
+    ).toBeInTheDocument();
   });
 
   test('renders tabs correctly', () => {

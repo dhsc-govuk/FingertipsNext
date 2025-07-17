@@ -21,6 +21,10 @@ import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockDeprivationData } from '@/mock/data/mockDeprivationData';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
@@ -112,7 +116,9 @@ describe('InequalitiesTrendChart', () => {
       screen.getByTestId('tabContainer-inequalitiesLineChartAndTable')
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Inequalities trends over time/i)
+      screen.getByText(
+        chartTitleConfig[ChartTitleKeysEnum.InequalitiesLineChart].title
+      )
     ).toBeInTheDocument();
 
     expect(inequalitiesTypesDropDown).toBeInTheDocument();
