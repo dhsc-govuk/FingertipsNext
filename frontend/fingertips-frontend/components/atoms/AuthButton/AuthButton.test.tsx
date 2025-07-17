@@ -1,8 +1,10 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+//
 import { render } from '@testing-library/react';
 import { AuthButton } from '.';
 import userEvent from '@testing-library/user-event';
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
-import { LoaderContext } from '@/context/LoaderContext';
 
 vi.mock('@/lib/auth/handlers', () => {
   return {
@@ -11,17 +13,7 @@ vi.mock('@/lib/auth/handlers', () => {
   };
 });
 
-const mockSetIsLoading = vi.fn();
-const mockLoaderContext: LoaderContext = {
-  getIsLoading: vi.fn(),
-  setIsLoading: mockSetIsLoading,
-};
-
-vi.mock('@/context/LoaderContext', () => {
-  return {
-    useLoadingState: () => mockLoaderContext,
-  };
-});
+mockSetIsLoading.mockReturnValue(false);
 
 describe('auth button', () => {
   beforeEach(vi.clearAllMocks);

@@ -1,6 +1,8 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+//
 import { render, screen } from '@testing-library/react';
 import { FTHeader } from '.';
-import { LoaderContext } from '@/context/LoaderContext';
 
 vi.mock('@/lib/auth/handlers', () => {
   return {
@@ -9,17 +11,7 @@ vi.mock('@/lib/auth/handlers', () => {
   };
 });
 
-const mockSetIsLoading = vi.fn();
-const mockLoaderContext: LoaderContext = {
-  getIsLoading: vi.fn(),
-  setIsLoading: mockSetIsLoading,
-};
-
-vi.mock('@/context/LoaderContext', () => {
-  return {
-    useLoadingState: () => mockLoaderContext,
-  };
-});
+mockSetIsLoading.mockReturnValue(false);
 
 describe('Header', () => {
   it('should match snapshot', () => {
