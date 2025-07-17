@@ -14,7 +14,10 @@ import { AreaDocument } from '@/lib/search/searchTypes';
 import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { PopulationPyramid } from '@/components/charts/PopulationPyramid/PopulationPyramid';
-import { chartTitleConfig, ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 const mockSearchState: SearchStateParams = {};
 
