@@ -4,6 +4,8 @@ using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using DHSC.FingertipsNext.Modules.Common.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 
@@ -87,11 +89,10 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// If more than 20 years are supplied the request will fail.
     /// If more than 100 area codes are supplied the request will fail.
     /// </remarks>
-    [HttpGet]
-    [Route("{indicatorId:int}/data/all")]
-    [ProducesResponseType(typeof(IndicatorWithHealthDataForAreas), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpGet, Route("{indicatorId:int}/data/all"),
+     ProducesResponseType(typeof(IndicatorWithHealthDataForAreas), StatusCodes.Status200OK),
+     ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest),
+     ProducesResponseType(StatusCodes.Status404NotFound), Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
     public async Task<IActionResult> GetPublishedAndUnpublishedIndicatorDataAsync(
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
