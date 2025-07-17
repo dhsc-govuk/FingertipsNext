@@ -29,6 +29,7 @@ export enum TestTag {
 export interface IndicatorInfo {
   indicatorID: string;
   knownTrend?: string;
+  unpublishedDataYear?: number;
 }
 
 export interface SimpleIndicatorDocument {
