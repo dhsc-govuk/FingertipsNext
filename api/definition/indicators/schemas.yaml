@@ -396,6 +396,8 @@ QuartileData:
       type: integer
       example: 21404
       description: Unique ID of the indicator
+    age:
+      $ref: "#/AgeData"    
     sex:
       $ref: "#/SexData"
     isAggregate:

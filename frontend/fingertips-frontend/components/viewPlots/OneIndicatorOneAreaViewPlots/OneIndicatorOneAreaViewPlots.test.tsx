@@ -25,7 +25,6 @@ import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { mockSexData } from '@/mock/data/mockSexData';
-import { SessionProvider } from 'next-auth/react';
 
 mockUsePathname.mockReturnValue('some-mock-path');
 mockSetIsLoading.mockReturnValue(false);
@@ -72,11 +71,9 @@ const testRender = async (
 
   await act(() =>
     render(
-      <SessionProvider>
-        <QueryClientProvider client={client}>
-          <OneIndicatorOneAreaViewPlots indicatorData={healthData} />
-        </QueryClientProvider>
-      </SessionProvider>
+      <QueryClientProvider client={client}>
+        <OneIndicatorOneAreaViewPlots indicatorData={healthData} />
+      </QueryClientProvider>
     )
   );
 };

@@ -21,7 +21,6 @@ import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWit
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { mockDeprivationData } from '@/mock/data/mockDeprivationData';
-import { SessionProvider } from 'next-auth/react';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
@@ -46,11 +45,9 @@ const testRender = async (testHealthData: IndicatorWithHealthDataForArea) => {
   queryClient.setQueryData(['/indicator/41101'], mockIndicatorDocument());
   await act(() =>
     render(
-      <SessionProvider>
-        <QueryClientProvider client={queryClient}>
-          <InequalitiesBarChartAndTable />
-        </QueryClientProvider>
-      </SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <InequalitiesBarChartAndTable />
+      </QueryClientProvider>
     )
   );
 };

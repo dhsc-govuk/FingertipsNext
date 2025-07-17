@@ -1,5 +1,6 @@
 import {
   AreasApi,
+  BatchesApi,
   Configuration,
   IndicatorsApi,
   SystemApi,
@@ -14,6 +15,7 @@ export class ApiClientFactory {
   private static indicatorsApiInstance: IndicatorsApi | null;
   private static systemApiInstance: SystemApi | null;
   private static userApiInstance: UserApi | null;
+  private static batchesApiInstance: BatchesApi | null;
 
   public static getAreasApiClient(): AreasApi {
     if (!this.areasApiInstance) {
@@ -69,5 +71,19 @@ export class ApiClientFactory {
     }
 
     return this.userApiInstance;
+  }
+
+  public static getBatchesApiClient(): BatchesApi {
+    if (!this.batchesApiInstance) {
+      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
+      const config: Configuration = new Configuration({
+        basePath: apiUrl,
+        fetchApi: fetch,
+      });
+
+      this.batchesApiInstance = new BatchesApi(config);
+    }
+
+    return this.batchesApiInstance;
   }
 }
