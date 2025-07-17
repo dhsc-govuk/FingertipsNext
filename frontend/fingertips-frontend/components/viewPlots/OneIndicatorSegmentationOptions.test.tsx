@@ -1,4 +1,4 @@
-import { mockUseApiGetHealthDataForAnIndicator } from '@/mock/utils/mockUseApiGetHealthData';
+import { mockUseApiGetHealthDataForAnIndicator } from '@/mock/utils/mockUseApiGetHealthDataForAnIndicator';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 //
 import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
