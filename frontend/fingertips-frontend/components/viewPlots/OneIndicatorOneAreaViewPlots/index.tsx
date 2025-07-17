@@ -11,6 +11,7 @@ import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTi
 import { OneIndicatorSegmentationOptions } from '@/components/viewPlots/OneIndicatorSegmentationOptions';
 import { SingleIndicatorBasicTable } from '@/components/charts/BasicTable/SingleIndicatorBasicTable';
 import { singleIndicatorBasicTableIsRequired } from '@/components/charts/BasicTable/helpers/singleIndicatorBasicTableIsRequired';
+import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -42,7 +43,6 @@ export function OneIndicatorOneAreaViewPlots({
           <LineChartAndTableOverTime />
         </>
       ) : null}
-
       <Inequalities />
     </section>
   );

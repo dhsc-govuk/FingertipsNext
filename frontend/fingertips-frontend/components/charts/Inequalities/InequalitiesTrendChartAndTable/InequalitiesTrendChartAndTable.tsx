@@ -11,6 +11,7 @@ import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { useInequalitiesData } from '@/components/charts/Inequalities/hooks/useInequalitiesData';
 import { useIndicatorMetaData } from '@/components/charts/hooks/useIndicatorMetaData';
 import { ChartType } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import { ArrowExpander } from '@/components/molecules/ArrowExpander';
 
 export function InequalitiesTrendChartAndTable() {
   const data = useInequalitiesData(ChartType.Trend);
