@@ -35,6 +35,10 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       "connectNulls": true,
       "custom": {
         "areaCode": "E92000001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
@@ -55,6 +59,10 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       "connectNulls": true,
       "custom": {
         "areaCode": "A1425",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
@@ -157,6 +165,10 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       "connectNulls": true,
       "custom": {
         "areaCode": "E92000001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
@@ -177,6 +189,10 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       "connectNulls": true,
       "custom": {
         "areaCode": "P001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
@@ -197,6 +213,10 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
       "connectNulls": true,
       "custom": {
         "areaCode": "A1425",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
@@ -299,6 +319,10 @@ exports[`generateStandardLineChartOptions > should not include england years bef
       "connectNulls": true,
       "custom": {
         "areaCode": "E92000001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
@@ -319,6 +343,10 @@ exports[`generateStandardLineChartOptions > should not include england years bef
       "connectNulls": true,
       "custom": {
         "areaCode": "P001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
@@ -339,6 +367,10 @@ exports[`generateStandardLineChartOptions > should not include england years bef
       "connectNulls": true,
       "custom": {
         "areaCode": "A1425",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
