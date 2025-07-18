@@ -11,6 +11,10 @@ import {
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
 import { MockedFunction } from 'vitest';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 vi.mock(
   '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable',
@@ -52,7 +56,9 @@ describe('CompareAreasTable', () => {
     render(<CompareAreasTable />);
 
     expect(
-      screen.getByRole('heading', { name: /Compare areas for one time period/ })
+      screen.getByRole('heading', {
+        name: chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title,
+      })
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('barChartEmbeddedTable-component')

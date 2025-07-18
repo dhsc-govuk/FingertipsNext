@@ -24,6 +24,7 @@ import {
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
+import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
 import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
 import { getIndicatorHealthDataSeed } from '@/lib/getIndicatorHealthDataSeed';
@@ -38,6 +39,10 @@ export default async function ChartPage(
   const session = await auth();
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+
+  const healthEndpoint = session
+    ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
+    : EndPoints.HealthDataForAnIndicator;
 
   try {
     const searchParams = await props.searchParams;
@@ -146,12 +151,14 @@ export default async function ChartPage(
       }
     }
 
+    // seed availableAreas
     seedData[`availableAreas`] = availableAreas ?? [];
 
     if (updatedSearchState) {
       stateManager.setState(updatedSearchState);
     }
 
+    // seed data for inequalities
     const inequalitiesQueryParams = inequalitiesRequestParams(searchState);
     const inequalitiesQueryKey = queryKeyFromRequestParams(
       EndPoints.HealthDataForAnIndicator,
@@ -170,6 +177,38 @@ export default async function ChartPage(
       } catch (e) {
         console.error(
           'error getting health indicator data for inequalities',
+          e
+        );
+      }
+    }
+
+    // seed data for population pyramid
+    const populationPyramidQueryParams = populationPyramidRequestParams(
+      searchState,
+      availableAreas ?? []
+    );
+    const populationPyramidQueryKey = queryKeyFromRequestParams(
+      healthEndpoint,
+      populationPyramidQueryParams
+    );
+    if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
+      try {
+        if (session) {
+          seedData[populationPyramidQueryKey] =
+            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+              populationPyramidQueryParams,
+              API_CACHE_CONFIG
+            );
+        } else {
+          seedData[populationPyramidQueryKey] =
+            await indicatorApi.getHealthDataForAnIndicator(
+              populationPyramidQueryParams,
+              API_CACHE_CONFIG
+            );
+        }
+      } catch (e) {
+        console.error(
+          'error getting health indicator data for population pyramid',
           e
         );
       }

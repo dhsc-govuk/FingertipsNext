@@ -21,7 +21,9 @@ namespace DataCreator
                     IndicatorID = int.Parse(split[0]),
                     IndicatorName = split[1],
                     BenchmarkComparisonMethod = split[2],
-                    Polarity = split[3]
+                    Polarity = split[3],
+                    Frequency = split[4],
+                    ContainsCumulativePeriodData = bool.Parse(split[5])
                 });
             }
 
@@ -34,9 +36,8 @@ namespace DataCreator
         /// <param name="indicatorId"></param>
         /// <param name="areasDict"></param>
         /// <returns></returns>
-        public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, Dictionary<string, string> areasDict)
+        public static List<HealthMeasureEntity> GetHealthDataForIndicator(int indicatorId, Dictionary<string, string> areasDict, bool containsCumulativePeriodData)
         {
-
             //this is a csv file that was downloaded from the Fingertips API
             var filePath = Path.Join(TempDirPath, $"{indicatorId}.csv");
             if (!File.Exists(filePath))

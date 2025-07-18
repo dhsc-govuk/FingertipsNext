@@ -142,8 +142,11 @@ IndicatorSegment:
   type: object
   description: Represents a segment of an Indicator health data point for a public health indicator.
   required:
+    - age
     - sex
   properties:
+    age:
+      $ref: "#/AgeData"
     sex:
       $ref: "#/SexData"
     isAggregate:
@@ -396,6 +399,8 @@ QuartileData:
       type: integer
       example: 21404
       description: Unique ID of the indicator
+    age:
+      $ref: "#/AgeData"    
     sex:
       $ref: "#/SexData"
     isAggregate:

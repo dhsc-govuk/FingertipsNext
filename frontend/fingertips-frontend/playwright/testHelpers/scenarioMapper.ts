@@ -1,4 +1,4 @@
-import { IndicatorMode, AreaMode } from './genericTestUtilities';
+import { AreaMode, IndicatorMode } from './genericTestUtilities';
 import ChartPage from '../page-objects/pages/chartPage';
 import { allComponents } from './chartComponentRegistry';
 import { ChartComponentDefinition } from './testDefinitions';
@@ -28,17 +28,20 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.barChartEmbeddedTableComponent,
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
+    ChartPage.heatMapComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.THREE_PLUS_AREAS}`]: [
     ChartPage.barChartEmbeddedTableComponent,
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
+    ChartPage.heatMapComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
     ChartPage.thematicMapComponent,
     ChartPage.barChartEmbeddedTableComponent,
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
+    ChartPage.heatMapComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
     ChartPage.lineChartComponent,

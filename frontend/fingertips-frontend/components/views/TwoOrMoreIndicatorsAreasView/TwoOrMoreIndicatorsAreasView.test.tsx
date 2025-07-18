@@ -198,9 +198,6 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       mockIndicator,
       mockIndicator,
     ]);
-    expect(page.props.children[1].props.indicatorMetadata).toEqual(
-      fullSelectedIndicatorsData
-    );
   });
 
   it('should throw an error when search state contains no selected indicators', async () => {

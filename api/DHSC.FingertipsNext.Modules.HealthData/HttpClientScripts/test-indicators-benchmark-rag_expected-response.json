@@ -7,6 +7,10 @@
       "areaName": "London Region",
       "indicatorSegments": [
         {
+          "age": {
+            "value": "All ages",
+            "isAggregate": true
+          },
           "sex": {
             "value": "Female",
             "isAggregate": false
@@ -390,6 +394,10 @@
           ]
         },
         {
+          "age": {
+            "value": "All ages",
+            "isAggregate": true
+          },
           "sex": {
             "value": "Male",
             "isAggregate": false
@@ -773,6 +781,10 @@
           ]
         },
         {
+          "age": {
+            "value": "All ages",
+            "isAggregate": true
+          },
           "sex": {
             "value": "Persons",
             "isAggregate": true

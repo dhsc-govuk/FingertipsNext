@@ -253,6 +253,8 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicator
     post:
+      security:
+        - bearerAuth: []
       tags:
         - indicators
       summary: add a batch of new data for an indicator
@@ -284,6 +286,12 @@ paths:
                 $ref: '#/components/schemas/Batch'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/{indicator_id}/data/all:
     parameters:
       - $ref: '#/components/parameters/indicator_id'
@@ -511,7 +519,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
-          description: The user does not have administration permissions for the specified indicator.
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
@@ -561,10 +569,12 @@ components:
             Too many years:
               value:
                 message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
-    UserBadRequest:
-      description: User token was missing required claims.
     Unauthorized:
       description: Authorization information is missing or invalid.
+    Forbidden:
+      description: The user does not have administration permissions for the specified indicator.
+    UserBadRequest:
+      description: User token was missing required claims.
   parameters:
     hierarchy_type:
       in: query
@@ -914,6 +924,22 @@ components:
         - Annually
         - Quarterly
         - Monthly
+    AgeData:
+      title: Age Data
+      type: object
+      description: Details of the age band that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: 0-4
+          description: Age band which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the age dimension.
     SexData:
       title: Sex Data
       type: object
@@ -953,22 +979,6 @@ components:
         to:
           $ref: '#/components/schemas/Date'
           description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD).
-    AgeData:
-      title: Age Data
-      type: object
-      description: Details of the age band that this data point belongs to.
-      required:
-        - value
-        - isAggregate
-      properties:
-        value:
-          type: string
-          example: 0-4
-          description: Age band which the data are for.
-        isAggregate:
-          type: boolean
-          example: false
-          description: Indicates if the datapoint is an aggregated value for the age dimension.
     BenchmarkOutcome:
       title: Benchmark Outcome
       type: string
@@ -1110,8 +1120,11 @@ components:
       type: object
       description: Represents a segment of an Indicator health data point for a public health indicator.
       required:
+        - age
         - sex
       properties:
+        age:
+          $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
         isAggregate:
@@ -1232,6 +1245,8 @@ components:
           type: integer
           example: 21404
           description: Unique ID of the indicator
+        age:
+          $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
         isAggregate:

@@ -2,12 +2,16 @@
 
 import { ResponseError } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { auth } from '@/lib/auth';
 import { UTCDateMini } from '@date-fns/utc';
+import { revalidatePath } from 'next/cache';
 
 export type ApiResponse = {
   status?: number;
   message: string;
 };
+
+const BATCHES_API_PATH = '/batches';
 
 export async function uploadFile(
   _prevState: ApiResponse | undefined,
@@ -27,12 +31,22 @@ export async function uploadFile(
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
+  const session = await auth();
+  const accessToken = session?.accessToken;
+
   try {
-    const response = await indicatorApi.indicatorsIndicatorIdDataPostRaw({
-      indicatorId,
-      file,
-      publishedAt,
-    });
+    const response = await indicatorApi.indicatorsIndicatorIdDataPostRaw(
+      {
+        indicatorId,
+        file,
+        publishedAt,
+      },
+      {
+        headers: { Authorization: `bearer ${accessToken}` },
+      }
+    );
+
+    revalidatePath(BATCHES_API_PATH);
 
     return { status: response.raw.status, message: await response.raw.text() };
   } catch (error) {

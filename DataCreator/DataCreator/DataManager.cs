@@ -8,6 +8,15 @@ namespace DataCreator
         private readonly PholioDataFetcher _pholioDataFetcher = pholioDataFetcher;
         private const int MAXNUMBERGPS = 5;
         private const string PERSONS = "Persons";
+        private static readonly Dictionary<string, string> _periodMap = new()
+        {
+                {"1m", PeriodConstants.Monthly},
+                {"3m", PeriodConstants.Quarterly},
+                {"1y", PeriodConstants.Yearly},
+                {"2y", PeriodConstants.TwoYearly},
+                {"3y", PeriodConstants.ThreeYearly},
+                {"5y", PeriodConstants.FiveYearly}
+        };
 
         public async Task<List<string>> CreateAreaDataAsync()
         {
@@ -78,37 +87,42 @@ namespace DataCreator
 
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators)
         {
+            //get the indicator data from the PHOLIO database
             var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync(pocIndicators)).ToList();
             foreach (var indicator in indicators)
             {
-                var match = indicatorWithAreasAndLatestUpdates
+                var indicatorData = indicatorWithAreasAndLatestUpdates
                     .FirstOrDefault(indicatorWithAreasAndLatestUpdate => indicatorWithAreasAndLatestUpdate.IndicatorID == indicator.IndicatorID);
 
-                if (match != null)
+                if (indicatorData != null)
                 {
-                    indicator.AssociatedAreaCodes = match.AssociatedAreaCodes;
-                    indicator.LatestDataPeriod = match.LatestDataPeriod;
-                    indicator.EarliestDataPeriod = match.EarliestDataPeriod;
-                    indicator.HasInequalities = match.HasInequalities;
-                    indicator.HasMultipleAges = match.HasMultipleAges;
-                    indicator.HasMultipleSexes = match.HasMultipleSexes;
-                    indicator.HasMultipleDeprivation = match.HasMultipleDeprivation;
+                    indicator.AssociatedAreaCodes = indicatorData.AssociatedAreaCodes;
+                    indicator.LatestDataPeriod = indicatorData.LatestDataPeriod;
+                    indicator.EarliestDataPeriod = indicatorData.EarliestDataPeriod;
+                    indicator.HasInequalities = indicatorData.HasInequalities;
+                    indicator.HasMultipleAges = indicatorData.HasMultipleAges;
+                    indicator.HasMultipleSexes = indicatorData.HasMultipleSexes;
+                    indicator.HasMultipleDeprivation = indicatorData.HasMultipleDeprivation;
                 }
 
-                indicator.UsedInPoc = pocIndicators.Select(i => i.IndicatorID).Contains(indicator.IndicatorID);
-                if (indicator.UsedInPoc)
+                var indicatorUsedInPoc = pocIndicators.FirstOrDefault(pocIndicator => pocIndicator.IndicatorID == indicator.IndicatorID);
+                if (indicatorUsedInPoc == null)
                 {
-                    var indicatorUsedInPoc = pocIndicators.First(i => i.IndicatorID == indicator.IndicatorID);
-                    if (!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
-                    {
-                        indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
-                    }
-                    indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
-                    indicator.Polarity = indicatorUsedInPoc.Polarity;
-
-                    var pocIndicator = pocIndicators.Find(i => i.IndicatorID == indicator.IndicatorID);
-                    pocIndicator.PeriodType = indicator.PeriodType;
+                    continue;
+                }   
+                indicator.UsedInPoc = true;
+                
+                if (!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
+                {
+                    indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
                 }
+                if (!string.IsNullOrEmpty(indicatorUsedInPoc.Frequency))
+                {
+                    indicator.Frequency = indicatorUsedInPoc.Frequency;
+                }
+                indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
+                indicator.Polarity = indicatorUsedInPoc.Polarity;
+                indicatorUsedInPoc.PeriodType = indicator.PeriodType;
             }
             AddLastUpdatedDate(indicators);
 
@@ -134,8 +148,8 @@ namespace DataCreator
             var areasDictionary = areasWeWant.ToDictionary(areaCode => areaCode);
             foreach (var pocIndicator in pocIndicators)
             {
-                var healthDataForIndicator = DataFileReader.GetHealthDataForIndicator(pocIndicator.IndicatorID, areasDictionary);
-                MapTimePeriodRangesToPeriods(healthDataForIndicator);
+                var healthDataForIndicator = DataFileReader.GetHealthDataForIndicator(pocIndicator.IndicatorID, areasDictionary, pocIndicator.ContainsCumulativePeriodData);
+                MapTimePeriodRangesToPeriods(healthDataForIndicator, pocIndicator.ContainsCumulativePeriodData);
 
                 Console.WriteLine($"Grabbed {healthDataForIndicator.Count} points for indicator {pocIndicator.IndicatorID}");
                 healthMeasures.AddRange(healthDataForIndicator);
@@ -164,20 +178,16 @@ namespace DataCreator
             return (indicatorWithAreasAndLatestUpdates, healthMeasures);
         }
 
-        private static void MapTimePeriodRangesToPeriods(List<HealthMeasureEntity> healthDataForIndicator)
+        private static void MapTimePeriodRangesToPeriods(List<HealthMeasureEntity> healthDataForIndicator, bool containsCumulativePeriodData)
         {
-            var periodMap = new Dictionary<string, string>
-            {
-                {"1m",PeriodConstants.Monthly},
-                {"3m",PeriodConstants.Quarterly},
-                {"1y",PeriodConstants.Yearly},
-                {"2y",PeriodConstants.TwoYearly},
-                {"3y",PeriodConstants.ThreeYearly},
-                {"5y",PeriodConstants.FiveYearly},
-            };
             foreach (var healthDataPoint in healthDataForIndicator)
             {
-                if (periodMap.TryGetValue(healthDataPoint.Period, out var mappedValue))
+                if(containsCumulativePeriodData && healthDataPoint.Period == "3m")
+                {
+                    healthDataPoint.Period = PeriodConstants.CumulativeQuarterly;
+                    continue;
+                }
+                if (_periodMap.TryGetValue(healthDataPoint.Period, out var mappedValue))
                 {
                     healthDataPoint.Period = mappedValue;
                 }

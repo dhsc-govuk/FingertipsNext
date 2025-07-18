@@ -1,0 +1,154 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PopulationPyramidTable > take a snapshot 1`] = `
+<DocumentFragment>
+  <section>
+    <h3
+      class="sc-gFqAkR fPHWbj"
+    >
+      Population Data
+    </h3>
+    <table
+      class="src__StyledTable-sc-16s660v-0 duOufa"
+    >
+      <thead
+        class="TableHeader-sc-1n1nw4b-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            style="white-space: nowrap;"
+          >
+            Age Band
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            style="white-space: nowrap;"
+          >
+            Females
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            style="white-space: nowrap;"
+          >
+            Males
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="TableBody-sc-1qqarm8-0"
+      >
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            0-4
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            900
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            1,000
+          </td>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            5-9
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            1,100
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            1,200
+          </td>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            10-14
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            1,050
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            1,100
+          </td>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            15+
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            1,250
+          </td>
+          <td
+            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            style="white-space: nowrap;"
+          >
+            1,300
+          </td>
+        </tr>
+        <tr
+          class="Row-sc-1y8eqfp-0"
+        >
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+          >
+            All ages
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+          >
+            4,300
+          </th>
+          <th
+            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+          >
+            4,600
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</DocumentFragment>
+`;
