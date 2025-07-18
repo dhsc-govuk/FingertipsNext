@@ -5,6 +5,7 @@ import { FTHeader } from '@/components/molecules/Header';
 import { FTContainer } from '@/components/layouts/container';
 import { FTFooter } from '@/components/molecules/Footer';
 import { ErrorPage } from '@/components/pages/error';
+import { LoaderProvider } from '@/context/LoaderContext';
 
 // next.js will only use this page in production builds, meaning that
 // in dev builds you will see the developer oriented unhandled exception
@@ -16,11 +17,13 @@ export default function GlobalError() {
     <html lang="en">
       <body>
         <StyledComponentsRegistry>
-          <FTHeader />
-          <FTContainer>
-            <ErrorPage />
-          </FTContainer>
-          <FTFooter />
+          <LoaderProvider>
+            <FTHeader />
+            <FTContainer>
+              <ErrorPage />
+            </FTContainer>
+            <FTFooter />
+          </LoaderProvider>
         </StyledComponentsRegistry>
       </body>
     </html>
