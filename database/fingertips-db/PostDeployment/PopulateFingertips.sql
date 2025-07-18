@@ -338,7 +338,7 @@ CREATE TABLE #TempIndicatorData
     IndicatorName NVARCHAR(255),
     PeriodType NVARCHAR(255),
     CollectionFrequency NVARCHAR(255),
-    RequiresGeoAggregation [bit] 
+    RequiresGeoAggregation NVARCHAR(10),
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -375,7 +375,11 @@ SELECT
     DATEADD(YEAR, 10, GETDATE()),
     PeriodType,
     CollectionFrequency,
-    RequiresGeoAggregation
+    CASE
+        WHEN RequiresGeoAggregation = 'True' THEN 1 
+        WHEN RequiresGeoAggregation = 'False' THEN 0
+        ELSE 0 
+    END
 FROM 
     #TempIndicatorData;
 
