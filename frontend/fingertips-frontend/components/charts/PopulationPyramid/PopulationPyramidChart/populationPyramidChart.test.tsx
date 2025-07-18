@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
-
-import { PopulationPyramid } from '.';
 import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationPyramidChart } from '@/components/charts/PopulationPyramid/PopulationPyramidChart/PopulationPyramidChart';
 
 const mockPopulationData: PopulationDataForArea = {
   areaName: 'mock Data',
@@ -22,7 +21,7 @@ const mockPopulationData: PopulationDataForArea = {
 
 test('should render the Highcharts react component within the PopulationPyramid component', async () => {
   render(
-    <PopulationPyramid
+    <PopulationPyramidChart
       title={'Area resident population, 2023'}
       dataForSelectedArea={mockPopulationData}
       xAxisTitle="Age"

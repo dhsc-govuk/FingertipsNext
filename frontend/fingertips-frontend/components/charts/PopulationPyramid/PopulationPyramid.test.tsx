@@ -1,5 +1,9 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
+import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
+//
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import { PopulationPyramidWithTable } from './index';
 import {
   HealthDataForArea,
   HealthDataPoint,
@@ -8,44 +12,18 @@ import {
 import { mockHealthData } from '@/mock/data/healthdata';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
-import { LoaderContext } from '@/context/LoaderContext';
 import { SearchStateParams } from '@/lib/searchStateManager';
+import { PopulationPyramid } from '@/components/charts/PopulationPyramid/PopulationPyramid';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
 
-const mockPath = 'some-mock-path';
-const mockReplace = vi.fn();
-
-vi.mock('next/navigation', async () => {
-  const originalModule = await vi.importActual('next/navigation');
-
-  return {
-    ...originalModule,
-    usePathname: () => mockPath,
-    useSearchParams: () => {},
-    useRouter: vi.fn().mockImplementation(() => ({
-      replace: mockReplace,
-    })),
-  };
-});
-
-const mockSetIsLoading = vi.fn();
-const mockLoaderContext: LoaderContext = {
-  getIsLoading: vi.fn(),
-  setIsLoading: mockSetIsLoading,
-};
-vi.mock('@/context/LoaderContext', () => {
-  return {
-    useLoadingState: () => mockLoaderContext,
-  };
-});
-
 const mockSearchState: SearchStateParams = {};
-vi.mock('@/components/hooks/useSearchStateParams', () => ({
-  useSearchStateParams: () => mockSearchState,
-}));
+
+mockUsePathname.mockReturnValue('some-path-name');
+mockSetIsLoading.mockReturnValue(false);
+mockUseSearchStateParams.mockReturnValue(mockSearchState);
 
 const mockHealthDataPoint: HealthDataPoint[] = [
   {
@@ -73,9 +51,12 @@ const mockHealthDataPoint: HealthDataPoint[] = [
 ];
 
 // Mock dependencies
-vi.mock('@/components/organisms/PopulationPyramid', () => ({
-  PopulationPyramid: () => <div data-testid="population-pyramid"></div>,
-}));
+vi.mock(
+  '@/components/charts/PopulationPyramid/PopulationPyramidChart/PopulationPyramidChart',
+  () => ({
+    PopulationPyramidChart: () => <div data-testid="population-pyramid"></div>,
+  })
+);
 vi.mock('@/components/molecules/SelectInputField', () => ({
   AreaSelectInputField: ({
     onSelected,
@@ -94,9 +75,8 @@ vi.mock('@/components/molecules/SelectInputField', () => ({
 describe('PopulationPyramidWithTable', () => {
   const setupUI = (dataForArea: HealthDataForArea[]) => {
     return render(
-      <PopulationPyramidWithTable
+      <PopulationPyramid
         healthDataForAreas={dataForArea}
-        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
         indicatorId={'1'}
@@ -167,9 +147,8 @@ describe('PopulationPyramidWithTable', () => {
 
   test('take a snapshot', () => {
     const container = render(
-      <PopulationPyramidWithTable
+      <PopulationPyramid
         healthDataForAreas={mockHealthData['337']}
-        searchState={{}}
         xAxisTitle="Age"
         yAxisTitle="Percentage of population"
         indicatorId={'1'}

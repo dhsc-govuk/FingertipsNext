@@ -8,7 +8,7 @@ import {
   HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
 import { nhsRegionsAreaType } from '@/lib/areaFilterHelpers/areaType';
-import { generateMockHealthDataPoint } from '../ViewsWrapper/hasSufficientHealthDataCheck.test';
+import { generateMockHealthDataPoint } from '../../../organisms/ViewsWrapper/hasSufficientHealthDataCheck.test';
 
 const generatePopulationDataForArea = (
   areaCode: string

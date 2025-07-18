@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { PopulationPyramidChartTable } from './index';
+import { PopulationPyramidChartTable } from './PopulationPyramidTableGroup';
 
 const mockHealthDataForArea = {
   areaName: 'Test Area',

@@ -8,8 +8,8 @@ import { ChartPageWrapper } from '../pages/chartPageWrapper';
 import { Area } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ViewsSelector } from './ViewsSelector';
-import { PopulationPyramidWithTableDataProvider } from '@/app/chart/PopulationPyramidWithTableDataProvider';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { PopulationPyramidWrapper } from '@/components/charts/PopulationPyramid/PopulationPyramidWrapper';
 
 export type ViewProps = {
   searchState: SearchStateParams;
@@ -52,10 +52,7 @@ export function ViewsContext({
         selectedIndicatorsData={selectedIndicatorsData}
         availableAreas={areaFilterData?.availableAreas}
       />
-      <PopulationPyramidWithTableDataProvider
-        areaCodes={areaCodes}
-        searchState={searchState}
-      />
+      <PopulationPyramidWrapper />
     </ChartPageWrapper>
   );
 }
