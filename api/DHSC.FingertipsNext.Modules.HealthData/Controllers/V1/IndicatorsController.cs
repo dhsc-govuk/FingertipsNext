@@ -92,7 +92,10 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     [HttpGet, Route("{indicatorId:int}/data/all"),
      ProducesResponseType(typeof(IndicatorWithHealthDataForAreas), StatusCodes.Status200OK),
      ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest),
-     ProducesResponseType(StatusCodes.Status404NotFound), Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
+     ProducesResponseType(StatusCodes.Status404NotFound), 
+     Authorize(Policy = CanAdministerIndicatorRequirement.Policy),
+     ProducesResponseType(StatusCodes.Status401Unauthorized),
+     ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> GetPublishedAndUnpublishedIndicatorDataAsync(
         [FromRoute] int indicatorId,
         [FromQuery(Name = "area_codes")] string[]? areaCodes = null,
