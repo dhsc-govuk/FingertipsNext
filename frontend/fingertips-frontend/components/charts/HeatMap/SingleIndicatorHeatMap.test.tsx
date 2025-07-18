@@ -80,9 +80,9 @@ describe('SingleIndicatorHeatMap', () => {
     const firstCellContents = trs.map((tr) => tr.firstChild?.textContent);
     expect(firstCellContents).toEqual([
       'Indicators',
-      `${testHealthData.name} (Persons)`,
-      `${testHealthData.name} (Male)`,
-      `${testHealthData.name} (Female)`,
+      `${testHealthData.name} (Persons, All ages)`,
+      `${testHealthData.name} (Male, All ages)`,
+      `${testHealthData.name} (Female, All ages)`,
     ]);
   });
 

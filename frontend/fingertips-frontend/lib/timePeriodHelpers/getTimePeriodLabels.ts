@@ -1,42 +1,18 @@
-import { format, addYears, subMonths } from 'date-fns';
+import {
+  DatePeriod,
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
+import { format, addYears, subMonths, subYears } from 'date-fns';
 
 /**
  * The following types are temporary.
  * Once the swagger has been updated then these types will come from the generated code.
  */
-export const Frequency = {
-  Annual: 'Annual',
-  Monthly: 'Monthly',
-  Quarterly: 'Quarterly',
-  CumulativeQuarters: 'CumulativeQuarters',
-} as const;
-export type Frequency = (typeof Frequency)[keyof typeof Frequency];
-
-export const PeriodType = {
-  Calendar: 'Calendar',
-  Academic: 'Academic',
-  Yearly: 'Yearly',
-  Financial: 'Financial',
-  FinancialYearEndPoint: 'FinancialYearEndPoint',
-  FinancialMultiYear: 'FinancialMultiYear',
-} as const;
-export type PeriodType = (typeof PeriodType)[keyof typeof PeriodType];
-
 export type ReportingPeriod = 1 | 3 | 5;
 
-export interface DatePeriod {
-  type: PeriodType;
-  from: Date;
-  to: Date;
-}
-
-type TimePeriodLabels = {
-  periodLabelText: string;
-  datePointLabel: string;
-};
-
 function getRollingYears(date: Date) {
-  const year = date.getFullYear();
+  const year = format(date, 'yyyy');
   const endYearShort = format(addYears(date, 1), 'yy');
   return `${year}/${endYearShort}`;
 }
@@ -53,17 +29,17 @@ const labelFormatters: {
   };
 } = {
   [PeriodType.Calendar]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: '',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
-          return datePeriod.from.getFullYear().toString();
+          return format(datePeriod.from, 'yyyy');
         }
-        const fromYear = datePeriod.from.getFullYear();
-        const toYear = addYears(
-          datePeriod.from,
-          reportingPeriod - 1
-        ).getFullYear();
+        const fromYear = format(datePeriod.from, 'yyyy');
+        const toYear = format(
+          addYears(datePeriod.from, reportingPeriod - 1),
+          'yyyy'
+        );
         return `${fromYear} to ${toYear}`;
       },
     },
@@ -103,7 +79,7 @@ const labelFormatters: {
     },
   },
   [PeriodType.Academic]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: 'Academic year',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
@@ -118,12 +94,12 @@ const labelFormatters: {
     },
   },
   [PeriodType.Yearly]: {
-    [Frequency.Annual]: {
-      periodLabelText: 'Yearly (month to month e.g. November to October)',
+    [Frequency.Annually]: {
+      periodLabelText: 'Yearly',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
-          const fromYear = datePeriod.from.getFullYear();
-          const toYearShort = datePeriod.to.getFullYear().toString().slice(-2);
+          const fromYear = format(datePeriod.from, 'yyyy');
+          const toYearShort = format(datePeriod.to, 'yy');
           return `${fromYear}/${toYearShort}`;
         }
 
@@ -133,7 +109,7 @@ const labelFormatters: {
     },
   },
   [PeriodType.Financial]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: 'Financial year',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod === 1) {
@@ -184,12 +160,11 @@ const labelFormatters: {
     },
   },
   [PeriodType.FinancialYearEndPoint]: {
-    [Frequency.Annual]: {
+    [Frequency.Annually]: {
       periodLabelText: 'Financial year end point',
       datePointLabel: (datePeriod, reportingPeriod) => {
-        const fromDate = new Date(datePeriod.from);
-        fromDate.setFullYear(fromDate.getFullYear() - 1);
-        const dayMonth = format(datePeriod.to, 'dd MMM');
+        const fromDate = subYears(new Date(datePeriod.from), 1);
+        const dayMonth = format(datePeriod.from, 'dd MMM');
 
         if (reportingPeriod === 1) {
           return `${dayMonth} ${getRollingYears(fromDate)}`;
@@ -203,7 +178,7 @@ const labelFormatters: {
     },
   },
   [PeriodType.FinancialMultiYear]: {
-    [Frequency.CumulativeQuarters]: {
+    [Frequency.Quarterly]: {
       periodLabelText: 'Financial multi-year, cumulative quarters',
       datePointLabel: (datePeriod, reportingPeriod) => {
         if (reportingPeriod !== 1) return '';
@@ -216,17 +191,44 @@ const labelFormatters: {
   },
 };
 
-export const getTimePeriodLabels = (
-  datePeriod: DatePeriod,
-  collectionFrequency: Frequency,
+export const formatDatePointLabel = (
+  datePeriod: DatePeriod | undefined,
+  frequency: Frequency,
   reportingPeriod: ReportingPeriod
-): TimePeriodLabels => {
-  const formatter = labelFormatters[datePeriod.type]?.[collectionFrequency];
+): string => {
+  if (!datePeriod) return 'X';
 
-  if (!formatter) return { periodLabelText: '', datePointLabel: 'X' };
+  const formatter = labelFormatters[datePeriod.type]?.[frequency];
 
-  return {
-    periodLabelText: formatter.periodLabelText,
-    datePointLabel: formatter.datePointLabel(datePeriod, reportingPeriod),
-  };
+  if (!formatter) return 'X';
+
+  return formatter.datePointLabel(datePeriod, reportingPeriod);
+};
+
+export const getPeriodLabel = (
+  periodType: PeriodType,
+  frequency: Frequency
+): string => {
+  const formatter = labelFormatters[periodType]?.[frequency];
+
+  if (!formatter) return '';
+
+  return formatter.periodLabelText;
+};
+
+export const getAdditionalPeriodLabel = (datePeriod: DatePeriod): string => {
+  if (datePeriod.type === PeriodType.Yearly) {
+    const fromMonth = format(datePeriod.from, 'LLLL');
+    const toMonth = format(datePeriod.to, 'LLLL');
+
+    return `(month to month e.g. ${fromMonth} to ${toMonth}) `;
+  }
+
+  return '';
+};
+
+export const convertDateToNumber = (
+  date: Date | string | undefined
+): number => {
+  return new Date(date ?? '').getTime();
 };

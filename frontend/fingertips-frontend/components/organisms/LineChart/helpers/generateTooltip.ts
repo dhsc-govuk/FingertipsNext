@@ -10,15 +10,18 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
-const getBenchmarkForYear = (
-  year: number,
+const getBenchmarkForPeriod = (
+  dateAsNumber: number,
   areaCode: string,
   chartData: HealthDataForArea[]
 ) => {
   return chartData
     .find((healthData) => healthData.areaCode === areaCode)
-    ?.healthData.find((point) => point.year === year)?.benchmarkComparison;
+    ?.healthData.find(
+      (point) => convertDateToNumber(point.datePeriod?.from) === dateAsNumber
+    )?.benchmarkComparison;
 };
 
 const formatValueUnit = (valueUnit?: string) => {
@@ -39,6 +42,8 @@ function generateBenchmarkComparison(
   benchmarkComparisonMethod?: BenchmarkComparisonMethod
 ) {
   const areaCode: string = point.series.options.custom?.areaCode ?? '';
+  const xCategoryKey = point.series.options.custom?.xCategoryKeys[point.x];
+
   const isSelectedArea = areasHealthIndicatorData.some(
     (area) => area.areaCode === areaCode
   );
@@ -50,8 +55,8 @@ function generateBenchmarkComparison(
     benchmarkToUse !== areaCodeForEngland && isSelectedArea;
 
   if (isEnglandBenchmarkAndNotEnglandArea || isGroupBenchmarkAndSelectedArea) {
-    const benchmarkForYear = getBenchmarkForYear(
-      point.x,
+    const benchmarkForYear = getBenchmarkForPeriod(
+      xCategoryKey,
       areaCode,
       areasHealthIndicatorData
     );
@@ -78,11 +83,13 @@ function generateTooltipPointForSelectedAreas(
   measurementUnit?: string
 ) {
   return (point: Highcharts.Point, symbol: string) => {
+    const period = point.category;
+
     return [
       `
       <div style="padding-right: 25px" class="tooltip-point-selector">
         <span style="display: block; font-weight: bold">${point.series.name}</span>
-        <span style="display: block;">${point.x}</span>
+        <span style="display: block;">${period}</span>
         <div style="display: flex; margin-top: 15px; align-items: center;">
           <div style="margin-right: 10px;"><span style="color: ${point.series.color}; font-weight: bold;">${symbol}</span></div>
           <div style="padding-right: 10px;">
