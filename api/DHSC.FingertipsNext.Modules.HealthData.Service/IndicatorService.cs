@@ -143,7 +143,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         bool includeUnpublished = false
         )
     {
-        IEnumerable<HealthMeasureModel> healthMeasureData;
         var areaCodesForSearch = areaCodes.ToList();
 
         // The benchmark reference can be either England or a passed in ancestorCode
@@ -152,55 +151,117 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
         if (comparisonMethod == BenchmarkComparisonMethod.Quintiles)
         {
             // get the data from the database
-            var denormalisedHealthMeasureData = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync
-            (
+            return await GetIndicatorAreaDataWithQuintilesBenchmarkingAsync(
                 indicatorId,
-                areaCodesForSearch.ToArray(),
-                years.Distinct().ToArray(),
+                areaCodesForSearch,
                 areaType,
                 benchmarkAreaCode,
+                benchmarkRefType,
+                years,
+                fromDate,
+                toDate,
+                includeUnpublished
+            );
+        }
+        else
+        {
+            // get the data from the database
+            return await GetIndicatorAreaDataWithNonQuintilesBenchmarkingAsync(
+                indicatorId,
+                areaCodesForSearch,
+                benchmarkAreaCode,
+                years,
+                inequalities,
+                comparisonMethod,
+                polarity,
                 fromDate,
                 toDate,
                 includeUnpublished
             );
 
-            return denormalisedHealthMeasureData
-                .GroupBy(denormalisedHealthMeasure => new
-                {
-                    code = denormalisedHealthMeasure.AreaDimensionCode,
-                    name = denormalisedHealthMeasure.AreaDimensionName,
-                    periodType = denormalisedHealthMeasure.PeriodType,
-                })
-                .Select(areaGroup => new HealthDataForArea
-                {
-                    AreaCode = areaGroup.Key.code,
-                    AreaName = areaGroup.Key.name,
-                    HealthData = healthDataMapper.Map(areaGroup.ToList())
-                    .Where(dataPoint => dataPoint.IsAggregate & dataPoint.AgeBand.IsAggregate)
-                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
-                    .ToList(),
-                    IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
-                    {
-                        ageName = healthMeasure.AgeDimensionName,
-                        ageIsAggregate = healthMeasure.AgeDimensionIsAggregate,
-                        sexName = healthMeasure.SexDimensionName,
-                        sexIsAggregate = healthMeasure.SexDimensionIsAggregate
-                    })
-                .Select(segmentGroup => new IndicatorSegment
-                {
-                    Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
-                    Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
-                    IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
-                    HealthData = healthDataMapper.Map(segmentGroup.ToList())
-                      .OrderBy(dataPoint => dataPoint.DatePeriod.From)
-                      .ToList()
-                })
-                .OrderBy(segment => segment.Sex.Value)
-                .ThenBy(segment => segment.Age.Value)
-                .ToList()
-                })
-                .ToList();
         }
+    }
+
+
+    private async Task<IEnumerable<HealthDataForArea>> GetIndicatorAreaDataWithQuintilesBenchmarkingAsync
+    (
+        int indicatorId,
+        List<string> areaCodesForSearch,
+        string areaType,
+        string benchmarkAreaCode,
+        BenchmarkReferenceType benchmarkRefType,
+        IEnumerable<int> years,
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null,
+        bool includeUnpublished = false
+        )
+    {
+
+        // get the data from the database
+        var denormalisedHealthMeasureData = await healthDataRepository.GetIndicatorDataWithQuintileBenchmarkComparisonAsync
+        (
+            indicatorId,
+            areaCodesForSearch.ToArray(),
+            years.Distinct().ToArray(),
+            areaType,
+            benchmarkAreaCode,
+            fromDate,
+            toDate,
+            includeUnpublished
+        );
+
+        return denormalisedHealthMeasureData
+            .GroupBy(denormalisedHealthMeasure => new
+            {
+                code = denormalisedHealthMeasure.AreaDimensionCode,
+                name = denormalisedHealthMeasure.AreaDimensionName,
+                periodType = denormalisedHealthMeasure.PeriodType,
+            })
+            .Select(areaGroup => new HealthDataForArea
+            {
+                AreaCode = areaGroup.Key.code,
+                AreaName = areaGroup.Key.name,
+                HealthData = healthDataMapper.Map(areaGroup.ToList())
+                .Where(dataPoint => dataPoint.IsAggregate && dataPoint.AgeBand.IsAggregate)
+                .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                .ToList(),
+                IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
+                {
+                    ageName = healthMeasure.AgeDimensionName,
+                    ageIsAggregate = healthMeasure.AgeDimensionIsAggregate,
+                    sexName = healthMeasure.SexDimensionName,
+                    sexIsAggregate = healthMeasure.SexDimensionIsAggregate
+                })
+            .Select(segmentGroup => new IndicatorSegment
+            {
+                Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
+                Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
+                IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
+                HealthData = healthDataMapper.Map(segmentGroup.ToList())
+                  .OrderBy(dataPoint => dataPoint.DatePeriod.From)
+                  .ToList()
+            })
+            .OrderBy(segment => segment.Sex.Value)
+            .ThenBy(segment => segment.Age.Value)
+            .ToList()
+            })
+            .ToList();
+    }
+    private async Task<IEnumerable<HealthDataForArea>> GetIndicatorAreaDataWithNonQuintilesBenchmarkingAsync
+    (
+        int indicatorId,
+        List<string> areaCodesForSearch,
+        string benchmarkAreaCode,
+        IEnumerable<int> years,
+        IEnumerable<string> inequalities,
+        BenchmarkComparisonMethod comparisonMethod,
+        IndicatorPolarity polarity,
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null,
+        bool includeUnpublished = false
+        )
+    {
+        IEnumerable<HealthMeasureModel> healthMeasureData;
 
         var inequalitiesList = inequalities.ToList();
 
@@ -214,7 +275,6 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
 
         // We may need to add the benchmark area to the list of areas to be fetched (we later remove it from returned dat)
         bool addBenchmarkAreaToList = benchmarkAgainstRefArea && !areaCodesForSearch.Contains(benchmarkAreaCode);
-
 
         //if benchmark data has been requested and the benchmark area wasn't already in the requested area collection add it now
         if (addBenchmarkAreaToList)
@@ -230,6 +290,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             toDate,
             includeUnpublished);
 
+        // Structure the returned data into Areas and IndicatorSegments
         var healthDataForAreas = healthMeasureData
             .GroupBy(healthMeasure => new
             {
