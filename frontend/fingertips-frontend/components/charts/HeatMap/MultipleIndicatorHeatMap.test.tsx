@@ -86,12 +86,12 @@ describe('MultipleIndicatorHeatMap', () => {
     const firstCellContents = trs.map((tr) => tr.firstChild?.textContent);
     expect(firstCellContents).toEqual([
       'Indicators',
-      `${testIndicatorOne.indicatorName} (Persons)`,
-      `${testIndicatorOne.indicatorName} (Male)`,
-      `${testIndicatorOne.indicatorName} (Female)`,
-      `${testIndicatorTwo.indicatorName} (Persons)`,
-      `${testIndicatorTwo.indicatorName} (Male)`,
-      `${testIndicatorTwo.indicatorName} (Female)`,
+      `${testIndicatorOne.indicatorName} (Persons, All ages)`,
+      `${testIndicatorOne.indicatorName} (Male, All ages)`,
+      `${testIndicatorOne.indicatorName} (Female, All ages)`,
+      `${testIndicatorTwo.indicatorName} (Persons, All ages)`,
+      `${testIndicatorTwo.indicatorName} (Male, All ages)`,
+      `${testIndicatorTwo.indicatorName} (Female, All ages)`,
     ]);
   });
 
