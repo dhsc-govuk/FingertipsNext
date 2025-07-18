@@ -24,6 +24,7 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
+import { auth } from '@/lib/auth';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -45,6 +46,8 @@ export default async function TwoOrMoreIndicatorsAreasView({
     groupAreaSelected,
     availableAreas
   );
+
+  const session = await auth();
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
     throw new Error('invalid indicators selected passed to view');
@@ -123,10 +126,15 @@ export default async function TwoOrMoreIndicatorsAreasView({
   ) {
     try {
       seedData[quartilesKey] = (
-        await indicatorApi.indicatorsQuartilesGet(
-          quartilesParams,
-          API_CACHE_CONFIG
-        )
+        session
+          ? await indicatorApi.indicatorsQuartilesAllGet(
+              quartilesParams,
+              API_CACHE_CONFIG
+            )
+          : await indicatorApi.indicatorsQuartilesGet(
+              quartilesParams,
+              API_CACHE_CONFIG
+            )
       ).filter((q) => q.isAggregate === true);
     } catch (e) {
       console.error('error getting quartile data', e);
