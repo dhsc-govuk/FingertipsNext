@@ -17,7 +17,6 @@ import { generateTooltip } from './generateTooltip';
 import { generateAccessibility } from './generateAccessibility';
 import { generateSeriesData } from './generateSeriesData';
 import Highcharts from 'highcharts';
-import { getMinAndMaxXAxisEntries } from './getMinAndMaxXAxisEntries';
 import {
   convertDateToNumber,
   formatDatePointLabel,
@@ -165,15 +164,16 @@ export function generateStandardLineChartOptions(
     benchmarkToUse
   );
 
-  const { minXAxisEntries, maxXAxisEntries } = getMinAndMaxXAxisEntries(series);
-
   const periodLabel = getPeriodLabel(periodType, frequency);
   const periodLabelText = periodLabel ? `${periodLabel} ` : '';
-  const additionalPeriodLabelText = getAdditionalPeriodLabel({
-    type: periodType,
-    from: new Date(minXAxisEntries),
-    to: new Date(maxXAxisEntries),
-  });
+  const additionalPeriodLabelText =
+    firstDateAsNumber && lastDateAsNumber
+      ? getAdditionalPeriodLabel({
+          type: periodType,
+          from: new Date(firstDateAsNumber),
+          to: new Date(lastDateAsNumber),
+        })
+      : '';
 
   const fromDateLabel = xCategoryValues.at(0);
   const toDateLabel = xCategoryValues.at(-1);
