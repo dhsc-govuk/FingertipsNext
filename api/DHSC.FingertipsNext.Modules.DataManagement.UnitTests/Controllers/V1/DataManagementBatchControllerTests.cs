@@ -85,7 +85,7 @@ public class DataManagementBatchControllerTests
         var resultValue = result.Value as SimpleError;
         resultValue.Message.ShouldBe("batchId is required");
     }
-    
+
     [Fact]
     public async Task DeleteReturns404ErrorWhenServiceReturnsANotFoundOutcome()
     {

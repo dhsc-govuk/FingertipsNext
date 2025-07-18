@@ -295,7 +295,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         batch.DeletedAt.ShouldNotBeNull();
         batch.Status.ShouldBe(BatchStatus.Deleted);
         batch.IndicatorId.ShouldBe(12345);
-        
+
         // Ensure health data is deleted
         var healthDataAfterDelete = await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
         healthDataAfterDelete.ShouldBe(0);
@@ -323,10 +323,10 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         // Arrange
         var apiClient = GetApiClient(_factory);
         var batchId = "54321_2017-06-30T14:22:37.123";
-        
+
         // Act
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
-        
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = await response.Content.ReadFromJsonAsync<SimpleError>();
