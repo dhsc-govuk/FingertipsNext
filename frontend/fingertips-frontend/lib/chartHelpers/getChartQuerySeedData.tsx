@@ -11,21 +11,16 @@ import { Session } from 'next-auth';
 export async function getChartQuerySeedData(
   apiRequestParams: GetHealthDataForAnIndicatorRequest,
   session: Session | null
-) {
+): Promise<IndicatorWithHealthDataForArea> {
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  let healthData: IndicatorWithHealthDataForArea;
-
-  if (session) {
-    healthData =
-      await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+  const healthData = session
+    ? await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+        apiRequestParams,
+        API_CACHE_CONFIG
+      )
+    : await indicatorApi.getHealthDataForAnIndicator(
         apiRequestParams,
         API_CACHE_CONFIG
       );
-  } else {
-    healthData = await indicatorApi.getHealthDataForAnIndicator(
-      apiRequestParams,
-      API_CACHE_CONFIG
-    );
-  }
   return healthData;
 }

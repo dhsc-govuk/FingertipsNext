@@ -28,7 +28,7 @@ import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
-import { getChartQuerySeedData } from '../../lib/chartHelpers/getLineChartQuerySeedData';
+import { getChartQuerySeedData } from '../../lib/chartHelpers/getChartQuerySeedData';
 
 export default async function ChartPage(
   props: Readonly<{
