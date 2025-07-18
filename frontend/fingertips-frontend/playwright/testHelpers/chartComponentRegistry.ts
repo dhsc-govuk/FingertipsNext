@@ -28,11 +28,13 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasSVGExport: true,
       hasConfidenceIntervals: true,
+      hasDetailsExpander: true,
     },
   },
   {
     chartComponentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasInequalitiesTimePeriodDropDown: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
@@ -41,6 +43,7 @@ export const allComponents: ChartComponentDefinition[] = [
   {
     chartComponentLocator: ChartPage.inequalitiesTrendComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
     },
@@ -48,6 +51,7 @@ export const allComponents: ChartComponentDefinition[] = [
   {
     chartComponentLocator: ChartPage.inequalitiesLineChartComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasPNGExport: true,
       hasSVGExport: true,
       hasInequalityTypeDropDown: true,
@@ -58,6 +62,7 @@ export const allComponents: ChartComponentDefinition[] = [
   {
     chartComponentLocator: ChartPage.inequalitiesBarChartTableComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasInequalityTypeDropDown: true,
       hasPNGExport: true,
       hasCSVExport: true,
@@ -67,6 +72,7 @@ export const allComponents: ChartComponentDefinition[] = [
   {
     chartComponentLocator: ChartPage.inequalitiesLineChartTableComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasInequalityTypeDropDown: true,
       hasPNGExport: true,
       hasCSVExport: true,

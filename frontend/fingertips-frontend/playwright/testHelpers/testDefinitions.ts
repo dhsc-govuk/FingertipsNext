@@ -65,6 +65,7 @@ export enum PersistentCsvHeaders {
 }
 
 type BaseChartComponentProps = {
+  hasInequalitiesExpander?: boolean;
   hasConfidenceIntervals?: boolean;
   isTabTable?: boolean;
   hasDetailsExpander?: boolean;

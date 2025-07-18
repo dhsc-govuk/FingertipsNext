@@ -63,6 +63,7 @@ export default class ChartPage extends AreaFilter {
   readonly exportModalPaneComponent = 'modalPane';
   readonly exportDomContainer = 'domContainer';
   readonly trendTagContainer = 'trendTag-container';
+  static readonly inequalitiesContainer = 'inequalities-component';
 
   async checkOnChartPage() {
     await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
@@ -148,6 +149,10 @@ export default class ChartPage extends AreaFilter {
         condition: chartComponentProps.isTabTable,
         action: async () =>
           await this.selectTabForComponent(chartComponentLocator),
+      },
+      {
+        condition: chartComponentProps.hasInequalitiesExpander,
+        action: async () => await this.expandInequalitiesSection(),
       },
       {
         condition: chartComponentProps.hasInequalitiesTimePeriodDropDown,
@@ -336,6 +341,14 @@ export default class ChartPage extends AreaFilter {
     const testId = `confidence-interval-checkbox-${this.replaceComponentSuffix(ciComponent)}`;
 
     await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
+  }
+
+  private async expandInequalitiesSection() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(ChartPage.inequalitiesContainer)
+        .getByText('Show inequalities data')
+    );
   }
 
   // clicks on 'Show population data' to show population pyramid component
