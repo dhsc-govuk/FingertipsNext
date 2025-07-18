@@ -92,6 +92,8 @@ namespace DataCreator
         public bool HasMultipleAges { get; set; }
 
         public bool HasMultipleDeprivation { get; set; }
+
+        public bool ContainsCumulativePeriodData { get; set; }
     }
 
     public record IndicatorWithAreasAndLatestUpdate

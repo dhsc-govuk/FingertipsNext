@@ -2,19 +2,14 @@
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+import { mockUseApiGetHealthDataForMultipleIndicatorsSetup } from '@/mock/utils/mockUseApiGetHealthDataForMultipleIndicators';
+import { mockUseApiGetIndicatorMetaDatasSetup } from '@/mock/utils/mockUseApiGetIndicatorMetaDatas';
+import { mockUseApiAvailableAreasSetup } from '@/mock/utils/mockUseApiAvailableAreas';
 //
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import {
-  extractHeatmapIndicatorData,
-  TwoOrMoreIndicatorsAreasViewPlot,
-} from '.';
-import {
-  BenchmarkComparisonMethod,
-  IndicatorPolarity,
-  IndicatorWithHealthDataForArea,
-} from '@/generated-sources/ft-api-client';
+import { TwoOrMoreIndicatorsAreasViewPlot } from '.';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { render, screen, within } from '@testing-library/react';
-import { HeatmapIndicatorData } from '@/components/organisms/Heatmap/heatmap.types';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import {
   mockHealthDataForArea,
@@ -22,8 +17,6 @@ import {
   mockHealthDataForArea_Group,
 } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
-import { mockQuartileData } from '@/mock/data/mockQuartileData';
-import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
@@ -43,6 +36,8 @@ const mockGroupArea = 'G001';
 let mockSearchParams: SearchStateParams;
 mockUseSearchStateParams.mockImplementation(() => mockSearchParams);
 
+mockUseApiAvailableAreasSetup();
+
 const mockHealthArea1 = mockHealthDataForArea({
   areaCode: mockAreas[0],
   areaName: 'Area1',
@@ -56,6 +51,7 @@ const mockHealthArea3 = mockHealthDataForArea({
   areaCode: mockAreas[2],
   areaName: 'Area3',
 });
+
 const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
   {
     indicatorId: Number(indicatorIds[0]),
@@ -81,10 +77,9 @@ const mockMeta1 = mockIndicatorDocument({ indicatorID: indicatorIds[0] });
 const mockMeta2 = mockIndicatorDocument({ indicatorID: indicatorIds[1] });
 const mockMetaData = [mockMeta1, mockMeta2];
 
-const mockQuartiles = [
-  mockQuartileData({ indicatorId: Number(indicatorIds[0]) }),
-  mockQuartileData({ indicatorId: Number(indicatorIds[1]) }),
-];
+mockUseApiGetHealthDataForMultipleIndicatorsSetup(mockIndicatorData);
+
+mockUseApiGetIndicatorMetaDatasSetup(mockMetaData);
 
 describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
   beforeEach(() => {
@@ -98,13 +93,9 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     };
   });
 
-  it('should render the benchmark select area drop down for the view', async () => {
+  it('should render the benchmark select area drop down for the view', () => {
     render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockQuartiles}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
     const benchmarkAreaDropDown = screen.getByRole('combobox', {
@@ -123,14 +114,9 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
   });
 
   it('should render all components with up to 2 areas selected', () => {
-    const areas = [mockAreas[0], mockAreas[1]];
-    mockSearchParams[SearchParams.AreasSelected] = areas;
+    mockSearchParams[SearchParams.AreasSelected] = [mockAreas[0], mockAreas[1]];
     render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockQuartiles}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
@@ -142,11 +128,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     mockSearchParams[SearchParams.GroupAreaSelected] = ALL_AREAS_SELECTED;
 
     render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockQuartiles}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
@@ -160,11 +142,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     mockSearchParams[SearchParams.GroupAreaSelected] = ALL_AREAS_SELECTED;
 
     render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockQuartiles}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
     const heatmapTable = screen.getByTestId('heatmapChart-component');
@@ -178,11 +156,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     mockSearchParams[SearchParams.AreasSelected] = areas;
 
     render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockQuartiles}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
     expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
@@ -193,11 +167,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 
   it('should render the heatmap title', () => {
     render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockQuartiles}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
     expect(
@@ -209,11 +179,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
 
   it('should render the heat map and population pyramid links when two areas have been selected', () => {
     render(
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={mockIndicatorData}
-        indicatorMetadata={mockMetaData}
-        benchmarkStatistics={mockQuartiles}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
     const availableChartLinks = screen.getByTestId(
@@ -229,61 +195,5 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(chartLinks[1]).toHaveTextContent(
       chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
     );
-  });
-});
-
-describe('extractHeatmapIndicatorData', () => {
-  const populatedIndicatorData = mockIndicatorWithHealthDataForArea();
-  const populatedIndicatorMetadata = mockIndicatorDocument();
-
-  it('should populate heatmap indicator data with values from indicator data and metadata', () => {
-    const expectedHeatmapIndicatorData: HeatmapIndicatorData = {
-      indicatorId: populatedIndicatorMetadata.indicatorID,
-      indicatorName: populatedIndicatorMetadata.indicatorName,
-      healthDataForAreas: populatedIndicatorData.areaHealthData ?? [],
-      unitLabel: populatedIndicatorMetadata.unitLabel,
-      benchmarkComparisonMethod:
-        populatedIndicatorData.benchmarkMethod ??
-        BenchmarkComparisonMethod.Unknown,
-      polarity: populatedIndicatorData.polarity ?? IndicatorPolarity.Unknown,
-    };
-
-    const heatmapData = extractHeatmapIndicatorData(
-      populatedIndicatorData,
-      populatedIndicatorMetadata
-    );
-
-    expect(heatmapData).toEqual(expectedHeatmapIndicatorData);
-  });
-
-  it('should return undefined if indicatorData.areaHealthData is undefined', () => {
-    const heatmapData = extractHeatmapIndicatorData(
-      { ...populatedIndicatorData, areaHealthData: undefined },
-      populatedIndicatorMetadata
-    );
-
-    expect(heatmapData).toBe(undefined);
-  });
-
-  it('should default props if not defined in inputs', () => {
-    const expectedHeatmapIndicatorData: HeatmapIndicatorData = {
-      indicatorId: populatedIndicatorMetadata.indicatorID,
-      indicatorName: populatedIndicatorMetadata.indicatorName,
-      healthDataForAreas: populatedIndicatorData.areaHealthData ?? [],
-      unitLabel: populatedIndicatorMetadata.unitLabel,
-      benchmarkComparisonMethod: BenchmarkComparisonMethod.Unknown,
-      polarity: IndicatorPolarity.Unknown,
-    };
-
-    const heatmapData = extractHeatmapIndicatorData(
-      {
-        ...populatedIndicatorData,
-        benchmarkMethod: undefined,
-        polarity: undefined,
-      },
-      populatedIndicatorMetadata
-    );
-
-    expect(heatmapData).toEqual(expectedHeatmapIndicatorData);
   });
 });

@@ -1,26 +1,15 @@
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
-import { SearchParams } from '@/lib/searchStateManager';
-import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
-import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
-import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetIndicatorMetaData';
 import { lineChartOverTimeData } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeData';
 import { useMemo } from 'react';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
+import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
 
 export const useLineChartOverTimeData = () => {
   const searchState = useSearchStateParams();
-  const { [SearchParams.IndicatorsSelected]: indicatorIds } = searchState;
 
-  const indicatorId = indicatorIds?.at(0) ?? '';
-
-  const apiReqParams = useOneIndicatorRequestParams();
-
-  const { healthData } = useApiGetHealthDataForAnIndicator(apiReqParams);
-
-  const { indicatorMetaData } = useApiGetIndicatorMetaData(indicatorId);
-
+  const { healthData, indicatorMetaData } = useOneIndicatorData();
   const isRequired = lineChartOverTimeIsRequired(searchState);
 
   return useMemo(() => {
