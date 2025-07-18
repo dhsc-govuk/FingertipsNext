@@ -337,7 +337,8 @@ CREATE TABLE #TempIndicatorData
     ValueType NVARCHAR(255),
     IndicatorName NVARCHAR(255),
     PeriodType NVARCHAR(255),
-    CollectionFrequency NVARCHAR(255)
+    CollectionFrequency NVARCHAR(255),
+    RequiresGeoAggregation [bit] 
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -361,7 +362,8 @@ INSERT INTO [dbo].[IndicatorDimension]
     StartDate,
     EndDate,
     PeriodType,
-    CollectionFrequency
+    CollectionFrequency,
+    RequiresGeoAggregation
 )
 SELECT 
     REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
@@ -372,7 +374,8 @@ SELECT
     DATEADD(YEAR, -10, GETDATE()),
     DATEADD(YEAR, 10, GETDATE()),
     PeriodType,
-    CollectionFrequency
+    CollectionFrequency,
+    RequiresGeoAggregation
 FROM 
     #TempIndicatorData;
 
