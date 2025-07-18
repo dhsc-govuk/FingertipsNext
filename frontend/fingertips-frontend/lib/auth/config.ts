@@ -34,11 +34,9 @@ export class AuthConfigFactory {
           // nextjs still complains that the user api code isn't built for the edge runtime
           // even if it will never be called
           if (process.env.NEXT_RUNTIME === 'nodejs') {
-            const { validateUser: validateAccessToken } = await import(
-              '@/lib/auth/validation'
-            );
+            const { validateUser } = await import('@/lib/auth/validation');
 
-            if (await validateAccessToken(account.access_token)) {
+            if (await validateUser(account.access_token)) {
               return { ...token, accessToken: account.access_token };
             } else {
               console.log(`failed to validate user ${user.id}`);
