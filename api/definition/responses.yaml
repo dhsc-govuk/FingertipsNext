@@ -48,3 +48,5 @@ UserBadRequest:
   description: User token was missing required claims.
 Unauthorized:
   description: Authorization information is missing or invalid.
+Forbidden:
+  description: Authorization forbids access.
