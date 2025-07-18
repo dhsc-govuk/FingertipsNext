@@ -13,7 +13,6 @@ import { ErrorPage } from '@/components/pages/error';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   API_CACHE_CONFIG,
