@@ -4,6 +4,10 @@ import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
 import { render, screen } from '@testing-library/react';
 import { FTHeader } from '.';
 
+vi.mock('next-auth/react', () => {
+  return { getSession: vi.fn() };
+});
+
 vi.mock('@/lib/auth/handlers', () => {
   return {
     signInHandler: vi.fn(),
