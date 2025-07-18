@@ -924,6 +924,22 @@ components:
         - Annually
         - Quarterly
         - Monthly
+    AgeData:
+      title: Age Data
+      type: object
+      description: Details of the age band that this data point belongs to.
+      required:
+        - value
+        - isAggregate
+      properties:
+        value:
+          type: string
+          example: 0-4
+          description: Age band which the data are for.
+        isAggregate:
+          type: boolean
+          example: false
+          description: Indicates if the datapoint is an aggregated value for the age dimension.
     SexData:
       title: Sex Data
       type: object
@@ -963,22 +979,6 @@ components:
         to:
           $ref: '#/components/schemas/Date'
           description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD).
-    AgeData:
-      title: Age Data
-      type: object
-      description: Details of the age band that this data point belongs to.
-      required:
-        - value
-        - isAggregate
-      properties:
-        value:
-          type: string
-          example: 0-4
-          description: Age band which the data are for.
-        isAggregate:
-          type: boolean
-          example: false
-          description: Indicates if the datapoint is an aggregated value for the age dimension.
     BenchmarkOutcome:
       title: Benchmark Outcome
       type: string
@@ -1120,8 +1120,11 @@ components:
       type: object
       description: Represents a segment of an Indicator health data point for a public health indicator.
       required:
+        - age
         - sex
       properties:
+        age:
+          $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
         isAggregate:

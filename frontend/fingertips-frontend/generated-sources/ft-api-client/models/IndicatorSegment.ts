@@ -27,6 +27,13 @@ import {
     SexDataToJSON,
     SexDataToJSONTyped,
 } from './SexData';
+import type { AgeData } from './AgeData';
+import {
+    AgeDataFromJSON,
+    AgeDataFromJSONTyped,
+    AgeDataToJSON,
+    AgeDataToJSONTyped,
+} from './AgeData';
 
 /**
  * Represents a segment of an Indicator health data point for a public health indicator.
@@ -34,6 +41,12 @@ import {
  * @interface IndicatorSegment
  */
 export interface IndicatorSegment {
+    /**
+     * 
+     * @type {AgeData}
+     * @memberof IndicatorSegment
+     */
+    age: AgeData;
     /**
      * 
      * @type {SexData}
@@ -58,6 +71,7 @@ export interface IndicatorSegment {
  * Check if a given object implements the IndicatorSegment interface.
  */
 export function instanceOfIndicatorSegment(value: object): value is IndicatorSegment {
+    if (!('age' in value) || value['age'] === undefined) return false;
     if (!('sex' in value) || value['sex'] === undefined) return false;
     return true;
 }
@@ -72,6 +86,7 @@ export function IndicatorSegmentFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
+        'age': AgeDataFromJSON(json['age']),
         'sex': SexDataFromJSON(json['sex']),
         'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'healthData': json['healthData'] == null ? undefined : ((json['healthData'] as Array<any>).map(HealthDataPointFromJSON)),
@@ -89,6 +104,7 @@ export function IndicatorSegmentToJSONTyped(value?: IndicatorSegment | null, ign
 
     return {
         
+        'age': AgeDataToJSON(value['age']),
         'sex': SexDataToJSON(value['sex']),
         'isAggregate': value['isAggregate'],
         'healthData': value['healthData'] == null ? undefined : ((value['healthData'] as Array<any>).map(HealthDataPointToJSON)),

@@ -1,3 +1,6 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+//
 import { render } from '@testing-library/react';
 import { AuthButton } from '.';
 import userEvent from '@testing-library/user-event';
@@ -16,6 +19,8 @@ vi.mock('next-auth/react', () => {
     getSession: vi.fn(),
   };
 });
+
+mockSetIsLoading.mockReturnValue(false);
 
 describe('auth button', () => {
   beforeEach(vi.clearAllMocks);

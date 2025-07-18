@@ -8,6 +8,15 @@ namespace DataCreator
         private readonly PholioDataFetcher _pholioDataFetcher = pholioDataFetcher;
         private const int MAXNUMBERGPS = 5;
         private const string PERSONS = "Persons";
+        private static readonly Dictionary<string, string> _periodMap = new()
+        {
+                {"1m", PeriodConstants.Monthly},
+                {"3m", PeriodConstants.Quarterly},
+                {"1y", PeriodConstants.Yearly},
+                {"2y", PeriodConstants.TwoYearly},
+                {"3y", PeriodConstants.ThreeYearly},
+                {"5y", PeriodConstants.FiveYearly}
+        };
 
         public async Task<List<string>> CreateAreaDataAsync()
         {
@@ -139,8 +148,8 @@ namespace DataCreator
             var areasDictionary = areasWeWant.ToDictionary(areaCode => areaCode);
             foreach (var pocIndicator in pocIndicators)
             {
-                var healthDataForIndicator = DataFileReader.GetHealthDataForIndicator(pocIndicator.IndicatorID, areasDictionary);
-                MapTimePeriodRangesToPeriods(healthDataForIndicator);
+                var healthDataForIndicator = DataFileReader.GetHealthDataForIndicator(pocIndicator.IndicatorID, areasDictionary, pocIndicator.ContainsCumulativePeriodData);
+                MapTimePeriodRangesToPeriods(healthDataForIndicator, pocIndicator.ContainsCumulativePeriodData);
 
                 Console.WriteLine($"Grabbed {healthDataForIndicator.Count} points for indicator {pocIndicator.IndicatorID}");
                 healthMeasures.AddRange(healthDataForIndicator);
@@ -169,20 +178,16 @@ namespace DataCreator
             return (indicatorWithAreasAndLatestUpdates, healthMeasures);
         }
 
-        private static void MapTimePeriodRangesToPeriods(List<HealthMeasureEntity> healthDataForIndicator)
+        private static void MapTimePeriodRangesToPeriods(List<HealthMeasureEntity> healthDataForIndicator, bool containsCumulativePeriodData)
         {
-            var periodMap = new Dictionary<string, string>
-            {
-                {"1m",PeriodConstants.Monthly},
-                {"3m",PeriodConstants.Quarterly},
-                {"1y",PeriodConstants.Yearly},
-                {"2y",PeriodConstants.TwoYearly},
-                {"3y",PeriodConstants.ThreeYearly},
-                {"5y",PeriodConstants.FiveYearly},
-            };
             foreach (var healthDataPoint in healthDataForIndicator)
             {
-                if (periodMap.TryGetValue(healthDataPoint.Period, out var mappedValue))
+                if(containsCumulativePeriodData && healthDataPoint.Period == "3m")
+                {
+                    healthDataPoint.Period = PeriodConstants.CumulativeQuarterly;
+                    continue;
+                }
+                if (_periodMap.TryGetValue(healthDataPoint.Period, out var mappedValue))
                 {
                     healthDataPoint.Period = mappedValue;
                 }

@@ -2,6 +2,10 @@ import { render, screen } from '@testing-library/react';
 import { LineChartAndTableOverTime } from '@/components/charts/LineChartOverTime/LineChartAndTableOverTime';
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 import { MockedFunction } from 'vitest';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 vi.mock('@/components/charts/LineChartOverTime/LineChartOverTime', () => ({
   LineChartOverTime: () => <div data-testid="mock-line-chart" />,
@@ -31,7 +35,9 @@ describe('LineChartAndTableOverTime', () => {
     render(<LineChartAndTableOverTime />);
 
     expect(
-      screen.getByRole('heading', { name: /Indicator trends over time/i })
+      screen.getByRole('heading', {
+        name: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
+      })
     ).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart')).toBeInTheDocument();
     expect(screen.getByTestId('mock-line-chart-table')).toBeInTheDocument();

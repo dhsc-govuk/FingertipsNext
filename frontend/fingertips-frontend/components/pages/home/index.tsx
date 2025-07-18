@@ -23,7 +23,7 @@ import { Area } from '@/generated-sources/ft-api-client';
 import { AreaFilterData } from '@/components/molecules/SelectAreasFilterPanel';
 import { siteTitle } from '@/lib/constants';
 
-const ZeroMarginParagraph = styled(Paragraph)(
+export const ZeroMarginParagraph = styled(Paragraph)(
   spacing.withWhiteSpace({ marginBottom: 0 })
 );
 

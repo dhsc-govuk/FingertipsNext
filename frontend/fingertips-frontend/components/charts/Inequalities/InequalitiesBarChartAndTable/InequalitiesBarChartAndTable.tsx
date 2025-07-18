@@ -11,6 +11,10 @@ import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChart
 
 import { useInequalitiesData } from '@/components/charts/Inequalities/hooks/useInequalitiesData';
 import { useIndicatorMetaData } from '@/components/charts/hooks/useIndicatorMetaData';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 export function InequalitiesBarChartAndTable() {
   const data = useInequalitiesData();
@@ -33,7 +37,9 @@ export function InequalitiesBarChartAndTable() {
 
   return (
     <StyleChartWrapper data-testid="inequalitiesComparisonForOneTimePeriod-component">
-      <H3>Inequalities comparison for one time period </H3>
+      <H3 id={ChartTitleKeysEnum.InequalitiesBarChart}>
+        {chartTitleConfig[ChartTitleKeysEnum.InequalitiesBarChart].title}
+      </H3>
       <TimePeriodDropDown years={yearsDesc} />
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
