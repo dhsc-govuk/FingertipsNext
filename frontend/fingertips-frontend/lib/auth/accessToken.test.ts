@@ -45,8 +45,10 @@ describe('get access token', () => {
   });
 
   it('should return no access token if access token not on JWT', async () => {
+    const invalidJWT: JWT = { accessToken: undefined };
+
     mockAuth.mockResolvedValue(validSession);
-    mockGetJWT.mockResolvedValue(null);
+    mockGetJWT.mockResolvedValue(invalidJWT);
 
     const result = await getAccessToken();
 
