@@ -21,25 +21,25 @@ public sealed class HealthDataIntegrationTests : IClassFixture<DataManagementWeb
     [Fact]
     public async Task GetIndicatorDataIncludingUnpublishedWithoutAuth401Response()
     {
-         var client = _factory.CreateClient();
-         
-         var response = await client.GetAsync(new Uri($"/indicators/{IndicatorId}/data/all", UriKind.Relative));
-         
-         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+        var client = _factory.CreateClient();
+
+        var response = await client.GetAsync(new Uri($"/indicators/{IndicatorId}/data/all", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
-    
+
     [Fact]
     public async Task GetIndicatorDataIncludingUnpublishedWithInvalidAuth403Response()
     {
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken());
-        
+
         using var req = new HttpRequestMessage(HttpMethod.Get, new Uri($"/indicators/{IndicatorId}/data/all", UriKind.Relative));
         var response = await client.SendAsync(req);
-         
+
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
-    
+
     [Theory]
     [InlineData(AdminRoleGuid)]
     [InlineData(Indicator41101GroupRoleId)]
@@ -49,11 +49,11 @@ public sealed class HealthDataIntegrationTests : IClassFixture<DataManagementWeb
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
-        
+
         // Act
         using var req = new HttpRequestMessage(HttpMethod.Get, new Uri($"/indicators/{IndicatorId}/data/all", UriKind.Relative));
-        var response =  await client.SendAsync(req);
-        
+        var response = await client.SendAsync(req);
+
         // Assert
         response.EnsureSuccessStatusCode();
     }

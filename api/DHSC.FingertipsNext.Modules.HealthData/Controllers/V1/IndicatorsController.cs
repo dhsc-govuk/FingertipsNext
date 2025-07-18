@@ -92,7 +92,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     [HttpGet, Route("{indicatorId:int}/data/all"),
      ProducesResponseType(typeof(IndicatorWithHealthDataForAreas), StatusCodes.Status200OK),
      ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest),
-     ProducesResponseType(StatusCodes.Status404NotFound), 
+     ProducesResponseType(StatusCodes.Status404NotFound),
      Authorize(Policy = CanAdministerIndicatorRequirement.Policy),
      ProducesResponseType(StatusCodes.Status401Unauthorized),
      ProducesResponseType(StatusCodes.Status403Forbidden)]
