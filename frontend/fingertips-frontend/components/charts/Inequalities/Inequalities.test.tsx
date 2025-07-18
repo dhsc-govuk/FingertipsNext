@@ -4,7 +4,8 @@ import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockGetIsLoading } from '@/mock/utils/mockUseLoadingState';
 import { mockHighChartsWrapperSetup } from '@/mock/utils/mockHighChartsWrapper';
 //
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import { Inequalities } from './Inequalities';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -87,14 +88,14 @@ describe('Inequalities', () => {
     'inequalitiesTypes-dropDown-component-lc',
   ])('should render inequalities component: %s', async (testId) => {
     await testRender(testData);
-    fireEvent.click(screen.getByText('Show inequalities data'));
+    await userEvent.click(screen.getByText('Show inequalities data'));
 
     expect(screen.getByTestId(testId)).toBeInTheDocument();
   });
 
   it('should render expected text', async () => {
     await testRender(testData);
-    fireEvent.click(screen.getByText('Show inequalities data'));
+    await userEvent.click(screen.getByText('Show inequalities data'));
 
     expect(
       screen.getByText(/Inequalities comparison for one time period/)
@@ -114,13 +115,13 @@ describe('Inequalities', () => {
     const expander = screen.getByText('Show inequalities data');
     expect(expander).toBeInTheDocument();
 
-    fireEvent.click(expander);
+    await userEvent.click(expander);
     expect(
       screen.getByTestId('inequalitiesLineChartTable-component')
     ).toBeInTheDocument();
 
     expect(screen.getByText('Hide inequalities data')).toBeInTheDocument();
-    fireEvent.click(expander);
+    await userEvent.click(expander);
     expect(
       screen.queryByTestId('inequalitiesLineChartTable-component')
     ).not.toBeInTheDocument();
