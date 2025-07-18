@@ -1,9 +1,7 @@
 import { UserInfoType } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
-export const validateAccessToken = async (
-  accessToken: string
-): Promise<boolean> => {
+export const validateUser = async (accessToken: string): Promise<boolean> => {
   const userResponse = await getUser(accessToken);
   if (userResponse) {
     return true;
