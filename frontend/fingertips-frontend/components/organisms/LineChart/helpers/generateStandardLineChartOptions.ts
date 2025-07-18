@@ -23,6 +23,7 @@ import {
   getAdditionalPeriodLabel,
   getPeriodLabel,
 } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { filterHealthDataByPeriod } from './filterHealthDataByPeriod';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -106,43 +107,21 @@ export function generateStandardLineChartOptions(
     ? sortHealthDataForAreaByDate(optionalParams?.englandData)
     : undefined;
 
-  const filteredSortedEnglandData =
-    sortedEnglandData &&
-    sortedHealthIndicatorData.length &&
-    firstDateAsNumber &&
+  const filteredSortedEnglandData = filterHealthDataByPeriod(
+    sortedEnglandData,
+    firstDateAsNumber,
     lastDateAsNumber
-      ? {
-          ...sortedEnglandData,
-          healthData:
-            sortedEnglandData?.healthData.filter(
-              (data) =>
-                convertDateToNumber(data.datePeriod?.from) >=
-                  firstDateAsNumber &&
-                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
-            ) ?? [],
-        }
-      : sortedEnglandData;
+  );
 
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;
 
-  const filteredSortedGroupData =
-    sortedGroupData &&
-    sortedHealthIndicatorData.length &&
-    firstDateAsNumber &&
+  const filteredSortedGroupData = filterHealthDataByPeriod(
+    sortedGroupData,
+    firstDateAsNumber,
     lastDateAsNumber
-      ? {
-          ...sortedGroupData,
-          healthData:
-            sortedGroupData?.healthData.filter(
-              (data) =>
-                convertDateToNumber(data.datePeriod?.from) >=
-                  firstDateAsNumber &&
-                convertDateToNumber(data.datePeriod?.from) <= lastDateAsNumber
-            ) ?? [],
-        }
-      : sortedGroupData;
+  );
 
   const categories: { key: number; value: string }[] =
     filteredSortedEnglandData?.healthData.map((point) => ({
