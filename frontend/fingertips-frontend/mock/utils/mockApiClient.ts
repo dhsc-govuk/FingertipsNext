@@ -12,6 +12,7 @@ export const mockGetHealthDataForAnIndicatorIncludingUnpublishedData = vi.fn(
   () => ({})
 );
 export const mockIndicatorsQuartilesGet = vi.fn(() => ({}));
+export const mockIndicatorsQuartilesAllGet = vi.fn(() => ({}));
 
 mockIndicatorsApi.mockImplementation(
   () =>
@@ -20,5 +21,6 @@ mockIndicatorsApi.mockImplementation(
       getHealthDataForAnIndicatorIncludingUnpublishedData:
         mockGetHealthDataForAnIndicatorIncludingUnpublishedData,
       indicatorsQuartilesGet: mockIndicatorsQuartilesGet,
+      indicatorsQuartilesAllGet: mockIndicatorsQuartilesAllGet,
     }) as unknown as IndicatorsApi
 );

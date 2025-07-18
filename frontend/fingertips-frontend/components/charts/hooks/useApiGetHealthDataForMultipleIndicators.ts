@@ -10,16 +10,26 @@ import { queryFnHealthDataForAnIndicator } from '@/components/charts/hooks/useAp
 import { useQueries } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { filterDefined } from '@/lib/chartHelpers/filterDefined';
+import { useSession } from 'next-auth/react';
 
 export const useApiGetHealthDataForMultipleIndicators = (
   options: GetHealthDataForAnIndicatorRequest[]
 ) => {
+  const { data: session } = useSession();
   const queries = useQueries({
     queries: options.map((option) => ({
       queryKey: [
-        queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, option),
+        session
+          ? queryKeyFromRequestParams(
+              EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
+              option
+            )
+          : queryKeyFromRequestParams(
+              EndPoints.HealthDataForAnIndicator,
+              option
+            ),
       ],
-      queryFn: queryFnHealthDataForAnIndicator(option),
+      queryFn: queryFnHealthDataForAnIndicator(option, session),
     })),
   });
 

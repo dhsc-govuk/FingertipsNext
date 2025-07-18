@@ -13,8 +13,6 @@ import { ErrorPage } from '@/components/pages/error';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
-import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
@@ -28,6 +26,8 @@ import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
+import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
+import { getIndicatorHealthDataSeed } from '@/lib/getIndicatorHealthDataSeed';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -37,6 +37,8 @@ export default async function ChartPage(
   // We don't want to render this page statically
   await connection();
   const session = await auth();
+
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   const healthEndpoint = session
     ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
@@ -51,27 +53,10 @@ export default async function ChartPage(
       [SearchParams.IndicatorsSelected]: indicatorsSelected,
       [SearchParams.AreaTypeSelected]: areaTypeSelected,
     } = searchState;
-
-    const areasSelected = areaCodes ?? [];
-
-    const selectedIndicatorsData =
-      indicatorsSelected && indicatorsSelected.length > 0
-        ? (
-            await Promise.all(
-              indicatorsSelected.map((indicator) =>
-                SearchServiceFactory.getIndicatorSearchService().getIndicator(
-                  indicator
-                )
-              )
-            )
-          ).filter((indicatorDocument) => indicatorDocument !== undefined)
-        : [];
-
     // store all loaded indicators in the query cache
     const seedData: SeedData = {};
-    selectedIndicatorsData.forEach((indicator) => {
-      seedData[`/indicator/${indicator.indicatorID}`] = indicator;
-    });
+
+    const areasSelected = areaCodes ?? [];
 
     const selectedAreasData = await getSelectedAreasDataByAreaType(
       areasSelected,
@@ -89,7 +74,59 @@ export default async function ChartPage(
       selectedAreasData
     );
 
-    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
+    const selectedIndicatorsData =
+      indicatorsSelected && indicatorsSelected.length > 0
+        ? (
+            await Promise.all(
+              indicatorsSelected.map((indicator) =>
+                SearchServiceFactory.getIndicatorSearchService().getIndicator(
+                  indicator
+                )
+              )
+            )
+          ).filter((indicatorDocument) => indicatorDocument !== undefined)
+        : [];
+
+    if (indicatorsSelected && indicatorsSelected.length > 1) {
+      const quartilesParams = quartilesQueryParams(searchState);
+      let quartilesData;
+      let quartilesQueryKey;
+      if (session) {
+        quartilesData =
+          await indicatorApi.indicatorsQuartilesAllGet(quartilesParams);
+        quartilesQueryKey = queryKeyFromRequestParams(
+          EndPoints.QuartilesIncludingUnpublished,
+          quartilesParams
+        );
+      } else {
+        quartilesData =
+          await indicatorApi.indicatorsQuartilesGet(quartilesParams);
+        quartilesQueryKey = queryKeyFromRequestParams(
+          EndPoints.Quartiles,
+          quartilesParams
+        );
+      }
+      seedData[quartilesQueryKey] = quartilesData;
+
+      indicatorsSelected.forEach(async () => {
+        try {
+          const { healthData, queryKeySingleIndicator } =
+            await getIndicatorHealthDataSeed(
+              indicatorApi,
+              session,
+              searchState,
+              availableAreas
+            );
+          seedData[queryKeySingleIndicator] = healthData;
+        } catch (error) {
+          console.error('error getting health indicator data for area', error);
+        }
+      });
+    }
+
+    selectedIndicatorsData.forEach((indicator) => {
+      seedData[`/indicator/${indicator.indicatorID}`] = indicator;
+    });
 
     // if we want to show the line chart or compare areas bar chart data then
     // load that now server side and seed the cache - this will help with
@@ -100,30 +137,15 @@ export default async function ChartPage(
       lineChartOverTimeIsRequired(searchState) ||
       compareAreasTableIsRequired(searchState)
     ) {
-      let healthData: IndicatorWithHealthDataForArea | undefined;
-      let queryKeyLineChart;
-      const apiRequestParams = oneIndicatorRequestParams(
-        searchState,
-        availableAreas ?? []
-      );
       try {
-        queryKeyLineChart = queryKeyFromRequestParams(
-          healthEndpoint,
-          apiRequestParams
-        );
-        if (session) {
-          healthData =
-            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-              apiRequestParams,
-              API_CACHE_CONFIG
-            );
-        } else {
-          healthData = await indicatorApi.getHealthDataForAnIndicator(
-            apiRequestParams,
-            API_CACHE_CONFIG
+        const { healthData, queryKeySingleIndicator } =
+          await getIndicatorHealthDataSeed(
+            indicatorApi,
+            session,
+            searchState,
+            availableAreas
           );
-        }
-        seedData[queryKeyLineChart] = healthData;
+        seedData[queryKeySingleIndicator] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
       }
