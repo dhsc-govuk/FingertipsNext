@@ -63,6 +63,7 @@ export default class ChartPage extends AreaFilter {
   readonly exportModalPaneComponent = 'modalPane';
   readonly exportDomContainer = 'domContainer';
   readonly trendTagContainer = 'trendTag-container';
+  static readonly inequalitiesContainer = 'inequalities-component';
 
   async checkOnChartPage() {
     await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
@@ -338,12 +339,11 @@ export default class ChartPage extends AreaFilter {
     await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
   }
 
-  // clicks on 'Show population data' to show population pyramid component
+  // clicks on 'Show population data' to show population pyramid component or clicks on 'Show inequalities data' to show inequalities component
   private async expandDetailsSection() {
     await this.clickAndAwaitLoadingComplete(
       this.page
-        .getByTestId(ChartPage.populationPyramidContainer)
-        .getByText('Show population data')
+       .getByTestId(ChartPage.populationPyramidContainer || ChartPage.inequalitiesContainer)
     );
   }
 
