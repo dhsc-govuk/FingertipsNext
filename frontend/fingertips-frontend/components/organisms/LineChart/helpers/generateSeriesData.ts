@@ -29,10 +29,7 @@ function generateSeries(
         (point) => convertDateToNumber(point.datePeriod?.from) === xCategoryKey
       );
 
-      if (healthDataPointForYear) {
-        return [healthDataPointForYear.value];
-      }
-      return [null];
+      return [healthDataPointForYear?.value ?? null];
     }),
     connectNulls: true,
     marker: {
@@ -67,13 +64,10 @@ export function generateSeriesData(
               convertDateToNumber(point.datePeriod?.from) === xCategoryKey
           );
 
-          if (healthDataPointForYear) {
-            return [
-              healthDataPointForYear.lowerCi,
-              healthDataPointForYear.upperCi,
-            ];
-          }
-          return [null, null];
+          return [
+            healthDataPointForYear?.lowerCi ?? null,
+            healthDataPointForYear?.upperCi ?? null,
+          ];
         }),
         showConfidenceIntervalsData
       ),
@@ -99,13 +93,10 @@ export function generateSeriesData(
                 convertDateToNumber(point.datePeriod?.from) === xCategoryKey
             );
 
-            if (healthDataPointForYear) {
-              return [
-                healthDataPointForYear.lowerCi,
-                healthDataPointForYear.upperCi,
-              ];
-            }
-            return [null, null];
+            return [
+              healthDataPointForYear?.lowerCi ?? null,
+              healthDataPointForYear?.upperCi ?? null,
+            ];
           }),
           showConfidenceIntervalsData
         );
