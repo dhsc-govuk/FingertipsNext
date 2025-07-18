@@ -33,6 +33,8 @@ export function LineChart({
     setVisibility
   );
 
+  console.log({ lineChartOptions });
+
   const id = `${variant}LineChart`;
   return (
     <>

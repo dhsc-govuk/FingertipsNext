@@ -1,9 +1,9 @@
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
+import { SegmentationId } from '@/lib/common-types';
 
 export const segmentCombinations = (
   segValues: Record<SegmentationId, string[]>
 ) => {
-  const result: Record<SegmentationId, string>[] = [];
+  const result: SegmentInfo[] = [];
   const sexValues = segValues.sex;
   const ageValues = segValues.age;
   const frequencyValues = segValues.frequency;

@@ -6,51 +6,33 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { determineLatestDataPeriod } from './determineLatestDataPeriod';
+import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
+import { segmentCombinations } from '@/lib/healthDataHelpers/segmentCombinations';
+import { findHealthDataForArea } from '@/lib/healthDataHelpers/findHealthDataForArea';
+import { filterDefined } from '@/lib/chartHelpers/filterDefined';
+import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
+import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
+import { segmentIdFromInfo } from '@/lib/healthDataHelpers/segmentIdFromInfo';
+import { searchFromSegmentInfo } from '@/lib/healthDataHelpers/searchFromSegmentInfo';
+import { findHealthDataForAreas } from '@/lib/healthDataHelpers/findHealthDataForAreas';
+import { findQuartileBySegmentation } from '@/lib/healthDataHelpers/findQuartileBySegmentation';
+import { indicatorsSorted } from '@/lib/healthDataHelpers/indicatorsSorted';
 
 export const spineChartIndicatorTitleColumnMinWidth = 240;
 
 export interface SpineChartIndicatorData {
-  indicatorId: string;
+  rowId: string;
+  indicatorId: number;
   indicatorName: string;
   latestDataPeriod?: number;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   valueUnit: string;
-  areasHealthData: (HealthDataForArea | null)[];
-  groupData: HealthDataForArea | null;
-  englandData: HealthDataForArea | null;
+  areasHealthData: HealthDataForArea[];
+  groupData?: HealthDataForArea;
+  englandData?: HealthDataForArea;
   quartileData: QuartileData;
 }
 
-/**
- * Finds the matching area health data based on the requested area code.
- *
- * @param areaHealthData
- * @param areaCode
- * @returns the health data matching the requested area.
- */
-export const getHealthDataForArea = (
-  areaHealthData: HealthDataForArea[] | undefined,
-  areaCode: string
-): HealthDataForArea | null => {
-  if (!areaHealthData) {
-    return null;
-  }
-
-  const matchedAreaHealthData = areaHealthData.find(
-    (areaHealthDataItem) => areaHealthDataItem.areaCode === areaCode
-  );
-
-  if (!matchedAreaHealthData) {
-    return null;
-  }
-
-  return matchedAreaHealthData;
-};
-
-/**
- * Organises all the retrieved data into the desired structure for the spine chart.
- */
 export const buildSpineChartIndicatorData = (
   allIndicatorData: IndicatorWithHealthDataForArea[],
   allIndicatorMetadata: IndicatorDocument[],
@@ -58,64 +40,73 @@ export const buildSpineChartIndicatorData = (
   areasSelected: string[],
   selectedGroupCode: string
 ): SpineChartIndicatorData[] => {
-  return allIndicatorData
-    .map((indicatorData) => {
-      if (
-        indicatorData.indicatorId === undefined ||
-        indicatorData.name === null
-      ) {
-        // the entire row will be missing
-        return null;
-      }
-      const indicatorId = indicatorData.indicatorId.toString();
-      const relevantIndicatorMeta = allIndicatorMetadata.find(
-        (indicatorMetaData) => {
-          return indicatorMetaData.indicatorID === indicatorId;
-        }
+  // indicators with names and ids
+  const indicators = allIndicatorData.filter(
+    (indicator) => indicator.indicatorId && indicator.name
+  );
+
+  const indicatorsInOrder = indicatorsSorted(indicators);
+
+  // split into segments
+  const segmented = indicatorsInOrder.flatMap((indicator) => {
+    const indicatorId = indicator.indicatorId as number;
+    const name = indicator.name as string;
+    const { benchmarkMethod } = indicator;
+
+    const metaData = allIndicatorMetadata.find(
+      (meta) => Number(meta.indicatorID) === indicatorId
+    );
+
+    const segValues = segmentValues(indicator);
+    const combinations = segmentCombinations(segValues);
+    return combinations.map((segmentInfo) => {
+      const search = searchFromSegmentInfo(segmentInfo);
+      const extractedSegment = flattenSegment(indicator, search);
+      const segmentId = segmentIdFromInfo(segmentInfo);
+
+      const segmentName = segmentNameFromInfo(segmentInfo);
+
+      const areasHealthData = findHealthDataForAreas(
+        extractedSegment,
+        areasSelected
       );
 
-      const areasHealthData = areasSelected
-        .map((areaCode) =>
-          getHealthDataForArea(indicatorData.areaHealthData, areaCode)
-        )
-        .filter((areaData) => areaData !== null);
-
-      const matchedQuartileData = quartileData.find(
-        (quartileDataItem) =>
-          quartileDataItem.indicatorId === indicatorData.indicatorId
-      );
-
-      if (!matchedQuartileData) {
-        // No quartile data found for the requested indicator ID: ${indicatorData.indicatorId}
-        return null;
-      }
-
-      const groupData = getHealthDataForArea(
-        indicatorData.areaHealthData,
+      const groupData = findHealthDataForArea(
+        extractedSegment,
         selectedGroupCode
       );
 
-      const englandData = getHealthDataForArea(
-        indicatorData.areaHealthData,
+      const englandData = findHealthDataForArea(
+        extractedSegment,
         areaCodeForEngland
       );
 
-      const latestDataPeriod = determineLatestDataPeriod(
-        areasHealthData,
-        englandData
+      const latestDataPeriod = englandData?.healthData?.at(0)?.year;
+
+      const matchedQuartileData = findQuartileBySegmentation(
+        quartileData,
+        indicatorId,
+        segmentInfo
       );
 
-      return {
+      if (!matchedQuartileData) return;
+
+      const result: SpineChartIndicatorData = {
+        rowId: `${indicatorId}-${segmentId}`,
         indicatorId,
-        indicatorName: indicatorData.name as string,
-        valueUnit: relevantIndicatorMeta?.unitLabel ?? '',
-        benchmarkComparisonMethod: indicatorData.benchmarkMethod,
+        indicatorName: `${name} (${segmentName})`,
+        valueUnit: metaData?.unitLabel ?? '',
+        benchmarkComparisonMethod: benchmarkMethod,
         latestDataPeriod,
         areasHealthData,
         groupData,
         englandData,
         quartileData: matchedQuartileData,
       };
-    })
-    .filter((data) => data !== null);
+      return result;
+    });
+  });
+
+  // return without any undefined rows
+  return segmented.filter(filterDefined) as SpineChartIndicatorData[];
 };

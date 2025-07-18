@@ -3,7 +3,8 @@ import {
   IndicatorWithHealthDataForArea,
   SexData,
 } from '@/generated-sources/ft-api-client';
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
+
+import { SegmentationId } from '@/lib/common-types';
 
 interface OptionInfo {
   default: string;
