@@ -1,13 +1,16 @@
-import { describe, it, expect } from 'vitest';
-import { populationPyramidRequestParams } from './populationPyramidRequestParams'; // adjust path as needed
-import { GetHealthDataForAnIndicatorInequalitiesEnum } from '@/generated-sources/ft-api-client';
+import { describe, expect, it } from 'vitest';
+
+import {
+  Area,
+  GetHealthDataForAnIndicatorInequalitiesEnum,
+} from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import {
+  adminIndicatorIdForPopulation,
   areaCodeForEngland,
   nhsIndicatorIdForPopulation,
-  adminIndicatorIdForPopulation,
 } from '@/lib/chartHelpers/constants';
-import { Area } from '@/generated-sources/ft-api-client';
+import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 
 describe('populationPyramidRequestParams', () => {
   const availableAreas: Area[] = [];
@@ -32,7 +35,7 @@ describe('populationPyramidRequestParams', () => {
     ]);
   });
 
-  it('returns correct request for Administrative hierarchy', () => {
+  it('returns correct request for Administrative regions hierarchy', () => {
     const searchState: SearchStateParams = {
       [SearchParams.AreasSelected]: ['A2'],
       [SearchParams.GroupSelected]: areaCodeForEngland,
