@@ -34,7 +34,7 @@ import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-mockAuth.mockImplementation(vi.fn().mockResolvedValue(null));
+mockAuth.mockResolvedValue(null);
 
 vi.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
   getMapGeographyData: vi.fn(),
