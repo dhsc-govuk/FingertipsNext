@@ -77,6 +77,7 @@ type BaseChartComponentProps = {
   hasSVGExport?: boolean;
   hasCSVExport?: boolean;
   hasTooltipHovers?: boolean;
+  hasInequalitiesExpander?: boolean;
 };
 
 export type ChartComponentDefinition = {

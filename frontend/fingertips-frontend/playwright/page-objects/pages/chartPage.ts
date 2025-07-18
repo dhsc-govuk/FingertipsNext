@@ -170,6 +170,10 @@ export default class ChartPage extends AreaFilter {
         action: async () => await this.expandDetailsSection(),
       },
       {
+        condition: chartComponentProps.hasInequalitiesExpander,
+        action: async () => await this.expandInequalitiesSection(),
+      },
+      {
         condition: chartComponentProps.isWideComponent,
         action: async () => await this.scrollToMiddle(chartComponentLocator),
       },
@@ -337,6 +341,14 @@ export default class ChartPage extends AreaFilter {
     const testId = `confidence-interval-checkbox-${this.replaceComponentSuffix(ciComponent)}`;
 
     await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
+  }
+
+  private async expandInequalitiesSection() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page
+        .getByTestId(ChartPage.inequalitiesContainer)
+        .getByText('Show inequalities data')
+    );
   }
 
   // clicks on 'Show population data' to show population pyramid component

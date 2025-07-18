@@ -37,7 +37,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasInequalitiesTimePeriodDropDown: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
-      hasDetailsExpander: true,
+      hasInequalitiesExpander: true,
     },
   },
   {
@@ -45,7 +45,7 @@ export const allComponents: ChartComponentDefinition[] = [
     chartComponentProps: {
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
-      hasDetailsExpander: true,
+      hasInequalitiesExpander: true,
     },
   },
   {
@@ -56,7 +56,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasInequalityTypeDropDown: true,
       isWideComponent: true,
       hasConfidenceIntervals: true,
-      hasDetailsExpander: true,
+      hasInequalitiesExpander: true,
     },
   },
   {
@@ -66,7 +66,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
-      hasDetailsExpander: true,
+      hasInequalitiesExpander: true,
     },
   },
   {
@@ -76,7 +76,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
-      hasDetailsExpander: true,
+      hasInequalitiesExpander: true,
     },
   },
   {
