@@ -122,10 +122,9 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<bool> DeleteAllHealthMeasureByBatchIdAsync(int indicatorId, string batchId)
+    public async Task<bool> DeleteAllHealthMeasureByBatchIdAsync(string batchId)
     {
         var batchToDelete = _dbContext.HealthMeasure
-            .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(healthMeasure => healthMeasure.BatchId == batchId);
 
         var batchToDeleteFirstEntry = await batchToDelete.FirstOrDefaultAsync();

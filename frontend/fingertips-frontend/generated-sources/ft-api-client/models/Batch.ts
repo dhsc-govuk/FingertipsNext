@@ -50,11 +50,23 @@ export interface Batch {
      */
     publishedAt: Date;
     /**
+     * When the data in the batch was deleted.
+     * @type {Date}
+     * @memberof Batch
+     */
+    deletedAt?: Date;
+    /**
      * The ID of the user who uploaded the batch.
      * @type {string}
      * @memberof Batch
      */
     userId: string;
+    /**
+     * The ID of the user who deleted the batch.
+     * @type {string}
+     * @memberof Batch
+     */
+    deletedUserId?: string;
     /**
      * The current status of the batch.
      * @type {string}
@@ -103,7 +115,9 @@ export function BatchFromJSONTyped(json: any, ignoreDiscriminator: boolean): Bat
         'originalFilename': json['originalFilename'],
         'createdAt': (new Date(json['createdAt'])),
         'publishedAt': (new Date(json['publishedAt'])),
+        'deletedAt': json['deletedAt'] == null ? undefined : (new Date(json['deletedAt'])),
         'userId': json['userId'],
+        'deletedUserId': json['deletedUserId'] == null ? undefined : json['deletedUserId'],
         'status': json['status'],
     };
 }
@@ -124,7 +138,9 @@ export function BatchToJSONTyped(value?: Batch | null, ignoreDiscriminator: bool
         'originalFilename': value['originalFilename'],
         'createdAt': ((value['createdAt']).toISOString()),
         'publishedAt': ((value['publishedAt']).toISOString()),
+        'deletedAt': value['deletedAt'] == null ? undefined : ((value['deletedAt']).toISOString()),
         'userId': value['userId'],
+        'deletedUserId': value['deletedUserId'],
         'status': value['status'],
     };
 }

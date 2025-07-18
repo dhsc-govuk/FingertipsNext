@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.UserAuth.Repository", "DHSC.FingertipsNext.Modules.UserAuth.Repository\DHSC.FingertipsNext.Modules.UserAuth.Repository.csproj", "{E4DE8C43-D9D5-4EDE-8667-54F3EB66459D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHSC.FingertipsNext.Modules.DataManagement.Clients", "DHSC.FingertipsNext.Modules.DataManagement.Clients\DHSC.FingertipsNext.Modules.DataManagement.Clients.csproj", "{CBCC319D-AC47-4088-9902-8F7E739A894B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -176,6 +178,10 @@ Global
 		{E4DE8C43-D9D5-4EDE-8667-54F3EB66459D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4DE8C43-D9D5-4EDE-8667-54F3EB66459D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4DE8C43-D9D5-4EDE-8667-54F3EB66459D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBCC319D-AC47-4088-9902-8F7E739A894B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBCC319D-AC47-4088-9902-8F7E739A894B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBCC319D-AC47-4088-9902-8F7E739A894B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBCC319D-AC47-4088-9902-8F7E739A894B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +213,7 @@ Global
 		{1DD2E62F-7A4C-4AA7-AE33-B8955EC14BB8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{FABF23C1-71BF-4CB4-A29E-DC14CFDBB182} = {594379C5-606C-468B-8F91-1D30757E4681}
 		{E4DE8C43-D9D5-4EDE-8667-54F3EB66459D} = {9C6B7E19-57C0-4617-BDE5-36ABE3A984DE}
+		{CBCC319D-AC47-4088-9902-8F7E739A894B} = {594379C5-606C-468B-8F91-1D30757E4681}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {745A1299-79AE-4D97-8156-A825611994C6}

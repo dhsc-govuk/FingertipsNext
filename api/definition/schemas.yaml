@@ -33,10 +33,20 @@ Batch:
       format: date-time
       description: When the data in the batch will be published.
       example: "2025-07-30T00:00:00.000Z"
+    deletedAt:
+      type: string
+      format: date-time
+      description: When the data in the batch was deleted.
+      example: "2025-07-30T00:00:00.000Z"
     userId:
       type: string
       format: guid
       description: The ID of the user who uploaded the batch.
+      example: e14dae4e-4c3c-4e13-979a-4aa6566e06a7
+    deletedUserId:
+      type: string
+      format: guid
+      description: The ID of the user who deleted the batch.
       example: e14dae4e-4c3c-4e13-979a-4aa6566e06a7
     status:
       type: string

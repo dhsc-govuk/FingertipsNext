@@ -51,8 +51,6 @@ paths:
     $ref: "./indicators/paths.yaml#/indicators_by_indicator_id_data"
   /indicators/{indicator_id}/data/all:
     $ref: "./indicators/paths.yaml#/indicators_by_indicator_id_all_data"
-  /indicators/{indicator_id}/data/{batch_id}:
-    $ref: "./indicators/paths.yaml#/indicator_data_by_batch_id"
   /indicators/quartiles:
     $ref: "./indicators/paths.yaml#/quartiles"
   /indicators/quartiles/all:

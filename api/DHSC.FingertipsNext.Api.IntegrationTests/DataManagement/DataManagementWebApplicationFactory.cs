@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 
-namespace DHSC.FingertipsNext.Api.IntegrationTests;
+namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
 public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> where T : class
 {
