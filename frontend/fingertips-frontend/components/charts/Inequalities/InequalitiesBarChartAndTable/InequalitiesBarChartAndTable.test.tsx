@@ -50,7 +50,7 @@ const testRender = async (testHealthData: IndicatorWithHealthDataForArea) => {
   queryClient.setQueryData(['/indicator/41101'], mockIndicatorDocument());
   await act(() =>
     render(
-      <SessionProvider>
+      <SessionProvider session={null}>
         <QueryClientProvider client={queryClient}>
           <InequalitiesBarChartAndTable />
         </QueryClientProvider>

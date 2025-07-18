@@ -1,0 +1,54 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PopulationPyramidWithTable > take a snapshot 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="populationPyramidWithTable-component"
+  >
+    <div
+      class="sc-jxOSlx imMZIm"
+    >
+      <h3
+        class="heading__StyledHeading-sc-1dsobun-0 bRbIzR"
+        style="font-size: 24px;"
+      >
+        Related population data
+      </h3>
+      <span
+        class="sc-fqkvVR ieEIxa"
+      >
+        <svg
+          class="sc-eqUAAy hOozcF"
+          data-testid="arrow-toggle-button"
+          height="30"
+          viewBox="0 0 25 25"
+          width="30"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="#1D70B8"
+            stroke-width="0.5"
+          />
+          <path
+            d="M8 10l4 4 4-4"
+            fill="none"
+            stroke="#1D70B8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+        <label
+          class="src__Label-sc-iqzvxn-0 sc-dcJsrY cjKMYe knleWj"
+          fill="#1D70B8"
+        >
+          Show population data
+        </label>
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;

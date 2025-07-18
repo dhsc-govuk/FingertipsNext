@@ -232,3 +232,7 @@ GET http://localhost:5144/indicators/383/data?area_codes=E92000001&area_type=eng
         });
     });
 %}
+
+### A massive request to check performance
+GET http://localhost:5144/indicators/91894/data?area_type=nhs-sub-integrated-care-boards&ancestor_code=E92000001&area_codes=E38000006&area_codes=E38000007&area_codes=E38000008&area_codes=E38000014&area_codes=E38000015&area_codes=E38000016&area_codes=E38000021&area_codes=E38000024&area_codes=E38000025&area_codes=E38000028&area_codes=E38000030&area_codes=E38000034&area_codes=E38000044&area_codes=E38000045&area_codes=E38000049&area_codes=E38000050&area_codes=E38000051&area_codes=E38000052&area_codes=E38000053&area_codes=E38000062&area_codes=E38000068&area_codes=E38000079&area_codes=E38000080&area_codes=E38000085&area_codes=E38000086&area_codes=E38000089&area_codes=E38000091&area_codes=E38000097&area_codes=E38000101&area_codes=E38000106&area_codes=E38000117&area_codes=E3800119&area_codes=E38000122&area_codes=E38000126&area_codes=E38000127&area_codes=E38000130&area_codes=E38000135&area_codes=E38000136&area_codes=E38000137&area_codes=E38000141&area_codes=E38000143&area_codes=E38000146&area_codes=E38000150&area_codes=E38000153&area_codes=E38000161&area_codes=E38000163&area_codes=E38000168&area_codes=E38000170
+

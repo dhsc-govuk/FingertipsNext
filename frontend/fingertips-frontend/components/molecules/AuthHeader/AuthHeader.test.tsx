@@ -6,6 +6,10 @@ import { AuthHeader } from '.';
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
 import userEvent from '@testing-library/user-event';
 
+vi.mock('next-auth/react', () => {
+  return { getSession: vi.fn() };
+});
+
 vi.mock('@/lib/auth/handlers', () => {
   return {
     signInHandler: vi.fn(),

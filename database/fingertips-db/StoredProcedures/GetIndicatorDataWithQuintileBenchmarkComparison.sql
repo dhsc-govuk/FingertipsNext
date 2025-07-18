@@ -88,7 +88,8 @@ HealthData AS (
 				benchmarkAreas.IsBenchmarkArea,
 				fromDate.Date,
 				toDate.Date,
-				hm.SexKey
+				hm.SexKey,
+				hm.AgeKey
 				ORDER BY Value
 			)
 			ELSE NULL
@@ -127,11 +128,8 @@ HealthData AS (
 		JOIN dbo.DateDimension AS fromDate ON hm.FromDateKey = fromDate.DateKey
 		JOIN dbo.DateDimension AS toDate ON hm.ToDateKey = toDate.DateKey
 		JOIN dbo.PeriodDimension AS reportingPeriod ON hm.PeriodKey = reportingPeriod.PeriodKey
-	WHERE (
-			--- This ensures we are only dealing with Aggregate data OR Sex Segments
-			hm.IsAgeAggregatedOrSingle = 1
-			AND hm.IsDeprivationAggregatedOrSingle = 1
-		)
+	WHERE 
+	    hm.IsDeprivationAggregatedOrSingle = 1
 		AND (
 			hm.Year IN (
 				SELECT
@@ -162,12 +160,14 @@ HealthDataNTileGroupCount AS (
 		ToDate,
 		FromDate,
 		SexDimensionName,
+		AgeDimensionName,
 		COUNT(*) AS COUNT
 	FROM HealthData AS hd
 	GROUP BY 
 		ToDate,
 		FromDate,
-		SexDimensionName
+		SexDimensionName,
+		AgeDimensionName
 ) --- The final select now filters based on the requested areas and calculates the Benchmark outcome
 SELECT
 	hd.HealthMeasureKey,
@@ -236,12 +236,14 @@ SELECT
 FROM
 	HealthData AS hd
 	JOIN @RequestedAreas AS areas ON hd.AreaDimensionCode = areas.AreaCode
-	JOIN HealthDataNTileGroupCount AS nc ON hd.FromDate = nc.FromDate AND hd.ToDate = nc.ToDate AND hd.SexDimensionName = nc.SexDimensionName
+	JOIN HealthDataNTileGroupCount AS nc ON hd.FromDate = nc.FromDate AND hd.ToDate = nc.ToDate AND hd.SexDimensionName = nc.SexDimensionName AND hd.AgeDimensionName = nc.AgeDimensionName
 	AND hd.ToDate = nc.ToDate
 	CROSS JOIN RequestedIndicator ind
 	CROSS JOIN BenchmarkAreaGroup bag
 ORDER BY
 	AreaDimensionName,
+	SexDimensionName,
+	AgeDimensionName,
 	hd.ToDate DESC,
 	hd.FromDate DESC
 END

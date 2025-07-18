@@ -1,22 +1,14 @@
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SearchParams } from '@/lib/searchStateManager';
-import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
-import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetIndicatorMetaData';
-import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
 import { singleIndicatorBasicTableData } from '@/components/charts/BasicTable/helpers/singleIndicatorBasicTableData';
 import { useMemo } from 'react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
 
 export const useSingleIndicatorBasicTableData = () => {
   const searchState = useSearchStateParams();
   const { [SearchParams.AreasSelected]: areasSelected } = searchState;
-  const requestParams = useOneIndicatorRequestParams();
-  const { indicatorMetaData } = useApiGetIndicatorMetaData(
-    String(requestParams.indicatorId)
-  );
-
-  const { healthData } = useApiGetHealthDataForAnIndicator(requestParams);
-
+  const { healthData, indicatorMetaData } = useOneIndicatorData();
   return useMemo(() => {
     if (!healthData || !indicatorMetaData) return null;
 
