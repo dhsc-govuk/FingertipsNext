@@ -4,7 +4,7 @@ import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockGetIsLoading } from '@/mock/utils/mockUseLoadingState';
 import { mockHighChartsWrapperSetup } from '@/mock/utils/mockHighChartsWrapper';
 //
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { Inequalities } from './Inequalities';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -87,11 +87,14 @@ describe('Inequalities', () => {
     'inequalitiesTypes-dropDown-component-lc',
   ])('should render inequalities component: %s', async (testId) => {
     await testRender(testData);
+    fireEvent.click(screen.getByText('Show inequalities data'));
+
     expect(screen.getByTestId(testId)).toBeInTheDocument();
   });
 
   it('should render expected text', async () => {
     await testRender(testData);
+    fireEvent.click(screen.getByText('Show inequalities data'));
 
     expect(
       screen.getByText(/Inequalities comparison for one time period/)
@@ -99,5 +102,27 @@ describe('Inequalities', () => {
     expect(
       screen.getByText(/Inequalities trends over time/)
     ).toBeInTheDocument();
+  });
+
+  it('should render the inequalities main title', async () => {
+    await testRender(testData);
+    expect(screen.getByText('Related inequalities data')).toBeInTheDocument();
+  });
+
+  it('should render the arrow expander and toggle the inequalities charts', async () => {
+    await testRender(testData);
+    const expander = screen.getByText('Show inequalities data');
+    expect(expander).toBeInTheDocument();
+
+    fireEvent.click(expander);
+    expect(
+      screen.getByTestId('inequalitiesLineChartTable-component')
+    ).toBeInTheDocument();
+
+    expect(screen.getByText('Hide inequalities data')).toBeInTheDocument();
+    fireEvent.click(expander);
+    expect(
+      screen.queryByTestId('inequalitiesLineChartTable-component')
+    ).not.toBeInTheDocument();
   });
 });
