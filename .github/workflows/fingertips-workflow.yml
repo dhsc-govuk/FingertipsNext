@@ -334,7 +334,6 @@ jobs:
     environment: development
     runs-on: dev
     if: >
-      false && 
       always() &&
       contains(needs.*.result, 'success') &&
       !contains(needs.*.result, 'failure') &&
