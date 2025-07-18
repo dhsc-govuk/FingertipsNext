@@ -339,12 +339,12 @@ export default class ChartPage extends AreaFilter {
     await this.checkAndAwaitLoadingComplete(this.page.getByTestId(testId));
   }
 
-  // clicks on 'Show population data' to show population pyramid component or clicks on 'Show inequalities data' to show inequalities component
+  // clicks on 'Show population data' to show population pyramid component
   private async expandDetailsSection() {
     await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId(
-        ChartPage.populationPyramidContainer || ChartPage.inequalitiesContainer
-      )
+      this.page
+        .getByTestId(ChartPage.populationPyramidContainer)
+        .getByText('Show population data')
     );
   }
 
