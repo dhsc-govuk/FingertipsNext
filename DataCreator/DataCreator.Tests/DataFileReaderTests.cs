@@ -33,7 +33,7 @@ public class DataFileReaderTests
         };
 
         // Act
-        var result = DataFileReader.GetHealthDataForIndicator(indicatorId, areasDict);
+        var result = DataFileReader.GetHealthDataForIndicator(indicatorId, areasDict, false);
 
         // Assert
         Assert.That(result, Has.Exactly(1).Items);

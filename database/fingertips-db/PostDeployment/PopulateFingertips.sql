@@ -129,6 +129,7 @@ INSERT INTO [dbo].[PeriodDimension]
 VALUES
     ('monthly'),
     ('quarterly'),
+    ('cumulative quarterly'),
     ('yearly'),
     ('2 yearly'),
     ('3 yearly'),
