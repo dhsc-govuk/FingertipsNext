@@ -9,6 +9,8 @@ const mockValidResponse: UserInfoType = {
   externalId: 'some externalId',
 };
 
+vi.spyOn(console, 'log').mockImplementation(() => {});
+
 describe('validate user', () => {
   it('should attach the access token as a bearer authorization header to the outgoing request', async () => {
     const accessToken = 'hunter2';

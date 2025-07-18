@@ -3,36 +3,36 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
 > {%
     client.test("Calculate Quartile for a single indicator", function (callbackfn, thisArg) {
         const expected =
-[
-  {
-    "age": {
-      "value": "53-70 yrs",
-      "isAggregate": true
-    },
-    "sex": {
-      "value": "Female",
-      "isAggregate": true
-    },
-    "isAggregate": true,
-    "year": 2023,
-    "datePeriod": {
-      "type": "Financial",
-      "from": "2023-04-01",
-      "to": "2024-03-31"
-    },
-    "q0Value": 15.7894736842105,
-    "q1Value": 64.9253731343284,
-    "q2Value": 71.830985915493,
-    "q3Value": 76.9005847953216,
-    "q4Value": 88.6435331230284,
-    "areaValue": 76.1904761904762,
-    "ancestorValue": 76.4550264550265,
-    "englandValue": 69.8972433785404,
-    "indicatorId": 94063,
-    "polarity": "NoJudgement",
-    "frequency": "Annually"
-  }
-]         
+        [
+            {
+                "age": {
+                    "value": "53-70 yrs",
+                    "isAggregate": true
+                },
+                "sex": {
+                    "value": "Female",
+                    "isAggregate": true
+                },
+                "isAggregate": true,
+                "year": 2023,
+                "datePeriod": {
+                    "type": "Financial",
+                    "from": "2023-04-01",
+                    "to": "2024-03-31"
+                },
+                "q0Value": 15.7894736842105,
+                "q1Value": 64.9253731343284,
+                "q2Value": 71.830985915493,
+                "q3Value": 76.9005847953216,
+                "q4Value": 88.6435331230284,
+                "areaValue": 76.1904761904762,
+                "ancestorValue": 76.4550264550265,
+                "englandValue": 69.8972433785404,
+                "indicatorId": 94063,
+                "polarity": "NoJudgement",
+                "frequency": "Annually"
+            }
+        ]         
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
     });

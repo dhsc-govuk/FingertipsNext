@@ -19,7 +19,7 @@ public class UserAuthenticationIntegrationTests : IClassFixture<WebApplicationFa
     /// The entra group ID for the dev database for indicator 41101.
     /// If this value in the db changes, then this needs to be updated accordingly.
     /// </summary>
-    private const string Indicator41101GroupRoleId = "6a953232-afad-4406-a457-9960eec316ac";
+    private const string Indicator41101GroupRoleId = "90ac52f4-8513-4050-873a-24340bc89bd3";
 
     private readonly WebApplicationFactory<Program> _appFactory;
 

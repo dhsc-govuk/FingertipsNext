@@ -17,7 +17,8 @@ services:
       AUTH_CLIENT_ID: ${AUTH_CLIENT_ID}
       AUTH_CLIENT_SECRET: ${AUTH_CLIENT_SECRET}
       AUTH_TRUST_HOST: true
-      AUTH_URL: "http://localhost:3000/auth"
+      AUTH_URL: ${AUTH_URL}
+      NEXT_PUBLIC_AUTH_URL: $AUTH_URL
       AUTH_USE_PASSWORD_MOCK: ${AUTH_USE_PASSWORD_MOCK}
 
     ports:

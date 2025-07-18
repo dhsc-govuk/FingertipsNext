@@ -26,6 +26,8 @@ import {
 import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableIsRequired';
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
+import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
+import { auth } from '@/lib/auth';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -34,6 +36,11 @@ export default async function ChartPage(
 ) {
   // We don't want to render this page statically
   await connection();
+  const session = await auth();
+
+  const healthEndpoint = session
+    ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
+    : EndPoints.HealthDataForAnIndicator;
 
   try {
     const searchParams = await props.searchParams;
@@ -94,33 +101,42 @@ export default async function ChartPage(
       compareAreasTableIsRequired(searchState)
     ) {
       let healthData: IndicatorWithHealthDataForArea | undefined;
+      let queryKeyLineChart;
       const apiRequestParams = oneIndicatorRequestParams(
         searchState,
         availableAreas ?? []
       );
       try {
-        healthData = await indicatorApi.getHealthDataForAnIndicator(
-          apiRequestParams,
-          API_CACHE_CONFIG
-        );
-
-        // store data in query cache
-        const queryKeyLineChart = queryKeyFromRequestParams(
-          EndPoints.HealthDataForAnIndicator,
+        queryKeyLineChart = queryKeyFromRequestParams(
+          healthEndpoint,
           apiRequestParams
         );
+        if (session) {
+          healthData =
+            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+              apiRequestParams,
+              API_CACHE_CONFIG
+            );
+        } else {
+          healthData = await indicatorApi.getHealthDataForAnIndicator(
+            apiRequestParams,
+            API_CACHE_CONFIG
+          );
+        }
         seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
       }
     }
 
+    // seed availableAreas
     seedData[`availableAreas`] = availableAreas ?? [];
 
     if (updatedSearchState) {
       stateManager.setState(updatedSearchState);
     }
 
+    // seed data for inequalities
     const inequalitiesQueryParams = inequalitiesRequestParams(searchState);
     const inequalitiesQueryKey = queryKeyFromRequestParams(
       EndPoints.HealthDataForAnIndicator,
@@ -139,6 +155,38 @@ export default async function ChartPage(
       } catch (e) {
         console.error(
           'error getting health indicator data for inequalities',
+          e
+        );
+      }
+    }
+
+    // seed data for population pyramid
+    const populationPyramidQueryParams = populationPyramidRequestParams(
+      searchState,
+      availableAreas ?? []
+    );
+    const populationPyramidQueryKey = queryKeyFromRequestParams(
+      healthEndpoint,
+      populationPyramidQueryParams
+    );
+    if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
+      try {
+        if (session) {
+          seedData[populationPyramidQueryKey] =
+            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+              populationPyramidQueryParams,
+              API_CACHE_CONFIG
+            );
+        } else {
+          seedData[populationPyramidQueryKey] =
+            await indicatorApi.getHealthDataForAnIndicator(
+              populationPyramidQueryParams,
+              API_CACHE_CONFIG
+            );
+        }
+      } catch (e) {
+        console.error(
+          'error getting health indicator data for population pyramid',
           e
         );
       }

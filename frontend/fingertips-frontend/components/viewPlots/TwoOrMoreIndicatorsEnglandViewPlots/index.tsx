@@ -14,6 +14,11 @@ import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
+import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 type TwoOrMoreIndicatorsEnglandViewPlotProps = {
   indicatorData: IndicatorWithHealthDataForArea[];
@@ -80,10 +85,20 @@ export function TwoOrMoreIndicatorsEnglandViewPlots({
     indicatorMetadata
   );
 
+  const availableChartLinks: ChartTitleKeysEnum[] = [
+    ChartTitleKeysEnum.BasicTableChart,
+    ChartTitleKeysEnum.PopulationPyramid,
+  ];
+
   return (
     <section data-testid="twoOrMoreIndicatorsEnglandViewPlot-component">
+      <AvailableChartLinks
+        availableCharts={availableChartLinks}
+      ></AvailableChartLinks>
       <StyleChartWrapper>
-        <H3>Compare indicators for an area</H3>
+        <H3 id={ChartTitleKeysEnum.BasicTableChart}>
+          {chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title}
+        </H3>
         <BasicTable tableData={englandIndicatorData} />
       </StyleChartWrapper>
     </section>
