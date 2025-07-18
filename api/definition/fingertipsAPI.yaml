@@ -448,6 +448,8 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /batches:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - batches
       summary: Get all batches
@@ -463,6 +465,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Batch'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /user/info:
@@ -561,10 +567,12 @@ components:
             Too many years:
               value:
                 message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
-    UserBadRequest:
-      description: User token was missing required claims.
     Unauthorized:
       description: Authorization information is missing or invalid.
+    Forbidden:
+      description: The user does not have administration permissions for the specified indicator.
+    UserBadRequest:
+      description: User token was missing required claims.
   parameters:
     hierarchy_type:
       in: query

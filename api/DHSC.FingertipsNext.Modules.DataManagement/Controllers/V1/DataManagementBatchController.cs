@@ -20,6 +20,9 @@ public class DataManagementBatchController(IConfiguration configuration, IIndica
     /// <returns>Batches for indicators you have permissions to modify.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(Batch[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ListBatches()
     {
         var roleIds = User.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
