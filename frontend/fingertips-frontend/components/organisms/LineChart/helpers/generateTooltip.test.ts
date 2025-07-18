@@ -35,7 +35,9 @@ describe('generateTooltip', () => {
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -57,7 +59,9 @@ describe('generateTooltip', () => {
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -79,7 +83,9 @@ describe('generateTooltip', () => {
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -101,7 +107,9 @@ describe('generateTooltip', () => {
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -122,7 +130,12 @@ describe('generateTooltip', () => {
       series: {
         name: 'England',
         color: '#000',
-        options: { custom: { areaCode: areaCodeForEngland, xCategoryKeys: mockXCategoryKeys } },
+        options: {
+          custom: {
+            areaCode: areaCodeForEngland,
+            xCategoryKeys: mockXCategoryKeys,
+          },
+        },
       },
     };
 
@@ -143,7 +156,9 @@ describe('generateTooltip', () => {
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -164,7 +179,12 @@ describe('generateTooltip', () => {
       series: {
         name: 'England',
         color: '#000',
-        options: { custom: { areaCode: areaCodeForEngland, xCategoryKeys: mockXCategoryKeys } },
+        options: {
+          custom: {
+            areaCode: areaCodeForEngland,
+            xCategoryKeys: mockXCategoryKeys,
+          },
+        },
       },
     };
 

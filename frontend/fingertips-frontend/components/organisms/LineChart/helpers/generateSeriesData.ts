@@ -117,12 +117,12 @@ export function generateSeriesData(
 
   const groupBenchmarkSeries = groupData
     ? generateSeries(
-      xCategoryKeys,
-      groupData,
-      'diamond',
-      GovukColours.Turquoise,
-      'Group'
-    )
+        xCategoryKeys,
+        groupData,
+        'diamond',
+        GovukColours.Turquoise,
+        'Group'
+      )
     : undefined;
 
   const alternateBenchmarkSeries = englandData

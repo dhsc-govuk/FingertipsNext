@@ -19,7 +19,9 @@ const getBenchmarkForPeriod = (
 ) => {
   return chartData
     .find((healthData) => healthData.areaCode === areaCode)
-    ?.healthData.find((point) => convertDateToNumber(point.datePeriod?.from) === dateAsNumber)?.benchmarkComparison;
+    ?.healthData.find(
+      (point) => convertDateToNumber(point.datePeriod?.from) === dateAsNumber
+    )?.benchmarkComparison;
 };
 
 const formatValueUnit = (valueUnit?: string) => {
@@ -40,7 +42,7 @@ function generateBenchmarkComparison(
   benchmarkComparisonMethod?: BenchmarkComparisonMethod
 ) {
   const areaCode: string = point.series.options.custom?.areaCode ?? '';
-  const xCategoryKey = point.series.options.custom?.xCategoryKeys[point.x]
+  const xCategoryKey = point.series.options.custom?.xCategoryKeys[point.x];
 
   const isSelectedArea = areasHealthIndicatorData.some(
     (area) => area.areaCode === areaCode
