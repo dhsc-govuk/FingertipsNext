@@ -1,21 +1,16 @@
-import { auth } from '@/lib/auth';
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockAuth } from '@/mock/utils/mockAuth';
+//
 import { getAccessToken } from '@/lib/auth/accessToken';
 import { getJWT } from '@/lib/auth/getJWT';
 import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import { Mock } from 'vitest';
 
-vi.mock('@/lib/auth', () => {
-  return {
-    auth: vi.fn().mockImplementation(() => {}),
-  };
-});
-
 vi.mock('@/lib/auth/getJWT', () => {
   return { getJWT: vi.fn() };
 });
 
-const mockAuth = auth as Mock;
 const mockGetJWT = getJWT as Mock;
 
 const validJWT: JWT = { accessToken: 'hunter2' };
