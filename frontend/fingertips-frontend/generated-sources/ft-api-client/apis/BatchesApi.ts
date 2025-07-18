@@ -44,13 +44,13 @@ export interface BatchesApiInterface {
      * @throws {RequiredError}
      * @memberof BatchesApiInterface
      */
-    batchesDeleteRaw(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    batchesDeleteRaw(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>>;
 
     /**
      * Deletes all unpublished data for the specified indicator and batch.
      * Delete a batch of unpublished data for an indicator
      */
-    batchesDelete(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    batchesDelete(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch>;
 
     /**
      * Get details of all health data upload batches that are for indicators that you have permissions to modify. 
@@ -78,7 +78,7 @@ export class BatchesApi extends runtime.BaseAPI implements BatchesApiInterface {
      * Deletes all unpublished data for the specified indicator and batch.
      * Delete a batch of unpublished data for an indicator
      */
-    async batchesDeleteRaw(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async batchesDeleteRaw(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>> {
         if (requestParameters['batchId'] == null) {
             throw new runtime.RequiredError(
                 'batchId',
@@ -97,15 +97,16 @@ export class BatchesApi extends runtime.BaseAPI implements BatchesApiInterface {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => BatchFromJSON(jsonValue));
     }
 
     /**
      * Deletes all unpublished data for the specified indicator and batch.
      * Delete a batch of unpublished data for an indicator
      */
-    async batchesDelete(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.batchesDeleteRaw(requestParameters, initOverrides);
+    async batchesDelete(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch> {
+        const response = await this.batchesDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
