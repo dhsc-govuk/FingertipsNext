@@ -20,6 +20,10 @@ import {
   getFormattedLabel,
   determineAreasForBenchmarking,
   determineBenchmarkToUse,
+  getLatestPeriod,
+  getFirstPeriod,
+  getLatestPeriodForAreas,
+  getFirstPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -44,6 +48,7 @@ import {
   generateMockHealthDataForArea,
 } from './testHelpers';
 import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
+import { convertDateToNumber } from '../timePeriodHelpers/getTimePeriodLabels';
 
 const mockData: HealthDataForArea[] = [
   {
@@ -1420,6 +1425,22 @@ describe('getFirstYear', () => {
   });
 });
 
+describe('getLatestPeriod', () => {
+  it('should return the latest period as an number for an area', () => {
+    expect(getLatestPeriod(mockData[0].healthData)).toBe(
+      convertDateToNumber('2006-01-01')
+    );
+  });
+});
+
+describe('getFirstPeriod', () => {
+  it('should return the first year as an number for an area', () => {
+    expect(getFirstPeriod(mockData[0].healthData)).toBe(
+      convertDateToNumber('2004-01-01')
+    );
+  });
+});
+
 describe('getLatestYearForAreas', () => {
   it('should return the latest year for a group of areas', () => {
     expect(getLatestYearForAreas(mockData)).toBe(2006);
@@ -1439,6 +1460,32 @@ describe('getFirstYearForAreas', () => {
   // simply use those of the default benchmark i.e. England
   it('should return undefined when the data provided is an empty list', () => {
     expect(getFirstYearForAreas([])).toBeUndefined();
+  });
+});
+
+describe('getLatestPeriodForAreas', () => {
+  it('should return the latest period as an number for a group of areas', () => {
+    expect(getLatestPeriodForAreas(mockData)).toBe(
+      convertDateToNumber('2006-01-01')
+    );
+  });
+
+  it('should return undefined when the data provided is an empty list', () => {
+    expect(getLatestPeriodForAreas([])).toBeUndefined();
+  });
+});
+
+describe('getFirstPeriodForAreas', () => {
+  it('should return the latest year for a group of areas', () => {
+    expect(getFirstPeriodForAreas(mockData)).toBe(
+      convertDateToNumber('2004-01-01')
+    );
+  });
+
+  // This can occur when no area is selected. When undefined is returned, the chart min/max
+  // simply use those of the default benchmark i.e. England
+  it('should return undefined when the data provided is an empty list', () => {
+    expect(getFirstPeriodForAreas([])).toBeUndefined();
   });
 });
 

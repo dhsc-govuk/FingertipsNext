@@ -7,7 +7,6 @@ export function generateXAxis(
 ): Highcharts.XAxisOptions {
   return {
     ...lineChartDefaultOptions.xAxis,
-    // type: 'datetime',
     title: {
       text: xAxisTitle,
       margin: 20,

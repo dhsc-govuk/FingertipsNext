@@ -26,11 +26,4 @@ describe('generateXAxis', () => {
       style: { fontSize: AXIS_TITLE_FONT_SIZE },
     });
   });
-
-  // it('should use the provided labels formatter', () => {
-  //   const mockFormatter = vi.fn();
-  //   const xAxis = generateXAxis([], undefined, mockFormatter);
-
-  //   expect(xAxis.labels?.formatter).toBe(mockFormatter);
-  // });
 });

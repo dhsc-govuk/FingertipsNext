@@ -87,7 +87,7 @@ describe('periodLabelText', () => {
     expect(periodLabelText).toEqual('Financial year end point');
   });
 
-  it('should return "Financial multi-year, cumulative quarters" when periodType is FinancialMultiYear and collectionFrequency is Cumulative quarters', () => {
+  it('should return "Financial multi-year, cumulative quarters" when periodType is FinancialMultiYear and collectionFrequency is Quarterly', () => {
     const periodLabelText = getPeriodLabel(
       PeriodType.FinancialMultiYear,
       Frequency.Quarterly
@@ -98,7 +98,7 @@ describe('periodLabelText', () => {
     );
   });
 
-  it('should return "" when periodType and collectionFrequency is combination is not mapped', () => {
+  it('should return "" when the periodType and collectionFrequency combination is not mapped', () => {
     const periodLabelText = getPeriodLabel(
       PeriodType.Unknown,
       Frequency.Quarterly
@@ -275,7 +275,7 @@ describe('formatDatePointLabel', () => {
       expect(datePointLabel).toEqual('Apr 2022 to Jun 2022');
     });
 
-    it('should return "X" when periodType and collectionFrequency is combination is not mapped', () => {
+    it('should return "X" when periodType and collectionFrequency combination is not mapped', () => {
       const datePointLabel = formatDatePointLabel(
         {
           type: PeriodType.FinancialMultiYear,
@@ -433,7 +433,7 @@ describe('formatDatePointLabel', () => {
       expect(datePointLabel).toEqual('');
     });
 
-    it('should return "X" when periodType and collectionFrequency is combination is not mapped', () => {
+    it('should return "X" when periodType and collectionFrequency combination is not mapped', () => {
       const datePointLabel = formatDatePointLabel(
         {
           type: PeriodType.FinancialMultiYear,
@@ -591,7 +591,7 @@ describe('formatDatePointLabel', () => {
       expect(datePointLabel).toEqual('');
     });
 
-    it('should return "X" when periodType and collectionFrequency is combination is not mapped', () => {
+    it('should return "X" when periodType and collectionFrequency combination is not mapped', () => {
       const datePointLabel = formatDatePointLabel(
         {
           type: PeriodType.FinancialMultiYear,

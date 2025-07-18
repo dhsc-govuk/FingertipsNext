@@ -22,6 +22,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 
 describe('Line chart table suite', () => {
   beforeAll(() => {
@@ -133,6 +134,24 @@ describe('Line chart table suite', () => {
       );
       const lineChart = screen.getByTestId('lineChartTable-component');
       expect(lineChart).toBeInTheDocument();
+    });
+
+    it('should return null when healthIndicator is empty array and there is no first or last period', () => {
+      const mockEmptyHealthData = mockHealthDataForArea({
+        healthData: [],
+      });
+
+      render(
+        <LineChartTable
+          title={'Title'}
+          healthIndicatorData={[mockEmptyHealthData]}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
+          indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
+        />
+      );
+      const lineChart = screen.queryByTestId('lineChartTable-component');
+      expect(lineChart).toBeNull();
     });
 
     it('should render expected elements', () => {
