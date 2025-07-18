@@ -26,7 +26,7 @@ describe('get access token', () => {
     expect(result).toBe(validJWT.accessToken);
   });
 
-  it("should return no access token a session doesn't exist", async () => {
+  it('should return no access token if no session exists', async () => {
     mockAuth.mockResolvedValue(null);
     mockGetJWT.mockResolvedValue(validJWT);
 
