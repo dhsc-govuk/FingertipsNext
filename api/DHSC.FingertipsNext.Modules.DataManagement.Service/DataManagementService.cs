@@ -112,7 +112,7 @@ public class DataManagementService : IDataManagementService
         try
         {
             // Delete batch
-            var deletedBatch = await _repository.DeleteAsync(batchId, userId);
+            var deletedBatch = await _repository.DeleteBatchAsync(batchId, userId);
 
             if (deletedBatch != null)
             {
@@ -130,7 +130,7 @@ public class DataManagementService : IDataManagementService
 
         return errorMessage switch
         {
-            "BatchNotFound" => new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Not found"]),
+            "BatchNotFound" => new UploadHealthDataResponse(OutcomeType.NotFound, null, ["Not found"]),
             "BatchPublished" =>
                 new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]),
             _ => new UploadHealthDataResponse(OutcomeType.ServerError)

@@ -69,7 +69,7 @@ public class HealthDataRepositoryDeleteTests : IDisposable
     }
 
     [Fact]
-    public async Task DeleteAllHealthMeasureByBatchIdAsyncShouldReturnFalseWhenIndicatorIdNotFound()
+    public async Task DeleteAllHealthMeasuresByBatchIdAsyncShouldReturnTrue()
     {
         // Arrange
         PopulateDatabase(new HealthMeasureModelHelper(key: 100, isPublished: false)

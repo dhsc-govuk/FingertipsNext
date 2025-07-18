@@ -31,6 +31,14 @@ public class DataManagementRepositoryTests : IDisposable
         PublishedAt = new DateTime(2028, 2, 29, 12, 00, 00)
     };
 
+    private readonly BatchModel _publishedBatchFor41101 = BatchExamples.BatchModel with
+    {
+        BatchId = "41101_2025-01-01T11:00:00.000",
+        IndicatorId = 41101,
+        CreatedAt = new DateTime(2025, 1, 1, 11, 00, 00),
+        PublishedAt = new DateTime(2025, 1, 1, 12, 00, 00)
+    };
+
     private readonly DataManagementRepository _dataManagementRepository;
 
     private readonly DataManagementDbContext _dbContext;
@@ -137,22 +145,51 @@ public class DataManagementRepositoryTests : IDisposable
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var success = await _dataManagementRepository.DeleteAsync(_batchFor383.BatchId, Guid.Empty);
+        var success = await _dataManagementRepository.DeleteBatchAsync(_batchFor383.BatchId, Guid.Empty);
 
         // Assert
         success.ShouldNotBeNull();
         success.BatchId.ShouldBeEquivalentTo(_batchFor383.BatchId);
         success.IndicatorId.ShouldBeEquivalentTo(_batchFor383.IndicatorId);
 
-        var batch = await _dataManagementRepository.GetBatchesByIdsAsync([383]);
-        batch.FirstOrDefault().DeletedAt.ShouldNotBe(null);
+        var batches = await _dataManagementRepository.GetBatchesByIdsAsync([383, 41101]);
+        var batchModels = batches.ToList();
+        var batch383 = batchModels.FirstOrDefault(b => b.IndicatorId == 383);
+        batch383.DeletedAt.ShouldNotBe(null);
+        batch383.DeletedUserId.ShouldBe(Guid.Empty);
+        batch383.Status.ShouldBe(BatchStatus.Deleted);
+        
+        // Ensure the 41101 batch still exists
+        var batch41101 = batchModels.FirstOrDefault(b => b.IndicatorId == 41101);
+        batch41101.Status.ShouldNotBe(BatchStatus.Deleted);
+        batch41101.DeletedAt.ShouldBeNull();
+        batch41101.DeletedUserId.ShouldBeNull();
     }
 
     [Fact]
     public async Task EnsureNonExistentBatchIsNotSoftDeleted()
     {
         // Act
-        await _dataManagementRepository.DeleteAsync("123", Guid.Empty).ShouldThrowAsync<ArgumentException>();
+        // Assert
+        var exception = await Should.ThrowAsync<ArgumentException>(() =>
+            _dataManagementRepository.DeleteBatchAsync("123", Guid.Empty));
+        
+        exception.Message.ShouldBe("BatchNotFound");
+    }
+    
+    [Fact]
+    public async Task EnsurePublishedBatchIsNotSoftDeleted()
+    {
+        // Arrange
+        await _dbContext.Batch.AddAsync(_publishedBatchFor41101);
+        await _dbContext.SaveChangesAsync();
+        
+        // Act
+        // Assert
+        var exception = await Should.ThrowAsync<ArgumentException>(() =>
+            _dataManagementRepository.DeleteBatchAsync("41101_2025-01-01T11:00:00.000", Guid.Empty));
+        
+        exception.Message.ShouldBe("BatchPublished");
     }
 
 }

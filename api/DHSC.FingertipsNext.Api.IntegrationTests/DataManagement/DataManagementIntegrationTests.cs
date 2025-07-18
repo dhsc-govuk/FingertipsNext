@@ -5,6 +5,7 @@ using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
+using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DotNetEnv;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
 
         using var scope = _factory.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DataManagementDbContext>();
+        var healthDataDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
         var connectionString = dbContext.Database.GetDbConnection().ConnectionString;
         _sqlConnection = new SqlConnection(connectionString);
 
@@ -49,7 +51,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         var mockTime = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
         _blobName = $"{IndicatorId}_{mockTime:yyyy-MM-ddTHH:mm:ss.fff}.csv";
         _factory.MockTime.SetUtcNow(mockTime);
-
         _azureStorageBlobClient = new AzureStorageBlobClient(configuration);
     }
 
@@ -60,7 +61,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         var cleanupPath = Path.Combine(AppContext.BaseDirectory, "DataManagement/cleanup.sql");
         RunSqlScript(cleanupPath, _sqlConnection);
         _sqlConnection.Close();
-        _sqlConnection.Dispose();
     }
 
     private static HttpClient GetApiClient(DataManagementWebApplicationFactory<Program> factory,
@@ -256,6 +256,12 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
                 BatchId = "12345_2017-06-30T14:22:37.123",
                 IndicatorId = 12345,
                 PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
+            },
+            batch with
+            {
+                BatchId = "54321_2017-06-30T14:22:37.123",
+                IndicatorId = 54321,
+                PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0)
             }
         ];
 
@@ -269,25 +275,34 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     }
 
     [Fact]
-    public async Task DeleteBatchEndpointShouldReturn202Response()
+    public async Task DeleteBatchEndpointShouldReturn200Response()
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
         var batchId = "12345_2017-06-30T14:22:37.123";
+        using var scope = _factory.Services.CreateScope();
+        var healthDataDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
+        var healthDataBeforeDelete = await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
+        healthDataBeforeDelete.ShouldBe(1);
 
         // Act
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.Accepted);
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var batch = await response.Content.ReadFromJsonAsync(typeof(Batch)) as Batch;
         batch.BatchId.ShouldBe(batchId);
         batch.DeletedAt.ShouldNotBeNull();
+        batch.Status.ShouldBe(BatchStatus.Deleted);
         batch.IndicatorId.ShouldBe(12345);
+        
+        // Ensure health data is deleted
+        var healthDataAfterDelete = await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
+        healthDataAfterDelete.ShouldBe(0);
     }
 
     [Fact]
-    public async Task DeleteBatchEndpointShouldReturn400Response()
+    public async Task DeleteBatchEndpointShouldReturn404ResponseWhenBatchDoesNotExist()
     {
         // Arrange
         var apiClient = GetApiClient(_factory);
@@ -300,6 +315,22 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
         var error = await response.Content.ReadAsStringAsync();
         error.ShouldContain("Not found");
+    }
+
+    [Fact]
+    public async Task DeleteBatchShouldReturn400ResponseWhenBatchIsPublished()
+    {
+        // Arrange
+        var apiClient = GetApiClient(_factory);
+        var batchId = "54321_2017-06-30T14:22:37.123";
+        
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+        
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        var error = await response.Content.ReadFromJsonAsync<SimpleError>();
+        error.Message.ShouldBe("Batch already published");
     }
 
     private static void InitialiseDb(SqlConnection sqlConnection)

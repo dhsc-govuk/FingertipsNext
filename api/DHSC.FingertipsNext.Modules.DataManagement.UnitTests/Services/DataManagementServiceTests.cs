@@ -4,6 +4,7 @@ using DHSC.FingertipsNext.Modules.DataManagement.Clients;
 using DHSC.FingertipsNext.Modules.DataManagement.Mappings;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.UnitTests.TestData;
@@ -249,8 +250,18 @@ public class DataManagementServiceTests
             Status = BatchStatus.Received
         };
 
-        var mappedModel = _mapper.Map(model);
-        _repository.DeleteAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(model);
+        var expected = new Batch
+        {
+            BatchId = model.BatchId,
+            IndicatorId = model.IndicatorId,
+            OriginalFileName = model.OriginalFileName,
+            CreatedAt = model.CreatedAt,
+            PublishedAt = model.PublishedAt,
+            UserId = model.UserId.ToString(),
+            Status = model.Status
+        };
+
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(model);
         _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
 
         // Act
@@ -261,22 +272,22 @@ public class DataManagementServiceTests
 
         result.Model.ShouldNotBeNull();
         result.Model.BatchId.ShouldBe("123");
-        result.Model.ShouldBeEquivalentTo(mappedModel);
+        result.Model.ShouldBeEquivalentTo(expected);
     }
 
     [Theory]
-    [InlineData("BatchNotFound", "Not found")]
-    [InlineData("BatchPublished", "Batch already published")]
-    public async Task DeleteBatchShouldReturnClientError(string exceptionMessage, string expectedErrorMessage)
+    [InlineData("BatchNotFound", "Not found", OutcomeType.NotFound)]
+    [InlineData("BatchPublished", "Batch already published", OutcomeType.ClientError)]
+    public async Task DeleteBatchShouldReturnError(string exceptionMessage, string expectedErrorMessage, OutcomeType expectedOutcome)
     {
         // Arrange
-        _repository.DeleteAsync(Arg.Any<string>(), Arg.Any<Guid>()).Throws(new ArgumentException(exceptionMessage));
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Throws(new ArgumentException(exceptionMessage));
 
         // Act
         var result = await _service.DeleteBatchAsync("123", Guid.Empty);
 
         // Assert
-        result.Outcome.ShouldBe(OutcomeType.ClientError);
+        result.Outcome.ShouldBe(expectedOutcome);
         result.Errors.ShouldHaveSingleItem();
         result.Errors.FirstOrDefault().ShouldBe(expectedErrorMessage);
     }
@@ -285,7 +296,7 @@ public class DataManagementServiceTests
     public async Task DeleteBatchShouldReturnServerError()
     {
         // Arrange
-        _repository.DeleteAsync(Arg.Any<string>(), Arg.Any<Guid>()).Throws(new ArgumentNullException());
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Throws(new ArgumentNullException());
 
         // Act
         var result = await _service.DeleteBatchAsync("123", Guid.Empty);

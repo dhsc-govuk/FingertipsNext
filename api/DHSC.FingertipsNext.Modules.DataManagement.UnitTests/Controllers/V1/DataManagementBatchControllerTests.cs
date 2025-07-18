@@ -46,7 +46,7 @@ public class DataManagementBatchControllerTests
     }
 
     [Fact]
-    public async Task DeleteReturnsAccepted()
+    public async Task DeleteReturnsOk()
     {
         // Arrange
         var expectedModel = new Batch
@@ -69,39 +69,45 @@ public class DataManagementBatchControllerTests
         var response = await _controller.DeleteBatch("12345_2025-01-01T00:00:00.000") as ObjectResult;
 
         // Assert
-        response.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
+        response.StatusCode.ShouldBe(StatusCodes.Status200OK);
         response.Value.ShouldBeEquivalentTo(expectedModel);
     }
 
-    [Theory]
-    [InlineData("", "batchId is required")]
-    public async Task DeleteReturnsBadRequest(string batchId, string expectedErrorMessage)
+    [Fact]
+    public async Task DeleteReturnsBadRequest()
     {
         // Act
-        var result = await _controller.DeleteBatch(batchId) as BadRequestObjectResult;
+        var result = await _controller.DeleteBatch("") as BadRequestObjectResult;
 
         // Assert
         result.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
 
         var resultValue = result.Value as SimpleError;
-        resultValue.Message.ShouldBe(expectedErrorMessage);
+        resultValue.Message.ShouldBe("batchId is required");
+    }
+    
+    [Fact]
+    public async Task DeleteReturns404ErrorWhenServiceReturnsANotFoundOutcome()
+    {
+        // Arrange
+        var response = new UploadHealthDataResponse(OutcomeType.NotFound);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(response);
+
+        // Act
+        var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as NotFoundResult;
+
+        // Assert
+        result.StatusCode.ShouldBe(StatusCodes.Status404NotFound);
     }
 
     [Theory]
-    [InlineData("Not found", "Not found", StatusCodes.Status404NotFound)]
-    [InlineData(null, "An unexpected error occurred", StatusCodes.Status400BadRequest)]
-    public async Task DeleteReturnsErrorWhenServiceReturnsAClientError(string? errors, string expectedErrorMessage, int expectedStatusCode)
+    [InlineData("Batch already published", "Batch already published")]
+    [InlineData(null, "Invalid request")]
+    public async Task DeleteReturns400ErrorWhenServiceReturnsAClientErrorutcome(string? errors, string expectedErrorMessage)
     {
         // Arrange
-        List<string>? listToReturn;
-        if (errors != null && !string.IsNullOrEmpty(expectedErrorMessage))
-        {
-            listToReturn = (List<string>)[errors];
-        }
-        else
-        {
-            listToReturn = null;
-        }
+        var listToReturn = (List<string>)[errors!];
+
 
         var response = new UploadHealthDataResponse(OutcomeType.ClientError, null, listToReturn);
         _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(response);
@@ -110,7 +116,7 @@ public class DataManagementBatchControllerTests
         var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as ObjectResult;
 
         // Assert
-        result.StatusCode.ShouldBe(expectedStatusCode);
+        result.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
 
         var error = result.Value as SimpleError;
         error.Message.ShouldBe(expectedErrorMessage);

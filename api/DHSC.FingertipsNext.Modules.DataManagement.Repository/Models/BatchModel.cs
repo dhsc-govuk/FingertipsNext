@@ -22,7 +22,7 @@ public record BatchModel
     public required DateTime PublishedAt { get; init; }
     public required Guid UserId { get; init; }
     public Guid? DeletedUserId { get; set; }
-    public required BatchStatus Status { get; init; }
+    public required BatchStatus Status { get; set; }
 }
 
 public enum BatchStatus

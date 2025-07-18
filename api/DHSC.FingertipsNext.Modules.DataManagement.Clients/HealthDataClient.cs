@@ -6,7 +6,6 @@ public class HealthDataClient(IIndicatorsService service) : IHealthDataClient
 {
     private IIndicatorsService Service { get; } = service;
 
-    // Ideally, this should make a HTTP request to the indicator endpoint?
     public async Task<bool> DeleteHealthDataAsync(string batchId)
     {
         var response = await Service.DeleteUnpublishedDataAsync(batchId);

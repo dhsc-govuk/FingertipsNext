@@ -13,5 +13,6 @@ public enum OutcomeType
 {
     Ok,
     ServerError,
-    ClientError
+    ClientError,
+    NotFound
 }

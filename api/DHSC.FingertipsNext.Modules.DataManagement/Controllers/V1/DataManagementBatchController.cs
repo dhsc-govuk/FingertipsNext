@@ -29,7 +29,7 @@ public class DataManagementBatchController(IDataManagementService dataManagement
 
     [HttpDelete]
     [Route("{batchId}")]
-    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     public async Task<IActionResult> DeleteBatch([FromRoute] string batchId)
     {
         if (string.IsNullOrEmpty(batchId))
@@ -41,20 +41,15 @@ public class DataManagementBatchController(IDataManagementService dataManagement
         //TODO: Add user ID
         var result = await dataManagementService.DeleteBatchAsync(batchId, Guid.Empty);
 
-        var message = "";
-        message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();
+        var message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();
 
         switch (result.Outcome)
         {
             case OutcomeType.Ok:
-                return new AcceptedResult
-                {
-                    StatusCode = StatusCodes.Status202Accepted,
-                    Value = result.Model
-                };
+                return new OkObjectResult(result.Model);
+            case OutcomeType.NotFound:
+                return new NotFoundResult();
             case OutcomeType.ClientError:
-                if (message == "Not found")
-                    return new NotFoundObjectResult(new SimpleError { Message = message });
                 return new BadRequestObjectResult(new SimpleError { Message = message ?? "Invalid request" });
             case OutcomeType.ServerError:
             default:

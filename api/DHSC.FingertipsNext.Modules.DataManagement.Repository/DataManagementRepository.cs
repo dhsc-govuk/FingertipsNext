@@ -43,7 +43,7 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
             .ToListAsync();
     }
 
-    public async Task<BatchModel?> DeleteAsync(string batchId, Guid userId)
+    public async Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId)
     {
         ArgumentException.ThrowIfNullOrEmpty(batchId);
 
@@ -61,6 +61,7 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
 
         model.DeletedAt = DateTime.UtcNow;
         model.DeletedUserId = userId;
+        model.Status = BatchStatus.Deleted;
         await _dbContext.SaveChangesAsync();
         return model;
     }
