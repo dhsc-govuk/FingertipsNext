@@ -20,6 +20,7 @@ export const useSpineChartData = () => {
   const { healthData, indicatorMetaData } = useMultipleIndicatorData();
 
   const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected);
+  console.log({ areaCodes });
   if (
     !quartileData ||
     !areaCodes.length ||
@@ -31,7 +32,7 @@ export const useSpineChartData = () => {
   }
 
   const combinedHealthData = indicatorWithHealthDataForAreaCombined(healthData);
-
+  console.log({ combinedHealthData });
   return buildSpineChartIndicatorData(
     combinedHealthData,
     indicatorMetaData,

@@ -1,38 +1,36 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import { buildSpineChartIndicatorData } from './buildSpineChartIndicatorData';
 import {
-  buildSpineChartIndicatorData,
-  getHealthDataForArea,
-} from './buildSpineChartIndicatorData';
-import {
-  mockSpineHealthDataForArea,
-  mockSpineIndicatorData,
   mockSpineIndicatorDocument,
-  mockSpineIndicatorWithHealthData,
   mockSpineIndicatorWithHealthDataWithGroup,
-  mockSpineIndicatorWithNoHealthData,
   mockSpineQuartileData,
 } from '@/components/charts/SpineChart/SpineChartTable/spineChartMockTestData';
+import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
+import {
+  mockHealthDataForArea,
+  mockHealthDataForArea_England,
+  mockHealthDataForArea_Group,
+} from '@/mock/data/mockHealthDataForArea';
+import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
+import { mockQuartileData } from '@/mock/data/mockQuartileData';
+
+const testArea = mockHealthDataForArea({ healthData: [] });
+const testGroup = mockHealthDataForArea_Group({ healthData: [] });
+const testEngland = mockHealthDataForArea_England({ healthData: [] });
+const testDataWithGroup = mockIndicatorWithHealthDataForArea({
+  areaHealthData: [testArea, testGroup, testEngland],
+});
+
+const testDataWithoutGroup = mockIndicatorWithHealthDataForArea({
+  areaHealthData: [testArea, testEngland],
+});
+
+const testMeta = mockIndicatorDocument();
+const testQuartile = mockQuartileData();
+
+const areasSelected: string[] = [testArea.areaCode];
+const selectedGroupCode: string = testGroup.areaCode;
 
 describe('spineChartTableHelpers tests', () => {
-  const mockAreaHealthData: HealthDataForArea[] = [mockSpineHealthDataForArea];
-
-  describe('getHealthDataForArea', () => {
-    test('returns null if undefined provided as the area health data param', () => {
-      expect(getHealthDataForArea(undefined, 'A12345')).toBeNull();
-    });
-
-    // Expectation is that the function is used in the context of both existing when gathering the data
-    test('returns null if the areaHealthData does not contain an item for the requested area code', () => {
-      expect(getHealthDataForArea(mockAreaHealthData, 'A1234')).toBeNull();
-    });
-
-    test('gets the relevant health data item based on the requested area code', () => {
-      expect(getHealthDataForArea(mockAreaHealthData, 'A1425')).toBe(
-        mockAreaHealthData[0]
-      );
-    });
-  });
-
   describe('buildSpineChartIndicatorData', () => {
     it('should return empty array when no data supplied', () => {
       const result = buildSpineChartIndicatorData([], [], [], [], '');
@@ -40,55 +38,77 @@ describe('spineChartTableHelpers tests', () => {
     });
 
     it('should return spine chart row data', () => {
-      const areasSelected: string[] = ['A1425'];
-      const selectedGroupCode: string = '90210';
       const result = buildSpineChartIndicatorData(
-        [mockSpineIndicatorWithHealthDataWithGroup],
-        [mockSpineIndicatorDocument],
-        [mockSpineQuartileData],
+        [testDataWithGroup],
+        [testMeta],
+        [testQuartile],
         areasSelected,
         selectedGroupCode
       );
-      expect(result).toEqual([mockSpineIndicatorData]);
+
+      const [row1] = result;
+      expect(row1).toHaveProperty(
+        'rowId',
+        `${testDataWithGroup.indicatorId}-sex:persons`
+      );
+      expect(row1).toHaveProperty('indicatorId', testDataWithGroup.indicatorId);
+      expect(row1).toHaveProperty(
+        'indicatorName',
+        `${testDataWithGroup.name} (Persons)`
+      );
+      expect(row1).toHaveProperty('latestDataPeriod', testQuartile.year);
+      expect(row1).toHaveProperty('valueUnit', '%');
+      expect(row1).toHaveProperty('benchmarkComparisonMethod');
+      expect(row1).toHaveProperty('quartileData', testQuartile);
+      expect(row1).toHaveProperty('groupData', {
+        ...testGroup,
+        healthData: testGroup.indicatorSegments?.at(0)?.healthData,
+        indicatorSegments: undefined,
+      });
+      expect(row1).toHaveProperty('englandData', {
+        ...testEngland,
+        healthData: testEngland.indicatorSegments?.at(0)?.healthData,
+        indicatorSegments: undefined,
+      });
+      expect(row1).toHaveProperty('areasHealthData', [
+        {
+          ...testArea,
+          healthData: testArea.indicatorSegments?.at(0)?.healthData,
+          indicatorSegments: undefined,
+        },
+      ]);
     });
 
     it('should return spine chart row data when group is missing', () => {
-      const areasSelected: string[] = ['A1425'];
-      const selectedGroupCode: string = '90210';
       const result = buildSpineChartIndicatorData(
-        [mockSpineIndicatorWithHealthData],
-        [mockSpineIndicatorDocument],
-        [mockSpineQuartileData],
+        [testDataWithoutGroup],
+        [testMeta],
+        [testQuartile],
         areasSelected,
         selectedGroupCode
       );
-      const expected = { ...mockSpineIndicatorData, groupData: null };
-      expect(result).toEqual([expected]);
+      const [row1] = result;
+      expect(row1.groupData).toBeUndefined();
     });
 
     it('should return spine chart row data when indicator meta is missing', () => {
-      const areasSelected: string[] = ['A1425'];
-      const selectedGroupCode: string = '90210';
       const result = buildSpineChartIndicatorData(
-        [mockSpineIndicatorWithHealthDataWithGroup],
+        [testDataWithoutGroup],
         [],
-        [mockSpineQuartileData],
+        [testQuartile],
         areasSelected,
         selectedGroupCode
       );
 
-      // value unit is the only thing we lose is indicator meta is missing
-      const expected = { ...mockSpineIndicatorData, valueUnit: '' };
-      expect(result).toEqual([expected]);
+      const [row1] = result;
+      expect(row1.valueUnit).toEqual('');
     });
 
     it('should return [] if indicators are missing', () => {
-      const areasSelected: string[] = ['A1425'];
-      const selectedGroupCode: string = '90210';
       const result = buildSpineChartIndicatorData(
         [],
-        [mockSpineIndicatorDocument],
-        [mockSpineQuartileData],
+        [testMeta],
+        [testQuartile],
         areasSelected,
         selectedGroupCode
       );
@@ -96,24 +116,20 @@ describe('spineChartTableHelpers tests', () => {
     });
 
     it('should return [] if areas do not match', () => {
-      const areasSelected: string[] = ['A142xxx'];
-      const selectedGroupCode: string = '90210';
       const result = buildSpineChartIndicatorData(
         [mockSpineIndicatorWithHealthDataWithGroup],
         [mockSpineIndicatorDocument],
         [mockSpineQuartileData],
-        areasSelected,
+        ['abc'],
         selectedGroupCode
       );
-      expect(result[0]).toHaveProperty('areasHealthData', []);
+      expect(result).toEqual([]);
     });
 
     it('should return [] if quartiles are missing', () => {
-      const areasSelected: string[] = ['A1425'];
-      const selectedGroupCode: string = '90210';
       const result = buildSpineChartIndicatorData(
-        [mockSpineIndicatorWithHealthDataWithGroup],
-        [mockSpineIndicatorDocument],
+        [testDataWithoutGroup],
+        [testMeta],
         [],
         areasSelected,
         selectedGroupCode
@@ -122,29 +138,21 @@ describe('spineChartTableHelpers tests', () => {
     });
 
     it('should return [] if area health data is missing', () => {
-      const areasSelected: string[] = ['A1425'];
-      const selectedGroupCode: string = '90210';
       const result = buildSpineChartIndicatorData(
-        [mockSpineIndicatorWithNoHealthData],
-        [mockSpineIndicatorDocument],
-        [mockSpineQuartileData],
+        [{ ...testDataWithGroup, areaHealthData: [] }],
+        [testMeta],
+        [testQuartile],
         areasSelected,
         selectedGroupCode
       );
-      expect(result[0]).toHaveProperty('areasHealthData', []);
+      expect(result).toEqual([]);
     });
 
     it('should return [] if indicatorData is missing id', () => {
-      const areasSelected: string[] = ['A1425'];
-      const selectedGroupCode: string = '90210';
-      const indicatorWithMissingId = {
-        ...mockSpineIndicatorWithHealthDataWithGroup,
-        indicatorId: undefined,
-      };
       const result = buildSpineChartIndicatorData(
-        [indicatorWithMissingId],
-        [mockSpineIndicatorDocument],
-        [mockSpineQuartileData],
+        [{ ...testDataWithGroup, indicatorId: undefined }],
+        [testMeta],
+        [testQuartile],
         areasSelected,
         selectedGroupCode
       );

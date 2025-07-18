@@ -104,12 +104,10 @@ export default async function TwoOrMoreIndicatorsAreasView({
     !Object.keys(seedData).includes(quartilesKey)
   ) {
     try {
-      seedData[quartilesKey] = (
-        await indicatorApi.indicatorsQuartilesGet(
-          quartilesParams,
-          API_CACHE_CONFIG
-        )
-      ).filter((q) => q.isAggregate === true);
+      seedData[quartilesKey] = await indicatorApi.indicatorsQuartilesGet(
+        quartilesParams,
+        API_CACHE_CONFIG
+      ); //.filter((q) => q.isAggregate === true);
     } catch (e) {
       console.error('error getting quartile data', e);
     }

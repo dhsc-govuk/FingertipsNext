@@ -28,30 +28,22 @@ export interface SpineChartTableProps {
   benchmarkToUse: string;
 }
 
-const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
-  indicatorData.toSorted((a, b) =>
-    a.indicatorName?.localeCompare(b.indicatorName, 'en', {
-      sensitivity: 'base',
-    })
-  );
-
 export function SpineChartTable({
   indicatorData,
   benchmarkToUse,
 }: Readonly<SpineChartTableProps>) {
-  const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
-  const areaNames = sortedData
+  const areaNames = indicatorData
     .at(0)
     ?.areasHealthData.map((areaHealthData) => areaHealthData?.areaName ?? '');
 
   const csvData = useMemo(() => {
-    return convertSpineChartTableToCsv(sortedData);
-  }, [sortedData]);
+    return convertSpineChartTableToCsv(indicatorData);
+  }, [indicatorData]);
 
   if (!indicatorData.length || !areaNames) return null;
 
-  const groupName = sortedData[0].groupData?.areaName;
+  const groupName = indicatorData[0].groupData?.areaName;
   const title = `Area profile for ${areaNames.join(' and ')}`;
 
   const StyledTable =
@@ -76,11 +68,11 @@ export function SpineChartTable({
             <StyledTable>
               <SpineChartTableHeader
                 areaNames={areaNames}
-                groupName={sortedData[0].groupData?.areaName ?? 'Group'}
+                groupName={indicatorData[0].groupData?.areaName ?? 'Group'}
                 benchmarkToUse={benchmarkToUse}
               />
-              {sortedData.map((indicatorData) => (
-                <React.Fragment key={indicatorData.indicatorId}>
+              {indicatorData.map((indicatorData) => (
+                <React.Fragment key={indicatorData.rowId}>
                   <SpineChartTableRow
                     indicatorData={indicatorData}
                     twoAreasRequested={areaNames.length > 1}
