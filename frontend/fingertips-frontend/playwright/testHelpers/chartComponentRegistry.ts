@@ -34,49 +34,49 @@ export const allComponents: ChartComponentDefinition[] = [
   {
     chartComponentLocator: ChartPage.inequalitiesForSingleTimePeriodComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasInequalitiesTimePeriodDropDown: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
-      hasInequalitiesExpander: true,
     },
   },
   {
     chartComponentLocator: ChartPage.inequalitiesTrendComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
-      hasInequalitiesExpander: true,
     },
   },
   {
     chartComponentLocator: ChartPage.inequalitiesLineChartComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasPNGExport: true,
       hasSVGExport: true,
       hasInequalityTypeDropDown: true,
       isWideComponent: true,
       hasConfidenceIntervals: true,
-      hasInequalitiesExpander: true,
     },
   },
   {
     chartComponentLocator: ChartPage.inequalitiesBarChartTableComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasInequalityTypeDropDown: true,
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
-      hasInequalitiesExpander: true,
     },
   },
   {
     chartComponentLocator: ChartPage.inequalitiesLineChartTableComponent,
     chartComponentProps: {
+      hasInequalitiesExpander: true,
       hasInequalityTypeDropDown: true,
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
-      hasInequalitiesExpander: true,
     },
   },
   {

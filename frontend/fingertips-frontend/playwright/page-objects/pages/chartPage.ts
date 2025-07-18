@@ -151,6 +151,10 @@ export default class ChartPage extends AreaFilter {
           await this.selectTabForComponent(chartComponentLocator),
       },
       {
+        condition: chartComponentProps.hasInequalitiesExpander,
+        action: async () => await this.expandInequalitiesSection(),
+      },
+      {
         condition: chartComponentProps.hasInequalitiesTimePeriodDropDown,
         action: async () => await this.selectLastTimePeriodOption(),
       },
@@ -168,10 +172,6 @@ export default class ChartPage extends AreaFilter {
       {
         condition: chartComponentProps.hasDetailsExpander,
         action: async () => await this.expandDetailsSection(),
-      },
-      {
-        condition: chartComponentProps.hasInequalitiesExpander,
-        action: async () => await this.expandInequalitiesSection(),
       },
       {
         condition: chartComponentProps.isWideComponent,
