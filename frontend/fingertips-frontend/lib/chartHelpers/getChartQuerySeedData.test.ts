@@ -9,7 +9,6 @@ import {
   ApiClientFactory,
 } from '../apiClient/apiClientFactory';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { getHealthDataForIndicator } from '../ViewsHelpers';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
