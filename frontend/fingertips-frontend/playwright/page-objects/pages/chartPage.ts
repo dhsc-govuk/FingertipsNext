@@ -8,7 +8,11 @@ import {
   PersistentCsvHeaders,
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
-import { ChartComponentDefinition } from '../../testHelpers/testDefinitions';
+import {
+  ChartComponentDefinition,
+  ComponentInteractionConfig,
+  SignInAs,
+} from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -90,7 +94,8 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[],
     selectedAreaFilters: AreaFilters,
     checkExports: boolean,
-    typeOfInequalityToSelect: InequalitiesTypes
+    typeOfInequalityToSelect: InequalitiesTypes,
+    signInAsUserToCheckUnpublishedData: SignInAs
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -112,15 +117,17 @@ export default class ChartPage extends AreaFilter {
     );
 
     for (const visibleComponent of visibleComponents) {
-      await this.handleComponentInteractions(
-        visibleComponent,
+      const config: ComponentInteractionConfig = {
+        component: visibleComponent,
         selectedIndicators,
         areaMode,
         indicatorMode,
         selectedAreaFilters,
         checkExports,
-        typeOfInequalityToSelect
-      );
+        typeOfInequalityToSelect,
+        signInAsUserToCheckUnpublishedData,
+      };
+      await this.handleComponentInteractions(config);
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
         testName
@@ -133,14 +140,19 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async handleComponentInteractions(
-    component: ChartComponentDefinition,
-    selectedIndicators: SimpleIndicatorDocument[],
-    areaMode: AreaMode,
-    indicatorMode: IndicatorMode,
-    selectedAreaFilters: AreaFilters,
-    checkExports: boolean,
-    typeOfInequalityToSelect: InequalitiesTypes
+    config: ComponentInteractionConfig
   ) {
+    const {
+      component,
+      selectedIndicators,
+      areaMode,
+      indicatorMode,
+      selectedAreaFilters,
+      checkExports,
+      typeOfInequalityToSelect,
+      signInAsUserToCheckUnpublishedData,
+    } = config;
+
     const { chartComponentLocator, chartComponentProps } = component;
 
     const interactions = [
@@ -218,6 +230,19 @@ export default class ChartPage extends AreaFilter {
         condition: chartComponentProps.hasConfidenceIntervals,
         action: async () =>
           await this.toggleConfidenceInterval(chartComponentLocator),
+      },
+      {
+        condition:
+          chartComponentProps.canShowUnpublishedData &&
+          (selectedIndicators[0].unpublishedDataYear ||
+            selectedIndicators[1].unpublishedDataYear ||
+            selectedIndicators[2].unpublishedDataYear),
+        action: async () =>
+          await this.verifyUnpublishedDataDisplayed(
+            chartComponentLocator,
+            signInAsUserToCheckUnpublishedData,
+            selectedIndicators
+          ),
       },
     ];
 
@@ -814,5 +839,31 @@ export default class ChartPage extends AreaFilter {
     replaceWith: string = ''
   ): string {
     return inputString.replaceAll('-component', replaceWith);
+  }
+
+  async verifyUnpublishedDataDisplayed(
+    chartComponentLocator: string,
+    signInAsUserToCheckUnpublishedData: SignInAs,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    const unpublishedDataYear =
+      selectedIndicators[0].unpublishedDataYear ||
+      selectedIndicators[1].unpublishedDataYear ||
+      selectedIndicators[2].unpublishedDataYear;
+    if (!unpublishedDataYear) {
+      throw new Error(
+        `Selected indicator ${selectedIndicators[0].indicatorID} should have an unpublished data year stored in core_journey_config.ts.`
+      );
+    }
+
+    // Check that the unpublished data year is displayed or not based on the user type
+    const checkForPresenceOrAbsenceOfUnpublishedDataYear =
+      signInAsUserToCheckUnpublishedData.administrator ||
+      signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions;
+    await expect(
+      this.page
+        .getByTestId(chartComponentLocator)
+        .getByText(String(unpublishedDataYear))
+    ).toBeVisible({ visible: checkForPresenceOrAbsenceOfUnpublishedDataYear });
   }
 }
