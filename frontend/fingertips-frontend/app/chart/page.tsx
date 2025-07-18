@@ -13,7 +13,6 @@ import { ErrorPage } from '@/components/pages/error';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   API_CACHE_CONFIG,
@@ -28,6 +27,7 @@ import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
+import { getChartQuerySeedData } from '../../lib/chartHelpers/getChartQuerySeedData';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -100,29 +100,20 @@ export default async function ChartPage(
       lineChartOverTimeIsRequired(searchState) ||
       compareAreasTableIsRequired(searchState)
     ) {
-      let healthData: IndicatorWithHealthDataForArea | undefined;
-      let queryKeyLineChart;
       const apiRequestParams = oneIndicatorRequestParams(
         searchState,
         availableAreas ?? []
       );
+      const queryKeyLineChart = queryKeyFromRequestParams(
+        healthEndpoint,
+        apiRequestParams
+      );
+
       try {
-        queryKeyLineChart = queryKeyFromRequestParams(
-          healthEndpoint,
-          apiRequestParams
+        const healthData = await getChartQuerySeedData(
+          apiRequestParams,
+          session
         );
-        if (session) {
-          healthData =
-            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-              apiRequestParams,
-              API_CACHE_CONFIG
-            );
-        } else {
-          healthData = await indicatorApi.getHealthDataForAnIndicator(
-            apiRequestParams,
-            API_CACHE_CONFIG
-          );
-        }
         seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
@@ -136,6 +127,7 @@ export default async function ChartPage(
       stateManager.setState(updatedSearchState);
     }
 
+    // TODO: #1034 add logic for unpublished data
     // seed data for inequalities
     const inequalitiesQueryParams = inequalitiesRequestParams(searchState);
     const inequalitiesQueryKey = queryKeyFromRequestParams(
