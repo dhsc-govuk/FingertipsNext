@@ -27,6 +27,10 @@ batches:
     responses:
       "200":
         description: The batch of unpublished data has been deleted successfully.
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas.yaml#/Batch"
       "400":
         $ref: "../responses.yaml#/BadRequest"
       "404":
