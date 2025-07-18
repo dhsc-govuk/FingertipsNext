@@ -297,11 +297,13 @@ paths:
       - $ref: '#/components/parameters/inequalities'
       - $ref: '#/components/parameters/latest_only'
     get:
+      security:
+        - bearerAuth: []
       tags:
         - indicators
       summary: Get published and unpublished health data for an indicator
       description: |-
-        Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator.
+        Authorised user can Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator.
         The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters.
         Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
       responses:
@@ -313,6 +315,10 @@ paths:
                 $ref: '#/components/schemas/IndicatorWithHealthDataForArea'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
@@ -561,10 +567,12 @@ components:
             Too many years:
               value:
                 message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
-    UserBadRequest:
-      description: User token was missing required claims.
     Unauthorized:
       description: Authorization information is missing or invalid.
+    Forbidden:
+      description: Authorization forbids access.
+    UserBadRequest:
+      description: User token was missing required claims.
   parameters:
     hierarchy_type:
       in: query
