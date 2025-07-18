@@ -19,6 +19,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     private const int IndicatorId = 41101;
     private const string AdminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
     private const string Indicator41101GroupRoleId = "90ac52f4-8513-4050-873a-24340bc89bd3";
+    private const string Indicator383GroupRoleId = "3b25520b-4cd5-4f45-8718-a0c8bcbcbf26";
     private const string IntegrationTestFileName = "integration-test.csv";
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
     private readonly string _blobName;
@@ -65,7 +66,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     [Theory]
     [InlineData(AdminRoleGuid)]
     [InlineData(Indicator41101GroupRoleId)]
-    public async Task AuthorisedRequestToDataManagementEndpointShouldUploadAFile(string userRoleId)
+    [InlineData(Indicator41101GroupRoleId, Indicator383GroupRoleId)]
+    public async Task AuthorisedRequestToDataManagementEndpointShouldUploadAFile(params string[] userRoleIds)
     {
         // Arrange
         var apiClient = _factory.CreateClient();
@@ -85,7 +87,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken(userRoleIds));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
