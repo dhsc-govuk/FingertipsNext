@@ -22,12 +22,13 @@ export const populationPyramidRequestParams = (
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.GroupAreaSelected]: groupAreaSelected,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = searchState;
 
   const areaCodes = determineAreaCodes(
     areasSelected,
-    selectedGroupCode,
+    groupAreaSelected,
     availableAreas
   );
 
