@@ -85,6 +85,8 @@ indicators_by_indicator_id_data:
         $ref: "../responses.yaml#/InternalServerError"
     operationId: getHealthDataForAnIndicator
   post:
+    security:
+      - bearerAuth: []
     tags:
       - indicators
     summary: add a batch of new data for an indicator

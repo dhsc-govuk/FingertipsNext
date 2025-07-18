@@ -1,7 +1,7 @@
 user_info:
   get:
     security:
-      - bearerAuth: [] 
+      - bearerAuth: []
     tags:
       - user
     summary: Get User Info
@@ -31,7 +31,7 @@ indicator_permissions:
         required: true
         description: ID of the indicator to query against
     security:
-      - bearerAuth: [] 
+      - bearerAuth: []
     tags:
       - user
     summary: Check Indicator Permissions
