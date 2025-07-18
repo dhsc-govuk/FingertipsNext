@@ -38,7 +38,7 @@ public class DataManagementBatchController(IDataManagementService dataManagement
                 Message = "batchId is required"
             });
 
-        //TODO: Add user ID
+        // User ID will be added under DHSCFT-930
         var result = await dataManagementService.DeleteBatchAsync(batchId, Guid.Empty);
 
         var message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();

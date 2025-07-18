@@ -24,7 +24,7 @@ public class DataManagementServiceTests
     private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
     private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
     private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
-    private readonly DataManagementMapper _mapper = Substitute.For<DataManagementMapper>();
+    private readonly IDataManagementMapper _mapper = Substitute.For<IDataManagementMapper>();
     private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
     private readonly IHealthDataClient _healthDataClient = Substitute.For<IHealthDataClient>();
     private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
@@ -58,6 +58,16 @@ public class DataManagementServiceTests
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
+        var expectedBatch = BatchExamples.Batch with
+        {
+            IndicatorId = StubIndicatorId,
+            CreatedAt = DateTime.UtcNow,
+            Status = BatchStatus.Received,
+            OriginalFileName = "ValidHeadersAndValidDataRows.csv",
+            PublishedAt = publishedAt,
+            UserId = Guid.Empty.ToString()
+        };
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(expectedBatch);
 
         // Act
         await using (var stream = File.Open(path, FileMode.Open))
@@ -171,7 +181,22 @@ public class DataManagementServiceTests
                 Status = BatchStatus.Deleted
             }
         };
+
+        var expectedBatches = new[]
+        {
+            BatchExamples.Batch with
+            {
+                IndicatorId = 1234,
+                Status = BatchStatus.Received
+            },
+            BatchExamples.Batch with
+            {
+                IndicatorId = 5678,
+                Status = BatchStatus.Deleted
+            }
+        };
         _repository.GetBatchesByIdsAsync(indicatorIds).Returns(batchesInDb);
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(x => expectedBatches[0], x => expectedBatches[1]);
 
         // Act
         var batches = await _service.ListBatches(indicatorIds);
@@ -179,16 +204,8 @@ public class DataManagementServiceTests
         // Assert
         var batchList = batches.ToList();
         batchList.Count.ShouldBe(2);
-        batchList.ShouldContain(BatchExamples.Batch with
-        {
-            IndicatorId = 1234,
-            Status = BatchStatus.Received
-        });
-        batchList.ShouldContain(BatchExamples.Batch with
-        {
-            IndicatorId = 5678,
-            Status = BatchStatus.Deleted
-        });
+        batchList.ShouldContain(expectedBatches[0]);
+        batchList.ShouldContain(expectedBatches[1]);
     }
 
     [Fact]
@@ -208,7 +225,23 @@ public class DataManagementServiceTests
                 Status = BatchStatus.Deleted
             }
         };
+
+        var expectedBatches = new[]
+        {
+            BatchExamples.Batch with
+            {
+                IndicatorId = 1234,
+                Status = BatchStatus.Received
+            },
+            BatchExamples.Batch with
+            {
+                IndicatorId = 5678,
+                Status = BatchStatus.Deleted
+            }
+        };
         _repository.GetAllBatchesAsync().Returns(batchesInDb);
+
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(x => expectedBatches[0], x => expectedBatches[1]);
 
         // Act
         var batches = await _service.ListBatches([]);
@@ -216,16 +249,8 @@ public class DataManagementServiceTests
         // Assert
         var batchList = batches.ToList();
         batchList.Count.ShouldBe(2);
-        batchList.ShouldContain(BatchExamples.Batch with
-        {
-            IndicatorId = 1234,
-            Status = BatchStatus.Received
-        });
-        batchList.ShouldContain(BatchExamples.Batch with
-        {
-            IndicatorId = 5678,
-            Status = BatchStatus.Deleted
-        });
+        batchList.ShouldContain(expectedBatches[0]);
+        batchList.ShouldContain(expectedBatches[1]);
     }
 
     [Fact]
@@ -246,8 +271,10 @@ public class DataManagementServiceTests
             OriginalFileName = "upload.csv",
             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
             PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0).AddYears(1),
+            DeletedAt = DateTime.UtcNow,
+            DeletedUserId = Guid.Empty,
             UserId = Guid.Empty,
-            Status = BatchStatus.Received
+            Status = BatchStatus.Deleted
         };
 
         var expected = new Batch
@@ -257,12 +284,15 @@ public class DataManagementServiceTests
             OriginalFileName = model.OriginalFileName,
             CreatedAt = model.CreatedAt,
             PublishedAt = model.PublishedAt,
+            DeletedAt = model.DeletedAt,
             UserId = model.UserId.ToString(),
+            DeletedUserId = model.DeletedUserId.ToString(),
             Status = model.Status
         };
 
         _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(model);
         _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(expected);
 
         // Act
         var result = await _service.DeleteBatchAsync("123", Guid.Empty);

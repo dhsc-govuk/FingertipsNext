@@ -255,7 +255,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
             {
                 BatchId = "12345_2017-06-30T14:22:37.123",
                 IndicatorId = 12345,
-                PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
+                PublishedAt = new DateTime(2125, 10, 9, 0, 0, 0, 0)
             },
             batch with
             {

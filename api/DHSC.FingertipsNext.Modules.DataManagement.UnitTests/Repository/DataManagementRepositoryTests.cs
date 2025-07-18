@@ -181,10 +181,10 @@ public class DataManagementRepositoryTests : IDisposable
     public async Task EnsureNonExistentBatchIsNotSoftDeleted()
     {
         // Act
-        // Assert
         var exception = await Should.ThrowAsync<ArgumentException>(() =>
             _dataManagementRepository.DeleteBatchAsync("123", Guid.Empty));
 
+        // Assert
         exception.Message.ShouldBe("BatchNotFound");
     }
 
@@ -196,10 +196,10 @@ public class DataManagementRepositoryTests : IDisposable
         await _dbContext.SaveChangesAsync();
 
         // Act
-        // Assert
         var exception = await Should.ThrowAsync<ArgumentException>(() =>
             _dataManagementRepository.DeleteBatchAsync(_publishedBatchFor41101.BatchId, Guid.Empty));
 
+        // Assert
         exception.Message.ShouldBe("BatchPublished");
     }
 
@@ -211,10 +211,10 @@ public class DataManagementRepositoryTests : IDisposable
         await _dbContext.SaveChangesAsync();
 
         // Act
-        // Assert
         var exception = await Should.ThrowAsync<ArgumentException>(() =>
             _dataManagementRepository.DeleteBatchAsync(_deletedBatchFor41101.BatchId, Guid.Empty));
 
+        // Assert
         exception.Message.ShouldBe("BatchDeleted");
     }
 }
