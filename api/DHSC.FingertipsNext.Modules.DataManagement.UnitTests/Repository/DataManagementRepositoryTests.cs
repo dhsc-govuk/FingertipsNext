@@ -39,6 +39,17 @@ public class DataManagementRepositoryTests : IDisposable
         PublishedAt = new DateTime(2025, 1, 1, 12, 00, 00)
     };
 
+    private readonly BatchModel _deletedBatchFor41101 = BatchExamples.BatchModel with
+    {
+        BatchId = "41101_2025-02-01T11:00:00.000",
+        IndicatorId = 41101,
+        CreatedAt = new DateTime(2025, 2, 1, 11, 00, 00),
+        PublishedAt = DateTime.UtcNow.AddYears(1),
+        DeletedAt = DateTime.UtcNow,
+        Status = BatchStatus.Deleted
+    };
+
+
     private readonly DataManagementRepository _dataManagementRepository;
 
     private readonly DataManagementDbContext _dbContext;
@@ -187,9 +198,23 @@ public class DataManagementRepositoryTests : IDisposable
         // Act
         // Assert
         var exception = await Should.ThrowAsync<ArgumentException>(() =>
-            _dataManagementRepository.DeleteBatchAsync("41101_2025-01-01T11:00:00.000", Guid.Empty));
+            _dataManagementRepository.DeleteBatchAsync(_publishedBatchFor41101.BatchId, Guid.Empty));
 
         exception.Message.ShouldBe("BatchPublished");
     }
 
+    [Fact]
+    public async Task EnsureDeletedBatchIsNotSoftDeleted()
+    {
+        // Arrange
+        await _dbContext.AddAsync(_deletedBatchFor41101);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        // Assert
+        var exception = await Should.ThrowAsync<ArgumentException>(() =>
+            _dataManagementRepository.DeleteBatchAsync(_deletedBatchFor41101.BatchId, Guid.Empty));
+
+        exception.Message.ShouldBe("BatchDeleted");
+    }
 }

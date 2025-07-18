@@ -131,6 +131,7 @@ public class DataManagementService : IDataManagementService
         return errorMessage switch
         {
             "BatchNotFound" => new UploadHealthDataResponse(OutcomeType.NotFound, null, ["Not found"]),
+            "BatchDeleted" => new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already deleted"]),
             "BatchPublished" =>
                 new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]),
             _ => new UploadHealthDataResponse(OutcomeType.ServerError)

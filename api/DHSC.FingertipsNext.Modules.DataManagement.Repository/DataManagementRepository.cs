@@ -48,10 +48,16 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
         ArgumentException.ThrowIfNullOrEmpty(batchId);
 
         // Batch must be unpublished
-        var model = await _dbContext.Batch.Where(b => b.BatchId == batchId && b.DeletedAt == null).FirstOrDefaultAsync();
+        var model = await _dbContext.Batch.Where(b => b.BatchId == batchId).FirstOrDefaultAsync();
+
         if (model == null)
         {
             throw new ArgumentException($"BatchNotFound");
+        }
+
+        if (model.DeletedAt != null && model.Status == BatchStatus.Deleted)
+        {
+            throw new ArgumentException($"BatchDeleted");
         }
 
         if (model.PublishedAt <= DateTime.UtcNow)

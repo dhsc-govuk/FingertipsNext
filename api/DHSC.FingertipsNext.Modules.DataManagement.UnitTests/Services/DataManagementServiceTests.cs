@@ -278,10 +278,13 @@ public class DataManagementServiceTests
     [Theory]
     [InlineData("BatchNotFound", "Not found", OutcomeType.NotFound)]
     [InlineData("BatchPublished", "Batch already published", OutcomeType.ClientError)]
-    public async Task DeleteBatchShouldReturnError(string exceptionMessage, string expectedErrorMessage, OutcomeType expectedOutcome)
+    [InlineData("BatchDeleted", "Batch already deleted", OutcomeType.ClientError)]
+    public async Task DeleteBatchShouldReturnError(string exceptionMessage, string expectedErrorMessage,
+        OutcomeType expectedOutcome)
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Throws(new ArgumentException(exceptionMessage));
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>())
+            .Throws(new ArgumentException(exceptionMessage));
 
         // Act
         var result = await _service.DeleteBatchAsync("123", Guid.Empty);

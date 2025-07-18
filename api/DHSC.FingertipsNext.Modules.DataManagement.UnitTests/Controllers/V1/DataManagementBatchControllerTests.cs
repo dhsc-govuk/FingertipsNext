@@ -102,8 +102,10 @@ public class DataManagementBatchControllerTests
 
     [Theory]
     [InlineData("Batch already published", "Batch already published")]
+    [InlineData("Batch already deleted", "Batch already deleted")]
     [InlineData(null, "Invalid request")]
-    public async Task DeleteReturns400ErrorWhenServiceReturnsAClientErrorutcome(string? errors, string expectedErrorMessage)
+    public async Task DeleteReturns400ErrorWhenServiceReturnsAClientErrorutcome(string? errors,
+        string expectedErrorMessage)
     {
         // Arrange
         var listToReturn = (List<string>)[errors!];

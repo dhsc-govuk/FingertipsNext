@@ -262,6 +262,15 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
                 BatchId = "54321_2017-06-30T14:22:37.123",
                 IndicatorId = 54321,
                 PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0)
+            },
+            batch with
+            {
+                BatchId = "54321_2025-06-30T14:22:37.123",
+                IndicatorId = 54321,
+                PublishedAt = new DateTime(2030, 1, 1, 0, 0, 0, 0),
+                DeletedAt = new DateTime(2025, 7, 1, 0, 0, 0, 0),
+                CreatedAt = new DateTime(2025, 6, 30),
+                Status = BatchStatus.Deleted
             }
         ];
 
@@ -282,7 +291,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         var batchId = "12345_2017-06-30T14:22:37.123";
         using var scope = _factory.Services.CreateScope();
         var healthDataDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
-        var healthDataBeforeDelete = await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
+        var healthDataBeforeDelete =
+            await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
         healthDataBeforeDelete.ShouldBe(1);
 
         // Act
@@ -297,7 +307,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         batch.IndicatorId.ShouldBe(12345);
 
         // Ensure health data is deleted
-        var healthDataAfterDelete = await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
+        var healthDataAfterDelete =
+            await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
         healthDataAfterDelete.ShouldBe(0);
     }
 
@@ -331,6 +342,22 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         var error = await response.Content.ReadFromJsonAsync<SimpleError>();
         error.Message.ShouldBe("Batch already published");
+    }
+
+    [Fact]
+    public async Task DeleteBatchShouldReturn400ResponseWhenBatchIsAlreadyDeleted()
+    {
+        // Arrange
+        var apiClient = GetApiClient(_factory);
+        var batchId = "54321_2025-06-30T14:22:37.123";
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        var error = await response.Content.ReadFromJsonAsync<SimpleError>();
+        error.Message.ShouldBe("Batch already deleted");
     }
 
     private static void InitialiseDb(SqlConnection sqlConnection)
