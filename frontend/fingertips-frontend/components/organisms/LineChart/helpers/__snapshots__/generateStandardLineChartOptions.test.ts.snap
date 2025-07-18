@@ -264,7 +264,7 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
 }
 `;
 
-exports[`generateStandardLineChartOptions > should include england years before or after the areas have data 1`] = `
+exports[`generateStandardLineChartOptions > should not include england years before or after the areas have data 1`] = `
 {
   "accessibility": {
     "description": "accessibility",
@@ -302,9 +302,6 @@ exports[`generateStandardLineChartOptions > should include england years before 
       },
       "data": [
         [
-          null,
-        ],
-        [
           703.420759,
         ],
         [
@@ -324,9 +321,6 @@ exports[`generateStandardLineChartOptions > should include england years before 
         "areaCode": "P001",
       },
       "data": [
-        [
-          null,
-        ],
         [
           301,
         ],
@@ -348,9 +342,6 @@ exports[`generateStandardLineChartOptions > should include england years before 
       },
       "data": [
         [
-          null,
-        ],
-        [
           703.420759,
         ],
         [
@@ -368,7 +359,7 @@ exports[`generateStandardLineChartOptions > should include england years before 
     "style": {
       "display": "none",
     },
-    "text": "Hospital admissions from 1999 to 2006",
+    "text": "Hospital admissions from 2004 to 2006",
   },
   "tooltip": {
     "formatter": [Function],
@@ -378,7 +369,6 @@ exports[`generateStandardLineChartOptions > should include england years before 
   "xAxis": {
     "allowDecimals": false,
     "categories": [
-      "1999",
       "2004",
       "2006",
     ],

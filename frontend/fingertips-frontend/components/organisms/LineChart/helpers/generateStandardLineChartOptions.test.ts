@@ -53,7 +53,7 @@ describe('generateStandardLineChartOptions', () => {
     expect(generatedOptions).toMatchSnapshot();
   });
 
-  it('should include england years before or after the areas have data', () => {
+  it('should not include england years before or after the areas have data', () => {
     const mockBenchmarkAreaWithEarlyYear: HealthDataForArea = {
       ...mockEnglandData,
       healthData: [
@@ -90,7 +90,7 @@ describe('generateStandardLineChartOptions', () => {
         accessibilityLabel: 'accessibility',
       }
     );
-    expect((generatedOptions.series?.[0] as any).data).toHaveLength(3);
+    expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
     expect(generatedOptions).toMatchSnapshot();
   });
 
