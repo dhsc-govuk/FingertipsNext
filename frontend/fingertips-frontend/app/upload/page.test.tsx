@@ -7,6 +7,14 @@ import { mockBatch } from '@/mock/data/mockBatch';
 const mockBatchesApi = mockDeep<BatchesApi>();
 ApiClientFactory.getBatchesApiClient = () => mockBatchesApi;
 
+vi.mock('@/lib/auth', () => {
+  return {
+    auth: vi.fn(),
+    signIn: vi.fn(),
+    signOut: vi.fn(),
+  };
+});
+
 describe('Upload page component', () => {
   it('should make an API call to fetch batches', async () => {
     mockBatchesApi.getBatches.mockResolvedValue([mockBatch()]);
