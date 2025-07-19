@@ -222,6 +222,7 @@ describe('Chart Page', () => {
       ).toBe(false);
     });
 
+    // TODO: change to _valid_ session
     it('should seed with unpublished data if there is a session', async () => {
       (auth as Mock).mockImplementation(
         vi.fn().mockResolvedValue({ expires: 'some string' })
@@ -256,5 +257,9 @@ describe('Chart Page', () => {
         )
       ).toBe(true);
     });
+
+    it.todo(
+      'should seed without unpublished data if there is an invalid session'
+    );
   });
 });

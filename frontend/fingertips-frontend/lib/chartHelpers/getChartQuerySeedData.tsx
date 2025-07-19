@@ -18,7 +18,8 @@ export async function getChartQuerySeedData(
         apiRequestParams,
         API_CACHE_CONFIG
       )
-    : await indicatorApi.getHealthDataForAnIndicator(
+    : // TODO if this fails due to invalid session then fall back to getting published only
+      await indicatorApi.getHealthDataForAnIndicator(
         apiRequestParams,
         API_CACHE_CONFIG
       );
