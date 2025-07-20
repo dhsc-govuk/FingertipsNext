@@ -1,16 +1,22 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockAuth } from '@/mock/utils/mockAuth';
 import {
   IndicatorsApi,
   ResponseError,
 } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { UTCDateMini } from '@date-fns/utc';
+import { Session } from 'next-auth';
+import { revalidatePath } from 'next/cache';
 import { mockDeep } from 'vitest-mock-extended';
 import { uploadFile } from './uploadActions';
-import { UTCDateMini } from '@date-fns/utc';
-import { revalidatePath } from 'next/cache';
 
 vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
 }));
+
+const mockSession = mockDeep<Session>();
+mockAuth.mockResolvedValue(mockSession);
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -63,16 +69,21 @@ describe('uploadActions', () => {
       indicatorId: expectedIndicatorId,
       file: expectedFile,
     });
+    const expectedAccessToken = 'access-token';
+    mockSession.accessToken = expectedAccessToken;
 
     await uploadFile(undefined, formData);
 
     expect(
       mockIndicatorsApi.indicatorsIndicatorIdDataPostRaw
-    ).toHaveBeenCalledWith({
-      indicatorId: expectedIndicatorId,
-      file: expectedFile,
-      publishedAt: new UTCDateMini(2017, 5, 30),
-    });
+    ).toHaveBeenCalledWith(
+      {
+        indicatorId: expectedIndicatorId,
+        file: expectedFile,
+        publishedAt: new UTCDateMini(2017, 5, 30),
+      },
+      { headers: { Authorization: `bearer ${expectedAccessToken}` } }
+    );
   });
 
   it('should return the expected message when the API call succeeds', async () => {

@@ -1,6 +1,7 @@
 import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 
@@ -15,6 +16,11 @@ export const mockIndicatorData: HealthDataForArea[] = [
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2006-04-01'),
+          to: new Date('2007-03-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -27,6 +33,11 @@ export const mockIndicatorData: HealthDataForArea[] = [
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-04-01'),
+          to: new Date('2005-03-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -45,6 +56,11 @@ export const mockIndicatorData: HealthDataForArea[] = [
         upperCi: 800.32766,
         value: 786.27434,
         year: 2010,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2010-04-01'),
+          to: new Date('2011-03-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -57,6 +73,11 @@ export const mockIndicatorData: HealthDataForArea[] = [
         upperCi: 420.32766,
         value: 435.420759,
         year: 2007,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2007-04-01'),
+          to: new Date('2008-03-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -75,6 +96,11 @@ export const mockIndicatorData: HealthDataForArea[] = [
         upperCi: 500.32766,
         value: 478.27434,
         year: 2020,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2020-04-01'),
+          to: new Date('2021-03-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -87,6 +113,11 @@ export const mockIndicatorData: HealthDataForArea[] = [
         upperCi: 250.32766,
         value: 234.420759,
         year: 2012,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2012-04-01'),
+          to: new Date('2013-03-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -107,6 +138,11 @@ export const mockEnglandData: HealthDataForArea = {
       upperCi: 578.32766,
       value: 278.29134,
       year: 2006,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2006-04-01'),
+        to: new Date('2007-03-31'),
+      },
       sex: personsSex,
       ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -119,6 +155,11 @@ export const mockEnglandData: HealthDataForArea = {
       upperCi: 578.32766,
       value: 703.420759,
       year: 2004,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2004-04-01'),
+        to: new Date('2005-03-31'),
+      },
       sex: personsSex,
       ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -138,6 +179,11 @@ export const mockParentData: HealthDataForArea = {
       upperCi: 400,
       value: 300,
       year: 2006,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2006-04-01'),
+        to: new Date('2007-03-31'),
+      },
       sex: personsSex,
       ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -150,6 +196,11 @@ export const mockParentData: HealthDataForArea = {
       upperCi: 401,
       value: 301,
       year: 2004,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2004-04-01'),
+        to: new Date('2005-03-31'),
+      },
       sex: personsSex,
       ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,

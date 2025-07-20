@@ -9,6 +9,8 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
 public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
 {
+    private const string Indicator41101GroupRoleId = "90ac52f4-8513-4050-873a-24340bc89bd3";
+
     private static readonly Batch BatchFor41101 = new()
     {
         BatchId = "41101_2020-03-07T14:22:37.123",

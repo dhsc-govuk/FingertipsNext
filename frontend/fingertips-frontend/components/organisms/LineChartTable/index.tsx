@@ -3,6 +3,7 @@
 import { Table } from 'govuk-react';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
@@ -25,8 +26,8 @@ import { BenchmarkLabel } from '@/components/organisms/BenchmarkLabel';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import {
   getConfidenceLimitNumber,
-  getFirstYearForAreas,
-  getLatestYearForAreas,
+  getFirstPeriodForAreas,
+  getLatestPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -41,6 +42,10 @@ import {
   StyledAreaNameHeader,
 } from './BenchmarkingCellWrapper';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
+import {
+  convertDateToNumber,
+  formatDatePointLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export enum LineChartTableHeadingEnum {
   AreaPeriod = 'Period',
@@ -61,6 +66,7 @@ export interface LineChartTableProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
   benchmarkToUse?: string;
+  frequency: Frequency;
 }
 
 export interface LineChartTableRowData {
@@ -198,7 +204,8 @@ const getConfidenceLimitCellSpan = (index: number): number =>
   index === 0 ? 4 : 3;
 
 interface AreaDataMatchedByYear {
-  year: number;
+  dateAsNumber: number;
+  period: string;
   areas: (HealthDataPoint | null)[];
   benchmarkValue?: number;
   groupValue?: number;
@@ -213,6 +220,7 @@ export function LineChartTable({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
   benchmarkToUse,
+  frequency,
 }: Readonly<LineChartTableProps>) {
   const englandColumnPrefix =
     benchmarkToUse !== areaCodeForEngland ? '' : 'Benchmark: ';
@@ -236,30 +244,39 @@ export function LineChartTable({
     groupIndicatorData &&
     groupIndicatorData?.healthData?.length > 0;
 
-  const allHealthPointYears = [
+  const allHealthPointDatesAsNumbers = [
     ...(englandIndicatorData?.healthData ?? []),
     ...(groupIndicatorData?.healthData ?? []),
     ...healthIndicatorData.flatMap((area) => area.healthData),
-  ].map(({ year }) => year);
+  ].map(({ datePeriod }) => convertDateToNumber(datePeriod?.from));
 
-  const firstYear = getFirstYearForAreas(healthIndicatorData);
-  const lastYear = getLatestYearForAreas(healthIndicatorData);
-  if (!firstYear || !lastYear) {
+  const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
+  const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
+  if (!firstDateAsNumber || !lastDateAsNumber) {
     return null;
   }
 
-  const allYears = [...new Set(allHealthPointYears)]
-    .filter((year) => year >= firstYear && year <= lastYear)
+  const allDatesAsNumbers = [...new Set(allHealthPointDatesAsNumbers)]
+    .filter(
+      (dateAsNumber) =>
+        dateAsNumber >= firstDateAsNumber && dateAsNumber <= lastDateAsNumber
+    )
     .sort((a, b) => a - b);
 
-  const rowData = allYears
-    .map((year) => {
+  const rowData = allDatesAsNumbers
+    .map((dateAsNumber) => {
       const englandHealthPoint = englandIndicatorData?.healthData.find(
-        (healthPoint) => healthPoint.year === year
+        (healthPoint) =>
+          convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
       );
 
+      const datePeriod = englandHealthPoint?.datePeriod;
+
+      const formattedPeriod = formatDatePointLabel(datePeriod, frequency, 1);
+
       const row: AreaDataMatchedByYear = {
-        year,
+        dateAsNumber,
+        period: formattedPeriod,
         areas: [],
         benchmarkValue: englandHealthPoint?.value,
       };
@@ -267,20 +284,22 @@ export function LineChartTable({
       // find a health point for each area for the given year
       healthIndicatorData.forEach((areaData) => {
         const matchByYear = areaData.healthData.find(
-          (healthPoint) => healthPoint.year === year
+          (healthPoint) =>
+            convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
         );
         row.areas.push(matchByYear ?? null);
       });
 
       // find the group value for the given year
       const groupMatchedByYear = groupIndicatorData?.healthData.find(
-        (healthPoint) => healthPoint.year === year
+        (healthPoint) =>
+          convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
       );
       row.groupValue = groupMatchedByYear?.value;
 
       return row;
     })
-    .toSorted((a, b) => a.year - b.year);
+    .toSorted((a, b) => a.dateAsNumber - b.dateAsNumber);
 
   const csvData = indicatorMetadata
     ? convertLineChartTableToCsvData(
@@ -424,55 +443,66 @@ export function LineChartTable({
             </>
           }
         >
-          {rowData.map(({ year, areas, benchmarkValue, groupValue }) => (
-            <Table.Row key={`lineChartTableRow-${year}`}>
-              <StyledAlignLeftStickyTableCell numeric>
-                {year}
-              </StyledAlignLeftStickyTableCell>
-              {areas.map((area, areaIndex) => (
-                <React.Fragment
-                  key={`lineChartTableRow-${year}-area-${areaIndex}`}
-                >
-                  <BenchmarkCell
-                    benchmarkComparison={area?.benchmarkComparison}
-                    benchmarkComparisonMethod={benchmarkComparisonMethod}
-                    polarity={polarity}
-                    border={areaIndex > 0}
-                  />
-                  <StyledAlignRightTableCell numeric>
-                    {formatWholeNumber(area?.count)}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {formatNumber(area?.value)}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {formatNumber(area?.lowerCi)}
-                  </StyledAlignRightTableCell>
-                  <StyledAlignRightTableCell numeric>
-                    {formatNumber(area?.upperCi)}
-                  </StyledAlignRightTableCell>
-                </React.Fragment>
-              ))}
-              {showGroupColumn ? (
-                <BenchmarkWrapper
-                  label="group"
-                  benchmarkToUse={benchmarkToUse}
-                  cellType={CellTypeEnum.Cell}
-                >
-                  {formatNumber(groupValue)}
-                </BenchmarkWrapper>
-              ) : null}
-              {showEnglandColumn ? (
-                <BenchmarkWrapper
-                  label="england"
-                  benchmarkToUse={benchmarkToUse}
-                  cellType={CellTypeEnum.Cell}
-                >
-                  {formatNumber(benchmarkValue)}
-                </BenchmarkWrapper>
-              ) : null}
-            </Table.Row>
-          ))}
+          {rowData.map(
+            ({
+              dateAsNumber: year,
+              areas,
+              benchmarkValue,
+              groupValue,
+              period,
+            }) => (
+              <Table.Row
+                key={`lineChartTableRow-${year}`}
+                data-testid={`lineChartTableRow-${year}`}
+              >
+                <StyledAlignLeftStickyTableCell numeric>
+                  {period}
+                </StyledAlignLeftStickyTableCell>
+                {areas.map((area, areaIndex) => (
+                  <React.Fragment
+                    key={`lineChartTableRow-${year}-area-${areaIndex}`}
+                  >
+                    <BenchmarkCell
+                      benchmarkComparison={area?.benchmarkComparison}
+                      benchmarkComparisonMethod={benchmarkComparisonMethod}
+                      polarity={polarity}
+                      border={areaIndex > 0}
+                    />
+                    <StyledAlignRightTableCell numeric>
+                      {formatWholeNumber(area?.count)}
+                    </StyledAlignRightTableCell>
+                    <StyledAlignRightTableCell numeric>
+                      {formatNumber(area?.value)}
+                    </StyledAlignRightTableCell>
+                    <StyledAlignRightTableCell numeric>
+                      {formatNumber(area?.lowerCi)}
+                    </StyledAlignRightTableCell>
+                    <StyledAlignRightTableCell numeric>
+                      {formatNumber(area?.upperCi)}
+                    </StyledAlignRightTableCell>
+                  </React.Fragment>
+                ))}
+                {showGroupColumn ? (
+                  <BenchmarkWrapper
+                    label="group"
+                    benchmarkToUse={benchmarkToUse}
+                    cellType={CellTypeEnum.Cell}
+                  >
+                    {formatNumber(groupValue)}
+                  </BenchmarkWrapper>
+                ) : null}
+                {showEnglandColumn ? (
+                  <BenchmarkWrapper
+                    label="england"
+                    benchmarkToUse={benchmarkToUse}
+                    cellType={CellTypeEnum.Cell}
+                  >
+                    {formatNumber(benchmarkValue)}
+                  </BenchmarkWrapper>
+                ) : null}
+              </Table.Row>
+            )
+          )}
         </StyledTable>
         <ExportOnlyWrapper>
           <ExportCopyright />

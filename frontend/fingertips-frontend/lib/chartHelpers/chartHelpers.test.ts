@@ -20,6 +20,10 @@ import {
   getFormattedLabel,
   determineAreasForBenchmarking,
   determineBenchmarkToUse,
+  getLatestPeriod,
+  getFirstPeriod,
+  getLatestPeriodForAreas,
+  getFirstPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -29,6 +33,7 @@ import {
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import {
   allAgesAge,
@@ -43,6 +48,7 @@ import {
   generateMockHealthDataForArea,
 } from './testHelpers';
 import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
+import { convertDateToNumber } from '../timePeriodHelpers/getTimePeriodLabels';
 
 const mockData: HealthDataForArea[] = [
   {
@@ -55,6 +61,11 @@ const mockData: HealthDataForArea[] = [
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2006-01-01'),
+          to: new Date('2006-12-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -67,6 +78,11 @@ const mockData: HealthDataForArea[] = [
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -79,6 +95,11 @@ const mockData: HealthDataForArea[] = [
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         sex: maleSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -102,6 +123,11 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            datePeriod: {
+              type: PeriodType.Calendar,
+              from: new Date('2004-01-01'),
+              to: new Date('2004-12-31'),
+            },
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -114,6 +140,11 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            datePeriod: {
+              type: PeriodType.Calendar,
+              from: new Date('2004-01-01'),
+              to: new Date('2004-12-31'),
+            },
             sex: maleSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -126,6 +157,11 @@ describe('sortHealthDataByDate', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            datePeriod: {
+              type: PeriodType.Calendar,
+              from: new Date('2006-01-01'),
+              to: new Date('2006-12-31'),
+            },
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -154,6 +190,11 @@ describe('sortHealthDataByYearDescending', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            datePeriod: {
+              type: PeriodType.Calendar,
+              from: new Date('2004-01-01'),
+              to: new Date('2004-12-31'),
+            },
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -165,6 +206,11 @@ describe('sortHealthDataByYearDescending', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            datePeriod: {
+              type: PeriodType.Calendar,
+              from: new Date('2006-01-01'),
+              to: new Date('2006-12-31'),
+            },
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -184,6 +230,11 @@ describe('sortHealthDataByYearDescending', () => {
             upperCi: 578.32766,
             value: 278.29134,
             year: 2006,
+            datePeriod: {
+              type: PeriodType.Calendar,
+              from: new Date('2006-01-01'),
+              to: new Date('2006-12-31'),
+            },
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -195,6 +246,11 @@ describe('sortHealthDataByYearDescending', () => {
             upperCi: 578.32766,
             value: 703.420759,
             year: 2004,
+            datePeriod: {
+              type: PeriodType.Calendar,
+              from: new Date('2004-01-01'),
+              to: new Date('2004-12-31'),
+            },
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -218,6 +274,11 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -229,6 +290,11 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2006-01-01'),
+          to: new Date('2006-12-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -243,6 +309,11 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2006-01-01'),
+          to: new Date('2006-12-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -254,6 +325,11 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         upperCi: 578.32766,
         value: 703.420759,
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         sex: personsSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -608,6 +684,11 @@ describe('getMostRecentDataFromSorted', () => {
       lowerCi: 441.69151,
       upperCi: 578.32766,
       year: 2006,
+      datePeriod: {
+        type: PeriodType.Calendar,
+        from: new Date('2006-01-01'),
+        to: new Date('2006-12-31'),
+      },
     };
 
     expect(result).toEqual(expected);
@@ -1344,6 +1425,22 @@ describe('getFirstYear', () => {
   });
 });
 
+describe('getLatestPeriod', () => {
+  it('should return the latest period as an number for an area', () => {
+    expect(getLatestPeriod(mockData[0].healthData)).toBe(
+      convertDateToNumber('2006-01-01')
+    );
+  });
+});
+
+describe('getFirstPeriod', () => {
+  it('should return the first year as an number for an area', () => {
+    expect(getFirstPeriod(mockData[0].healthData)).toBe(
+      convertDateToNumber('2004-01-01')
+    );
+  });
+});
+
 describe('getLatestYearForAreas', () => {
   it('should return the latest year for a group of areas', () => {
     expect(getLatestYearForAreas(mockData)).toBe(2006);
@@ -1363,6 +1460,32 @@ describe('getFirstYearForAreas', () => {
   // simply use those of the default benchmark i.e. England
   it('should return undefined when the data provided is an empty list', () => {
     expect(getFirstYearForAreas([])).toBeUndefined();
+  });
+});
+
+describe('getLatestPeriodForAreas', () => {
+  it('should return the latest period as an number for a group of areas', () => {
+    expect(getLatestPeriodForAreas(mockData)).toBe(
+      convertDateToNumber('2006-01-01')
+    );
+  });
+
+  it('should return undefined when the data provided is an empty list', () => {
+    expect(getLatestPeriodForAreas([])).toBeUndefined();
+  });
+});
+
+describe('getFirstPeriodForAreas', () => {
+  it('should return the latest year for a group of areas', () => {
+    expect(getFirstPeriodForAreas(mockData)).toBe(
+      convertDateToNumber('2004-01-01')
+    );
+  });
+
+  // This can occur when no area is selected. When undefined is returned, the chart min/max
+  // simply use those of the default benchmark i.e. England
+  it('should return undefined when the data provided is an empty list', () => {
+    expect(getFirstPeriodForAreas([])).toBeUndefined();
   });
 });
 

@@ -253,6 +253,8 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicator
     post:
+      security:
+        - bearerAuth: []
       tags:
         - indicators
       summary: add a batch of new data for an indicator
@@ -284,6 +286,12 @@ paths:
                 $ref: '#/components/schemas/Batch'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/{indicator_id}/data/all:
     parameters:
       - $ref: '#/components/parameters/indicator_id'
@@ -517,7 +525,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
-          description: The user does not have administration permissions for the specified indicator.
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:

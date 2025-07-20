@@ -8,7 +8,6 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 public abstract class DataManagementIntegrationTests : IClassFixture<DataManagementWebApplicationFactory<Program>>, IDisposable
 {
     protected const string AdminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
-    protected const string Indicator41101GroupRoleId = "90ac52f4-8513-4050-873a-24340bc89bd3";
     protected const string Indicator383GroupRoleId = "3b25520b-4cd5-4f45-8718-a0c8bcbcbf26";
     protected const string SqlScriptDirectory = "DataManagement";
 

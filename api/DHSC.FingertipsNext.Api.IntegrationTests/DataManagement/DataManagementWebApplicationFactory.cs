@@ -55,23 +55,33 @@ public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> w
     {
         var claims = new List<Claim>();
 
-        if (tokenContainsSubClaim) claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
+        if (tokenContainsSubClaim)
+        {
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
+        }
 
         if (includeRoleClaims != null)
+        {
             foreach (var claim in includeRoleClaims)
+            {
                 claims.Add(new Claim(ClaimTypes.Role, claim));
+            }
+        }
 
         var tokenExpiry = DateTime.UtcNow.AddMinutes(30);
 
-        if (tokenIsExpired) tokenExpiry = DateTime.UtcNow.AddMinutes(-1);
+        if (tokenIsExpired)
+        {
+            tokenExpiry = DateTime.UtcNow.AddMinutes(-1);
+        }
 
         var key = new SymmetricSecurityKey(new byte[256]);
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            JwtStubIssuer,
-            JwtStubAudience,
-            claims,
+            issuer: JwtStubIssuer,
+            audience: JwtStubAudience,
+            claims: claims,
             expires: tokenExpiry,
             signingCredentials: creds
         );
