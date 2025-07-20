@@ -6,7 +6,6 @@ using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using Shouldly;
