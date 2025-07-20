@@ -17,4 +17,14 @@ describe('Upload page component', () => {
     expect(mockAuthenticatedBatchesApi.getBatches).toHaveBeenCalled();
     expect(uploadPage.props.batches).toEqual([mockBatch()]);
   });
+
+  it('should include an authentication token with get batches API request', async () => {
+    mockBatchesApi.getBatches.mockResolvedValue([mockBatch()]);
+
+    await UploadPage();
+
+    expect(mockBatchesApi.getBatches).toHaveBeenCalledWith({
+      headers: { Authorization: `bearer ${expectedAccessToken}` },
+    });
+  });
 });
