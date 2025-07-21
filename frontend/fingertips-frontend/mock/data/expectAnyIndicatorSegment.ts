@@ -1,4 +1,7 @@
-import { IndicatorSegment, ReportingPeriod } from '@/generated-sources/ft-api-client';
+import {
+  IndicatorSegment,
+  ReportingPeriod,
+} from '@/generated-sources/ft-api-client';
 import { expectAnyHealthDataPoint } from '@/mock/data/expectAnyHealthDataPoint';
 import { expectAnyAgeData } from '@/mock/data/expectAnyAgeData';
 import { expectAnySexData } from '@/mock/data/expectAnySexData';
