@@ -1,5 +1,6 @@
 ﻿using Azure.Identity;
 using Azure.Storage;
+using DHSC.FingertipsNext.Modules.DataManagement.Clients;
 using DHSC.FingertipsNext.Modules.DataManagement.Mappings;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
@@ -23,6 +24,7 @@ public class DataManagementModule : AbstractMonolithModule, IMonolithModule
         services.AddTransient<IDataManagementService, DataManagementService>();
         services.AddTransient<IDataManagementRepository, DataManagementRepository>();
         services.AddSingleton<IDataManagementMapper, DataManagementMapper>();
+        services.AddTransient<IHealthDataClient, HealthDataClient>();
         RegisterAzureClients(services, configuration);
         RegisterDbContext(services, configuration);
     }

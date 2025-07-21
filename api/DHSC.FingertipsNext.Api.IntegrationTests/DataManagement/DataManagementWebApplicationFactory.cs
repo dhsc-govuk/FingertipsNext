@@ -25,7 +25,7 @@ public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> w
     {
         Env.Load(string.Empty, new LoadOptions(true, true, false));
 
-        builder.ConfigureTestServices(services => { ServiceCollectionServiceExtensions.AddSingleton<TimeProvider>(services, MockTime); }).ConfigureTestServices(services =>
+        builder.ConfigureTestServices(services => { services.AddSingleton<TimeProvider>(MockTime); }).ConfigureTestServices(services =>
         {
             // Remove the existing authentication schemes if necessary
             services.AddAuthentication("TestScheme")

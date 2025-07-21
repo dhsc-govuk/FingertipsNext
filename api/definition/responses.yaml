@@ -49,4 +49,4 @@ UserBadRequest:
 Unauthorized:
   description: Authorization information is missing or invalid.
 Forbidden:
-  description: Authorization forbids access.
+  description: The user does not have administration permissions for the specified indicator.

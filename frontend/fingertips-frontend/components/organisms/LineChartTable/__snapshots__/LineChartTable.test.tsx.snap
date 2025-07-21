@@ -162,6 +162,7 @@ exports[`Line chart table suite > 1 Indicator, 1 Area > snapshot test - should m
       >
         <tr
           class="Row-sc-1y8eqfp-0"
+          data-testid="lineChartTableRow-1072915200000"
         >
           <td
             class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
@@ -206,6 +207,7 @@ exports[`Line chart table suite > 1 Indicator, 1 Area > snapshot test - should m
         </tr>
         <tr
           class="Row-sc-1y8eqfp-0"
+          data-testid="lineChartTableRow-1199145600000"
         >
           <td
             class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
@@ -521,6 +523,7 @@ exports[`Line chart table suite > 1 Indicator, 2 Areas > snapshot test - should 
       >
         <tr
           class="Row-sc-1y8eqfp-0"
+          data-testid="lineChartTableRow-1072915200000"
         >
           <td
             class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"
@@ -594,6 +597,7 @@ exports[`Line chart table suite > 1 Indicator, 2 Areas > snapshot test - should 
         </tr>
         <tr
           class="Row-sc-1y8eqfp-0"
+          data-testid="lineChartTableRow-1199145600000"
         >
           <td
             class="Cell-sc-msv0l6-0 sc-dcJsrY sc-imWYAI sc-dhKdcB kbqrMm kcOQDY lnElgr qqbNf"

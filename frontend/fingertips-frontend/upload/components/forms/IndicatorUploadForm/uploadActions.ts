@@ -2,6 +2,7 @@
 
 import { ResponseError } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
+import { getAuthHeader } from '@/lib/auth/accessToken';
 import { UTCDateMini } from '@date-fns/utc';
 import { revalidatePath } from 'next/cache';
 
@@ -31,11 +32,16 @@ export async function uploadFile(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   try {
-    const response = await indicatorApi.indicatorsIndicatorIdDataPostRaw({
-      indicatorId,
-      file,
-      publishedAt,
-    });
+    const response = await indicatorApi.indicatorsIndicatorIdDataPostRaw(
+      {
+        indicatorId,
+        file,
+        publishedAt,
+      },
+      {
+        headers: await getAuthHeader(),
+      }
+    );
 
     revalidatePath(BATCHES_API_PATH);
 

@@ -2,8 +2,13 @@ import { generateTooltip } from './generateTooltip';
 import { mockIndicatorData } from '../mocks';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 describe('generateTooltip', () => {
+  const mockXCategoryKeys = mockIndicatorData[0].healthData.map((point) =>
+    convertDateToNumber(point.datePeriod?.from)
+  );
+
   it('should return a Highcharts.TooltipOptions object', () => {
     const tooltipOptions = generateTooltip(
       mockIndicatorData,
@@ -25,12 +30,14 @@ describe('generateTooltip', () => {
     );
 
     const mockPoint = {
-      x: 2006,
+      x: 0,
       y: 278.29134,
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425' } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -47,12 +54,14 @@ describe('generateTooltip', () => {
       areaCodeForEngland
     );
     const mockPoint = {
-      x: 2004,
+      x: 0,
       y: 703.420759,
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425' } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -69,12 +78,14 @@ describe('generateTooltip', () => {
       'cases'
     );
     const mockPoint = {
-      x: 2006,
+      x: 0,
       y: 278.29134,
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425' } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -91,12 +102,14 @@ describe('generateTooltip', () => {
     );
 
     const mockPoint = {
-      x: 2020,
+      x: 0,
       y: 100,
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425' } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -112,12 +125,17 @@ describe('generateTooltip', () => {
       BenchmarkComparisonMethod.Unknown
     );
     const mockPoint = {
-      x: 2020,
+      x: 0,
       y: 200,
       series: {
         name: 'England',
         color: '#000',
-        options: { custom: { areaCode: areaCodeForEngland } },
+        options: {
+          custom: {
+            areaCode: areaCodeForEngland,
+            xCategoryKeys: mockXCategoryKeys,
+          },
+        },
       },
     };
 
@@ -133,12 +151,14 @@ describe('generateTooltip', () => {
       BenchmarkComparisonMethod.Unknown
     );
     const mockPoint = {
-      x: 2020,
+      x: 0,
       y: 100,
       series: {
         name: 'North FooBar',
         color: '#000',
-        options: { custom: { areaCode: 'A1425' } },
+        options: {
+          custom: { areaCode: 'A1425', xCategoryKeys: mockXCategoryKeys },
+        },
       },
     };
 
@@ -154,12 +174,17 @@ describe('generateTooltip', () => {
       BenchmarkComparisonMethod.Unknown
     );
     const mockPoint = {
-      x: 2020,
+      x: 0,
       y: 200,
       series: {
         name: 'England',
         color: '#000',
-        options: { custom: { areaCode: areaCodeForEngland } },
+        options: {
+          custom: {
+            areaCode: areaCodeForEngland,
+            xCategoryKeys: mockXCategoryKeys,
+          },
+        },
       },
     };
 
