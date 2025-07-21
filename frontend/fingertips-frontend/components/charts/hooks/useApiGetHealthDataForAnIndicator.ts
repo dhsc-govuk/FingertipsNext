@@ -8,7 +8,6 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
-import { useSession } from 'next-auth/react';
 import { getAuthorisedHealthDataForAnIndicator } from '@/lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 
 type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
@@ -25,7 +24,6 @@ export const queryFnHealthDataForAnIndicator =
 export const useApiGetHealthDataForAnIndicator = (
   apiRequestParams: GetHealthDataForAnIndicatorRequest
 ) => {
-  const { data: session } = useSession();
   const queryKey = [
     queryKeyFromRequestParams(
       EndPoints.HealthDataForAnIndicator,
