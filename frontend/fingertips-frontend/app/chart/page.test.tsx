@@ -261,5 +261,7 @@ describe('Chart Page', () => {
     it.todo(
       'should seed without unpublished data if there is an invalid session'
     );
+    it.todo('should seed inequalites data appropriate given auth');
+    it.todo('should seed population data appropriate given auth');
   });
 });
