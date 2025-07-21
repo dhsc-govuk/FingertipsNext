@@ -15,10 +15,6 @@ import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
-import {
   EndPoints,
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
@@ -27,7 +23,7 @@ import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
-import { getChartQuerySeedData } from '../../lib/chartHelpers/getChartQuerySeedData';
+import { getAuthorisedHealthDataForAnIndicator } from '../../lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -38,9 +34,9 @@ export default async function ChartPage(
   await connection();
   const session = await auth();
 
-  const healthEndpoint = session
-    ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
-    : EndPoints.HealthDataForAnIndicator;
+  // const healthEndpoint = session
+  //   ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
+  //   : EndPoints.healthDataForAnIndicator;
 
   try {
     const searchParams = await props.searchParams;
@@ -89,8 +85,6 @@ export default async function ChartPage(
       selectedAreasData
     );
 
-    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
     // if we want to show the line chart or compare areas bar chart data then
     // load that now server side and seed the cache - this will help with
     // progressive enhancement and coping with devices that do not have
@@ -105,11 +99,11 @@ export default async function ChartPage(
         availableAreas ?? []
       );
       const queryKeyLineChart = queryKeyFromRequestParams(
-        healthEndpoint,
+        EndPoints.HealthDataForAnIndicator,
         apiRequestParams
       );
       try {
-        const healthData = await getChartQuerySeedData(
+        const healthData = await getAuthorisedHealthDataForAnIndicator(
           apiRequestParams,
           session
         );
@@ -137,7 +131,7 @@ export default async function ChartPage(
       !Object.keys(seedData).includes(inequalitiesQueryKey)
     ) {
       try {
-        const healthData = await getChartQuerySeedData(
+        const healthData = await getAuthorisedHealthDataForAnIndicator(
           inequalitiesQueryParams,
           session
         );
@@ -156,12 +150,12 @@ export default async function ChartPage(
       availableAreas ?? []
     );
     const populationPyramidQueryKey = queryKeyFromRequestParams(
-      healthEndpoint,
+      EndPoints.HealthDataForAnIndicator,
       populationPyramidQueryParams
     );
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
       try {
-        const healthData = await getChartQuerySeedData(
+        const healthData = await getAuthorisedHealthDataForAnIndicator(
           populationPyramidQueryParams,
           session
         );

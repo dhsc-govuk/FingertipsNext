@@ -1,4 +1,4 @@
-import { getChartQuerySeedData } from './getChartQuerySeedData';
+import { getAuthorisedHealthDataForAnIndicator } from './getAuthorisedHealthDataForAnIndicator';
 import {
   GetHealthDataForAnIndicatorRequest,
   IndicatorsApi,
@@ -28,9 +28,12 @@ describe('getChartQuerySeedData', () => {
     vi.clearAllMocks();
   });
   it('calls getHealthDataForAnIndicatorIncludingUnpublishedData when session is provided', async () => {
-    const result = await getChartQuerySeedData(apiRequestParams, {
-      expires: 'some string',
-    });
+    const result = await getAuthorisedHealthDataForAnIndicator(
+      apiRequestParams,
+      {
+        expires: 'some string',
+      }
+    );
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
@@ -39,7 +42,10 @@ describe('getChartQuerySeedData', () => {
   });
 
   it('calls getHealthDataForAnIndicator when session is not provided', async () => {
-    const result = await getChartQuerySeedData(apiRequestParams, null);
+    const result = await getAuthorisedHealthDataForAnIndicator(
+      apiRequestParams,
+      null
+    );
 
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
       apiRequestParams,
