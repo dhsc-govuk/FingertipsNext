@@ -253,6 +253,8 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicator
     post:
+      security:
+        - bearerAuth: []
       tags:
         - indicators
       summary: add a batch of new data for an indicator
@@ -284,6 +286,12 @@ paths:
                 $ref: '#/components/schemas/Batch'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/{indicator_id}/data/all:
     parameters:
       - $ref: '#/components/parameters/indicator_id'
@@ -316,24 +324,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
-  /indicators/{indicator_id}/data/{batch_id}:
-    parameters:
-      - $ref: '#/components/parameters/indicator_id'
-      - $ref: '#/components/parameters/batch_id'
-    delete:
-      tags:
-        - indicators
-      summary: Delete a batch of unpublished data for an indicator
-      description: Deletes all unpublished data for the specified indicator and batch.
-      responses:
-        '204':
-          description: The batch of unpublished data has been deleted successfully.
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
   /indicators/quartiles:
     get:
       tags:
@@ -465,6 +455,26 @@ paths:
                   $ref: '#/components/schemas/Batch'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/batch_id'
+      tags:
+        - batches
+      summary: Delete a batch of unpublished data for an indicator
+      description: Deletes all unpublished data for the specified indicator and batch.
+      responses:
+        '200':
+          description: The batch of unpublished data has been deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /user/info:
     get:
       security:
@@ -511,7 +521,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
-          description: The user does not have administration permissions for the specified indicator.
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
@@ -561,10 +571,12 @@ components:
             Too many years:
               value:
                 message: Too many values supplied for parameter years. The maximum is 20 but 21 supplied.
-    UserBadRequest:
-      description: User token was missing required claims.
     Unauthorized:
       description: Authorization information is missing or invalid.
+    Forbidden:
+      description: The user does not have administration permissions for the specified indicator.
+    UserBadRequest:
+      description: User token was missing required claims.
   parameters:
     hierarchy_type:
       in: query
@@ -714,7 +726,7 @@ components:
       style: simple
       schema:
         type: string
-        example: '12345_20250101120000'
+        example: 12345_2025-01-01T00:00:00.000
       explode: false
       required: true
       description: The unique identifier of the batch of data
@@ -1211,10 +1223,20 @@ components:
           format: date-time
           description: When the data in the batch will be published.
           example: '2025-07-30T00:00:00.000Z'
+        deletedAt:
+          type: string
+          format: date-time
+          description: When the data in the batch was deleted.
+          example: '2025-07-30T00:00:00.000Z'
         userId:
           type: string
           format: guid
           description: The ID of the user who uploaded the batch.
+          example: e14dae4e-4c3c-4e13-979a-4aa6566e06a7
+        deletedUserId:
+          type: string
+          format: guid
+          description: The ID of the user who deleted the batch.
           example: e14dae4e-4c3c-4e13-979a-4aa6566e06a7
         status:
           type: string

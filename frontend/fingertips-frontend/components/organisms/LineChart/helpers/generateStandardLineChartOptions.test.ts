@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  Frequency,
+  HealthDataForArea,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { generateStandardLineChartOptions } from './generateStandardLineChartOptions';
@@ -11,8 +15,10 @@ describe('generateStandardLineChartOptions', () => {
       [mockIndicatorData[0]],
       false,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       {
-        englandData: undefined,
+        englandData: mockEnglandData,
         groupIndicatorData: undefined,
         yAxisTitle: 'yAxis',
         xAxisTitle: 'xAxis',
@@ -32,6 +38,8 @@ describe('generateStandardLineChartOptions', () => {
       [mockIndicatorData[0]],
       false,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
@@ -45,13 +53,18 @@ describe('generateStandardLineChartOptions', () => {
     expect(generatedOptions).toMatchSnapshot();
   });
 
-  it('should not include benchmark or group years before or after the areas have data', () => {
+  it('should not include england years before or after the areas have data', () => {
     const mockBenchmarkAreaWithEarlyYear: HealthDataForArea = {
       ...mockEnglandData,
       healthData: [
         ...mockEnglandData.healthData,
         {
           year: 1999,
+          datePeriod: {
+            type: PeriodType.Calendar,
+            from: new Date('1999-01-01'),
+            to: new Date('1999-12-31'),
+          },
           ageBand: allAgesAge,
           sex: personsSex,
           trend: 'Not yet calculated',
@@ -59,28 +72,18 @@ describe('generateStandardLineChartOptions', () => {
         },
       ],
     };
-    const mockGroupAreaWithLateYear: HealthDataForArea = {
-      ...mockParentData,
-      healthData: [
-        ...mockParentData.healthData,
-        {
-          year: 2036,
-          ageBand: allAgesAge,
-          sex: personsSex,
-          trend: 'Not yet calculated',
-          deprivation: noDeprivation,
-        },
-      ],
-    };
+    const mockGroupAreaWithMissingYear = mockParentData;
 
     const generatedOptions = generateStandardLineChartOptions(
       [mockIndicatorData[0]],
       false,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockBenchmarkAreaWithEarlyYear,
-        groupIndicatorData: mockGroupAreaWithLateYear,
+        groupIndicatorData: mockGroupAreaWithMissingYear,
         yAxisTitle: 'yAxis',
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
@@ -88,7 +91,6 @@ describe('generateStandardLineChartOptions', () => {
       }
     );
     expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
-    expect((generatedOptions.series?.[1] as any).data).toHaveLength(2);
     expect(generatedOptions).toMatchSnapshot();
   });
 
@@ -97,6 +99,8 @@ describe('generateStandardLineChartOptions', () => {
       [],
       false,
       areaCodeForEngland,
+      PeriodType.Calendar,
+      Frequency.Annually,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,

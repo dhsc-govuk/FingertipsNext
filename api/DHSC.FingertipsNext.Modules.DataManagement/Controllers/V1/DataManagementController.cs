@@ -1,21 +1,26 @@
 using System.Globalization;
 using System.Web;
+using DHSC.FingertipsNext.Modules.Common.Auth;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 
 [ApiController]
-[Route("indicators/{indicatorId:int}/data")]
-[ProducesResponseType(StatusCodes.Status202Accepted)]
-[ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
-[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+[Route("/indicators/{indicatorId:int}/data")]
 public class DataManagementController(IDataManagementService dataManagementService) : ControllerBase
 {
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt, [FromRoute] int indicatorId)
     {
         if (file == null || file.Length == 0)
@@ -61,6 +66,7 @@ public class DataManagementController(IDataManagementService dataManagementServi
         {
             response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt, encodedUntrustedFileName);
         }
+
         return (response.Outcome) switch
         {
             OutcomeType.Ok => new AcceptedResult

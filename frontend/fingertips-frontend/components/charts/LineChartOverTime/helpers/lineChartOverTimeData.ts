@@ -3,7 +3,9 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   IndicatorWithHealthDataForArea,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
@@ -51,10 +53,17 @@ export const lineChartOverTimeData = (
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
+  const periodType =
+    healthData.areaHealthData?.[0].healthData?.[0].datePeriod?.type ??
+    PeriodType.Calendar;
+  const frequency = healthData.frequency ?? Frequency.Annually;
+
   const chartOptions = generateStandardLineChartOptions(
     withoutEnglandOrGroup,
     true,
     benchmarkToUse,
+    periodType,
+    frequency,
     {
       indicatorName: indicatorMetaData?.indicatorName,
       englandData: englandData,
@@ -76,5 +85,7 @@ export const lineChartOverTimeData = (
     polarity,
     benchmarkComparisonMethod,
     benchmarkToUse,
+    periodType,
+    frequency,
   };
 };

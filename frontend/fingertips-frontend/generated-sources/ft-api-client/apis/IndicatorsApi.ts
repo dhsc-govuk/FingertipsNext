@@ -74,11 +74,6 @@ export interface GetIndicatorRequest {
     indicatorId: number;
 }
 
-export interface IndicatorsIndicatorIdDataBatchIdDeleteRequest {
-    indicatorId: number;
-    batchId: string;
-}
-
 export interface IndicatorsIndicatorIdDataPostRequest {
     indicatorId: number;
     file: Blob;
@@ -189,23 +184,6 @@ export interface IndicatorsApiInterface {
      * Get indicator
      */
     getIndicator(requestParameters: GetIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Indicator>;
-
-    /**
-     * Deletes all unpublished data for the specified indicator and batch.
-     * @summary Delete a batch of unpublished data for an indicator
-     * @param {number} indicatorId The unique identifier of the indicator
-     * @param {string} batchId The unique identifier of the batch of data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof IndicatorsApiInterface
-     */
-    indicatorsIndicatorIdDataBatchIdDeleteRaw(requestParameters: IndicatorsIndicatorIdDataBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
-
-    /**
-     * Deletes all unpublished data for the specified indicator and batch.
-     * Delete a batch of unpublished data for an indicator
-     */
-    indicatorsIndicatorIdDataBatchIdDelete(requestParameters: IndicatorsIndicatorIdDataBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
 
     /**
      * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
@@ -482,47 +460,6 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Deletes all unpublished data for the specified indicator and batch.
-     * Delete a batch of unpublished data for an indicator
-     */
-    async indicatorsIndicatorIdDataBatchIdDeleteRaw(requestParameters: IndicatorsIndicatorIdDataBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['indicatorId'] == null) {
-            throw new runtime.RequiredError(
-                'indicatorId',
-                'Required parameter "indicatorId" was null or undefined when calling indicatorsIndicatorIdDataBatchIdDelete().'
-            );
-        }
-
-        if (requestParameters['batchId'] == null) {
-            throw new runtime.RequiredError(
-                'batchId',
-                'Required parameter "batchId" was null or undefined when calling indicatorsIndicatorIdDataBatchIdDelete().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/indicators/{indicator_id}/data/{batch_id}`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))).replace(`{${"batch_id"}}`, encodeURIComponent(String(requestParameters['batchId']))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Deletes all unpublished data for the specified indicator and batch.
-     * Delete a batch of unpublished data for an indicator
-     */
-    async indicatorsIndicatorIdDataBatchIdDelete(requestParameters: IndicatorsIndicatorIdDataBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.indicatorsIndicatorIdDataBatchIdDeleteRaw(requestParameters, initOverrides);
-    }
-
-    /**
      * Creates new data for the indicator. The data is always created in an unpublished and unapproved state.
      * add a batch of new data for an indicator
      */
@@ -552,6 +489,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
         const consumes: runtime.Consume[] = [
             { contentType: 'multipart/form-data' },
         ];

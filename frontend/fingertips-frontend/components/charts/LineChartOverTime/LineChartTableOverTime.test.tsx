@@ -3,7 +3,9 @@ import { LineChartTableOverTime } from '@/components/charts/LineChartOverTime/Li
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   IndicatorPolarity,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import {
@@ -49,6 +51,8 @@ describe('LineChartTableOverTime', () => {
       polarity: IndicatorPolarity.HighIsGood,
       benchmarkComparisonMethod: BenchmarkComparisonMethod.Quintiles,
       benchmarkToUse: 'England',
+      periodType: PeriodType.Calendar,
+      frequency: Frequency.Annually,
     });
 
     render(<LineChartTableOverTime />);
@@ -71,6 +75,8 @@ describe('LineChartTableOverTime', () => {
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       benchmarkToUse: 'None',
+      periodType: PeriodType.Calendar,
+      frequency: Frequency.Annually,
     });
 
     render(<LineChartTableOverTime />);

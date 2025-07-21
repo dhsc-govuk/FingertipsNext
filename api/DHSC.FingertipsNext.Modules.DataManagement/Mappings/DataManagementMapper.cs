@@ -15,8 +15,10 @@ public class DataManagementMapper : IDataManagementMapper
             IndicatorId = source.IndicatorId,
             OriginalFileName = source.OriginalFileName,
             CreatedAt = source.CreatedAt,
+            DeletedAt = source.DeletedAt,
             PublishedAt = source.PublishedAt,
             UserId = source.UserId.ToString(),
+            DeletedUserId = source.DeletedUserId?.ToString(),
             Status = source.Status
         };
     }

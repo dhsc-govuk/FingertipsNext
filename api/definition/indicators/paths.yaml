@@ -85,6 +85,8 @@ indicators_by_indicator_id_data:
         $ref: "../responses.yaml#/InternalServerError"
     operationId: getHealthDataForAnIndicator
   post:
+    security:
+      - bearerAuth: []
     tags:
       - indicators
     summary: add a batch of new data for an indicator
@@ -114,9 +116,15 @@ indicators_by_indicator_id_data:
           application/json:
             schema:
               $ref: "../schemas.yaml#/Batch"
-              
+
       "400":
         $ref: "../responses.yaml#/BadRequest"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "403":
+        $ref: "../responses.yaml#/Forbidden"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
 indicators_by_indicator_id_all_data:
   parameters:
     - $ref: "./parameters.yaml#/indicator_id"
@@ -156,24 +164,6 @@ indicators_by_indicator_id_all_data:
       "500":
         $ref: "../responses.yaml#/InternalServerError"
     operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
-indicator_data_by_batch_id:
-  parameters:
-    - $ref: "./parameters.yaml#/indicator_id"
-    - $ref: "./parameters.yaml#/batch_id"
-  delete:
-    tags:
-      - indicators
-    summary: Delete a batch of unpublished data for an indicator
-    description: Deletes all unpublished data for the specified indicator and batch.
-    responses:
-      "204":
-        description: The batch of unpublished data has been deleted successfully.
-      "400":
-        $ref: "../responses.yaml#/BadRequest"
-      "404":
-        $ref: "../responses.yaml#/NotFound"
-      "500":
-        $ref: "../responses.yaml#/InternalServerError"
 quartiles:
   get:
     tags:

@@ -90,7 +90,7 @@ public static class UploadedCsvValidator
 
     private static List<string> FormatHeaderErrors(string message)
     {
-        var headerErrors = message.Split('\n')
+        var headerErrors = message.Split(Environment.NewLine)
             .Where(m => m.StartsWith("Header with name", StringComparison.InvariantCulture)).ToList();
         for (var i = 0; i < headerErrors.Count; i++)
         {
