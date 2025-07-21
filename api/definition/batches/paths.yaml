@@ -17,6 +17,7 @@ batches:
                 $ref: "../schemas.yaml#/Batch"
       "500":
         $ref: "../responses.yaml#/InternalServerError"
+batch-delete:
   delete:
     parameters:
       - $ref: "./parameters.yaml#/batch_id"

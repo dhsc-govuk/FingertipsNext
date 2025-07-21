@@ -1,6 +1,7 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockAuth } from '@/mock/utils/mockAuth';
 import {
+  BatchesApi,
   IndicatorsApi,
   ResponseError,
 } from '@/generated-sources/ft-api-client';
@@ -9,7 +10,7 @@ import { UTCDateMini } from '@date-fns/utc';
 import { Session } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { mockDeep } from 'vitest-mock-extended';
-import { uploadFile } from './uploadActions';
+import { deleteBatch, uploadFile } from './uploadActions';
 
 vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
@@ -19,7 +20,9 @@ const mockSession = mockDeep<Session>();
 mockAuth.mockResolvedValue(mockSession);
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
+const mockBatchesApi = mockDeep<BatchesApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+ApiClientFactory.getBatchesApiClient = () => mockBatchesApi
 
 const givenTheApiReturns = ({
   status: expectedStatus,
@@ -140,6 +143,13 @@ describe('uploadActions', () => {
     });
 
     await uploadFile(undefined, formData);
+
+    expect(revalidatePath).toHaveBeenCalledWith('/batches');
+  });
+
+  it('should pass the batchId to the API', async () => {
+    const batchId = "12345_2025-01-01T00:00:00.000";
+    await deleteBatch(batchId);
 
     expect(revalidatePath).toHaveBeenCalledWith('/batches');
   });
