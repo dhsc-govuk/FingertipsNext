@@ -1,6 +1,6 @@
 import { Batch } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { auth } from '@/lib/auth';
+import { getAuthHeader } from '@/lib/auth/accessToken';
 import { Upload } from '@/upload/components/pages/upload';
 
 export default async function UploadPage() {
@@ -8,10 +8,8 @@ export default async function UploadPage() {
 
   let batches: Batch[] = [];
   try {
-    const session = await auth();
-    const accessToken = session?.accessToken;
     batches = await batchApi.getBatches({
-      headers: { Authorization: `bearer ${accessToken}` },
+      headers: await getAuthHeader(),
     });
   } catch (error) {
     console.error('Error fetching batches:', error);

@@ -6,14 +6,19 @@ import { mockBatch } from '@/mock/data/mockBatch';
 import { Session } from 'next-auth';
 import { mockDeep } from 'vitest-mock-extended';
 import UploadPage from './page';
+import { getJWT } from '@/lib/auth/getJWT';
+
+vi.mock('@/lib/auth/getJWT', () => {
+  return { getJWT: vi.fn() };
+});
 
 const mockBatchesApi = mockDeep<BatchesApi>();
 ApiClientFactory.getBatchesApiClient = () => mockBatchesApi;
 
 const expectedAccessToken = 'access-token';
 const mockSession = mockDeep<Session>();
-mockSession.accessToken = expectedAccessToken;
 mockAuth.mockResolvedValue(mockSession);
+vi.mocked(getJWT).mockResolvedValue({ accessToken: expectedAccessToken });
 
 describe('Upload page component', () => {
   it('should make an API call to fetch batches', async () => {
