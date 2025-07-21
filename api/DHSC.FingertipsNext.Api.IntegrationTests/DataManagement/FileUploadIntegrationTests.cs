@@ -10,11 +10,13 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
 public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
 {
+    private const string TestDataDir = "TestData";
+
     // Uses a different indicator ID, to avoid conflicting
     // with the "list batches" integration tests when run in parallel.
-    private const string TestDataDir = "TestData";
     private const int IndicatorId = 41203;
     private const string Indicator41203GroupRoleId = "eeea2d1a-0697-48e2-8834-ee64ef6694da";
+
     private const string IntegrationTestFileName = "file-upload-integration-test.csv";
 
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
