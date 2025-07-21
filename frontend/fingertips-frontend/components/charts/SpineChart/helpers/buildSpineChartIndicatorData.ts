@@ -72,6 +72,7 @@ export const buildSpineChartIndicatorData = (
 
     const segValues = segmentValues(indicator);
     const combinations = segmentCombinations(segValues);
+
     return combinations.map((segmentInfo) => {
       const search = searchFromSegmentInfo(segmentInfo);
       const extractedSegment = flattenSegment(indicator, search);
@@ -86,6 +87,7 @@ export const buildSpineChartIndicatorData = (
       );
 
       const latestDataPeriod = matchedQuartileData?.year;
+
       if (!matchedQuartileData || !latestDataPeriod) return;
 
       const areasHealthData = findHealthDataForAreas(
