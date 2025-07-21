@@ -1,11 +1,13 @@
 import { IndicatorSegment } from '@/generated-sources/ft-api-client';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
+import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
 
 export const segmentName = (segment: IndicatorSegment) => {
-  const name: string[] = [];
+  const info = {
+    [SegmentationId.Sex]: segment.sex.value,
+    [SegmentationId.Age]: '', // segment.age.value,
+    [SegmentationId.Frequency]: '', // segment.frequency.value,
+  };
 
-  if (segment.sex.value) {
-    name.push(segment.sex.value);
-  }
-
-  return name.join(', ');
+  return segmentNameFromInfo(info);
 };

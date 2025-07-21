@@ -1,5 +1,4 @@
 import { TwoOrMoreIndicatorsAreasViewPlot } from '@/components/viewPlots/TwoOrMoreIndicatorsAreasViewPlots';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
@@ -94,23 +93,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const seedData = await seedDataFromPromises(seedPromises);
 
-  const indicatorList = indicatorsSelected.map((indicatorAsAString) => {
-    return Number(indicatorAsAString);
-  });
-
-  const benchmarkQuartiles = (
-    await indicatorApi.indicatorsQuartilesGet(
-      {
-        indicatorIds: indicatorList,
-        areaCode: areaCodes[0],
-        ancestorCode: selectedGroupCode ?? areaCodeForEngland,
-        areaType: selectedAreaType,
-        benchmarkRefType,
-      },
-      API_CACHE_CONFIG
-    )
-  ).filter((q) => q.isAggregate === true);
-
   // load quartiles data and seed if we don't have it already
   const quartilesParams = quartilesQueryParams(searchState);
   const quartilesKey = queryKeyFromRequestParams(
@@ -141,8 +123,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
       <SeedQueryCache seedData={seedData} />
       <TwoOrMoreIndicatorsAreasViewPlot
         indicatorData={combinedIndicatorData}
-        indicatorMetadata={selectedIndicatorsData}
-        benchmarkStatistics={benchmarkQuartiles}
         availableAreas={availableAreas}
       />
     </ViewsWrapper>

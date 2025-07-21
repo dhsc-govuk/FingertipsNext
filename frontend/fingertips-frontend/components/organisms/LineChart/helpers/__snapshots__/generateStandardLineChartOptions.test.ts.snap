@@ -31,17 +31,44 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
   },
   "series": [
     {
-      "color": "#F46A25",
+      "color": "#505A5F",
+      "connectNulls": true,
       "custom": {
-        "areaCode": "A1425",
+        "areaCode": "E92000001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
-          2004,
           703.420759,
         ],
         [
-          2006,
+          278.29134,
+        ],
+      ],
+      "marker": {
+        "symbol": "circle",
+      },
+      "name": "Benchmark: England",
+      "type": "line",
+    },
+    {
+      "color": "#F46A25",
+      "connectNulls": true,
+      "custom": {
+        "areaCode": "A1425",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
+      },
+      "data": [
+        [
+          703.420759,
+        ],
+        [
           278.29134,
         ],
       ],
@@ -65,8 +92,11 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
   },
   "xAxis": {
     "allowDecimals": false,
+    "categories": [
+      "2004",
+      "2006",
+    ],
     "labels": {
-      "formatter": undefined,
       "style": {
         "fontSize": 16,
       },
@@ -132,16 +162,19 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
   "series": [
     {
       "color": "#505A5F",
+      "connectNulls": true,
       "custom": {
         "areaCode": "E92000001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
-          2004,
           703.420759,
         ],
         [
-          2006,
           278.29134,
         ],
       ],
@@ -153,16 +186,19 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
     },
     {
       "color": "#28A197",
+      "connectNulls": true,
       "custom": {
         "areaCode": "P001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
-          2004,
           301,
         ],
         [
-          2006,
           300,
         ],
       ],
@@ -174,16 +210,19 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
     },
     {
       "color": "#F46A25",
+      "connectNulls": true,
       "custom": {
         "areaCode": "A1425",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
-          2004,
           703.420759,
         ],
         [
-          2006,
           278.29134,
         ],
       ],
@@ -207,8 +246,11 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
   },
   "xAxis": {
     "allowDecimals": false,
+    "categories": [
+      "2004",
+      "2006",
+    ],
     "labels": {
-      "formatter": undefined,
       "style": {
         "fontSize": 16,
       },
@@ -242,7 +284,7 @@ exports[`generateStandardLineChartOptions > should generate standard line chart 
 }
 `;
 
-exports[`generateStandardLineChartOptions > should not include benchmark or group years before or after the areas have data 1`] = `
+exports[`generateStandardLineChartOptions > should not include england years before or after the areas have data 1`] = `
 {
   "accessibility": {
     "description": "accessibility",
@@ -274,16 +316,19 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
   "series": [
     {
       "color": "#505A5F",
+      "connectNulls": true,
       "custom": {
         "areaCode": "E92000001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
-          2004,
           703.420759,
         ],
         [
-          2006,
           278.29134,
         ],
       ],
@@ -295,16 +340,19 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
     },
     {
       "color": "#28A197",
+      "connectNulls": true,
       "custom": {
         "areaCode": "P001",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
-          2004,
           301,
         ],
         [
-          2006,
           300,
         ],
       ],
@@ -316,16 +364,19 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
     },
     {
       "color": "#F46A25",
+      "connectNulls": true,
       "custom": {
         "areaCode": "A1425",
+        "xCategoryKeys": [
+          1080777600000,
+          1143849600000,
+        ],
       },
       "data": [
         [
-          2004,
           703.420759,
         ],
         [
-          2006,
           278.29134,
         ],
       ],
@@ -349,8 +400,11 @@ exports[`generateStandardLineChartOptions > should not include benchmark or grou
   },
   "xAxis": {
     "allowDecimals": false,
+    "categories": [
+      "2004",
+      "2006",
+    ],
     "labels": {
-      "formatter": undefined,
       "style": {
         "fontSize": 16,
       },

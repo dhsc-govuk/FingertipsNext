@@ -9,7 +9,13 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 public class IndicatorSegment
 {
     /// <summary>
-    ///     Sex which the data are for.
+    ///     Age which the segment is for.
+    /// </summary>
+    [JsonPropertyName("age")]
+    public required Age Age { get; init; }
+
+    /// <summary>
+    ///     Sex which the segment is for.
     /// </summary>
     [JsonPropertyName("sex")]
     public required Sex Sex { get; init; }

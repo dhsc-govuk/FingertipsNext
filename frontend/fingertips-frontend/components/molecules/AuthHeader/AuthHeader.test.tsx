@@ -1,7 +1,14 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+//
 import { render } from '@testing-library/react';
 import { AuthHeader } from '.';
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
 import userEvent from '@testing-library/user-event';
+
+vi.mock('next-auth/react', () => {
+  return { getSession: vi.fn() };
+});
 
 vi.mock('@/lib/auth/handlers', () => {
   return {
@@ -9,6 +16,8 @@ vi.mock('@/lib/auth/handlers', () => {
     signOutHandler: vi.fn(),
   };
 });
+
+mockSetIsLoading.mockReturnValue(false);
 
 describe('auth header', () => {
   it('should render a sign in button if session is undefined', () => {

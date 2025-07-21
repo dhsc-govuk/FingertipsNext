@@ -13,6 +13,7 @@ import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { formatNumber } from '../numberFormatter';
 import { AreaWithoutAreaType } from '../common-types';
+import { convertDateToNumber } from '../timePeriodHelpers/getTimePeriodLabels';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
@@ -50,7 +51,11 @@ export function sortHealthDataForAreaByDate(
 ): HealthDataForArea {
   return {
     ...data,
-    healthData: data.healthData.toSorted((a, b) => a.year - b.year),
+    healthData: data.healthData.toSorted(
+      (a, b) =>
+        convertDateToNumber(a.datePeriod?.from) -
+        convertDateToNumber(b.datePeriod?.from)
+    ),
   };
 }
 
@@ -69,7 +74,11 @@ export function sortHealthDataPointsByDescendingYear(
   if (!data || data.length === 0) {
     return [];
   }
-  return data.toSorted((a, b) => b.year - a.year);
+  return data.toSorted(
+    (a, b) =>
+      convertDateToNumber(b.datePeriod?.from) -
+      convertDateToNumber(a.datePeriod?.from)
+  );
 }
 
 export function seriesDataForIndicatorIndexAndArea(
@@ -160,7 +169,7 @@ export const getBenchmarkColour = (
 
 export function generateConfidenceIntervalSeries(
   areaName: string | undefined,
-  data: (number | undefined)[][],
+  data: (number | undefined | null)[][],
   showConfidenceIntervalsData?: boolean,
   optionalParams?: {
     color?: GovukColours;
@@ -185,10 +194,23 @@ export function getLatestYear(
 ): number | undefined {
   if (!points || points.length < 1) return undefined;
 
-  const year = points.reduce((previous, point) => {
+  const dateAsNumber = points.reduce((previous, point) => {
     return Math.max(previous, point.year);
   }, points[0].year);
-  return year;
+  return dateAsNumber;
+}
+
+export function getLatestPeriod(
+  points: HealthDataPoint[] | undefined
+): number | undefined {
+  if (!points || points.length < 1) return undefined;
+
+  const latestDateAsNumber = points.reduce(
+    (previous, point) =>
+      Math.max(previous, convertDateToNumber(point.datePeriod?.from)),
+    convertDateToNumber(points[0].datePeriod?.from)
+  );
+  return latestDateAsNumber;
 }
 
 export function getFirstYear(
@@ -201,6 +223,19 @@ export function getFirstYear(
     points[0].year
   );
   return year;
+}
+
+export function getFirstPeriod(
+  points: HealthDataPoint[] | undefined
+): number | undefined {
+  if (!points || points.length < 1) return undefined;
+
+  const firstDateAsNumber = points.reduce(
+    (previous, point) =>
+      Math.min(previous, convertDateToNumber(point.datePeriod?.from)),
+    convertDateToNumber(points[0].datePeriod?.from)
+  );
+  return firstDateAsNumber;
 }
 
 export function getLatestYearForAreas(
@@ -217,6 +252,20 @@ export function getLatestYearForAreas(
   return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 
+export function getLatestPeriodForAreas(
+  healthDataForAreas: HealthDataForArea[]
+): number | undefined {
+  if (!healthDataForAreas.length) {
+    return undefined;
+  }
+
+  const latestPeriodForAreas = healthDataForAreas.map(
+    (area) => getLatestPeriod(area.healthData) ?? 0
+  );
+  const mostRecentYear = Math.max(...latestPeriodForAreas);
+  return mostRecentYear === 0 ? undefined : mostRecentYear;
+}
+
 export function getFirstYearForAreas(
   healthDataForAreas: HealthDataForArea[]
 ): number | undefined {
@@ -228,6 +277,21 @@ export function getFirstYearForAreas(
     (area) => getFirstYear(area.healthData) ?? 0
   );
   const mostRecentYear = Math.min(...years);
+  return mostRecentYear === 0 ? undefined : mostRecentYear;
+}
+
+export function getFirstPeriodForAreas(
+  healthDataForAreas: HealthDataForArea[]
+): number | undefined {
+  if (!healthDataForAreas.length) {
+    return undefined;
+  }
+
+  const firstPeriodForAreas = healthDataForAreas.map(
+    (area) => getFirstPeriod(area.healthData) ?? 0
+  );
+  const mostRecentYear = Math.min(...firstPeriodForAreas);
+
   return mostRecentYear === 0 ? undefined : mostRecentYear;
 }
 

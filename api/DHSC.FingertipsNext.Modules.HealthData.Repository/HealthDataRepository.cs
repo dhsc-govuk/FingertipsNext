@@ -10,7 +10,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Repository;
 [SuppressMessage("ReSharper", "SimplifyConditionalTernaryExpression")]
 public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHealthDataRepository
 {
-    private const string AGE = "age";
     private const string DEPRIVATION = "deprivation";
 
     private readonly HealthDataDbContext _dbContext =
@@ -80,7 +79,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         bool includeUnpublished = false
     )
     {
-        var excludeDisaggregatedAgeValues = !inequalities.Contains(AGE);
         var excludeDisaggregatedDeprivationValues = !inequalities.Contains(DEPRIVATION);
 
         DateTime? toDateTime = toDate != null ? toDate.Value.ToDateTime(TimeOnly.MinValue) : null;
@@ -91,7 +89,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => fromDate == null || healthMeasure.FromDateDimension.Date >= fromDateTime)
             .Where(healthMeasure => toDate == null || healthMeasure.ToDateDimension.Date <= toDateTime)
-            .Where(healthMeasure => !excludeDisaggregatedAgeValues || healthMeasure.IsAgeAggregatedOrSingle)
             .Where(healthMeasure =>
                 !excludeDisaggregatedDeprivationValues || healthMeasure.IsDeprivationAggregatedOrSingle)
             .Include(healthMeasure => healthMeasure.AreaDimension)

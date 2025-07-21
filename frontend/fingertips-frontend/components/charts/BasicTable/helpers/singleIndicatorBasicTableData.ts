@@ -4,20 +4,14 @@ import { segmentName } from '@/lib/healthDataHelpers/segmentName';
 import { filterDefined } from '@/lib/chartHelpers/filterDefined';
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { indicatorSegmentsSorted } from '@/lib/healthDataHelpers/indicatorSegmentsSorted';
 
 export const singleIndicatorBasicTableData = (
   area: HealthDataForArea,
   indicatorMetaData: IndicatorDocument
 ): BasicTableData[] | null => {
   const { indicatorSegments = [] } = area;
-  const sortedSegments = indicatorSegments.toSorted((a, b) => {
-    const aSex = a.sex.value;
-    const bSex = b.sex.value;
-    const compareSex = bSex.localeCompare(aSex);
-    if (compareSex !== 0) return compareSex;
-    // compare other segmentation options when they are available
-    return 0;
-  });
+  const sortedSegments = indicatorSegmentsSorted(indicatorSegments);
 
   return sortedSegments
     .map((segment) => {

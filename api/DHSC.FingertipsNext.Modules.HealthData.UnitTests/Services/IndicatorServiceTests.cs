@@ -1268,9 +1268,12 @@ public class IndicatorServiceTests
             {
                 SexValue = hdp.Sex?.Value,
                 SexIsAggregate = hdp.Sex?.IsAggregate ?? false,
+                AgeValue = hdp.AgeBand?.Value,
+                AgeIsAggregate = hdp.AgeBand?.IsAggregate ?? false,
             })
             .Select(g => new IndicatorSegment
             {
+                Age = g.First().AgeBand,
                 Sex = g.First().Sex,
                 IsAggregate = g.Key.SexIsAggregate,
                 HealthData = g.ToList()

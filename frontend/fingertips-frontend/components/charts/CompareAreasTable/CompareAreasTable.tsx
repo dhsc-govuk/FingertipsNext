@@ -3,6 +3,10 @@ import { H3 } from 'govuk-react';
 
 import { useCompareAreasTableData } from '@/components/charts/CompareAreasTable/hooks/useCompareAreasTableData';
 import { BarChartEmbeddedTable } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 export function CompareAreasTable() {
   const data = useCompareAreasTableData();
@@ -19,7 +23,9 @@ export function CompareAreasTable() {
 
   return (
     <StyleChartWrapper>
-      <H3>Compare areas for one time period</H3>
+      <H3 id={ChartTitleKeysEnum.BarChartEmbeddedTable}>
+        {chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title}
+      </H3>
       <BarChartEmbeddedTable
         key={`barchart-${benchmarkToUse}`}
         data-testid="barChartEmbeddedTable-component"

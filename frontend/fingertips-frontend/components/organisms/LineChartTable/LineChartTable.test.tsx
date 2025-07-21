@@ -15,11 +15,14 @@ import {
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 
 describe('Line chart table suite', () => {
   beforeAll(() => {
@@ -38,6 +41,11 @@ describe('Line chart table suite', () => {
       healthData: [
         {
           year: 2008,
+          datePeriod: {
+            type: PeriodType.Calendar,
+            from: new Date('2008-01-01'),
+            to: new Date('2008-12-31'),
+          },
           count: 222,
           value: 890.305692,
           lowerCi: 441.69151,
@@ -52,6 +60,11 @@ describe('Line chart table suite', () => {
         },
         {
           year: 2004,
+          datePeriod: {
+            type: PeriodType.Calendar,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -72,6 +85,11 @@ describe('Line chart table suite', () => {
         ...MOCK_HEALTH_DATA[1].healthData.slice(0, -1),
         {
           year: 2004,
+          datePeriod: {
+            type: PeriodType.Calendar,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 222,
           value: 135.149304,
           lowerCi: 441.69151,
@@ -98,6 +116,7 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          frequency={Frequency.Annually}
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -110,10 +129,29 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
       const lineChart = screen.getByTestId('lineChartTable-component');
       expect(lineChart).toBeInTheDocument();
+    });
+
+    it('should return null when healthIndicator is empty array and there is no first or last period', () => {
+      const mockEmptyHealthData = mockHealthDataForArea({
+        healthData: [],
+      });
+
+      render(
+        <LineChartTable
+          title={'Title'}
+          healthIndicatorData={[mockEmptyHealthData]}
+          englandIndicatorData={MOCK_ENGLAND_DATA}
+          indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
+        />
+      );
+      const lineChart = screen.queryByTestId('lineChartTable-component');
+      expect(lineChart).toBeNull();
     });
 
     it('should render expected elements', () => {
@@ -126,6 +164,7 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          frequency={Frequency.Annually}
         />
       );
 
@@ -166,6 +205,7 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
           }
+          frequency={Frequency.Annually}
         />
       );
 
@@ -186,6 +226,7 @@ describe('Line chart table suite', () => {
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_HEALTH_DATA[0].areaCode}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -203,6 +244,7 @@ describe('Line chart table suite', () => {
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_ENGLAND_DATA.areaCode}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -218,6 +260,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -231,6 +274,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[mockHealthData[0]]}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -252,6 +296,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[MOCK_HEALTH_DATA_WITH_TRENDS[0]]}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -274,6 +319,7 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          frequency={Frequency.Annually}
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -289,6 +335,7 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          frequency={Frequency.Annually}
         />
       );
 
@@ -325,6 +372,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
       expect(
@@ -342,6 +390,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -355,6 +404,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={MOCK_HEALTH_DATA_WITH_TRENDS}
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -383,6 +433,7 @@ describe('Line chart table suite', () => {
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_ENGLAND_DATA.areaCode}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -402,6 +453,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={mockHealthData}
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
       expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
@@ -417,6 +469,7 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -431,6 +484,7 @@ describe('Line chart table suite', () => {
           healthIndicatorData={[MOCK_ENGLAND_DATA]}
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -503,6 +557,7 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
+          frequency={Frequency.Annually}
         />
       );
 
@@ -514,19 +569,29 @@ describe('Line chart table suite', () => {
   describe('LineChartTable when mismatched years are supplied', () => {
     it('should not render Xs but keep the correct years aligned', () => {
       const mockHealthArea1 = JSON.parse(JSON.stringify(MOCK_ENGLAND_DATA));
-      mockHealthArea1.areaName = 'year-2005-in-between-england-values';
+      mockHealthArea1.areaName = 'year-2004-in-between-england-values';
       mockHealthArea1.areaCode = '2005';
       mockHealthArea1.healthData[1] = {
         ...mockHealthArea1.healthData[1],
-        year: 2005,
+        year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
       };
 
       const mockHealthArea2 = JSON.parse(JSON.stringify(MOCK_ENGLAND_DATA));
-      mockHealthArea2.areaName = 'year-1999-not-in-england';
-      mockHealthArea2.areaCode = '1999';
+      mockHealthArea2.areaName = 'year-2008-not-in-england';
+      mockHealthArea2.areaCode = '2008';
       mockHealthArea2.healthData[0] = {
         ...mockHealthArea2.healthData[0],
-        year: 1999,
+        year: 2008,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
       };
 
       render(
@@ -538,27 +603,17 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          frequency={Frequency.Annually}
         />
       );
 
       const rows = screen.getAllByRole('row');
-      expect(rows).toHaveLength(8);
-      // england and area 1 ara missing
+      expect(rows).toHaveLength(6);
       expect(rows[4]).toHaveTextContent(
-        /^1999Not compared200904.90.00.0Not comparedXXXXX$/
+        /^2004Not compared200904.90.00.0Not comparedXXXX904.9$/
       );
-      // area 2 is missing
       expect(rows[5]).toHaveTextContent(
-        /^2004Not comparedXXXXNot compared200904.90.00.0904.9$/
-      );
-      // england and area 2 are missing
-      expect(rows[6]).toHaveTextContent(
-        /^2005Not comparedXXXXNot compared500966.00.00.0X$/
-      );
-
-      // area 1 is missing
-      expect(rows[7]).toHaveTextContent(
-        /^2008Not compared500966.00.00.0Not comparedXXXX966.0$/
+        /^2008Not comparedXXXXNot compared200904.90.00.0966.0$/
       );
     });
 
@@ -569,6 +624,11 @@ describe('Line chart table suite', () => {
       mockBenchmarkAreaWithEarlyYear.healthData[1] = {
         ...mockBenchmarkAreaWithEarlyYear.healthData[1],
         year: 1999,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('1999-01-01'),
+          to: new Date('1999-12-31'),
+        },
       };
 
       const mockGroupAreaWithLateYear = JSON.parse(
@@ -577,6 +637,11 @@ describe('Line chart table suite', () => {
       mockGroupAreaWithLateYear.healthData[1] = {
         ...mockBenchmarkAreaWithEarlyYear.healthData[1],
         year: 2036,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2036-01-01'),
+          to: new Date('2036-12-31'),
+        },
       };
 
       render(
@@ -589,6 +654,7 @@ describe('Line chart table suite', () => {
           benchmarkComparisonMethod={
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
+          frequency={Frequency.Annually}
         />
       );
 

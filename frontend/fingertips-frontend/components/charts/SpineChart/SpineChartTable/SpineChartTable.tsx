@@ -18,6 +18,10 @@ import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { SubTitle } from '@/components/atoms/SubTitle/SubTitle';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 export interface SpineChartTableProps {
   indicatorData: SpineChartIndicatorData[];
@@ -55,7 +59,9 @@ export function SpineChartTable({
 
   return (
     <>
-      <SubTitle>Area profile by indicators</SubTitle>
+      <SubTitle id={ChartTitleKeysEnum.SpineChart}>
+        {chartTitleConfig[ChartTitleKeysEnum.SpineChart].title}
+      </SubTitle>
       <ContainerWithOutline>
         <div id={'spineChartTable'} data-testid="spineChartTable-component">
           <ChartTitle>{title}</ChartTitle>

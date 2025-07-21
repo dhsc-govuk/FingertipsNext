@@ -19,8 +19,11 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     IDisposable
 {
     private const string TestDataDir = "TestData";
-    private const int IndicatorId = 9000;
-    private const string FingertipsStorageContainerName = "fingertips-upload-container";
+    private const int IndicatorId = 41101;
+    private const string AdminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
+    private const string Indicator41101GroupRoleId = "90ac52f4-8513-4050-873a-24340bc89bd3";
+    private const string Indicator383GroupRoleId = "3b25520b-4cd5-4f45-8718-a0c8bcbcbf26";
+    private const string IntegrationTestFileName = "integration-test.csv";
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
     private readonly string _blobName;
     private readonly DataManagementWebApplicationFactory<Program> _factory;
@@ -29,6 +32,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     public DataManagementIntegrationTests(DataManagementWebApplicationFactory<Program> factory)
     {
         _factory = factory;
+        _factory.AdminRoleGuid = AdminRoleGuid;
 
         using var scope = _factory.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DataManagementDbContext>();
@@ -37,9 +41,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         _sqlConnection = new SqlConnection(connectionString);
 
         InitialiseDb(_sqlConnection);
-
-        // Load environment variables from the .env file
-        Env.Load(string.Empty, new LoadOptions(true, true, false));
 
         // Load configuration from the test JSON file.
         var configuration = new ConfigurationBuilder()
@@ -63,38 +64,32 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         _sqlConnection.Close();
     }
 
-    private static HttpClient GetApiClient(DataManagementWebApplicationFactory<Program> factory,
-        string blobContainerName = FingertipsStorageContainerName)
-    {
-        return factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureAppConfiguration((context, config) =>
-            {
-                config.AddInMemoryCollection(new Dictionary<string, string?>
-                {
-                    ["UPLOAD_STORAGE_CONTAINER_NAME"] = blobContainerName
-                });
-            });
-        }).CreateClient();
-    }
 
-    [Fact]
-    public async Task DataManagementEndpointShouldUploadAFile()
+    [Theory]
+    [InlineData(AdminRoleGuid)]
+    [InlineData(Indicator41101GroupRoleId)]
+    [InlineData(Indicator41101GroupRoleId, Indicator383GroupRoleId)]
+    public async Task AuthorisedRequestToDataManagementEndpointShouldUploadAFile(params string[] userRoleIds)
     {
         // Arrange
-        var apiClient = GetApiClient(_factory);
+        var apiClient = _factory.CreateClient();
+
+        var publishedAt = DateTime.UtcNow.AddMonths(1);
+
+        using var content = new MultipartFormDataContent();
 
         var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
-        await using var fileStream = File.OpenRead(blobContentFilePath);
-        using var content = new MultipartFormDataContent();
+        var fileStream = File.OpenRead(blobContentFilePath);
+
         using var streamContent = new StreamContent(fileStream);
+        using var publishedAtContent = new StringContent(publishedAt.ToString("o"));
+
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
-        var publishedAtFormatted = publishedAt.ToString("o");
-        using var publishedAtContent = new StringContent(publishedAtFormatted);
-        publishedAtContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-        content.Add(streamContent, "file", "valid.csv");
+
+        content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken(userRoleIds));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -105,7 +100,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         var model = await response.Content.ReadFromJsonAsync<Batch>();
         model.IndicatorId.ShouldBe(IndicatorId);
         model.Status.ShouldBe(BatchStatus.Received);
-        model.OriginalFileName.ShouldBe("valid.csv");
+        model.OriginalFileName.ShouldBe(IntegrationTestFileName);
         model.UserId.ShouldBe(Guid.Empty.ToString());
         model.PublishedAt.ShouldBe(publishedAt);
 
@@ -114,22 +109,80 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         blobContent.ShouldBeEquivalentTo(localFileContent);
     }
 
+
     [Fact]
-    public async Task UploadFailuresShouldReturn500Response()
+    public async Task UnauthorisedRequestToDataManagementEndpointShouldBeRejected()
     {
         // Arrange
-        var apiClient = GetApiClient(_factory);
+        var apiClient = _factory.CreateClient();
+
+        using var content = new MultipartFormDataContent();
+
+        // Act
+        var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
+
+        //Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task ExpiredRequestToDataManagementEndpointShouldBeRejected()
+    {
+        // Arrange
+        var apiClient = _factory.CreateClient();
+
+        using var content = new MultipartFormDataContent();
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([Indicator41101GroupRoleId], true));
+
+        // Act
+        var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
+
+        //Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task InvalidRoleForIndicatorShouldBeRejected()
+    {
+        // Arrange
+        var apiClient = _factory.CreateClient();
+
+        using var content = new MultipartFormDataContent();
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([Indicator41101GroupRoleId]));
+
+        // Act
+        var response = await apiClient.PostAsync(new Uri("/indicators/9999/data", UriKind.Relative), content);
+
+        //Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Theory]
+    [InlineData(AdminRoleGuid)]
+    [InlineData(Indicator41101GroupRoleId)]
+    public async Task UploadFailuresShouldReturn500Response(string userRoleId)
+    {
+        // Arrange
+        var apiClient = _factory.CreateClient();
+
+        var publishedAt = DateTime.UtcNow.AddMonths(1);
+
+        using var content = new MultipartFormDataContent();
 
         var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
-        await using var fileStream = File.OpenRead(blobContentFilePath);
-        using var content = new MultipartFormDataContent();
+        var fileStream = File.OpenRead(blobContentFilePath);
+
         using var streamContent = new StreamContent(fileStream);
+        using var publishedAtContent = new StringContent(publishedAt.ToString("o"));
+
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
-        var publishedAtFormatted = publishedAt.ToString("o");
-        using var publishedAtContent = new StringContent(publishedAtFormatted);
-        content.Add(streamContent, "file", "valid.csv");
+
+        content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -139,23 +192,30 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         response.StatusCode.ShouldBe(HttpStatusCode.InternalServerError);
     }
 
-    [Fact]
-    public async Task UploadingInvalidFileShouldReturn400Response()
+    [Theory]
+    [InlineData(AdminRoleGuid)]
+    [InlineData(Indicator41101GroupRoleId)]
+    public async Task UploadingInvalidFileShouldReturn400Response(string userRoleId)
     {
         // Arrange
-        var apiClient = GetApiClient(_factory);
+        var apiClient = _factory.CreateClient();
+
+        var publishedAt = DateTime.UtcNow.AddMonths(1);
+
+        using var content = new MultipartFormDataContent();
 
         var blobContentFilePath = Path.Combine(TestDataDir, "invalid.csv");
-        await using var fileStream = File.OpenRead(blobContentFilePath);
-        using var content = new MultipartFormDataContent();
+        var fileStream = File.OpenRead(blobContentFilePath);
+
         using var streamContent = new StreamContent(fileStream);
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
-        var publishedAtFormatted = publishedAt.ToString("o");
-        using var publishedAtContent = new StringContent(publishedAtFormatted);
+        using var publishedAtContent = new StringContent(publishedAt.ToString("o"));
+
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        publishedAtContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-        content.Add(streamContent, "file", "valid.csv");
+
+        content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -164,16 +224,20 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
-    [Fact]
-    public async Task UploadingEmptyFileShouldReturn400Response()
+    [Theory]
+    [InlineData(AdminRoleGuid)]
+    [InlineData(Indicator41101GroupRoleId)]
+    public async Task UploadingEmptyFileShouldReturn400Response(string userRoleId)
     {
         // Arrange
-        var apiClient = GetApiClient(_factory);
+        var apiClient = _factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(Stream.Null);
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        content.Add(streamContent, "file", "fakeFile.txt");
+        content.Add(streamContent, "file", IntegrationTestFileName);
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -182,14 +246,18 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
-    [Fact]
-    public async Task UploadingNoFileShouldReturn400Response()
+    [Theory]
+    [InlineData(AdminRoleGuid)]
+    [InlineData(Indicator41101GroupRoleId)]
+    public async Task UploadingNoFileShouldReturn400Response(string userRoleId)
     {
         // Arrange
-        var apiClient = GetApiClient(_factory);
+        var apiClient = _factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
 
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
 
@@ -197,22 +265,30 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
     }
 
-    [Fact]
-    public async Task UploadToBlobStorageShouldFailIfContainerDoesNotExist()
+    [Theory]
+    [InlineData(AdminRoleGuid)]
+    [InlineData(Indicator41101GroupRoleId)]
+    public async Task UploadToBlobStorageShouldFailIfContainerDoesNotExist(string userRoleId)
     {
         // Arrange
-        var apiClient = GetApiClient(_factory, "non-existent-container");
+        var apiClient = _factory.WithWebHostBuilder(config => config.UseSetting("UPLOAD_STORAGE_CONTAINER_NAME", "invalid-container-name")).CreateClient();
+
+        var publishedAt = DateTime.UtcNow.AddMonths(1);
+
+        using var content = new MultipartFormDataContent();
 
         var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
-        await using var fileStream = File.OpenRead(blobContentFilePath);
-        using var content = new MultipartFormDataContent();
+        var fileStream = File.OpenRead(blobContentFilePath);
+
         using var streamContent = new StreamContent(fileStream);
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
-        var publishedAtFormatted = publishedAt.ToString("o");
-        using var publishedAtContent = new StringContent(publishedAtFormatted);
+        using var publishedAtContent = new StringContent(publishedAt.ToString("o"));
+
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-        content.Add(streamContent, "file", "valid.csv");
+
+        content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -274,7 +350,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
             }
         ];
 
-        var apiClient = GetApiClient(_factory);
+        var apiClient = _factory.CreateClient();
 
         // Act
         var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));

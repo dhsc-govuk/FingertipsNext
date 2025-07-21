@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Common.Auth\DHSC.FingertipsNext.Modules.Common.Auth.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.Common.Schemas\DHSC.FingertipsNext.Modules.Common.Schemas.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Clients\DHSC.FingertipsNext.Modules.DataManagement.Clients.csproj" />
       <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Service\DHSC.FingertipsNext.Modules.DataManagement.Service.csproj" />
@@ -15,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Azure.Storage.Blobs"  />
+      <PackageReference Include="Azure.Storage.Blobs" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
       <PackageReference Include="Microsoft.Extensions.Azure" />

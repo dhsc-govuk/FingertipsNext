@@ -11,6 +11,14 @@ ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
 const apiResponsePanelTestId = 'api-response-panel';
 
+vi.mock('@/lib/auth', () => {
+  return {
+    auth: vi.fn(),
+    signIn: vi.fn(),
+    signOut: vi.fn(),
+  };
+});
+
 describe('Upload page component', () => {
   it('should render the warning text', () => {
     render(<Upload batches={[mockBatch()]} />);

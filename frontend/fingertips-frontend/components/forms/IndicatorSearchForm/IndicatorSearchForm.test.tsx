@@ -30,6 +30,7 @@ const mockLoaderContext: LoaderContext = {
   getIsLoading: vi.fn(),
   setIsLoading: mockSetIsLoading,
 };
+
 vi.mock('@/context/LoaderContext', () => {
   return {
     useLoadingState: () => mockLoaderContext,

@@ -1,13 +1,15 @@
 import {
   HealthDataForArea,
   BenchmarkComparisonMethod,
+  PeriodType,
+  Frequency,
 } from '@/generated-sources/ft-api-client';
 import {
   sortHealthDataForAreasByDate,
-  getFirstYearForAreas,
-  getLatestYearForAreas,
   sortHealthDataForAreaByDate,
   AXIS_LABEL_FONT_SIZE,
+  getFirstPeriodForAreas,
+  getLatestPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { generateYAxis } from './generateYAxis';
 import { generateXAxis } from './generateXAxis';
@@ -15,7 +17,13 @@ import { generateTooltip } from './generateTooltip';
 import { generateAccessibility } from './generateAccessibility';
 import { generateSeriesData } from './generateSeriesData';
 import Highcharts from 'highcharts';
-import { getMinAndMaxXAxisEntries } from './getMinAndMaxXAxisEntries';
+import {
+  convertDateToNumber,
+  formatDatePointLabel,
+  getAdditionalPeriodLabel,
+  getPeriodLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { filterHealthDataByPeriod } from './filterHealthDataByPeriod';
 
 export enum LineChartVariant {
   Standard = 'standard',
@@ -75,6 +83,8 @@ export function generateStandardLineChartOptions(
   healthIndicatorData: HealthDataForArea[],
   lineChartCI: boolean,
   benchmarkToUse: string,
+  periodType: PeriodType,
+  frequency: Frequency,
   optionalParams?: {
     indicatorName?: string;
     englandData?: HealthDataForArea;
@@ -89,43 +99,43 @@ export function generateStandardLineChartOptions(
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
-  const firstYear = getFirstYearForAreas(sortedHealthIndicatorData);
-  const lastYear = getLatestYearForAreas(sortedHealthIndicatorData);
+
+  const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
+  const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
 
   const sortedEnglandData = optionalParams?.englandData
     ? sortHealthDataForAreaByDate(optionalParams?.englandData)
     : undefined;
 
-  const filteredSortedEnglandData =
-    sortedEnglandData &&
-    sortedHealthIndicatorData.length &&
-    firstYear &&
-    lastYear
-      ? {
-          ...sortedEnglandData,
-          healthData:
-            sortedEnglandData?.healthData.filter(
-              (data) => data.year >= firstYear && data.year <= lastYear
-            ) ?? [],
-        }
-      : sortedEnglandData;
+  const filteredSortedEnglandData = filterHealthDataByPeriod(
+    sortedEnglandData,
+    firstDateAsNumber,
+    lastDateAsNumber
+  );
 
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;
 
-  const filteredSortedGroupData =
-    sortedGroupData && sortedHealthIndicatorData.length && firstYear && lastYear
-      ? {
-          ...sortedGroupData,
-          healthData:
-            sortedGroupData?.healthData.filter(
-              (data) => data.year >= firstYear && data.year <= lastYear
-            ) ?? [],
-        }
-      : sortedGroupData;
+  const filteredSortedGroupData = filterHealthDataByPeriod(
+    sortedGroupData,
+    firstDateAsNumber,
+    lastDateAsNumber
+  );
+
+  const categories: { key: number; value: string }[] =
+    filteredSortedEnglandData?.healthData.map((point) => ({
+      key: convertDateToNumber(point.datePeriod?.from),
+      value: formatDatePointLabel(point.datePeriod, frequency, 1),
+    })) ?? [];
+
+  const xCategoryKeys: number[] = categories.map((category) => category.key);
+  const xCategoryValues: string[] = categories.map(
+    (category) => category.value
+  );
 
   const series = generateSeriesData(
+    xCategoryKeys,
     sortedHealthIndicatorData,
     filteredSortedEnglandData,
     filteredSortedGroupData,
@@ -133,11 +143,23 @@ export function generateStandardLineChartOptions(
     benchmarkToUse
   );
 
-  const { minXAxisEntries, maxXAxisEntries } = getMinAndMaxXAxisEntries(series);
+  const periodLabel = getPeriodLabel(periodType, frequency);
+  const periodLabelText = periodLabel ? `${periodLabel} ` : '';
+  const additionalPeriodLabelText =
+    firstDateAsNumber && lastDateAsNumber
+      ? getAdditionalPeriodLabel({
+          type: periodType,
+          from: new Date(firstDateAsNumber),
+          to: new Date(lastDateAsNumber),
+        })
+      : '';
 
-  const fromTo = `from ${minXAxisEntries} to ${maxXAxisEntries}`;
+  const fromDateLabel = xCategoryValues.at(0);
+  const toDateLabel = xCategoryValues.at(-1);
+
+  const fromTo = `from ${fromDateLabel} to ${toDateLabel}`;
   const titleText = optionalParams?.indicatorName
-    ? `${optionalParams?.indicatorName} ${fromTo}`
+    ? `${optionalParams?.indicatorName} ${periodLabelText}${additionalPeriodLabelText}${fromTo}`
     : fromTo;
 
   return {
@@ -149,10 +171,7 @@ export function generateStandardLineChartOptions(
       },
     },
     yAxis: generateYAxis(optionalParams?.yAxisTitle),
-    xAxis: generateXAxis(
-      optionalParams?.xAxisTitle,
-      optionalParams?.xAxisLabelFormatter
-    ),
+    xAxis: generateXAxis(xCategoryValues, optionalParams?.xAxisTitle),
     series,
     tooltip: generateTooltip(
       sortedHealthIndicatorData,

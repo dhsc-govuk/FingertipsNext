@@ -7,6 +7,7 @@ import { siteDescription, siteTitle } from '@/lib/constants';
 import { HeaderFooterWrapper } from '@/components/molecules/HeaderFooterWrapper';
 import { auth } from '@/lib/auth';
 import { SessionProvider } from 'next-auth/react';
+import { LoaderProvider } from '@/context/LoaderContext';
 
 export const metadata: Metadata = {
   title: siteTitle,
@@ -30,13 +31,15 @@ export default async function RootLayout({
       <body style={{ margin: 0 }}>
         <SessionProvider session={session} basePath={authBasePath}>
           <StyledComponentsRegistry>
-            <HeaderFooterWrapper
-              tag={tag}
-              hash={hash}
-              session={session ?? undefined}
-            >
-              <FTContainer>{children}</FTContainer>
-            </HeaderFooterWrapper>
+            <LoaderProvider>
+              <HeaderFooterWrapper
+                tag={tag}
+                hash={hash}
+                session={session ?? undefined}
+              >
+                <FTContainer>{children}</FTContainer>
+              </HeaderFooterWrapper>
+            </LoaderProvider>
           </StyledComponentsRegistry>
         </SessionProvider>
       </body>

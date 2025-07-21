@@ -54,6 +54,7 @@ services:
       AzureAD__Instance: ${AZUREAD__INSTANCE}
       AzureAD__TenantId: ${AZUREAD__TENANTID}
       AzureAD__ClientId: ${AZUREAD__CLIENTID}
+      ADMINROLE: ${ADMINROLE}
       Graph__Scopes: "User.Read"
 
     ports:

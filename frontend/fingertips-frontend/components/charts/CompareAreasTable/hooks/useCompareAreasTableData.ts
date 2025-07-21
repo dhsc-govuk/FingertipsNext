@@ -1,12 +1,10 @@
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SearchParams } from '@/lib/searchStateManager';
-import { useApiGetHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
 import { useMemo } from 'react';
 import { compareAreasTableData } from '@/components/charts/CompareAreasTable/helpers/compareAreasTableData';
-import { useApiGetIndicatorMetaData } from '@/components/charts/hooks/useApiGetIndicatorMetaData';
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
-import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
+import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
 
 export const useCompareAreasTableData = () => {
   const searchState = useSearchStateParams();
@@ -15,13 +13,7 @@ export const useCompareAreasTableData = () => {
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
   } = searchState;
 
-  const requestParams = useOneIndicatorRequestParams();
-
-  const { indicatorMetaData } = useApiGetIndicatorMetaData(
-    String(requestParams.indicatorId)
-  );
-
-  const { healthData } = useApiGetHealthDataForAnIndicator(requestParams);
+  const { healthData, indicatorMetaData } = useOneIndicatorData();
 
   return useMemo(() => {
     if (!healthData) return null;
