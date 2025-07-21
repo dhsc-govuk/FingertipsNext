@@ -857,7 +857,7 @@ export default class ChartPage extends AreaFilter {
       );
     }
 
-    // Check that the unpublished data year is displayed or not based on the user type
+    // Check that the unpublished data year is displayed or is not displayed - based on the signed in user
     const shouldShowUnpublishedData =
       signInAsUserToCheckUnpublishedData.administrator ||
       signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions;

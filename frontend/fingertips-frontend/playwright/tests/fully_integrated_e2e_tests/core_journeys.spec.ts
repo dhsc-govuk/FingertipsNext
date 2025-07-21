@@ -140,7 +140,7 @@ test.describe(
   }
 );
 
-// Log out current url when a test fails
+// Capture and write out the URL on test failure
 test.afterEach(async ({ page }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
     // Test failed - capture the URL

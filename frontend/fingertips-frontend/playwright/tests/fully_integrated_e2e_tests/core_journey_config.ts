@@ -33,7 +33,7 @@ export const coreTestJourneys: TestParameters[] = [
     ],
     checkExports: true,
     typeOfInequalityToSelect: InequalitiesTypes.Sex,
-    signInAsUserToCheckUnpublishedData: { administrator: true }, // this journey will check we show the unpublished data as we are logged in as an administrator
+    signInAsUserToCheckUnpublishedData: { administrator: true }, // this journey will check we show the unpublished data as we are signed in as an administrator
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -86,7 +86,7 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'england',
       group: 'england',
     },
-    signInAsUserToCheckUnpublishedData: { userWithIndicatorPermissions: true }, // this journey will check we show the unpublished data as we are logged in as a user with indicator permissions
+    signInAsUserToCheckUnpublishedData: { userWithIndicatorPermissions: true }, // this journey will check we show the unpublished data as we are signed in as a user with indicator permissions
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -259,7 +259,7 @@ export const coreTestJourneys: TestParameters[] = [
     checkExports: true,
     signInAsUserToCheckUnpublishedData: {
       userWithoutIndicatorPermissions: true,
-    }, // this journey will check we do not show the unpublished data as we are logged in as a user without indicator permissions
+    }, // this journey will check we do not show the unpublished data as we are signed in as a user without indicator permissions
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
@@ -338,6 +338,6 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'england',
       group: 'england',
     },
-    signInAsUserToCheckUnpublishedData: { userWithIndicatorPermissions: true }, // this journey will check we show the unpublished data as we are logged in as a user with indicator permissions
+    signInAsUserToCheckUnpublishedData: { userWithIndicatorPermissions: true }, // this journey will check we show the unpublished data as we are signed in as a user with indicator permissions
   },
 ];
