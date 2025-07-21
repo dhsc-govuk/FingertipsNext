@@ -121,9 +121,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
-    expect(
-      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
-    ).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
   });
 

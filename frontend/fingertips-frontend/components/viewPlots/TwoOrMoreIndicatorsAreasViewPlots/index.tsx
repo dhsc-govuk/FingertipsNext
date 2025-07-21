@@ -6,7 +6,6 @@ import {
   determineAreaCodes,
   determineAreasForBenchmarking,
 } from '@/lib/chartHelpers/chartHelpers';
-import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { MultipleIndicatorSpineChart } from '@/components/charts/SpineChart/MultipleIndicatorSpineChart';
@@ -14,13 +13,7 @@ import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spi
 import { MultipleIndicatorHeatMap } from '@/components/charts/HeatMap/MultipleIndicatorHeatMap';
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
-
-function shouldShowHeatmap(
-  areaCodes: string[],
-  groupAreaSelected?: string
-): boolean {
-  return areaCodes.length > 1 || groupAreaSelected === ALL_AREAS_SELECTED;
-}
+import { heatMapIsRequired } from '@/components/charts/HeatMap/helpers/heatMapIsRequired';
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
   indicatorData,
@@ -53,7 +46,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   const showSpine = spineChartIsRequired(searchState);
 
-  const showHeatmap = shouldShowHeatmap(areaCodes, groupAreaSelected);
+  const showHeatmap = heatMapIsRequired(searchState);
 
   const availableChartLinks: ChartTitleKeysEnum[] = [];
   if (showSpine) availableChartLinks.push(ChartTitleKeysEnum.SpineChart);
@@ -65,9 +58,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
       <AvailableChartLinks availableCharts={availableChartLinks} />
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
       {showSpine ? <MultipleIndicatorSpineChart /> : null}
-      {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
-        <MultipleIndicatorHeatMap />
-      ) : null}
+      {showHeatmap ? <MultipleIndicatorHeatMap /> : null}
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 export const heatMapIsRequired = (searchState: SearchStateParams) => {
   const {
@@ -9,7 +10,9 @@ export const heatMapIsRequired = (searchState: SearchStateParams) => {
     [SearchParams.IndicatorsSelected]: indicatorsSelected = [],
   } = searchState;
 
-  const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected);
+  const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected).filter(
+    (code) => code !== areaCodeForEngland
+  );
   if (
     indicatorsSelected.length === 1 &&
     areaCodes.length <= 2 &&
