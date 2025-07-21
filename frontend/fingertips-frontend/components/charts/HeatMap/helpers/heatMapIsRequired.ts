@@ -2,13 +2,20 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 
-export const spineChartIsRequired = (searchState: SearchStateParams) => {
+export const heatMapIsRequired = (searchState: SearchStateParams) => {
   const {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
+    [SearchParams.IndicatorsSelected]: indicatorsSelected = [],
   } = searchState;
 
   const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected);
-
-  return areaCodes.length <= 2 && groupAreaSelected !== ALL_AREAS_SELECTED;
+  if (
+    indicatorsSelected.length === 1 &&
+    areaCodes.length <= 2 &&
+    groupAreaSelected !== ALL_AREAS_SELECTED
+  ) {
+    return false;
+  }
+  return areaCodes.length > 2 || groupAreaSelected === ALL_AREAS_SELECTED;
 };

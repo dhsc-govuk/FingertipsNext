@@ -49,12 +49,12 @@ describe('spineChartTableHelpers tests', () => {
       const [row1] = result;
       expect(row1).toHaveProperty(
         'rowId',
-        `${testDataWithGroup.indicatorId}-sex:persons`
+        `${testDataWithGroup.indicatorId}?sex=persons&age=all+ages`
       );
       expect(row1).toHaveProperty('indicatorId', testDataWithGroup.indicatorId);
       expect(row1).toHaveProperty(
         'indicatorName',
-        `${testDataWithGroup.name} (Persons)`
+        `${testDataWithGroup.name} (Persons, All ages)`
       );
       expect(row1).toHaveProperty('latestDataPeriod', testQuartile.year);
       expect(row1).toHaveProperty('valueUnit', '%');

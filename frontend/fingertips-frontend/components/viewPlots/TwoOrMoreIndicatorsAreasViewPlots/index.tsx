@@ -7,10 +7,9 @@ import {
   determineAreasForBenchmarking,
 } from '@/lib/chartHelpers/chartHelpers';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
-import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
+import { MultipleIndicatorSpineChart } from '@/components/charts/SpineChart/MultipleIndicatorSpineChart';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { MultipleIndicatorHeatMap } from '@/components/charts/HeatMap/MultipleIndicatorHeatMap';
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
@@ -65,11 +64,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <AvailableChartLinks availableCharts={availableChartLinks} />
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
-      {showSpine ? (
-        <StyleChartWrapper>
-          <SpineChartWrapper />
-        </StyleChartWrapper>
-      ) : null}
+      {showSpine ? <MultipleIndicatorSpineChart /> : null}
       {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
         <MultipleIndicatorHeatMap />
       ) : null}

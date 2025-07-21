@@ -62,7 +62,7 @@ export const buildSpineChartIndicatorData = (
     return combinations.map((segmentInfo) => {
       const search = searchFromSegmentInfo(segmentInfo);
       const extractedSegment = flattenSegment(indicator, search);
-      const segmentId = segmentIdFromInfo(segmentInfo);
+      const segmentId = segmentIdFromInfo(indicatorId, segmentInfo);
 
       const segmentName = segmentNameFromInfo(segmentInfo);
 
@@ -92,7 +92,7 @@ export const buildSpineChartIndicatorData = (
       if (!matchedQuartileData) return;
 
       const result: SpineChartIndicatorData = {
-        rowId: `${indicatorId}-${segmentId}`,
+        rowId: segmentId,
         indicatorId,
         indicatorName: `${name} (${segmentName})`,
         valueUnit: metaData?.unitLabel ?? '',

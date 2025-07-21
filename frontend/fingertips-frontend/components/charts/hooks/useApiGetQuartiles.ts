@@ -29,7 +29,7 @@ export const useApiGetQuartiles = (options: IndicatorsQuartilesGetRequest) => {
         await indicatorsApiInstance.indicatorsQuartilesGet(options)
       ).filter((q) => q.isAggregate === true);
     },
-    enabled: indicatorIds.length >= 2,
+    enabled: indicatorIds.length >= 1,
   });
 
   return useMemo(() => {

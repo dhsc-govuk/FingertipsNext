@@ -1,11 +1,17 @@
 import { SegmentInfo } from '@/lib/common-types';
-import { filterDefined } from '@/lib/chartHelpers/filterDefined';
 
-export const segmentIdFromInfo = (info: SegmentInfo) => {
-  const parts = Object.entries(info).map(([key, value]) => {
+export const segmentIdFromInfo = (
+  indicatorId: number | string,
+  info: SegmentInfo
+) => {
+  const query = new URLSearchParams();
+
+  Object.entries(info).forEach(([key, value]) => {
     if (!value || value === '') return;
-    return `${key}:${value}`;
+    query.append(key.toLowerCase(), value.toLowerCase());
   });
+  const queryString = query.toString();
+  if (queryString.length === 0) return `${indicatorId}`;
 
-  return parts.filter(filterDefined).join('_').toLowerCase();
+  return `${indicatorId}?${queryString}`;
 };

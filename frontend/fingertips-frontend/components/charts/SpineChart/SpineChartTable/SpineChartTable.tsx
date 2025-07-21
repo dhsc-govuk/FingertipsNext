@@ -26,9 +26,11 @@ import {
 export interface SpineChartTableProps {
   indicatorData: SpineChartIndicatorData[];
   benchmarkToUse: string;
+  title?: string;
 }
 
 export function SpineChartTable({
+  title = chartTitleConfig[ChartTitleKeysEnum.SpineChart].title,
   indicatorData,
   benchmarkToUse,
 }: Readonly<SpineChartTableProps>) {
@@ -44,19 +46,17 @@ export function SpineChartTable({
   if (!indicatorData.length || !areaNames) return null;
 
   const groupName = indicatorData[0].groupData?.areaName;
-  const title = `Area profile for ${areaNames.join(' and ')}`;
+  const chartTitle = `Area profile for ${areaNames.join(' and ')}`;
 
   const StyledTable =
     areaNames.length > 1 ? StyledTableMultipleAreas : StyledTableOneArea;
 
   return (
     <>
-      <SubTitle id={ChartTitleKeysEnum.SpineChart}>
-        {chartTitleConfig[ChartTitleKeysEnum.SpineChart].title}
-      </SubTitle>
+      <SubTitle id={ChartTitleKeysEnum.SpineChart}>{title}</SubTitle>
       <ContainerWithOutline>
         <div id={'spineChartTable'} data-testid="spineChartTable-component">
-          <ChartTitle>{title}</ChartTitle>
+          <ChartTitle>{chartTitle}</ChartTitle>
           <SpineChartLegend
             legendsToShow={methods}
             benchmarkToUse={benchmarkToUse}

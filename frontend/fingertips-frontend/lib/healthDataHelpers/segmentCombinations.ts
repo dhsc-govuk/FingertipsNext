@@ -1,4 +1,4 @@
-import { SegmentationId } from '@/lib/common-types';
+import { SegmentationId, SegmentInfo } from '@/lib/common-types';
 
 export const segmentCombinations = (
   segValues: Record<SegmentationId, string[]>

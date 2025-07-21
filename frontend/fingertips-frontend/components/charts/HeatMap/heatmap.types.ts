@@ -5,7 +5,7 @@ import {
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
 
-import { SegmentationId } from '@/lib/common-types';
+import { SegmentInfo } from '@/lib/common-types';
 
 export interface HeatmapIndicatorData {
   rowId: string;

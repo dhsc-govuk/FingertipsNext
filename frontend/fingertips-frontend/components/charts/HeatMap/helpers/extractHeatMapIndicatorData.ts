@@ -7,7 +7,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
 import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
 import { segmentIdFromInfo } from '@/lib/healthDataHelpers/segmentIdFromInfo';
-import { SegmentationId } from '@/lib/common-types';
+import { SegmentInfo } from '@/lib/common-types';
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
@@ -18,11 +18,11 @@ export function extractHeatmapIndicatorData(
     return undefined;
   }
 
-  const segmentId = segmentIdFromInfo(segmentInfo);
+  const segmentId = segmentIdFromInfo(metadata.indicatorID, segmentInfo);
   const segmentName = segmentNameFromInfo(segmentInfo);
 
   return {
-    rowId: `${metadata.indicatorID}-${segmentId}`,
+    rowId: segmentId,
     indicatorId: metadata.indicatorID,
     indicatorName: `${metadata.indicatorName} (${segmentName})`,
     healthDataForAreas: indicatorData.areaHealthData,

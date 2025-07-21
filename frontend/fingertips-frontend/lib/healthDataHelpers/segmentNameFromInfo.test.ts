@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { segmentNameFromInfo } from './segmentNameFromInfo';
 
-import { SegmentationId } from '@/lib/common-types';
+import { SegmentInfo } from '@/lib/common-types';
 
 describe('segmentNameFromInfo', () => {
   it('returns full string when all fields are present', () => {

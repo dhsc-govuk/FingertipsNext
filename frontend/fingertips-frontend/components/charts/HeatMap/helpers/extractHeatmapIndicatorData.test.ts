@@ -13,7 +13,7 @@ describe('extractHeatmapIndicatorData', () => {
 
   it('should populate heatmap indicator data with values from indicator data and metadata', () => {
     const expectedHeatmapIndicatorData: HeatmapIndicatorData = {
-      rowId: `${populatedIndicatorMetadata.indicatorID}-sex:persons`,
+      rowId: `${populatedIndicatorMetadata.indicatorID}?sex=persons`,
       indicatorId: populatedIndicatorMetadata.indicatorID,
       indicatorName: `${populatedIndicatorMetadata.indicatorName} (persons)`,
       healthDataForAreas: populatedIndicatorData.areaHealthData ?? [],
@@ -46,7 +46,7 @@ describe('extractHeatmapIndicatorData', () => {
 
   it('should default props if not defined in inputs', () => {
     const expectedHeatmapIndicatorData: HeatmapIndicatorData = {
-      rowId: `${populatedIndicatorMetadata.indicatorID}-sex:persons`,
+      rowId: `${populatedIndicatorMetadata.indicatorID}?sex=persons`,
       indicatorId: populatedIndicatorMetadata.indicatorID,
       indicatorName: `${populatedIndicatorMetadata.indicatorName} (persons)`,
       healthDataForAreas: populatedIndicatorData.areaHealthData ?? [],
