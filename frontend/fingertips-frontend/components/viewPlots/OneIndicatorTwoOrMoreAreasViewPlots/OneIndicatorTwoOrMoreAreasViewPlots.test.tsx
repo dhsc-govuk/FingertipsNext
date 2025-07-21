@@ -2,6 +2,7 @@
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
+import { mockHighChartsWrapperSetup } from '@/mock/utils/mockHighChartsWrapper';
 //
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { OneIndicatorTwoOrMoreAreasViewPlots } from '.';
@@ -25,14 +26,17 @@ import {
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
+import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
 
+mockHighChartsWrapperSetup();
+
 const mockPath = 'some-mock-path';
 mockUsePathname.mockReturnValue(mockPath);
-mockSetIsLoading(false);
+mockSetIsLoading.mockReturnValue(true);
 
 const lineChartTestId = 'standardLineChart-component';
 const lineChartTableTestId = 'lineChartTable-component';
@@ -75,7 +79,6 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
     mockHealthDataForArea({
       areaCode: 'E12000004',
       areaName: 'Area1',
-      healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
       indicatorSegments: [
         mockIndicatorSegment({
           healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
@@ -85,7 +88,6 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
     mockHealthDataForArea({
       areaCode: 'E12000006',
       areaName: 'Area2',
-      healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
       indicatorSegments: [
         mockIndicatorSegment({
           healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
@@ -261,6 +263,27 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
           screen.queryByTestId('thematicMap-component')
         ).not.toBeInTheDocument();
       });
+    });
+  });
+
+  describe('SingleIndicatorHeatMap', () => {
+    const mockSearchStateAllAreas = {
+      [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
+      [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+      [SearchParams.GroupSelected]: 'E12000003',
+      [SearchParams.AreaTypeSelected]: 'regions',
+    };
+
+    it('should render the SingleIndicatorHeatMap with title', async () => {
+      await testRender(mockSearchStateAllAreas, testHealthData, testMetaData);
+      expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
+
+      expect(
+        screen.getByText(heatMapText.singleIndicator.title)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(heatMapText.singleIndicator.subTitle)
+      ).toBeInTheDocument();
     });
   });
 

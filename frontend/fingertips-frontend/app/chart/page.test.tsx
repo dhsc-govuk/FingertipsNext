@@ -202,7 +202,7 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenCalledTimes(2);
+      ).toHaveBeenCalledTimes(3);
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
       ).not.toHaveBeenCalled();
@@ -240,7 +240,7 @@ describe('Chart Page', () => {
       ).toHaveBeenCalledTimes(1);
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-      ).toHaveBeenCalledTimes(1);
+      ).toHaveBeenCalledTimes(2);
 
       expect(
         Object.keys(actualSeedData).some((key) =>
