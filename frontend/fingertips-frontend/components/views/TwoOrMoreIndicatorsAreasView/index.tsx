@@ -2,10 +2,7 @@ import { TwoOrMoreIndicatorsAreasViewPlot } from '@/components/viewPlots/TwoOrMo
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import {
   determineBenchmarkRefType,
@@ -17,12 +14,6 @@ import { healthDataRequestAreas } from '@/components/charts/SpineChart/helpers/h
 import { SeedDataPromises } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { seedDataFromPromises } from '@/components/atoms/SeedQueryCache/seedDataFromPromises';
-import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
-import {
-  EndPoints,
-  queryKeyFromRequestParams,
-} from '@/components/charts/helpers/queryKeyFromRequestParams';
-import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
