@@ -2,7 +2,7 @@
 
 import { ResponseError } from '@/generated-sources/ft-api-client';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
-import { auth } from '@/lib/auth';
+import { getAuthHeader } from '@/lib/auth/accessToken';
 import { UTCDateMini } from '@date-fns/utc';
 import { revalidatePath } from 'next/cache';
 
@@ -31,9 +31,6 @@ export async function uploadFile(
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const session = await auth();
-  const accessToken = session?.accessToken;
-
   try {
     const response = await indicatorApi.indicatorsIndicatorIdDataPostRaw(
       {
@@ -42,7 +39,7 @@ export async function uploadFile(
         publishedAt,
       },
       {
-        headers: { Authorization: `bearer ${accessToken}` },
+        headers: await getAuthHeader(),
       }
     );
 

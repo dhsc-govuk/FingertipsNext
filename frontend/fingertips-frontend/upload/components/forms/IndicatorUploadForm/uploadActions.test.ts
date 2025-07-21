@@ -11,6 +11,8 @@ import { Session } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { mockDeep } from 'vitest-mock-extended';
 import { deleteBatch, uploadFile } from './uploadActions';
+import { getJWT } from '@/lib/auth/getJWT';
+import { Mock } from 'vitest';
 
 vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
@@ -18,6 +20,12 @@ vi.mock('next/cache', () => ({
 
 const mockSession = mockDeep<Session>();
 mockAuth.mockResolvedValue(mockSession);
+
+vi.mock('@/lib/auth/getJWT', () => {
+  return { getJWT: vi.fn() };
+});
+
+const mockGetJWT = getJWT as Mock;
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 const mockBatchesApi = mockDeep<BatchesApi>();
@@ -73,7 +81,7 @@ describe('uploadActions', () => {
       file: expectedFile,
     });
     const expectedAccessToken = 'access-token';
-    mockSession.accessToken = expectedAccessToken;
+    mockGetJWT.mockResolvedValue({ accessToken: expectedAccessToken });
 
     await uploadFile(undefined, formData);
 
