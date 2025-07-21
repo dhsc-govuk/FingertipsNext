@@ -1,10 +1,9 @@
-using DHSC.FingertipsNext.Modules.Common.Schemas;
 using System.Security.Claims;
 using DHSC.FingertipsNext.Modules.Common.Auth;
+using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
-using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

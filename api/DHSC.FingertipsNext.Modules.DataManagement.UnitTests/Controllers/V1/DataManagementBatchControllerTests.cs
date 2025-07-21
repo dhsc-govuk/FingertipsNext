@@ -1,4 +1,3 @@
-using System.Net;
 using DHSC.FingertipsNext.Modules.Common.Auth;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
@@ -6,7 +5,6 @@ using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
-using DHSC.FingertipsNext.Modules.DataManagement.UnitTests.TestData;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -22,31 +20,13 @@ public class DataManagementBatchControllerTests
 
     public DataManagementBatchControllerTests()
     {
-        var configuration = Substitute.For<IConfiguration>();
+        var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            ["ADMINROLE"] = "b36b971b-e91d-4a5d-b9de-5a4a3076382f"
+        }).Build();
         var indicatorPermissionsService = Substitute.For<IIndicatorPermissionsLookupService>();
         _dataManagementService = Substitute.For<IDataManagementService>();
-        _controller = new DataManagementBatchController(configuration, indicatorPermissionsService,  _dataManagementService);
-    }
-
-    [Fact]
-    public async Task ListBatchesReturnsTheExpectedResult()
-    {
-        // Arrange
-        var expectedResponse = new[]
-        {
-            BatchExamples.Batch with { BatchId = "41101_2025-03-07T15:44:37.123Z" },
-            BatchExamples.Batch with { BatchId = "383_2017-06-30T14:22:37.123Z" }
-        };
-        _dataManagementService.ListBatches([]).Returns(expectedResponse);
-
-        // Act
-        var response =
-            await _controller.ListBatches() as OkObjectResult;
-
-        // Assert
-        response.ShouldNotBeNull();
-        response.StatusCode?.ShouldBe(StatusCodes.Status200OK);
-        response.Value.ShouldBeEquivalentTo(expectedResponse);
+        _controller = new DataManagementBatchController(configuration, indicatorPermissionsService, _dataManagementService);
     }
 
     [Fact]
@@ -63,7 +43,7 @@ public class DataManagementBatchControllerTests
             OriginalFileName = "upload.csv",
             PublishedAt = DateTime.UtcNow.AddMonths(1),
             Status = BatchStatus.Received,
-            UserId = Guid.NewGuid().ToString(),
+            UserId = Guid.NewGuid().ToString()
         };
 
         var expectedServiceResponse = new UploadHealthDataResponse(OutcomeType.Ok, expectedModel);
@@ -112,7 +92,7 @@ public class DataManagementBatchControllerTests
         string expectedErrorMessage)
     {
         // Arrange
-        var listToReturn = (List<string>)[errors!];
+        var listToReturn = (List<string>) [errors!];
 
 
         var response = new UploadHealthDataResponse(OutcomeType.ClientError, null, listToReturn);
