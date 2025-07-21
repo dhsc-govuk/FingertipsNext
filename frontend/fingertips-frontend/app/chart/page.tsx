@@ -108,7 +108,6 @@ export default async function ChartPage(
         healthEndpoint,
         apiRequestParams
       );
-
       try {
         const healthData = await getChartQuerySeedData(
           apiRequestParams,
@@ -127,7 +126,6 @@ export default async function ChartPage(
       stateManager.setState(updatedSearchState);
     }
 
-    // TODO: #1034 add logic for unpublished data
     // seed data for inequalities
     const inequalitiesQueryParams = inequalitiesRequestParams(searchState);
     const inequalitiesQueryKey = queryKeyFromRequestParams(
@@ -139,19 +137,20 @@ export default async function ChartPage(
       !Object.keys(seedData).includes(inequalitiesQueryKey)
     ) {
       try {
-        seedData[inequalitiesQueryKey] =
-          await indicatorApi.getHealthDataForAnIndicator(
-            inequalitiesQueryParams,
-            API_CACHE_CONFIG
-          );
-      } catch (e) {
+        const healthData = await getChartQuerySeedData(
+          inequalitiesQueryParams,
+          session
+        );
+        seedData[inequalitiesQueryKey] = healthData;
+      } catch (error) {
         console.error(
           'error getting health indicator data for inequalities',
-          e
+          error
         );
       }
     }
 
+    // TODO: #1034 use util for data fetch
     // seed data for population pyramid
     const populationPyramidQueryParams = populationPyramidRequestParams(
       searchState,
