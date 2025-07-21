@@ -33,6 +33,19 @@ export interface SpineChartIndicatorData {
   quartileData: QuartileData;
 }
 
+const onlyMatchingDataPoints = (
+  areaHealthData?: HealthDataForArea,
+  period?: number
+) => {
+  if (!areaHealthData) return undefined;
+  return {
+    ...areaHealthData,
+    healthData: areaHealthData.healthData.filter(
+      (dataPoint) => dataPoint.year === period
+    ),
+  };
+};
+
 export const buildSpineChartIndicatorData = (
   allIndicatorData: IndicatorWithHealthDataForArea[],
   allIndicatorMetadata: IndicatorDocument[],
@@ -66,30 +79,33 @@ export const buildSpineChartIndicatorData = (
 
       const segmentName = segmentNameFromInfo(segmentInfo);
 
-      const areasHealthData = findHealthDataForAreas(
-        extractedSegment,
-        areasSelected
-      );
-
-      const groupData = findHealthDataForArea(
-        extractedSegment,
-        selectedGroupCode
-      );
-
-      const englandData = findHealthDataForArea(
-        extractedSegment,
-        areaCodeForEngland
-      );
-
-      const latestDataPeriod = englandData?.healthData?.at(0)?.year;
-
       const matchedQuartileData = findQuartileBySegmentation(
         quartileData,
         indicatorId,
         segmentInfo
       );
 
-      if (!matchedQuartileData) return;
+      const latestDataPeriod = matchedQuartileData?.year;
+      if (!matchedQuartileData || !latestDataPeriod) return;
+
+      const areasHealthData = findHealthDataForAreas(
+        extractedSegment,
+        areasSelected
+      )
+        .map((areaHealthData) =>
+          onlyMatchingDataPoints(areaHealthData, latestDataPeriod)
+        )
+        .filter(filterDefined) as HealthDataForArea[];
+
+      const groupData = onlyMatchingDataPoints(
+        findHealthDataForArea(extractedSegment, selectedGroupCode),
+        latestDataPeriod
+      );
+
+      const englandData = onlyMatchingDataPoints(
+        findHealthDataForArea(extractedSegment, areaCodeForEngland),
+        latestDataPeriod
+      );
 
       const result: SpineChartIndicatorData = {
         rowId: segmentId,
