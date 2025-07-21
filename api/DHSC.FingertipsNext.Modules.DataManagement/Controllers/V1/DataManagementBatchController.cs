@@ -61,7 +61,11 @@ public class DataManagementBatchController : ControllerBase
     {
         var userRoles = GetRoles(User);
         var userIndicatorPermissions = await GetIndicatorIdsFromRoles(userRoles);
+
         if (userIndicatorPermissions.Length == 0 && !User.IsInRole(_adminRole)) return new ForbidResult();
+
+        // If a user is an admin we ignore any other permissions they may have.
+        if (User.IsInRole(_adminRole)) userIndicatorPermissions = [];
 
         return new OkObjectResult(await _dataManagementService.ListBatches(userIndicatorPermissions));
     }

@@ -68,6 +68,23 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
     }
 
     [Fact]
+    public async Task ListBatchesEndpointShouldListAllBatchesForAdministratorsWithAdditionalRoles()
+    {
+        // Arrange
+        var expectedResult = new[] { BatchFor41101, BatchFor383, BatchFor22401 };
+
+        var apiClient = Factory.CreateClient();
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            Factory.GenerateTestToken([AdminRoleGuid, Indicator41101GroupRoleId]));
+
+        // Act
+        var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
+
+        // Assert
+        response.ShouldBeEquivalentTo(expectedResult);
+    }
+
+    [Fact]
     public async Task ListBatchesEndpointShouldListOnlyBatchesForIndicatorsTheUserHasPermissionsFor()
     {
         // Arrange
