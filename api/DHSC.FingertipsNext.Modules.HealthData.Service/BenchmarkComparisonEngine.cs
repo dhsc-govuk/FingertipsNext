@@ -209,6 +209,7 @@ internal static class BenchmarkComparisonEngine
         {
             Age = targetSegment.Age,
             Sex = targetSegment.Sex,
+            ReportingPeriod = targetSegment.ReportingPeriod,
             IsAggregate = targetSegment.IsAggregate,
             HealthData = newHealthDataPoints
         };

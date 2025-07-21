@@ -1275,6 +1275,7 @@ public class IndicatorServiceTests
             {
                 Age = g.First().AgeBand,
                 Sex = g.First().Sex,
+                ReportingPeriod = "yearly",
                 IsAggregate = g.Key.SexIsAggregate,
                 HealthData = g.ToList()
             })

@@ -59,6 +59,7 @@ internal static class HealthDataForAreaBuilder
             {
                 Age = age,
                 Sex = sex,
+                ReportingPeriod = "yearly",
                 IsAggregate = sexValue == "Persons",
                 HealthData = healthDataPoints
             });

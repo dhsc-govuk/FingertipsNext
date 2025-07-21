@@ -13,6 +13,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
                     "value": "Female",
                     "isAggregate": true
                 },
+                "reportingPeriod": "yearly",
                 "isAggregate": true,
                 "year": 2023,
                 "datePeriod": {
@@ -53,6 +54,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
                     "value": "Female",
                     "isAggregate": true
                 },
+                "reportingPeriod": "yearly",
                 "isAggregate": true,
                 "year": 2023,
                 "datePeriod": {
@@ -93,6 +95,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2024,
             "datePeriod": {
@@ -121,6 +124,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
                 "value": "Female",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -159,6 +163,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
                     "value": "Persons",
                     "isAggregate": true
                 },
+                "reportingPeriod": "yearly",
                 "isAggregate": true,
                 "year": 2024,
                 "datePeriod": {
@@ -187,6 +192,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&indicator_ids
                     "value": "Female",
                     "isAggregate": true
                 },
+                "reportingPeriod": "yearly",
                 "isAggregate": true,
                 "year": 2023,
                 "datePeriod": {
@@ -226,6 +232,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=241&area_code=N8500
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -261,6 +268,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=999999&area_code=N8
         {
             "age": null,
             "sex": null,
+            "reportingPeriod": null,
             "isAggregate": null,
             "year": null,
             "datePeriod": null,
@@ -297,6 +305,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=N85
                     "value": "Persons",
                     "isAggregate": true
                 },
+                "reportingPeriod": "yearly",
                 "isAggregate": true,
                 "year": 2024,
                 "datePeriod": {
@@ -337,6 +346,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=gps
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2024,
             "datePeriod": {
@@ -371,6 +381,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
         {
             "age": null,
             "sex": null,
+            "reportingPeriod": null,
             "isAggregate": null,
             "year": null,
             "datePeriod": null,
@@ -433,6 +444,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
                 "value": "Female",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2019,
             "datePeriod": {
@@ -472,6 +484,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94103&area_code=E09
                 "value": "Female",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,            
             "year": 2019,
             "datePeriod": {
@@ -523,6 +536,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=91894&area_code=E54
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -562,6 +576,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93085&area_code=E09
                 "value": "Female",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -601,6 +616,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=D83
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2024,
             "datePeriod": {
@@ -641,6 +657,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
                 "value": "Female",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -681,6 +698,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
                 "value": "Female",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -721,6 +739,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
                 "value": "Female",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -761,6 +780,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=E38
                 "value": "Female",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -803,6 +823,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -837,6 +858,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -876,6 +898,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93861&area_code=E07
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2023,
             "datePeriod": {
@@ -915,6 +938,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_code=K84
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2024,
             "datePeriod": {
@@ -954,6 +978,7 @@ GET http://localhost:5144/indicators/quartiles/all?indicator_ids=90453&area_code
                 "value": "Persons",
                 "isAggregate": true
             },
+            "reportingPeriod": "yearly",
             "isAggregate": true,
             "year": 2025,
             "datePeriod": {
@@ -993,6 +1018,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=22401&area_code=E12
       "value": "Female",
       "isAggregate": false
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2023,
     "datePeriod": {
@@ -1021,6 +1047,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=22401&area_code=E12
       "value": "Male",
       "isAggregate": false
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2023,
     "datePeriod": {
@@ -1049,6 +1076,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=22401&area_code=E12
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": true,
     "year": 2023,
     "datePeriod": {
@@ -1089,6 +1117,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93763&indicator_ids
       "value": "Female",
       "isAggregate": false
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2023,
     "datePeriod": {
@@ -1117,6 +1146,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93763&indicator_ids
       "value": "Male",
       "isAggregate": false
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2023,
     "datePeriod": {
@@ -1145,6 +1175,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93763&indicator_ids
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": true,
     "year": 2023,
     "datePeriod": {
@@ -1173,6 +1204,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93763&indicator_ids
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": true,
     "year": 2023,
     "datePeriod": {
@@ -1215,6 +1247,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2024,
     "datePeriod": {
@@ -1243,6 +1276,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2024,
     "datePeriod": {
@@ -1271,6 +1305,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2023,
     "datePeriod": {
@@ -1299,6 +1334,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2024,
     "datePeriod": {
@@ -1327,6 +1363,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2024,
     "datePeriod": {
@@ -1355,6 +1392,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2024,
     "datePeriod": {
@@ -1383,6 +1421,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
       "value": "Persons",
       "isAggregate": true
     },
+    "reportingPeriod": "yearly",
     "isAggregate": false,
     "year": 2024,
     "datePeriod": {
@@ -1400,6 +1439,320 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
     "englandValue": 2.35766727530359,
     "indicatorId": 93468,
     "polarity": "NoJudgement",
+    "frequency": "Annually"
+  }
+]
+
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Check quartile calculation for indicator with multiple reportingPeriods and multiple ages
+GET http://localhost:5144/indicators/quartiles?indicator_ids=91102&area_code=E08000029&area_type=districts-and-unitary-authorities
+> {%
+    client.test("Check Quartiles for Alcohol and Particulates for North West Region", function (callbackfn, thisArg) {
+        const expected = [
+  {
+    "age": {
+      "value": "65",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Female",
+      "isAggregate": false
+    },
+    "reportingPeriod": "3 yearly",
+    "isAggregate": false,
+    "year": 2021,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2021-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 18.65,
+    "q1Value": 20.46,
+    "q2Value": 21.31,
+    "q3Value": 22.01,
+    "q4Value": 23.25,
+    "areaValue": 22.02,
+    "ancestorValue": null,
+    "englandValue": 21.14,
+    "indicatorId": 91102,
+    "polarity": "HighIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "65",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Female",
+      "isAggregate": false
+    },
+    "reportingPeriod": "yearly",
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 18.69,
+    "q1Value": 20.58,
+    "q2Value": 21.48,
+    "q3Value": 22.18,
+    "q4Value": 23.85,
+    "areaValue": 22.22,
+    "ancestorValue": null,
+    "englandValue": 21.27,
+    "indicatorId": 91102,
+    "polarity": "HighIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "65",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Male",
+      "isAggregate": false
+    },
+    "reportingPeriod": "3 yearly",
+    "isAggregate": false,
+    "year": 2021,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2021-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 16.12,
+    "q1Value": 18,
+    "q2Value": 18.85,
+    "q3Value": 19.57,
+    "q4Value": 21.01,
+    "areaValue": 18.89,
+    "ancestorValue": null,
+    "englandValue": 18.67,
+    "indicatorId": 91102,
+    "polarity": "HighIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "65",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Male",
+      "isAggregate": false
+    },
+    "reportingPeriod": "yearly",
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 16.26,
+    "q1Value": 18.21,
+    "q2Value": 18.92,
+    "q3Value": 19.75,
+    "q4Value": 20.87,
+    "areaValue": 18.96,
+    "ancestorValue": null,
+    "englandValue": 18.84,
+    "indicatorId": 91102,
+    "polarity": "HighIsGood",
+    "frequency": "Annually"
+  }
+]
+
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+    });
+%}
+
+### Check quartile calculation for indicator with multiple reportingPeriods and multiple sexes
+GET http://localhost:5144/indicators/quartiles?indicator_ids=108&area_code=E08000029&area_type=districts-and-unitary-authorities
+> {%
+    client.test("Check Quartiles for Alcohol and Particulates for North West Region", function (callbackfn, thisArg) {
+        const expected = [
+  {
+    "age": {
+      "value": "<75 yrs",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Female",
+      "isAggregate": false
+    },
+    "reportingPeriod": "3 yearly",
+    "isAggregate": false,
+    "year": 2021,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2021-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 156.57654,
+    "q1Value": 225.94169,
+    "q2Value": 258.79422,
+    "q3Value": 310.58244,
+    "q4Value": 454.08032,
+    "areaValue": 235.31321,
+    "ancestorValue": null,
+    "englandValue": 273.31975,
+    "indicatorId": 108,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "<75 yrs",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Female",
+      "isAggregate": false
+    },
+    "reportingPeriod": "yearly",
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 146.52737,
+    "q1Value": 218.98219,
+    "q2Value": 255.45544,
+    "q3Value": 306.14278,
+    "q4Value": 489.30243,
+    "areaValue": 210.52778,
+    "ancestorValue": null,
+    "englandValue": 267.43674,
+    "indicatorId": 108,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "<75 yrs",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Male",
+      "isAggregate": false
+    },
+    "reportingPeriod": "3 yearly",
+    "isAggregate": false,
+    "year": 2021,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2021-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 232.64874,
+    "q1Value": 355.56077,
+    "q2Value": 410.93041,
+    "q3Value": 491.93692,
+    "q4Value": 764.11515,
+    "areaValue": 390.983,
+    "ancestorValue": null,
+    "englandValue": 429.23166,
+    "indicatorId": 108,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "<75 yrs",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Male",
+      "isAggregate": false
+    },
+    "reportingPeriod": "yearly",
+    "isAggregate": false,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 244.54767,
+    "q1Value": 346.32543,
+    "q2Value": 404.75532,
+    "q3Value": 475.29821,
+    "q4Value": 754.82587,
+    "areaValue": 389.34954,
+    "ancestorValue": null,
+    "englandValue": 420.07872,
+    "indicatorId": 108,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "<75 yrs",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Persons",
+      "isAggregate": true
+    },
+    "reportingPeriod": "3 yearly",
+    "isAggregate": true,
+    "year": 2021,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2021-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 202.35228,
+    "q1Value": 287.19345,
+    "q2Value": 332.86959,
+    "q3Value": 394.24229,
+    "q4Value": 609.03033,
+    "areaValue": 310.18837,
+    "ancestorValue": null,
+    "englandValue": 349.06249,
+    "indicatorId": 108,
+    "polarity": "LowIsGood",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "<75 yrs",
+      "isAggregate": true
+    },
+    "sex": {
+      "value": "Persons",
+      "isAggregate": true
+    },
+    "reportingPeriod": "yearly",
+    "isAggregate": true,
+    "year": 2023,
+    "datePeriod": {
+      "type": "Calendar",
+      "from": "2023-01-01",
+      "to": "2023-12-31"
+    },
+    "q0Value": 207.11832,
+    "q1Value": 280.61517,
+    "q2Value": 326.17573,
+    "q3Value": 385.66582,
+    "q4Value": 622.11748,
+    "areaValue": 296.36371,
+    "ancestorValue": null,
+    "englandValue": 341.57323,
+    "indicatorId": 108,
+    "polarity": "LowIsGood",
     "frequency": "Annually"
   }
 ]

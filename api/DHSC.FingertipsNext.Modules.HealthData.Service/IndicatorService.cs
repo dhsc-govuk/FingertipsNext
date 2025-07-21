@@ -227,6 +227,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 {
                     ageName = healthMeasure.AgeDimensionName,
                     ageIsAggregate = healthMeasure.AgeDimensionIsAggregate,
+                    reportingPeriod = healthMeasure.ReportingPeriod,
                     sexName = healthMeasure.SexDimensionName,
                     sexIsAggregate = healthMeasure.SexDimensionIsAggregate
                 })
@@ -234,6 +235,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             {
                 Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
                 Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
+                ReportingPeriod = segmentGroup.Key.reportingPeriod,
                 IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
                 HealthData = healthDataMapper.Map(segmentGroup.ToList())
                   .OrderBy(dataPoint => dataPoint.DatePeriod.From)
@@ -241,6 +243,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             })
             .OrderBy(segment => segment.Sex.Value)
             .ThenBy(segment => segment.Age.Value)
+            .ThenBy(segment => segment.ReportingPeriod)
             .ToList()
             })
             .ToList();
@@ -310,12 +313,14 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                     ageName = healthMeasure.AgeDimension.Name,
                     ageIsAggregate = healthMeasure.AgeDimension.IsAggregate,
                     sexName = healthMeasure.SexDimension.Name,
-                    sexIsAggregate = healthMeasure.SexDimension.IsAggregate
+                    sexIsAggregate = healthMeasure.SexDimension.IsAggregate,
+                    reportingPeriod = healthMeasure.PeriodDimension.Period
                 })
                 .Select(segmentGroup => new IndicatorSegment
                 {
                     Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
                     Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
+                    ReportingPeriod = segmentGroup.Key.reportingPeriod,
                     IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())
                       .OrderBy(dataPoint => dataPoint.DatePeriod.From)
@@ -323,6 +328,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 })
                 .OrderBy(segment => segment.Sex.Value)
                 .ThenBy(segment => segment.Age.Value)
+                .ThenBy(segment => segment.ReportingPeriod)
                 .ToList()
             })
             .ToList();

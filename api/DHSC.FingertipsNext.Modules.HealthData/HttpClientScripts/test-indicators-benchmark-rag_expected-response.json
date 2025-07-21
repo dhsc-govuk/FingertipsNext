@@ -15,6 +15,7 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "isAggregate": false,
           "healthData": [
             {
@@ -402,6 +403,7 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "isAggregate": false,
           "healthData": [
             {
@@ -789,6 +791,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "isAggregate": true,
           "healthData": [
             {
