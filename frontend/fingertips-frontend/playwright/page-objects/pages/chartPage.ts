@@ -106,6 +106,12 @@ export default class ChartPage extends AreaFilter {
     }
 
     await this.hideFiltersPane();
+
+    // if the scenario has inequalities data, we need to expand the inequalities section once, after the page loads
+    if (typeOfInequalityToSelect) {
+      await this.expandInequalitiesSection();
+    }
+
     await this.verifyDataSourceIsDisplayed(
       indicatorMode,
       areaMode,
@@ -149,10 +155,6 @@ export default class ChartPage extends AreaFilter {
         condition: chartComponentProps.isTabTable,
         action: async () =>
           await this.selectTabForComponent(chartComponentLocator),
-      },
-      {
-        condition: chartComponentProps.hasInequalitiesExpander,
-        action: async () => await this.expandInequalitiesSection(),
       },
       {
         condition: chartComponentProps.hasInequalitiesTimePeriodDropDown,
