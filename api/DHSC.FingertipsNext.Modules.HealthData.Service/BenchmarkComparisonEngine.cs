@@ -152,8 +152,8 @@ internal static class BenchmarkComparisonEngine
             return null;
 
         return benchmarkSegments.FirstOrDefault(
-            segment => segment.Sex.Value == targetSegment.Sex.Value && 
-            segment.Age.Value == targetSegment.Age.Value && 
+            segment => segment.Sex.Value == targetSegment.Sex.Value &&
+            segment.Age.Value == targetSegment.Age.Value &&
             segment.ReportingPeriod == targetSegment.ReportingPeriod
         );
     }
