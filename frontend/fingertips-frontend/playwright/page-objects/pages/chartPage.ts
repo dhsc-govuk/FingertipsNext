@@ -234,9 +234,7 @@ export default class ChartPage extends AreaFilter {
       {
         condition:
           chartComponentProps.canShowUnpublishedData &&
-          (selectedIndicators[0].unpublishedDataYear ||
-            selectedIndicators[1].unpublishedDataYear ||
-            selectedIndicators[2].unpublishedDataYear),
+          this.hasUnpublishedDataYear(selectedIndicators),
         action: async () =>
           await this.verifyUnpublishedDataDisplayed(
             chartComponentLocator,
@@ -865,5 +863,13 @@ export default class ChartPage extends AreaFilter {
         .getByTestId(chartComponentLocator)
         .getByText(String(unpublishedDataYear))
     ).toBeVisible({ visible: checkForPresenceOrAbsenceOfUnpublishedDataYear });
+  }
+
+  private hasUnpublishedDataYear(
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): boolean {
+    return selectedIndicators.some(
+      (indicator) => indicator.unpublishedDataYear
+    );
   }
 }
