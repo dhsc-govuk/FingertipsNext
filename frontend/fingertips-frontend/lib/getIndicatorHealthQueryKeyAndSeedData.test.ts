@@ -3,7 +3,7 @@ import { Session } from 'next-auth';
 import { mockDeep } from 'vitest-mock-extended';
 import { SearchParams, SearchStateParams } from './searchStateManager';
 import { mockHealthData } from '@/mock/data/healthdata';
-import { getIndicatorHealthDataSeed } from './getIndicatorHealthDataSeed';
+import { getIndicatorHealthQueryKeyAndSeedData } from './getIndicatorHealthQueryKeyAndSeedData';
 import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams';
 
 const indicatorApiMock = mockDeep<IndicatorsApi>();
@@ -25,7 +25,7 @@ describe('getIndicatorHealthDataSeed', async () => {
     );
 
     const { healthData, queryKeySingleIndicator } =
-      await getIndicatorHealthDataSeed(
+      await getIndicatorHealthQueryKeyAndSeedData(
         indicatorApiMock,
         session,
         searchParams,
@@ -57,7 +57,7 @@ describe('getIndicatorHealthDataSeed', async () => {
     });
 
     const { healthData, queryKeySingleIndicator } =
-      await getIndicatorHealthDataSeed(
+      await getIndicatorHealthQueryKeyAndSeedData(
         indicatorApiMock,
         null,
         searchParams,

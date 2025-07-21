@@ -206,12 +206,12 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       [SearchParams.IndicatorsSelected]: [],
     };
 
-    await expect(async () => {
-      await TwoOrMoreIndicatorsAreasView({
+    await expect(
+      TwoOrMoreIndicatorsAreasView({
         searchState: searchState,
         selectedIndicatorsData: fullSelectedIndicatorsData,
-      });
-    }).rejects.toThrow('indicators');
+      })
+    ).rejects.toThrow('indicators');
   });
 
   it('should throw an error when search state contains fewer than 2 selected indicators', async () => {
@@ -220,23 +220,23 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
       [SearchParams.IndicatorsSelected]: ['1'],
     };
 
-    await expect(async () => {
-      await TwoOrMoreIndicatorsAreasView({
+    await expect(
+      TwoOrMoreIndicatorsAreasView({
         searchState: searchState,
         selectedIndicatorsData: fullSelectedIndicatorsData,
-      });
-    }).rejects.toThrow('indicators');
+      })
+    ).rejects.toThrow('indicators');
   });
 
   it('should throw an error when indicator metadata is empty', async () => {
     const selectedIndicatorsData: IndicatorDocument[] = [];
 
-    await expect(async () => {
-      await TwoOrMoreIndicatorsAreasView({
+    await expect(
+      TwoOrMoreIndicatorsAreasView({
         searchState: fullSearchParams,
         selectedIndicatorsData: selectedIndicatorsData,
-      });
-    }).rejects.toThrow('indicator metadata');
+      })
+    ).rejects.toThrow('indicator metadata');
   });
 
   it('should throw an error when indicator metadata mismatches selected indicators', async () => {
@@ -248,12 +248,12 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
     );
     selectedIndicatorsData.push(mockIndicatorDocument('99999'));
 
-    await expect(async () => {
-      await TwoOrMoreIndicatorsAreasView({
+    await expect(
+      TwoOrMoreIndicatorsAreasView({
         searchState: fullSearchParams,
         selectedIndicatorsData: selectedIndicatorsData,
-      });
-    }).rejects.toThrow('indicator metadata');
+      })
+    ).rejects.toThrow('indicator metadata');
   });
 
   it('should seed quartiles without unpublished data when there is no session', async () => {

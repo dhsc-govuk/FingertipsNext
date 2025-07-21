@@ -27,7 +27,7 @@ import { inequalitiesRequestParams } from '@/components/charts/Inequalities/help
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
 import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
-import { getIndicatorHealthDataSeed } from '@/lib/getIndicatorHealthDataSeed';
+import { getIndicatorHealthQueryKeyAndSeedData } from '@/lib/getIndicatorHealthQueryKeyAndSeedData';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -111,7 +111,7 @@ export default async function ChartPage(
       indicatorsSelected.forEach(async () => {
         try {
           const { healthData, queryKeySingleIndicator } =
-            await getIndicatorHealthDataSeed(
+            await getIndicatorHealthQueryKeyAndSeedData(
               indicatorApi,
               session,
               searchState,
@@ -139,7 +139,7 @@ export default async function ChartPage(
     ) {
       try {
         const { healthData, queryKeySingleIndicator } =
-          await getIndicatorHealthDataSeed(
+          await getIndicatorHealthQueryKeyAndSeedData(
             indicatorApi,
             session,
             searchState,

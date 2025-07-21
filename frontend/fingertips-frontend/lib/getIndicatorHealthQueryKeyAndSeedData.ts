@@ -12,7 +12,7 @@ import {
   EndPoints,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 
-export const getIndicatorHealthDataSeed = async (
+export const getIndicatorHealthQueryKeyAndSeedData = async (
   indicatorApi: IndicatorsApi,
   session: Session | null,
   searchState: SearchStateParams,
