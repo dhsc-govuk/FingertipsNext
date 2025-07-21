@@ -45,6 +45,7 @@ public class IndicatorControllerTests
                             Value = "Persons",
                             IsAggregate = true
                         },
+                        ReportingPeriod = "yearly",
                         Trend = "Sample Trend",
                         Deprivation = new Deprivation
                         {

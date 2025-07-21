@@ -65,6 +65,7 @@ public class HealthDataMapper : IHealthDataMapper
             UpperConfidenceInterval = source.UpperCi,
             AgeBand = Map(source.AgeDimension),
             Sex = Map(source.SexDimension),
+            ReportingPeriod = source.PeriodDimension.Period,
             Trend = source.TrendDimension?.Name ?? string.Empty,
             Deprivation = Map(source.DeprivationDimension),
         };
@@ -97,6 +98,7 @@ public class HealthDataMapper : IHealthDataMapper
                 IsAggregate = source.AgeDimensionIsAggregate,
             }),
             Sex = new Sex { Value = source.SexDimensionName, IsAggregate = source.SexDimensionIsAggregate },
+            ReportingPeriod = source.ReportingPeriod,
             Trend = source.TrendDimensionName ?? string.Empty,
             Deprivation = Map(new DeprivationDimensionModel()
             {

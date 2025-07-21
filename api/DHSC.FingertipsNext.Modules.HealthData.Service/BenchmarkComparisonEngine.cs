@@ -152,7 +152,9 @@ internal static class BenchmarkComparisonEngine
             return null;
 
         return benchmarkSegments.FirstOrDefault(
-            segment => segment.Sex.Value == targetSegment.Sex.Value && segment.Age.Value == targetSegment.Age.Value
+            segment => segment.Sex.Value == targetSegment.Sex.Value && 
+            segment.Age.Value == targetSegment.Age.Value && 
+            segment.ReportingPeriod == targetSegment.ReportingPeriod
         );
     }
 
@@ -197,6 +199,7 @@ internal static class BenchmarkComparisonEngine
                 AgeBand = targetDataPoint.AgeBand,
                 Deprivation = targetDataPoint.Deprivation,
                 Sex = targetDataPoint.Sex,
+                ReportingPeriod = targetDataPoint.ReportingPeriod,
                 Trend = targetDataPoint.Trend,
                 IsAggregate = targetDataPoint.IsAggregate,
                 BenchmarkComparison = CompareDataPoints(targetDataPoint, benchmarkDataPoint, polarity, benchmarkAreaCode, benchmarkAreaName)

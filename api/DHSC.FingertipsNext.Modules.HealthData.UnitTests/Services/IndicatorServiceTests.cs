@@ -1270,12 +1270,13 @@ public class IndicatorServiceTests
                 SexIsAggregate = hdp.Sex?.IsAggregate ?? false,
                 AgeValue = hdp.AgeBand?.Value,
                 AgeIsAggregate = hdp.AgeBand?.IsAggregate ?? false,
+                ReportingPeriod = hdp.ReportingPeriod,
             })
             .Select(g => new IndicatorSegment
             {
                 Age = g.First().AgeBand,
                 Sex = g.First().Sex,
-                ReportingPeriod = "yearly",
+                ReportingPeriod = g.Key.ReportingPeriod,
                 IsAggregate = g.Key.SexIsAggregate,
                 HealthData = g.ToList()
             })

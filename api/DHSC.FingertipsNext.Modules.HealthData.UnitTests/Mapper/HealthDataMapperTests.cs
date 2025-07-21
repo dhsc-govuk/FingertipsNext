@@ -31,6 +31,7 @@ public class HealthDataMapperTests
             UpperConfidenceInterval = upperConfidenceInterval,
             AgeBand = ageBand,
             Sex = sex,
+            ReportingPeriod = "yearly",
             Trend = trend,
             Deprivation = deprivation
         };
@@ -178,7 +179,7 @@ public class HealthDataMapperTests
                 Polarity = IndicatorPolarity.HighIsGood,
                 Age = new Age { Value = "All ages", IsAggregate = true },
                 Sex = new Sex { Value = "Persons", IsAggregate = true },
-                ReportingPeriod = "yearly",
+                ReportingPeriod = "Yearly",
                 IsAggregate = true,
                 Year = 2024,
                 DatePeriod =  new DatePeriod { From = new DateOnly(2024, 1, 1), To = new DateOnly(2024, 12, 31), PeriodType = DatePeriodType.Calendar },

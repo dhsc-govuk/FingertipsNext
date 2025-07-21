@@ -50,6 +50,7 @@ internal static class HealthDataForAreaBuilder
                         IsAggregate = true
                     },
                     Sex = sex,
+                    ReportingPeriod = "yearly",
                     Trend = "No change",
                     IsAggregate = sexValue == "Persons"
                 });

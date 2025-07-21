@@ -21,7 +21,7 @@ internal sealed class HealthMeasureModelHelper(
     private string? _batchId;
     private DateDimensionModel _fromDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 01, 01) };
     private DateDimensionModel _toDateDimension = new DateDimensionModel { DateKey = key, Date = new DateTime(year, 12, 31) };
-    private PeriodDimensionModel _periodDimension = new PeriodDimensionModel { PeriodKey = (byte)key, Period = "Calendar" };
+    private PeriodDimensionModel _periodDimension = new PeriodDimensionModel { PeriodKey = (byte)key, Period = "yearly" };
 
     public HealthMeasureModelHelper WithAreaDimension(
         string code = "AreaCode",

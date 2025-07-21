@@ -36,7 +36,7 @@ public class DenormalisedHealthDataMapperTests
             FromDate = new DateTime(2024, 1, 1),
             ToDate = new DateTime(2024, 12, 31),
             PeriodType = "Calendar",
-            ReportingPeriod = "Yearly",
+            ReportingPeriod = "yearly",
             BenchmarkComparisonIndicatorPolarity = "High is good",
             BenchmarkComparisonAreaCode = "E92000001",
             BenchmarkComparisonAreaName = "England"
@@ -72,6 +72,7 @@ public class DenormalisedHealthDataMapperTests
                 Value = "Male",
                 IsAggregate = true
             },
+            ReportingPeriod = "yearly",
             Trend = "Trend",
             IsAggregate = true,
         };
@@ -111,7 +112,7 @@ public class DenormalisedHealthDataMapperTests
             FromDate = new DateTime(2024, 1, 1),
             ToDate = new DateTime(2024, 12, 31),
             PeriodType = "Calendar",
-            ReportingPeriod = "Yearly",
+            ReportingPeriod = "yearly",
             BenchmarkComparisonIndicatorPolarity = "High is good",
             BenchmarkComparisonAreaCode = "E92000001",
             BenchmarkComparisonAreaName = "England"
@@ -147,6 +148,7 @@ public class DenormalisedHealthDataMapperTests
                 Value = "Male",
                 IsAggregate = false,
             },
+            ReportingPeriod = "yearly",
             Trend = "Trend",
             IsAggregate = false,
         };

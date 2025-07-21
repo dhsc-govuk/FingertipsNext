@@ -63,6 +63,12 @@ public class HealthDataPoint
     public required Sex Sex { get; init; }
 
     /// <summary>
+    ///     ReportingPeriod associated with the data point.
+    /// </summary>
+    [JsonPropertyName("reportingPeriod")]
+    public required string ReportingPeriod { get; init; }
+
+    /// <summary>
     ///     The statistical trend that applies to the data point, given the preceding data.
     ///     Will only be calculated if there are at least 5 data points to use.
     ///     Values can be: Increasing/(and getting worse/better), Decreasing/(and getting worse/better),
