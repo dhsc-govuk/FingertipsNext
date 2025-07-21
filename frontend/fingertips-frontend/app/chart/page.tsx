@@ -150,7 +150,6 @@ export default async function ChartPage(
       }
     }
 
-    // TODO: #1034 use util for data fetch
     // seed data for population pyramid
     const populationPyramidQueryParams = populationPyramidRequestParams(
       searchState,
@@ -162,23 +161,15 @@ export default async function ChartPage(
     );
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
       try {
-        if (session) {
-          seedData[populationPyramidQueryKey] =
-            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-              populationPyramidQueryParams,
-              API_CACHE_CONFIG
-            );
-        } else {
-          seedData[populationPyramidQueryKey] =
-            await indicatorApi.getHealthDataForAnIndicator(
-              populationPyramidQueryParams,
-              API_CACHE_CONFIG
-            );
-        }
-      } catch (e) {
+        const healthData = await getChartQuerySeedData(
+          populationPyramidQueryParams,
+          session
+        );
+        seedData[populationPyramidQueryKey] = healthData;
+      } catch (error) {
         console.error(
           'error getting health indicator data for population pyramid',
-          e
+          error
         );
       }
     }
