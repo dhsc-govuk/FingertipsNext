@@ -15,8 +15,6 @@ export async function getAuthorisedHealthDataForAnIndicator(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const authHeader = await getAuthHeader();
 
-  console.log('getAuthorisedHealthDataForAnIndicator, authHeader:', authHeader);
-
   if (!authHeader) {
     return await indicatorApi.getHealthDataForAnIndicator(
       apiRequestParams,
@@ -24,24 +22,18 @@ export async function getAuthorisedHealthDataForAnIndicator(
     );
   }
   try {
-    const response =
-      await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-        apiRequestParams,
-        {
-          ...API_CACHE_CONFIG,
-          headers: authHeader,
-        }
-      );
-    console.log('in try, response:', response);
-    return response;
+    return await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+      apiRequestParams,
+      {
+        ...API_CACHE_CONFIG,
+        headers: authHeader,
+      }
+    );
   } catch (error: unknown) {
     if (
       error instanceof ResponseError &&
       (error.response.status === 401 || error.response.status === 403)
     ) {
-      console.log(
-        'Auth error getting unpublished healthdata, falling back to published health data endpoint'
-      );
       console.warn(
         'Auth error getting unpublished healthdata, falling back to published health data endpoint'
       );
