@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { SparklineChart } from '@/components/organisms/SparklineChart/index';
+import { benchmarkTextForBar, SparklineChart } from '@/components/organisms/SparklineChart/index';
 
 describe('SparklineChart', () => {
   const mockValue = [48];
@@ -24,4 +24,33 @@ describe('SparklineChart', () => {
       )
     ).toBeInTheDocument();
   });
+  
+  describe('benchmarkTextForBar', () => {
+    it('should return an empty string when the area is England', () => {
+      const result = benchmarkTextForBar(
+        'England',
+        'NotCompared',
+        'CIOverlappingReferenceValue95'
+      );
+      expect(result).toBe('');
+    });
+
+    it('should return quintile text for quintiles', () => {
+      const result = benchmarkTextForBar(
+        'Area1',
+        'Middle',
+        'Quintiles'
+      );
+      expect(result).toBe('Middle quintile');
+    });
+
+    it('should return benchmark label text for other methods', () => {
+      const result = benchmarkTextForBar(
+        'Area1',
+        'Better',
+        'CIOverlappingReferenceValue95'
+      );
+      expect(result).toBe('Better');
+    });
+  })
 });

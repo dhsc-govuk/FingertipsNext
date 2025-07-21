@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   generateConfidenceIntervalSeries,
-  getBenchmarkColour,
+  getBenchmarkColour, getBenchmarkLabel,
   getTooltipContent,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -18,6 +18,7 @@ import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 import { loadHighchartsModules } from '@/lib/chartHelpers/loadHighchartsModules';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -34,6 +35,17 @@ interface SparklineChartProps {
   barColor?: string;
   benchmarkArea?: string;
   showComparisonLabels?: boolean;
+}
+
+export function benchmarkTextForBar(
+  area: string | undefined,
+  benchmarkOutcome: BenchmarkOutcome,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+): string {
+  if (area === 'England') return '';
+  if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
+    return `${getBenchmarkLabelText(benchmarkOutcome)} quintile`;
+  return getBenchmarkLabelText(benchmarkOutcome);
 }
 
 export function SparklineChart({
@@ -97,7 +109,7 @@ export function SparklineChart({
     showConfidenceIntervalsData,
     { color: GovukColours.MidGrey, whiskerLength: '50%', lineWidth: 2 }
   );
-
+  
   const sparklineOptions: Highcharts.Options = {
     exporting: { enabled: false },
     credits: {
@@ -132,6 +144,19 @@ export function SparklineChart({
         borderColor: '#000',
         borderWidth: color === '#fff' ? 1 : 0,
         animation: false,
+        dataLabels: {
+          enabled: true,
+          formatter: function (this: Highcharts.Point) {
+            return benchmarkTextForBar(area, benchmarkOutcome, benchmarkComparisonMethod);
+          },
+          style: {
+            color: '#000',
+            fontSize: '17px',
+            fontWeight: 'normal',
+            textOutline: 'none',
+          },
+          x: 30,
+        }
       },
       confidenceIntervalSeries,
     ],
