@@ -7,6 +7,8 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Mapper;
 
 public class DenormalisedHealthDataMapperTests
 {
+    private readonly Mappings.HealthDataMapper _healthDataMapper = new();
+
     [Fact]
     public void MapperShouldMapADenormalisedHealthMeasureToAHealthDataPoint()
     {
@@ -72,12 +74,12 @@ public class DenormalisedHealthDataMapperTests
                 Value = "Male",
                 IsAggregate = true
             },
-            ReportingPeriod = "yearly",
+            ReportingPeriod = ReportingPeriod.Yearly,
             Trend = "Trend",
             IsAggregate = true,
         };
 
-        var actual = Mappings.HealthDataMapper.Map(denormalisedHealthMeasure);
+        var actual = _healthDataMapper.Map(denormalisedHealthMeasure);
 
         actual.ShouldBeEquivalentTo(expectedHealthData);
     }
@@ -148,12 +150,12 @@ public class DenormalisedHealthDataMapperTests
                 Value = "Male",
                 IsAggregate = false,
             },
-            ReportingPeriod = "yearly",
+            ReportingPeriod = ReportingPeriod.Yearly,
             Trend = "Trend",
             IsAggregate = false,
         };
 
-        var actual = Mappings.HealthDataMapper.Map(denormalisedHealthMeasure);
+        var actual = _healthDataMapper.Map(denormalisedHealthMeasure);
 
         actual.ShouldBeEquivalentTo(expectedHealthData);
     }

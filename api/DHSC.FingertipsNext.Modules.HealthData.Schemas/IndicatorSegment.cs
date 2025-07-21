@@ -24,7 +24,8 @@ public class IndicatorSegment
     ///     Reporting Period Type the segment is for.
     /// </summary>
     [JsonPropertyName("reportingPeriod")]
-    public required string ReportingPeriod { get; init; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public required ReportingPeriod ReportingPeriod { get; init; }
 
     /// <summary>
     ///     Is the segment the aggregate for the indicator

@@ -234,7 +234,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
             {
                 Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
                 Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
-                ReportingPeriod = segmentGroup.Key.reportingPeriod,
+                ReportingPeriod = healthDataMapper.MapReportingPeriod(segmentGroup.Key.reportingPeriod),
                 IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
                 HealthData = healthDataMapper.Map(segmentGroup.ToList())
                   .OrderBy(dataPoint => dataPoint.DatePeriod.From)
@@ -318,7 +318,7 @@ public class IndicatorService(IHealthDataRepository healthDataRepository, IHealt
                 {
                     Age = new Age { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
                     Sex = new Sex { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
-                    ReportingPeriod = segmentGroup.Key.reportingPeriod,
+                    ReportingPeriod = healthDataMapper.MapReportingPeriod(segmentGroup.Key.reportingPeriod),
                     IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
                     HealthData = healthDataMapper.Map(segmentGroup.ToList())
                       .OrderBy(dataPoint => dataPoint.DatePeriod.From)

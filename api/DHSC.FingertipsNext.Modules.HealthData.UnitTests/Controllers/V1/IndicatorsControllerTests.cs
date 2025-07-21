@@ -45,7 +45,7 @@ public class IndicatorControllerTests
                             Value = "Persons",
                             IsAggregate = true
                         },
-                        ReportingPeriod = "yearly",
+                        ReportingPeriod = ReportingPeriod.Yearly,
                         Trend = "Sample Trend",
                         Deprivation = new Deprivation
                         {

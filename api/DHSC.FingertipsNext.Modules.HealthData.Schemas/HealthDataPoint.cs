@@ -66,7 +66,7 @@ public class HealthDataPoint
     ///     ReportingPeriod associated with the data point.
     /// </summary>
     [JsonPropertyName("reportingPeriod")]
-    public required string ReportingPeriod { get; init; }
+    public required ReportingPeriod ReportingPeriod { get; init; }
 
     /// <summary>
     ///     The statistical trend that applies to the data point, given the preceding data.

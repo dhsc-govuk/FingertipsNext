@@ -50,7 +50,7 @@ internal static class HealthDataForAreaBuilder
                         IsAggregate = true
                     },
                     Sex = sex,
-                    ReportingPeriod = "yearly",
+                    ReportingPeriod = ReportingPeriod.Yearly,
                     Trend = "No change",
                     IsAggregate = sexValue == "Persons"
                 });
@@ -60,7 +60,7 @@ internal static class HealthDataForAreaBuilder
             {
                 Age = age,
                 Sex = sex,
-                ReportingPeriod = "yearly",
+                ReportingPeriod = ReportingPeriod.Yearly,
                 IsAggregate = sexValue == "Persons",
                 HealthData = healthDataPoints
             });

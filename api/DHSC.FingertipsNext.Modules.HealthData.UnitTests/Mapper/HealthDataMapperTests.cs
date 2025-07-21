@@ -31,7 +31,7 @@ public class HealthDataMapperTests
             UpperConfidenceInterval = upperConfidenceInterval,
             AgeBand = ageBand,
             Sex = sex,
-            ReportingPeriod = "yearly",
+            ReportingPeriod = ReportingPeriod.Yearly,
             Trend = trend,
             Deprivation = deprivation
         };
