@@ -1,14 +1,17 @@
 using Azure;
 using Azure.Storage.Blobs;
+using DHSC.FingertipsNext.Modules.DataManagement.Clients;
 using DHSC.FingertipsNext.Modules.DataManagement.Mappings;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.UnitTests.TestData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using Shouldly;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Services;
@@ -21,8 +24,9 @@ public class DataManagementServiceTests
     private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
     private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
     private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
-    private readonly IDataManagementMapper _mapper = Substitute.For<DataManagementMapper>();
+    private readonly IDataManagementMapper _mapper = Substitute.For<IDataManagementMapper>();
     private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
+    private readonly IHealthDataClient _healthDataClient = Substitute.For<IHealthDataClient>();
     private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
     private IConfiguration _configuration;
     private DataManagementService _service;
@@ -37,7 +41,7 @@ public class DataManagementServiceTests
             .AddInMemoryCollection(inMemorySettings)
             .Build();
         _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository,
-            _mapper);
+            _mapper, _healthDataClient);
 
         var mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
         _timeProvider.GetUtcNow().Returns(mockDate);
@@ -54,6 +58,16 @@ public class DataManagementServiceTests
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
+        var expectedBatch = BatchExamples.Batch with
+        {
+            IndicatorId = StubIndicatorId,
+            CreatedAt = DateTime.UtcNow,
+            Status = BatchStatus.Received,
+            OriginalFileName = "ValidHeadersAndValidDataRows.csv",
+            PublishedAt = publishedAt,
+            UserId = Guid.Empty.ToString()
+        };
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(expectedBatch);
 
         // Act
         await using (var stream = File.Open(path, FileMode.Open))
@@ -145,7 +159,7 @@ public class DataManagementServiceTests
         // Act/Assert
         Should.Throw<ArgumentException>(() => _service = new DataManagementService(_blobServiceClient, _configuration,
             _logger, _timeProvider,
-            _repository, _mapper));
+            _repository, _mapper, _healthDataClient));
     }
 
     [Fact]
@@ -167,7 +181,22 @@ public class DataManagementServiceTests
                 Status = BatchStatus.Deleted
             }
         };
+
+        var expectedBatches = new[]
+        {
+            BatchExamples.Batch with
+            {
+                IndicatorId = 1234,
+                Status = BatchStatus.Received
+            },
+            BatchExamples.Batch with
+            {
+                IndicatorId = 5678,
+                Status = BatchStatus.Deleted
+            }
+        };
         _repository.GetBatchesByIdsAsync(indicatorIds).Returns(batchesInDb);
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(x => expectedBatches[0], x => expectedBatches[1]);
 
         // Act
         var batches = await _service.ListBatches(indicatorIds);
@@ -175,16 +204,8 @@ public class DataManagementServiceTests
         // Assert
         var batchList = batches.ToList();
         batchList.Count.ShouldBe(2);
-        batchList.ShouldContain(BatchExamples.Batch with
-        {
-            IndicatorId = 1234,
-            Status = BatchStatus.Received
-        });
-        batchList.ShouldContain(BatchExamples.Batch with
-        {
-            IndicatorId = 5678,
-            Status = BatchStatus.Deleted
-        });
+        batchList.ShouldContain(expectedBatches[0]);
+        batchList.ShouldContain(expectedBatches[1]);
     }
 
     [Fact]
@@ -204,7 +225,23 @@ public class DataManagementServiceTests
                 Status = BatchStatus.Deleted
             }
         };
+
+        var expectedBatches = new[]
+        {
+            BatchExamples.Batch with
+            {
+                IndicatorId = 1234,
+                Status = BatchStatus.Received
+            },
+            BatchExamples.Batch with
+            {
+                IndicatorId = 5678,
+                Status = BatchStatus.Deleted
+            }
+        };
         _repository.GetAllBatchesAsync().Returns(batchesInDb);
+
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(x => expectedBatches[0], x => expectedBatches[1]);
 
         // Act
         var batches = await _service.ListBatches([]);
@@ -212,21 +249,92 @@ public class DataManagementServiceTests
         // Assert
         var batchList = batches.ToList();
         batchList.Count.ShouldBe(2);
-        batchList.ShouldContain(BatchExamples.Batch with
-        {
-            IndicatorId = 1234,
-            Status = BatchStatus.Received
-        });
-        batchList.ShouldContain(BatchExamples.Batch with
-        {
-            IndicatorId = 5678,
-            Status = BatchStatus.Deleted
-        });
+        batchList.ShouldContain(expectedBatches[0]);
+        batchList.ShouldContain(expectedBatches[1]);
     }
 
     [Fact]
     public async Task ListBatchesShouldThrowAnExceptionIfANullListOfIndicatorsIsSpecified()
     {
         await _service.ListBatches(null!).ShouldThrowAsync(typeof(ArgumentNullException));
+    }
+
+    [Fact]
+    public async Task DeleteBatchShouldReturnOk()
+    {
+        // Arrange
+        var model = new BatchModel
+        {
+            BatchKey = 0,
+            BatchId = "123",
+            IndicatorId = 0,
+            OriginalFileName = "upload.csv",
+            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
+            PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0).AddYears(1),
+            DeletedAt = DateTime.UtcNow,
+            DeletedUserId = Guid.Empty,
+            UserId = Guid.Empty,
+            Status = BatchStatus.Deleted
+        };
+
+        var expected = new Batch
+        {
+            BatchId = model.BatchId,
+            IndicatorId = model.IndicatorId,
+            OriginalFileName = model.OriginalFileName,
+            CreatedAt = model.CreatedAt,
+            PublishedAt = model.PublishedAt,
+            DeletedAt = model.DeletedAt,
+            UserId = model.UserId.ToString(),
+            DeletedUserId = model.DeletedUserId.ToString(),
+            Status = model.Status
+        };
+
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(model);
+        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(expected);
+
+        // Act
+        var result = await _service.DeleteBatchAsync("123", Guid.Empty);
+
+        // Assert
+        result.Outcome.ShouldBe(OutcomeType.Ok);
+
+        result.Model.ShouldNotBeNull();
+        result.Model.BatchId.ShouldBe("123");
+        result.Model.ShouldBeEquivalentTo(expected);
+    }
+
+    [Theory]
+    [InlineData("BatchNotFound", "Not found", OutcomeType.NotFound)]
+    [InlineData("BatchPublished", "Batch already published", OutcomeType.ClientError)]
+    [InlineData("BatchDeleted", "Batch already deleted", OutcomeType.ClientError)]
+    public async Task DeleteBatchShouldReturnError(string exceptionMessage, string expectedErrorMessage,
+        OutcomeType expectedOutcome)
+    {
+        // Arrange
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>())
+            .Throws(new ArgumentException(exceptionMessage));
+
+        // Act
+        var result = await _service.DeleteBatchAsync("123", Guid.Empty);
+
+        // Assert
+        result.Outcome.ShouldBe(expectedOutcome);
+        result.Errors.ShouldHaveSingleItem();
+        result.Errors.FirstOrDefault().ShouldBe(expectedErrorMessage);
+    }
+
+    [Fact]
+    public async Task DeleteBatchShouldReturnServerError()
+    {
+        // Arrange
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Throws(new ArgumentNullException());
+
+        // Act
+        var result = await _service.DeleteBatchAsync("123", Guid.Empty);
+
+        // Assert
+        result.Outcome.ShouldBe(OutcomeType.ServerError);
     }
 }
