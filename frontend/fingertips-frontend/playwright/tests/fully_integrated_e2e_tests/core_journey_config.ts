@@ -76,7 +76,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'emergency',
     indicatorsToSelect: [
       {
-        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
+        indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
       },
@@ -238,7 +238,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
-        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
+        indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
       },
@@ -268,7 +268,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
-        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
+        indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
       },
@@ -294,7 +294,7 @@ export const coreTestJourneys: TestParameters[] = [
     subjectSearchTerm: 'hospital',
     indicatorsToSelect: [
       {
-        indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
+        indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
       },
@@ -328,7 +328,7 @@ export const coreTestJourneys: TestParameters[] = [
         knownTrend: 'Decreasing and getting better',
       },
       {
-        indicatorID: '90453', // this indicator has unpublished data which should not be returned to the chart page
+        indicatorID: '90453', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No significant change',
         unpublishedDataYear: 2025,
       },

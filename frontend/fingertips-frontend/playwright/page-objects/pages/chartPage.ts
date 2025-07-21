@@ -844,25 +844,28 @@ export default class ChartPage extends AreaFilter {
     signInAsUserToCheckUnpublishedData: SignInAs,
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
-    const unpublishedDataYear =
-      selectedIndicators[0].unpublishedDataYear ||
-      selectedIndicators[1].unpublishedDataYear ||
-      selectedIndicators[2].unpublishedDataYear;
+    const unpublishedDataYear = selectedIndicators.find(
+      (indicator) => indicator.unpublishedDataYear
+    )?.unpublishedDataYear;
+
     if (!unpublishedDataYear) {
+      const indicatorIds = selectedIndicators
+        .map((indicator) => indicator.indicatorID)
+        .join(', ');
       throw new Error(
-        `Selected indicator ${selectedIndicators[0].indicatorID} should have an unpublished data year stored in core_journey_config.ts.`
+        `None of the selected indicators [${indicatorIds}] have an unpublished data year stored in core_journey_config.ts.`
       );
     }
 
     // Check that the unpublished data year is displayed or not based on the user type
-    const checkForPresenceOrAbsenceOfUnpublishedDataYear =
+    const shouldShowUnpublishedData =
       signInAsUserToCheckUnpublishedData.administrator ||
       signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions;
     await expect(
       this.page
         .getByTestId(chartComponentLocator)
         .getByText(String(unpublishedDataYear))
-    ).toBeVisible({ visible: checkForPresenceOrAbsenceOfUnpublishedDataYear });
+    ).toBeVisible({ visible: shouldShowUnpublishedData });
   }
 
   private hasUnpublishedDataYear(

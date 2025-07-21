@@ -12,7 +12,6 @@ export default class HomePage extends AreaFilter {
   private readonly entraPage: EntraPage;
 
   constructor(page: PlaywrightPage) {
-    // adjust constructor params as needed
     super(page);
     this.entraPage = new EntraPage(page);
   }

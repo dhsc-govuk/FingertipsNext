@@ -158,7 +158,7 @@ test.describe('Home Page Tests', () => {
       await homePage.clickSignInOnHomePage();
     });
 
-    await test.step('Enter correct email but incorrect password and verify correct message is displayed', async () => {
+    await test.step('Enter password for mock sign in and click to sign in, in the mock then check sign out is now displayed', async () => {
       await homePage.signInToMock();
 
       await homePage.checkSignOutDisplayed();
