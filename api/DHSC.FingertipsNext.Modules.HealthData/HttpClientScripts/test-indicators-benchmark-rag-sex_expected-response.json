@@ -1,8 +1,5 @@
 {
-  "indicatorId": 41101,
   "name": "Emergency readmissions within 30 days of discharge from hospital",
-  "polarity": "LowIsGood",
-  "frequency": "Annually",
   "benchmarkMethod": "CIOverlappingReferenceValue95",
   "areaHealthData": [
     {
@@ -10,10 +7,15 @@
       "areaName": "London Region",
       "indicatorSegments": [
         {
+          "age": {
+            "value": "All ages",
+            "isAggregate": true
+          },
           "sex": {
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "isAggregate": false,
           "healthData": [
             {
@@ -41,6 +43,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -75,6 +78,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -109,6 +113,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -143,6 +148,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -177,6 +183,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -211,6 +218,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -245,6 +253,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -279,6 +288,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -313,6 +323,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -347,6 +358,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -381,6 +393,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Better",
@@ -393,10 +406,15 @@
           ]
         },
         {
+          "age": {
+            "value": "All ages",
+            "isAggregate": true
+          },
           "sex": {
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "isAggregate": false,
           "healthData": [
             {
@@ -424,6 +442,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -458,6 +477,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -492,6 +512,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -526,6 +547,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -560,6 +582,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -594,6 +617,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -628,6 +652,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -662,6 +687,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -696,6 +722,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -730,6 +757,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -764,6 +792,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "yearly",
               "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -776,10 +805,15 @@
           ]
         },
         {
+          "age": {
+            "value": "All ages",
+            "isAggregate": true
+          },
           "sex": {
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "isAggregate": true,
           "healthData": [
             {
@@ -807,6 +841,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -836,6 +871,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -865,6 +901,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -894,6 +931,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -923,6 +961,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -952,6 +991,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -981,6 +1021,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -1010,6 +1051,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -1039,6 +1081,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -1068,6 +1111,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -1097,6 +1141,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "yearly",
               "trend": "Cannot be calculated",
               "benchmarkComparison": null,
               "isAggregate": true
@@ -1130,6 +1175,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
@@ -1159,6 +1205,7 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -1193,46 +1240,13 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 12.9
-          },
-          "isAggregate": false
-        },
-        {
-          "year": 2014,
-          "datePeriod": {
-            "type": "Financial",
-            "from": "2014-04-01",
-            "to": "2015-03-31"
-          },
-          "count": 54155,
-          "value": 12.8,
-          "lowerCi": 12.7,
-          "upperCi": 12.9,
-          "ageBand": {
-            "value": "All ages",
-            "isAggregate": true
-          },
-          "deprivation": {
-            "sequence": 11,
-            "value": "Persons",
-            "type": "Persons",
-            "isAggregate": true
-          },
-          "sex": {
-            "value": "Female",
-            "isAggregate": false
-          },
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Better",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 13.1
           },
           "isAggregate": false
         },
@@ -1261,6 +1275,7 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1295,21 +1310,22 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
         },
         {
-          "year": 2015,
+          "year": 2014,
           "datePeriod": {
             "type": "Financial",
-            "from": "2015-04-01",
-            "to": "2016-03-31"
+            "from": "2014-04-01",
+            "to": "2015-03-31"
           },
-          "count": 107945,
-          "value": 13.5,
-          "lowerCi": 13.4,
-          "upperCi": 13.6,
+          "count": 54155,
+          "value": 12.8,
+          "lowerCi": 12.7,
+          "upperCi": 12.9,
           "ageBand": {
             "value": "All ages",
             "isAggregate": true
@@ -1321,12 +1337,18 @@
             "isAggregate": true
           },
           "sex": {
-            "value": "Persons",
-            "isAggregate": true
+            "value": "Female",
+            "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
-          "benchmarkComparison": null,
-          "isAggregate": true
+          "benchmarkComparison": {
+            "outcome": "Better",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 13.1
+          },
+          "isAggregate": false
         },
         {
           "year": 2015,
@@ -1353,6 +1375,7 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -1387,6 +1410,7 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1395,6 +1419,36 @@
             "benchmarkValue": 13.5
           },
           "isAggregate": false
+        },
+        {
+          "year": 2015,
+          "datePeriod": {
+            "type": "Financial",
+            "from": "2015-04-01",
+            "to": "2016-03-31"
+          },
+          "count": 107945,
+          "value": 13.5,
+          "lowerCi": 13.4,
+          "upperCi": 13.6,
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Persons",
+            "isAggregate": true
+          },
+          "reportingPeriod": "yearly",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": null,
+          "isAggregate": true
         },
         {
           "year": 2016,
@@ -1421,43 +1475,10 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
-        },
-        {
-          "year": 2016,
-          "datePeriod": {
-            "type": "Financial",
-            "from": "2016-04-01",
-            "to": "2017-03-31"
-          },
-          "count": 55850,
-          "value": 13.1,
-          "lowerCi": 13,
-          "upperCi": 13.2,
-          "ageBand": {
-            "value": "All ages",
-            "isAggregate": true
-          },
-          "deprivation": {
-            "sequence": 11,
-            "value": "Persons",
-            "type": "Persons",
-            "isAggregate": true
-          },
-          "sex": {
-            "value": "Female",
-            "isAggregate": false
-          },
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Better",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 13.4
-          },
-          "isAggregate": false
         },
         {
           "year": 2016,
@@ -1484,9 +1505,45 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 13.4
+          },
+          "isAggregate": false
+        },
+        {
+          "year": 2016,
+          "datePeriod": {
+            "type": "Financial",
+            "from": "2016-04-01",
+            "to": "2017-03-31"
+          },
+          "count": 55850,
+          "value": 13.1,
+          "lowerCi": 13,
+          "upperCi": 13.2,
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
+          "reportingPeriod": "yearly",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Better",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 13.4
@@ -1518,43 +1575,10 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
-        },
-        {
-          "year": 2017,
-          "datePeriod": {
-            "type": "Financial",
-            "from": "2017-04-01",
-            "to": "2018-03-31"
-          },
-          "count": 59865,
-          "value": 13.7,
-          "lowerCi": 13.6,
-          "upperCi": 13.8,
-          "ageBand": {
-            "value": "All ages",
-            "isAggregate": true
-          },
-          "deprivation": {
-            "sequence": 11,
-            "value": "Persons",
-            "type": "Persons",
-            "isAggregate": true
-          },
-          "sex": {
-            "value": "Female",
-            "isAggregate": false
-          },
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Better",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14
-          },
-          "isAggregate": false
         },
         {
           "year": 2017,
@@ -1581,9 +1605,45 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 14
+          },
+          "isAggregate": false
+        },
+        {
+          "year": 2017,
+          "datePeriod": {
+            "type": "Financial",
+            "from": "2017-04-01",
+            "to": "2018-03-31"
+          },
+          "count": 59865,
+          "value": 13.7,
+          "lowerCi": 13.6,
+          "upperCi": 13.8,
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Female",
+            "isAggregate": false
+          },
+          "reportingPeriod": "yearly",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Better",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 14
@@ -1615,6 +1675,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
@@ -1644,6 +1705,7 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -1678,12 +1740,48 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 14.6
+          },
+          "isAggregate": false
+        },
+        {
+          "year": 2019,
+          "datePeriod": {
+            "type": "Financial",
+            "from": "2019-04-01",
+            "to": "2020-03-31"
+          },
+          "count": 58405,
+          "value": 14.9,
+          "lowerCi": 14.8,
+          "upperCi": 15.1,
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
+          "reportingPeriod": "yearly",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Worse",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 14.7
           },
           "isAggregate": false
         },
@@ -1712,43 +1810,10 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
-        },
-        {
-          "year": 2019,
-          "datePeriod": {
-            "type": "Financial",
-            "from": "2019-04-01",
-            "to": "2020-03-31"
-          },
-          "count": 58405,
-          "value": 14.9,
-          "lowerCi": 14.8,
-          "upperCi": 15.1,
-          "ageBand": {
-            "value": "All ages",
-            "isAggregate": true
-          },
-          "deprivation": {
-            "sequence": 11,
-            "value": "Persons",
-            "type": "Persons",
-            "isAggregate": true
-          },
-          "sex": {
-            "value": "Male",
-            "isAggregate": false
-          },
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Worse",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14.7
-          },
-          "isAggregate": false
         },
         {
           "year": 2019,
@@ -1775,6 +1840,7 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -1809,6 +1875,7 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1843,6 +1910,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
@@ -1872,46 +1940,13 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 16.1
-          },
-          "isAggregate": false
-        },
-        {
-          "year": 2021,
-          "datePeriod": {
-            "type": "Financial",
-            "from": "2021-04-01",
-            "to": "2022-03-31"
-          },
-          "count": 53920,
-          "value": 15.5,
-          "lowerCi": 15.3,
-          "upperCi": 15.6,
-          "ageBand": {
-            "value": "All ages",
-            "isAggregate": true
-          },
-          "deprivation": {
-            "sequence": 11,
-            "value": "Persons",
-            "type": "Persons",
-            "isAggregate": true
-          },
-          "sex": {
-            "value": "Male",
-            "isAggregate": false
-          },
-          "trend": "Not yet calculated",
-          "benchmarkComparison": {
-            "outcome": "Worse",
-            "benchmarkAreaCode": "E12000007",
-            "benchmarkAreaName": "London Region",
-            "benchmarkValue": 14.9
           },
           "isAggregate": false
         },
@@ -1940,9 +1975,45 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
+            "benchmarkAreaCode": "E12000007",
+            "benchmarkAreaName": "London Region",
+            "benchmarkValue": 14.9
+          },
+          "isAggregate": false
+        },
+        {
+          "year": 2021,
+          "datePeriod": {
+            "type": "Financial",
+            "from": "2021-04-01",
+            "to": "2022-03-31"
+          },
+          "count": 53920,
+          "value": 15.5,
+          "lowerCi": 15.3,
+          "upperCi": 15.6,
+          "ageBand": {
+            "value": "All ages",
+            "isAggregate": true
+          },
+          "deprivation": {
+            "sequence": 11,
+            "value": "Persons",
+            "type": "Persons",
+            "isAggregate": true
+          },
+          "sex": {
+            "value": "Male",
+            "isAggregate": false
+          },
+          "reportingPeriod": "yearly",
+          "trend": "Not yet calculated",
+          "benchmarkComparison": {
+            "outcome": "Worse",
             "benchmarkAreaCode": "E12000007",
             "benchmarkAreaName": "London Region",
             "benchmarkValue": 14.9
@@ -1974,6 +2045,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
@@ -2003,6 +2075,7 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -2037,6 +2110,7 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -2071,6 +2145,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": null,
           "isAggregate": true
@@ -2100,6 +2175,7 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Better",
@@ -2134,6 +2210,7 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "yearly",
           "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -2168,11 +2245,15 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "yearly",
           "trend": "Cannot be calculated",
           "benchmarkComparison": null,
           "isAggregate": true
         }
       ]
     }
-  ]
+  ],
+  "indicatorId": 41101,
+  "polarity": "LowIsGood",
+  "frequency": "Annually"
 }
