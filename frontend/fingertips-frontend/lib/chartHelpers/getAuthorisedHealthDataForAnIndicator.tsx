@@ -1,6 +1,7 @@
 import {
   GetHealthDataForAnIndicatorRequest,
   IndicatorWithHealthDataForArea,
+  ResponseError,
 } from '@/generated-sources/ft-api-client';
 import {
   API_CACHE_CONFIG,
@@ -14,22 +15,41 @@ export async function getAuthorisedHealthDataForAnIndicator(
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const authHeader = await getAuthHeader();
 
+  console.log('getAuthorisedHealthDataForAnIndicator, authHeader:', authHeader);
+
   if (!authHeader) {
-    // if (!accessToken) {
     return await indicatorApi.getHealthDataForAnIndicator(
       apiRequestParams,
       API_CACHE_CONFIG
     );
   }
-  // TODO if this fails due to invalid session then fall back to getting published only
-  const healthData =
-    await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-      apiRequestParams,
-      {
-        ...API_CACHE_CONFIG,
-        headers: authHeader,
-      }
-    );
-
-  return healthData;
+  try {
+    const response =
+      await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+        apiRequestParams,
+        {
+          ...API_CACHE_CONFIG,
+          headers: authHeader,
+        }
+      );
+    console.log('in try, response:', response);
+    return response;
+  } catch (error: unknown) {
+    if (
+      error instanceof ResponseError &&
+      (error.response.status === 401 || error.response.status === 403)
+    ) {
+      console.log(
+        'Auth error getting unpublished healthdata, falling back to published health data endpoint'
+      );
+      console.warn(
+        'Auth error getting unpublished healthdata, falling back to published health data endpoint'
+      );
+      return await indicatorApi.getHealthDataForAnIndicator(
+        apiRequestParams,
+        API_CACHE_CONFIG
+      );
+    }
+    throw error;
+  }
 }

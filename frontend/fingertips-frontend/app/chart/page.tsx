@@ -32,10 +32,6 @@ export default async function ChartPage(
   // We don't want to render this page statically
   await connection();
 
-  // const healthEndpoint = session
-  //   ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
-  //   : EndPoints.healthDataForAnIndicator;
-
   try {
     const searchParams = await props.searchParams;
     const stateManager = SearchStateManager.initialise(searchParams);

@@ -55,4 +55,6 @@ describe('getChartQuerySeedData', () => {
     );
     expect(result).toEqual(mockResponse);
   });
+
+  // TODO: #1034 test for fallback on failed auth on 401|403
 });
