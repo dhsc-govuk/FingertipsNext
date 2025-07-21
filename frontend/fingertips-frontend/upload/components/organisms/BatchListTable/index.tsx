@@ -40,13 +40,17 @@ export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
             <Table.Cell>{batch.publishedAt.toISOString()}</Table.Cell>
             <Table.Cell>{batch.indicatorId}</Table.Cell>
             <Table.Cell>{batch.batchId}</Table.Cell>
-            <Table.Cell>{batch.deletedAt?.toISOString() ?? ""}</Table.Cell>
-            <Table.Cell>{batch.deletedUserId ?? ""}</Table.Cell>
+            <Table.Cell>{batch.deletedAt?.toISOString() ?? ''}</Table.Cell>
+            <Table.Cell>{batch.deletedUserId ?? ''}</Table.Cell>
             <Table.Cell>{batch.status}</Table.Cell>
             <Table.Cell>
-              <Button onClick={async () => {
-                await deleteBatch(batch.batchId);
-              }}>Delete submission</Button>
+              <Button
+                onClick={async () => {
+                  await deleteBatch(batch.batchId);
+                }}
+              >
+                Delete submission
+              </Button>
             </Table.Cell>
           </Table.Row>
         ))}

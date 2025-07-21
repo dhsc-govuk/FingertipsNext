@@ -63,16 +63,11 @@ export async function uploadFile(
   }
 }
 
-export async function deleteBatch
-(
-  batchId : string
-) : Promise<ApiResponse> {
+export async function deleteBatch(batchId: string): Promise<ApiResponse> {
   const batchesApi = ApiClientFactory.getBatchesApiClient();
 
   try {
-    const response = await batchesApi.batchesBatchIdDeleteRaw(
-      {batchId}
-    );
+    const response = await batchesApi.batchesBatchIdDeleteRaw({ batchId });
 
     revalidatePath(BATCHES_API_PATH);
 

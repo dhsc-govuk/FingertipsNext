@@ -22,7 +22,7 @@ mockAuth.mockResolvedValue(mockSession);
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 const mockBatchesApi = mockDeep<BatchesApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
-ApiClientFactory.getBatchesApiClient = () => mockBatchesApi
+ApiClientFactory.getBatchesApiClient = () => mockBatchesApi;
 
 const givenTheApiReturns = ({
   status: expectedStatus,
@@ -148,7 +148,7 @@ describe('uploadActions', () => {
   });
 
   it('should pass the batchId to the API', async () => {
-    const batchId = "12345_2025-01-01T00:00:00.000";
+    const batchId = '12345_2025-01-01T00:00:00.000';
     await deleteBatch(batchId);
 
     expect(revalidatePath).toHaveBeenCalledWith('/batches');
