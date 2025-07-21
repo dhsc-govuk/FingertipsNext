@@ -89,7 +89,8 @@ HealthData AS (
 				fromDate.Date,
 				toDate.Date,
 				hm.SexKey,
-				hm.AgeKey
+				hm.AgeKey,
+				hm.PeriodKey
 				ORDER BY Value
 			)
 			ELSE NULL
@@ -171,35 +172,29 @@ HealthDataNTileGroupCount AS (
 ) --- The final select now filters based on the requested areas and calculates the Benchmark outcome
 SELECT
 	hd.HealthMeasureKey,
-	hd.Quintile,
 	hd.AreaDimensionCode,
 	hd.AreaDimensionName,
-	hd.SexDimensionName,
-	hd.SexDimensionHasValue,
-	hd.SexDimensionIsAggregate,
-	hd.TrendDimensionName,
 	hd.AgeDimensionName,
 	hd.AgeDimensionHasValue,
 	hd.AgeDimensionIsAggregate,
+	hd.SexDimensionName,
+	hd.SexDimensionHasValue,
+	hd.SexDimensionIsAggregate,
+	hd.ReportingPeriod,
+	hd.Year,
+	hd.FromDate,
+	hd.ToDate,
 	hd.DeprivationDimensionName,
 	hd.DeprivationDimensionType,
 	hd.DeprivationDimensionSequence,
 	hd.DeprivationDimensionHasValue,
 	hd.DeprivationDimensionIsAggregate,
-	hd.Count,
 	hd.Value,
+	hd.TrendDimensionName,
+	hd.Quintile,
 	hd.LowerCi,
 	hd.UpperCi,
-	hd.Year,
-	hd.FromDate,
-	hd.ToDate,
-	ind.PeriodType,
-	ind.CollectionFrequency,
-	hd.ReportingPeriod,
-	ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
-	ind.Name AS IndicatorDimensionName,
-	bag.Code AS BenchmarkComparisonAreaCode,
-	bag.Name AS BenchmarkComparisonAreaName,
+	hd.Count,
 	CASE
 		WHEN nc.Count < 5 THEN 'NOT COMPARED'
 		WHEN ind.Polarity = 'High is good'
@@ -232,7 +227,13 @@ SELECT
 		AND hd.Quintile = 4 THEN 'HIGH'
 		WHEN ind.Polarity = 'No judgement'
 		AND hd.Quintile = 5 THEN 'HIGHEST'
-	END AS BenchmarkComparisonOutcome
+	END AS BenchmarkComparisonOutcome,
+	bag.Code AS BenchmarkComparisonAreaCode,
+	bag.Name AS BenchmarkComparisonAreaName,
+	ind.PeriodType,
+	ind.CollectionFrequency,
+	ind.Polarity AS BenchmarkComparisonIndicatorPolarity,
+	ind.Name AS IndicatorDimensionName
 FROM
 	HealthData AS hd
 	JOIN @RequestedAreas AS areas ON hd.AreaDimensionCode = areas.AreaCode
