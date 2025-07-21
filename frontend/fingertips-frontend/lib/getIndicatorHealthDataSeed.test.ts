@@ -9,8 +9,8 @@ import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams
 const indicatorApiMock = mockDeep<IndicatorsApi>();
 
 describe('getIndicatorHealthDataSeed', async () => {
-  beforeEach(() => vi.clearAllMocks())
-  
+  beforeEach(() => vi.clearAllMocks());
+
   it('should call getHealthDataForAnIndicatorIncludingUnpublishedData when session is present', async () => {
     const session: Session | null = { expires: 'some timestamp' };
     const mockAreaCode = 'E06000047';
