@@ -6,16 +6,16 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { Session } from 'next-auth';
+import { getAuthHeader } from '../auth/accessToken';
 
 export async function getAuthorisedHealthDataForAnIndicator(
-  apiRequestParams: GetHealthDataForAnIndicatorRequest,
-  session?: Session | null
+  apiRequestParams: GetHealthDataForAnIndicatorRequest
 ): Promise<IndicatorWithHealthDataForArea> {
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const accessToken = session?.accessToken;
+  const authHeader = await getAuthHeader();
 
-  if (!accessToken) {
+  if (!authHeader) {
+    // if (!accessToken) {
     return await indicatorApi.getHealthDataForAnIndicator(
       apiRequestParams,
       API_CACHE_CONFIG
@@ -27,7 +27,7 @@ export async function getAuthorisedHealthDataForAnIndicator(
       apiRequestParams,
       {
         ...API_CACHE_CONFIG,
-        headers: { Authorization: `bearer ${accessToken}` },
+        headers: authHeader,
       }
     );
 

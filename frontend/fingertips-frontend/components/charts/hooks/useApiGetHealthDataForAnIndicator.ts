@@ -9,7 +9,6 @@ import {
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
 import { useSession } from 'next-auth/react';
-import { Session } from 'next-auth';
 import { getAuthorisedHealthDataForAnIndicator } from '@/lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 
 type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
@@ -19,12 +18,8 @@ type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
 }>;
 
 export const queryFnHealthDataForAnIndicator =
-  (
-    apiRequestParams: GetHealthDataForAnIndicatorRequest,
-    session?: Session | null
-  ) =>
-  async () => {
-    return getAuthorisedHealthDataForAnIndicator(apiRequestParams, session);
+  (apiRequestParams: GetHealthDataForAnIndicatorRequest) => async () => {
+    return getAuthorisedHealthDataForAnIndicator(apiRequestParams);
   };
 
 export const useApiGetHealthDataForAnIndicator = (
@@ -40,7 +35,7 @@ export const useApiGetHealthDataForAnIndicator = (
 
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,
-    queryFn: queryFnHealthDataForAnIndicator(apiRequestParams, session),
+    queryFn: queryFnHealthDataForAnIndicator(apiRequestParams),
     enabled: !!apiRequestParams.indicatorId,
   });
 

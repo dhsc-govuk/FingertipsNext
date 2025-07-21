@@ -22,7 +22,6 @@ import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTab
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
-import { auth } from '@/lib/auth';
 import { getAuthorisedHealthDataForAnIndicator } from '../../lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 
 export default async function ChartPage(
@@ -32,7 +31,6 @@ export default async function ChartPage(
 ) {
   // We don't want to render this page statically
   await connection();
-  const session = await auth();
 
   // const healthEndpoint = session
   //   ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
@@ -103,10 +101,8 @@ export default async function ChartPage(
         apiRequestParams
       );
       try {
-        const healthData = await getAuthorisedHealthDataForAnIndicator(
-          apiRequestParams,
-          session
-        );
+        const healthData =
+          await getAuthorisedHealthDataForAnIndicator(apiRequestParams);
         seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
@@ -132,8 +128,7 @@ export default async function ChartPage(
     ) {
       try {
         const healthData = await getAuthorisedHealthDataForAnIndicator(
-          inequalitiesQueryParams,
-          session
+          inequalitiesQueryParams
         );
         seedData[inequalitiesQueryKey] = healthData;
       } catch (error) {
@@ -156,8 +151,7 @@ export default async function ChartPage(
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
       try {
         const healthData = await getAuthorisedHealthDataForAnIndicator(
-          populationPyramidQueryParams,
-          session
+          populationPyramidQueryParams
         );
         seedData[populationPyramidQueryKey] = healthData;
       } catch (error) {

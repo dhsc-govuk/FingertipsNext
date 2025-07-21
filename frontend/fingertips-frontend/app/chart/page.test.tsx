@@ -212,11 +212,6 @@ describe('Chart Page', () => {
           key.includes(EndPoints.HealthDataForAnIndicator)
         )
       ).toBe(true);
-      expect(
-        Object.keys(actualSeedData).some((key) =>
-          key.includes(EndPoints.HealthDataForAnIndicatorIncludingUnpublished)
-        )
-      ).toBe(false);
     });
 
     // TODO: change to _valid_ session
@@ -246,11 +241,6 @@ describe('Chart Page', () => {
       expect(
         Object.keys(actualSeedData).some((key) =>
           key.includes(EndPoints.HealthDataForAnIndicator)
-        )
-      ).toBe(true);
-      expect(
-        Object.keys(actualSeedData).some((key) =>
-          key.includes(EndPoints.HealthDataForAnIndicatorIncludingUnpublished)
         )
       ).toBe(true);
     });

@@ -26,10 +26,6 @@ describe('useApiGetHealthDataForAnIndicator', () => {
     EndPoints.HealthDataForAnIndicator,
     params
   );
-  const queryKeyForHealthDataIncludingUnpublished = queryKeyFromRequestParams(
-    EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-    params
-  );
 
   it('should call the published healthdata endpoint when there is no session', async () => {
     // arrange
@@ -57,12 +53,6 @@ describe('useApiGetHealthDataForAnIndicator', () => {
     expect(
       mockGetHealthDataForAnIndicatorIncludingUnpublishedData
     ).not.toHaveBeenCalled();
-    await waitFor(() => {
-      const actualData = queryClient.getQueryData([
-        queryKeyForHealthDataIncludingUnpublished,
-      ]);
-      expect(actualData).toBeUndefined();
-    });
   });
 
   it('should call the unpublished healthdata data endpoint if there is a session', async () => {
@@ -89,9 +79,7 @@ describe('useApiGetHealthDataForAnIndicator', () => {
     });
 
     await waitFor(() => {
-      const actualData = queryClient.getQueryData([
-        queryKeyForHealthDataIncludingUnpublished,
-      ]);
+      const actualData = queryClient.getQueryData([queryKeyForHealthData]);
       expect(actualData).not.toBeUndefined();
     });
 
