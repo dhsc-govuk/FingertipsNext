@@ -30,4 +30,17 @@ describe('apiClientFactory', () => {
 
     expect(apiClient).toBeInstanceOf(BatchesApi);
   });
+
+  it('getAuthenticatedIndicatorsApiClient return an instance of the IndicatorsApi', async () => {
+    const apiClient =
+      await ApiClientFactory.getAuthenticatedIndicatorsApiClient();
+
+    expect(apiClient).toBeInstanceOf(IndicatorsApi);
+  });
+
+  it('getAuthenticatedBatchesApiClient return an instance of the BatchesApi', async () => {
+    const apiClient = await ApiClientFactory.getAuthenticatedBatchesApiClient();
+
+    expect(apiClient).toBeInstanceOf(BatchesApi);
+  });
 });
