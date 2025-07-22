@@ -12,6 +12,7 @@ export const spineChartIsRequired = (searchState: SearchStateParams) => {
   const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected).filter(
     (code) => code !== areaCodeForEngland
   );
+  if (groupAreaSelected === ALL_AREAS_SELECTED) return false;
 
-  return areaCodes.length <= 2 && groupAreaSelected !== ALL_AREAS_SELECTED;
+  return areaCodes.length && areaCodes.length <= 2;
 };
