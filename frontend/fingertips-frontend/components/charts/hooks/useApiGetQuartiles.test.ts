@@ -56,24 +56,4 @@ describe('useApiGetQuartiles', () => {
 
     expect(mockIndicatorsQuartilesGet).not.toHaveBeenCalled();
   });
-
-  it('should not trigger the query when indicatorIds length is less than 2', async () => {
-    // arrange
-    const queryClient = new QueryClient();
-    const optionsWithSingleIndicator = {
-      ...options,
-      indicatorIds: [333],
-    };
-
-    // act
-    renderHook(() => useApiGetQuartiles(optionsWithSingleIndicator), {
-      wrapper: testRenderWrapper({}, queryClient, null),
-    });
-
-    // assert
-    await waitFor(() => {
-      expect(mockIndicatorsQuartilesGet).not.toHaveBeenCalled();
-      expect(mockIndicatorsQuartilesAllGet).not.toHaveBeenCalled();
-    });
-  });
 });

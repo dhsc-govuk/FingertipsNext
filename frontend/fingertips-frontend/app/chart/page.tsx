@@ -214,9 +214,9 @@ export default async function ChartPage(
       !Object.keys(seedData).includes(quartilesKey)
     ) {
       try {
-        seedData[quartilesKey] = await indicatorApi.indicatorsQuartilesGet(
-          quartilesParams,
-          API_CACHE_CONFIG
+        seedData[quartilesKey] = await getQuartilesSeed(
+          session,
+          quartilesParams
         );
       } catch (e) {
         console.error('error getting quartile data', e);
