@@ -1,4 +1,3 @@
-import { Table } from 'govuk-react';
 import styled from 'styled-components';
 
 export const ResponsePanel = styled('div')({
@@ -8,5 +7,3 @@ export const ResponsePanel = styled('div')({
   borderStyle: 'solid',
   padding: '15px',
 });
-
-export const WrappedCell = styled(Table.Cell)({ overflowWrap: 'anywhere' });

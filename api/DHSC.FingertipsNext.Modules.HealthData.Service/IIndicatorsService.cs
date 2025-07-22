@@ -58,5 +58,5 @@ public interface IIndicatorsService
         bool includeUnpublished = false
         );
 
-    Task<ServiceResponse<string>> DeleteUnpublishedDataAsync(string batchId);
+    Task<ServiceResponse<string>> DeleteUnpublishedDataAsync(int indicatorId, string batchId);
 }

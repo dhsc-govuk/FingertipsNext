@@ -1,9 +1,5 @@
-using System.Text.RegularExpressions;
-using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service;
-using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
-using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,35 +21,5 @@ public class DataManagementBatchController(IDataManagementService dataManagement
         int[] indicatorIds = [];
 
         return new OkObjectResult(await dataManagementService.ListBatches(indicatorIds));
-    }
-
-    [HttpDelete]
-    [Route("{batchId}")]
-    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
-    public async Task<IActionResult> DeleteBatch([FromRoute] string batchId)
-    {
-        if (string.IsNullOrEmpty(batchId))
-            return new BadRequestObjectResult(new SimpleError
-            {
-                Message = "batchId is required"
-            });
-
-        // User ID will be added under DHSCFT-930
-        var result = await dataManagementService.DeleteBatchAsync(batchId, Guid.Empty);
-
-        var message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();
-
-        switch (result.Outcome)
-        {
-            case OutcomeType.Ok:
-                return new OkObjectResult(result.Model);
-            case OutcomeType.NotFound:
-                return new NotFoundResult();
-            case OutcomeType.ClientError:
-                return new BadRequestObjectResult(new SimpleError { Message = message ?? "Invalid request" });
-            case OutcomeType.ServerError:
-            default:
-                return StatusCode(StatusCodes.Status500InternalServerError, message);
-        }
     }
 }

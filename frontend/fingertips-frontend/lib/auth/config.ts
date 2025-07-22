@@ -3,6 +3,18 @@ import { tryReadEnvVar } from '@/lib/envUtils';
 import { NextAuthConfig } from 'next-auth';
 import 'next-auth/jwt';
 
+declare module 'next-auth' {
+  interface Session {
+    accessToken?: string;
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    accessToken?: string;
+  }
+}
+
 export class AuthConfigFactory {
   private static config: NextAuthConfig | null;
 
@@ -25,7 +37,7 @@ export class AuthConfigFactory {
     const config: NextAuthConfig = {
       providers: AuthProvidersFactory.getProviders(),
       callbacks: {
-        jwt: async ({ token, user, account }) => {
+        jwt: async ({ token, user: _, account }) => {
           if (!account?.access_token) return token;
           // this callback gets invoked on both the node and edge runtime,
           // but the state where account is present (signin)
@@ -34,25 +46,25 @@ export class AuthConfigFactory {
           // nextjs still complains that the user api code isn't built for the edge runtime
           // even if it will never be called
           if (process.env.NEXT_RUNTIME === 'nodejs') {
-            const { validateUser } = await import('@/lib/auth/validation');
+            const { validateAccessToken } = await import(
+              '@/lib/auth/validation'
+            );
 
-            if (await validateUser(account.access_token)) {
-              return { ...token, accessToken: account.access_token };
-            } else {
-              console.log(`failed to validate user ${user.id}`);
+            if (await validateAccessToken(account.access_token)) {
+              return { ...token, accessToken: account?.access_token };
             }
           }
           return token;
+        },
+
+        session: ({ session, token }) => {
+          session.accessToken = token.accessToken;
+
+          return session;
         },
       },
     };
 
     return config;
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    accessToken?: string;
   }
 }

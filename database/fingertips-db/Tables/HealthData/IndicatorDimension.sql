@@ -10,7 +10,6 @@ CREATE TABLE [dbo].[IndicatorDimension](
 	[EndDate] [datetime2](7) NOT NULL,
     [PeriodType] [nvarchar](255) NULL,                      --The period for which indicator is reported e.g. Calendar year, Financial year
     [CollectionFrequency] [nvarchar](225) NULL,             --The frequency at which data are collected for the indicator e.g. annually, quarterly
-    [RequiresGeoAggregation] [bit] NULL,                    --Whether the indicator requires geographical aggregation
 CONSTRAINT [PK_IndicatorDimension] PRIMARY KEY CLUSTERED 
 (
 	[IndicatorKey] ASC

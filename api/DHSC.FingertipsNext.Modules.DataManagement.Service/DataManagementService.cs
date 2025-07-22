@@ -1,6 +1,5 @@
 ﻿using Azure;
 using Azure.Storage.Blobs;
-using DHSC.FingertipsNext.Modules.DataManagement.Clients;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
@@ -34,12 +33,11 @@ public class DataManagementService : IDataManagementService
     private readonly ILogger<DataManagementService> _logger;
     private readonly IDataManagementMapper _mapper;
     private readonly IDataManagementRepository _repository;
-    private readonly IHealthDataClient _healthDataClient;
     private readonly TimeProvider _timeProvider;
 
     public DataManagementService(BlobServiceClient blobServiceClient, IConfiguration configuration,
         ILogger<DataManagementService> logger, TimeProvider timeProvider, IDataManagementRepository repository,
-        IDataManagementMapper mapper, IHealthDataClient healthDataClient)
+        IDataManagementMapper mapper)
     {
         ArgumentNullException.ThrowIfNull(configuration);
         ArgumentException.ThrowIfNullOrWhiteSpace(configuration["UPLOAD_STORAGE_CONTAINER_NAME"]);
@@ -51,7 +49,6 @@ public class DataManagementService : IDataManagementService
         _repository = repository;
         _containerName = containerName;
         _mapper = mapper;
-        _healthDataClient = healthDataClient;
     }
 
     public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId,
@@ -102,40 +99,6 @@ public class DataManagementService : IDataManagementService
 
 
         return batches.Select(batch => _mapper.Map(batch));
-    }
-
-    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId)
-    {
-        ArgumentNullException.ThrowIfNull(batchId);
-        var errorMessage = "";
-
-        try
-        {
-            // Delete batch
-            var deletedBatch = await _repository.DeleteBatchAsync(batchId, userId);
-
-            if (deletedBatch != null)
-            {
-                // Delete associated health data
-                var successHealthDataDeleted = await _healthDataClient.DeleteHealthDataAsync(batchId);
-
-                if (successHealthDataDeleted)
-                    return new UploadHealthDataResponse(OutcomeType.Ok, _mapper.Map(deletedBatch));
-            }
-        }
-        catch (Exception e) when (e is ArgumentException)
-        {
-            errorMessage = e.Message;
-        }
-
-        return errorMessage switch
-        {
-            "BatchNotFound" => new UploadHealthDataResponse(OutcomeType.NotFound, null, ["Not found"]),
-            "BatchDeleted" => new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already deleted"]),
-            "BatchPublished" =>
-                new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]),
-            _ => new UploadHealthDataResponse(OutcomeType.ServerError)
-        };
     }
 
     private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, DateTime publishedAt, string batchId,

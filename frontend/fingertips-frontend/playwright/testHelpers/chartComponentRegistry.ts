@@ -84,9 +84,9 @@ export const allComponents: ChartComponentDefinition[] = [
   {
     chartComponentLocator: ChartPage.populationPyramidTableComponent,
     chartComponentProps: {
-      isTabTable: true,
       hasPNGExport: true,
       hasCSVExport: true,
+      isTabTable: true,
     },
   },
   {

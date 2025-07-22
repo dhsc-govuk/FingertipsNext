@@ -1,9 +1,7 @@
 /**
  * @vitest-environment node
  */
-// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import { mockAuth } from '@/mock/utils/mockAuth';
-//
+
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'vitest-mock-extended';
@@ -34,7 +32,12 @@ import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 
-mockAuth.mockResolvedValue(null);
+vi.mock('@/lib/auth', async () => {
+  return {
+    auth: vi.fn(),
+  };
+});
+(auth as Mock).mockImplementation(vi.fn().mockResolvedValue(null));
 
 vi.mock('@/components/organisms/ThematicMap/thematicMapHelpers.ts', () => ({
   getMapGeographyData: vi.fn(),

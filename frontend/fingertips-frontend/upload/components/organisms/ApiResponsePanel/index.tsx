@@ -1,6 +1,6 @@
 import { ApiResponse } from '@/upload/components/forms/IndicatorUploadForm/uploadActions';
 import { Table } from 'govuk-react';
-import { ResponsePanel, WrappedCell } from './ApiResponsePanel.styles';
+import { ResponsePanel } from './ApiResponsePanel.styles';
 
 type ApiResponsePanelProps = {
   apiResponse: ApiResponse;
@@ -13,17 +13,17 @@ export const ApiResponsePanel = ({ apiResponse }: ApiResponsePanelProps) => {
         {apiResponse.status ? (
           <Table.Row>
             <Table.CellHeader>HTTP status code</Table.CellHeader>
-            <WrappedCell data-testid="api-response-panel-status">
+            <Table.Cell data-testid="api-response-panel-status">
               {apiResponse.status}
-            </WrappedCell>
+            </Table.Cell>
           </Table.Row>
         ) : null}
 
         <Table.Row>
           <Table.CellHeader>Message</Table.CellHeader>
-          <WrappedCell data-testid="api-response-panel-message">
+          <Table.Cell data-testid="api-response-panel-message">
             {apiResponse.message}
-          </WrappedCell>
+          </Table.Cell>
         </Table.Row>
       </Table>
     </ResponsePanel>

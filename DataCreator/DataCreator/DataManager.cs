@@ -122,8 +122,6 @@ namespace DataCreator
                 }
                 indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                 indicator.Polarity = indicatorUsedInPoc.Polarity;
-                indicator.RequiresGeoAggregation = indicatorUsedInPoc.RequiresGeoAggregation;
-
                 indicatorUsedInPoc.PeriodType = indicator.PeriodType;
             }
             AddLastUpdatedDate(indicators);

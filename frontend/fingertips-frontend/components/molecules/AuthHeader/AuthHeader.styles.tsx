@@ -1,18 +1,10 @@
 import styled from 'styled-components';
 
 export const PositionWrapper = styled.div({
-  display: 'flex',
-  width: '100%',
-  justifyContent: 'center',
-  pointerEvents: 'none',
-});
-
-export const PositionWrapperInner = styled.div({
   position: 'absolute',
-  width: 'calc(100% - 60px)',
-  maxWidth: '960px',
+  width: '50%',
+  left: '25%',
   pointerEvents: 'none',
-  margin: '0 auto',
 });
 
 export const Content = styled.div({

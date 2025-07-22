@@ -87,9 +87,6 @@ namespace DataCreator
         [CsvColumn(FieldIndex = 7)]
         public string Frequency { get; set; }
 
-        [CsvColumn(FieldIndex = 8)]
-        public bool RequiresGeoAggregation { get; set; }
-
         public bool HasMultipleSexes { get; set; }
 
         public bool HasMultipleAges { get; set; }

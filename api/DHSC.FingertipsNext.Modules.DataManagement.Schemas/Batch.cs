@@ -39,22 +39,10 @@ public record Batch
     public required DateTime PublishedAt { get; init; }
 
     /// <summary>
-    ///     When the data in the batch was deleted.
-    /// </summary>
-    [JsonPropertyName("deletedAt")]
-    public DateTime? DeletedAt { get; init; }
-
-    /// <summary>
     ///     The ID of the user who uploaded the batch.
     /// </summary>
     [JsonPropertyName("userId")]
     public required string UserId { get; init; }
-
-    /// <summary>
-    ///     The ID of the user who deleted the batch.
-    /// </summary>
-    [JsonPropertyName("deletedUserId")]
-    public string? DeletedUserId { get; init; }
 
     /// <summary>
     ///     The current status of the batch.

@@ -1,9 +1,5 @@
 import { AuthButton } from '@/components/atoms/AuthButton';
-import {
-  Content,
-  PositionWrapper,
-  PositionWrapperInner,
-} from './AuthHeader.styles';
+import { Content, PositionWrapper } from './AuthHeader.styles';
 import { Session } from 'next-auth';
 
 interface AuthHeaderProps {
@@ -13,11 +9,9 @@ interface AuthHeaderProps {
 export function AuthHeader({ session }: Readonly<AuthHeaderProps>) {
   return (
     <PositionWrapper>
-      <PositionWrapperInner>
-        <Content>
-          <AuthButton session={session} />
-        </Content>
-      </PositionWrapperInner>
+      <Content>
+        <AuthButton session={session} />
+      </Content>
     </PositionWrapper>
   );
 }

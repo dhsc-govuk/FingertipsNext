@@ -164,6 +164,24 @@ indicators_by_indicator_id_all_data:
       "500":
         $ref: "../responses.yaml#/InternalServerError"
     operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
+indicator_data_by_batch_id:
+  parameters:
+    - $ref: "./parameters.yaml#/indicator_id"
+    - $ref: "./parameters.yaml#/batch_id"
+  delete:
+    tags:
+      - indicators
+    summary: Delete a batch of unpublished data for an indicator
+    description: Deletes all unpublished data for the specified indicator and batch.
+    responses:
+      "204":
+        description: The batch of unpublished data has been deleted successfully.
+      "400":
+        $ref: "../responses.yaml#/BadRequest"
+      "404":
+        $ref: "../responses.yaml#/NotFound"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
 quartiles:
   get:
     tags:
