@@ -23,10 +23,6 @@ import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { getAuthorisedHealthDataForAnIndicator } from '../../lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
 
 export default async function ChartPage(
   props: Readonly<{
