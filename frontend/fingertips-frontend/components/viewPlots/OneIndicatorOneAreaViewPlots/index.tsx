@@ -62,7 +62,6 @@ export function OneIndicatorOneAreaViewPlots({
           <LineChartAndTableOverTime />
         </>
       ) : null}
-
       <Inequalities />
     </section>
   );

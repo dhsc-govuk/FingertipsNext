@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
+using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +35,7 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
 
         using var scope = _factory.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DataManagementDbContext>();
+        var healthDataDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
         var connectionString = dbContext.Database.GetDbConnection().ConnectionString;
         _sqlConnection = new SqlConnection(connectionString);
 
@@ -48,7 +51,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         var mockTime = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
         _blobName = $"{IndicatorId}_{mockTime:yyyy-MM-ddTHH:mm:ss.fff}.csv";
         _factory.MockTime.SetUtcNow(mockTime);
-
         _azureStorageBlobClient = new AzureStorageBlobClient(configuration);
     }
 
@@ -59,7 +61,6 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         var cleanupPath = Path.Combine(AppContext.BaseDirectory, "DataManagement/cleanup.sql");
         RunSqlScript(cleanupPath, _sqlConnection);
         _sqlConnection.Close();
-        _sqlConnection.Dispose();
     }
 
 
@@ -87,7 +88,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken(userRoleIds));
+        apiClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken(userRoleIds));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -131,7 +133,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
 
         using var content = new MultipartFormDataContent();
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([Indicator41101GroupRoleId], true));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            _factory.GenerateTestToken([Indicator41101GroupRoleId], true));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -148,7 +151,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
 
         using var content = new MultipartFormDataContent();
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([Indicator41101GroupRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([Indicator41101GroupRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri("/indicators/9999/data", UriKind.Relative), content);
@@ -180,7 +184,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -213,7 +218,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -235,7 +241,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
         content.Add(streamContent, "file", IntegrationTestFileName);
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -254,7 +261,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
 
         using var content = new MultipartFormDataContent();
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -269,7 +277,9 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
     public async Task UploadToBlobStorageShouldFailIfContainerDoesNotExist(string userRoleId)
     {
         // Arrange
-        var apiClient = _factory.WithWebHostBuilder(config => config.UseSetting("UPLOAD_STORAGE_CONTAINER_NAME", "invalid-container-name")).CreateClient();
+        var apiClient = _factory
+            .WithWebHostBuilder(config => config.UseSetting("UPLOAD_STORAGE_CONTAINER_NAME", "invalid-container-name"))
+            .CreateClient();
 
         var publishedAt = DateTime.UtcNow.AddMonths(1);
 
@@ -286,7 +296,8 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -324,6 +335,27 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
                 BatchId = "22401_2017-06-30T14:22:37.123",
                 IndicatorId = 22401,
                 PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
+            },
+            batch with
+            {
+                BatchId = "12345_2017-06-30T14:22:37.123",
+                IndicatorId = 12345,
+                PublishedAt = new DateTime(2125, 10, 9, 0, 0, 0, 0)
+            },
+            batch with
+            {
+                BatchId = "54321_2017-06-30T14:22:37.123",
+                IndicatorId = 54321,
+                PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0)
+            },
+            batch with
+            {
+                BatchId = "54321_2025-06-30T14:22:37.123",
+                IndicatorId = 54321,
+                PublishedAt = new DateTime(2030, 1, 1, 0, 0, 0, 0),
+                DeletedAt = new DateTime(2025, 7, 1, 0, 0, 0, 0),
+                CreatedAt = new DateTime(2025, 6, 30),
+                Status = BatchStatus.Deleted
             }
         ];
 
@@ -334,6 +366,83 @@ public sealed class DataManagementIntegrationTests : IClassFixture<DataManagemen
 
         // Assert
         response.ShouldBeEquivalentTo(expectedResult);
+    }
+
+    [Fact]
+    public async Task DeleteBatchEndpointShouldReturn200Response()
+    {
+        // Arrange
+        var apiClient = _factory.CreateClient();
+        var batchId = "12345_2017-06-30T14:22:37.123";
+        using var scope = _factory.Services.CreateScope();
+        var healthDataDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
+        var healthDataBeforeDelete =
+            await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
+        healthDataBeforeDelete.ShouldBe(1);
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        var batch = await response.Content.ReadFromJsonAsync(typeof(Batch)) as Batch;
+        batch.BatchId.ShouldBe(batchId);
+        batch.DeletedAt.ShouldNotBeNull();
+        batch.Status.ShouldBe(BatchStatus.Deleted);
+        batch.IndicatorId.ShouldBe(12345);
+
+        // Ensure health data is deleted
+        var healthDataAfterDelete =
+            await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
+        healthDataAfterDelete.ShouldBe(0);
+    }
+
+    [Fact]
+    public async Task DeleteBatchEndpointShouldReturn404ResponseWhenBatchDoesNotExist()
+    {
+        // Arrange
+        var apiClient = _factory.CreateClient();
+        var batchId = "1234";
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        var error = await response.Content.ReadAsStringAsync();
+        error.ShouldContain("Not found");
+    }
+
+    [Fact]
+    public async Task DeleteBatchShouldReturn400ResponseWhenBatchIsPublished()
+    {
+        // Arrange
+        var apiClient = _factory.CreateClient();
+        var batchId = "54321_2017-06-30T14:22:37.123";
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        var error = await response.Content.ReadFromJsonAsync<SimpleError>();
+        error.Message.ShouldBe("Batch already published");
+    }
+
+    [Fact]
+    public async Task DeleteBatchShouldReturn400ResponseWhenBatchIsAlreadyDeleted()
+    {
+        // Arrange
+        var apiClient = _factory.CreateClient();
+        var batchId = "54321_2025-06-30T14:22:37.123";
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        var error = await response.Content.ReadFromJsonAsync<SimpleError>();
+        error.Message.ShouldBe("Batch already deleted");
     }
 
     private static void InitialiseDb(SqlConnection sqlConnection)

@@ -10,6 +10,8 @@ import { Session } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { mockDeep } from 'vitest-mock-extended';
 import { uploadFile } from './uploadActions';
+import { getJWT } from '@/lib/auth/getJWT';
+import { Mock } from 'vitest';
 
 vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
@@ -18,8 +20,15 @@ vi.mock('next/cache', () => ({
 const mockSession = mockDeep<Session>();
 mockAuth.mockResolvedValue(mockSession);
 
+vi.mock('@/lib/auth/getJWT', () => {
+  return { getJWT: vi.fn() };
+});
+
+const mockGetJWT = getJWT as Mock;
+
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
-ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+ApiClientFactory.getAuthenticatedIndicatorsApiClient = () =>
+  Promise.resolve(mockIndicatorsApi);
 
 const givenTheApiReturns = ({
   status: expectedStatus,
@@ -70,20 +79,17 @@ describe('uploadActions', () => {
       file: expectedFile,
     });
     const expectedAccessToken = 'access-token';
-    mockSession.accessToken = expectedAccessToken;
+    mockGetJWT.mockResolvedValue({ accessToken: expectedAccessToken });
 
     await uploadFile(undefined, formData);
 
     expect(
       mockIndicatorsApi.indicatorsIndicatorIdDataPostRaw
-    ).toHaveBeenCalledWith(
-      {
-        indicatorId: expectedIndicatorId,
-        file: expectedFile,
-        publishedAt: new UTCDateMini(2017, 5, 30),
-      },
-      { headers: { Authorization: `bearer ${expectedAccessToken}` } }
-    );
+    ).toHaveBeenCalledWith({
+      indicatorId: expectedIndicatorId,
+      file: expectedFile,
+      publishedAt: new UTCDateMini(2017, 5, 30),
+    });
   });
 
   it('should return the expected message when the API call succeeds', async () => {
