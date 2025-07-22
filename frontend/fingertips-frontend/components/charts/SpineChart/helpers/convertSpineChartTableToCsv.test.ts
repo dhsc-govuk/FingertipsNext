@@ -103,7 +103,7 @@ describe('convertSpineChartTableToCsv', () => {
 
   it('should convert correctly without group data', () => {
     const result = convertSpineChartTableToCsv([
-      { ...mockSpineIndicatorData, groupData: null },
+      { ...mockSpineIndicatorData, groupData: undefined },
     ]);
     expect(result).toHaveLength(3);
 
@@ -114,7 +114,7 @@ describe('convertSpineChartTableToCsv', () => {
   it('should convert correctly when group data is missing', () => {
     const testData = {
       ...mockSpineIndicatorData,
-      groupData: null,
+      groupData: undefined,
     };
 
     const result = convertSpineChartTableToCsv([testData]);
@@ -127,7 +127,7 @@ describe('convertSpineChartTableToCsv', () => {
   it('should convert correctly when england data is missing', () => {
     const testData = {
       ...mockSpineIndicatorData,
-      englandData: null,
+      englandData: undefined,
     };
 
     const result = convertSpineChartTableToCsv([testData]);
