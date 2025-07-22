@@ -12,8 +12,9 @@ vi.mock('@/lib/auth/getJWT', () => {
   return { getJWT: vi.fn() };
 });
 
-const mockBatchesApi = mockDeep<BatchesApi>();
-ApiClientFactory.getBatchesApiClient = () => mockBatchesApi;
+const mockAuthenticatedBatchesApi = mockDeep<BatchesApi>();
+ApiClientFactory.getAuthenticatedBatchesApiClient = () =>
+  Promise.resolve(mockAuthenticatedBatchesApi);
 
 const expectedAccessToken = 'access-token';
 const mockSession = mockDeep<Session>();
@@ -22,21 +23,11 @@ vi.mocked(getJWT).mockResolvedValue({ accessToken: expectedAccessToken });
 
 describe('Upload page component', () => {
   it('should make an API call to fetch batches', async () => {
-    mockBatchesApi.getBatches.mockResolvedValue([mockBatch()]);
+    mockAuthenticatedBatchesApi.getBatches.mockResolvedValue([mockBatch()]);
 
     const uploadPage = await UploadPage();
 
-    expect(mockBatchesApi.getBatches).toHaveBeenCalled();
+    expect(mockAuthenticatedBatchesApi.getBatches).toHaveBeenCalled();
     expect(uploadPage.props.batches).toEqual([mockBatch()]);
-  });
-
-  it('should include an authentication token with get batches API request', async () => {
-    mockBatchesApi.getBatches.mockResolvedValue([mockBatch()]);
-
-    await UploadPage();
-
-    expect(mockBatchesApi.getBatches).toHaveBeenCalledWith({
-      headers: { Authorization: `bearer ${expectedAccessToken}` },
-    });
   });
 });
