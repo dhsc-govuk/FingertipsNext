@@ -149,12 +149,10 @@ export default async function ChartPage(
       EndPoints.HealthDataForAnIndicator,
       populationPyramidQueryParams
     );
-    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
       try {
-        const healthData = await indicatorApi.getHealthDataForAnIndicator(
-          populationPyramidQueryParams,
-          API_CACHE_CONFIG
+        const healthData = await getAuthorisedHealthDataForAnIndicator(
+          populationPyramidQueryParams
         );
         seedData[populationPyramidQueryKey] = healthData;
       } catch (error) {

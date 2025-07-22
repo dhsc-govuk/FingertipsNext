@@ -189,8 +189,9 @@ describe('Chart Page', () => {
       ]);
     });
   });
-  describe('SeedingLineChartOverTimeWithAuth', () => {
-    it('should call the published healthData endpoint when seeding there is no session', async () => {
+
+  describe('seed query with auth', () => {
+    it('should call the published healthData endpoint when seeding querys if there is no session', async () => {
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
@@ -204,7 +205,7 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenCalledTimes(3);
+      ).toHaveBeenCalledTimes(3); // LineChart, Inequalites and Population
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
       ).not.toHaveBeenCalled();
@@ -234,10 +235,10 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenCalledTimes(1);
+      ).not.toHaveBeenCalled();
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-      ).toHaveBeenCalledTimes(2);
+      ).toHaveBeenCalledTimes(3); // LineChart, Inequalites and Population
 
       expect(
         Object.keys(actualSeedData).some((key) =>
@@ -245,11 +246,5 @@ describe('Chart Page', () => {
         )
       ).toBe(true);
     });
-
-    it.todo(
-      'should seed without unpublished data if there is an invalid session'
-    );
-    it.todo('should seed inequalites data appropriate given auth');
-    it.todo('should seed population data appropriate given auth');
   });
 });
