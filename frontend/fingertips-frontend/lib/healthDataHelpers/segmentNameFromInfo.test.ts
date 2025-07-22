@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { segmentNameFromInfo } from './segmentNameFromInfo';
-
-import { SegmentInfo } from '@/lib/common-types';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 
 describe('segmentNameFromInfo', () => {
   it('returns full string when all fields are present', () => {
@@ -25,7 +24,7 @@ describe('segmentNameFromInfo', () => {
   });
 
   it('handles missing keys gracefully', () => {
-    const input = {} as SegmentInfo;
+    const input = {} as Record<SegmentationId, string>;
     expect(segmentNameFromInfo(input)).toBe('');
   });
 });

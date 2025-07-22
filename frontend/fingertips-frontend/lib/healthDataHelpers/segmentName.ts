@@ -1,6 +1,6 @@
 import { IndicatorSegment } from '@/generated-sources/ft-api-client';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
-import { SegmentationId } from '@/lib/common-types';
 
 export const segmentName = (segment: IndicatorSegment) => {
   const info = {

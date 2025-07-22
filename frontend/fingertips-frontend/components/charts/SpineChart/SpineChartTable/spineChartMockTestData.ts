@@ -80,8 +80,7 @@ export const mockSpineQuartileData: QuartileData = {
 };
 
 export const mockSpineIndicatorData: SpineChartIndicatorData = {
-  rowId: '1-persons',
-  indicatorId: 1,
+  indicatorId: '1',
   indicatorName: 'indicator',
   latestDataPeriod: 2025,
   valueUnit: '%',

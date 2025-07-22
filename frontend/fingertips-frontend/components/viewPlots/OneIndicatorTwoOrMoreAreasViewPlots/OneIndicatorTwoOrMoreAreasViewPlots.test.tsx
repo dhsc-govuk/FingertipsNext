@@ -26,6 +26,7 @@ import {
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
+import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
@@ -275,20 +276,13 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     it('should render the SingleIndicatorHeatMap with title', async () => {
       await testRender(mockSearchStateAllAreas, testHealthData, testMetaData);
-      expect(
-        screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
-      ).toBeInTheDocument();
+      expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
 
       expect(
-        screen.getByText(
-          chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap].title
-        )
+        screen.getByText(heatMapText.singleIndicator.title)
       ).toBeInTheDocument();
       expect(
-        screen.getByText(
-          chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap]
-            .subTitle ?? ''
-        )
+        screen.getByText(heatMapText.singleIndicator.subTitle)
       ).toBeInTheDocument();
     });
   });
@@ -304,15 +298,12 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     const links = within(availableChartLinks).getAllByRole('link');
 
     expect(links[0]).toHaveTextContent(
-      chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap].title
-    );
-    expect(links[1]).toHaveTextContent(
       chartTitleConfig[ChartTitleKeysEnum.LineChart].title
     );
-    expect(links[2]).toHaveTextContent(
+    expect(links[1]).toHaveTextContent(
       chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title
     );
-    expect(links[3]).toHaveTextContent(
+    expect(links[2]).toHaveTextContent(
       chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
     );
   });

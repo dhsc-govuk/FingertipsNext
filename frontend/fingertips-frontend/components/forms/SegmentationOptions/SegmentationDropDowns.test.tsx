@@ -4,9 +4,9 @@ import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 //
 import { render, screen } from '@testing-library/react';
 import { SegmentationDropDowns } from '@/components/forms/SegmentationOptions/SegmentationDropDowns';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 import { SearchParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
-import { SegmentationId } from '@/lib/common-types';
 
 mockUsePathname.mockReturnValue('some-pathname');
 

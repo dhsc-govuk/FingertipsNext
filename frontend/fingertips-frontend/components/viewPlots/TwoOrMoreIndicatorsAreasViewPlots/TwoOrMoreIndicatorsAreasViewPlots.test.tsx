@@ -25,10 +25,8 @@ import {
 mockUsePathname.mockReturnValue('some-mock-pathname');
 mockSetIsLoading(false);
 
-vi.mock('@/components/charts/SpineChart/MultipleIndicatorSpineChart', () => ({
-  MultipleIndicatorSpineChart: () => (
-    <div data-testid="spineChartTable-component" />
-  ),
+vi.mock('@/components/charts/SpineChart/SpineChartWrapper', () => ({
+  SpineChartWrapper: () => <div data-testid="spineChartTable-component" />,
 }));
 
 const indicatorIds = ['123', '321'];
@@ -121,6 +119,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
   });
 
@@ -132,9 +131,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
-    expect(
-      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
@@ -148,9 +145,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
-    const heatmapTable = screen.getByTestId(
-      `${ChartTitleKeysEnum.Heatmap}-component`
-    );
+    const heatmapTable = screen.getByTestId('heatmapChart-component');
     expect(within(heatmapTable).getByText('Area1')).toBeInTheDocument();
     expect(within(heatmapTable).getByText('Area2')).toBeInTheDocument();
     expect(within(heatmapTable).getByText('Area3')).toBeInTheDocument();
@@ -164,9 +159,7 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
-    expect(
-      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();

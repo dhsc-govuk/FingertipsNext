@@ -28,8 +28,6 @@ import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
-import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
-import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -191,27 +189,6 @@ export default async function ChartPage(
           'error getting health indicator data for population pyramid',
           e
         );
-      }
-    }
-
-    // load quartiles data and seed if we don't have it already
-    const quartilesParams = quartilesQueryParams(searchState);
-    const quartilesKey = queryKeyFromRequestParams(
-      EndPoints.Quartiles,
-      quartilesParams
-    );
-
-    if (
-      spineChartIsRequired(searchState) &&
-      !Object.keys(seedData).includes(quartilesKey)
-    ) {
-      try {
-        seedData[quartilesKey] = await indicatorApi.indicatorsQuartilesGet(
-          quartilesParams,
-          API_CACHE_CONFIG
-        );
-      } catch (e) {
-        console.error('error getting quartile data', e);
       }
     }
 

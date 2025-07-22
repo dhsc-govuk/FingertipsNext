@@ -14,12 +14,10 @@ import {
 } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { mockSexData } from '@/mock/data/mockSexData';
+import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
+
 import { SearchParams } from '@/lib/searchStateManager';
 import { MultipleIndicatorHeatMap } from '@/components/charts/HeatMap/MultipleIndicatorHeatMap';
-import {
-  chartTitleConfig,
-  ChartTitleKeysEnum,
-} from '@/lib/ChartTitles/chartTitleEnums';
 
 const testIndicatorOne = mockIndicatorDocument({
   indicatorID: '1',
@@ -82,9 +80,7 @@ describe('MultipleIndicatorHeatMap', () => {
   it('should render a row for each segment', () => {
     render(<MultipleIndicatorHeatMap />);
 
-    expect(
-      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
 
     const trs = screen.getAllByRole('row');
     const firstCellContents = trs.map((tr) => tr.firstChild?.textContent);
@@ -120,14 +116,14 @@ describe('MultipleIndicatorHeatMap', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: chartTitleConfig[ChartTitleKeysEnum.Heatmap].title,
+        name: heatMapText.multipleIndicator.title,
       })
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('heading', {
         level: 4,
-        name: chartTitleConfig[ChartTitleKeysEnum.Heatmap].subTitle ?? '',
+        name: heatMapText.multipleIndicator.subTitle,
       })
     ).toBeInTheDocument();
   });
