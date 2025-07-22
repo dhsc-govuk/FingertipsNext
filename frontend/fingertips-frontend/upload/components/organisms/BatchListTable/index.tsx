@@ -1,10 +1,14 @@
 import { Batch } from '@/generated-sources/ft-api-client';
 import { Table, Button, H4 } from 'govuk-react';
-import React from 'react';
-import { deleteBatch } from '../../forms/IndicatorUploadForm/uploadActions';
+import React, { Dispatch, SetStateAction } from 'react';
+import {
+  ApiResponse,
+  deleteBatch,
+} from '../../forms/IndicatorUploadForm/uploadActions';
 
 type BatchListTableProps = {
   batches: Batch[];
+  deletionState: Dispatch<SetStateAction<ApiResponse>> | undefined;
 };
 
 export enum BatchListTableHeaders {
@@ -19,7 +23,10 @@ export enum BatchListTableHeaders {
   Status = 'Status',
 }
 
-export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
+export const BatchListTable = ({
+  batches,
+  deletionState,
+}: Readonly<BatchListTableProps>) => {
   if (!batches.length) return null;
 
   return (
@@ -46,7 +53,9 @@ export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
             <Table.Cell>
               <Button
                 onClick={async () => {
-                  await deleteBatch(batch.batchId);
+                  if (deletionState) {
+                    deletionState(await deleteBatch(batch.batchId));
+                  }
                 }}
               >
                 Delete submission

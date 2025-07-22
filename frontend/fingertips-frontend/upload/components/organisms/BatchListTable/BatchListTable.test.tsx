@@ -5,7 +5,7 @@ import { mockBatch } from '@/mock/data/mockBatch';
 describe('BatchListTable', () => {
   it('should render the expected elements', () => {
     const batchMock = mockBatch();
-    render(<BatchListTable batches={[batchMock]} />);
+    render(<BatchListTable batches={[batchMock]} deletionState={undefined} />);
 
     expect(
       screen.getByTestId('batch-list-table-container')
@@ -28,7 +28,7 @@ describe('BatchListTable', () => {
   });
 
   it('should not render the table if no batches are provided', () => {
-    render(<BatchListTable batches={[]} />);
+    render(<BatchListTable batches={[]} deletionState={undefined} />);
 
     expect(
       screen.queryByTestId('batch-list-table-container')
@@ -37,7 +37,9 @@ describe('BatchListTable', () => {
   });
 
   it('snapshot test', () => {
-    const container = render(<BatchListTable batches={[mockBatch()]} />);
+    const container = render(
+      <BatchListTable batches={[mockBatch()]} deletionState={undefined} />
+    );
 
     expect(container.asFragment()).toMatchSnapshot();
   });

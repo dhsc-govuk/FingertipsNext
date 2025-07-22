@@ -50,6 +50,22 @@ const givenTheApiReturns = ({
   });
 };
 
+const givenTheDeleteApiReturns = ({
+  status: expectedStatus,
+  body: expectedBodyText,
+}: {
+  status: number;
+  body: string;
+}) => {
+  const response = new Response(expectedBodyText, {
+    status: expectedStatus,
+  });
+  mockBatchesApi.batchesBatchIdDeleteRaw.mockResolvedValue({
+    raw: response,
+    value: vi.fn(),
+  });
+};
+
 const buildFormData = ({
   indicatorId = 1234,
   file = new File([], 'upload.csv'),
@@ -162,5 +178,49 @@ describe('uploadActions', () => {
       batchId,
     });
     expect(revalidatePath).toHaveBeenCalledWith('/batches');
+  });
+
+  it('should return the expected message when the Batch Delete API call succeeds', async () => {
+    const expectedStatus = 200;
+    const expectedBodyText = 'Expected error text';
+    givenTheDeleteApiReturns({
+      status: expectedStatus,
+      body: expectedBodyText,
+    });
+
+    const response = await deleteBatch('123');
+
+    expect(response).toEqual({
+      status: expectedStatus,
+      message: expectedBodyText,
+    });
+  });
+
+  it('should return the expected message when the Batch Delete API call returns an error', async () => {
+    const expectedStatus = 400;
+    const expectedBodyText = 'Expected error text';
+    const rawResponse = new Response(expectedBodyText, {
+      status: expectedStatus,
+    });
+
+    mockBatchesApi.batchesBatchIdDeleteRaw.mockRejectedValue(
+      new ResponseError(rawResponse)
+    );
+    const response = await deleteBatch('123');
+
+    expect(response).toEqual({
+      status: expectedStatus,
+      message: expectedBodyText,
+    });
+  });
+
+  it('should return the expected message if an unknown error occurs when calling the Batch Delete API', async () => {
+    const error = new Error('Something totally unexpected happened!');
+    mockBatchesApi.batchesBatchIdDeleteRaw.mockRejectedValue(error);
+    const response = await deleteBatch('123');
+
+    expect(response).toEqual({
+      message: `An error occurred when calling the API: Error: ${error.message}`,
+    });
   });
 });
