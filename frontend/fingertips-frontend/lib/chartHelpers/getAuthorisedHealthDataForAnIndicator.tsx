@@ -13,23 +13,22 @@ import { auth } from '../auth';
 export async function getAuthorisedHealthDataForAnIndicator(
   apiRequestParams: GetHealthDataForAnIndicatorRequest
 ): Promise<IndicatorWithHealthDataForArea> {
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-  const authHeader = await getAuthHeader();
   const session = await auth();
 
   if (!session) {
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
     return await indicatorApi.getHealthDataForAnIndicator(
       apiRequestParams,
       API_CACHE_CONFIG
     );
   }
+  // TODO: DHSCFT-1034 add in call to /user/indicator/{indicator_id} as alternative to fallback
   try {
+    const indicatorApi =
+      await ApiClientFactory.getAuthenticatedIndicatorsApiClient();
     return await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
       apiRequestParams,
-      {
-        ...API_CACHE_CONFIG,
-        headers: authHeader,
-      }
+      API_CACHE_CONFIG
     );
   } catch (error: unknown) {
     if (
@@ -39,7 +38,7 @@ export async function getAuthorisedHealthDataForAnIndicator(
       console.warn(
         'Auth error getting unpublished healthdata, falling back to published health data endpoint'
       );
-      // TODO: DHSCFT-1034 add in call to /user/indicator/{indicator_id} as alternative to fallback
+      const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
       return await indicatorApi.getHealthDataForAnIndicator(
         apiRequestParams,
         API_CACHE_CONFIG
