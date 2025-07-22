@@ -158,7 +158,9 @@ describe('uploadActions', () => {
     const batchId = '12345_2025-01-01T00:00:00.000';
     await deleteBatch(batchId);
 
-    expect(mockBatchesApi.batchesBatchIdDeleteRaw).toHaveBeenCalledWith({batchId});
+    expect(mockBatchesApi.batchesBatchIdDeleteRaw).toHaveBeenCalledWith({
+      batchId,
+    });
     expect(revalidatePath).toHaveBeenCalledWith('/batches');
   });
 });
