@@ -33,6 +33,8 @@ import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+ApiClientFactory.getAuthenticatedIndicatorsApiClient = async () =>
+  mockIndicatorsApi;
 
 mockAuth.mockResolvedValue(null);
 
@@ -188,7 +190,7 @@ describe('Chart Page', () => {
     });
   });
   describe('SeedingLineChartOverTimeWithAuth', () => {
-    it('should seed without unpublished data if there is no session', async () => {
+    it('should call the published healthData endpoint when seeding there is no session', async () => {
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
@@ -214,8 +216,7 @@ describe('Chart Page', () => {
       ).toBe(true);
     });
 
-    // TODO: change to _valid_ session
-    it('should seed with unpublished data if there is a session', async () => {
+    it('should call the published healthData endpoint when seeding there is a session', async () => {
       (auth as Mock).mockImplementation(
         vi.fn().mockResolvedValue({ expires: 'some string' })
       );
