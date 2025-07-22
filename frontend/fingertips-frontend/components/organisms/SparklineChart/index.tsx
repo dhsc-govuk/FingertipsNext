@@ -146,7 +146,7 @@ export function SparklineChart({
         animation: false,
         dataLabels: {
           enabled: true,
-          formatter: function (this: Highcharts.Point) {
+          formatter: function () {
             return benchmarkTextForBar(area, benchmarkOutcome, benchmarkComparisonMethod);
           },
           style: {

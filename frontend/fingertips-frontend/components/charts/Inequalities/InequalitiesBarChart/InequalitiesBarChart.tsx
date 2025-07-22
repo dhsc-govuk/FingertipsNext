@@ -28,6 +28,7 @@ import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { getMethodsAndOutcomes } from '@/components/organisms/BenchmarkLegend/benchmarkLegendHelpers';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 
 interface InequalitiesBarChartProps {
   title: string;
@@ -151,7 +152,20 @@ export function InequalitiesBarChart({
         point.borderWidth = 1;
         return point;
       }),
-    },
+      dataLabels: {
+        enabled: true,
+        formatter: function () {
+          return `${this.y} - ${this.benchmarkOutcome}`;
+        },
+        style: {
+          color: '#000',
+          fontWeight: 'normal',
+          fontSize: '17px',
+          textOutline: 'none',
+        },
+        x: 20,
+      },
+},
     generateConfidenceIntervalSeries(
       barChartData.areaName,
       barChartFields.map((field) => [
