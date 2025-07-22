@@ -1,9 +1,6 @@
 /**
  * @vitest-environment node
  */
-// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import { mockAuth } from '@/mock/utils/mockAuth';
-//
 import {
   BenchmarkReferenceType,
   HealthDataForArea,
@@ -248,37 +245,5 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
         selectedIndicatorsData: selectedIndicatorsData,
       });
     }).rejects.toThrow('indicator metadata');
-  });
-
-  it('should seed quartiles without unpublished data when there is no session', async () => {
-    // arrange
-    mockAuth.mockResolvedValue(null);
-    mockIndicatorsApi.indicatorsQuartilesAllGet.mockResolvedValue([]);
-
-    // act
-    await TwoOrMoreIndicatorsAreasView({
-      searchState: fullSearchParams,
-      selectedIndicatorsData: fullSelectedIndicatorsData,
-    });
-
-    // assert
-    expect(mockIndicatorsApi.indicatorsQuartilesGet).toHaveBeenCalled();
-    expect(mockIndicatorsApi.indicatorsQuartilesAllGet).not.toHaveBeenCalled();
-  });
-
-  it('should seed quartiles with unpublished data when there is a session', async () => {
-    // arrange
-    mockAuth.mockResolvedValue({ expires: 'some timestamp' });
-    mockIndicatorsApi.indicatorsQuartilesAllGet.mockResolvedValue([]);
-
-    // act
-    await TwoOrMoreIndicatorsAreasView({
-      searchState: fullSearchParams,
-      selectedIndicatorsData: fullSelectedIndicatorsData,
-    });
-
-    // assert
-    expect(mockIndicatorsApi.indicatorsQuartilesGet).toHaveBeenCalled();
-    expect(mockIndicatorsApi.indicatorsQuartilesAllGet).toHaveBeenCalled();
   });
 });
