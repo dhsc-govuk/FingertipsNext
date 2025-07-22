@@ -765,11 +765,6 @@ jobs:
             name        = "AUTH_URL"
             secret_name = null
             value       = "${{ vars.FINGERTIPS_FRONTEND_URL }}/auth"
-          },
-          {
-            name        = "NEXT_PUBLIC_AUTH_URL"
-            secret_name = null
-            value       = "${{ vars.FINGERTIPS_FRONTEND_URL }}/auth"
           }
         ]
       container_liveness_probe: |
