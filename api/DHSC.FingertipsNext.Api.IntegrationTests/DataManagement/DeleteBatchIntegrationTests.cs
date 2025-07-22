@@ -13,6 +13,11 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
 public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
 {
+    // Uses a different indicator from other tests, to avoid conflicting
+    // when run in parallel.
+    private const int IndicatorId = 92266;
+    private const string Indicator92266GroupRoleId = "e3cba68a-0640-4642-bc90-625928a9dce1";
+
     public DeleteBatchIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
     {
         InitialiseDb(Connection, "delete-batch-setup.sql");
@@ -26,19 +31,21 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         base.Dispose(disposing);
     }
 
-    [Fact]
-    public async Task DeleteBatchEndpointShouldReturn200Response()
+    [Theory]
+    [InlineData("92266_2017-06-30T14:22:37.123", AdminRoleGuid)]
+    [InlineData("92266_2017-07-01T14:22:37.123", Indicator92266GroupRoleId)]
+    [InlineData("92266_2017-07-02T14:22:37.123", Indicator92266GroupRoleId, Indicator383GroupRoleId)]
+    public async Task DeleteBatchEndpointShouldReturn200Response(string batchId, params string[] userRoleIds)
     {
         // Arrange
         var apiClient = Factory.CreateClient();
-        var batchId = "12345_2017-06-30T14:22:37.123";
         using var scope = Factory.Services.CreateScope();
         var healthDataDbContext = scope.ServiceProvider.GetRequiredService<HealthDataDbContext>();
         var healthDataBeforeDelete =
             await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
         healthDataBeforeDelete.ShouldBe(1);
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken());
+            Factory.GenerateTestToken(userRoleIds));
 
         // Act
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
@@ -49,13 +56,60 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         batch.BatchId.ShouldBe(batchId);
         batch.DeletedAt.ShouldNotBeNull();
         batch.Status.ShouldBe(BatchStatus.Deleted);
-        batch.IndicatorId.ShouldBe(12345);
+        batch.IndicatorId.ShouldBe(IndicatorId);
 
         // Ensure health data is deleted
         var healthDataAfterDelete =
             await healthDataDbContext.HealthMeasure.Where(hm => hm.BatchId == batchId).CountAsync();
         healthDataAfterDelete.ShouldBe(0);
     }
+
+    [Fact]
+    public async Task UnauthorisedRequestToDeleteBatchEndpointShouldBeRejected()
+    {
+        // Arrange
+        var apiClient = Factory.CreateClient();
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri("/batches/1234", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task ExpiredRequestToDeleteBatchEndpointShouldBeRejected()
+    {
+        // Arrange
+        var apiClient = Factory.CreateClient();
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            Factory.GenerateTestToken([Indicator92266GroupRoleId], true));
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri("/batches/1234", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task InvalidRoleForBatchShouldBeRejectedByDeleteBatchEndpoint()
+    {
+        // Arrange
+        var apiClient = Factory.CreateClient();
+        const string batchId = "92266_2017-07-03T14:22:37.123";
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            Factory.GenerateTestToken([Indicator383GroupRoleId]));
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
 
     [Fact]
     public async Task DeleteBatchEndpointShouldReturn404ResponseWhenBatchDoesNotExist()
@@ -80,9 +134,9 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
     {
         // Arrange
         var apiClient = Factory.CreateClient();
-        const string batchId = "54321_2017-06-30T14:22:37.123";
+        const string batchId = "92266_2017-07-04T14:22:37.123";
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken());
+            Factory.GenerateTestToken([Indicator92266GroupRoleId]));
 
         // Act
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
@@ -98,9 +152,9 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
     {
         // Arrange
         var apiClient = Factory.CreateClient();
-        const string batchId = "54321_2025-06-30T14:22:37.123";
+        const string batchId = "92266_2017-07-05T14:22:37.123";
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken());
+            Factory.GenerateTestToken([Indicator92266GroupRoleId]));
 
         // Act
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
