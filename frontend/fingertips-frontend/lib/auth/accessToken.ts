@@ -3,7 +3,7 @@
 import { auth } from '@/lib/auth';
 import { getJWT } from '@/lib/auth/getJWT';
 
-export const getAuthHeader = async (): Promise<HeadersInit | undefined> => {
+export const getAuthHeader = async () => {
   const accessToken = await getAccessToken();
 
   if (!accessToken) return undefined;

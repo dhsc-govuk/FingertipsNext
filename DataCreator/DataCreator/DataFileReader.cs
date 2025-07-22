@@ -23,7 +23,8 @@ namespace DataCreator
                     BenchmarkComparisonMethod = split[2],
                     Polarity = split[3],
                     Frequency = split[4],
-                    ContainsCumulativePeriodData = bool.Parse(split[5])
+                    ContainsCumulativePeriodData = bool.Parse(split[5]),
+                    RequiresGeoAggregation = bool.Parse(split[6])
                 });
             }
 
