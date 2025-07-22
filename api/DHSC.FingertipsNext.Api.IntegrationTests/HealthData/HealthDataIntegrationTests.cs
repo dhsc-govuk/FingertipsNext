@@ -58,7 +58,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<DataManagementWeb
         // Act
         using var req = new HttpRequestMessage(HttpMethod.Get, new Uri(targetUri, UriKind.Relative));
         var response = await client.SendAsync(req);
-        
+
         // Extract
         var responseContent = await response.Content.ReadAsStringAsync();
         var responseData = JsonSerializer.Deserialize<IndicatorWithHealthDataForAreas>(responseContent);
@@ -67,7 +67,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<DataManagementWeb
                 .IndicatorSegments.First()
                 .HealthData;
         var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.Year).Distinct().ToList();
-        
+
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         responseData.BenchmarkMethod.ToString().ShouldBe("Quintiles");

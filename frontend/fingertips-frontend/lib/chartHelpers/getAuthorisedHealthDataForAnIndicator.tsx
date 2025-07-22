@@ -7,7 +7,6 @@ import {
   API_CACHE_CONFIG,
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
-import { getAuthHeader } from '../auth/accessToken';
 import { auth } from '../auth';
 
 export async function getAuthorisedHealthDataForAnIndicator(
