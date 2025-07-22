@@ -16,6 +16,18 @@ const windowMock = {
   scrollTo: vi.fn(),
 };
 
+vi.mock('@/lib/auth/', () => {
+  return {
+    auth: vi.fn(),
+    signIn: vi.fn(),
+    signOut: vi.fn(),
+  };
+});
+
+vi.mock('@/lib/auth/getJWT', () => {
+  return { getJWT: vi.fn() };
+});
+
 Object.assign(global, windowMock);
 
 configure({
