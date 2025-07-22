@@ -1,9 +1,9 @@
 'use client';
 
 import {
-  BenchmarkComparisonMethod,
+  BenchmarkComparisonMethod, Frequency,
   HealthDataForArea,
-  IndicatorPolarity,
+  IndicatorPolarity, PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import {
@@ -40,6 +40,7 @@ import { ConfidenceLimitsHeader } from '@/components/atoms/ConfidenceLimitsHeade
 import { sortByValueAndAreaName } from '@/lib/healthDataHelpers/sortByValueAndAreaName';
 import { getMaxValue } from '@/lib/healthDataHelpers/getMaxValue';
 import { getLatestYearWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestYearWithBenchmarks';
+import { getPeriodLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
@@ -49,6 +50,8 @@ interface BarChartEmbeddedTableProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
   indicatorMetadata?: IndicatorDocument;
+  periodType: PeriodType;
+  frequency: Frequency;
 }
 
 export function BarChartEmbeddedTable({
@@ -59,6 +62,8 @@ export function BarChartEmbeddedTable({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
   indicatorMetadata,
+  periodType,
+  frequency,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const { unitLabel: measurementUnit, dataSource } = indicatorMetadata ?? {};
 
@@ -150,7 +155,11 @@ export function BarChartEmbeddedTable({
     ]
   );
 
-  const title = `${indicatorMetadata?.indicatorName}, ${fullYear}`;
+
+  const periodLabel = getPeriodLabel(periodType, frequency);
+  const periodLabelText = periodLabel ? `${periodLabel} ` : '';
+  
+  const title = `${indicatorMetadata?.indicatorName}, ${periodLabelText} ${fullYear}`;
 
   return (
     <ContainerWithOutline>

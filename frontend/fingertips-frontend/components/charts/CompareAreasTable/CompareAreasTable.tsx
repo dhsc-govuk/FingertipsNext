@@ -19,6 +19,8 @@ export function CompareAreasTable() {
     benchmarkComparisonMethod,
     polarity,
     indicatorMetaData,
+    periodType,
+    frequency
   } = data;
 
   return (
@@ -36,6 +38,8 @@ export function CompareAreasTable() {
         benchmarkComparisonMethod={benchmarkComparisonMethod}
         polarity={polarity}
         benchmarkToUse={benchmarkToUse}
+        periodType={periodType}
+        frequency={frequency}
       />
     </StyleChartWrapper>
   );
