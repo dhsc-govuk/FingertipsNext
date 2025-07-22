@@ -6,22 +6,14 @@ import {
   determineAreaCodes,
   determineAreasForBenchmarking,
 } from '@/lib/chartHelpers/chartHelpers';
-import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
-import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
 import { BenchmarkSelectArea } from '@/components/molecules/BenchmarkSelectArea';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
-import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
+import { MultipleIndicatorSpineChart } from '@/components/charts/SpineChart/MultipleIndicatorSpineChart';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { MultipleIndicatorHeatMap } from '@/components/charts/HeatMap/MultipleIndicatorHeatMap';
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
-
-function shouldShowHeatmap(
-  areaCodes: string[],
-  groupAreaSelected?: string
-): boolean {
-  return areaCodes.length > 1 || groupAreaSelected === ALL_AREAS_SELECTED;
-}
+import { heatMapIsRequired } from '@/components/charts/HeatMap/helpers/heatMapIsRequired';
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
   indicatorData,
@@ -54,7 +46,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
 
   const showSpine = spineChartIsRequired(searchState);
 
-  const showHeatmap = shouldShowHeatmap(areaCodes, groupAreaSelected);
+  const showHeatmap = heatMapIsRequired(searchState);
 
   const availableChartLinks: ChartTitleKeysEnum[] = [];
   if (showSpine) availableChartLinks.push(ChartTitleKeysEnum.SpineChart);
@@ -65,14 +57,8 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <AvailableChartLinks availableCharts={availableChartLinks} />
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
-      {showSpine ? (
-        <StyleChartWrapper>
-          <SpineChartWrapper />
-        </StyleChartWrapper>
-      ) : null}
-      {shouldShowHeatmap(areaCodes, groupAreaSelected) ? (
-        <MultipleIndicatorHeatMap />
-      ) : null}
+      {showSpine ? <MultipleIndicatorSpineChart /> : null}
+      {showHeatmap ? <MultipleIndicatorHeatMap /> : null}
     </section>
   );
 }

@@ -1,7 +1,7 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
 //
-import { SpineChartWrapper } from '@/components/charts/SpineChart/SpineChartWrapper';
+import { MultipleIndicatorSpineChart } from '@/components/charts/SpineChart/MultipleIndicatorSpineChart';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -35,7 +35,7 @@ mockUseSearchStateParams.mockReturnValue(searchState);
 const indicator41101 = mockIndicatorDocument({ indicatorID: '41101' });
 const indicator22401 = mockIndicatorDocument({ indicatorID: '22401' });
 seedData['/indicator/41101'] = indicator41101;
-seedData['/indicator/41101'] = indicator22401;
+seedData['/indicator/22401'] = indicator22401;
 
 // mock the quartiles
 const quartilesParams = quartilesQueryParams(searchState);
@@ -70,9 +70,9 @@ seedData[queryKeys[3]] = mockIndicatorWithHealthDataForArea({
   areaHealthData: [mockHealthDataForArea_England()],
 });
 
-describe('SpineChartWrapper', () => {
+describe('MultipleIndicatorSpineChart', () => {
   it('renders the essential spine chart components', async () => {
-    await testRenderQueryClient(<SpineChartWrapper />, seedData);
+    await testRenderQueryClient(<MultipleIndicatorSpineChart />, seedData);
 
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
     expect(screen.getByTestId('benchmarkLegend-component')).toBeInTheDocument();
@@ -84,7 +84,7 @@ describe('SpineChartWrapper', () => {
   it('renders nothing if spineChartIndicatorData is undefined', async () => {
     const seedDataWithoutQuartiles = { ...seedData, [quartilesKey]: [] };
     const { htmlContainer } = await testRenderQueryClient(
-      <SpineChartWrapper />,
+      <MultipleIndicatorSpineChart />,
       seedDataWithoutQuartiles
     );
     expect(htmlContainer?.firstChild).toBeNull();
