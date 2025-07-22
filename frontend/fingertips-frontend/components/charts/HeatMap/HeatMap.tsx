@@ -12,10 +12,7 @@ import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
-import {
-  chartTitleConfig,
-  ChartTitleKeysEnum,
-} from '@/lib/ChartTitles/chartTitleEnums';
+import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
 
 export interface HeatMapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -30,7 +27,7 @@ export const HeatMap: FC<HeatMapProps> = ({
   groupAreaCode,
   benchmarkAreaCode,
   benchmarkAreaName,
-  title = chartTitleConfig[ChartTitleKeysEnum.Heatmap].subTitle,
+  title = heatMapText.multipleIndicator.subTitle,
 }) => {
   const { headers, rows, legendsToShow, csvData } = useHeatmapTableData(
     indicatorData,
@@ -40,7 +37,7 @@ export const HeatMap: FC<HeatMapProps> = ({
 
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
 
-  const id = ChartTitleKeysEnum.Heatmap;
+  const id = 'heatmapChart';
 
   return (
     <ContainerWithOutline>

@@ -4,8 +4,7 @@ import {
   IndicatorPolarity,
   BenchmarkOutcome,
 } from '@/generated-sources/ft-api-client';
-
-import { SegmentInfo } from '@/lib/common-types';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 
 export interface HeatmapIndicatorData {
   rowId: string;
@@ -15,7 +14,7 @@ export interface HeatmapIndicatorData {
   unitLabel: string;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  segmentInfo: SegmentInfo;
+  segmentInfo: Record<SegmentationId, string>;
 }
 
 export interface Area {
