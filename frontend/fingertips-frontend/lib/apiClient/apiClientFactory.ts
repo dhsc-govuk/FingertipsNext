@@ -7,8 +7,26 @@ import {
   UserApi,
 } from '@/generated-sources/ft-api-client';
 import { readEnvVar } from '../envUtils';
+import { getAuthHeader } from '@/lib/auth/accessToken';
 
 export const API_CACHE_CONFIG = { next: { revalidate: 600 } };
+
+const buildConfig = (): Configuration => {
+  const apiUrl = readEnvVar('FINGERTIPS_API_URL');
+  return new Configuration({
+    basePath: apiUrl,
+    fetchApi: fetch,
+  });
+};
+
+const buildConfigWithAuthHeader = async (): Promise<Configuration> => {
+  const apiUrl = readEnvVar('FINGERTIPS_API_URL');
+  return new Configuration({
+    basePath: apiUrl,
+    fetchApi: fetch,
+    headers: await getAuthHeader(),
+  });
+};
 
 export class ApiClientFactory {
   private static areasApiInstance: AreasApi | null;
@@ -19,13 +37,7 @@ export class ApiClientFactory {
 
   public static getAreasApiClient(): AreasApi {
     if (!this.areasApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
-      const config: Configuration = new Configuration({
-        basePath: apiUrl,
-        fetchApi: fetch,
-      });
-
-      this.areasApiInstance = new AreasApi(config);
+      this.areasApiInstance = new AreasApi(buildConfig());
     }
 
     return this.areasApiInstance;
@@ -33,27 +45,19 @@ export class ApiClientFactory {
 
   public static getIndicatorsApiClient(): IndicatorsApi {
     if (!this.indicatorsApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
-      const config: Configuration = new Configuration({
-        basePath: apiUrl,
-        fetchApi: fetch,
-      });
-
-      this.indicatorsApiInstance = new IndicatorsApi(config);
+      this.indicatorsApiInstance = new IndicatorsApi(buildConfig());
     }
 
     return this.indicatorsApiInstance;
   }
 
+  public static async getAuthenticatedIndicatorsApiClient(): Promise<IndicatorsApi> {
+    return new IndicatorsApi(await buildConfigWithAuthHeader());
+  }
+
   public static getSystemApiClient(): SystemApi {
     if (!this.systemApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
-      const config: Configuration = new Configuration({
-        basePath: apiUrl,
-        fetchApi: fetch,
-      });
-
-      this.systemApiInstance = new SystemApi(config);
+      this.systemApiInstance = new SystemApi(buildConfig());
     }
 
     return this.systemApiInstance;
@@ -61,13 +65,7 @@ export class ApiClientFactory {
 
   public static getUserApiClient(): UserApi {
     if (!this.userApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
-      const config: Configuration = new Configuration({
-        basePath: apiUrl,
-        fetchApi: fetch,
-      });
-
-      this.userApiInstance = new UserApi(config);
+      this.userApiInstance = new UserApi(buildConfig());
     }
 
     return this.userApiInstance;
@@ -75,15 +73,13 @@ export class ApiClientFactory {
 
   public static getBatchesApiClient(): BatchesApi {
     if (!this.batchesApiInstance) {
-      const apiUrl = readEnvVar('FINGERTIPS_API_URL');
-      const config: Configuration = new Configuration({
-        basePath: apiUrl,
-        fetchApi: fetch,
-      });
-
-      this.batchesApiInstance = new BatchesApi(config);
+      this.batchesApiInstance = new BatchesApi(buildConfig());
     }
 
     return this.batchesApiInstance;
+  }
+
+  public static async getAuthenticatedBatchesApiClient(): Promise<BatchesApi> {
+    return new BatchesApi(await buildConfigWithAuthHeader());
   }
 }
