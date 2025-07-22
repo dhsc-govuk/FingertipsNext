@@ -13,7 +13,6 @@ export function SingleIndicatorBasicTable() {
       <H3>Indicator segmentations overview</H3>
       <BasicTable
         tableData={tableData}
-        id={'singleIndicatorBasicTable'}
         title={'Segmentation overview of selected indicator'}
       />
     </StyleChartWrapper>
