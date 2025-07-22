@@ -32,9 +32,13 @@ describe('findHealthPointsBySegmentation', () => {
   });
 
   it('should return the aggregate segment when no search criteria', () => {
-    expect(findHealthPointsBySegmentation(testData, {})).toEqual(
-      testSegmentPersons.healthData
-    );
+    expect(
+      findHealthPointsBySegmentation(testData, {
+        sex: '',
+        age: '',
+        frequency: '',
+      })
+    ).toEqual(testSegmentPersons.healthData);
   });
 
   it('should return the aggregate segment when search param for sex is persons', () => {
