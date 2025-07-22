@@ -2,14 +2,13 @@ import {
   HealthDataPoint,
   IndicatorSegment,
 } from '@/generated-sources/ft-api-client';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 
 export const findHealthPointsBySegmentation = (
   indicatorSegments: IndicatorSegment[],
-  searchState: SearchStateParams
+  segmentInfo: Record<SegmentationId, string>
 ): HealthDataPoint[] => {
-  const { [SearchParams.SegmentationSex]: selectedSegSex } = searchState;
-
+  const selectedSegSex = segmentInfo[SegmentationId.Sex];
   const matchingSegment = indicatorSegments.find((segment) => {
     const { sex } = segment;
     const sexMatch =
