@@ -2,10 +2,7 @@ import { TwoOrMoreIndicatorsAreasViewPlot } from '@/components/viewPlots/TwoOrMo
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
+import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import {
   determineBenchmarkRefType,
@@ -17,13 +14,6 @@ import { healthDataRequestAreas } from '@/components/charts/SpineChart/helpers/h
 import { SeedDataPromises } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { seedDataFromPromises } from '@/components/atoms/SeedQueryCache/seedDataFromPromises';
-import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
-import {
-  EndPoints,
-  queryKeyFromRequestParams,
-} from '@/components/charts/helpers/queryKeyFromRequestParams';
-import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
-import { auth } from '@/lib/auth';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -45,8 +35,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
     groupAreaSelected,
     availableAreas
   );
-
-  const session = await auth();
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
     throw new Error('invalid indicators selected passed to view');
@@ -95,33 +83,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
   );
 
   const seedData = await seedDataFromPromises(seedPromises);
-
-  // load quartiles data and seed if we don't have it already
-  const quartilesParams = quartilesQueryParams(searchState);
-  const quartilesKey = queryKeyFromRequestParams(
-    EndPoints.Quartiles,
-    quartilesParams
-  );
-  if (
-    spineChartIsRequired(searchState) &&
-    !Object.keys(seedData).includes(quartilesKey)
-  ) {
-    try {
-      seedData[quartilesKey] = (
-        session
-          ? await indicatorApi.indicatorsQuartilesAllGet(
-              quartilesParams,
-              API_CACHE_CONFIG
-            )
-          : await indicatorApi.indicatorsQuartilesGet(
-              quartilesParams,
-              API_CACHE_CONFIG
-            )
-      ).filter((q) => q.isAggregate === true);
-    } catch (e) {
-      console.error('error getting quartile data', e);
-    }
-  }
 
   return (
     <ViewsWrapper
