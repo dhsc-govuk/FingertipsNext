@@ -101,6 +101,7 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Include(healthMeasure => healthMeasure.DeprivationDimension)
             .Include(healthMeasure => healthMeasure.TrendDimension)
             .OrderBy(healthMeasure => healthMeasure.FromDateDimension.Date)
+            .ThenBy(healthMeasure => healthMeasure.ToDateDimension.Date)
             .AsNoTracking()
             .ToListAsync();
 
