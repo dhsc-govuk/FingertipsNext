@@ -19,15 +19,7 @@ export const useApiGetHealthDataForMultipleIndicators = (
   const queries = useQueries({
     queries: options.map((option) => ({
       queryKey: [
-        session
-          ? queryKeyFromRequestParams(
-              EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-              option
-            )
-          : queryKeyFromRequestParams(
-              EndPoints.HealthDataForAnIndicator,
-              option
-            ),
+        queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, option),
       ],
       queryFn: queryFnHealthDataForAnIndicator(option, session),
     })),

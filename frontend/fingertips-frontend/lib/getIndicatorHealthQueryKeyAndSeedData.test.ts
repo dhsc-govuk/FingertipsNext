@@ -34,9 +34,7 @@ describe('getIndicatorHealthDataSeed', async () => {
 
     expect(healthData).toEqual(mockHealthData);
     expect(
-      queryKeySingleIndicator.includes(
-        EndPoints.HealthDataForAnIndicatorIncludingUnpublished
-      )
+      queryKeySingleIndicator.includes(EndPoints.HealthDataForAnIndicator)
     ).toBe(true);
     expect(
       indicatorApiMock.getHealthDataForAnIndicatorIncludingUnpublishedData

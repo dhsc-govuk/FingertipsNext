@@ -2,12 +2,10 @@ import { localeSort } from '@/components/charts/Inequalities/helpers/inequalitie
 
 export enum EndPoints {
   HealthDataForAnIndicator = 'healthDataForAnIndicator',
-  HealthDataForAnIndicatorIncludingUnpublished = 'healthDataForAnIndicatorIncludingUnpublished',
   AreaWithRelations = 'areaWithRelations',
   AreaTypeMembers = 'areaTypeMembers',
   AreaTypes = 'areaTypes',
   Quartiles = 'quartiles',
-  QuartilesIncludingUnpublished = 'quartilesIncludingUnpublished',
 }
 
 export const queryKeyFromRequestParams = <T extends object>(

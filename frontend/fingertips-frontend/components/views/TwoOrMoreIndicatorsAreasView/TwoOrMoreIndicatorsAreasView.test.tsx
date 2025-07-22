@@ -1,7 +1,9 @@
 /**
  * @vitest-environment node
  */
-
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockAuth } from '@/mock/utils/mockAuth';
+//
 import {
   BenchmarkReferenceType,
   HealthDataForArea,
@@ -18,17 +20,9 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
-import { Mock } from 'vitest';
-import { auth } from '@/lib/auth';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
-
-vi.mock('@/lib/auth', async () => {
-  return {
-    auth: vi.fn(),
-  };
-});
 
 const mockAreaCode = 'A001';
 const mockGroupCode = 'G001';
@@ -258,7 +252,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
 
   it('should seed quartiles without unpublished data when there is no session', async () => {
     // arrange
-    (auth as Mock).mockImplementation(vi.fn().mockResolvedValue(null));
+    mockAuth.mockResolvedValue(null);
     mockIndicatorsApi.indicatorsQuartilesAllGet.mockResolvedValue([]);
 
     // act
@@ -274,9 +268,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
 
   it('should seed quartiles with unpublished data when there is a session', async () => {
     // arrange
-    (auth as Mock).mockImplementation(
-      vi.fn().mockResolvedValue({ expires: 'some timestamp' })
-    );
+    mockAuth.mockResolvedValue({ expires: 'some timestamp' });
     mockIndicatorsApi.indicatorsQuartilesAllGet.mockResolvedValue([]);
 
     // act

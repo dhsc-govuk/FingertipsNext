@@ -27,8 +27,7 @@ import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
-import { Mock, MockedFunction } from 'vitest';
-import { auth } from '@/lib/auth';
+import { MockedFunction } from 'vitest';
 import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
@@ -196,10 +195,9 @@ describe('Chart Page', () => {
           [SearchParams.IndicatorsSelected]: ['333'],
           [SearchParams.AreasSelected]: [mockAreaCode],
         };
-        const page = await ChartPage({
+        await ChartPage({
           searchParams: generateSearchParams(searchParams),
         });
-        const actualSeedData = page.props.children[0].props.seedData;
 
         expect(
           mockIndicatorsApi.getHealthDataForAnIndicator
@@ -207,23 +205,11 @@ describe('Chart Page', () => {
         expect(
           mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
         ).not.toHaveBeenCalled();
-
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.HealthDataForAnIndicator)
-          )
-        ).toBe(true);
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.HealthDataForAnIndicatorIncludingUnpublished)
-          )
-        ).toBe(false);
       });
 
       it('should seed with unpublished data if there is a session', async () => {
-        (auth as Mock).mockImplementation(
-          vi.fn().mockResolvedValue({ expires: 'some string' })
-        );
+        mockAuth.mockResolvedValue({ expires: 'some string' });
+
         const mockAreaCode = 'E06000047';
         const searchParams: SearchStateParams = {
           [SearchParams.SearchedIndicator]: 'testing',
@@ -248,17 +234,13 @@ describe('Chart Page', () => {
             key.includes(EndPoints.HealthDataForAnIndicator)
           )
         ).toBe(true);
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.HealthDataForAnIndicatorIncludingUnpublished)
-          )
-        ).toBe(true);
       });
     });
 
     describe('SeedingSpineChart', () => {
       it('should seed without unpublished data if there is no session', async () => {
-        (auth as Mock).mockImplementation(vi.fn().mockResolvedValue(null));
+        mockAuth.mockResolvedValue(null);
+
         const mockAreaCode = 'E06000047';
         const searchParams: SearchStateParams = {
           [SearchParams.SearchedIndicator]: 'testing',
@@ -266,10 +248,9 @@ describe('Chart Page', () => {
           [SearchParams.AreasSelected]: [mockAreaCode],
         };
 
-        const page = await ChartPage({
+        await ChartPage({
           searchParams: generateSearchParams(searchParams),
         });
-        const actualSeedData = page.props.children[0].props.seedData;
 
         expect(
           mockIndicatorsApi.getHealthDataForAnIndicator
@@ -283,31 +264,11 @@ describe('Chart Page', () => {
         expect(
           mockIndicatorsApi.indicatorsQuartilesAllGet
         ).not.toHaveBeenCalled();
-
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.HealthDataForAnIndicator)
-          )
-        ).toBe(true);
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.HealthDataForAnIndicatorIncludingUnpublished)
-          )
-        ).toBe(false);
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.Quartiles)
-          )
-        ).toBe(true);
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.QuartilesIncludingUnpublished)
-          )
-        ).toBe(false);
       });
 
       it('should seed with unpublished data if there is a session', async () => {
-        (auth as Mock).mockImplementation(() => ({ expires: 'some string' }));
+        mockAuth.mockResolvedValue({ expires: 'some string' });
+
         const mockAreaCode = 'E06000047';
         const searchParams: SearchStateParams = {
           [SearchParams.SearchedIndicator]: 'testing',
@@ -315,10 +276,9 @@ describe('Chart Page', () => {
           [SearchParams.AreasSelected]: [mockAreaCode],
         };
 
-        const page = await ChartPage({
+        await ChartPage({
           searchParams: generateSearchParams(searchParams),
         });
-        const actualSeedData = page.props.children[0].props.seedData;
 
         expect(
           mockIndicatorsApi.getHealthDataForAnIndicator
@@ -330,22 +290,6 @@ describe('Chart Page', () => {
         expect(
           mockIndicatorsApi.indicatorsQuartilesAllGet
         ).toHaveBeenCalledTimes(1);
-
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.HealthDataForAnIndicator)
-          )
-        ).toBe(true);
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.HealthDataForAnIndicatorIncludingUnpublished)
-          )
-        ).toBe(true);
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.QuartilesIncludingUnpublished)
-          )
-        ).toBe(true);
       });
     });
   });

@@ -28,6 +28,7 @@ import { populationPyramidRequestParams } from '@/components/charts/PopulationPy
 import { auth } from '@/lib/auth';
 import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
 import { getIndicatorHealthQueryKeyAndSeedData } from '@/lib/getIndicatorHealthQueryKeyAndSeedData';
+import { getQuartilesSeed } from '@/lib/getQuartilesSeed';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -40,9 +41,7 @@ export default async function ChartPage(
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-  const healthEndpoint = session
-    ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
-    : EndPoints.HealthDataForAnIndicator;
+  const healthEndpoint = EndPoints.HealthDataForAnIndicator;
 
   try {
     const searchParams = await props.searchParams;
@@ -89,23 +88,11 @@ export default async function ChartPage(
 
     if (indicatorsSelected && indicatorsSelected.length > 1) {
       const quartilesParams = quartilesQueryParams(searchState);
-      let quartilesData;
-      let quartilesQueryKey;
-      if (session) {
-        quartilesData =
-          await indicatorApi.indicatorsQuartilesAllGet(quartilesParams);
-        quartilesQueryKey = queryKeyFromRequestParams(
-          EndPoints.QuartilesIncludingUnpublished,
-          quartilesParams
-        );
-      } else {
-        quartilesData =
-          await indicatorApi.indicatorsQuartilesGet(quartilesParams);
-        quartilesQueryKey = queryKeyFromRequestParams(
-          EndPoints.Quartiles,
-          quartilesParams
-        );
-      }
+      const quartilesQueryKey = queryKeyFromRequestParams(
+        EndPoints.Quartiles,
+        quartilesParams
+      );
+      const quartilesData = await getQuartilesSeed(session, quartilesParams);
       seedData[quartilesQueryKey] = quartilesData;
 
       indicatorsSelected.forEach(async () => {

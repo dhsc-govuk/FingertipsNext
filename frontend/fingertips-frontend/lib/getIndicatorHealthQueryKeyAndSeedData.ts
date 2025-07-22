@@ -19,10 +19,13 @@ export const getIndicatorHealthQueryKeyAndSeedData = async (
   availableAreas: Area[] | undefined
 ) => {
   let healthData: IndicatorWithHealthDataForArea | undefined;
-  let queryKeySingleIndicator;
   const apiRequestParams = oneIndicatorRequestParams(
     searchState,
     availableAreas ?? []
+  );
+  const queryKeySingleIndicator = queryKeyFromRequestParams(
+    EndPoints.HealthDataForAnIndicator,
+    apiRequestParams
   );
   if (session) {
     healthData =
@@ -30,18 +33,10 @@ export const getIndicatorHealthQueryKeyAndSeedData = async (
         apiRequestParams,
         API_CACHE_CONFIG
       );
-    queryKeySingleIndicator = queryKeyFromRequestParams(
-      EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-      apiRequestParams
-    );
   } else {
     healthData = await indicatorApi.getHealthDataForAnIndicator(
       apiRequestParams,
       API_CACHE_CONFIG
-    );
-    queryKeySingleIndicator = queryKeyFromRequestParams(
-      EndPoints.HealthDataForAnIndicator,
-      apiRequestParams
     );
   }
 

@@ -1,8 +1,9 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import {
   mockIndicatorsQuartilesGet,
   mockIndicatorsQuartilesAllGet,
 } from '@/mock/utils/mockApiClient';
-// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+//
 import { QueryClient } from '@tanstack/react-query';
 import { useApiGetQuartiles } from './useApiGetQuartiles';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';

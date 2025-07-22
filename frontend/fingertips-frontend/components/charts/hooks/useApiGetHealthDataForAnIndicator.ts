@@ -40,14 +40,9 @@ export const useApiGetHealthDataForAnIndicator = (
   options: GetHealthDataForAnIndicatorRequest
 ) => {
   const { data: session } = useSession();
-  const queryKey = session
-    ? [
-        queryKeyFromRequestParams(
-          EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-          options
-        ),
-      ]
-    : [queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options)];
+  const queryKey = [
+    queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options),
+  ];
 
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,

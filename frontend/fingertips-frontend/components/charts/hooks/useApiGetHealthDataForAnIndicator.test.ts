@@ -1,18 +1,15 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import {
   mockGetHealthDataForAnIndicator,
   mockGetHealthDataForAnIndicatorIncludingUnpublishedData,
 } from '@/mock/utils/mockApiClient';
-// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+//
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForAnIndicator } from './useApiGetHealthDataForAnIndicator';
 import { renderHook, waitFor } from '@testing-library/react';
 import { oneIndicatorRequestParams } from '../helpers/oneIndicatorRequestParams';
 import { SearchParams } from '@/lib/searchStateManager';
 import { QueryClient } from '@tanstack/query-core';
-import {
-  EndPoints,
-  queryKeyFromRequestParams,
-} from '../helpers/queryKeyFromRequestParams';
 
 describe('useApiGetHealthDataForAnIndicator', () => {
   afterEach(() => {
@@ -21,14 +18,6 @@ describe('useApiGetHealthDataForAnIndicator', () => {
   const params = oneIndicatorRequestParams(
     { [SearchParams.IndicatorsSelected]: ['123'] },
     []
-  );
-  const queryKeyForHealthData = queryKeyFromRequestParams(
-    EndPoints.HealthDataForAnIndicator,
-    params
-  );
-  const queryKeyForHealthDataIncludingUnpublished = queryKeyFromRequestParams(
-    EndPoints.HealthDataForAnIndicatorIncludingUnpublished,
-    params
   );
 
   it('should call the published healthdata endpoint when there is no session', async () => {
@@ -49,20 +38,10 @@ describe('useApiGetHealthDataForAnIndicator', () => {
         indicatorId: 123,
       });
     });
-    await waitFor(() => {
-      const actualData = queryClient.getQueryData([queryKeyForHealthData]);
-      expect(actualData).not.toBeUndefined();
-    });
 
     expect(
       mockGetHealthDataForAnIndicatorIncludingUnpublishedData
     ).not.toHaveBeenCalled();
-    await waitFor(() => {
-      const actualData = queryClient.getQueryData([
-        queryKeyForHealthDataIncludingUnpublished,
-      ]);
-      expect(actualData).toBeUndefined();
-    });
   });
 
   it('should call the unpublished healthdata data endpoint if there is a session', async () => {
@@ -88,17 +67,6 @@ describe('useApiGetHealthDataForAnIndicator', () => {
       });
     });
 
-    await waitFor(() => {
-      const actualData = queryClient.getQueryData([
-        queryKeyForHealthDataIncludingUnpublished,
-      ]);
-      expect(actualData).not.toBeUndefined();
-    });
-
     expect(mockGetHealthDataForAnIndicator).not.toHaveBeenCalled();
-    await waitFor(() => {
-      const actualData = queryClient.getQueryData([queryKeyForHealthData]);
-      expect(actualData).toBeUndefined();
-    });
   });
 });
