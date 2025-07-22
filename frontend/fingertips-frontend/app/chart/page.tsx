@@ -23,6 +23,10 @@ import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { getAuthorisedHealthDataForAnIndicator } from '../../lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -136,6 +140,7 @@ export default async function ChartPage(
     }
 
     // seed data for population pyramid
+    // DHSC1160: implement unpublished data
     const populationPyramidQueryParams = populationPyramidRequestParams(
       searchState,
       availableAreas ?? []
@@ -144,10 +149,12 @@ export default async function ChartPage(
       EndPoints.HealthDataForAnIndicator,
       populationPyramidQueryParams
     );
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
       try {
-        const healthData = await getAuthorisedHealthDataForAnIndicator(
-          populationPyramidQueryParams
+        const healthData = await indicatorApi.getHealthDataForAnIndicator(
+          populationPyramidQueryParams,
+          API_CACHE_CONFIG
         );
         seedData[populationPyramidQueryKey] = healthData;
       } catch (error) {

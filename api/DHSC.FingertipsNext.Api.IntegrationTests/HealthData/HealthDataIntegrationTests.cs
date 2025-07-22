@@ -43,7 +43,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<DataManagementWeb
     [Theory]
     [InlineData(AdminRoleGuid)]
     [InlineData(Indicator41101GroupRoleId)]
-    public async Task GetIndicatorDataIncludingUnpublishedWithValidAuth200ResponseWithExpectedBody(string userRoleId)
+    public async Task GetIndicatorDataIncludingUnpublishedWithValidAuth200Response(string userRoleId)
     {
         // Arrange
         var client = _factory.CreateClient();
@@ -55,6 +55,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<DataManagementWeb
         var response = await client.SendAsync(req);
 
         // Assert
-        response.EnsureSuccessStatusCode();
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        // TODO: add in lightweight assertion for data
     }
 }
