@@ -93,9 +93,9 @@ export const allComponents: ChartComponentDefinition[] = [
   {
     chartComponentLocator: ChartPage.populationPyramidTableComponent,
     chartComponentProps: {
+      isTabTable: true,
       hasPNGExport: true,
       hasCSVExport: true,
-      isTabTable: true,
       // canShowUnpublishedData: true, // wont be done until DHSCFT-1160
     },
   },
