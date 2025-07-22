@@ -21,7 +21,6 @@ export async function getAuthorisedHealthDataForAnIndicator(
       API_CACHE_CONFIG
     );
   }
-  // TODO: DHSCFT-1034 add in call to /user/indicator/{indicator_id} as alternative to fallback
   try {
     const indicatorApi =
       await ApiClientFactory.getAuthenticatedIndicatorsApiClient();
