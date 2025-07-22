@@ -8,7 +8,7 @@ import {
 
 type BatchListTableProps = {
   batches: Batch[];
-  deletionState: Dispatch<SetStateAction<ApiResponse>> | undefined;
+  setDeleteResponse: Dispatch<SetStateAction<ApiResponse | null>>;
 };
 
 export enum BatchListTableHeaders {
@@ -25,7 +25,7 @@ export enum BatchListTableHeaders {
 
 export const BatchListTable = ({
   batches,
-  deletionState,
+  setDeleteResponse,
 }: Readonly<BatchListTableProps>) => {
   if (!batches.length) return null;
 
@@ -53,8 +53,8 @@ export const BatchListTable = ({
             <Table.Cell>
               <Button
                 onClick={async () => {
-                  if (deletionState) {
-                    deletionState(await deleteBatch(batch.batchId));
+                  if (setDeleteResponse) {
+                    setDeleteResponse(await deleteBatch(batch.batchId));
                   }
                 }}
               >

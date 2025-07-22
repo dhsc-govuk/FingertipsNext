@@ -20,8 +20,8 @@ type UploadProps = {
 };
 
 export const Upload = ({ batches }: Readonly<UploadProps>) => {
-  const [deleteResponse, setDeleteResponse] = useState(
-    null as unknown as ApiResponse
+  const [deleteResponse, setDeleteResponse] = useState<ApiResponse | null>(
+    null
   );
   const [uploadResponse, uploadFileAction, uploadPending] = useActionState(
     uploadFile,
@@ -48,7 +48,7 @@ export const Upload = ({ batches }: Readonly<UploadProps>) => {
         uploadPending={uploadPending}
       />
 
-      <BatchListTable batches={batches} deletionState={setDeleteResponse} />
+      <BatchListTable batches={batches} setDeleteResponse={setDeleteResponse} />
     </>
   );
 };

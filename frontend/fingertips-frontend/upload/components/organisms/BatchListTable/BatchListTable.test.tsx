@@ -1,11 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { BatchListTable, BatchListTableHeaders } from '.';
 import { mockBatch } from '@/mock/data/mockBatch';
+import userEvent from '@testing-library/user-event';
+import { deleteBatch } from '../../forms/IndicatorUploadForm/uploadActions';
+
+vi.mock('../../forms/IndicatorUploadForm/uploadActions');
 
 describe('BatchListTable', () => {
   it('should render the expected elements', () => {
     const batchMock = mockBatch();
-    render(<BatchListTable batches={[batchMock]} deletionState={undefined} />);
+
+    render(
+      <BatchListTable batches={[batchMock]} setDeleteResponse={vi.fn()} />
+    );
 
     expect(
       screen.getByTestId('batch-list-table-container')
@@ -28,7 +35,7 @@ describe('BatchListTable', () => {
   });
 
   it('should not render the table if no batches are provided', () => {
-    render(<BatchListTable batches={[]} deletionState={undefined} />);
+    render(<BatchListTable batches={[]} setDeleteResponse={vi.fn()} />);
 
     expect(
       screen.queryByTestId('batch-list-table-container')
@@ -38,9 +45,23 @@ describe('BatchListTable', () => {
 
   it('snapshot test', () => {
     const container = render(
-      <BatchListTable batches={[mockBatch()]} deletionState={undefined} />
+      <BatchListTable batches={[mockBatch()]} setDeleteResponse={vi.fn()} />
     );
 
     expect(container.asFragment()).toMatchSnapshot();
+  });
+
+  it('calls deleteBatch when the delete button is clicked', async () => {
+    const user = userEvent.setup();
+    const functionMock = vi.fn();
+    const batchMock = mockBatch();
+    render(
+      <BatchListTable batches={[batchMock]} setDeleteResponse={functionMock} />
+    );
+
+    await user.click(screen.getByRole('button'));
+
+    expect(functionMock).toHaveBeenCalled();
+    expect(deleteBatch).toHaveBeenCalledWith(batchMock.batchId);
   });
 });
