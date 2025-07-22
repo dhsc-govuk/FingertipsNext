@@ -31,6 +31,8 @@ const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 const mockBatchesApi = mockDeep<BatchesApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
 ApiClientFactory.getBatchesApiClient = () => mockBatchesApi;
+ApiClientFactory.getAuthenticatedIndicatorsApiClient = () =>
+  Promise.resolve(mockIndicatorsApi);
 
 const givenTheApiReturns = ({
   status: expectedStatus,
@@ -87,14 +89,11 @@ describe('uploadActions', () => {
 
     expect(
       mockIndicatorsApi.indicatorsIndicatorIdDataPostRaw
-    ).toHaveBeenCalledWith(
-      {
-        indicatorId: expectedIndicatorId,
-        file: expectedFile,
-        publishedAt: new UTCDateMini(2017, 5, 30),
-      },
-      { headers: { Authorization: `bearer ${expectedAccessToken}` } }
-    );
+    ).toHaveBeenCalledWith({
+      indicatorId: expectedIndicatorId,
+      file: expectedFile,
+      publishedAt: new UTCDateMini(2017, 5, 30),
+    });
   });
 
   it('should return the expected message when the API call succeeds', async () => {
