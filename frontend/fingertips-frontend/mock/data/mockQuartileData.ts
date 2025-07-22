@@ -1,6 +1,4 @@
 import { QuartileData } from '@/generated-sources/ft-api-client';
-import { mockSexData } from '@/mock/data/mockSexData';
-import { mockAgeData } from '@/mock/data/mockAgeData';
 
 export const mockQuartileData = (
   overrides?: Partial<QuartileData>
@@ -16,7 +14,5 @@ export const mockQuartileData = (
   areaValue: 19.2,
   ancestorValue: 14.8,
   englandValue: 14.8,
-  sex: mockSexData(),
-  age: mockAgeData(),
   ...overrides,
 });

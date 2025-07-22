@@ -15,11 +15,9 @@ import {
 } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { mockSexData } from '@/mock/data/mockSexData';
+import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
+
 import { SearchParams } from '@/lib/searchStateManager';
-import {
-  chartTitleConfig,
-  ChartTitleKeysEnum,
-} from '@/lib/ChartTitles/chartTitleEnums';
 
 const testSegments = [
   mockIndicatorSegment({ sex: mockSexData({ value: 'Persons' }) }),
@@ -76,9 +74,7 @@ describe('SingleIndicatorHeatMap', () => {
   it('should render a row for each segment', () => {
     render(<SingleIndicatorHeatMap />);
 
-    expect(
-      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
 
     const trs = screen.getAllByRole('row');
     const firstCellContents = trs.map((tr) => tr.firstChild?.textContent);
@@ -111,15 +107,14 @@ describe('SingleIndicatorHeatMap', () => {
     expect(
       screen.getByRole('heading', {
         level: 3,
-        name: chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap].title,
+        name: heatMapText.singleIndicator.title,
       })
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('heading', {
         level: 4,
-        name: chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap]
-          .subTitle,
+        name: heatMapText.singleIndicator.subTitle,
       })
     ).toBeInTheDocument();
   });

@@ -6,29 +6,21 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 
 import { useSpineChartData } from '@/components/charts/SpineChart/hooks/useSpineChartData';
-import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
-import { useMultipleIndicatorData } from '@/components/charts/hooks/useMultipleIndicatorData';
 
-export function MultipleIndicatorSpineChart() {
+export function SpineChartWrapper() {
   const searchState = useSearchStateParams();
   const { [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected } =
     searchState;
 
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
-  const { healthData, indicatorMetaData } = useMultipleIndicatorData();
-  const spineChartIndicatorData = useSpineChartData(
-    healthData,
-    indicatorMetaData
-  );
+  const spineChartIndicatorData = useSpineChartData();
   if (!spineChartIndicatorData) return null;
 
   return (
-    <StyleChartWrapper>
-      <SpineChartTable
-        indicatorData={spineChartIndicatorData}
-        benchmarkToUse={benchmarkToUse}
-      />
-    </StyleChartWrapper>
+    <SpineChartTable
+      indicatorData={spineChartIndicatorData}
+      benchmarkToUse={benchmarkToUse}
+    />
   );
 }
