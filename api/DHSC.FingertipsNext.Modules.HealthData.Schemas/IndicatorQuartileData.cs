@@ -17,7 +17,8 @@ public class IndicatorQuartileData : IndicatorBase
     public required Sex? Sex { get; init; }
 
     [JsonPropertyName("reportingPeriod")]
-    public required string? ReportingPeriod { get; init; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public required ReportingPeriod? ReportingPeriod { get; init; }
 
     [JsonPropertyName("isAggregate")]
     public bool? IsAggregate { get; init; }

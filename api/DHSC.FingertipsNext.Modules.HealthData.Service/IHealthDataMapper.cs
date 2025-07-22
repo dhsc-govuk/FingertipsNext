@@ -7,7 +7,7 @@ public interface IHealthDataMapper
 {
     IndicatorPolarity MapIndicatorPolarity(string? source);
     CollectionFrequency MapCollectionFrequency(string? source);
-    ReportingPeriod MapReportingPeriod(string? source) => throw new NotImplementedException();
+    ReportingPeriod MapReportingPeriod(string? source);
     BenchmarkComparisonMethod MapBenchmarkComparisonMethod(string? source);
     HealthDataPoint Map(HealthMeasureModel source);
     Sex Map(SexDimensionModel source);

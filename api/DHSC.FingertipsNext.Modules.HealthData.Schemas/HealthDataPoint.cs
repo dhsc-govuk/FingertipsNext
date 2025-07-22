@@ -66,6 +66,7 @@ public class HealthDataPoint
     ///     ReportingPeriod associated with the data point.
     /// </summary>
     [JsonPropertyName("reportingPeriod")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public required ReportingPeriod ReportingPeriod { get; init; }
 
     /// <summary>
