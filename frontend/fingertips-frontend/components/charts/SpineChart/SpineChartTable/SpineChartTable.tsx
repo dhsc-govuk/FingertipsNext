@@ -26,37 +26,45 @@ import {
 export interface SpineChartTableProps {
   indicatorData: SpineChartIndicatorData[];
   benchmarkToUse: string;
-  title?: string;
 }
 
+const sortByIndicator = (indicatorData: SpineChartIndicatorData[]) =>
+  indicatorData.toSorted((a, b) =>
+    a.indicatorName?.localeCompare(b.indicatorName, 'en', {
+      sensitivity: 'base',
+    })
+  );
+
 export function SpineChartTable({
-  title = chartTitleConfig[ChartTitleKeysEnum.SpineChart].title,
   indicatorData,
   benchmarkToUse,
 }: Readonly<SpineChartTableProps>) {
+  const sortedData = sortByIndicator(indicatorData);
   const methods = getMethodsAndOutcomes(indicatorData);
-  const areaNames = indicatorData
+  const areaNames = sortedData
     .at(0)
     ?.areasHealthData.map((areaHealthData) => areaHealthData?.areaName ?? '');
 
   const csvData = useMemo(() => {
-    return convertSpineChartTableToCsv(indicatorData);
-  }, [indicatorData]);
+    return convertSpineChartTableToCsv(sortedData);
+  }, [sortedData]);
 
   if (!indicatorData.length || !areaNames) return null;
 
-  const groupName = indicatorData[0].groupData?.areaName;
-  const chartTitle = `Area profile for ${areaNames.join(' and ')}`;
+  const groupName = sortedData[0].groupData?.areaName;
+  const title = `Area profile for ${areaNames.join(' and ')}`;
 
   const StyledTable =
     areaNames.length > 1 ? StyledTableMultipleAreas : StyledTableOneArea;
 
   return (
     <>
-      <SubTitle id={ChartTitleKeysEnum.SpineChart}>{title}</SubTitle>
+      <SubTitle id={ChartTitleKeysEnum.SpineChart}>
+        {chartTitleConfig[ChartTitleKeysEnum.SpineChart].title}
+      </SubTitle>
       <ContainerWithOutline>
         <div id={'spineChartTable'} data-testid="spineChartTable-component">
-          <ChartTitle>{chartTitle}</ChartTitle>
+          <ChartTitle>{title}</ChartTitle>
           <SpineChartLegend
             legendsToShow={methods}
             benchmarkToUse={benchmarkToUse}
@@ -68,11 +76,11 @@ export function SpineChartTable({
             <StyledTable>
               <SpineChartTableHeader
                 areaNames={areaNames}
-                groupName={indicatorData[0].groupData?.areaName ?? 'Group'}
+                groupName={sortedData[0].groupData?.areaName ?? 'Group'}
                 benchmarkToUse={benchmarkToUse}
               />
-              {indicatorData.map((indicatorData) => (
-                <React.Fragment key={indicatorData.rowId}>
+              {sortedData.map((indicatorData) => (
+                <React.Fragment key={indicatorData.indicatorId}>
                   <SpineChartTableRow
                     indicatorData={indicatorData}
                     twoAreasRequested={areaNames.length > 1}

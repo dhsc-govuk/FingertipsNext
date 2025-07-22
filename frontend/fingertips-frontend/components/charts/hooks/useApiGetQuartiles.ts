@@ -19,9 +19,11 @@ export const useApiGetQuartiles = (options: IndicatorsQuartilesGetRequest) => {
   const query = useQuery<QuartileData[]>({
     queryKey,
     queryFn: async () => {
-      return await getQuartilesSeed(session, options);
+      return (await getQuartilesSeed(session, options)).filter(
+        (q) => q.isAggregate === true
+      );
     },
-    enabled: indicatorIds.length >= 1,
+    enabled: indicatorIds.length >= 2,
   });
 
   return useMemo(() => {

@@ -1,5 +1,5 @@
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 import { segmentCombinations } from '@/lib/healthDataHelpers/segmentCombinations';
-import { SegmentationId } from '@/lib/common-types';
 
 describe('segmentCombinations', () => {
   it('should return empty array when there are no input options', () => {

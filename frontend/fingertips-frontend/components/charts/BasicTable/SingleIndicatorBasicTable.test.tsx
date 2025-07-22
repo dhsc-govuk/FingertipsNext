@@ -59,7 +59,9 @@ describe('SingleIndicatorBasicTable', () => {
     const heading = screen.getByRole('heading', { level: 3 });
     expect(heading).toHaveTextContent('Indicator segmentations overview');
 
-    const tableComponent = screen.getByTestId('basicTable-component');
+    const tableComponent = screen.getByTestId(
+      'singleIndicatorBasicTable-component'
+    );
     expect(tableComponent).toBeInTheDocument();
 
     const subHeading = screen.getByRole('heading', { level: 4 });

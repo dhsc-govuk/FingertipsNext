@@ -25,6 +25,17 @@ describe('spineChartIsRequired', () => {
     expect(result).toBe(false);
   });
 
+  it('returns false when indicatorsSelected.length < 2', () => {
+    const searchState = {
+      [SearchParams.AreasSelected]: ['A1'],
+      [SearchParams.IndicatorsSelected]: ['100'],
+      [SearchParams.GroupAreaSelected]: 'GROUP_X',
+    };
+
+    const result = spineChartIsRequired(searchState);
+    expect(result).toBe(false);
+  });
+
   it('returns false when groupAreaSelected is ALL_AREAS_SELECTED', () => {
     const searchState = {
       [SearchParams.AreasSelected]: ['A1', 'A2'],
@@ -41,6 +52,16 @@ describe('spineChartIsRequired', () => {
       [SearchParams.AreasSelected]: ['A1', 'A2', 'A3'],
       [SearchParams.IndicatorsSelected]: ['101'],
       [SearchParams.GroupAreaSelected]: ALL_AREAS_SELECTED,
+    };
+
+    const result = spineChartIsRequired(searchState);
+    expect(result).toBe(false);
+  });
+
+  it('returns false when indicatorsSelected is empty', () => {
+    const searchState = {
+      [SearchParams.AreasSelected]: ['A1', 'A2'],
+      [SearchParams.GroupAreaSelected]: 'GROUP_X',
     };
 
     const result = spineChartIsRequired(searchState);

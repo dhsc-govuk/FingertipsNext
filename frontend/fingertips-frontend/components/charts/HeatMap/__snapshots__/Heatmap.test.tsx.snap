@@ -6,8 +6,8 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
     class="sc-fhzFiK cKjcgg"
   >
     <div
-      data-testid="heatmap-chart-component"
-      id="heatmap-chart"
+      data-testid="heatmapChart-component"
+      id="heatmapChart"
     >
       <h4
         class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
@@ -466,7 +466,7 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
     </div>
     <button
       class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-dCFHLb jjJOzN"
-      data-testid="heatmap-chart-export-button"
+      data-testid="heatmapChart-export-button"
     >
       Export options
     </button>
@@ -480,8 +480,8 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
     class="sc-fhzFiK cKjcgg"
   >
     <div
-      data-testid="heatmap-chart-component"
-      id="heatmap-chart"
+      data-testid="heatmapChart-component"
+      id="heatmapChart"
     >
       <h4
         class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
@@ -940,7 +940,7 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
     </div>
     <button
       class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-dCFHLb jjJOzN"
-      data-testid="heatmap-chart-export-button"
+      data-testid="heatmapChart-export-button"
     >
       Export options
     </button>

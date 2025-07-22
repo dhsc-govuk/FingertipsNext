@@ -202,27 +202,6 @@ export default async function ChartPage(
       }
     }
 
-    // load quartiles data and seed if we don't have it already
-    const quartilesParams = quartilesQueryParams(searchState);
-    const quartilesKey = queryKeyFromRequestParams(
-      EndPoints.Quartiles,
-      quartilesParams
-    );
-
-    if (
-      spineChartIsRequired(searchState) &&
-      !Object.keys(seedData).includes(quartilesKey)
-    ) {
-      try {
-        seedData[quartilesKey] = await getQuartilesSeed(
-          session,
-          quartilesParams
-        );
-      } catch (e) {
-        console.error('error getting quartile data', e);
-      }
-    }
-
     return (
       <>
         <SeedQueryCache seedData={seedData} />

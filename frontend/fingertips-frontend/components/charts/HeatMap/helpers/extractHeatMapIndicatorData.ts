@@ -5,24 +5,26 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
-import { segmentIdFromInfo } from '@/lib/healthDataHelpers/segmentIdFromInfo';
-import { SegmentInfo } from '@/lib/common-types';
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
   metadata: IndicatorDocument,
-  segmentInfo: SegmentInfo
+  segmentInfo: Record<SegmentationId, string>
 ): HeatmapIndicatorData | undefined {
   if (!indicatorData.areaHealthData) {
     return undefined;
   }
 
-  const segmentId = segmentIdFromInfo(metadata.indicatorID, segmentInfo);
+  const segmentId = Object.entries(segmentInfo).map(
+    ([key, value]) => `${key}:${value}`
+  );
+
   const segmentName = segmentNameFromInfo(segmentInfo);
 
   return {
-    rowId: segmentId,
+    rowId: `${metadata.indicatorID}-${segmentId}`,
     indicatorId: metadata.indicatorID,
     indicatorName: `${metadata.indicatorName} (${segmentName})`,
     healthDataForAreas: indicatorData.areaHealthData,

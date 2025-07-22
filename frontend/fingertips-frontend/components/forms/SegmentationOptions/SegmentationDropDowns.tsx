@@ -7,7 +7,7 @@ import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { valueOrDefault } from '@/components/forms/SegmentationOptions/helpers/valueOrDefault';
 import { usePathname } from 'next/navigation';
-import { SegmentationId } from '@/lib/common-types';
+import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 
 interface SegmentationDropDownsProps {
   options: Record<SegmentationId, string[]>;
