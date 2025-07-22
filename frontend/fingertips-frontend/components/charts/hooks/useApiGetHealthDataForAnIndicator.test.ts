@@ -1,8 +1,4 @@
-// import {
-//   mockGetHealthDataForAnIndicator,
-//   mockGetHealthDataForAnIndicatorIncludingUnpublishedData,
-// } from '@/mock/utils/mockApiClient';
-// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockAuth } from '@/mock/utils/mockAuth';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForAnIndicator } from './useApiGetHealthDataForAnIndicator';
 import { renderHook, waitFor } from '@testing-library/react';
@@ -22,7 +18,6 @@ import { mockDeep } from 'vitest-mock-extended';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { Session } from 'next-auth';
-import { mockAuth } from '@/mock/utils/mockAuth';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -41,7 +36,6 @@ mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
 );
 
 const mockSession = mockDeep<Session>();
-mockAuth.mockResolvedValue(mockSession);
 
 describe('useApiGetHealthDataForAnIndicator', () => {
   afterEach(() => {
@@ -61,7 +55,7 @@ describe('useApiGetHealthDataForAnIndicator', () => {
     const queryClient = new QueryClient();
     // act
     renderHook(() => useApiGetHealthDataForAnIndicator(params), {
-      wrapper: testRenderWrapper({}, queryClient, null),
+      wrapper: testRenderWrapper({}, queryClient),
     });
 
     // assert
@@ -89,16 +83,14 @@ describe('useApiGetHealthDataForAnIndicator', () => {
     ).not.toHaveBeenCalled();
   });
 
-  // TODO: DHSCFT-1034 review role of session in testRenderWrapper.
-  it.skip('should call the unpublished healthdata data endpoint if there is a session', async () => {
+  it('should call the unpublished healthdata data endpoint if there is a session', async () => {
     // arrange
     const queryClient = new QueryClient();
     mockAuth.mockResolvedValue(mockSession);
+
     // act
     renderHook(() => useApiGetHealthDataForAnIndicator(params), {
-      wrapper: testRenderWrapper({}, queryClient, {
-        expires: 'some string',
-      }),
+      wrapper: testRenderWrapper({}, queryClient),
     });
 
     // assert
