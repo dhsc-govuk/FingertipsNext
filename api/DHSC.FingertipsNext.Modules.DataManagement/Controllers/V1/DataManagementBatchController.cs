@@ -62,14 +62,14 @@ public class DataManagementBatchController : ControllerBase
     public async Task<IActionResult> ListBatches()
     {
         var userRoles = GetRoles(User);
-        var userIndicatorPermissions = await GetIndicatorIdsFromRoles(userRoles);
+        var indicatorIds = await GetIndicatorIdsFromRoles(userRoles);
 
-        if (userIndicatorPermissions.Length == 0 && !User.IsInRole(_adminRole)) return new ForbidResult();
+        if (indicatorIds.Length == 0 && !User.IsInRole(_adminRole)) return new ForbidResult();
 
         // If a user is an admin we ignore any other permissions they may have.
-        if (User.IsInRole(_adminRole)) userIndicatorPermissions = [];
+        if (User.IsInRole(_adminRole)) indicatorIds = [];
 
-        return new OkObjectResult(await _dataManagementService.ListBatches(userIndicatorPermissions));
+        return new OkObjectResult(await _dataManagementService.ListBatches(indicatorIds));
     }
 
     [HttpDelete]

@@ -102,7 +102,7 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
         var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
 
         // Assert
-        response.ShouldBeEquivalentTo(expectedResult);
+        response.ShouldBe(expectedResult);
     }
 
     [Fact]
@@ -119,11 +119,11 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
         var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
 
         // Assert
-        response.ShouldBeEquivalentTo(expectedResult);
+        response.ShouldBe(expectedResult);
     }
 
     [Fact]
-    public async Task ListBatchesEndpointShouldReturnForbiddenWhenTheUserHasNoPermissions()
+    public async Task ListBatchesEndpointShouldReturnForbiddenWhenAuthorisedUserHasNoPermissions()
     {
         // Arrange
         var apiClient = Factory.CreateClient();

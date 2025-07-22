@@ -21,6 +21,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
 
     private readonly AzureStorageBlobClient _azureStorageBlobClient;
     private readonly string _blobName;
+    private readonly DateTime _publishedAt = new(2024, 7, 15, 10, 30, 45, 123, DateTimeKind.Utc);
 
     public FileUploadIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
     {
@@ -53,15 +54,13 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         // Arrange
         var apiClient = Factory.CreateClient();
 
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
-
         using var content = new MultipartFormDataContent();
 
         var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
         var fileStream = File.OpenRead(blobContentFilePath);
 
         using var streamContent = new StreamContent(fileStream);
-        using var publishedAtContent = new StringContent(publishedAt.ToString("o"));
+        using var publishedAtContent = new StringContent(_publishedAt.ToString("o"));
 
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
@@ -81,7 +80,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         model.Status.ShouldBe(BatchStatus.Received);
         model.OriginalFileName.ShouldBe(IntegrationTestFileName);
         model.UserId.ShouldBe(Guid.Empty.ToString());
-        model.PublishedAt.ShouldBe(publishedAt);
+        model.PublishedAt.ShouldBe(_publishedAt);
 
         var blobContent = await _azureStorageBlobClient.DownloadBlob(_blobName);
         var localFileContent = await File.ReadAllBytesAsync(blobContentFilePath);
@@ -99,7 +98,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
 
-        //Assert
+        // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
@@ -116,7 +115,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
 
-        //Assert
+        // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
@@ -133,7 +132,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         // Act
         var response = await apiClient.PostAsync(new Uri("/indicators/9999/data", UriKind.Relative), content);
 
-        //Assert
+        // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
 
@@ -145,15 +144,13 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         // Arrange
         var apiClient = Factory.CreateClient();
 
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
-
         using var content = new MultipartFormDataContent();
 
         var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
         var fileStream = File.OpenRead(blobContentFilePath);
 
         using var streamContent = new StreamContent(fileStream);
-        using var publishedAtContent = new StringContent(publishedAt.ToString("o"));
+        using var publishedAtContent = new StringContent(_publishedAt.ToString("o"));
 
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
@@ -178,15 +175,13 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         // Arrange
         var apiClient = Factory.CreateClient();
 
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
-
         using var content = new MultipartFormDataContent();
 
         var blobContentFilePath = Path.Combine(TestDataDir, "invalid.csv");
         var fileStream = File.OpenRead(blobContentFilePath);
 
         using var streamContent = new StreamContent(fileStream);
-        using var publishedAtContent = new StringContent(publishedAt.ToString("o"));
+        using var publishedAtContent = new StringContent(_publishedAt.ToString("o"));
 
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
@@ -252,15 +247,13 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         // Arrange
         var apiClient = Factory.WithWebHostBuilder(config => config.UseSetting("UPLOAD_STORAGE_CONTAINER_NAME", "invalid-container-name")).CreateClient();
 
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
-
         using var content = new MultipartFormDataContent();
 
         var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
         var fileStream = File.OpenRead(blobContentFilePath);
 
         using var streamContent = new StreamContent(fileStream);
-        using var publishedAtContent = new StringContent(publishedAt.ToString("o"));
+        using var publishedAtContent = new StringContent(_publishedAt.ToString("o"));
 
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 

@@ -12,7 +12,7 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 
 [ApiController]
 [Route("/indicators/{indicatorId:int}/data")]
-public class DataManagementController(IDataManagementService dataManagementService) : ControllerBase
+public class DataManagementController(IDataManagementService dataManagementService, TimeProvider timeProvider) : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -31,23 +31,19 @@ public class DataManagementController(IDataManagementService dataManagementServi
         var untrustedFileName = Path.GetFileName(file.FileName);
         var encodedUntrustedFileName = HttpUtility.HtmlEncode(untrustedFileName);
 
-        if (!DateTime.TryParse(publishedAt, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime parsedPublishedAt))
-        {
+        if (!DateTime.TryParse(publishedAt, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var parsedPublishedAt))
             return new BadRequestObjectResult(new SimpleError
             {
                 Message = "publishedAt is invalid. Must be in the format dd-MM-yyyyTHH:mm:ss.fff"
             });
-        }
 
         parsedPublishedAt = parsedPublishedAt.ToUniversalTime();
 
-        if (parsedPublishedAt <= DateTime.UtcNow)
-        {
+        if (parsedPublishedAt <= timeProvider.GetUtcNow())
             return new BadRequestObjectResult(new SimpleError
             {
                 Message = "publishedAt cannot be in the past"
             });
-        }
 
         UploadHealthDataResponse? response = null;
         await using (var fileStream = file.OpenReadStream())
@@ -67,7 +63,7 @@ public class DataManagementController(IDataManagementService dataManagementServi
             response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt, encodedUntrustedFileName);
         }
 
-        return (response.Outcome) switch
+        return response.Outcome switch
         {
             OutcomeType.Ok => new AcceptedResult
             {
