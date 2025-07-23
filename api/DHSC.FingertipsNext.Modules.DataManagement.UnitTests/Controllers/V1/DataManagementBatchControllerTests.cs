@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using DHSC.FingertipsNext.Modules.Common.Auth;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
@@ -27,6 +28,15 @@ public class DataManagementBatchControllerTests
         var indicatorPermissionsService = Substitute.For<IIndicatorPermissionsLookupService>();
         _dataManagementService = Substitute.For<IDataManagementService>();
         _controller = new DataManagementBatchController(configuration, indicatorPermissionsService, _dataManagementService);
+
+        // Mock the user and their permissions.
+        var mockUser = Substitute.For<ClaimsPrincipal>();
+        var mockHttpContext = Substitute.For<HttpContext>();
+        mockHttpContext.User = mockUser;
+        var mockControllerContext = Substitute.For<ControllerContext>();
+        mockControllerContext.HttpContext = mockHttpContext;
+        _controller.ControllerContext = mockControllerContext;
+        indicatorPermissionsService.GetIndicatorsForRoles(Arg.Any<IEnumerable<Guid>>()).Returns([1234]);
     }
 
     [Fact]
@@ -47,7 +57,7 @@ public class DataManagementBatchControllerTests
         };
 
         var expectedServiceResponse = new UploadHealthDataResponse(OutcomeType.Ok, expectedModel);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(expectedServiceResponse);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>()).Returns(expectedServiceResponse);
 
         // Act
         var response = await _controller.DeleteBatch("12345_2025-01-01T00:00:00.000") as ObjectResult;
@@ -71,11 +81,25 @@ public class DataManagementBatchControllerTests
     }
 
     [Fact]
+    public async Task DeleteReturns403ErrorWhenServiceReturnsAPermissionDeniedOutcome()
+    {
+        // Arrange
+        var response = new UploadHealthDataResponse(OutcomeType.PermissionDenied);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>()).Returns(response);
+
+        // Act
+        var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as StatusCodeResult;
+
+        // Assert
+        result.StatusCode.ShouldBe(StatusCodes.Status403Forbidden);
+    }
+
+    [Fact]
     public async Task DeleteReturns404ErrorWhenServiceReturnsANotFoundOutcome()
     {
         // Arrange
         var response = new UploadHealthDataResponse(OutcomeType.NotFound);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(response);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>()).Returns(response);
 
         // Act
         var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as NotFoundResult;
@@ -92,11 +116,11 @@ public class DataManagementBatchControllerTests
         string expectedErrorMessage)
     {
         // Arrange
-        var listToReturn = (List<string>)[errors!];
+        var listToReturn = (List<string>) [errors!];
 
 
         var response = new UploadHealthDataResponse(OutcomeType.ClientError, null, listToReturn);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(response);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>()).Returns(response);
 
         // Act
         var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as ObjectResult;
@@ -112,7 +136,7 @@ public class DataManagementBatchControllerTests
     public async Task DeleteReturns500WhenServiceReturnsAServerError()
     {
         var response = new UploadHealthDataResponse(OutcomeType.ServerError);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(response);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>()).Returns(response);
 
         // Act
         var result = await _controller.DeleteBatch("2025-01-01T00:00:00.000") as ObjectResult;

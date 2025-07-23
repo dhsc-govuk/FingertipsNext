@@ -118,7 +118,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         var apiClient = Factory.CreateClient();
         const string batchId = "1234";
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken());
+            Factory.GenerateTestToken([AdminRoleGuid]));
 
         // Act
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));

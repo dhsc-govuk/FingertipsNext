@@ -43,7 +43,15 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
             .ToListAsync();
     }
 
-    public async Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId)
+    /// <summary>
+    ///     Delete the specified batch.
+    /// </summary>
+    /// <param name="batchId">The ID of the batch to delete.</param>
+    /// <param name="userId">The ID of the user deleting the batch.</param>
+    /// <param name="indicatorsThatCanBeModified">The indicator IDs the user has permission to modify.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public async Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId, IEnumerable<int> indicatorsThatCanBeModified)
     {
         ArgumentException.ThrowIfNullOrEmpty(batchId);
 
@@ -52,17 +60,23 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
 
         if (model == null)
         {
-            throw new ArgumentException($"BatchNotFound");
+            throw new ArgumentException("BatchNotFound");
         }
 
-        if (model.DeletedAt != null && model.Status == BatchStatus.Deleted)
+        var indicatorsThatCanBeModifiedList = indicatorsThatCanBeModified.ToList();
+        if (indicatorsThatCanBeModifiedList.Count > 0 && !indicatorsThatCanBeModifiedList.Contains(model.IndicatorId))
         {
-            throw new ArgumentException($"BatchDeleted");
+            throw new ArgumentException("PermissionDenied");
+        }
+
+        if (model is { DeletedAt: not null, Status: BatchStatus.Deleted })
+        {
+            throw new ArgumentException("BatchDeleted");
         }
 
         if (model.PublishedAt <= DateTime.UtcNow)
         {
-            throw new ArgumentException($"BatchPublished");
+            throw new ArgumentException("BatchPublished");
         }
 
         model.DeletedAt = DateTime.UtcNow;

@@ -38,7 +38,9 @@ public class DataManagementBatchController : ControllerBase
 
         foreach (var id in userRoleIds)
             if (Guid.TryParse(id, out var roleGuid))
+            {
                 userRoles.Add(roleGuid);
+            }
 
         return userRoles;
     }
@@ -64,10 +66,16 @@ public class DataManagementBatchController : ControllerBase
         var userRoles = GetRoles(User);
         var indicatorIds = await GetIndicatorIdsFromRoles(userRoles);
 
-        if (indicatorIds.Length == 0 && !User.IsInRole(_adminRole)) return new ForbidResult();
+        if (userIndicatorPermissions.Length == 0 && !User.IsInRole(_adminRole))
+        {
+            return new ForbidResult();
+        }
 
         // If a user is an admin we ignore any other permissions they may have.
-        if (User.IsInRole(_adminRole)) indicatorIds = [];
+        if (User.IsInRole(_adminRole))
+        {
+            userIndicatorPermissions = [];
+        }
 
         return new OkObjectResult(await _dataManagementService.ListBatches(indicatorIds));
     }
@@ -78,13 +86,21 @@ public class DataManagementBatchController : ControllerBase
     public async Task<IActionResult> DeleteBatch([FromRoute] string batchId)
     {
         if (string.IsNullOrEmpty(batchId))
+        {
             return new BadRequestObjectResult(new SimpleError
             {
                 Message = "batchId is required"
             });
+        }
 
-        // User ID will be added under DHSCFT-930
-        var result = await _dataManagementService.DeleteBatchAsync(batchId, Guid.Empty);
+        var userRoles = GetRoles(User);
+        var userIndicatorPermissions = await GetIndicatorIdsFromRoles(userRoles);
+        if (userIndicatorPermissions.Length == 0 && !User.IsInRole(_adminRole))
+        {
+            return new ForbidResult();
+        }
+
+        var result = await _dataManagementService.DeleteBatchAsync(batchId, Guid.Empty, userIndicatorPermissions);
 
         var message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();
 
@@ -96,6 +112,8 @@ public class DataManagementBatchController : ControllerBase
                 return new NotFoundResult();
             case OutcomeType.ClientError:
                 return new BadRequestObjectResult(new SimpleError { Message = message ?? "Invalid request" });
+            case OutcomeType.PermissionDenied:
+                return new StatusCodeResult(StatusCodes.Status403Forbidden);
             case OutcomeType.ServerError:
             default:
                 return StatusCode(StatusCodes.Status500InternalServerError, message);
