@@ -116,7 +116,7 @@ public class DataManagementBatchControllerTests
         string expectedErrorMessage)
     {
         // Arrange
-        var listToReturn = (List<string>) [errors!];
+        var listToReturn = (List<string>)[errors!];
 
 
         var response = new UploadHealthDataResponse(OutcomeType.ClientError, null, listToReturn);
