@@ -287,4 +287,18 @@ public class DataManagementRepositoryTests : IDisposable
         // Assert
         exception.Message.ShouldBe("PermissionDenied");
     }
+
+    [Fact]
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullBatchIdIsSpecified()
+    {
+        await _dataManagementRepository.DeleteBatchAsync(null!, Guid.Empty, [])
+            .ShouldThrowAsync(typeof(ArgumentNullException));
+    }
+
+    [Fact]
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullListOfIndicatorsIsSpecified()
+    {
+        await _dataManagementRepository.DeleteBatchAsync("batch-id", Guid.Empty, null!)
+            .ShouldThrowAsync(typeof(ArgumentNullException));
+    }
 }

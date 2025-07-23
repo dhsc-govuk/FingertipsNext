@@ -110,7 +110,7 @@ public class DataManagementService : IDataManagementService
         return batches.Select(batch => _mapper.Map(batch));
     }
 
-    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId, IEnumerable<int> indicatorsThatCanBeModified)
+    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified)
     {
         ArgumentNullException.ThrowIfNull(batchId);
         var errorMessage = "";

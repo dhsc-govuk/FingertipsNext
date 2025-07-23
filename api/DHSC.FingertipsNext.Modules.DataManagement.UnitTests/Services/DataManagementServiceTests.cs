@@ -289,7 +289,7 @@ public class DataManagementServiceTests
             Status = model.Status
         };
 
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(model);
         _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expected);
 
@@ -313,7 +313,7 @@ public class DataManagementServiceTests
         OutcomeType expectedOutcome)
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>())
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>())
             .Throws(new ArgumentException(exceptionMessage));
 
         // Act
@@ -329,7 +329,7 @@ public class DataManagementServiceTests
     public async Task DeleteBatchShouldReturnServerError()
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>()).Throws(new ArgumentNullException());
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Throws(new ArgumentNullException());
 
         // Act
         var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);

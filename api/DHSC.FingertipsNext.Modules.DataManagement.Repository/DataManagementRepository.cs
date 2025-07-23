@@ -51,9 +51,10 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
     /// <param name="indicatorsThatCanBeModified">The indicator IDs the user has permission to modify.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public async Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId, IEnumerable<int> indicatorsThatCanBeModified)
+    public async Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified)
     {
         ArgumentException.ThrowIfNullOrEmpty(batchId);
+        ArgumentNullException.ThrowIfNull(indicatorsThatCanBeModified);
 
         // Batch must be unpublished
         var model = await _dbContext.Batch.Where(b => b.BatchId == batchId).FirstOrDefaultAsync();
@@ -63,8 +64,7 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
             throw new ArgumentException("BatchNotFound");
         }
 
-        var indicatorsThatCanBeModifiedList = indicatorsThatCanBeModified.ToList();
-        if (indicatorsThatCanBeModifiedList.Count > 0 && !indicatorsThatCanBeModifiedList.Contains(model.IndicatorId))
+        if (indicatorsThatCanBeModified.Any() && !indicatorsThatCanBeModified.Contains(model.IndicatorId))
         {
             throw new ArgumentException("PermissionDenied");
         }
