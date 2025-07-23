@@ -1,7 +1,8 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
-export const getLatestYearWithBenchmarks = (
+export const getLatestPeriodWithBenchmarks = (
   healthDataForAreas: HealthDataForArea[],
   englandData: HealthDataForArea | undefined,
   groupData: HealthDataForArea | undefined,
@@ -12,18 +13,19 @@ export const getLatestYearWithBenchmarks = (
     healthData.push(englandData);
   if (groupData && groupData.healthData.length > 0) healthData.push(groupData);
 
-  const allYears = healthData.flatMap((areaData) =>
-    areaData.healthData.map((point) => point.year)
+  const allPeriods = healthData.flatMap((areaData) =>
+    areaData.healthData.map((point) => point.datePeriod)
   );
 
-  const uniqueYears = new Set(allYears);
+  const uniquePeriods = new Set(allPeriods);
+  
 
-  const descendingYears = [...uniqueYears].sort((a, b) => b - a);
-
+  const descendingPeriods = [...uniquePeriods].sort((a, b) => convertDateToNumber(b?.to) - convertDateToNumber(a?.to));
+  
   const benchmarkData =
     benchmarkToUse === areaCodeForEngland ? englandData : groupData;
 
-  return descendingYears.find((year) => {
+  return descendingPeriods.find((datePeriod) => {
     return healthData.every((areaData) => {
       const isEmptyAreaOtherThanBenchmarkArea =
         areaData.healthData.length === 0 &&
@@ -33,7 +35,7 @@ export const getLatestYearWithBenchmarks = (
         return true;
       }
 
-      return areaData.healthData.some((point) => point.year === year);
+      return areaData.healthData.some((point) => convertDateToNumber(point.datePeriod?.to) === convertDateToNumber(datePeriod?.to));
     });
   });
 };
