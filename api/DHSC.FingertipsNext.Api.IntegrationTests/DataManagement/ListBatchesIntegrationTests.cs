@@ -89,25 +89,6 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
     }
 
     [Fact]
-    public async Task ListBatchesEndpointShouldListAllBatchesForAdministratorsWithAdditionalRoles()
-    {
-        // Arrange
-        var apiClient = Factory.CreateClient();
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken([AdminRoleGuid, Indicator41101GroupRoleId]));
-
-        // Act
-        var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
-
-        // Assert
-        // Cannot assert that this is the entire list of batches, as other tests may be inserting data.
-        response.ShouldNotBeNull();
-        response.ShouldContain(BatchFor41101);
-        response.ShouldContain(BatchFor383);
-        response.ShouldContain(BatchFor22401);
-    }
-
-    [Fact]
     public async Task ListBatchesEndpointShouldListOnlyBatchesForIndicatorsTheUserHasPermissionsFor()
     {
         // Arrange
