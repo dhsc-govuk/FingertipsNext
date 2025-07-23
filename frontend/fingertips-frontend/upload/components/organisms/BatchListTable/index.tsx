@@ -1,9 +1,14 @@
 import { Batch } from '@/generated-sources/ft-api-client';
 import { Table, Button, H4 } from 'govuk-react';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
+import {
+  ApiResponse,
+  deleteBatch,
+} from '../../forms/IndicatorUploadForm/uploadActions';
 
 type BatchListTableProps = {
   batches: Batch[];
+  setDeleteResponse: Dispatch<SetStateAction<ApiResponse | null>>;
 };
 
 export enum BatchListTableHeaders {
@@ -18,7 +23,10 @@ export enum BatchListTableHeaders {
   Status = 'Status',
 }
 
-export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
+export const BatchListTable = ({
+  batches,
+  setDeleteResponse,
+}: Readonly<BatchListTableProps>) => {
   if (!batches.length) return null;
 
   return (
@@ -39,11 +47,19 @@ export const BatchListTable = ({ batches }: Readonly<BatchListTableProps>) => {
             <Table.Cell>{batch.publishedAt.toISOString()}</Table.Cell>
             <Table.Cell>{batch.indicatorId}</Table.Cell>
             <Table.Cell>{batch.batchId}</Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell></Table.Cell>
+            <Table.Cell>{batch.deletedAt?.toISOString() ?? ''}</Table.Cell>
+            <Table.Cell>{batch.deletedUserId ?? ''}</Table.Cell>
             <Table.Cell>{batch.status}</Table.Cell>
             <Table.Cell>
-              <Button>Delete submission</Button>
+              <Button
+                onClick={async () => {
+                  if (setDeleteResponse) {
+                    setDeleteResponse(await deleteBatch(batch.batchId));
+                  }
+                }}
+              >
+                Delete submission
+              </Button>
             </Table.Cell>
           </Table.Row>
         ))}

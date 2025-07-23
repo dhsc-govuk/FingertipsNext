@@ -21,6 +21,13 @@ public class IndicatorSegment
     public required Sex Sex { get; init; }
 
     /// <summary>
+    ///     Reporting Period Type the segment is for.
+    /// </summary>
+    [JsonPropertyName("reportingPeriod")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public required ReportingPeriod ReportingPeriod { get; init; }
+
+    /// <summary>
     ///     Is the segment the aggregate for the indicator
     /// </summary>
     [JsonPropertyName("isAggregate")]

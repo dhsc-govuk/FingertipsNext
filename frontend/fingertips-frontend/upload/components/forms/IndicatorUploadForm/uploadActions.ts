@@ -42,15 +42,33 @@ export async function uploadFile(
 
     return { status: response.raw.status, message: await response.raw.text() };
   } catch (error) {
-    if (error instanceof ResponseError) {
-      return {
-        status: error.response.status,
-        message: await error.response.text(),
-      };
-    }
+    return await returnResponseError(error);
+  }
+}
 
+export async function deleteBatch(batchId: string): Promise<ApiResponse> {
+  const batchesApi = ApiClientFactory.getBatchesApiClient();
+
+  try {
+    const response = await batchesApi.batchesBatchIdDeleteRaw({ batchId });
+
+    revalidatePath(BATCHES_API_PATH);
+
+    return { status: response.raw.status, message: await response.raw.text() };
+  } catch (error) {
+    return await returnResponseError(error);
+  }
+}
+
+async function returnResponseError(error: unknown): Promise<ApiResponse> {
+  if (error instanceof ResponseError) {
     return {
-      message: `An error occurred when calling the API: ${error}`,
+      status: error.response.status,
+      message: await error.response.text(),
     };
   }
+
+  return {
+    message: `An error occurred when calling the API: ${error}`,
+  };
 }

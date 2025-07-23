@@ -23,6 +23,7 @@ batches:
         $ref: "../responses.yaml#/Forbidden"
       "500":
         $ref: "../responses.yaml#/InternalServerError"
+batch-delete:
   delete:
     parameters:
       - $ref: "./parameters.yaml#/batch_id"
