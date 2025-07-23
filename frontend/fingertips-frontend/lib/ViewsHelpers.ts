@@ -178,8 +178,6 @@ export async function getIndicatorData(
       ? selectedGroupCode
       : undefined;
 
-  console.log('in getIndicatorData');
-
   const indicatorRequestArray = chunkArray(areasSelected).map(
     (requestAreas) => {
       return getAuthorisedHealthDataForAnIndicator({
