@@ -292,14 +292,14 @@ public class DataManagementRepositoryTests : IDisposable
     [Fact]
     public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullBatchIdIsSpecified()
     {
-        await _dataManagementRepository.DeleteBatchAsync(null!, Guid.Empty, [])
+        await _dataManagementRepository.DeleteBatchAsync(null!, UserId, [])
             .ShouldThrowAsync(typeof(ArgumentNullException));
     }
 
     [Fact]
     public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullListOfIndicatorsIsSpecified()
     {
-        await _dataManagementRepository.DeleteBatchAsync("batch-id", Guid.Empty, null!)
+        await _dataManagementRepository.DeleteBatchAsync("batch-id", UserId, null!)
             .ShouldThrowAsync(typeof(ArgumentNullException));
     }
 }
