@@ -57,6 +57,8 @@ paths:
     $ref: "./indicators/paths.yaml#/quartiles"
   /batches:
     $ref: "./batches/paths.yaml#/batches"
+  /batches/{batch_id}:
+    $ref: "./batches/paths.yaml#/batch-delete"
   /user/info:
     $ref: "./user/paths.yaml#/user_info"
   /user/indicator/{indicator_id}:
