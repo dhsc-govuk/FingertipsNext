@@ -144,7 +144,7 @@ indicators_by_indicator_id_all_data:
       - indicators
     summary: Get published and unpublished health data for an indicator
     description:
-      Authorised user can Get data for a public health indicator. This will return all data for
+      Get data for a public health indicator. This will return all data for
         all requested areas and all time periods for the specified indicator. 
 
         The returned data will include a benchmark comparison against either England or an ancestor area
