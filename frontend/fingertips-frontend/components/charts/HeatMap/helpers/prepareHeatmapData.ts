@@ -89,7 +89,7 @@ export const extractAreasIndicatorsAndDataPoints = (
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: formatDatePointLabel(
           latestDataPeriod,
-          Frequency.Annually,
+          indicatorData.frequency,
           1
         ),
         benchmarkMethod: indicatorData.benchmarkComparisonMethod,

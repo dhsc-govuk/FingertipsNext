@@ -3,6 +3,7 @@ import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap/HeatMap';
@@ -23,6 +24,7 @@ describe('extractHeatmapIndicatorData', () => {
         BenchmarkComparisonMethod.Unknown,
       polarity: populatedIndicatorData.polarity ?? IndicatorPolarity.Unknown,
       segmentInfo: { sex: 'persons', age: '', frequency: '' },
+      frequency: Frequency.Annually,
     };
 
     const heatmapData = extractHeatmapIndicatorData(
@@ -54,6 +56,7 @@ describe('extractHeatmapIndicatorData', () => {
       benchmarkComparisonMethod: BenchmarkComparisonMethod.Unknown,
       polarity: IndicatorPolarity.Unknown,
       segmentInfo: { sex: 'persons', age: '', frequency: '' },
+      frequency: Frequency.Annually,
     };
 
     const heatmapData = extractHeatmapIndicatorData(

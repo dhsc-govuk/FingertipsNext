@@ -4,6 +4,7 @@ import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
   PeriodType,
+  Frequency,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
@@ -156,6 +157,7 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     polarity: indicator1.polarity,
     rowId: `${indicator1.id}-sex:persons`,
     segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    frequency: Frequency.Annually,
   },
   {
     indicatorId: indicator2.id,
@@ -187,6 +189,7 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     polarity: indicator2.polarity,
     rowId: `${indicator2.id}-sex:persons`,
     segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    frequency: Frequency.Annually,
   },
   {
     indicatorId: indicator3.id,
@@ -218,6 +221,7 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     polarity: indicator3.polarity,
     rowId: `${indicator3.id}-sex:persons`,
     segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    frequency: Frequency.Annually,
   },
 ];
 

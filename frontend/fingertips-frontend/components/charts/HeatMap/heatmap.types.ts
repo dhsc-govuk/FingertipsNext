@@ -3,6 +3,7 @@ import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
   BenchmarkOutcome,
+  Frequency,
 } from '@/generated-sources/ft-api-client';
 import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 
@@ -15,6 +16,7 @@ export interface HeatmapIndicatorData {
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
   segmentInfo: Record<SegmentationId, string>;
+  frequency: Frequency;
 }
 
 export interface Area {
