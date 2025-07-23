@@ -3,6 +3,7 @@ import {
   HealthDataPoint,
   BenchmarkComparisonMethod,
   IndicatorPolarity,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
@@ -22,6 +23,11 @@ const newHealthDataPoint = ({
 }): HealthDataPoint => {
   return {
     year: year,
+    datePeriod: {
+      type: PeriodType.Calendar,
+      from: new Date(`${year}-01-01`),
+      to: new Date(`${year}-12-31`),
+    },
     value: value,
     ageBand: allAgesAge,
     sex: personsSex,
@@ -238,11 +244,11 @@ describe('extract sorted areas, indicators, and data points - benchmark area is 
     ]);
   });
 
-  it('should only extract data from the most recent period', () => {
+  it('should only extract data from the most recent england period', () => {
     const id = 'indicator1-sex:persons';
-    expect(dataPoints[id][expectedSortedAreas[0].code].value).toBeUndefined();
+    expect(dataPoints[id][expectedSortedAreas[0].code].value).toEqual(11);
     expect(dataPoints[id][expectedSortedAreas[1].code].value).toBeUndefined();
-    expect(dataPoints[id][expectedSortedAreas[2].code].value).toEqual(41);
+    expect(dataPoints[id][expectedSortedAreas[2].code].value).toBeUndefined();
     expect(dataPoints[id][expectedSortedAreas[3].code].value).toBeUndefined();
   });
 

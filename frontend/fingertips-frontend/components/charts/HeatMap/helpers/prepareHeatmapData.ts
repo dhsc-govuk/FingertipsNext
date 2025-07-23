@@ -1,4 +1,8 @@
-import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
+import {
+  BenchmarkOutcome,
+  Frequency,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
   HeatmapIndicatorData,
@@ -9,6 +13,10 @@ import {
   DataPoint,
 } from '../heatmap.types';
 import { filterDefined } from '@/lib/chartHelpers/filterDefined';
+import {
+  convertDateToNumber,
+  formatDatePointLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],
@@ -56,13 +64,34 @@ export const extractAreasIndicatorsAndDataPoints = (
   const indicators: Record<string, Indicator> = {};
   const dataPoints: Record<string, Record<string, DataPoint>> = {};
 
+  const indicatorEnglandData: Record<string, HealthDataForArea> =
+    indicatorDataForAllAreas.reduce(
+      (acc, indicatorDataForArea) => {
+        const englandHealthData = indicatorDataForArea.healthDataForAreas.find(
+          (healthData) => healthData.areaCode === areaCodeForEngland
+        );
+        if (englandHealthData) {
+          acc[indicatorDataForArea.indicatorId] = englandHealthData;
+        }
+        return acc;
+      },
+      {} as Record<string, HealthDataForArea>
+    );
+
   indicatorDataForAllAreas.forEach((indicatorData) => {
+    const latestDataPeriod =
+      indicatorEnglandData[indicatorData.indicatorId].healthData[0].datePeriod;
+
     if (!indicators[indicatorData.rowId]) {
       indicators[indicatorData.rowId] = {
         id: indicatorData.rowId,
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
-        latestDataPeriod: 0,
+        latestDataPeriod: formatDatePointLabel(
+          latestDataPeriod,
+          Frequency.Annually,
+          1
+        ),
         benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
       };
@@ -77,22 +106,6 @@ export const extractAreasIndicatorsAndDataPoints = (
       return;
     }
 
-    let latestDataPeriod =
-      indicatorData.healthDataForAreas[0].healthData[0].year;
-
-    indicatorData.healthDataForAreas.forEach((healthData) => {
-      healthData.healthData.sort((a, b) => {
-        return b.year - a.year;
-      });
-      if (
-        healthData.areaCode !== areaCodeForEngland &&
-        healthData.healthData.length > 0 &&
-        healthData.healthData[0].year > latestDataPeriod
-      ) {
-        latestDataPeriod = healthData.healthData[0].year;
-      }
-    });
-
     indicatorData.healthDataForAreas.forEach((healthData) => {
       if (!areas[healthData.areaCode]) {
         areas[healthData.areaCode] = {
@@ -101,8 +114,11 @@ export const extractAreasIndicatorsAndDataPoints = (
         };
       }
 
-      const healthDataForYear = healthData.healthData.find((dataPoint) => {
-        return dataPoint.year === latestDataPeriod;
+      const healthDataForPeriod = healthData.healthData.find((dataPoint) => {
+        return (
+          convertDateToNumber(dataPoint.datePeriod?.to) ===
+          convertDateToNumber(latestDataPeriod?.to)
+        );
       });
 
       const getBenchmarkOutcome = (
@@ -120,7 +136,7 @@ export const extractAreasIndicatorsAndDataPoints = (
 
       const benchmark: Benchmark = {
         outcome: getBenchmarkOutcome(
-          healthDataForYear?.benchmarkComparison?.outcome
+          healthDataForPeriod?.benchmarkComparison?.outcome
         ),
         benchmarkMethod: indicatorData.benchmarkComparisonMethod,
         polarity: indicatorData.polarity,
@@ -128,14 +144,12 @@ export const extractAreasIndicatorsAndDataPoints = (
       };
 
       dataPoints[indicatorData.rowId][healthData.areaCode] = {
-        value: healthDataForYear?.value,
+        value: healthDataForPeriod?.value,
         benchmark: benchmark,
         areaCode: healthData.areaCode,
         indicatorId: indicatorData.rowId,
       };
     });
-
-    indicators[indicatorData.rowId].latestDataPeriod = latestDataPeriod;
   });
 
   return {

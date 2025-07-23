@@ -15,7 +15,10 @@ import regionsMap from '@/components/charts/ThematicMap/regions.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
+import {
+  mockHealthDataForArea,
+  mockHealthDataForArea_England,
+} from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
@@ -31,6 +34,7 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 mockHighChartsWrapperSetup();
 
@@ -94,13 +98,12 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
         }),
       ],
     }),
+    mockHealthDataForArea_England(),
   ],
 });
 
 const mockSearch = 'test';
-const mockAreas = testHealthData?.areaHealthData?.map(
-  (area) => area.areaCode ?? []
-);
+const mockAreas = ['E12000004', 'E12000006'];
 const mockSearchState = {
   [SearchParams.SearchedIndicator]: mockSearch,
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
@@ -191,7 +194,12 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should not display LineChart components when there are less than 2 time periods per area selected', async () => {
       await testRender(
         mockSearchState,
-        mockIndicatorWithHealthDataForArea(),
+        mockIndicatorWithHealthDataForArea({
+          areaHealthData: [
+            mockHealthDataForArea(),
+            mockHealthDataForArea({ areaCode: areaCodeForEngland }),
+          ],
+        }),
         testMetaData
       );
 

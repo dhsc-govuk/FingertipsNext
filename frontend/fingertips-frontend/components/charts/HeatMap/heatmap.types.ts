@@ -28,7 +28,7 @@ export interface Indicator {
   position?: number;
   name: string;
   unitLabel: string;
-  latestDataPeriod: number;
+  latestDataPeriod: string;
   benchmarkMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
 }
@@ -72,7 +72,7 @@ export interface Cell {
 
 export interface CellHoverProps {
   areaName: string;
-  period: number;
+  period: string;
   indicatorName: string;
   value?: number;
   unitLabel: string;
