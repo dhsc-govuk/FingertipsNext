@@ -76,6 +76,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const seedPromises: SeedDataPromises = {};
 
+  // TODO: DHSCFT-1034
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {

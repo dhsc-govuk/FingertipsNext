@@ -43,6 +43,7 @@ export default async function TwoOrMoreIndicatorsEnglandView({
 
   const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
+  // TODO: DHSCFT-1034
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(

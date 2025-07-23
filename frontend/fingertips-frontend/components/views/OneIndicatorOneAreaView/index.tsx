@@ -4,10 +4,6 @@ import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
@@ -16,6 +12,7 @@ import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { determineBenchmarkRefType } from '@/lib/ViewsHelpers';
+import { getAuthorisedHealthDataForAnIndicator } from '@/lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 
 export default async function OneIndicatorOneAreaView({
   searchState,
@@ -44,7 +41,6 @@ export default async function OneIndicatorOneAreaView({
   }
 
   await connection();
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
   const areaTypeToUse =
     areaCodes[0] === areaCodeForEngland
@@ -55,7 +51,7 @@ export default async function OneIndicatorOneAreaView({
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
   try {
-    const requestOptions = {
+    const requestParams = {
       indicatorId: Number(indicatorSelected[0]),
       areaCodes: areaCodesToRequest,
       inequalities: [
@@ -69,11 +65,7 @@ export default async function OneIndicatorOneAreaView({
           ? selectedGroupCode
           : undefined,
     };
-
-    indicatorData = await indicatorApi.getHealthDataForAnIndicator(
-      requestOptions,
-      API_CACHE_CONFIG
-    );
+    indicatorData = await getAuthorisedHealthDataForAnIndicator(requestParams);
   } catch (error) {
     console.error('error getting health indicator data for area', error);
     throw new Error('error getting health indicator data for area');

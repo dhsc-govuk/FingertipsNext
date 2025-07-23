@@ -5,10 +5,6 @@ import {
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { chunkArray } from '@/lib/chunkArray';
@@ -17,6 +13,7 @@ import {
   EndPoints,
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
+import { getAuthorisedHealthDataForAnIndicator } from './chartHelpers/getAuthorisedHealthDataForAnIndicator';
 
 export interface HealthDataRequestAreas {
   areaCodes: string[];
@@ -39,7 +36,7 @@ export const getHealthDataForIndicator = async (
     const healthIndicatorDataChunks = await Promise.all(
       combinedRequestAreas.flatMap((requestAreas) => {
         return chunkArray(requestAreas.areaCodes).map((areaCodes) => {
-          const reqOptions = {
+          const requestParams = {
             indicatorId: Number(indicatorId),
             areaCodes: areaCodes,
             areaType: requestAreas.areaType,
@@ -50,13 +47,11 @@ export const getHealthDataForIndicator = async (
           };
           const queryKey = queryKeyFromRequestParams(
             EndPoints.HealthDataForAnIndicator,
-            reqOptions
+            requestParams
           );
 
-          const promiseOfData = indicatorApi.getHealthDataForAnIndicator(
-            reqOptions,
-            API_CACHE_CONFIG
-          );
+          const promiseOfData =
+            getAuthorisedHealthDataForAnIndicator(requestParams);
           if (seedPromises) {
             seedPromises[queryKey] = promiseOfData;
           }
@@ -121,7 +116,6 @@ async function getLatestYearDataForGroupAndEngland(
   }: GetIndicatorDataParam,
   subAreaHealthData: HealthDataForArea[]
 ): Promise<HealthDataForArea[]> {
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const latestYear = getLatestYearFromResponseData(subAreaHealthData);
   const indicatorRequestArray = [];
 
@@ -137,27 +131,21 @@ async function getLatestYearDataForGroupAndEngland(
 
   if (!areasSelected.includes(areaCodeForEngland)) {
     indicatorRequestArray.push(
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          ...defaultApiRequestParams,
-          areaCodes: [areaCodeForEngland],
-          areaType: englandAreaType.key,
-        },
-        API_CACHE_CONFIG
-      )
+      getAuthorisedHealthDataForAnIndicator({
+        ...defaultApiRequestParams,
+        areaCodes: [areaCodeForEngland],
+        areaType: englandAreaType.key,
+      })
     );
   }
 
   if (selectedGroupCode && selectedGroupCode !== areaCodeForEngland) {
     indicatorRequestArray.push(
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          ...defaultApiRequestParams,
-          areaCodes: [selectedGroupCode],
-          areaType: selectedGroupType,
-        },
-        API_CACHE_CONFIG
-      )
+      getAuthorisedHealthDataForAnIndicator({
+        ...defaultApiRequestParams,
+        areaCodes: [selectedGroupCode],
+        areaType: selectedGroupType,
+      })
     );
   }
 
@@ -183,8 +171,6 @@ export async function getIndicatorData(
   benchmarkRefType: BenchmarkReferenceType,
   latestOnly?: boolean
 ) {
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
   let indicatorDataAllAreas: IndicatorWithHealthDataForArea | undefined;
 
   const ancestorCode =
@@ -192,35 +178,31 @@ export async function getIndicatorData(
       ? selectedGroupCode
       : undefined;
 
+  console.log('in getIndicatorData');
+
   const indicatorRequestArray = chunkArray(areasSelected).map(
     (requestAreas) => {
-      return indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicatorSelected[0]),
-          areaCodes: [...requestAreas],
-          areaType: selectedAreaType,
-          latestOnly,
-          benchmarkRefType,
-          ancestorCode,
-        },
-        API_CACHE_CONFIG
-      );
+      return getAuthorisedHealthDataForAnIndicator({
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: [...requestAreas],
+        areaType: selectedAreaType,
+        latestOnly,
+        benchmarkRefType,
+        ancestorCode,
+      });
     }
   );
 
   if (!areasSelected.includes(areaCodeForEngland) && !latestOnly) {
     indicatorRequestArray.push(
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicatorSelected[0]),
-          areaCodes: [areaCodeForEngland],
-          areaType: englandAreaType.key,
-          latestOnly,
-          benchmarkRefType,
-          ancestorCode,
-        },
-        API_CACHE_CONFIG
-      )
+      getAuthorisedHealthDataForAnIndicator({
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: [areaCodeForEngland],
+        areaType: englandAreaType.key,
+        latestOnly,
+        benchmarkRefType,
+        ancestorCode,
+      })
     );
   }
 
@@ -230,17 +212,14 @@ export async function getIndicatorData(
     !latestOnly
   ) {
     indicatorRequestArray.push(
-      indicatorApi.getHealthDataForAnIndicator(
-        {
-          indicatorId: Number(indicatorSelected[0]),
-          areaCodes: [selectedGroupCode],
-          areaType: selectedGroupType,
-          latestOnly,
-          benchmarkRefType,
-          ancestorCode,
-        },
-        API_CACHE_CONFIG
-      )
+      getAuthorisedHealthDataForAnIndicator({
+        indicatorId: Number(indicatorSelected[0]),
+        areaCodes: [selectedGroupCode],
+        areaType: selectedGroupType,
+        latestOnly,
+        benchmarkRefType,
+        ancestorCode,
+      })
     );
   }
 
