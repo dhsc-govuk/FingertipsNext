@@ -54,7 +54,7 @@ public class DataManagementService : IDataManagementService
         _healthDataClient = healthDataClient;
     }
 
-    public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId,
+    public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId, string userId,
         DateTime publishedAt, string originalFileName)
     {
         var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
@@ -69,7 +69,7 @@ public class DataManagementService : IDataManagementService
             await blobClient.UploadAsync(fileStream);
             UploadSuccessfulLog(_logger, null);
 
-            model = await CreateAndInsertBatchDetails(indicatorId, publishedAt, batchId, originalFileName);
+            model = await CreateAndInsertBatchDetails(indicatorId, userId, publishedAt, batchId, originalFileName);
         }
         catch (Exception exception) when (exception is RequestFailedException or AggregateException)
         {
@@ -147,7 +147,7 @@ public class DataManagementService : IDataManagementService
         };
     }
 
-    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, DateTime publishedAt, string batchId,
+    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, string userId, DateTime publishedAt, string batchId,
         string originalFileName)
     {
         var model = new BatchModel
@@ -156,9 +156,9 @@ public class DataManagementService : IDataManagementService
             IndicatorId = indicatorId,
             OriginalFileName = originalFileName,
             PublishedAt = publishedAt.ToUniversalTime(),
-            UserId = Guid.Empty.ToString(), // Can only properly set this when the auth is implemented
+            UserId = userId,
             Status = BatchStatus.Received,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = _timeProvider.GetUtcNow().DateTime
         };
         await _repository.AddBatchAsync(model);
         return _mapper.Map(model);

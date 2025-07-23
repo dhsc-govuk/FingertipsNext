@@ -26,6 +26,7 @@ public class DataManagementServiceTests
     private readonly IHealthDataClient _healthDataClient = Substitute.For<IHealthDataClient>();
     private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
     private readonly IDataManagementMapper _mapper = Substitute.For<IDataManagementMapper>();
+    private readonly DateTime _mockDate;
     private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
     private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
     private IConfiguration _configuration;
@@ -43,10 +44,10 @@ public class DataManagementServiceTests
         _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository,
             _mapper, _healthDataClient);
 
-        var mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
-        _timeProvider.GetUtcNow().Returns(mockDate);
+        _mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
+        _timeProvider.GetUtcNow().Returns(_mockDate);
         _blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
-        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv")
+        _containerClient.GetBlobClient($"{StubIndicatorId}_{_mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv")
             .Returns(_blobClient);
     }
 
@@ -54,26 +55,20 @@ public class DataManagementServiceTests
     public async Task UploadShouldSucceed()
     {
         // Arrange
-        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
+        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
-        var expectedBatch = BatchExamples.Batch with
-        {
-            IndicatorId = StubIndicatorId,
-            CreatedAt = DateTime.UtcNow,
-            Status = BatchStatus.Received,
-            OriginalFileName = "ValidHeadersAndValidDataRows.csv",
-            PublishedAt = publishedAt,
-            UserId = Guid.Empty.ToString()
-        };
+        const string expectedUserId = "user-id";
+        const string expectedOriginalFilename = "ValidHeadersAndValidDataRows.csv";
+        var expectedBatch = BatchExamples.Batch;
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expectedBatch);
 
         // Act
         await using (var stream = File.Open(path, FileMode.Open))
         {
-            result = await _service.UploadFileAsync(stream, StubIndicatorId, publishedAt,
-                "ValidHeadersAndValidDataRows.csv");
+            result = await _service.UploadFileAsync(stream, StubIndicatorId, expectedUserId, publishedAt,
+                expectedOriginalFilename);
         }
 
         // Assert
@@ -81,23 +76,25 @@ public class DataManagementServiceTests
         result.Outcome.ShouldBe(OutcomeType.Ok);
 
         var parameter = _repository.ReceivedCalls().First().GetArguments().First() as BatchModel;
+        parameter.BatchId.ShouldBe($"{StubIndicatorId}_{_mockDate:yyyy-MM-ddTHH:mm:ss.fff}");
         parameter.IndicatorId.ShouldBe(StubIndicatorId);
-        parameter.CreatedAt.Date.ShouldBe(DateTime.Today);
+        parameter.OriginalFileName.ShouldBe(expectedOriginalFilename);
+        parameter.CreatedAt.ShouldBe(_mockDate);
+        parameter.DeletedAt.ShouldBeNull();
         parameter.PublishedAt.ShouldBe(publishedAt);
+        parameter.UserId.ShouldBe(expectedUserId);
+        parameter.DeletedUserId.ShouldBeNull();
+        parameter.Status.ShouldBe(BatchStatus.Received);
 
         var model = result.Model;
-        model.IndicatorId.ShouldBe(StubIndicatorId);
-        model.Status.ShouldBe(BatchStatus.Received);
-        model.OriginalFileName.ShouldBe("ValidHeadersAndValidDataRows.csv");
-        model.UserId.ShouldBe(Guid.Empty.ToString());
-        model.PublishedAt.ShouldBe(publishedAt);
+        model.ShouldBe(expectedBatch);
     }
 
     [Fact]
     public void ValidateCsvShouldFailWhenCsvIsInvalid()
     {
         // Act
-        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndNoDataRows.csv";
+        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndNoDataRows.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
 
@@ -116,7 +113,7 @@ public class DataManagementServiceTests
     public void ValidateCsvShouldSucceedWhenCsvIsValid()
     {
         // Act
-        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
+        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
 
@@ -140,7 +137,7 @@ public class DataManagementServiceTests
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
         // Act
-        var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId, publishedAt, "upload.csv");
+        var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId, "user-id", publishedAt, "upload.csv");
 
         // Assert
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>());
