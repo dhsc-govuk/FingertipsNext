@@ -23,17 +23,16 @@ import { StyledTable } from '@/components/charts/BasicTable/BasicTable.styles';
 
 interface BasicTableProps {
   tableData: BasicTableData[];
-  id?: string;
   title?: string;
 }
 
 export function BasicTable({
   tableData,
-  id = 'basicTable',
   title = 'Overview of selected indicators',
 }: Readonly<BasicTableProps>) {
   const areaName = tableData.at(0)?.areaName;
   const csvData = convertBasicTableToCsvData(tableData);
+  const id = 'basicTable';
   return (
     <div data-testid={`${id}-component`}>
       <ContainerWithOutline>
