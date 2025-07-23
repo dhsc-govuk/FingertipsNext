@@ -94,13 +94,19 @@ public class DataManagementBatchController : ControllerBase
         }
 
         var userRoles = GetRoles(User);
-        var userIndicatorPermissions = await GetIndicatorIdsFromRoles(userRoles);
-        if (userIndicatorPermissions.Length == 0 && !User.IsInRole(_adminRole))
+        var indicatorIds = await GetIndicatorIdsFromRoles(userRoles);
+        if (indicatorIds.Length == 0 && !User.IsInRole(_adminRole))
         {
             return new ForbidResult();
         }
 
-        var result = await _dataManagementService.DeleteBatchAsync(batchId, Guid.Empty, userIndicatorPermissions);
+        // If a user is an admin we ignore any other permissions they may have.
+        if (User.IsInRole(_adminRole))
+        {
+            indicatorIds = [];
+        }
+
+        var result = await _dataManagementService.DeleteBatchAsync(batchId, Guid.Empty, indicatorIds);
 
         var message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();
 

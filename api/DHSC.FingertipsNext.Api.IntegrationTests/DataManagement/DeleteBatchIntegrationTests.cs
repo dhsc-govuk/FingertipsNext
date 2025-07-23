@@ -17,6 +17,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
     // when run in parallel.
     private const int IndicatorId = 92266;
     private const string Indicator92266GroupRoleId = "e3cba68a-0640-4642-bc90-625928a9dce1";
+    private const string Indicator93701GroupRoleId = "09df2bac-1bd0-4897-b2e8-b999d3d366a4";
 
     public DeleteBatchIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
     {
@@ -33,6 +34,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
 
     [Theory]
     [InlineData("92266_2017-06-30T14:22:37.123", AdminRoleGuid)]
+    [InlineData("92266_2017-06-30T14:22:37.123", AdminRoleGuid, Indicator383GroupRoleId)]
     [InlineData("92266_2017-07-01T14:22:37.123", Indicator92266GroupRoleId)]
     [InlineData("92266_2017-07-02T14:22:37.123", Indicator92266GroupRoleId, Indicator383GroupRoleId)]
     public async Task DeleteBatchEndpointShouldReturn200Response(string batchId, params string[] userRoleIds)
@@ -93,15 +95,17 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
 
-    [Fact]
-    public async Task InvalidRoleForBatchShouldBeRejectedByDeleteBatchEndpoint()
+    [Theory]
+    [InlineData(Indicator383GroupRoleId)]
+    [InlineData(Indicator383GroupRoleId, Indicator93701GroupRoleId)]
+    public async Task InvalidRoleForBatchShouldBeRejectedByDeleteBatchEndpoint(params string[] roleIds)
     {
         // Arrange
         var apiClient = Factory.CreateClient();
         const string batchId = "92266_2017-07-03T14:22:37.123";
 
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken([Indicator383GroupRoleId]));
+            Factory.GenerateTestToken(roleIds));
 
         // Act
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
