@@ -62,7 +62,7 @@ const config: PlaywrightTestConfig = {
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'], ignoreHTTPSErrors: true },
+      use: { ...devices['Desktop Safari'] },
     },
   ],
 };
