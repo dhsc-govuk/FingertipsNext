@@ -12,10 +12,10 @@ const twoAreasWithIndicatorData = [
   area2WithIndicatorData,
 ];
 const area1XCategoryKeys = area1WithIndicatorData.healthData.map((point) =>
-  convertDateToNumber(point.datePeriod?.from)
+  convertDateToNumber(point.datePeriod?.to)
 );
 const area2XCategoryKeys = area2WithIndicatorData.healthData.map((point) =>
-  convertDateToNumber(point.datePeriod?.from)
+  convertDateToNumber(point.datePeriod?.to)
 );
 
 const twoAreasXCategoryKeys = [...area1XCategoryKeys, ...area2XCategoryKeys];

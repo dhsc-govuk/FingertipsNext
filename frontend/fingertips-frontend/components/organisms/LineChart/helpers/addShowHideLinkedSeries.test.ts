@@ -9,7 +9,7 @@ describe('addShowHideLinkedSeries', () => {
   let generatedSeriesData: SeriesOptionsType[];
   let setVisibility: Dispatch<SetStateAction<Record<string, boolean>>>;
   const mockXCategoryKeys = mockIndicatorData[0].healthData.map((point) =>
-    convertDateToNumber(point.datePeriod?.from)
+    convertDateToNumber(point.datePeriod?.to)
   );
 
   beforeEach(() => {

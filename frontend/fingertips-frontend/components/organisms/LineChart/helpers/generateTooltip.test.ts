@@ -6,7 +6,7 @@ import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels
 
 describe('generateTooltip', () => {
   const mockXCategoryKeys = mockIndicatorData[0].healthData.map((point) =>
-    convertDateToNumber(point.datePeriod?.from)
+    convertDateToNumber(point.datePeriod?.to)
   );
 
   it('should return a Highcharts.TooltipOptions object', () => {
