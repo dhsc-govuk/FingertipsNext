@@ -14,5 +14,6 @@ public enum OutcomeType
     Ok,
     ServerError,
     ClientError,
+    PermissionDenied,
     NotFound
 }

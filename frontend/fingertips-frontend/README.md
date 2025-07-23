@@ -61,7 +61,7 @@ npm run dev
 
 The fingertips frontend uses a library called [Auth.js](https://authjs.dev) to provide auth integration. This section discusses both [Auth.js environment variables for deployment](https://authjs.dev/getting-started/deployment) and custom environment variables for integrating with the fingertips authentication provider. 
 
-The fingertips frontend requires at bare minimum a local secret set through the environment variable `AUTH_SECRET`. This can either be set manually or by running `npx auth generate` to populate `.env.local` with this variable. For running the development server locally an insecure default is provided in `.env.development`.
+The fingertips frontend requires at bare minimum a local secret set through the environment variable `AUTH_SECRET`. This can either be set manually or by running `npx auth secret` to populate `.env.local` with this variable. For running the development server locally an insecure default is provided in `.env.development`.
 
 For deployed environments this should be a cryptographically secure secret as outlined in the Auth.js docs. For local development any string will suffice.
 ```

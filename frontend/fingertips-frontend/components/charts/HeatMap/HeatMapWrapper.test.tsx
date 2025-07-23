@@ -6,6 +6,7 @@ import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { HeatMapWrapper } from '@/components/charts/HeatMap/HeatMapWrapper';
 import { mockHealthDataForArea_England } from '@/mock/data/mockHealthDataForArea';
+import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 describe('HeatMapWrapper', () => {
   beforeEach(() => {
@@ -47,6 +48,8 @@ describe('HeatMapWrapper', () => {
       />
     );
 
-    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
+    expect(
+      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
+    ).toBeInTheDocument();
   });
 });

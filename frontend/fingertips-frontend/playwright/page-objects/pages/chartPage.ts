@@ -46,7 +46,7 @@ export default class ChartPage extends AreaFilter {
   static readonly inequalitiesLineChartComponent =
     'inequalitiesLineChart-component';
   static readonly thematicMapComponent = 'thematicMap-component';
-  static readonly heatMapComponent = 'heatmapChart-component';
+  static readonly heatMapComponent = 'heatmap-chart-component';
   static readonly barChartEmbeddedTableComponent =
     'barChartEmbeddedTable-component';
   static readonly spineChartTableComponent = 'spineChartTable-component';

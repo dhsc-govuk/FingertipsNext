@@ -5,7 +5,8 @@ import {
   BenchmarkOutcome,
   Frequency,
 } from '@/generated-sources/ft-api-client';
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
+
+import { SegmentInfo } from '@/lib/common-types';
 
 export interface HeatmapIndicatorData {
   rowId: string;
@@ -15,7 +16,7 @@ export interface HeatmapIndicatorData {
   unitLabel: string;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
-  segmentInfo: Record<SegmentationId, string>;
+  segmentInfo: SegmentInfo;
   frequency: Frequency;
 }
 
