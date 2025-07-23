@@ -106,7 +106,7 @@ public class DataManagementBatchController : ControllerBase
             indicatorIds = [];
         }
 
-        var result = await _dataManagementService.DeleteBatchAsync(batchId, Guid.Empty, indicatorIds);
+        var result = await _dataManagementService.DeleteBatchAsync(batchId, Guid.Empty.ToString(), indicatorIds);
 
         var message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();
 

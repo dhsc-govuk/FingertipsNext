@@ -19,6 +19,7 @@ public class DataManagementServiceTests
 {
     private const string ContainerName = "TestContainer";
     private const int StubIndicatorId = 1;
+    private const string UserId = "413e6b6f-a067-4971-bda5-7af790f34465";
     private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
     private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
     private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
@@ -195,7 +196,7 @@ public class DataManagementServiceTests
             }
         };
         _repository.GetBatchesByIdsAsync(indicatorIds).Returns(batchesInDb);
-        _mapper.Map(Arg.Any<BatchModel>()).Returns(x => expectedBatches[0], x => expectedBatches[1]);
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(_ => expectedBatches[0], _ => expectedBatches[1]);
 
         // Act
         var batches = await _service.ListBatches(indicatorIds);
@@ -240,7 +241,7 @@ public class DataManagementServiceTests
         };
         _repository.GetAllBatchesAsync().Returns(batchesInDb);
 
-        _mapper.Map(Arg.Any<BatchModel>()).Returns(x => expectedBatches[0], x => expectedBatches[1]);
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(_ => expectedBatches[0], _ => expectedBatches[1]);
 
         // Act
         var batches = await _service.ListBatches([]);
@@ -271,8 +272,8 @@ public class DataManagementServiceTests
             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
             PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0).AddYears(1),
             DeletedAt = DateTime.UtcNow,
-            DeletedUserId = Guid.Empty,
-            UserId = Guid.Empty,
+            DeletedUserId = UserId,
+            UserId = UserId,
             Status = BatchStatus.Deleted
         };
 
@@ -284,17 +285,17 @@ public class DataManagementServiceTests
             CreatedAt = model.CreatedAt,
             PublishedAt = model.PublishedAt,
             DeletedAt = model.DeletedAt,
-            UserId = model.UserId.ToString(),
-            DeletedUserId = model.DeletedUserId.ToString(),
+            UserId = model.UserId,
+            DeletedUserId = model.DeletedUserId,
             Status = model.Status
         };
 
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(model);
         _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expected);
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty, [model.IndicatorId]);
+        var result = await _service.DeleteBatchAsync("123", UserId, [model.IndicatorId]);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.Ok);
@@ -313,11 +314,11 @@ public class DataManagementServiceTests
         OutcomeType expectedOutcome)
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>())
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>())
             .Throws(new ArgumentException(exceptionMessage));
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);
+        var result = await _service.DeleteBatchAsync("123", UserId, []);
 
         // Assert
         result.Outcome.ShouldBe(expectedOutcome);
@@ -329,10 +330,10 @@ public class DataManagementServiceTests
     public async Task DeleteBatchShouldReturnServerError()
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Throws(new ArgumentNullException());
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Throws(new ArgumentNullException());
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);
+        var result = await _service.DeleteBatchAsync("123", UserId, []);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.ServerError);

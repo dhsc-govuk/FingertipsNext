@@ -8,8 +8,8 @@ CREATE TABLE [DataManagement].[Batch]
     [CreatedAt] [datetime2](7) NOT NULL DEFAULT GETUTCDATE(),  -- The date and time the batch was created
     [DeletedAt] [datetime2](7),  -- The date and time the batch was deleted
     [PublishedAt] [datetime2] NOT NULL,
-    [UserId] [uniqueidentifier] NOT NULL,
-    [DeletedUserId] [uniqueidentifier],
+    [UserId] [nvarchar](50) NOT NULL,
+    [DeletedUserId] [nvarchar](50),
     [Status] [nvarchar](50) NOT NULL
 CONSTRAINT [PK_Batch] PRIMARY KEY CLUSTERED
 (

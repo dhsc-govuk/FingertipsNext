@@ -31,7 +31,7 @@ internal static class BatchExamples
         IndicatorId = IndicatorId,
         Status = BatchStatus,
         OriginalFileName = OriginalFileName,
-        UserId = UserId,
+        UserId = UserId.ToString(),
         CreatedAt = CreatedAt,
         PublishedAt = PublishedAt
     };

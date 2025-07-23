@@ -61,7 +61,7 @@ public class DataManagementService : IDataManagementService
         var batchId = $"{indicatorId}_{_timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
 
         var blobClient = containerClient.GetBlobClient($"{batchId}.csv");
-        Batch? model = null;
+        Batch? model;
 
         try
         {
@@ -110,7 +110,7 @@ public class DataManagementService : IDataManagementService
         return batches.Select(batch => _mapper.Map(batch));
     }
 
-    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified)
+    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, string userId, IList<int> indicatorsThatCanBeModified)
     {
         ArgumentNullException.ThrowIfNull(batchId);
         var errorMessage = "";
@@ -156,7 +156,7 @@ public class DataManagementService : IDataManagementService
             IndicatorId = indicatorId,
             OriginalFileName = originalFileName,
             PublishedAt = publishedAt.ToUniversalTime(),
-            UserId = Guid.Empty, //Can only properly set this when the auth is implemented
+            UserId = Guid.Empty.ToString(), // Can only properly set this when the auth is implemented
             Status = BatchStatus.Received,
             CreatedAt = DateTime.UtcNow
         };
