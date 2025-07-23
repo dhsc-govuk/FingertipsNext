@@ -92,11 +92,7 @@ jobs:
 
   database-build:
     needs: check-changes
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-      needs.check-changes.outputs.search_changed == 'true'
+    if: false
     name: Build Database
     runs-on: ubuntu-latest
     env:
@@ -333,24 +329,7 @@ jobs:
       ]
     environment: development
     runs-on: dev
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-            needs.check-changes.outputs.search_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
+    if: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
