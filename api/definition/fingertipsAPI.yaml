@@ -444,6 +444,8 @@ paths:
           $ref: "#/components/responses/InternalServerError"
   /batches:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - batches
       summary: Get all batches
@@ -459,6 +461,10 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Batch"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
         "500":
           $ref: "#/components/responses/InternalServerError"
     delete:

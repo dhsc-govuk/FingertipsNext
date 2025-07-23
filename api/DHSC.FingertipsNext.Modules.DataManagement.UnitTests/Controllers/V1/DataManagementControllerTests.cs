@@ -7,6 +7,7 @@ using DHSC.FingertipsNext.Modules.DataManagement.Service;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Time.Testing;
 using NSubstitute;
 using Shouldly;
 
@@ -17,26 +18,31 @@ public class DataManagementControllerTests
     private const int StubIndicatorId = 123;
     private const string ValidFileName = "valid.csv";
 
-    private readonly IDataManagementService _dataManagementService;
-    private DataManagementController _controller;
-
     private static readonly string FilePath = Path.Combine("TestData", ValidFileName);
     private static readonly byte[] Bytes = File.ReadAllBytes(FilePath);
     private static readonly MemoryStream Stream = new(Bytes);
+
+    private readonly IDataManagementService _dataManagementService;
+
     private readonly FormFile _formFile = new(Stream, 0, Bytes.Length,
         "file", ValidFileName);
+
+    private readonly DateTime _now = new(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
+    private readonly DataManagementController _controller;
 
     public DataManagementControllerTests()
     {
         _dataManagementService = Substitute.For<IDataManagementService>();
-        _controller = new DataManagementController(_dataManagementService);
+        var fixedTimeProvider = new FakeTimeProvider();
+        fixedTimeProvider.SetUtcNow(_now);
+        _controller = new DataManagementController(_dataManagementService, fixedTimeProvider);
     }
 
     [Fact]
     public async Task PostReturnsExpectedResponseWhenGivenAValidFile()
     {
         // Arrange
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
+        var publishedAt = _now.AddMonths(1);
         var publishedAtFormatted = publishedAt.ToString("o");
         var expectedModel = new Batch
         {
@@ -45,7 +51,7 @@ public class DataManagementControllerTests
             Status = BatchStatus.Received,
             OriginalFileName = ValidFileName,
             UserId = Guid.Empty.ToString(),
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = _now,
             PublishedAt = publishedAt
         };
 
@@ -71,7 +77,7 @@ public class DataManagementControllerTests
     public async Task PostReturnsExpectedErrorResponseWhenGivenAnInvalidFile()
     {
         // Arrange
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
+        var publishedAt = _now.AddMonths(1);
         var publishedAtFormatted = publishedAt.ToString("o");
         _dataManagementService.ValidateCsv(Arg.Any<Stream>()).Returns(["No records found"]);
 
@@ -90,7 +96,7 @@ public class DataManagementControllerTests
     public async Task NullFileReturns400()
     {
         // Arrange
-        var publishedAtFormatted = "2025-01-01T00:00:00.000";
+        const string publishedAtFormatted = "2025-01-01T00:00:00.000";
 
         // Act
         var result = await _controller.UploadHealthData(null, publishedAtFormatted, StubIndicatorId) as BadRequestObjectResult;
@@ -104,7 +110,7 @@ public class DataManagementControllerTests
 
     [Theory]
     [InlineData("1234", "publishedAt is invalid. Must be in the format dd-MM-yyyyTHH:mm:ss.fff")]
-    [InlineData("2025-01-01T00:00:00.000", "publishedAt cannot be in the past")]
+    [InlineData("2024-01-01T00:00:00.000", "publishedAt cannot be in the past")]
     public async Task InvalidDateReturns400(string publishedAt, string expectedErrorMessage)
     {
         // Act
@@ -124,7 +130,7 @@ public class DataManagementControllerTests
         var stream = new MemoryStream(); // no data
         var formFile = new FormFile(stream, 0, 0,
             "file", "empty.csv");
-        var publishedAtFormatted = "2025-01-01T00:00:00.000";
+        const string publishedAtFormatted = "2025-01-01T00:00:00.000";
 
         // Act
         var result = await _controller.UploadHealthData(formFile, publishedAtFormatted, StubIndicatorId) as BadRequestObjectResult;
@@ -142,7 +148,7 @@ public class DataManagementControllerTests
         // Arrange
         const string stubFileNameWithCharsToEncode = "Stub Healthdata Üpload.csv"; // filename with space and non-ASCII for encoding check
         var formFile = new FormFile(Stream, 0, Bytes.Length, "file", stubFileNameWithCharsToEncode);
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
+        var publishedAt = _now.AddMonths(1);
         var publishedAtFormatted = publishedAt.ToString("o");
         var expectedEncoded = HttpUtility.HtmlEncode(stubFileNameWithCharsToEncode);
         _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, expectedEncoded)
@@ -161,7 +167,7 @@ public class DataManagementControllerTests
     public async Task RequestReturns500IfUploadFails()
     {
         // Arrange
-        var publishedAt = DateTime.UtcNow.AddMonths(1);
+        var publishedAt = _now.AddMonths(1);
         var publishedAtFormatted = publishedAt.ToString("o");
         var expectedModel = new Batch
         {
@@ -170,12 +176,12 @@ public class DataManagementControllerTests
             Status = BatchStatus.Received,
             OriginalFileName = ValidFileName,
             UserId = Guid.Empty.ToString(),
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = _now,
             PublishedAt = publishedAt
         };
 
         _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, "valid.csv")
-            .Returns(new UploadHealthDataResponse(OutcomeType.ServerError, expectedModel, new List<string>() { "File upload was unsuccessful." }));
+            .Returns(new UploadHealthDataResponse(OutcomeType.ServerError, expectedModel, new List<string> { "File upload was unsuccessful." }));
 
         // Act
         var response = await _controller.UploadHealthData(_formFile, publishedAtFormatted, StubIndicatorId) as ObjectResult;
