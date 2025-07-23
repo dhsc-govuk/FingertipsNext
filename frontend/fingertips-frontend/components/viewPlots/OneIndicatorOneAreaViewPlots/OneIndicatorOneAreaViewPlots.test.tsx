@@ -253,7 +253,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     );
 
     expect(
-      await screen.findByTestId('singleIndicatorBasicTable-component')
+      await screen.findByTestId('basicTable-component')
     ).toBeInTheDocument();
   });
 
@@ -261,7 +261,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     await testRender(mockSearchState, testHealthData, testMetaData);
 
     expect(
-      await screen.queryByTestId('singleIndicatorBasicTable-component')
+      await screen.queryByTestId('basicTable-component')
     ).not.toBeInTheDocument();
   });
 
