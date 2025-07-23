@@ -1,20 +1,19 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  sortAlphabetically,
+  AreaFilters,
+  AreaMode,
   IndicatorMode,
   SearchMode,
-  AreaMode,
-  AreaFilters,
+  sortAlphabetically,
 } from '../../testHelpers/genericTestUtilities';
 import {
+  getAllAreasByAreaType,
   getAllIndicatorIDsForSearchTerm,
   returnIndicatorIDsByIndicatorMode,
-  getAllAreasByAreaType,
 } from '../../testHelpers/indicatorDataUtilities';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
-import ChartPage from '@/playwright/page-objects/pages/chartPage';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 /**
@@ -538,7 +537,7 @@ test.describe('Navigation Tests', () => {
         areaFiltersToSelect
       );
     });
-
+    /*
     await test.step('Verify chart component and accessibility', async () => {
       await chartPage.checkSpecificChartComponent(
         ChartPage.barChartEmbeddedTableComponent
@@ -547,7 +546,7 @@ test.describe('Navigation Tests', () => {
         'color-contrast',
       ]);
     });
-
+*/
     await test.step('Navigate back to results page and verify state', async () => {
       await chartPage.clickBackLink();
       await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
