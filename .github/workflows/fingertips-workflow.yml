@@ -96,7 +96,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       needs.check-changes.outputs.db_changed == 'true' ||
       needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-      needs.check-changes.outputs.search_changed == 'true'  
+      needs.check-changes.outputs.search_changed == 'true'
     name: Build Database
     runs-on: ubuntu-latest
     env:
