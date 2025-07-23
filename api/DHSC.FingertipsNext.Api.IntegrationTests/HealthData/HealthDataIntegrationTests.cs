@@ -7,14 +7,14 @@ using Shouldly;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.HealthData;
 
-public sealed class HealthDataIntegrationTests : IClassFixture<DataManagementWebApplicationFactory<Program>>
+public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFactoryWithAuth<Program>>
 {
-    private readonly DataManagementWebApplicationFactory<Program> _factory;
+    private readonly WebApplicationFactoryWithAuth<Program> _factory;
     private const int IndicatorId = 41101;
     private const string AdminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
     private const string Indicator90453GroupRoleId = "2259ddee-6473-4296-9b0c-fa87751f5c34";
 
-    public HealthDataIntegrationTests(DataManagementWebApplicationFactory<Program> factory)
+    public HealthDataIntegrationTests(WebApplicationFactoryWithAuth<Program> factory)
     {
         _factory = factory;
         _factory.AdminRoleGuid = AdminRoleGuid;

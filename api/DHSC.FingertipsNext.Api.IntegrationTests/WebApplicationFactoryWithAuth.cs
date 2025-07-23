@@ -9,10 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
+namespace DHSC.FingertipsNext.Api.IntegrationTests;
 
-// TODO: rename and move this as it is now used elsewhere 
-public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> where T : class
+public class WebApplicationFactoryWithAuth<T> : WebApplicationFactory<T> where T : class
 {
     private const string JwtStubIssuer = "TestIssuer";
     private const string JwtStubAudience = "TestAudience";

@@ -13,7 +13,7 @@ namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
 public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
 {
-    public DeleteBatchIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
+    public DeleteBatchIntegrationTests(WebApplicationFactoryWithAuth<Program> factory) : base(factory)
     {
         InitialiseDb(Connection, "delete-batch-setup.sql");
     }
