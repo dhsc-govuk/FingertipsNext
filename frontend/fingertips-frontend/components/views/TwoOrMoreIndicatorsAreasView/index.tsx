@@ -76,12 +76,9 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const seedPromises: SeedDataPromises = {};
 
-  // TODO: DHSCFT-1034
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(
-        indicatorApi,
         indicator,
         areasToRequest,
         benchmarkRefType,
@@ -95,6 +92,7 @@ export default async function TwoOrMoreIndicatorsAreasView({
   const seedData = await seedDataFromPromises(seedPromises);
 
   // load quartiles data and seed if we don't have it already
+  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const quartilesParams = quartilesQueryParams(searchState);
   const quartilesKey = queryKeyFromRequestParams(
     EndPoints.Quartiles,

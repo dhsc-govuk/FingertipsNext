@@ -2,7 +2,6 @@ import {
   BenchmarkReferenceType,
   GetHealthDataForAnIndicatorInequalitiesEnum,
   HealthDataForArea,
-  IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
@@ -22,7 +21,6 @@ export interface HealthDataRequestAreas {
 }
 
 export const getHealthDataForIndicator = async (
-  indicatorApi: IndicatorsApi,
   indicatorId: string | number,
   combinedRequestAreas: HealthDataRequestAreas[],
   benchmarkRefType?: BenchmarkReferenceType,
@@ -49,7 +47,6 @@ export const getHealthDataForIndicator = async (
             EndPoints.HealthDataForAnIndicator,
             requestParams
           );
-
           const promiseOfData =
             getAuthorisedHealthDataForAnIndicator(requestParams);
           if (seedPromises) {

@@ -21,6 +21,7 @@ export async function getAuthorisedHealthDataForAnIndicator(
       API_CACHE_CONFIG
     );
   }
+
   try {
     const indicatorApi =
       await ApiClientFactory.getAuthenticatedIndicatorsApiClient();
@@ -34,7 +35,7 @@ export async function getAuthorisedHealthDataForAnIndicator(
       (error.response.status === 401 || error.response.status === 403)
     ) {
       console.warn(
-        'Auth error getting unpublished healthdata, falling back to published health data endpoint'
+        `Auth error getting unpublished healthdata for ${apiRequestParams.indicatorId}, falling back to published health data endpoint`
       );
       const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
       return await indicatorApi.getHealthDataForAnIndicator(
