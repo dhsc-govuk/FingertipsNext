@@ -1428,7 +1428,7 @@ describe('getFirstYear', () => {
 describe('getLatestPeriod', () => {
   it('should return the latest period as an number for an area', () => {
     expect(getLatestPeriod(mockData[0].healthData)).toBe(
-      convertDateToNumber('2006-01-01')
+      convertDateToNumber('2006-12-31')
     );
   });
 });
@@ -1436,7 +1436,7 @@ describe('getLatestPeriod', () => {
 describe('getFirstPeriod', () => {
   it('should return the first year as an number for an area', () => {
     expect(getFirstPeriod(mockData[0].healthData)).toBe(
-      convertDateToNumber('2004-01-01')
+      convertDateToNumber('2004-12-31')
     );
   });
 });
@@ -1466,7 +1466,7 @@ describe('getFirstYearForAreas', () => {
 describe('getLatestPeriodForAreas', () => {
   it('should return the latest period as an number for a group of areas', () => {
     expect(getLatestPeriodForAreas(mockData)).toBe(
-      convertDateToNumber('2006-01-01')
+      convertDateToNumber('2006-12-31')
     );
   });
 
@@ -1478,7 +1478,7 @@ describe('getLatestPeriodForAreas', () => {
 describe('getFirstPeriodForAreas', () => {
   it('should return the latest year for a group of areas', () => {
     expect(getFirstPeriodForAreas(mockData)).toBe(
-      convertDateToNumber('2004-01-01')
+      convertDateToNumber('2004-12-31')
     );
   });
 

@@ -125,7 +125,7 @@ export function generateStandardLineChartOptions(
 
   const categories: { key: number; value: string }[] =
     filteredSortedEnglandData?.healthData.map((point) => ({
-      key: convertDateToNumber(point.datePeriod?.from),
+      key: convertDateToNumber(point.datePeriod?.to),
       value: formatDatePointLabel(point.datePeriod, frequency, 1),
     })) ?? [];
 
