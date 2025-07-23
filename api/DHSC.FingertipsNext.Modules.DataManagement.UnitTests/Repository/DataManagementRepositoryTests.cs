@@ -31,13 +31,10 @@ public class DataManagementRepositoryTests : IDisposable
         PublishedAt = new DateTime(2028, 2, 29, 12, 00, 00)
     };
 
-    private readonly BatchModel _publishedBatchFor41101 = BatchExamples.BatchModel with
-    {
-        BatchId = "41101_2025-01-01T11:00:00.000",
-        IndicatorId = 41101,
-        CreatedAt = new DateTime(2025, 1, 1, 11, 00, 00),
-        PublishedAt = new DateTime(2025, 1, 1, 12, 00, 00)
-    };
+
+    private readonly DataManagementRepository _dataManagementRepository;
+
+    private readonly DataManagementDbContext _dbContext;
 
     private readonly BatchModel _deletedBatchFor41101 = BatchExamples.BatchModel with
     {
@@ -49,10 +46,13 @@ public class DataManagementRepositoryTests : IDisposable
         Status = BatchStatus.Deleted
     };
 
-
-    private readonly DataManagementRepository _dataManagementRepository;
-
-    private readonly DataManagementDbContext _dbContext;
+    private readonly BatchModel _publishedBatchFor41101 = BatchExamples.BatchModel with
+    {
+        BatchId = "41101_2025-01-01T11:00:00.000",
+        IndicatorId = 41101,
+        CreatedAt = new DateTime(2025, 1, 1, 11, 00, 00),
+        PublishedAt = new DateTime(2025, 1, 1, 12, 00, 00)
+    };
 
     public DataManagementRepositoryTests()
     {
@@ -73,7 +73,10 @@ public class DataManagementRepositoryTests : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing) _dbContext.Dispose();
+        if (disposing)
+        {
+            _dbContext.Dispose();
+        }
     }
 
     [Fact]
@@ -156,7 +159,7 @@ public class DataManagementRepositoryTests : IDisposable
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var success = await _dataManagementRepository.DeleteBatchAsync(_batchFor383.BatchId, Guid.Empty);
+        var success = await _dataManagementRepository.DeleteBatchAsync(_batchFor383.BatchId, Guid.Empty, [383]);
 
         // Assert
         success.ShouldNotBeNull();
@@ -182,7 +185,7 @@ public class DataManagementRepositoryTests : IDisposable
     {
         // Act
         var exception = await Should.ThrowAsync<ArgumentException>(() =>
-            _dataManagementRepository.DeleteBatchAsync("123", Guid.Empty));
+            _dataManagementRepository.DeleteBatchAsync("123", Guid.Empty, [41101]));
 
         // Assert
         exception.Message.ShouldBe("BatchNotFound");
@@ -197,7 +200,7 @@ public class DataManagementRepositoryTests : IDisposable
 
         // Act
         var exception = await Should.ThrowAsync<ArgumentException>(() =>
-            _dataManagementRepository.DeleteBatchAsync(_publishedBatchFor41101.BatchId, Guid.Empty));
+            _dataManagementRepository.DeleteBatchAsync(_publishedBatchFor41101.BatchId, Guid.Empty, [41101]));
 
         // Assert
         exception.Message.ShouldBe("BatchPublished");
@@ -212,9 +215,90 @@ public class DataManagementRepositoryTests : IDisposable
 
         // Act
         var exception = await Should.ThrowAsync<ArgumentException>(() =>
-            _dataManagementRepository.DeleteBatchAsync(_deletedBatchFor41101.BatchId, Guid.Empty));
+            _dataManagementRepository.DeleteBatchAsync(_deletedBatchFor41101.BatchId, Guid.Empty, [41101]));
 
         // Assert
         exception.Message.ShouldBe("BatchDeleted");
+    }
+
+    [Theory]
+    [InlineData(41101)]
+    [InlineData(383, 41101)]
+    public async Task EnsureBatchTheUserHasPermissionsForCanBeDeleted(params int[] indicatorIdsThatCanBeModified)
+    {
+        // Arrange
+        await _dbContext.AddAsync(_batchFor41101);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var response = await _dataManagementRepository.DeleteBatchAsync(_batchFor41101.BatchId, Guid.Empty, indicatorIdsThatCanBeModified);
+
+        // Assert
+        response.ShouldNotBeNull();
+        response.BatchId.ShouldBe(_batchFor41101.BatchId);
+    }
+
+    [Fact]
+    public async Task EnsureAdminCanDeleteAnyBatch()
+    {
+        // Arrange
+        // The administrator is represented by an empty list of permissions.
+        var adminIndicatorsThatCanBeModified = Array.Empty<int>();
+
+        await _dbContext.AddRangeAsync(_batchFor41101, _batchFor383, _batchFor22401);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var responsefor41101 = await _dataManagementRepository.DeleteBatchAsync(_batchFor41101.BatchId, Guid.Empty, adminIndicatorsThatCanBeModified);
+
+        // Assert
+        responsefor41101.ShouldNotBeNull();
+        responsefor41101.BatchId.ShouldBe(_batchFor41101.BatchId);
+
+        // Act
+        var responsefor383 = await _dataManagementRepository.DeleteBatchAsync(_batchFor383.BatchId, Guid.Empty, adminIndicatorsThatCanBeModified);
+
+        // Assert
+        responsefor383.ShouldNotBeNull();
+        responsefor383.BatchId.ShouldBe(_batchFor383.BatchId);
+
+        // Act
+        var responsefor22401 = await _dataManagementRepository.DeleteBatchAsync(_batchFor22401.BatchId, Guid.Empty, adminIndicatorsThatCanBeModified);
+
+        // Assert
+        responsefor22401.ShouldNotBeNull();
+        responsefor22401.BatchId.ShouldBe(_batchFor22401.BatchId);
+    }
+
+
+    [Theory]
+    [InlineData(383)]
+    [InlineData(383, 94532)]
+    public async Task EnsureBatchTheUserDoesNotHavePermissionsForIsNotDeleted(params int[] indicatorIdsThatCanBeModified)
+    {
+        // Arrange
+        await _dbContext.AddAsync(_batchFor41101);
+        await _dbContext.SaveChangesAsync();
+
+        // Act
+        var exception = await Should.ThrowAsync<ArgumentException>(() =>
+            _dataManagementRepository.DeleteBatchAsync(_batchFor41101.BatchId, Guid.Empty, indicatorIdsThatCanBeModified));
+
+        // Assert
+        exception.Message.ShouldBe("PermissionDenied");
+    }
+
+    [Fact]
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullBatchIdIsSpecified()
+    {
+        await _dataManagementRepository.DeleteBatchAsync(null!, Guid.Empty, [])
+            .ShouldThrowAsync(typeof(ArgumentNullException));
+    }
+
+    [Fact]
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullListOfIndicatorsIsSpecified()
+    {
+        await _dataManagementRepository.DeleteBatchAsync("batch-id", Guid.Empty, null!)
+            .ShouldThrowAsync(typeof(ArgumentNullException));
     }
 }
