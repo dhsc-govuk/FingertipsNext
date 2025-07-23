@@ -119,7 +119,7 @@ public class DataManagementBatchController : ControllerBase
             case OutcomeType.ClientError:
                 return new BadRequestObjectResult(new SimpleError { Message = message ?? "Invalid request" });
             case OutcomeType.PermissionDenied:
-                return new StatusCodeResult(StatusCodes.Status403Forbidden);
+                return StatusCode(StatusCodes.Status403Forbidden, message);
             case OutcomeType.ServerError:
             default:
                 return StatusCode(StatusCodes.Status500InternalServerError, message);

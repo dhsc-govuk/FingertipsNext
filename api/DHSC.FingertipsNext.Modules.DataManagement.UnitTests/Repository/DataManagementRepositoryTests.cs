@@ -242,7 +242,6 @@ public class DataManagementRepositoryTests : IDisposable
     public async Task EnsureAdminCanDeleteAnyBatch()
     {
         // Arrange
-
         // The administrator is represented by an empty list of permissions.
         var adminIndicatorsThatCanBeModified = Array.Empty<int>();
 

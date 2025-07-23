@@ -84,14 +84,16 @@ public class DataManagementBatchControllerTests
     public async Task DeleteReturns403ErrorWhenServiceReturnsAPermissionDeniedOutcome()
     {
         // Arrange
-        var response = new UploadHealthDataResponse(OutcomeType.PermissionDenied);
+        const string errorMessage = "Permission denied when deleting batch";
+        var response = new UploadHealthDataResponse(OutcomeType.PermissionDenied, null, [errorMessage]);
         _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IEnumerable<int>>()).Returns(response);
 
         // Act
-        var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as StatusCodeResult;
+        var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as ObjectResult;
 
         // Assert
         result.StatusCode.ShouldBe(StatusCodes.Status403Forbidden);
+        result.Value.ShouldBe(errorMessage);
     }
 
     [Fact]
