@@ -1,6 +1,7 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockAuth } from '@/mock/utils/mockAuth';
 import {
+  BatchesApi,
   IndicatorsApi,
   ResponseError,
 } from '@/generated-sources/ft-api-client';
@@ -9,7 +10,7 @@ import { UTCDateMini } from '@date-fns/utc';
 import { Session } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { mockDeep } from 'vitest-mock-extended';
-import { uploadFile } from './uploadActions';
+import { deleteBatch, uploadFile } from './uploadActions';
 import { getJWT } from '@/lib/auth/getJWT';
 import { Mock } from 'vitest';
 
@@ -27,6 +28,9 @@ vi.mock('@/lib/auth/getJWT', () => {
 const mockGetJWT = getJWT as Mock;
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
+const mockBatchesApi = mockDeep<BatchesApi>();
+ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+ApiClientFactory.getBatchesApiClient = () => mockBatchesApi;
 ApiClientFactory.getAuthenticatedIndicatorsApiClient = () =>
   Promise.resolve(mockIndicatorsApi);
 
@@ -41,6 +45,22 @@ const givenTheApiReturns = ({
     status: expectedStatus,
   });
   mockIndicatorsApi.indicatorsIndicatorIdDataPostRaw.mockResolvedValue({
+    raw: response,
+    value: vi.fn(),
+  });
+};
+
+const givenTheDeleteApiReturns = ({
+  status: expectedStatus,
+  body: expectedBodyText,
+}: {
+  status: number;
+  body: string;
+}) => {
+  const response = new Response(expectedBodyText, {
+    status: expectedStatus,
+  });
+  mockBatchesApi.batchesBatchIdDeleteRaw.mockResolvedValue({
     raw: response,
     value: vi.fn(),
   });
@@ -148,5 +168,59 @@ describe('uploadActions', () => {
     await uploadFile(undefined, formData);
 
     expect(revalidatePath).toHaveBeenCalledWith('/batches');
+  });
+
+  it('should pass the batchId to the API', async () => {
+    const batchId = '12345_2025-01-01T00:00:00.000';
+    await deleteBatch(batchId);
+
+    expect(mockBatchesApi.batchesBatchIdDeleteRaw).toHaveBeenCalledWith({
+      batchId,
+    });
+    expect(revalidatePath).toHaveBeenCalledWith('/batches');
+  });
+
+  it('should return the expected message when the Batch Delete API call succeeds', async () => {
+    const expectedStatus = 200;
+    const expectedBodyText = 'Expected error text';
+    givenTheDeleteApiReturns({
+      status: expectedStatus,
+      body: expectedBodyText,
+    });
+
+    const response = await deleteBatch('123');
+
+    expect(response).toEqual({
+      status: expectedStatus,
+      message: expectedBodyText,
+    });
+  });
+
+  it('should return the expected message when the Batch Delete API call returns an error', async () => {
+    const expectedStatus = 400;
+    const expectedBodyText = 'Expected error text';
+    const rawResponse = new Response(expectedBodyText, {
+      status: expectedStatus,
+    });
+
+    mockBatchesApi.batchesBatchIdDeleteRaw.mockRejectedValue(
+      new ResponseError(rawResponse)
+    );
+    const response = await deleteBatch('123');
+
+    expect(response).toEqual({
+      status: expectedStatus,
+      message: expectedBodyText,
+    });
+  });
+
+  it('should return the expected message if an unknown error occurs when calling the Batch Delete API', async () => {
+    const error = new Error('Something totally unexpected happened!');
+    mockBatchesApi.batchesBatchIdDeleteRaw.mockRejectedValue(error);
+    const response = await deleteBatch('123');
+
+    expect(response).toEqual({
+      message: `An error occurred when calling the API: Error: ${error.message}`,
+    });
   });
 });

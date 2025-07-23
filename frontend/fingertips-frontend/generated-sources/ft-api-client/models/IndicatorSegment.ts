@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { ReportingPeriod } from './ReportingPeriod';
+import {
+    ReportingPeriodFromJSON,
+    ReportingPeriodFromJSONTyped,
+    ReportingPeriodToJSON,
+    ReportingPeriodToJSONTyped,
+} from './ReportingPeriod';
 import type { HealthDataPoint } from './HealthDataPoint';
 import {
     HealthDataPointFromJSON,
@@ -54,6 +61,12 @@ export interface IndicatorSegment {
      */
     sex: SexData;
     /**
+     * 
+     * @type {ReportingPeriod}
+     * @memberof IndicatorSegment
+     */
+    reportingPeriod: ReportingPeriod;
+    /**
      * Indicates if the segment is the aggregate.
      * @type {boolean}
      * @memberof IndicatorSegment
@@ -67,12 +80,15 @@ export interface IndicatorSegment {
     healthData?: Array<HealthDataPoint>;
 }
 
+
+
 /**
  * Check if a given object implements the IndicatorSegment interface.
  */
 export function instanceOfIndicatorSegment(value: object): value is IndicatorSegment {
     if (!('age' in value) || value['age'] === undefined) return false;
     if (!('sex' in value) || value['sex'] === undefined) return false;
+    if (!('reportingPeriod' in value) || value['reportingPeriod'] === undefined) return false;
     return true;
 }
 
@@ -88,6 +104,7 @@ export function IndicatorSegmentFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'age': AgeDataFromJSON(json['age']),
         'sex': SexDataFromJSON(json['sex']),
+        'reportingPeriod': ReportingPeriodFromJSON(json['reportingPeriod']),
         'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'healthData': json['healthData'] == null ? undefined : ((json['healthData'] as Array<any>).map(HealthDataPointFromJSON)),
     };
@@ -106,6 +123,7 @@ export function IndicatorSegmentToJSONTyped(value?: IndicatorSegment | null, ign
         
         'age': AgeDataToJSON(value['age']),
         'sex': SexDataToJSON(value['sex']),
+        'reportingPeriod': ReportingPeriodToJSON(value['reportingPeriod']),
         'isAggregate': value['isAggregate'],
         'healthData': value['healthData'] == null ? undefined : ((value['healthData'] as Array<any>).map(HealthDataPointToJSON)),
     };

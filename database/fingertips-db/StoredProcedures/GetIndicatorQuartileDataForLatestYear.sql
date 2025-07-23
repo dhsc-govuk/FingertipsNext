@@ -120,11 +120,12 @@ HealthData AS (
     hm.IsAgeAggregatedOrSingle,
     fromDate.Date AS FromDate,
     toDate.Date AS ToDate,
-    reportingPeriod.Period AS ReportingPeriod,
+    hm.PeriodKey AS ReportingPeriodKey,
     NTILE(4) OVER(
       PARTITION BY hm.indicatorKey,
       fromDate.Date,
       toDate.Date,
+      hm.PeriodKey,
       hm.AgeKey,
       hm.SexKey
       ORDER BY hm.Value
@@ -140,7 +141,6 @@ HealthData AS (
     JOIN BenchmarkAreas AS ba ON areaDim.Code = ba.AreaCode
     JOIN dbo.DateDimension AS fromDate ON hm.FromDateKey = fromDate.DateKey
     JOIN dbo.DateDimension AS toDate ON hm.ToDateKey = toDate.DateKey
-    JOIN dbo.PeriodDimension AS reportingPeriod ON hm.PeriodKey = reportingPeriod.PeriodKey
   WHERE hm.IsDeprivationAggregatedOrSingle = 1
     AND hm.PublishedAt <= @DateBefore
 ),
@@ -154,7 +154,7 @@ QuartileData AS (
     hd.Year,
     hd.FromDate,
     hd.ToDate,
-    hd.ReportingPeriod,
+    hd.ReportingPeriodKey,
     COUNT(*) QuartileCount,
     MIN(hd.Value) Minimum,
     MAX(
@@ -181,7 +181,7 @@ QuartileData AS (
     hd.IsSexAggregatedOrSingle,
     hd.FromDate,
     hd.ToDate,
-    hd.ReportingPeriod,
+    hd.ReportingPeriodKey,
     hd.Year
 ) --- Now combine data to return
 SELECT rii.IndicatorId AS IndicatorId,
@@ -190,12 +190,12 @@ SELECT rii.IndicatorId AS IndicatorId,
   qd.IsAgeAggregatedOrSingle,
   sexDim.Name AS SexName,
   qd.IsSexAggregatedOrSingle,
+  reportingPeriod.Period AS ReportingPeriod,
   qd.Year AS Year,
   ri.PeriodType,
   ri.CollectionFrequency,
   qd.FromDate,
   qd.ToDate,
-  qd.ReportingPeriod,
   CASE
     WHEN qd.QuartileCount >= 4 THEN qd.Minimum
   END AS Q0Value,
@@ -221,15 +221,20 @@ FROM @RequestedIndicatorIds AS rii
   LEFT JOIN ComparisonAreaValue AS ca ON ca.IndicatorKey = ri.IndicatorKey
   AND ca.SexKey = qd.SexKey
   AND ca.AgeKey = qd.AgeKey
+  AND ca.ReportingPeriodKey = qd.ReportingPeriodKey
   LEFT JOIN ComparisonAncestor AS ancestor ON ancestor.IndicatorKey = ri.IndicatorKey
   AND ancestor.SexKey = qd.SexKey
   AND ancestor.AgeKey = qd.AgeKey
+  AND ancestor.ReportingPeriodKey = qd.ReportingPeriodKey
   LEFT JOIN EnglandValue AS england ON england.IndicatorKey = ri.IndicatorKey
   AND england.SexKey = qd.SexKey
   AND england.AgeKey = qd.AgeKey
+  AND england.ReportingPeriodKey = qd.ReportingPeriodKey
   LEFT JOIN dbo.AgeDimension AS ageDim ON ageDim.AgeKey = qd.AgeKey
   LEFT JOIN dbo.SexDimension AS sexDim ON sexDim.SexKey = qd.SexKey
+  LEFT JOIN dbo.PeriodDimension AS reportingPeriod ON qd.ReportingPeriodKey = reportingPeriod.PeriodKey
 ORDER BY rii.IndicatorId,
   ageDim.Name,
-  sexDim.Name
+  sexDim.Name,
+  reportingPeriod.Period
 END

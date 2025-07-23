@@ -144,11 +144,14 @@ IndicatorSegment:
   required:
     - age
     - sex
+    - reportingPeriod
   properties:
     age:
       $ref: "#/AgeData"
     sex:
       $ref: "#/SexData"
+    reportingPeriod:
+      $ref: "#/ReportingPeriod" 
     isAggregate:
       type: boolean
       description: Indicates if the segment is the aggregate.
@@ -390,6 +393,32 @@ BenchmarkReferenceType:
   description: benchmark reference type
   enum: [England, SubNational]
   x-enum-varnames: [England, SubNational]
+ReportingPeriod:
+  type: string
+  example: yearly
+  description: The time period that a single data point represents.
+  enum:
+    [
+      Monthly,
+      Quarterly,
+      CumulativeQuarterly,
+      Yearly,
+      TwoYearly,
+      ThreeYearly,
+      FiveYearly,
+      Unknown
+    ]
+  x-enum-varnames:
+    [
+      Monthly,
+      Quarterly,
+      CumulativeQuarterly,
+      Yearly,
+      TwoYearly,
+      ThreeYearly,
+      FiveYearly,
+      Unknown
+    ]  
 QuartileData:
   title: Quartile Data
   type: object

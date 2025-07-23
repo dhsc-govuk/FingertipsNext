@@ -438,6 +438,8 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /batches:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - batches
       summary: Get all batches
@@ -453,8 +455,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Batch'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /batches/{batch_id}:
     delete:
       parameters:
         - $ref: '#/components/parameters/batch_id'
@@ -958,6 +965,28 @@ components:
           type: boolean
           example: false
           description: Indicates if the datapoint is an aggregated value for the sex dimension.
+    ReportingPeriod:
+      type: string
+      example: yearly
+      description: The time period that a single data point represents.
+      enum:
+        - Monthly
+        - Quarterly
+        - CumulativeQuarterly
+        - Yearly
+        - TwoYearly
+        - ThreeYearly
+        - FiveYearly
+        - Unknown
+      x-enum-varnames:
+        - Monthly
+        - Quarterly
+        - CumulativeQuarterly
+        - Yearly
+        - TwoYearly
+        - ThreeYearly
+        - FiveYearly
+        - Unknown
     Date:
       type: string
       format: date
@@ -1124,11 +1153,14 @@ components:
       required:
         - age
         - sex
+        - reportingPeriod
       properties:
         age:
           $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
+        reportingPeriod:
+          $ref: '#/components/schemas/ReportingPeriod'
         isAggregate:
           type: boolean
           description: Indicates if the segment is the aggregate.

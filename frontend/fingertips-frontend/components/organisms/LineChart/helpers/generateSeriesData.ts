@@ -26,7 +26,7 @@ function generateSeries(
     name: namePrefix ? `${namePrefix}: ${data.areaName}` : data.areaName,
     data: xCategoryKeys.map((xCategoryKey) => {
       const healthDataPointForYear = data.healthData.find(
-        (point) => convertDateToNumber(point.datePeriod?.from) === xCategoryKey
+        (point) => convertDateToNumber(point.datePeriod?.to) === xCategoryKey
       );
 
       return [healthDataPointForYear?.value ?? null];
@@ -61,7 +61,7 @@ export function generateSeriesData(
         xCategoryKeys.map((xCategoryKey) => {
           const healthDataPointForYear = englandData.healthData.find(
             (point) =>
-              convertDateToNumber(point.datePeriod?.from) === xCategoryKey
+              convertDateToNumber(point.datePeriod?.to) === xCategoryKey
           );
 
           return [
@@ -90,7 +90,7 @@ export function generateSeriesData(
           xCategoryKeys.map((xCategoryKey) => {
             const healthDataPointForYear = item.healthData.find(
               (point) =>
-                convertDateToNumber(point.datePeriod?.from) === xCategoryKey
+                convertDateToNumber(point.datePeriod?.to) === xCategoryKey
             );
 
             return [
