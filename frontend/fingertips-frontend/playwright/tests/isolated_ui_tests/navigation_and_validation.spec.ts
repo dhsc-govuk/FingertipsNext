@@ -28,11 +28,7 @@ const subjectSearchTerm = 'Alzheimer';
 const secondSubjectSearchTerm = 'diabetes';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
-// const areaFiltersToSelect: AreaFilters = {
-//   areaType: 'gps',
-//   groupType: 'nhs-sub-integrated-care-boards',
-//   group: '',
-// };
+
 const password = 'password';
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
@@ -528,52 +524,6 @@ test.describe('Navigation Tests', () => {
       await indicatorPage.clickBackLink();
     });
     return;
-
-    //
-    // await test.step('Apply area filters on chart page', async () => {
-    //   await chartPage.selectAreasFiltersIfRequired(
-    //     searchMode,
-    //     AreaMode.THREE_PLUS_AREAS,
-    //     areaFiltersToSelect
-    //   );
-    // });
-    //
-    // await test.step('Verify chart component and accessibility', async () => {
-    //   await chartPage.checkSpecificChartComponent(
-    //     ChartPage.barChartEmbeddedTableComponent
-    //   );
-    //   await chartPage.expectNoAccessibilityViolations(axeBuilder, [
-    //     'color-contrast',
-    //   ]);
-    // });
-    //
-    // await test.step('Navigate back to results page and verify state', async () => {
-    //   await chartPage.clickBackLink();
-    //   await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-    //   await resultsPage.checkIndicatorCheckboxChecked(
-    //     validIndicatorIDs[0].indicatorID
-    //   );
-    // });
-    //
-    // await test.step('Navigate back to home page and verify state', async () => {
-    //   await resultsPage.clickBackLink();
-    //   await homePage.checkSearchFieldIsPrePopulatedWith(subjectSearchTerm);
-    // });
-    //
-    // await test.step('Clear search field and close area pills', async () => {
-    //   await homePage.clearSearchIndicatorField();
-    //   await homePage.closeAreaFilterPill(0);
-    //   await homePage.closeAreaFilterPill(0);
-    //   await homePage.closeAreaFilterPill(0);
-    // });
-    //
-    // await test.step('Verify validation prevents forward navigation', async () => {
-    //   await homePage.clickHomePageFormSearchButton();
-    //   await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated after clearing search field above
-    //   await homePage.checkSummaryValidation(
-    //     `There is a problemEnter a subject you want to search forEnter an area you want to search for`
-    //   );
-    // });
   });
 });
 
