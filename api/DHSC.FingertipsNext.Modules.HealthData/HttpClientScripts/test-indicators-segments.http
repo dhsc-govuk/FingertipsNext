@@ -350,3 +350,41 @@ GET http://localhost:5144/indicators/108/data?from_date=2020-01-01&to_date=2023-
 
     });
 %}
+
+
+### Check segmentation for monthly data
+GET http://localhost:5144/indicators/93415/data?from_date=2020-01-01&to_date=2020-06-01&area_type=nhs-sub-integrated-care-boards&area_codes=E38000068
+
+> {%
+    client.test("Check segmentation for monthly data", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-01-01", value:5.41418516513265, outcome: "High"},  
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-02-01", value:6.93903670750418, outcome: "Highest"},  
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-03-01", value:7.70635697386774, outcome: "Highest"},  
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-04-01", value:8.4781033712022, outcome: "Highest"},  
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-05-01", value:9.2501233349778, outcome: "Highest"},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegments
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            const healthDataPoint =
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age && segment.reportingPeriod == expected.rp)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from);
+
+            client.assert(healthDataPoint.value === expected.value, `value unexpected for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.rp}:${expected.from}`);
+            client.assert(healthDataPoint.benchmarkComparison.outcome === expected.outcome, `outcome unexpected for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.rp}:${expected.from}:${healthDataPoint.benchmarkComparison.outcome}`);
+
+        })
+    });
+%}
