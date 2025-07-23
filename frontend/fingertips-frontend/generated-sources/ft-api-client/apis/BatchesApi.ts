@@ -25,7 +25,7 @@ import {
     GetAreaHierarchies500ResponseToJSON,
 } from '../models/index';
 
-export interface BatchesDeleteRequest {
+export interface BatchesBatchIdDeleteRequest {
     batchId: string;
 }
 
@@ -44,13 +44,13 @@ export interface BatchesApiInterface {
      * @throws {RequiredError}
      * @memberof BatchesApiInterface
      */
-    batchesDeleteRaw(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>>;
+    batchesBatchIdDeleteRaw(requestParameters: BatchesBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>>;
 
     /**
      * Deletes all unpublished data for the specified indicator and batch.
      * Delete a batch of unpublished data for an indicator
      */
-    batchesDelete(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch>;
+    batchesBatchIdDelete(requestParameters: BatchesBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch>;
 
     /**
      * Get details of all health data upload batches that are for indicators that you have permissions to modify. 
@@ -78,11 +78,11 @@ export class BatchesApi extends runtime.BaseAPI implements BatchesApiInterface {
      * Deletes all unpublished data for the specified indicator and batch.
      * Delete a batch of unpublished data for an indicator
      */
-    async batchesDeleteRaw(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>> {
+    async batchesBatchIdDeleteRaw(requestParameters: BatchesBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>> {
         if (requestParameters['batchId'] == null) {
             throw new runtime.RequiredError(
                 'batchId',
-                'Required parameter "batchId" was null or undefined when calling batchesDelete().'
+                'Required parameter "batchId" was null or undefined when calling batchesBatchIdDelete().'
             );
         }
 
@@ -91,7 +91,7 @@ export class BatchesApi extends runtime.BaseAPI implements BatchesApiInterface {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/batches`.replace(`{${"batch_id"}}`, encodeURIComponent(String(requestParameters['batchId']))),
+            path: `/batches/{batch_id}`.replace(`{${"batch_id"}}`, encodeURIComponent(String(requestParameters['batchId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -104,8 +104,8 @@ export class BatchesApi extends runtime.BaseAPI implements BatchesApiInterface {
      * Deletes all unpublished data for the specified indicator and batch.
      * Delete a batch of unpublished data for an indicator
      */
-    async batchesDelete(requestParameters: BatchesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch> {
-        const response = await this.batchesDeleteRaw(requestParameters, initOverrides);
+    async batchesBatchIdDelete(requestParameters: BatchesBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch> {
+        const response = await this.batchesBatchIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

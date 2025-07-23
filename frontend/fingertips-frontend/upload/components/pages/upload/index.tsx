@@ -1,8 +1,11 @@
 'use client';
 
 import { IndicatorUploadForm } from '@/upload/components/forms/IndicatorUploadForm';
-import { useActionState } from 'react';
-import { uploadFile } from '@/upload/components/forms/IndicatorUploadForm/uploadActions';
+import { useActionState, useState } from 'react';
+import {
+  ApiResponse,
+  uploadFile,
+} from '@/upload/components/forms/IndicatorUploadForm/uploadActions';
 import { ApiResponsePanel } from '@/upload/components/organisms/ApiResponsePanel';
 import {
   InterimWarning,
@@ -17,10 +20,15 @@ type UploadProps = {
 };
 
 export const Upload = ({ batches }: Readonly<UploadProps>) => {
+  const [deleteResponse, setDeleteResponse] = useState<ApiResponse | null>(
+    null
+  );
   const [uploadResponse, uploadFileAction, uploadPending] = useActionState(
     uploadFile,
     undefined
   );
+
+  const response = uploadResponse ?? deleteResponse;
 
   return (
     <>
@@ -31,9 +39,7 @@ export const Upload = ({ batches }: Readonly<UploadProps>) => {
         </InterimWarningText>
       </InterimWarning>
 
-      {uploadResponse ? (
-        <ApiResponsePanel apiResponse={uploadResponse} />
-      ) : null}
+      {response ? <ApiResponsePanel apiResponse={response} /> : null}
 
       <PageHeading>Indicator data portal</PageHeading>
 
@@ -42,7 +48,7 @@ export const Upload = ({ batches }: Readonly<UploadProps>) => {
         uploadPending={uploadPending}
       />
 
-      <BatchListTable batches={batches} />
+      <BatchListTable batches={batches} setDeleteResponse={setDeleteResponse} />
     </>
   );
 };

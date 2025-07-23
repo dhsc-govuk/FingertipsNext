@@ -461,6 +461,7 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /batches/{batch_id}:
     delete:
       parameters:
         - $ref: '#/components/parameters/batch_id'
