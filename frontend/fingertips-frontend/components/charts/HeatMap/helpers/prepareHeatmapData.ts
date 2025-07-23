@@ -1,6 +1,5 @@
 import {
   BenchmarkOutcome,
-  Frequency,
   HealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
