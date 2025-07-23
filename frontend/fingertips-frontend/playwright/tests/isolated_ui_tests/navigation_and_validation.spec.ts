@@ -1,6 +1,5 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  AreaFilters,
   IndicatorMode,
   SearchMode,
   sortAlphabetically,
@@ -29,11 +28,11 @@ const subjectSearchTerm = 'Alzheimer';
 const secondSubjectSearchTerm = 'diabetes';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
-const areaFiltersToSelect: AreaFilters = {
-  areaType: 'gps',
-  groupType: 'nhs-sub-integrated-care-boards',
-  group: '',
-};
+// const areaFiltersToSelect: AreaFilters = {
+//   areaType: 'gps',
+//   groupType: 'nhs-sub-integrated-care-boards',
+//   group: '',
+// };
 const password = 'password';
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
