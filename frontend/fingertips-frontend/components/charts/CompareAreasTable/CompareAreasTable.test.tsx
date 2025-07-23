@@ -51,6 +51,8 @@ describe('CompareAreasTable', () => {
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       polarity: IndicatorPolarity.HighIsGood,
       indicatorMetaData: mockIndicatorDocument(),
+      periodType: 'Calendar',
+      frequency: 'Annually',
     });
 
     render(<CompareAreasTable />);

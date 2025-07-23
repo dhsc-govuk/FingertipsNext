@@ -2,7 +2,7 @@ import { getLatestPeriodWithBenchmarks } from '@/components/charts/CompareAreasT
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
-import { Frequency, PeriodType } from '@/generated-sources/ft-api-client';
+import { PeriodType } from '@/generated-sources/ft-api-client';
 
 const testArea1 = mockHealthDataForArea({
   healthData: mockHealthDataPoints([2021, 2022, 2023, undefined]),
@@ -25,8 +25,8 @@ const groupDataWithNoPoints = mockHealthDataForArea({
 const mockDatePeriod = {
   type: PeriodType.Calendar,
   from: new Date('2023-01-01'),
-    to: new Date('2023-12-31'),
-}
+  to: new Date('2023-12-31'),
+};
 
 describe('getLatestPeriodWithBenchmarks', () => {
   it('should find the first complete year', () => {

@@ -1,9 +1,11 @@
 'use client';
 
 import {
-  BenchmarkComparisonMethod, Frequency,
+  BenchmarkComparisonMethod,
+  Frequency,
   HealthDataForArea,
-  IndicatorPolarity, PeriodType,
+  IndicatorPolarity,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import {
@@ -39,8 +41,12 @@ import { ContainerWithScrolling } from '@/components/atoms/ContainerWithScrollin
 import { ConfidenceLimitsHeader } from '@/components/atoms/ConfidenceLimitsHeader/ConfidenceLimitsHeader';
 import { sortByValueAndAreaName } from '@/lib/healthDataHelpers/sortByValueAndAreaName';
 import { getMaxValue } from '@/lib/healthDataHelpers/getMaxValue';
-import { getLatestYearWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestYearWithBenchmarks';
-import { getPeriodLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { getLatestPeriodWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestPeriodWithBenchmarks';
+import {
+  convertDateToNumber,
+  formatDatePointLabel,
+  getPeriodLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 interface BarChartEmbeddedTableProps {
   healthIndicatorData: HealthDataForArea[];
@@ -69,7 +75,7 @@ export function BarChartEmbeddedTable({
 
   const maxValue = getMaxValue(healthIndicatorData);
 
-  const fullYear = getLatestYearWithBenchmarks(
+  const fullPeriod = getLatestPeriodWithBenchmarks(
     healthIndicatorData,
     englandData,
     groupIndicatorData,
@@ -79,14 +85,16 @@ export function BarChartEmbeddedTable({
   const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData.map(
     (areaData) => {
       const point = areaData?.healthData.find(
-        (point) => point.year === fullYear
+        (point) =>
+          convertDateToNumber(point.datePeriod?.to) ===
+          convertDateToNumber(fullPeriod?.to)
       );
 
       if (!point) {
         return {
           area: areaData.areaName,
           areaCode: areaData.areaCode,
-          year: fullYear,
+          datePeriod: fullPeriod,
         } as BarChartEmbeddedTableRow;
       }
 
@@ -103,10 +111,14 @@ export function BarChartEmbeddedTable({
     sortedTableRows[0].benchmarkComparison?.benchmarkAreaName ?? '';
 
   const englandDataPoint = englandData?.healthData.find(
-    (point) => point.year === fullYear
+    (point) =>
+      convertDateToNumber(point.datePeriod?.to) ===
+      convertDateToNumber(fullPeriod?.to)
   );
   const groupDataPoint = groupIndicatorData?.healthData.find(
-    (point) => point.year === fullYear
+    (point) =>
+      convertDateToNumber(point.datePeriod?.to) ===
+      convertDateToNumber(fullPeriod?.to)
   );
 
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
@@ -139,14 +151,16 @@ export function BarChartEmbeddedTable({
     () =>
       convertBarChartEmbeddedTableToCsv(
         sortedTableRows,
-        fullYear,
+        frequency,
+        fullPeriod,
         indicatorMetadata,
         englandData,
         groupIndicatorData,
         confidenceLimit
       ),
     [
-      fullYear,
+      frequency,
+      fullPeriod,
       sortedTableRows,
       indicatorMetadata,
       englandData,
@@ -155,12 +169,13 @@ export function BarChartEmbeddedTable({
     ]
   );
 
-
   const periodLabel = getPeriodLabel(periodType, frequency);
   const periodLabelText = periodLabel ? `${periodLabel} ` : '';
-  
-  const title = `${indicatorMetadata?.indicatorName}, ${periodLabelText} ${fullYear}`;
 
+  const datePointLabel = formatDatePointLabel(fullPeriod, frequency, 1);
+
+  const title = `${indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
+  
   return (
     <ContainerWithOutline>
       <div data-testid={`${id}-component`} id={id}>

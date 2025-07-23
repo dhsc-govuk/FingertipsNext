@@ -18,10 +18,11 @@ export const getLatestPeriodWithBenchmarks = (
   );
 
   const uniquePeriods = new Set(allPeriods);
-  
 
-  const descendingPeriods = [...uniquePeriods].sort((a, b) => convertDateToNumber(b?.to) - convertDateToNumber(a?.to));
-  
+  const descendingPeriods = [...uniquePeriods].sort(
+    (a, b) => convertDateToNumber(b?.to) - convertDateToNumber(a?.to)
+  );
+
   const benchmarkData =
     benchmarkToUse === areaCodeForEngland ? englandData : groupData;
 
@@ -35,7 +36,11 @@ export const getLatestPeriodWithBenchmarks = (
         return true;
       }
 
-      return areaData.healthData.some((point) => convertDateToNumber(point.datePeriod?.to) === convertDateToNumber(datePeriod?.to));
+      return areaData.healthData.some(
+        (point) =>
+          convertDateToNumber(point.datePeriod?.to) ===
+          convertDateToNumber(datePeriod?.to)
+      );
     });
   });
 };

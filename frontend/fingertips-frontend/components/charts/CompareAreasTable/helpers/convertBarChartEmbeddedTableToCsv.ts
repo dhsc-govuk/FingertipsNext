@@ -2,7 +2,11 @@ import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { BarChartEmbeddedTableRow } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { DatePeriod, Frequency, HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  DatePeriod,
+  Frequency,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const convertBarChartEmbeddedTableToCsv = (
@@ -12,12 +16,12 @@ export const convertBarChartEmbeddedTableToCsv = (
   indicatorMetaData?: IndicatorDocument,
   benchmarkData?: HealthDataForArea,
   groupData?: HealthDataForArea,
-  confidenceLimit?: number,
+  confidenceLimit?: number
 ): CsvData => {
   const { indicatorID, indicatorName, unitLabel } = indicatorMetaData ?? {};
 
   const benchmarkDataPoint = benchmarkData?.healthData.find(
-    ({  datePeriod}) => datePeriod  === period
+    ({ datePeriod }) => datePeriod === period
   );
   const groupDataPoint = groupData?.healthData.find(
     ({ datePeriod }) => datePeriod === period
@@ -64,7 +68,7 @@ export const convertBarChartEmbeddedTableToCsv = (
   ];
 
   const csvData: CsvData = [headers];
-  
+
   extendedTableRows.forEach((row) => {
     const {
       area,

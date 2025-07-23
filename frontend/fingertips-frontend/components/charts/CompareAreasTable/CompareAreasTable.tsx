@@ -20,7 +20,7 @@ export function CompareAreasTable() {
     polarity,
     indicatorMetaData,
     periodType,
-    frequency
+    frequency,
   } = data;
 
   return (

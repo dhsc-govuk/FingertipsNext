@@ -3,7 +3,9 @@ import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { BarChartEmbeddedTableRow } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
-  BenchmarkOutcome, DatePeriod, Frequency,
+  BenchmarkOutcome,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointTrendEnum,
@@ -21,8 +23,8 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     from: new Date('2023-01-01'),
     to: new Date('2023-12-31'),
   };
-  
-  const mockYear = '2023'
+
+  const mockYear = '2023';
 
   const tableRows: BarChartEmbeddedTableRow[] = [
     {
@@ -267,15 +269,19 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       benchmarkData,
       modifiedGroupData
     );
-    
+
     expect(csv).toHaveLength(5);
     expect(csv[2][3]).toBe(tableRows[0].area);
     expect(csv[4][3]).toBe(benchmarkData.areaName);
   });
 
   it('returns only header row when tableRows is empty and no benchmark/group match', () => {
-    const csv = convertBarChartEmbeddedTableToCsv([], Frequency.Annually,
-      mockDatePeriod, indicatorMetaData);
+    const csv = convertBarChartEmbeddedTableToCsv(
+      [],
+      Frequency.Annually,
+      mockDatePeriod,
+      indicatorMetaData
+    );
     expect(csv).toHaveLength(1);
   });
 

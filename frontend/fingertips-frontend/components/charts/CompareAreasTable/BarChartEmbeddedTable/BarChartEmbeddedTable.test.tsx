@@ -4,7 +4,8 @@ import {
   Frequency,
   HealthDataForArea,
   HealthDataPoint,
-  HealthDataPointTrendEnum, PeriodType,
+  HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import {
   allAgesAge,
@@ -28,6 +29,11 @@ describe('BarChartEmbeddedTable', () => {
       healthData: [
         {
           year: 2008,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2008-01-01'),
+            to: new Date('2008-12-31'),
+          },
           count: 222,
           value: 890.305692,
           lowerCi: 441.69151,
@@ -40,6 +46,11 @@ describe('BarChartEmbeddedTable', () => {
         },
         {
           year: 2004,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -57,6 +68,11 @@ describe('BarChartEmbeddedTable', () => {
       healthData: [
         {
           year: 2008,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2008-01-01'),
+            to: new Date('2008-12-31'),
+          },
           count: 777,
           value: 1000,
           lowerCi: 500,
@@ -69,6 +85,11 @@ describe('BarChartEmbeddedTable', () => {
         },
         {
           year: 2004,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 777,
           value: 1000,
           lowerCi: 500,
@@ -86,6 +107,11 @@ describe('BarChartEmbeddedTable', () => {
       healthData: [
         {
           year: 2004,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 157,
           value: 723.090354,
           lowerCi: 441.69151,
@@ -97,6 +123,11 @@ describe('BarChartEmbeddedTable', () => {
         },
         {
           year: 2008,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2008-01-01'),
+            to: new Date('2008-12-31'),
+          },
           count: 256,
           value: 905.145997,
           lowerCi: 441.69151,
@@ -115,7 +146,8 @@ describe('BarChartEmbeddedTable', () => {
     healthData: HealthDataForArea,
     year: number = 2008
   ): HealthDataPoint | undefined {
-    return healthData.healthData.find((hdp) => hdp.year === year);
+    const getHealth = healthData.healthData.find((hdp) => hdp.year === year);
+    return getHealth;
   }
 
   const mockBenchmarkData: HealthDataForArea = {
@@ -124,6 +156,11 @@ describe('BarChartEmbeddedTable', () => {
     healthData: [
       {
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         count: 200,
         value: 904.874,
         lowerCi: undefined,
@@ -135,6 +172,11 @@ describe('BarChartEmbeddedTable', () => {
       },
       {
         year: 2008,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
         count: 500,
         value: 965.9843,
         lowerCi: undefined,
@@ -153,6 +195,11 @@ describe('BarChartEmbeddedTable', () => {
     healthData: [
       {
         year: 2008,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
         count: 777,
         value: 1000,
         lowerCi: 500,
@@ -164,6 +211,11 @@ describe('BarChartEmbeddedTable', () => {
       },
       {
         year: 2004,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         count: 777,
         value: 1000,
         lowerCi: 500,
@@ -191,7 +243,9 @@ describe('BarChartEmbeddedTable', () => {
 
     expect(await screen.findByRole('table')).toBeInTheDocument();
     const headings = screen.getAllByRole('heading');
-    expect(headings[0]).toHaveTextContent('Falls in over 65s, Financial year 2008');
+    expect(headings[0]).toHaveTextContent(
+      'Falls in over 65s, Financial year 2008/09'
+    );
     expect(headings[1]).toHaveTextContent('Compared to England');
     expect(
       await screen.findByTestId('barChartEmbeddedTable-component')
