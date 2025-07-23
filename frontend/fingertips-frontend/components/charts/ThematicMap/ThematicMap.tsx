@@ -124,7 +124,7 @@ export function ThematicMap({
           ))}
           <BenchmarkLegends
             legendsToShow={legendsToShow}
-            title={`Compared to ${healthIndicatorData[0].healthData[0].benchmarkComparison?.benchmarkAreaName}`}
+            title={`Compared to ${healthIndicatorData.at(0)?.healthData.at(0)?.benchmarkComparison?.benchmarkAreaName}`}
             svg
           />
           <HighChartsWrapper

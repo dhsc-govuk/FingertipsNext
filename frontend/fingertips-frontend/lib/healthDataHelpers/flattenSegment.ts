@@ -1,9 +1,10 @@
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { findHealthPointsBySegmentation } from '@/lib/healthDataHelpers/findHealthPointsBySegmentation';
+import { findSegment } from '@/lib/healthDataHelpers/findSegment';
 import { healthDataPointWithoutDeprecatedProps } from '@/lib/healthDataHelpers/withoutDeprecatedProps';
 import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
+import { SegmentInfo } from '@/lib/common-types';
+import { segmentName } from '@/lib/healthDataHelpers/segmentName';
 
 const valueOrBlank = (options: string[], value?: string) => {
   if (!value) return '';
@@ -16,6 +17,7 @@ export const flattenSegment = (
   indicatorWithHealthDataForArea: IndicatorWithHealthDataForArea,
   searchState: SearchStateParams
 ): IndicatorWithHealthDataForArea => {
+  const { name } = indicatorWithHealthDataForArea;
   const segments = segmentValues(indicatorWithHealthDataForArea);
 
   const {
@@ -24,25 +26,37 @@ export const flattenSegment = (
     [SearchParams.SegmentationFrequency]: segFreq = '',
   } = searchState;
 
-  const segmentInfo: Record<SegmentationId, string> = {
+  const segmentInfo: SegmentInfo = {
     sex: valueOrBlank(segments.sex, segSex),
     age: valueOrBlank(segments.age, segAge),
     frequency: valueOrBlank(segments.frequency, segFreq),
   };
 
-  return {
+  let indicatorName = name;
+  const flatIndicator = {
     ...indicatorWithHealthDataForArea,
+    name: indicatorName,
     areaHealthData:
       indicatorWithHealthDataForArea?.areaHealthData?.map((areaHealthData) => {
-        const segmentHealthData = findHealthPointsBySegmentation(
+        const segment = findSegment(
           areaHealthData.indicatorSegments ?? [],
           segmentInfo
-        ).map(healthDataPointWithoutDeprecatedProps);
+        );
+        const segmentHealthData =
+          segment?.healthData?.map(healthDataPointWithoutDeprecatedProps) ?? [];
+
+        if (segment) {
+          indicatorName = `${name} (${segmentName(segment)})`;
+        }
+
         return {
           ...areaHealthData,
-          healthData: [...segmentHealthData],
+          healthData: segmentHealthData,
           indicatorSegments: undefined,
         };
       }) ?? [],
   };
+
+  flatIndicator.name = indicatorName;
+  return flatIndicator;
 };

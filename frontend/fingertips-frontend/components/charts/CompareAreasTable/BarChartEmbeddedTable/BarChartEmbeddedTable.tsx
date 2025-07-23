@@ -42,6 +42,7 @@ import { getMaxValue } from '@/lib/healthDataHelpers/getMaxValue';
 import { getLatestYearWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestYearWithBenchmarks';
 
 interface BarChartEmbeddedTableProps {
+  name?: string;
   healthIndicatorData: HealthDataForArea[];
   benchmarkToUse: string;
   englandData?: HealthDataForArea;
@@ -52,6 +53,7 @@ interface BarChartEmbeddedTableProps {
 }
 
 export function BarChartEmbeddedTable({
+  name,
   healthIndicatorData,
   benchmarkToUse,
   englandData,
@@ -150,7 +152,7 @@ export function BarChartEmbeddedTable({
     ]
   );
 
-  const title = `${indicatorMetadata?.indicatorName}, ${fullYear}`;
+  const title = `${name ?? indicatorMetadata?.indicatorName}, ${fullYear}`;
 
   return (
     <ContainerWithOutline>
