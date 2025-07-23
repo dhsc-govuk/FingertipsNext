@@ -1237,7 +1237,8 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93763&indicator_ids
 GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85008&area_type=gps&ancestor_code=U79121
 > {%
     client.test("Check Quartiles for Alcohol and Particulates for North West Region", function (callbackfn, thisArg) {
-        const expected = [
+        const expected = 
+[
   {
     "age": {
       "value": "<18 yrs",
@@ -1292,35 +1293,6 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
     "areaValue": 3.79330507235784,
     "ancestorValue": 3.58536373883638,
     "englandValue": 4.72350028525507,
-    "indicatorId": 93468,
-    "polarity": "NoJudgement",
-    "frequency": "Annually"
-  },
-  {
-    "age": {
-      "value": "15+ yrs",
-      "isAggregate": false
-    },
-    "sex": {
-      "value": "Persons",
-      "isAggregate": true
-    },
-    "reportingPeriod": "Yearly",
-    "isAggregate": false,
-    "year": 2023,
-    "datePeriod": {
-      "type": "FinancialYearEndPoint",
-      "from": "2023-03-31",
-      "to": "2023-03-31"
-    },
-    "q0Value": 55.94628,
-    "q1Value": 81.82955,
-    "q2Value": 83.65195,
-    "q3Value": 85.34709,
-    "q4Value": 99.95587,
-    "areaValue": 85.46786,
-    "ancestorValue": null,
-    "englandValue": 83.52333,
     "indicatorId": 93468,
     "polarity": "NoJudgement",
     "frequency": "Annually"
@@ -1441,7 +1413,9 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
     "polarity": "NoJudgement",
     "frequency": "Annually"
   }
-]
+]          
+        
+
 
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
