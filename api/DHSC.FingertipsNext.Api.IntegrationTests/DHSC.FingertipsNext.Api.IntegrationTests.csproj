@@ -8,20 +8,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Storage.Blobs" />
+        <PackageReference Include="Azure.Storage.Blobs"/>
         <PackageReference Include="coverlet.collector">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="DotNetEnv" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
-        <PackageReference Include="Shouldly" />
-        <PackageReference Include="xunit" />
+        <PackageReference Include="DotNetEnv"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
+        <PackageReference Include="Microsoft.Data.Sqlite.Core"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+        <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing"/>
+        <PackageReference Include="Shouldly"/>
+        <PackageReference Include="xunit"/>
         <PackageReference Include="xunit.runner.visualstudio">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Using Include="Xunit" />
+        <Using Include="Xunit"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -51,9 +51,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DHSC.FingertipsNext.Api\DHSC.FingertipsNext.Api.csproj" />
-        <ProjectReference
-            Include="..\DHSC.FingertipsNext.Modules.DataManagement.Schemas\DHSC.FingertipsNext.Modules.DataManagement.Schemas.csproj" />
+        <ProjectReference Include="..\DHSC.FingertipsNext.Api\DHSC.FingertipsNext.Api.csproj"/>
+        <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Schemas\DHSC.FingertipsNext.Modules.DataManagement.Schemas.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
