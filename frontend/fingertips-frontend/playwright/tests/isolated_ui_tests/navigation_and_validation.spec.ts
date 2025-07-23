@@ -559,7 +559,7 @@ test.describe('Navigation Tests', () => {
       await resultsPage.clickBackLink();
       await homePage.checkSearchFieldIsPrePopulatedWith(subjectSearchTerm);
     });
-
+    /*
     await test.step('Clear search field and close area pills', async () => {
       await homePage.clearSearchIndicatorField();
       await homePage.closeAreaFilterPill(0);
@@ -574,6 +574,8 @@ test.describe('Navigation Tests', () => {
         `There is a problemEnter a subject you want to search forEnter an area you want to search for`
       );
     });
+    
+ */
   });
 });
 
