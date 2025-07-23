@@ -7,6 +7,8 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Mapper;
 
 public class DenormalisedHealthDataMapperTests
 {
+    private readonly Mappings.HealthDataMapper _healthDataMapper = new();
+
     [Fact]
     public void MapperShouldMapADenormalisedHealthMeasureToAHealthDataPoint()
     {
@@ -36,7 +38,7 @@ public class DenormalisedHealthDataMapperTests
             FromDate = new DateTime(2024, 1, 1),
             ToDate = new DateTime(2024, 12, 31),
             PeriodType = "Calendar",
-            ReportingPeriod = "Yearly",
+            ReportingPeriod = "yearly",
             BenchmarkComparisonIndicatorPolarity = "High is good",
             BenchmarkComparisonAreaCode = "E92000001",
             BenchmarkComparisonAreaName = "England"
@@ -72,11 +74,12 @@ public class DenormalisedHealthDataMapperTests
                 Value = "Male",
                 IsAggregate = true
             },
+            ReportingPeriod = ReportingPeriod.Yearly,
             Trend = "Trend",
             IsAggregate = true,
         };
 
-        var actual = Mappings.HealthDataMapper.Map(denormalisedHealthMeasure);
+        var actual = _healthDataMapper.Map(denormalisedHealthMeasure);
 
         actual.ShouldBeEquivalentTo(expectedHealthData);
     }
@@ -111,7 +114,7 @@ public class DenormalisedHealthDataMapperTests
             FromDate = new DateTime(2024, 1, 1),
             ToDate = new DateTime(2024, 12, 31),
             PeriodType = "Calendar",
-            ReportingPeriod = "Yearly",
+            ReportingPeriod = "yearly",
             BenchmarkComparisonIndicatorPolarity = "High is good",
             BenchmarkComparisonAreaCode = "E92000001",
             BenchmarkComparisonAreaName = "England"
@@ -147,11 +150,12 @@ public class DenormalisedHealthDataMapperTests
                 Value = "Male",
                 IsAggregate = false,
             },
+            ReportingPeriod = ReportingPeriod.Yearly,
             Trend = "Trend",
             IsAggregate = false,
         };
 
-        var actual = Mappings.HealthDataMapper.Map(denormalisedHealthMeasure);
+        var actual = _healthDataMapper.Map(denormalisedHealthMeasure);
 
         actual.ShouldBeEquivalentTo(expectedHealthData);
     }
