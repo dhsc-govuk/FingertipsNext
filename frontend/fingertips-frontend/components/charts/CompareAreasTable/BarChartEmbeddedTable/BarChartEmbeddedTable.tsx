@@ -289,6 +289,7 @@ export function BarChartEmbeddedTable({
                     measurementUnit={measurementUnit}
                     barColor={GovukColours.DarkGrey}
                     showComparisonLabels={showComparisonLabels}
+                    datePoint={datePointLabel}
                   ></SparklineChart>
                 </Table.Cell>
                 <FormatNumberInTableCell
@@ -347,6 +348,7 @@ export function BarChartEmbeddedTable({
                     year={groupDataPoint.year}
                     measurementUnit={measurementUnit}
                     barColor={GovukColours.DarkGrey}
+                    datePoint={datePointLabel}
                   />
                 </Table.Cell>
                 <FormatNumberInTableCell
@@ -366,6 +368,7 @@ export function BarChartEmbeddedTable({
               maxValue={maxValue}
               showConfidenceIntervalsData={showConfidenceIntervalsData}
               polarity={polarity}
+              datePoint={datePointLabel}
             />
           </Table>
         </ContainerWithScrolling>

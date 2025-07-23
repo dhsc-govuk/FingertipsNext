@@ -15,6 +15,7 @@ interface BarChartEmbeddedRowsProps {
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
   measurementUnit?: string;
+  datePoint?: string;
 }
 
 export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
@@ -24,6 +25,7 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
   benchmarkComparisonMethod,
   polarity,
   measurementUnit = '',
+  datePoint
 }) => {
   const { triggerRef, rowsToShow, nRowsToHide } =
     useMoreRowsWhenScrolling<BarChartEmbeddedTableRow>(rows, 50);
@@ -39,6 +41,7 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
           benchmarkComparisonMethod={benchmarkComparisonMethod}
           polarity={polarity}
           measurementUnit={measurementUnit}
+          datePoint={datePoint}
         />
       ))}
       <BarChartEmbeddedPlaceholderRows
