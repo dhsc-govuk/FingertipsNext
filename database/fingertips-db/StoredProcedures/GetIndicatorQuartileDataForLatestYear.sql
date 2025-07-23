@@ -41,71 +41,66 @@ IndicatorSegments AS (
   FROM dbo.HealthMeasure AS hm
     JOIN RequestedIndicators AS ri ON hm.IndicatorKey = ri.IndicatorKey
 ),
---- Find the latest year per indictator segment
-LatestDatePerIndicatorSegment AS (
+--- Find the latest year per indictator
+LatestDatePerIndicator AS (
   SELECT hm.IndicatorKey,
+    MAX(hm.ToDateKey) AS LatestToDateKey
+  FROM indicatorSegments AS indSeg
+    JOIN dbo.HealthMeasure hm ON hm.IndicatorKey = indSeg.IndicatorKey
+  WHERE hm.PublishedAt <= @DateBefore
+  GROUP BY hm.IndicatorKey
+),
+ComparisonAreaValuePerSegment AS (
+  SELECT latestDatePerIndicator.IndicatorKey,
     hm.PeriodKey AS ReportingPeriodKey,
     hm.SexKey,
     hm.AgeKey,
-    MAX(hm.FromDateKey) AS LatestFromDateKey
-  FROM indicatorSegments AS indSeg
-    JOIN dbo.HealthMeasure hm ON hm.IndicatorKey = indSeg.IndicatorKey
-    AND hm.PeriodKey = indSeg.ReportingPeriodKey
-    AND hm.SexKey = indSeg.SexKey
-    AND hm.AgeKey = indSeg.AgeKey
-  WHERE hm.PublishedAt <= @DateBefore
-  GROUP BY hm.IndicatorKey,
-    hm.SexKey,
-    hm.PeriodKey,
-    hm.AgeKey
-),
-ComparisonAreaValue AS (
-  SELECT latestDatePerSegment.IndicatorKey,
-    latestDatePerSegment.ReportingPeriodKey,
-    latestDatePerSegment.SexKey,
-    latestDatePerSegment.AgeKey,
     hm.Value
   FROM dbo.HealthMeasure AS hm
     JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
-    JOIN LatestDatePerIndicatorSegment AS latestDatePerSegment ON latestDatePerSegment.IndicatorKey = hm.IndicatorKey
-    AND latestDatePerSegment.ReportingPeriodKey = hm.PeriodKey
-    AND latestDatePerSegment.LatestFromDateKey = hm.FromDateKey
-    AND latestDatePerSegment.SexKey = hm.SexKey
-    AND latestDatePerSegment.AgeKey = hm.AgeKey
+    JOIN LatestDatePerIndicator AS latestDatePerIndicator 
+    ON latestDatePerIndicator.IndicatorKey = hm.IndicatorKey
+    AND latestDatePerIndicator.LatestToDateKey = hm.ToDateKey
+    JOIN IndicatorSegments AS indSeg ON indSeg.IndicatorKey = hm.IndicatorKey
+    AND indSeg.AgeKey = hm.AgeKey
+    AND indSeg.SexKey = hm.SexKey
+    AND indSeg.ReportingPeriodKey = hm.PeriodKey
   WHERE areaDim.Code = @RequestedArea
     AND hm.IsDeprivationAggregatedOrSingle = 1
     AND hm.PublishedAt <= @DateBefore
 ),
-ComparisonAncestor AS (
-  SELECT latestDatePerSegment.IndicatorKey,
-    latestDatePerSegment.ReportingPeriodKey,
-    latestDatePerSegment.AgeKey,
-    latestDatePerSegment.SexKey,
+ComparisonAncestorPerSegment AS (
+  SELECT latestDatePerIndicator.IndicatorKey,
+    hm.PeriodKey AS ReportingPeriodKey,
+    hm.AgeKey,
+    hm.SexKey,
     hm.Value
   FROM dbo.HealthMeasure AS hm
     JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
-    JOIN LatestDatePerIndicatorSegment AS latestDatePerSegment ON latestDatePerSegment.IndicatorKey = hm.IndicatorKey
-    AND latestDatePerSegment.ReportingPeriodKey = hm.PeriodKey
-    AND latestDatePerSegment.LatestFromDateKey = hm.FromDateKey
-    AND latestDatePerSegment.AgeKey = hm.AgeKey
-    AND latestDatePerSegment.SexKey = hm.SexKey
+    JOIN IndicatorSegments AS indSeg ON indSeg.IndicatorKey = hm.IndicatorKey
+    AND indSeg.AgeKey = hm.AgeKey
+    AND indSeg.SexKey = hm.SexKey
+    AND indSeg.ReportingPeriodKey = hm.PeriodKey
+    JOIN LatestDatePerIndicator AS latestDatePerIndicator ON latestDatePerIndicator.IndicatorKey = hm.IndicatorKey
+    AND latestDatePerIndicator.LatestToDateKey = hm.ToDateKey
   WHERE areaDim.Code = @RequestedAncestorCode
     AND hm.IsDeprivationAggregatedOrSingle = 1
     AND hm.PublishedAt <= @DateBefore
 ),
-EnglandValue AS (
-  SELECT latestDatePerSegment.IndicatorKey,
-    latestDatePerSegment.ReportingPeriodKey,
-    latestDatePerSegment.AgeKey,
-    latestDatePerSegment.SexKey,
+EnglandValuePerSegment AS (
+  SELECT latestDatePerIndicator.IndicatorKey,
+    hm.PeriodKey AS ReportingPeriodKey,
+    hm.AgeKey,
+    hm.SexKey,
     hm.Value
   FROM dbo.HealthMeasure AS hm
     JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
-    JOIN LatestDatePerIndicatorSegment AS latestDatePerSegment ON latestDatePerSegment.IndicatorKey = hm.IndicatorKey
-    AND latestDatePerSegment.ReportingPeriodKey = hm.PeriodKey
-    AND latestDatePerSegment.LatestFromDateKey = hm.FromDateKey
-    AND latestDatePerSegment.AgeKey = hm.AgeKey
-    AND latestDatePerSegment.SexKey = hm.SexKey
+    JOIN IndicatorSegments AS indSeg ON indSeg.IndicatorKey = hm.IndicatorKey
+    AND indSeg.AgeKey = hm.AgeKey
+    AND indSeg.SexKey = hm.SexKey
+    AND indSeg.ReportingPeriodKey = hm.PeriodKey    
+    JOIN LatestDatePerIndicator AS latestDatePerIndicator ON latestDatePerIndicator.IndicatorKey = hm.IndicatorKey
+    AND latestDatePerIndicator.LatestToDateKey = hm.ToDateKey
   WHERE areaDim.Code = 'E92000001'
     AND hm.IsDeprivationAggregatedOrSingle = 1
     AND hm.PublishedAt <= @DateBefore
@@ -132,11 +127,12 @@ HealthData AS (
     ) AS Quartile,
     hm.Value
   FROM dbo.HealthMeasure AS hm
-    JOIN LatestDatePerIndicatorSegment AS indSeg ON hm.IndicatorKey = indSeg.IndicatorKey
-    AND hm.PeriodKey = indSeg.ReportingPeriodKey
-    AND hm.FromDateKey = indSeg.LatestFromDateKey
-    AND hm.AgeKey = indSeg.AgeKey
-    AND hm.SexKey = indSeg.SexKey
+    JOIN IndicatorSegments AS indSeg ON indSeg.IndicatorKey = hm.IndicatorKey
+    AND indSeg.AgeKey = hm.AgeKey
+    AND indSeg.SexKey = hm.SexKey
+    AND indSeg.ReportingPeriodKey = hm.PeriodKey
+    JOIN LatestDatePerIndicator  AS latestDate ON latestDate.IndicatorKey = hm.IndicatorKey
+    AND hm.ToDateKey = latestDate.LatestToDateKey
     JOIN dbo.AreaDimension AS areaDim ON hm.AreaKey = areaDim.AreaKey
     JOIN BenchmarkAreas AS ba ON areaDim.Code = ba.AreaCode
     JOIN dbo.DateDimension AS fromDate ON hm.FromDateKey = fromDate.DateKey
@@ -218,15 +214,15 @@ SELECT rii.IndicatorId AS IndicatorId,
 FROM @RequestedIndicatorIds AS rii
   LEFT JOIN RequestedIndicators AS ri ON rii.IndicatorId = ri.IndicatorId
   LEFT JOIN QuartileData AS qd ON qd.IndicatorKey = ri.IndicatorKey
-  LEFT JOIN ComparisonAreaValue AS ca ON ca.IndicatorKey = ri.IndicatorKey
+  LEFT JOIN ComparisonAreaValuePerSegment AS ca ON ca.IndicatorKey = ri.IndicatorKey
   AND ca.SexKey = qd.SexKey
   AND ca.AgeKey = qd.AgeKey
   AND ca.ReportingPeriodKey = qd.ReportingPeriodKey
-  LEFT JOIN ComparisonAncestor AS ancestor ON ancestor.IndicatorKey = ri.IndicatorKey
+  LEFT JOIN ComparisonAncestorPerSegment AS ancestor ON ancestor.IndicatorKey = ri.IndicatorKey
   AND ancestor.SexKey = qd.SexKey
   AND ancestor.AgeKey = qd.AgeKey
   AND ancestor.ReportingPeriodKey = qd.ReportingPeriodKey
-  LEFT JOIN EnglandValue AS england ON england.IndicatorKey = ri.IndicatorKey
+  LEFT JOIN EnglandValuePerSegment AS england ON england.IndicatorKey = ri.IndicatorKey
   AND england.SexKey = qd.SexKey
   AND england.AgeKey = qd.AgeKey
   AND england.ReportingPeriodKey = qd.ReportingPeriodKey
