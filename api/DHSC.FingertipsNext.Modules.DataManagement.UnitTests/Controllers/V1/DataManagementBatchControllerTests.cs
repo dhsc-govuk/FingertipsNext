@@ -31,6 +31,8 @@ public class DataManagementBatchControllerTests
 
         // Mock the user and their permissions.
         var mockUser = Substitute.For<ClaimsPrincipal>();
+        mockUser.FindFirst(ClaimTypes.NameIdentifier)
+            .Returns(new Claim(ClaimTypes.NameIdentifier, "user-id"));
         var mockHttpContext = Substitute.For<HttpContext>();
         mockHttpContext.User = mockUser;
         var mockControllerContext = Substitute.For<ControllerContext>();

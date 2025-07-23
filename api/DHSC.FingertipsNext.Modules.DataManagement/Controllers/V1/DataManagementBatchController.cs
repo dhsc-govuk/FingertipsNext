@@ -45,6 +45,11 @@ public class DataManagementBatchController : ControllerBase
         return userRoles;
     }
 
+    private static string? GetUserId(ClaimsPrincipal user)
+    {
+        return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    }
+
     private async Task<int[]> GetIndicatorIdsFromRoles(IEnumerable<Guid> roles)
     {
         var userIndicatorPermissions = await _indicatorPermissionsLookupService.GetIndicatorsForRoles(roles);
@@ -106,7 +111,13 @@ public class DataManagementBatchController : ControllerBase
             indicatorIds = [];
         }
 
-        var result = await _dataManagementService.DeleteBatchAsync(batchId, Guid.Empty.ToString(), indicatorIds);
+        var userId = GetUserId(User);
+        if (userId == null)
+        {
+            return new ForbidResult();
+        }
+
+        var result = await _dataManagementService.DeleteBatchAsync(batchId, userId, indicatorIds);
 
         var message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();
 

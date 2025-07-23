@@ -57,6 +57,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         var batch = await response.Content.ReadFromJsonAsync(typeof(Batch)) as Batch;
         batch.BatchId.ShouldBe(batchId);
         batch.DeletedAt.ShouldNotBeNull();
+        batch.DeletedUserId.ShouldBe(Factory.SubClaim);
         batch.Status.ShouldBe(BatchStatus.Deleted);
         batch.IndicatorId.ShouldBe(IndicatorId);
 
@@ -114,6 +115,23 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
 
+    [Fact]
+    public async Task ATokenWithoutASubClaimShouldBeRejectedByDeleteBatchEndpoint()
+    {
+        // Arrange
+        var apiClient = Factory.CreateClient();
+        const string batchId = "92266_2017-07-03T14:22:37.123";
+        const bool includeSubClaimInToken = false;
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            Factory.GenerateTestToken([Indicator92266GroupRoleId], false, includeSubClaimInToken));
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
 
     [Fact]
     public async Task DeleteBatchEndpointShouldReturn404ResponseWhenBatchDoesNotExist()
