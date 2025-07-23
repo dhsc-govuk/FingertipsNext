@@ -26,7 +26,6 @@ import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
 import { auth } from '@/lib/auth';
-import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
 import { getIndicatorHealthQueryKeyAndSeedData } from '@/lib/getIndicatorHealthQueryKeyAndSeedData';
 import { getQuartilesSeed } from '@/lib/getQuartilesSeed';
