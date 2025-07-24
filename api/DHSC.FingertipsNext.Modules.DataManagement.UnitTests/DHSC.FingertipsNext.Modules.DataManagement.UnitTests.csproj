@@ -24,54 +24,60 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Repository\DHSC.FingertipsNext.Modules.DataManagement.Repository.csproj" />
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Service\DHSC.FingertipsNext.Modules.DataManagement.Service.csproj" />
-      <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement\DHSC.FingertipsNext.Modules.DataManagement.csproj" />
+        <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Repository\DHSC.FingertipsNext.Modules.DataManagement.Repository.csproj"/>
+        <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement.Service\DHSC.FingertipsNext.Modules.DataManagement.Service.csproj"/>
+        <ProjectReference Include="..\DHSC.FingertipsNext.Modules.DataManagement\DHSC.FingertipsNext.Modules.DataManagement.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="TestData\invalid.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\valid.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\SwitchedHeadersAndValidDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="TestData\invalid.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\valid.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\SwitchedHeadersAndValidDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\valid2.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\ValidHeadersAndValidDataRows2.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Services\Validation\CSVs\InvalidHeadersAndInvalidDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\ValidHeadersAndValidDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\ValidHeadersInvalidDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\NoHeadersAndValidDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\ValidHeadersAndNoDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\Empty.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\MostlyValidHeadersAndValidDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\DuplicateHeadersAndValidDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\ExtraHeadersAndValidDataRows.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Services\Validation\CSVs\ValidHeadersAndValidDataRowsWithEmptyLines.csv">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="Services\Validation\CSVs\InvalidHeadersAndInvalidDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\ValidHeadersAndValidDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\ValidHeadersInvalidDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\NoHeadersAndValidDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\ValidHeadersAndNoDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\Empty.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\MostlyValidHeadersAndValidDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\DuplicateHeadersAndValidDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\ExtraHeadersAndValidDataRows.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="Services\Validation\CSVs\ValidHeadersAndValidDataRowsWithEmptyLines.csv">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

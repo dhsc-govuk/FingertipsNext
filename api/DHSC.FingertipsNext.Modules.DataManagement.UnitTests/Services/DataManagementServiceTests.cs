@@ -54,7 +54,7 @@ public class DataManagementServiceTests
     public async Task UploadShouldSucceed()
     {
         // Arrange
-        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
+        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows2.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
@@ -63,7 +63,7 @@ public class DataManagementServiceTests
             IndicatorId = StubIndicatorId,
             CreatedAt = DateTime.UtcNow,
             Status = BatchStatus.Received,
-            OriginalFileName = "ValidHeadersAndValidDataRows.csv",
+            OriginalFileName = "ValidHeadersAndValidDataRows2.csv",
             PublishedAt = publishedAt,
             UserId = Guid.Empty.ToString()
         };
@@ -73,7 +73,7 @@ public class DataManagementServiceTests
         await using (var stream = File.Open(path, FileMode.Open))
         {
             result = await _service.UploadFileAsync(stream, StubIndicatorId, publishedAt,
-                "ValidHeadersAndValidDataRows.csv", Guid.Empty);
+                "ValidHeadersAndValidDataRows2.csv", Guid.Empty);
         }
 
         // Assert
@@ -88,7 +88,7 @@ public class DataManagementServiceTests
         var model = result.Model;
         model.IndicatorId.ShouldBe(StubIndicatorId);
         model.Status.ShouldBe(BatchStatus.Received);
-        model.OriginalFileName.ShouldBe("ValidHeadersAndValidDataRows.csv");
+        model.OriginalFileName.ShouldBe("ValidHeadersAndValidDataRows2.csv");
         model.UserId.ShouldBe(Guid.Empty.ToString());
         model.PublishedAt.ShouldBe(publishedAt);
 
@@ -121,7 +121,7 @@ public class DataManagementServiceTests
     public void ValidateCsvShouldSucceedWhenCsvIsValid()
     {
         // Act
-        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
+        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows2.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
 
