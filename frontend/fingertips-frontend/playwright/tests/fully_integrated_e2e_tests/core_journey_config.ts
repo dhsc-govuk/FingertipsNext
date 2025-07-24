@@ -286,6 +286,9 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'england',
       group: 'england',
     },
+    signInAsUserToCheckUnpublishedData: {
+      userWithoutIndicatorPermissions: true,
+    }, // this journey will check we do not show the unpublished data as we are signed in as a user without indicator permissions
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
@@ -312,6 +315,7 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'england',
       group: 'england',
     },
+    signInAsUserToCheckUnpublishedData: { administrator: true }, // this journey will check we show the unpublished data as we are signed in as an administrator
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
