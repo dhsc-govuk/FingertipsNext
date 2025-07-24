@@ -27,9 +27,9 @@ import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
-import { Mock, MockedFunction } from 'vitest';
-import { auth } from '@/lib/auth';
 import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams';
+import { mockSession } from '@/mock/utils/mockAuth';
+import { MockedFunction } from 'vitest';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -220,9 +220,7 @@ describe('Chart Page', () => {
     });
 
     it('should seed with unpublished data if there is a session', async () => {
-      (auth as Mock).mockImplementation(
-        vi.fn().mockResolvedValue({ expires: 'some string' })
-      );
+      mockAuth.mockResolvedValue(mockSession());
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',

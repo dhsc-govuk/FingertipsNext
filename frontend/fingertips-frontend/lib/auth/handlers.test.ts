@@ -3,11 +3,11 @@ import { mockAuth, mockSignIn, mockSignOut } from '@/mock/utils/mockAuth';
 //
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
 import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
-import { Session } from 'next-auth';
 import {
   FTA_PROVIDER_ID,
   MOCK_PASSWORD_PROVIDER_ID,
 } from '@/lib/auth/providers';
+import { mockSession } from '@/mock/utils/mockAuth';
 
 vi.mock('@/lib/auth/config');
 const mockGetProviders = vi.fn();
@@ -41,18 +41,10 @@ describe('sign in handler', () => {
   });
 });
 
-const sessionWithMockPasswordProvider: Session = {
-  expires: 'some time',
-  provider: MOCK_PASSWORD_PROVIDER_ID,
-};
-
-const sessionWithFTAProvider: Session = {
-  expires: 'some time',
-  provider: FTA_PROVIDER_ID,
-};
-
 describe('sign out handler', () => {
-  mockAuth.mockResolvedValue(sessionWithMockPasswordProvider);
+  mockAuth.mockResolvedValue(
+    mockSession({ provider: MOCK_PASSWORD_PROVIDER_ID })
+  );
   it('should call sign out with no redirect if session provider is not set to fta provider', async () => {
     await signOutHandler('some redirect');
 
@@ -60,7 +52,7 @@ describe('sign out handler', () => {
   });
 
   it('should call sign out with redirect if session provider is set to fta provider', async () => {
-    mockAuth.mockResolvedValue(sessionWithFTAProvider);
+    mockAuth.mockResolvedValue(mockSession({ provider: FTA_PROVIDER_ID }));
     const expectedEndSession = 'https://end-session-base-url.bar';
 
     vi.stubEnv('AUTH_LOGOUT', expectedEndSession);
@@ -71,19 +63,4 @@ describe('sign out handler', () => {
       redirectTo: '/auth/signout/some%20redirect',
     });
   });
-
-  // it('should populate redirect uri with redirect if provided to handler', async () => {
-  //   mockAuth.mockResolvedValue(sessionWithFTAProvider);
-  //   const expectedEndSession = 'https://end-session-base-url.bar';
-  //   const expectedRedirect = 'charts/some?query=string%and=123';
-
-  //   vi.stubEnv('AUTH_LOGOUT', expectedEndSession);
-
-  //   await signOutHandler(expectedRedirect);
-
-  //   expect(mockSignOut).not.toHaveBeenCalled();
-  //   expect(mockRedirect).toHaveBeenCalledWith(
-  //     'https://end-session-base-url.bar?post_logout_redirect_uri=http://fingertips-url.foo/signout/charts/some?query=string%and=123'
-  //   );
-  // });
 });

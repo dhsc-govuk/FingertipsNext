@@ -13,6 +13,7 @@ import {
   EndPoints,
   queryKeyFromRequestParams,
 } from '../helpers/queryKeyFromRequestParams';
+import { mockSession } from '@/mock/utils/mockAuth';
 
 describe('useApiGetHealthDataForAnIndicator', () => {
   afterEach(() => {
@@ -70,9 +71,7 @@ describe('useApiGetHealthDataForAnIndicator', () => {
     const queryClient = new QueryClient();
     // act
     renderHook(() => useApiGetHealthDataForAnIndicator(params), {
-      wrapper: testRenderWrapper({}, queryClient, {
-        expires: 'some string',
-      }),
+      wrapper: testRenderWrapper({}, queryClient, mockSession()),
     });
 
     // assert
