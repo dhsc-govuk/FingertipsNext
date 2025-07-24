@@ -170,12 +170,12 @@ export function BarChartEmbeddedTable({
       confidenceLimit,
     ]
   );
-  
+
   const periodLabel = getPeriodLabel(periodType, frequency);
   const periodLabelText = periodLabel ? `${periodLabel} ` : '';
 
   const datePointLabel = formatDatePointLabel(fullPeriod, frequency, 1);
-  
+
   const title = `${name ?? indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
 
   return (
