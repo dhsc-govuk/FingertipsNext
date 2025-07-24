@@ -24,6 +24,7 @@ export * from './IndicatorSummary';
 export * from './IndicatorWithHealthDataForArea';
 export * from './PeriodType';
 export * from './QuartileData';
+export * from './ReportingPeriod';
 export * from './RootArea';
 export * from './SexData';
 export * from './UserInfoType';

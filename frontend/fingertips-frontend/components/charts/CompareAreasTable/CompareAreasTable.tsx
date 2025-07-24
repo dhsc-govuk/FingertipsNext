@@ -21,6 +21,7 @@ export function CompareAreasTable() {
     indicatorMetaData,
     periodType,
     frequency,
+    name = '',
   } = data;
 
   return (
@@ -30,6 +31,7 @@ export function CompareAreasTable() {
       </H3>
       <BarChartEmbeddedTable
         key={`barchart-${benchmarkToUse}`}
+        name={name}
         data-testid="barChartEmbeddedTable-component"
         healthIndicatorData={healthIndicatorData}
         englandData={englandData}

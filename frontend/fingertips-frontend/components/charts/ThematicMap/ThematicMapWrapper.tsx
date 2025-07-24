@@ -18,6 +18,7 @@ export function ThematicMapWrapper() {
   if (!data) return null;
 
   const {
+    name,
     englandData,
     groupData,
     indicatorMetaData,
@@ -42,6 +43,7 @@ export function ThematicMapWrapper() {
   return (
     <StyleChartWrapper>
       <ThematicMap
+        name={name}
         selectedAreaType={selectedAreaType}
         healthIndicatorData={healthIndicatorData}
         benchmarkComparisonMethod={

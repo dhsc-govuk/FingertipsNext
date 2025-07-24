@@ -3,7 +3,7 @@ import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { Upload } from '@/upload/components/pages/upload';
 
 export default async function UploadPage() {
-  const batchApi = ApiClientFactory.getBatchesApiClient();
+  const batchApi = await ApiClientFactory.getAuthenticatedBatchesApiClient();
 
   let batches: Batch[] = [];
   try {

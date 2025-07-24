@@ -28,6 +28,7 @@ export const useCompareAreasTableData = () => {
 
     return {
       indicatorMetaData,
+      name: segmentedData.name,
       ...compareAreasTableData(
         segmentedData,
         selectedGroupCode,

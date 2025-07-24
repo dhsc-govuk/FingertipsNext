@@ -29,6 +29,7 @@ models/IndicatorSummary.ts
 models/IndicatorWithHealthDataForArea.ts
 models/PeriodType.ts
 models/QuartileData.ts
+models/ReportingPeriod.ts
 models/RootArea.ts
 models/SexData.ts
 models/UserInfoType.ts

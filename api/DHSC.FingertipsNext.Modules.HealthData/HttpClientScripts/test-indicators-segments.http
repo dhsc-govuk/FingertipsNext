@@ -306,3 +306,85 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
     });
 %}
 
+### Check expected segments and data points for reporting period
+GET http://localhost:5144/indicators/108/data?from_date=2020-01-01&to_date=2023-01-01&area_codes=E08000029
+
+> {%
+    client.test("Check expected segments and data points", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Female", from:"2020-01-01", value:255.15744, outcome: "Similar"},  
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Female", from:"2021-01-01", value:249.5961, outcome: "Better"},  
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Female", from:"2022-01-01", value:245.01604, outcome: "Similar"},  
+            {areaCode:"E08000029", rp:"ThreeYearly", age:"<75 yrs", sex:"Female", from:"2020-01-01", value:250.01884, outcome: "Better"},  
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Male", from:"2020-01-01", value:398.9506, outcome: "Better"},  
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Male", from:"2021-01-01", value:399.51131, outcome: "Better"},  
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Male", from:"2022-01-01", value:383.66155, outcome: "Similar"},  
+            {areaCode:"E08000029", rp:"ThreeYearly", age:"<75 yrs", sex:"Male", from:"2020-01-01", value:394.2362, outcome: "Better"},  
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Persons", from:"2020-01-01", value:324.43554, outcome: "Better"},  
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Persons", from:"2021-01-01", value:321.88723, outcome: "Better"},  
+            {areaCode:"E08000029", rp:"Yearly", age:"<75 yrs", sex:"Persons", from:"2022-01-01", value:311.57641, outcome: "Better"},  
+            {areaCode:"E08000029", rp:"ThreeYearly", age:"<75 yrs", sex:"Persons", from:"2020-01-01", value:319.46553, outcome: "Better"},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegments
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            const healthDataPoint =
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age && segment.reportingPeriod == expected.rp)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from);
+
+            client.assert(healthDataPoint.value === expected.value, `value unexpected for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.rp}:${expected.from}`);
+            client.assert(healthDataPoint.benchmarkComparison.outcome === expected.outcome, `outcome unexpected for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.rp}:${expected.from}:${healthDataPoint.benchmarkComparison.outcome}`);
+
+        })
+
+    });
+%}
+
+
+### Check segmentation for monthly data
+GET http://localhost:5144/indicators/93415/data?from_date=2020-01-01&to_date=2020-06-01&area_type=nhs-sub-integrated-care-boards&area_codes=E38000068
+
+> {%
+    client.test("Check segmentation for monthly data", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        const expectedResults = [ 
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-01-01", value:5.41418516513265, outcome: "High"},  
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-02-01", value:6.93903670750418, outcome: "Highest"},  
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-03-01", value:7.70635697386774, outcome: "Highest"},  
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-04-01", value:8.4781033712022, outcome: "Highest"},  
+            {areaCode:"E38000068", rp:"Monthly", age:"2+ yrs", sex:"Persons", from:"2020-05-01", value:9.2501233349778, outcome: "Highest"},  
+        ];
+
+        var numHealthDataPoints = response.body.areaHealthData
+            .map(area => area.indicatorSegments
+            .map(segment => segment.healthData.length)
+            .reduce((sum, count) => sum + count, 0)
+            )
+            .reduce((total, count) => total + count, 0);
+
+        client.assert(numHealthDataPoints == expectedResults.length, `Expected ${expectedResults.length} dataPoints, got ${numHealthDataPoints}`)
+
+        expectedResults.forEach(expected =>{
+            const healthDataPoint =
+                response.body.areaHealthData.find(area => area.areaCode === expected.areaCode)
+                .indicatorSegments.find(segment => segment.sex.value == expected.sex && segment.age.value == expected.age && segment.reportingPeriod == expected.rp)
+                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from);
+
+            client.assert(healthDataPoint.value === expected.value, `value unexpected for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.rp}:${expected.from}`);
+            client.assert(healthDataPoint.benchmarkComparison.outcome === expected.outcome, `outcome unexpected for ${expected.areaCode}:${expected.age}:${expected.sex}:${expected.rp}:${expected.from}:${healthDataPoint.benchmarkComparison.outcome}`);
+
+        })
+    });
+%}

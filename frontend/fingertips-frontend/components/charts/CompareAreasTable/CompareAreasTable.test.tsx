@@ -43,6 +43,7 @@ describe('CompareAreasTable', () => {
 
   it('renders the table when data is returned from hook', () => {
     mockUseCompareAreasTableData.mockReturnValue({
+      name: 'Indicator',
       benchmarkToUse: 'national',
       healthIndicatorData: [mockHealthDataForArea()],
       groupData: mockHealthDataForArea({ areaCode: 'g1', areaName: 'G' }),

@@ -1,5 +1,7 @@
 batches:
   get:
+    security:
+      - bearerAuth: []
     tags:
       - batches
     summary: Get all batches
@@ -15,9 +17,16 @@ batches:
               type: array
               items:
                 $ref: "../schemas.yaml#/Batch"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "403":
+        $ref: "../responses.yaml#/Forbidden"
       "500":
         $ref: "../responses.yaml#/InternalServerError"
+batch-delete:
   delete:
+    security:
+      - bearerAuth: []
     parameters:
       - $ref: "./parameters.yaml#/batch_id"
     tags:
@@ -33,6 +42,10 @@ batches:
               $ref: "../schemas.yaml#/Batch"
       "400":
         $ref: "../responses.yaml#/BadRequest"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "403":
+        $ref: "../responses.yaml#/Forbidden"
       "404":
         $ref: "../responses.yaml#/NotFound"
       "500":

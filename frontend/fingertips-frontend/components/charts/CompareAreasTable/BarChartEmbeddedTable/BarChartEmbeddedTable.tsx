@@ -49,6 +49,7 @@ import {
 } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 interface BarChartEmbeddedTableProps {
+  name?: string;
   healthIndicatorData: HealthDataForArea[];
   benchmarkToUse: string;
   englandData?: HealthDataForArea;
@@ -61,6 +62,7 @@ interface BarChartEmbeddedTableProps {
 }
 
 export function BarChartEmbeddedTable({
+  name,
   healthIndicatorData,
   benchmarkToUse,
   englandData,
@@ -168,13 +170,13 @@ export function BarChartEmbeddedTable({
       confidenceLimit,
     ]
   );
-
+  
   const periodLabel = getPeriodLabel(periodType, frequency);
   const periodLabelText = periodLabel ? `${periodLabel} ` : '';
 
   const datePointLabel = formatDatePointLabel(fullPeriod, frequency, 1);
-
-  const title = `${indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
+  
+  const title = `${name ?? indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
 
   return (
     <ContainerWithOutline>
