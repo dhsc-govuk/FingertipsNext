@@ -210,7 +210,7 @@ jobs:
         run: npm ci
 
       - name: Install playwright dependencies
-        run: npx playwright install chromium webkit
+        run: npx playwright install chromium
 
       - name: Set Job URL for slack message - for CD test execution
         run: |

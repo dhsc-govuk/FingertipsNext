@@ -463,6 +463,8 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /batches/{batch_id}:
     delete:
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: '#/components/parameters/batch_id'
       tags:
@@ -478,6 +480,10 @@ paths:
                 $ref: '#/components/schemas/Batch'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
