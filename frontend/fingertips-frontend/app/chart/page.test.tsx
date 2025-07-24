@@ -237,7 +237,7 @@ describe('Chart Page', () => {
       });
     });
 
-    describe('SeedingSpineChart', () => {
+    describe('SeedingSpineChartWithAuth', () => {
       it('should seed without unpublished data if there is no session', async () => {
         mockAuth.mockResolvedValue(null);
 

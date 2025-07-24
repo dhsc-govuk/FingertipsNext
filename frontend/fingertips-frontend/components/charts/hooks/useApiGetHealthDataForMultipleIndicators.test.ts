@@ -60,7 +60,7 @@ describe('useApiGetHealthDataForMultipleIndicators', () => {
     expect(mockGetHealthDataForAnIndicator).not.toHaveBeenCalled();
   });
 
-  it('should call the published data endpoint when session is not present', async () => {
+  it('should call getHealthDataForAnIndicator when session is not present', async () => {
     const queryClient = new QueryClient();
 
     renderHook(() => useApiGetHealthDataForMultipleIndicators(options), {
