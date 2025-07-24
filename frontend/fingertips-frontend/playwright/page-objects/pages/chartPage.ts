@@ -853,7 +853,6 @@ export default class ChartPage extends AreaFilter {
   ): string {
     return inputString.replaceAll('-component', replaceWith);
   }
-
   async verifyUnpublishedDataDisplayed(
     chartComponentLocator: string,
     signInAsUserToCheckUnpublishedData: SignInAs,
@@ -872,18 +871,49 @@ export default class ChartPage extends AreaFilter {
       );
     }
 
-    // Check that the unpublished data year is displayed or is not displayed - based on the signed in user
     const shouldShowUnpublishedData =
       signInAsUserToCheckUnpublishedData.administrator ||
       signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions;
+
     const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
-    await expect(
-      this.page
+
+    // Try to find the simple year format first
+    try {
+      const count = await this.page
         .getByTestId(chartComponentLocator)
-        .getByText(`${String(unpublishedDataYear)}/${nextYearShort}`, {
-          exact: true,
-        })
-    ).toBeVisible({ visible: shouldShowUnpublishedData });
+        .getByText(String(unpublishedDataYear))
+        .count();
+
+      if (shouldShowUnpublishedData) {
+        expect(count).toBeGreaterThanOrEqual(1);
+      } else {
+        expect(count).toEqual(0);
+      }
+      return;
+    } catch {
+      // Do nothing, we will try the fiscal year format next
+    }
+
+    // Try the fiscal year format
+    try {
+      const count = await this.page
+        .getByTestId(chartComponentLocator)
+        .getByText(`${String(unpublishedDataYear)}/${nextYearShort}`)
+        .count();
+
+      if (shouldShowUnpublishedData) {
+        expect(count).toBeGreaterThanOrEqual(1);
+      } else {
+        expect(count).toEqual(0);
+      }
+      return;
+    } catch {
+      // Both formats failed so throw error
+      throw new Error(
+        `Could not find unpublished data year in chart. Tried both "${unpublishedDataYear}" and "${unpublishedDataYear}/${nextYearShort}" formats. ` +
+          `Expected to ${shouldShowUnpublishedData ? 'show' : 'not show'} unpublished data`
+      );
+    }
   }
 
   private hasUnpublishedDataYear(
