@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Security.Claims;
 using System.Web;
 using DHSC.FingertipsNext.Modules.Common.Auth;
 using DHSC.FingertipsNext.Modules.Common.Schemas;

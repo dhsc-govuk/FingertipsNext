@@ -31,7 +31,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
             .AddEnvironmentVariables()
             .Build();
 
-        _blobName = $"{IndicatorId}_{MockTime:yyyy-MM-ddTHH:mm:ss.fff}.csv";
+        _blobName = $"{IndicatorId}_{FormattedMockTime}.csv";
         _azureStorageBlobClient = new AzureStorageBlobClient(configuration);
     }
 
@@ -78,7 +78,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         var model = await response.Content.ReadFromJsonAsync<Batch>();
         model.ShouldBe(new Batch
         {
-            BatchId = $"{IndicatorId}_{MockTime:yyyy-MM-ddTHH:mm:ss.fff}",
+            BatchId = $"{IndicatorId}_{FormattedMockTime}",
             IndicatorId = IndicatorId,
             OriginalFileName = IntegrationTestFileName,
             CreatedAt = MockTime,

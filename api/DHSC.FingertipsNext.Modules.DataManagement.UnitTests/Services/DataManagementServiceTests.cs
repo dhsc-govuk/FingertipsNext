@@ -27,6 +27,7 @@ public class DataManagementServiceTests
     private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
     private readonly IDataManagementMapper _mapper = Substitute.For<IDataManagementMapper>();
     private readonly DateTime _mockDate;
+    private readonly string _formattedMockDate;
     private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
     private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
     private IConfiguration _configuration;
@@ -45,9 +46,10 @@ public class DataManagementServiceTests
             _mapper, _healthDataClient);
 
         _mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
+        _formattedMockDate = _mockDate.ToString("yyyy-MM-ddTHH:mm:ss.fff");
         _timeProvider.GetUtcNow().Returns(_mockDate);
         _blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
-        _containerClient.GetBlobClient($"{StubIndicatorId}_{_mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv")
+        _containerClient.GetBlobClient($"{StubIndicatorId}_{_formattedMockDate}.csv")
             .Returns(_blobClient);
     }
 
@@ -76,7 +78,7 @@ public class DataManagementServiceTests
         result.Outcome.ShouldBe(OutcomeType.Ok);
 
         var parameter = _repository.ReceivedCalls().First().GetArguments().First() as BatchModel;
-        parameter.BatchId.ShouldBe($"{StubIndicatorId}_{_mockDate:yyyy-MM-ddTHH:mm:ss.fff}");
+        parameter.BatchId.ShouldBe($"{StubIndicatorId}_{_formattedMockDate}");
         parameter.IndicatorId.ShouldBe(StubIndicatorId);
         parameter.OriginalFileName.ShouldBe(expectedOriginalFilename);
         parameter.CreatedAt.ShouldBe(_mockDate);
