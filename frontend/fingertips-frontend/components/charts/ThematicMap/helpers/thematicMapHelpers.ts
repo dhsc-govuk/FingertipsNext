@@ -14,7 +14,6 @@ import {
   getLatestYearForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -386,7 +385,7 @@ function thematicMapTooltips(point: Highcharts.Point & { areaCode: string }) {
 }
 
 export function thematicMapTitle(
-  indicatorMetadata: IndicatorDocument,
+  indicatorName: string,
   selectedAreaType: string,
   groupData: HealthDataForArea | undefined,
   healthIndicatorData: HealthDataForArea[]
@@ -400,5 +399,5 @@ export function thematicMapTitle(
   const latestYear = getLatestYearForAreas(healthIndicatorData);
   if (!latestYear) return '';
 
-  return `${indicatorMetadata.indicatorName} for ${areaType.name} in ${areaTitle}, ${latestYear}`;
+  return `${indicatorName} for ${areaType.name} in ${areaTitle}, ${latestYear}`;
 }
