@@ -28,6 +28,7 @@ import {
 } from '@/lib/ChartTitles/chartTitleEnums';
 
 interface ThematicMapProps {
+  name?: string;
   healthIndicatorData: HealthDataForArea[];
   selectedAreaType?: string;
   areaCodes: string[];
@@ -40,6 +41,7 @@ interface ThematicMapProps {
 }
 
 export function ThematicMap({
+  name,
   healthIndicatorData,
   selectedAreaType,
   areaCodes,
@@ -86,8 +88,9 @@ export function ThematicMap({
     return null;
   }
 
+  const indicatorName = name ?? indicatorMetadata.indicatorName;
   const title = thematicMapTitle(
-    indicatorMetadata,
+    indicatorName,
     selectedAreaType,
     groupData,
     healthIndicatorData
