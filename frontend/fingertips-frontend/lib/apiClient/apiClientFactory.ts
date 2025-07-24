@@ -7,7 +7,7 @@ import {
   UserApi,
 } from '@/generated-sources/ft-api-client';
 import { readEnvVar } from '../envUtils';
-import { getAuthHeader } from '@/lib/auth/accessToken';
+import { getAccessToken } from '@/lib/auth/accessToken';
 
 export const API_CACHE_CONFIG = { next: { revalidate: 600 } };
 
@@ -24,7 +24,7 @@ const buildConfigWithAuthHeader = async (): Promise<Configuration> => {
   return new Configuration({
     basePath: apiUrl,
     fetchApi: fetch,
-    headers: await getAuthHeader(),
+    accessToken: await getAccessToken(),
   });
 };
 

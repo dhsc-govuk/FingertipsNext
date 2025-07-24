@@ -12,145 +12,184 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Batch,
-  GetAreaHierarchies500Response,
-} from '../models/index';
+import type { Batch, GetAreaHierarchies500Response } from '../models/index';
 import {
-    BatchFromJSON,
-    BatchToJSON,
-    GetAreaHierarchies500ResponseFromJSON,
-    GetAreaHierarchies500ResponseToJSON,
+  BatchFromJSON,
+  BatchToJSON,
+  GetAreaHierarchies500ResponseFromJSON,
+  GetAreaHierarchies500ResponseToJSON,
 } from '../models/index';
+import { randomUUID } from 'crypto';
 
 export interface BatchesBatchIdDeleteRequest {
-    batchId: string;
+  batchId: string;
 }
 
 /**
  * BatchesApi - interface
- * 
+ *
  * @export
  * @interface BatchesApiInterface
  */
 export interface BatchesApiInterface {
-    /**
-     * Deletes all unpublished data for the specified indicator and batch.
-     * @summary Delete a batch of unpublished data for an indicator
-     * @param {string} batchId The unique identifier of the batch of data
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BatchesApiInterface
-     */
-    batchesBatchIdDeleteRaw(requestParameters: BatchesBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>>;
+  /**
+   * Deletes all unpublished data for the specified indicator and batch.
+   * @summary Delete a batch of unpublished data for an indicator
+   * @param {string} batchId The unique identifier of the batch of data
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BatchesApiInterface
+   */
+  batchesBatchIdDeleteRaw(
+    requestParameters: BatchesBatchIdDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<Batch>>;
 
-    /**
-     * Deletes all unpublished data for the specified indicator and batch.
-     * Delete a batch of unpublished data for an indicator
-     */
-    batchesBatchIdDelete(requestParameters: BatchesBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch>;
+  /**
+   * Deletes all unpublished data for the specified indicator and batch.
+   * Delete a batch of unpublished data for an indicator
+   */
+  batchesBatchIdDelete(
+    requestParameters: BatchesBatchIdDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<Batch>;
 
-    /**
-     * Get details of all health data upload batches that are for indicators that you have permissions to modify. 
-     * @summary Get all batches
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BatchesApiInterface
-     */
-    getBatchesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Batch>>>;
+  /**
+   * Get details of all health data upload batches that are for indicators that you have permissions to modify.
+   * @summary Get all batches
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BatchesApiInterface
+   */
+  getBatchesRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<Array<Batch>>>;
 
-    /**
-     * Get details of all health data upload batches that are for indicators that you have permissions to modify. 
-     * Get all batches
-     */
-    getBatches(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Batch>>;
-
+  /**
+   * Get details of all health data upload batches that are for indicators that you have permissions to modify.
+   * Get all batches
+   */
+  getBatches(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<Array<Batch>>;
 }
 
 /**
- * 
+ *
  */
 export class BatchesApi extends runtime.BaseAPI implements BatchesApiInterface {
-
-    /**
-     * Deletes all unpublished data for the specified indicator and batch.
-     * Delete a batch of unpublished data for an indicator
-     */
-    async batchesBatchIdDeleteRaw(requestParameters: BatchesBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>> {
-        if (requestParameters['batchId'] == null) {
-            throw new runtime.RequiredError(
-                'batchId',
-                'Required parameter "batchId" was null or undefined when calling batchesBatchIdDelete().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/batches/{batch_id}`.replace(`{${"batch_id"}}`, encodeURIComponent(String(requestParameters['batchId']))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => BatchFromJSON(jsonValue));
+  /**
+   * Deletes all unpublished data for the specified indicator and batch.
+   * Delete a batch of unpublished data for an indicator
+   */
+  async batchesBatchIdDeleteRaw(
+    requestParameters: BatchesBatchIdDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<Batch>> {
+    if (requestParameters['batchId'] == null) {
+      throw new runtime.RequiredError(
+        'batchId',
+        'Required parameter "batchId" was null or undefined when calling batchesBatchIdDelete().'
+      );
     }
 
-    /**
-     * Deletes all unpublished data for the specified indicator and batch.
-     * Delete a batch of unpublished data for an indicator
-     */
-    async batchesBatchIdDelete(requestParameters: BatchesBatchIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch> {
-        const response = await this.batchesBatchIdDeleteRaw(requestParameters, initOverrides);
-        return await response.value();
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/batches/{batch_id}`.replace(
+          `{${'batch_id'}}`,
+          encodeURIComponent(String(requestParameters['batchId']))
+        ),
+        method: 'DELETE',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      BatchFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Deletes all unpublished data for the specified indicator and batch.
+   * Delete a batch of unpublished data for an indicator
+   */
+  async batchesBatchIdDelete(
+    requestParameters: BatchesBatchIdDeleteRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<Batch> {
+    const response = await this.batchesBatchIdDeleteRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * Get details of all health data upload batches that are for indicators that you have permissions to modify.
+   * Get all batches
+   */
+  async getBatchesRaw(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<runtime.ApiResponse<Array<Batch>>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token('bearerAuth', []);
+
+      if (tokenString) {
+        headerParameters['Authorization'] = `Bearer ${tokenString}`;
+      }
     }
 
-    /**
-     * Get details of all health data upload batches that are for indicators that you have permissions to modify. 
-     * Get all batches
-     */
-    async getBatchesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Batch>>> {
-        const queryParameters: any = {};
+    const uuid = randomUUID();
+    console.log(
+      `JH GETBATCH [${uuid}] REQ HEADERS: [${JSON.stringify(headerParameters)}]`
+    );
+    console.log(
+      `JH GETBATCH [${uuid}] REQ OVERRIDES: [${JSON.stringify(initOverrides)}]`
+    );
 
-        const headerParameters: runtime.HTTPHeaders = {};
+    const response = await this.request(
+      {
+        path: `/batches`,
+        method: 'GET',
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(BatchFromJSON)
+    );
+  }
 
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/batches`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(BatchFromJSON));
-    }
-
-    /**
-     * Get details of all health data upload batches that are for indicators that you have permissions to modify. 
-     * Get all batches
-     */
-    async getBatches(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Batch>> {
-        const response = await this.getBatchesRaw(initOverrides);
-        return await response.value();
-    }
-
+  /**
+   * Get details of all health data upload batches that are for indicators that you have permissions to modify.
+   * Get all batches
+   */
+  async getBatches(
+    initOverrides?: RequestInit | runtime.InitOverrideFunction
+  ): Promise<Array<Batch>> {
+    const response = await this.getBatchesRaw(initOverrides);
+    return await response.value();
+  }
 }
