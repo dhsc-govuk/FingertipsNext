@@ -16,6 +16,7 @@ import {
   convertDateToNumber,
   formatDatePointLabel,
 } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { getLatestPeriod } from '@/lib/chartHelpers/chartHelpers';
 
 export const extractSortedAreasIndicatorsAndDataPoints = (
   indicatorData: HeatmapIndicatorData[],
@@ -78,8 +79,16 @@ export const extractAreasIndicatorsAndDataPoints = (
     );
 
   indicatorDataForAllAreas.forEach((indicatorData) => {
-    const latestDataPeriod =
-      indicatorEnglandData[indicatorData.indicatorId].healthData[0].datePeriod;
+    const latestDataPeriodNumber = getLatestPeriod(
+      indicatorEnglandData[indicatorData.indicatorId].healthData
+    );
+    const latestHealthDataPoint = indicatorEnglandData[
+      indicatorData.indicatorId
+    ].healthData.find(
+      (point) =>
+        convertDateToNumber(point.datePeriod?.to) === latestDataPeriodNumber
+    );
+    const latestDataPeriod = latestHealthDataPoint?.datePeriod;
 
     if (!indicators[indicatorData.rowId]) {
       indicators[indicatorData.rowId] = {
