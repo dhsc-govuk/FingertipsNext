@@ -6,7 +6,7 @@ using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
-using DHSC.FingertipsNext.Modules.DataManagement.Service.Models.Logs;
+using DHSC.FingertipsNext.Modules.DataManagement.Service.Models.LogClasses;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Validation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -120,7 +120,8 @@ public class DataManagementService : IDataManagementService
         return batches.Select(batch => _mapper.Map(batch));
     }
 
-    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified)
+    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId,
+        IList<int> indicatorsThatCanBeModified)
     {
         ArgumentNullException.ThrowIfNull(batchId);
         var errorMessage = "";
@@ -154,7 +155,8 @@ public class DataManagementService : IDataManagementService
             "BatchDeleted" => new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already deleted"]),
             "BatchPublished" =>
                 new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]),
-            "PermissionDenied" => new UploadHealthDataResponse(OutcomeType.PermissionDenied, null, ["Permission denied when deleting batch"]),
+            "PermissionDenied" => new UploadHealthDataResponse(OutcomeType.PermissionDenied, null,
+                ["Permission denied when deleting batch"]),
             _ => new UploadHealthDataResponse(OutcomeType.ServerError, null, ["An unexpected error occurred"])
         };
     }
