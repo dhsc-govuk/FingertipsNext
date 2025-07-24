@@ -2,7 +2,6 @@ import { TwoOrMoreIndicatorsAreasViewPlot } from '@/components/viewPlots/TwoOrMo
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import {
   determineBenchmarkRefType,
