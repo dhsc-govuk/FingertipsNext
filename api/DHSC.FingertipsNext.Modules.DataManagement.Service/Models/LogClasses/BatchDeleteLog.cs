@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Service.Models.LogClasses;
-//
 
 public class BatchDeleteLog
 {
