@@ -16,6 +16,9 @@ import { SingleIndicatorHeatMap } from '@/components/charts/HeatMap/SingleIndica
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
+import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
+import { SingleIndicatorSpineChart } from '@/components/charts/SpineChart/SingleIndicatorSpineChart';
+import { heatMapIsRequired } from '@/components/charts/HeatMap/helpers/heatMapIsRequired';
 
 export function OneIndicatorTwoOrMoreAreasViewPlots({
   indicatorData,
@@ -41,22 +44,35 @@ export function OneIndicatorTwoOrMoreAreasViewPlots({
   const showCompareAreasTable = compareAreasTableIsRequired(searchState);
   const showThematicMap = selectedGroupArea === ALL_AREAS_SELECTED;
   const showLineChartLink = useLineChartOverTimeData();
+  const showSpine = spineChartIsRequired(searchState);
+  const showHeatMap = heatMapIsRequired(searchState);
 
   const availableChartLinks: ChartTitleKeysEnum[] = [];
 
-  if (showLineChartLink) availableChartLinks.push(ChartTitleKeysEnum.LineChart);
-  if (showThematicMap) availableChartLinks.push(ChartTitleKeysEnum.ThematicMap);
-  if (showCompareAreasTable)
-    availableChartLinks.push(ChartTitleKeysEnum.BarChartEmbeddedTable);
-  availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
+  if (showSpine) {
+    availableChartLinks.push(ChartTitleKeysEnum.SingleIndicatorSpineChart);
+  }
 
+  if (showLineChartLink) {
+    availableChartLinks.push(ChartTitleKeysEnum.LineChart);
+  }
+
+  if (showThematicMap) {
+    availableChartLinks.push(ChartTitleKeysEnum.ThematicMap);
+  }
+
+  if (showCompareAreasTable) {
+    availableChartLinks.push(ChartTitleKeysEnum.BarChartEmbeddedTable);
+  }
+  availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
   return (
     <section data-testid="oneIndicatorTwoOrMoreAreasViewPlots-component">
       <AvailableChartLinks
         availableCharts={availableChartLinks}
       ></AvailableChartLinks>
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
-      <SingleIndicatorHeatMap />
+      {showSpine ? <SingleIndicatorSpineChart /> : null}
+      {showHeatMap ? <SingleIndicatorHeatMap /> : null}
       <OneIndicatorSegmentationOptions />
       {showLineChartOverTime ? <LineChartAndTableOverTime /> : null}
       {showThematicMap ? <ThematicMapWrapper /> : null}

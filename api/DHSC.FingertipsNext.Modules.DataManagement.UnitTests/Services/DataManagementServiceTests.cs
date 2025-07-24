@@ -2,7 +2,6 @@ using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Clients;
-using DHSC.FingertipsNext.Modules.DataManagement.Mappings;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
@@ -24,10 +23,10 @@ public class DataManagementServiceTests
     private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
     private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
     private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
+    private readonly IHealthDataClient _healthDataClient = Substitute.For<IHealthDataClient>();
     private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
     private readonly IDataManagementMapper _mapper = Substitute.For<IDataManagementMapper>();
     private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
-    private readonly IHealthDataClient _healthDataClient = Substitute.For<IHealthDataClient>();
     private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
     private IConfiguration _configuration;
     private DataManagementService _service;
@@ -297,12 +296,12 @@ public class DataManagementServiceTests
             Status = model.Status
         };
 
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(model);
         _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expected);
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty);
+        var result = await _service.DeleteBatchAsync("123", Guid.Empty, [model.IndicatorId]);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.Ok);
@@ -320,15 +319,16 @@ public class DataManagementServiceTests
     [InlineData("BatchNotFound", "Not found", OutcomeType.NotFound)]
     [InlineData("BatchPublished", "Batch already published", OutcomeType.ClientError)]
     [InlineData("BatchDeleted", "Batch already deleted", OutcomeType.ClientError)]
+    [InlineData("PermissionDenied", "Permission denied when deleting batch", OutcomeType.PermissionDenied)]
     public async Task DeleteBatchShouldReturnError(string exceptionMessage, string expectedErrorMessage,
         OutcomeType expectedOutcome)
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>())
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>())
             .Throws(new ArgumentException(exceptionMessage));
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty);
+        var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);
 
         // Assert
         result.Outcome.ShouldBe(expectedOutcome);
@@ -340,17 +340,18 @@ public class DataManagementServiceTests
     public async Task DeleteBatchShouldReturnServerError()
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Throws(new ArgumentNullException());
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>())
+            .Throws(new ArgumentNullException());
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty);
+        var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.ServerError);
     }
 
     [Fact]
-    public async Task DeleteBatchShouldReturnServerErrorHealthData()
+    public async Task DeleteBatchShouldReturnServerErrorWhenDeletingHealthData()
     {
         // Arrange
         var model = new BatchModel
@@ -367,11 +368,11 @@ public class DataManagementServiceTests
             Status = BatchStatus.Deleted
         };
 
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(model);
         _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(false);
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty);
+        var result = await _service.DeleteBatchAsync("123", Guid.Empty, [123]);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.ServerError, "An unexpected error occurred");

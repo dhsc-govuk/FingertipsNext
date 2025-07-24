@@ -38,10 +38,10 @@ public class DataManagementService : IDataManagementService
 
     private readonly BlobServiceClient _blobServiceClient;
     private readonly string _containerName;
+    private readonly IHealthDataClient _healthDataClient;
     private readonly ILogger<DataManagementService> _logger;
     private readonly IDataManagementMapper _mapper;
     private readonly IDataManagementRepository _repository;
-    private readonly IHealthDataClient _healthDataClient;
     private readonly TimeProvider _timeProvider;
 
     public DataManagementService(BlobServiceClient blobServiceClient, IConfiguration configuration,
@@ -95,7 +95,9 @@ public class DataManagementService : IDataManagementService
     {
         var csvValidationResult = UploadedCsvValidator.Validate(fileStream);
         if (!csvValidationResult.Success)
+        {
             return csvValidationResult.Errors.Select(e => e.ErrorMessage).ToList();
+        }
 
         return [];
     }
@@ -106,15 +108,19 @@ public class DataManagementService : IDataManagementService
 
         IEnumerable<BatchModel> batches;
         if (indicatorIds.Length > 0)
+        {
             batches = await _repository.GetBatchesByIdsAsync(indicatorIds);
+        }
         else
+        {
             batches = await _repository.GetAllBatchesAsync();
+        }
 
 
         return batches.Select(batch => _mapper.Map(batch));
     }
 
-    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId)
+    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified)
     {
         ArgumentNullException.ThrowIfNull(batchId);
         var errorMessage = "";
@@ -122,14 +128,14 @@ public class DataManagementService : IDataManagementService
         try
         {
             // Delete batch
-            var deletedBatch = await _repository.DeleteBatchAsync(batchId, userId);
+            var deletedBatch = await _repository.DeleteBatchAsync(batchId, userId, indicatorsThatCanBeModified);
 
             if (deletedBatch != null)
             {
                 // Delete associated health data
-                var successHealthDataDeleted = await _healthDataClient.DeleteHealthDataAsync(batchId);
+                var hasHealthDataBeenDeleted = await _healthDataClient.DeleteHealthDataAsync(batchId);
 
-                if (successHealthDataDeleted)
+                if (hasHealthDataBeenDeleted)
                 {
                     // Write delete log
                     WriteDeleteSuccessLog(_logger, deletedBatch, (DateTime)deletedBatch.DeletedAt!);
@@ -148,6 +154,7 @@ public class DataManagementService : IDataManagementService
             "BatchDeleted" => new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already deleted"]),
             "BatchPublished" =>
                 new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]),
+            "PermissionDenied" => new UploadHealthDataResponse(OutcomeType.PermissionDenied, null, ["Permission denied when deleting batch"]),
             _ => new UploadHealthDataResponse(OutcomeType.ServerError, null, ["An unexpected error occurred"])
         };
     }
