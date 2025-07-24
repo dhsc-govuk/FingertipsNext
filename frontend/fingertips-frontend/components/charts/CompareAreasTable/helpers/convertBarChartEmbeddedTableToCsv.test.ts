@@ -24,7 +24,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     to: new Date('2023-12-31'),
   };
 
-  const mockYear = '2023';
+  const mockPeriod = mockDatePeriod.from.getFullYear().toString();
 
   const tableRows: BarChartEmbeddedTableRow[] = [
     {
@@ -132,7 +132,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       expect(csv[1]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
-        mockYear,
+        mockPeriod,
         tableRows[1].area,
         tableRows[1].areaCode,
         tableRows[1]?.benchmarkComparison?.benchmarkAreaCode,
@@ -150,7 +150,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       expect(csv[3]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
-        mockYear,
+        mockPeriod,
         `Group: ${groupData.areaName}`,
         groupData.areaCode,
         groupData.healthData[0]?.benchmarkComparison?.benchmarkAreaCode,
@@ -168,7 +168,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       expect(csv[4]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
-        mockYear,
+        mockPeriod,
         benchmarkData.areaName,
         benchmarkData.areaCode,
         benchmarkData.healthData[0]?.benchmarkComparison?.benchmarkAreaCode,
@@ -195,7 +195,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     expect(csv[1]).toEqual([
       indicatorMetaData.indicatorID,
       indicatorMetaData.indicatorName,
-      mockYear,
+      mockPeriod,
       tableRows[1].area,
       tableRows[1].areaCode,
       tableRows[1]?.benchmarkComparison?.benchmarkAreaCode,
@@ -211,7 +211,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     expect(csv[2]).toEqual([
       indicatorMetaData.indicatorID,
       indicatorMetaData.indicatorName,
-      mockYear,
+      mockPeriod,
       tableRows[0].area,
       tableRows[0].areaCode,
       tableRows[0]?.benchmarkComparison?.benchmarkAreaCode,

@@ -27,7 +27,7 @@ export const compareAreasTableData = (
   const benchmarkToUse = benchmarkAreaSelected ?? areaCodeForEngland;
 
   const periodType =
-    healthData.areaHealthData?.[0].healthData?.[0].datePeriod?.type ??
+    healthData.areaHealthData?.at(0)?.healthData?.at(0)?.datePeriod?.type ??
     PeriodType.Calendar;
 
   const frequency = healthData.frequency ?? Frequency.Annually;

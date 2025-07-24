@@ -171,8 +171,7 @@ export function BarChartEmbeddedTable({
     ]
   );
 
-  const periodLabel = getPeriodLabel(periodType, frequency);
-  const periodLabelText = periodLabel ? `${periodLabel} ` : '';
+  const periodLabelText = getPeriodLabel(periodType, frequency) ?? '';
 
   const datePointLabel = formatDatePointLabel(fullPeriod, frequency, 1);
 
@@ -291,7 +290,7 @@ export function BarChartEmbeddedTable({
                     measurementUnit={measurementUnit}
                     barColor={GovukColours.DarkGrey}
                     showComparisonLabels={showComparisonLabels}
-                    datePoint={datePointLabel}
+                    period={datePointLabel}
                   ></SparklineChart>
                 </Table.Cell>
                 <FormatNumberInTableCell
@@ -350,7 +349,7 @@ export function BarChartEmbeddedTable({
                     year={groupDataPoint.year}
                     measurementUnit={measurementUnit}
                     barColor={GovukColours.DarkGrey}
-                    datePoint={datePointLabel}
+                    period={datePointLabel}
                   />
                 </Table.Cell>
                 <FormatNumberInTableCell
@@ -370,7 +369,7 @@ export function BarChartEmbeddedTable({
               maxValue={maxValue}
               showConfidenceIntervalsData={showConfidenceIntervalsData}
               polarity={polarity}
-              datePoint={datePointLabel}
+              period={datePointLabel}
             />
           </Table>
         </ContainerWithScrolling>

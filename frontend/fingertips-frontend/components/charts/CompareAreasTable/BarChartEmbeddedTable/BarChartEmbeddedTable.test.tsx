@@ -16,6 +16,7 @@ import {
 import { formatNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 function cloneDeep<T>(input: T) {
   return JSON.parse(JSON.stringify(input)) as T;
@@ -28,7 +29,7 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'Greater Manchester ICB - 00T',
       healthData: [
         {
-          year: 2008,
+          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2008-01-01'),
@@ -45,7 +46,7 @@ describe('BarChartEmbeddedTable', () => {
           benchmarkComparison: { benchmarkAreaName: 'England' },
         },
         {
-          year: 2004,
+          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2004-01-01'),
@@ -67,7 +68,7 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'NHS North West Region',
       healthData: [
         {
-          year: 2008,
+          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2008-01-01'),
@@ -84,7 +85,7 @@ describe('BarChartEmbeddedTable', () => {
           benchmarkComparison: { benchmarkAreaName: 'England' },
         },
         {
-          year: 2004,
+          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2004-01-01'),
@@ -106,7 +107,7 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'Area 2',
       healthData: [
         {
-          year: 2004,
+          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2004-01-01'),
@@ -122,7 +123,7 @@ describe('BarChartEmbeddedTable', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2008-01-01'),
@@ -144,10 +145,9 @@ describe('BarChartEmbeddedTable', () => {
 
   function getPointForYear(
     healthData: HealthDataForArea,
-    year: number = 2008
+    year: number = 0
   ): HealthDataPoint | undefined {
-    const getHealth = healthData.healthData.find((hdp) => hdp.year === year);
-    return getHealth;
+    return healthData.healthData.find((hdp) => convertDateToNumber(hdp.datePeriod?.to) === year);
   }
 
   const mockBenchmarkData: HealthDataForArea = {
@@ -155,7 +155,7 @@ describe('BarChartEmbeddedTable', () => {
     areaName: 'England',
     healthData: [
       {
-        year: 2004,
+        year: 0,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -171,7 +171,7 @@ describe('BarChartEmbeddedTable', () => {
         deprivation: noDeprivation,
       },
       {
-        year: 2008,
+        year: 0,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2008-01-01'),
@@ -194,7 +194,7 @@ describe('BarChartEmbeddedTable', () => {
     areaName: 'NHS North West Region',
     healthData: [
       {
-        year: 2008,
+        year: 0,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2008-01-01'),
@@ -210,7 +210,7 @@ describe('BarChartEmbeddedTable', () => {
         deprivation: noDeprivation,
       },
       {
-        year: 2004,
+        year: 0,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),

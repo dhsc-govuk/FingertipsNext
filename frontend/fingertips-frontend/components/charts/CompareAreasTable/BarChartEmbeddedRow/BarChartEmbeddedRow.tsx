@@ -23,7 +23,7 @@ interface BarChartEmbeddedRowProps {
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
   measurementUnit?: string;
-  datePoint?: string;
+  period?: string;
 }
 
 export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
@@ -33,7 +33,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
   benchmarkComparisonMethod,
   polarity,
   measurementUnit = '',
-  datePoint,
+  period,
 }) => {
   return (
     <Table.Row key={`${item.area}`} className={barChartEmbeddedRowClassName}>
@@ -68,7 +68,7 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
             year={item.year}
             measurementUnit={measurementUnit}
             benchmarkArea={item.benchmarkComparison?.benchmarkAreaName}
-            datePoint={datePoint}
+            period={period}
           />
         ) : null}
       </Table.Cell>
