@@ -4,7 +4,6 @@ import { StyledAuthButton } from './AuthButton.styles';
 import { getSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useLoadingState } from '@/context/LoaderContext';
-// import { useRouter } from 'next/navigation';
 interface AuthButtonProps {
   session?: Session;
 }
