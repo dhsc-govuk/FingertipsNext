@@ -10,6 +10,12 @@ export default class EntraPage extends BasePage {
     await expect(this.page.getByText(this.entraWelcomeText)).toBeVisible();
   }
 
+  async clickNoToNotStaySignedIn() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'No' })
+    );
+  }
+
   async clickNext() {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByRole('button', { name: 'Next' })
@@ -26,6 +32,8 @@ export default class EntraPage extends BasePage {
     await this.typeEmail(email);
     await this.clickNext();
     await this.typePassword(password, email);
+    await this.clickSignIn();
+    await this.clickNoToNotStaySignedIn();
   }
 
   async typeEmail(email: string) {

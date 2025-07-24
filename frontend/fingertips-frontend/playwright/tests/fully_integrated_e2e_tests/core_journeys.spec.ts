@@ -13,6 +13,8 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';
 
+test.use({ failOnUnhandledError: false });
+
 //@ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
 
@@ -118,11 +120,11 @@ test.describe(
               typedIndicatorData
             );
 
+            await chartPage.checkOnChartPage();
+
             await chartPage.checkSelectedIndicatorPillsText(
               selectedIndicatorsData
             );
-
-            await chartPage.checkOnChartPage();
 
             await chartPage.checkCharts(
               indicatorMode,

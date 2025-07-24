@@ -876,10 +876,13 @@ export default class ChartPage extends AreaFilter {
     const shouldShowUnpublishedData =
       signInAsUserToCheckUnpublishedData.administrator ||
       signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions;
+    const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
     await expect(
       this.page
         .getByTestId(chartComponentLocator)
-        .getByText(String(unpublishedDataYear))
+        .getByText(`${String(unpublishedDataYear)}/${nextYearShort}`, {
+          exact: true,
+        })
     ).toBeVisible({ visible: shouldShowUnpublishedData });
   }
 

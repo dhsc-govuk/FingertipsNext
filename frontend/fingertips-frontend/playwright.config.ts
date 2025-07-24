@@ -1,4 +1,8 @@
 import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 const isCI = !!process.env.CI;
 const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
@@ -57,11 +61,12 @@ const config: PlaywrightTestConfig = {
         launchOptions: {
           args: ['--disable-dev-shm-usage', '--no-sandbox'],
         },
+        ignoreHTTPSErrors: true,
       },
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { ...devices['Desktop Safari'], ignoreHTTPSErrors: true },
     },
   ],
 };

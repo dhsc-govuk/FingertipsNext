@@ -174,7 +174,16 @@ export default class HomePage extends AreaFilter {
     email: string;
     password: string;
   } {
+    console.log(
+      `Determining sign-in credentials for: ${JSON.stringify(signInRequired)}`
+    );
+    console.log(
+      `Using password: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD} or ${this.password}`
+    );
     if (signInRequired.administrator) {
+      console.log(
+        `Tring to use admin email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN} or ${this.email}`
+      );
       return {
         email:
           process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN ||
@@ -182,6 +191,9 @@ export default class HomePage extends AreaFilter {
         password: this.password,
       };
     } else if (signInRequired.userWithIndicatorPermissions) {
+      console.log(
+        `Tring to use user with multiple indicators email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS} or ${this.email}`
+      );
       return {
         email:
           process.env
@@ -190,6 +202,9 @@ export default class HomePage extends AreaFilter {
         password: this.password,
       };
     } else if (signInRequired.userWithoutIndicatorPermissions) {
+      console.log(
+        `Tring to use user with no indicators email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS} or ${this.email}`
+      );
       return {
         email:
           process.env
@@ -216,8 +231,6 @@ export default class HomePage extends AreaFilter {
       await this.entraPage.checkOnEntraSignInPage();
 
       await this.entraPage.enterEmailAndPassword(email, password);
-
-      await this.entraPage.clickSignIn();
 
       await this.checkSignOutDisplayed();
     }
