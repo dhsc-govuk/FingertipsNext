@@ -175,7 +175,7 @@ export function BarChartEmbeddedTable({
   const datePointLabel = formatDatePointLabel(fullPeriod, frequency, 1);
 
   const title = `${indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
-  
+
   return (
     <ContainerWithOutline>
       <div data-testid={`${id}-component`} id={id}>

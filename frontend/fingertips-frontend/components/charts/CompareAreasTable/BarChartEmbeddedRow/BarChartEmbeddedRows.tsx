@@ -25,7 +25,7 @@ export const BarChartEmbeddedRows: FC<BarChartEmbeddedRowsProps> = ({
   benchmarkComparisonMethod,
   polarity,
   measurementUnit = '',
-  datePoint
+  datePoint,
 }) => {
   const { triggerRef, rowsToShow, nRowsToHide } =
     useMoreRowsWhenScrolling<BarChartEmbeddedTableRow>(rows, 50);

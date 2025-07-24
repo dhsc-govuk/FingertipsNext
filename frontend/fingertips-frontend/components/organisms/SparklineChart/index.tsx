@@ -11,7 +11,7 @@ import {
 } from '@/lib/chartHelpers/chartHelpers';
 import {
   BenchmarkComparisonMethod,
-  BenchmarkOutcome, DatePeriod,
+  BenchmarkOutcome,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
@@ -47,12 +47,11 @@ export function SparklineChart({
   polarity = IndicatorPolarity.Unknown,
   label,
   area,
-  year,
   measurementUnit,
   barColor,
   benchmarkArea,
   showComparisonLabels = true,
-  datePoint
+  datePoint,
 }: Readonly<SparklineChartProps>) {
   const benchmarkColor = getBenchmarkColour(
     benchmarkComparisonMethod,
