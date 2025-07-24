@@ -10,7 +10,7 @@ import { generateChartOptions } from '../helpers/generateChartOptions';
 export interface SpineChartProps {
   name: string;
   units: string;
-  period?: number;
+  period?: string;
   benchmarkName: string;
   benchmarkValue: number;
   quartileData: QuartileData;
