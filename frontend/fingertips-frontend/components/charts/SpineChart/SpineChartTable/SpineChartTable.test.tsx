@@ -13,6 +13,7 @@ import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
+import { SpineChartIndicatorData } from '@/components/charts/SpineChart/helpers/buildSpineChartIndicatorData';
 
 describe('Spine chart table suite', () => {
   // Greater Manchester ICB - 00T
@@ -95,9 +96,10 @@ describe('Spine chart table suite', () => {
     },
   ];
 
-  const mockIndicatorData = [
+  const mockIndicatorData: SpineChartIndicatorData[] = [
     {
-      indicatorId: '1',
+      rowId: '1',
+      indicatorId: 1,
       indicatorName: 'testIndicator1',
       latestDataPeriod: 2023,
       valueUnit: '%',
@@ -109,7 +111,8 @@ describe('Spine chart table suite', () => {
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
     },
     {
-      indicatorId: '2',
+      rowId: '2',
+      indicatorId: 2,
       indicatorName: 'testIndicator2',
       latestDataPeriod: 2023,
       valueUnit: 'per 100,000',
@@ -155,9 +158,10 @@ describe('Spine chart table suite', () => {
   });
 
   describe('Spine Chart with 2 areas', () => {
-    const mockTwoAreasIndicatorData = [
+    const mockTwoAreasIndicatorData: SpineChartIndicatorData[] = [
       {
-        indicatorId: '1',
+        rowId: '1-persons',
+        indicatorId: 1,
         indicatorName: 'testIndicator1',
         latestDataPeriod: 2023,
         valueUnit: '%',
@@ -171,7 +175,8 @@ describe('Spine chart table suite', () => {
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       },
       {
-        indicatorId: '2',
+        rowId: '2-persons',
+        indicatorId: 2,
         indicatorName: 'testIndicator1',
         latestDataPeriod: 2023,
         valueUnit: 'per 100,000',
