@@ -15,11 +15,6 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 [Route("/indicators/{indicatorId:int}/data")]
 public class DataManagementController(IDataManagementService dataManagementService, TimeProvider timeProvider) : ControllerBase
 {
-    private static string? GetUserId(ClaimsPrincipal user)
-    {
-        return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    }
-
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
@@ -29,7 +24,7 @@ public class DataManagementController(IDataManagementService dataManagementServi
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt, [FromRoute] int indicatorId)
     {
-        var userId = GetUserId(User);
+        var userId = AuthUtilities.GetUserId(User);
         if (userId == null)
         {
             return new ForbidResult();
@@ -64,7 +59,7 @@ public class DataManagementController(IDataManagementService dataManagementServi
             });
         }
 
-        UploadHealthDataResponse? response = null;
+        UploadHealthDataResponse? response;
         await using (var fileStream = file.OpenReadStream())
         {
             var validationErrors = dataManagementService.ValidateCsv(fileStream);
