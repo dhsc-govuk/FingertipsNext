@@ -36,9 +36,18 @@ describe('singleIndicatorBasicTableData', () => {
     };
 
     expect(result).toEqual([
-      { ...baseExpectedRow, indicatorName: `${indicatorName} (Persons)` },
-      { ...baseExpectedRow, indicatorName: `${indicatorName} (Male)` },
-      { ...baseExpectedRow, indicatorName: `${indicatorName} (Female)` },
+      {
+        ...baseExpectedRow,
+        indicatorName: `${indicatorName} (Persons, All ages)`,
+      },
+      {
+        ...baseExpectedRow,
+        indicatorName: `${indicatorName} (Male, All ages)`,
+      },
+      {
+        ...baseExpectedRow,
+        indicatorName: `${indicatorName} (Female, All ages)`,
+      },
     ]);
   });
 

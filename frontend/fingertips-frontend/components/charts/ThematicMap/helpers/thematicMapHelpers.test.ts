@@ -12,7 +12,6 @@ import {
 } from '@/generated-sources/ft-api-client';
 
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
-import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import {
   mockHealthDataForArea,
   mockHealthDataForArea_Group,
@@ -197,41 +196,40 @@ describe('prepareThematicMapSeriesData', () => {
 
 describe('thematicMapTitle', () => {
   it('should return the title for regions in the North West', () => {
-    const indicatorMetaData = mockIndicatorDocument();
+    const indicatorName = 'Indicator';
     const selectedAreaType = 'regions';
     const groupData = mockHealthDataForArea_Group();
     const healthIndicatorData = mockHealthDataForArea();
+
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
       [healthIndicatorData]
     );
     expect(result).toEqual(
-      `${indicatorMetaData.indicatorName} for Regions in ${groupData.areaName}, ${healthIndicatorData.healthData[0].year}`
+      `${indicatorName} for Regions in ${groupData.areaName}, ${healthIndicatorData.healthData[0].year}`
     );
   });
 
   it('should return the title for regions if there is no group', () => {
-    const indicatorMetaData = mockIndicatorDocument();
+    const indicatorName = 'Indicator';
     const selectedAreaType = 'regions';
     const groupData = undefined;
     const healthIndicatorData = mockHealthDataForArea();
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
       [healthIndicatorData]
     );
     expect(result).toEqual(
-      `${indicatorMetaData.indicatorName} for Regions in England, ${healthIndicatorData.healthData[0].year}`
+      `${indicatorName} for Regions in England, ${healthIndicatorData.healthData[0].year}`
     );
   });
 
   it('should return the title for the latest year data', () => {
-    const indicatorMetaData = mockIndicatorDocument({
-      indicatorName: 'Heart attacks',
-    });
+    const indicatorName = 'Heart attacks';
     const selectedAreaType = 'counties-and-unitary-authorities';
     const groupData = undefined;
     const healthIndicatorData = mockHealthDataForArea({
@@ -242,23 +240,23 @@ describe('thematicMapTitle', () => {
       ],
     });
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
       [healthIndicatorData]
     );
     expect(result).toEqual(
-      `${indicatorMetaData.indicatorName} for Counties and Unitary Authorities in England, 2022`
+      `${indicatorName} for Counties and Unitary Authorities in England, 2022`
     );
   });
 
   it('should return empty string if there is no areaType', () => {
-    const indicatorMetaData = mockIndicatorDocument();
+    const indicatorName = 'Indicator';
     const selectedAreaType = 'mountains';
     const groupData = undefined;
     const healthIndicatorData = mockHealthDataForArea();
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
       [healthIndicatorData]
@@ -267,12 +265,12 @@ describe('thematicMapTitle', () => {
   });
 
   it('should return empty string if there is no health data points', () => {
-    const indicatorMetaData = mockIndicatorDocument();
+    const indicatorName = 'indicator';
     const selectedAreaType = 'counties-and-unitary-authorities';
     const groupData = undefined;
     const healthIndicatorData = mockHealthDataForArea({ healthData: [] });
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
       [healthIndicatorData]

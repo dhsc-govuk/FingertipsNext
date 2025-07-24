@@ -25,11 +25,9 @@ export const useApiGetQuartiles = (options: IndicatorsQuartilesGetRequest) => {
       });
 
       const indicatorsApiInstance = new IndicatorsApi(config);
-      return (
-        await indicatorsApiInstance.indicatorsQuartilesGet(options)
-      ).filter((q) => q.isAggregate === true);
+      return await indicatorsApiInstance.indicatorsQuartilesGet(options);
     },
-    enabled: indicatorIds.length >= 2,
+    enabled: indicatorIds.length >= 1,
   });
 
   return useMemo(() => {
