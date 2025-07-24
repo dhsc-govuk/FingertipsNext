@@ -144,7 +144,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     }
 
     [Fact]
-    public async Task ATokenWithoutASubClaimShouldBeRejected()
+    public async Task ATokenWithoutASubClaimShouldBeRejectedByUploadBatchEndpoint()
     {
         // Arrange
         var apiClient = Factory.CreateClient();
