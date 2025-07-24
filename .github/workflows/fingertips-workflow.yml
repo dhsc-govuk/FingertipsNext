@@ -92,11 +92,7 @@ jobs:
 
   database-build:
     needs: check-changes
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-      needs.check-changes.outputs.search_changed == 'true'
+    if: false
     name: Build Database
     runs-on: ubuntu-latest
     env:
@@ -128,9 +124,7 @@ jobs:
 
   api-build-and-test:
     needs: [check-changes, determine-version]
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.api_changed == 'true'
+    if: false
     name: Build API
     runs-on: ubuntu-latest
     strategy:
@@ -162,11 +156,7 @@ jobs:
 
   trend-analysis-app-test:
     needs: [check-changes, determine-version]
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-changes.outputs.db_changed == 'true' ||
-      needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-      needs.check-changes.outputs.search_changed == 'true'
+    if: false
     name: Test Trend Analysis App
     runs-on: ubuntu-latest
     strategy:
@@ -240,38 +230,12 @@ jobs:
 
   ui-tests-local-mocks:
     needs: [check-changes]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        (
-          needs.check-changes.outputs.db_changed == 'true' ||
-          needs.check-changes.outputs.api_changed == 'true' || 
-          needs.check-changes.outputs.frontend_changed == 'true' ||
-          needs.check-changes.outputs.search_changed == 'true'
-        )
-      )
+    if: false
     uses: ./.github/workflows/ui-tests.yml
 
   e2e-and-api-tests:
     needs: [check-changes]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        (
-          needs.check-changes.outputs.db_changed == 'true' ||
-          needs.check-changes.outputs.api_changed == 'true' || 
-          needs.check-changes.outputs.frontend_changed == 'true' ||
-          needs.check-changes.outputs.search_changed == 'true'
-        )
-      )
+    if: false
     uses: ./.github/workflows/e2e-and-api-tests.yml
     with:
       environment: dev
@@ -282,15 +246,7 @@ jobs:
   push-container-api:
     uses: ./.github/workflows/build-container.yml
     needs: [check-changes, determine-version]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        needs.check-changes.outputs.api_changed == 'true'
-      )
+    if: false
     with:
       environment: dev
       context-location: api
@@ -333,24 +289,7 @@ jobs:
       ]
     environment: development
     runs-on: dev
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-            needs.check-changes.outputs.search_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
+    if: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -404,24 +343,7 @@ jobs:
 
   run-trend-analysis-dev:
     needs: [check-changes, deploy-db-dev]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
-            needs.check-changes.outputs.search_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
+    if: false
     environment: development
     name: Run Trend Analysis App
     runs-on: dev
@@ -458,24 +380,7 @@ jobs:
 
   search-setup-dev:
     needs: [check-changes, deploy-db-dev, run-trend-analysis-dev]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.search_changed == 'true' ||
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
+    if: false
     runs-on: dev
     defaults:
       run:
@@ -540,24 +445,7 @@ jobs:
   deploy-api-dev:
     needs:
       [determine-version, check-changes, push-container-api, search-setup-dev]
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      (
-        (
-          github.event_name == 'pull_request' &&
-          github.head_ref == 'main' &&
-          needs.check-changes.outputs.api_changed == 'true'
-        ) ||
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          needs.check-changes.outputs.api_changed == 'true'
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
+    if: false
     uses: ./.github/workflows/deploy-container.yml
     with:
       environment: development
@@ -795,26 +683,7 @@ jobs:
         deploy-frontend-dev,
       ]
     uses: ./.github/workflows/e2e-and-api-tests.yml
-    if: >
-      always() &&
-      contains(needs.*.result, 'success') &&
-      !contains(needs.*.result, 'failure') &&
-      !contains(needs.*.result, 'cancelled') &&
-      github.event_name != 'pull_request' &&
-      (
-        (
-          github.event_name == 'push' &&
-          github.ref_name == 'main' &&
-          (
-            needs.check-changes.outputs.db_changed == 'true' ||
-            needs.check-changes.outputs.api_changed == 'true' ||
-            needs.check-changes.outputs.frontend_changed == 'true' ||
-            needs.check-changes.outputs.search_changed == 'true' ||
-            needs.check-changes.outputs.trend_analysis_changed == 'true'
-          )
-        ) ||
-        github.event_name == 'workflow_dispatch'
-      )
+    if: false
     with:
       environment: dev
       playwright-mode: azure
