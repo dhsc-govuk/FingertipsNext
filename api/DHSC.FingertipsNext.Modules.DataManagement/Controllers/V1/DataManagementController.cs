@@ -7,12 +7,14 @@ using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 
 [ApiController]
 [Route("/indicators/{indicatorId:int}/data")]
-public class DataManagementController(IDataManagementService dataManagementService, TimeProvider timeProvider) : ControllerBase
+public class DataManagementController(IDataManagementService dataManagementService, TimeProvider timeProvider)
+    : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -21,7 +23,8 @@ public class DataManagementController(IDataManagementService dataManagementServi
     [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt, [FromRoute] int indicatorId)
+    public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt,
+        [FromRoute] int indicatorId)
     {
         if (file == null || file.Length == 0)
             return new BadRequestObjectResult(new SimpleError
@@ -31,7 +34,8 @@ public class DataManagementController(IDataManagementService dataManagementServi
         var untrustedFileName = Path.GetFileName(file.FileName);
         var encodedUntrustedFileName = HttpUtility.HtmlEncode(untrustedFileName);
 
-        if (!DateTime.TryParse(publishedAt, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var parsedPublishedAt))
+        if (!DateTime.TryParse(publishedAt, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+                out var parsedPublishedAt))
             return new BadRequestObjectResult(new SimpleError
             {
                 Message = "publishedAt is invalid. Must be in the format dd-MM-yyyyTHH:mm:ss.fff"
@@ -60,7 +64,8 @@ public class DataManagementController(IDataManagementService dataManagementServi
         // Will need to re-initialise fileStream as it will have been disposed during ValidateCsv
         await using (var fileStream = file.OpenReadStream())
         {
-            response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt, encodedUntrustedFileName);
+            response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt,
+                encodedUntrustedFileName, Guid.Empty);
         }
 
         return response.Outcome switch
