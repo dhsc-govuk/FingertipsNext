@@ -1,9 +1,10 @@
 import { Session } from 'next-auth';
-import { signOutHandler, signInHandler } from '@/lib/auth/handlers';
+import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
 import { StyledAuthButton } from './AuthButton.styles';
 import { getSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useLoadingState } from '@/context/LoaderContext';
+// import { useRouter } from 'next/navigation';
 interface AuthButtonProps {
   session?: Session;
 }
@@ -44,7 +45,8 @@ function SignOutButton() {
       data-testid="sign-out-button"
       onClick={() => {
         setIsLoading(true);
-        signOutHandler();
+        const returnTo = encodeURI(String(window.location.origin));
+        signOutHandler(returnTo);
       }}
     >
       Sign out
