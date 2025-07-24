@@ -25,6 +25,10 @@ import { populationPyramidRequestParams } from '@/components/charts/PopulationPy
 import { getAuthorisedHealthDataForAnIndicator } from '../../lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -138,7 +142,6 @@ export default async function ChartPage(
     }
 
     // seed data for population pyramid
-    // DHSC1160: implement unpublished data
     const populationPyramidQueryParams = populationPyramidRequestParams(
       searchState,
       availableAreas ?? []
@@ -162,27 +165,7 @@ export default async function ChartPage(
     }
 
     // load quartiles data and seed if we don't have it already
-    const quartilesParams = quartilesQueryParams(searchState);
-    const quartilesKey = queryKeyFromRequestParams(
-      EndPoints.Quartiles,
-      quartilesParams
-    );
-
-    if (
-      spineChartIsRequired(searchState) &&
-      !Object.keys(seedData).includes(quartilesKey)
-    ) {
-      try {
-        seedData[quartilesKey] = await indicatorApi.indicatorsQuartilesGet(
-          quartilesParams,
-          API_CACHE_CONFIG
-        );
-      } catch (e) {
-        console.error('error getting quartile data', e);
-      }
-    }
-
-    // load quartiles data and seed if we don't have it already
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
     const quartilesParams = quartilesQueryParams(searchState);
     const quartilesKey = queryKeyFromRequestParams(
       EndPoints.Quartiles,
