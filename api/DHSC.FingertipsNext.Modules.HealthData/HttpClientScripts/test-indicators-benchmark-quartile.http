@@ -378,11 +378,17 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=90453&area_type=err
 > {%
     client.test("check Quartile comparison where area_type is erroneous", function (callbackfn, thisArg) {
         const expected = [
-        {
-            "age": null,
-            "sex": null,
-            "reportingPeriod": null,
-            "isAggregate": null,
+          {
+            "age": {
+              "value": "16+ yrs",
+              "isAggregate": true
+            },
+            "sex": {
+              "value": "Persons",
+              "isAggregate": true
+            },
+            "reportingPeriod": "Yearly",
+            "isAggregate": true,
             "year": null,
             "datePeriod": null,
             "q0Value": null,
@@ -1293,6 +1299,31 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=93468&area_code=N85
     "areaValue": 3.79330507235784,
     "ancestorValue": 3.58536373883638,
     "englandValue": 4.72350028525507,
+    "indicatorId": 93468,
+    "polarity": "NoJudgement",
+    "frequency": "Annually"
+  },
+  {
+    "age": {
+      "value": "15+ yrs",
+      "isAggregate": false
+    },
+    "sex": {
+      "value": "Persons",
+      "isAggregate": true
+    },
+    "reportingPeriod": "Yearly",
+    "isAggregate": false,
+    "year": null,
+    "datePeriod": null,
+    "q0Value": null,
+    "q1Value": null,
+    "q2Value": null,
+    "q3Value": null,
+    "q4Value": null,
+    "areaValue": null,
+    "ancestorValue": null,
+    "englandValue": null,
     "indicatorId": 93468,
     "polarity": "NoJudgement",
     "frequency": "Annually"

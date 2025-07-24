@@ -1,4 +1,3 @@
---- This stored procedure Gets HealthData and performs Quartile calculations
 CREATE PROCEDURE [dbo].[GetIndicatorQuartileDataForLatestYear] @RequestedAreaType varchar(50),
 @RequestedIndicatorIds IndicatorList READONLY,
 @RequestedArea varchar(50),
@@ -36,7 +35,9 @@ RequestedIndicators AS (
 IndicatorSegments AS (
   SELECT DISTINCT hm.IndicatorKey,
     hm.PeriodKey AS ReportingPeriodKey,
+    hm.IsSexAggregatedOrSingle,
     hm.SexKey,
+    hm.IsAgeAggregatedOrSingle, 
     hm.AgeKey
   FROM dbo.HealthMeasure AS hm
     JOIN RequestedIndicators AS ri ON hm.IndicatorKey = ri.IndicatorKey
@@ -183,10 +184,10 @@ QuartileData AS (
 SELECT rii.IndicatorId AS IndicatorId,
   ri.Polarity AS Polarity,
   ageDim.Name AS AgeName,
-  qd.IsAgeAggregatedOrSingle,
+  indSeg.IsAgeAggregatedOrSingle,
   sexDim.Name AS SexName,
-  qd.IsSexAggregatedOrSingle,
-  reportingPeriod.Period AS ReportingPeriod,
+  indSeg.IsSexAggregatedOrSingle,
+  reportingPeriodDim.Period AS ReportingPeriod,
   qd.Year AS Year,
   ri.PeriodType,
   ri.CollectionFrequency,
@@ -213,7 +214,11 @@ SELECT rii.IndicatorId AS IndicatorId,
   qd.QuartileCount
 FROM @RequestedIndicatorIds AS rii
   LEFT JOIN RequestedIndicators AS ri ON rii.IndicatorId = ri.IndicatorId
-  LEFT JOIN QuartileData AS qd ON qd.IndicatorKey = ri.IndicatorKey
+  LEFT JOIN IndicatorSegments AS indSeg ON indSeg.IndicatorKey = ri.IndicatorKey
+  LEFT JOIN QuartileData AS qd ON qd.IndicatorKey = indSeg.IndicatorKey
+  AND indSeg.SexKey = qd.SexKey
+  AND indSeg.AgeKey = qd.AgeKey
+  AND indSeg.ReportingPeriodKey = qd.ReportingPeriodKey  
   LEFT JOIN ComparisonAreaValuePerSegment AS ca ON ca.IndicatorKey = ri.IndicatorKey
   AND ca.SexKey = qd.SexKey
   AND ca.AgeKey = qd.AgeKey
@@ -226,11 +231,11 @@ FROM @RequestedIndicatorIds AS rii
   AND england.SexKey = qd.SexKey
   AND england.AgeKey = qd.AgeKey
   AND england.ReportingPeriodKey = qd.ReportingPeriodKey
-  LEFT JOIN dbo.AgeDimension AS ageDim ON ageDim.AgeKey = qd.AgeKey
-  LEFT JOIN dbo.SexDimension AS sexDim ON sexDim.SexKey = qd.SexKey
-  LEFT JOIN dbo.PeriodDimension AS reportingPeriod ON qd.ReportingPeriodKey = reportingPeriod.PeriodKey
+  LEFT JOIN dbo.AgeDimension AS ageDim ON ageDim.AgeKey = indSeg.AgeKey
+  LEFT JOIN dbo.SexDimension AS sexDim ON sexDim.SexKey = indSeg.SexKey
+  LEFT JOIN dbo.PeriodDimension AS reportingPeriodDim ON reportingPeriodDim.PeriodKey = indSeg.ReportingPeriodKey
 ORDER BY rii.IndicatorId,
   ageDim.Name,
   sexDim.Name,
-  reportingPeriod.Period
+  reportingPeriodDim.Period
 END
