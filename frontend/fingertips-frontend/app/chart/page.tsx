@@ -13,6 +13,8 @@ import { ErrorPage } from '@/components/pages/error';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
@@ -39,10 +41,6 @@ export default async function ChartPage(
   await connection();
   const session = await auth();
 
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
-  const healthEndpoint = EndPoints.HealthDataForAnIndicator;
-
   try {
     const searchParams = await props.searchParams;
     const stateManager = SearchStateManager.initialise(searchParams);
@@ -52,10 +50,27 @@ export default async function ChartPage(
       [SearchParams.IndicatorsSelected]: indicatorsSelected,
       [SearchParams.AreaTypeSelected]: areaTypeSelected,
     } = searchState;
-    // store all loaded indicators in the query cache
-    const seedData: SeedData = {};
 
     const areasSelected = areaCodes ?? [];
+
+    const selectedIndicatorsData =
+      indicatorsSelected && indicatorsSelected.length > 0
+        ? (
+            await Promise.all(
+              indicatorsSelected.map((indicator) =>
+                SearchServiceFactory.getIndicatorSearchService().getIndicator(
+                  indicator
+                )
+              )
+            )
+          ).filter((indicatorDocument) => indicatorDocument !== undefined)
+        : [];
+
+    // store all loaded indicators in the query cache
+    const seedData: SeedData = {};
+    selectedIndicatorsData.forEach((indicator) => {
+      seedData[`/indicator/${indicator.indicatorID}`] = indicator;
+    });
 
     const selectedAreasData = await getSelectedAreasDataByAreaType(
       areasSelected,
@@ -73,19 +88,47 @@ export default async function ChartPage(
       selectedAreasData
     );
 
-    const selectedIndicatorsData =
-      indicatorsSelected && indicatorsSelected.length > 0
-        ? (
-            await Promise.all(
-              indicatorsSelected.map((indicator) =>
-                SearchServiceFactory.getIndicatorSearchService().getIndicator(
-                  indicator
-                )
-              )
-            )
-          ).filter((indicatorDocument) => indicatorDocument !== undefined)
-        : [];
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
+    // if we want to show the line chart or compare areas bar chart data then
+    // load that now server side and seed the cache - this will help with
+    // progressive enhancement and coping with devices that do not have
+    // javascript enabled by seeding the data react query can still proceed
+    // with data loaded on the server
+    if (
+      lineChartOverTimeIsRequired(searchState) ||
+      compareAreasTableIsRequired(searchState)
+    ) {
+      let healthData: IndicatorWithHealthDataForArea | undefined;
+      let queryKeyLineChart;
+      const apiRequestParams = oneIndicatorRequestParams(
+        searchState,
+        availableAreas ?? []
+      );
+      try {
+        queryKeyLineChart = queryKeyFromRequestParams(
+          EndPoints.HealthDataForAnIndicator,
+          apiRequestParams
+        );
+        if (session) {
+          healthData =
+            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+              apiRequestParams,
+              API_CACHE_CONFIG
+            );
+        } else {
+          healthData = await indicatorApi.getHealthDataForAnIndicator(
+            apiRequestParams,
+            API_CACHE_CONFIG
+          );
+        }
+        seedData[queryKeyLineChart] = healthData;
+      } catch (error) {
+        console.error('error getting health indicator data for area', error);
+      }
+    }
+
+    // seed data for spine chart
     if (indicatorsSelected && indicatorsSelected.length > 1) {
       const quartilesParams = quartilesQueryParams(searchState);
       const quartilesQueryKey = queryKeyFromRequestParams(
@@ -109,33 +152,6 @@ export default async function ChartPage(
           console.error('error getting health indicator data for area', error);
         }
       });
-    }
-
-    selectedIndicatorsData.forEach((indicator) => {
-      seedData[`/indicator/${indicator.indicatorID}`] = indicator;
-    });
-
-    // if we want to show the line chart or compare areas bar chart data then
-    // load that now server side and seed the cache - this will help with
-    // progressive enhancement and coping with devices that do not have
-    // javascript enabled by seeding the data react query can still proceed
-    // with data loaded on the server
-    if (
-      lineChartOverTimeIsRequired(searchState) ||
-      compareAreasTableIsRequired(searchState)
-    ) {
-      try {
-        const { healthData, queryKeySingleIndicator } =
-          await getIndicatorHealthQueryKeyAndSeedData(
-            indicatorApi,
-            session,
-            searchState,
-            availableAreas
-          );
-        seedData[queryKeySingleIndicator] = healthData;
-      } catch (error) {
-        console.error('error getting health indicator data for area', error);
-      }
     }
 
     // seed availableAreas
@@ -175,7 +191,7 @@ export default async function ChartPage(
       availableAreas ?? []
     );
     const populationPyramidQueryKey = queryKeyFromRequestParams(
-      healthEndpoint,
+      EndPoints.HealthDataForAnIndicator,
       populationPyramidQueryParams
     );
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
