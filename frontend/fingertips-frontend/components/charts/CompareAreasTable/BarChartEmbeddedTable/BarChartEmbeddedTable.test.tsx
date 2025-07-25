@@ -1,6 +1,7 @@
 import { act, render, screen, within } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable';
 import {
+  DatePeriod,
   Frequency,
   HealthDataForArea,
   HealthDataPoint,
@@ -143,11 +144,21 @@ describe('BarChartEmbeddedTable', () => {
     },
   ];
 
+  const mockDatePeriod: DatePeriod = {
+    type: PeriodType.Financial,
+    from: new Date('2008-01-01'),
+    to: new Date('2008-12-31'),
+  };
+
   function getPointForYear(
     healthData: HealthDataForArea,
-    year: number = 0
+    datePeriod: DatePeriod
   ): HealthDataPoint | undefined {
-    return healthData.healthData.find((hdp) => convertDateToNumber(hdp.datePeriod?.to) === year);
+    return healthData.healthData.find(
+      (hdp) =>
+        convertDateToNumber(hdp.datePeriod?.to) ===
+        convertDateToNumber(datePeriod?.to)
+    );
   }
 
   const mockBenchmarkData: HealthDataForArea = {
@@ -329,7 +340,7 @@ describe('BarChartEmbeddedTable', () => {
 
   it('should order the data displayed by largest value', async () => {
     const expectedValues = mockHealthIndicatorData
-      .map((mdp) => getPointForYear(mdp)!.value)
+      .map((mdp) => getPointForYear(mdp, mockDatePeriod)?.value)
       .sort((a, b) => b! - a!)
       .map((ev) => formatNumber(ev));
 
