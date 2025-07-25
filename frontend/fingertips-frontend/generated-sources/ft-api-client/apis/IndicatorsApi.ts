@@ -145,7 +145,7 @@ export interface IndicatorsApiInterface {
     getHealthDataForAnIndicator(requestParameters: GetHealthDataForAnIndicatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea>;
 
     /**
-     * Authorised user can Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
      * @summary Get published and unpublished health data for an indicator
      * @param {number} indicatorId The unique identifier of the indicator
      * @param {Array<string>} [areaCodes] A list of area codes, up to 300 area codes can be requested
@@ -164,7 +164,7 @@ export interface IndicatorsApiInterface {
     getHealthDataForAnIndicatorIncludingUnpublishedDataRaw(requestParameters: GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>>;
 
     /**
-     * Authorised user can Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
      * Get published and unpublished health data for an indicator
      */
     getHealthDataForAnIndicatorIncludingUnpublishedData(requestParameters: GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea>;
@@ -354,7 +354,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Authorised user can Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
      * Get published and unpublished health data for an indicator
      */
     async getHealthDataForAnIndicatorIncludingUnpublishedDataRaw(requestParameters: GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<IndicatorWithHealthDataForArea>> {
@@ -424,7 +424,7 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Authorised user can Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
+     * Get data for a public health indicator. This will return all data for all requested areas and all time periods for the specified indicator. The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters. Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
      * Get published and unpublished health data for an indicator
      */
     async getHealthDataForAnIndicatorIncludingUnpublishedData(requestParameters: GetHealthDataForAnIndicatorIncludingUnpublishedDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<IndicatorWithHealthDataForArea> {

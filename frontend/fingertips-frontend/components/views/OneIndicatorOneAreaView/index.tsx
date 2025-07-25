@@ -50,21 +50,21 @@ export default async function OneIndicatorOneAreaView({
   const benchmarkRefType = determineBenchmarkRefType(benchmarkAreaSelected);
 
   let indicatorData: IndicatorWithHealthDataForArea | undefined;
+  const requestParams = {
+    indicatorId: Number(indicatorSelected[0]),
+    areaCodes: areaCodesToRequest,
+    inequalities: [
+      GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
+      GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
+    ],
+    areaType: areaTypeToUse,
+    benchmarkRefType,
+    ancestorCode:
+      benchmarkRefType === BenchmarkReferenceType.SubNational
+        ? selectedGroupCode
+        : undefined,
+  };
   try {
-    const requestParams = {
-      indicatorId: Number(indicatorSelected[0]),
-      areaCodes: areaCodesToRequest,
-      inequalities: [
-        GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
-        GetHealthDataForAnIndicatorInequalitiesEnum.Deprivation,
-      ],
-      areaType: areaTypeToUse,
-      benchmarkRefType,
-      ancestorCode:
-        benchmarkRefType === BenchmarkReferenceType.SubNational
-          ? selectedGroupCode
-          : undefined,
-    };
     indicatorData = await getAuthorisedHealthDataForAnIndicator(requestParams);
   } catch (error) {
     console.error('error getting health indicator data for area', error);
