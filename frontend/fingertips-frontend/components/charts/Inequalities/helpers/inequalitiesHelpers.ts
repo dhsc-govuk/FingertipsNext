@@ -507,7 +507,23 @@ export const getAreasWithInequalitiesData = (
     }
   });
 
-  return areasWithInequalitiesData;
+  const sortAreasWithInequalitiesData: AreaWithoutAreaType[] = [];
+
+  const englandAreaWithInequality = areasWithInequalitiesData.find(
+    (area) => area.code === areaCodeForEngland
+  );
+
+  if (englandAreaWithInequality) {
+    sortAreasWithInequalitiesData.push(englandAreaWithInequality);
+  }
+
+  const nonEnglandAreasWithInequalitiesSorted = areasWithInequalitiesData
+    .filter((area) => area.code !== areaCodeForEngland)
+    .toSorted((a, b) => a.name.localeCompare(b.name));
+
+  return sortAreasWithInequalitiesData.concat(
+    ...nonEnglandAreasWithInequalitiesSorted
+  );
 };
 
 export const filterHealthData = (

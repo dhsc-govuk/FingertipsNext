@@ -39,8 +39,8 @@ export const HeatmapHover: FC<HeatmapHoverProps> = ({
       <HoverTriangle />
       <HoverTriangleOccluder />
       <HoverParagraphZeroMargin>{`**${areaName}**`}</HoverParagraphZeroMargin>
-      {period ? (
-        <HoverParagraphZeroMargin>{period.toString()}</HoverParagraphZeroMargin>
+      {period !== '0' ? (
+        <HoverParagraphZeroMargin>{period}</HoverParagraphZeroMargin>
       ) : null}
       <HoverParagraph>{indicatorName}</HoverParagraph>
       <HeatmapHoverBenchmarkPill

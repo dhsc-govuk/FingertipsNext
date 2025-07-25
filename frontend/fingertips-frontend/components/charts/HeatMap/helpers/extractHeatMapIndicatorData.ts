@@ -1,5 +1,6 @@
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -31,5 +32,6 @@ export function extractHeatmapIndicatorData(
       indicatorData.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
     polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
     segmentInfo,
+    frequency: indicatorData.frequency ?? Frequency.Annually,
   };
 }
