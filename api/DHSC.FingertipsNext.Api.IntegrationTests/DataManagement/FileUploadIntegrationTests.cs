@@ -23,7 +23,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     private readonly string _blobName;
     private readonly DateTime _publishedAt = new(2024, 7, 15, 10, 30, 45, 123, DateTimeKind.Utc);
 
-    public FileUploadIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
+    public FileUploadIntegrationTests(WebApplicationFactoryWithAuth<Program> factory) : base(factory)
     {
         // Load configuration from the test JSON file.
         var configuration = new ConfigurationBuilder()
