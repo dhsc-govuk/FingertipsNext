@@ -1,6 +1,10 @@
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  Frequency,
+  IndicatorWithHealthDataForArea,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 
 export const compareAreasTableData = (
   healthData: IndicatorWithHealthDataForArea,
@@ -22,6 +26,12 @@ export const compareAreasTableData = (
 
   const benchmarkToUse = benchmarkAreaSelected ?? areaCodeForEngland;
 
+  const periodType =
+    healthData.areaHealthData?.at(0)?.healthData?.at(0)?.datePeriod?.type ??
+    PeriodType.Calendar;
+
+  const frequency = healthData.frequency ?? Frequency.Annually;
+
   return {
     benchmarkComparisonMethod,
     polarity,
@@ -29,5 +39,7 @@ export const compareAreasTableData = (
     groupData,
     englandData,
     benchmarkToUse,
+    periodType,
+    frequency,
   };
 };

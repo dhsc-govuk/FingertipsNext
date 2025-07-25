@@ -32,6 +32,8 @@ describe('compareAreasTableData', () => {
       groupData: expectAnyHealthDataForArea({ areaCode: 'E12000002' }),
       healthIndicatorData: [expectAnyHealthDataForArea()],
       benchmarkToUse: 'BENCHMARK_X',
+      periodType: 'Calendar',
+      frequency: 'Annually',
     });
   });
 
@@ -47,6 +49,8 @@ describe('compareAreasTableData', () => {
       groupData: undefined,
       healthIndicatorData: [expectAnyHealthDataForArea()],
       benchmarkToUse: areaCodeForEngland,
+      periodType: 'Calendar',
+      frequency: 'Annually',
     });
   });
 });

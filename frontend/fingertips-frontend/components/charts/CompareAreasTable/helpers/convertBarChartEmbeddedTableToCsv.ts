@@ -2,11 +2,17 @@ import { CsvData } from '@/lib/downloadHelpers/convertToCsv';
 import { BarChartEmbeddedTableRow } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable.types';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  DatePeriod,
+  Frequency,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const convertBarChartEmbeddedTableToCsv = (
   tableRows: BarChartEmbeddedTableRow[],
-  period?: number,
+  frequency: Frequency,
+  period?: DatePeriod,
   indicatorMetaData?: IndicatorDocument,
   benchmarkData?: HealthDataForArea,
   groupData?: HealthDataForArea,
@@ -15,10 +21,10 @@ export const convertBarChartEmbeddedTableToCsv = (
   const { indicatorID, indicatorName, unitLabel } = indicatorMetaData ?? {};
 
   const benchmarkDataPoint = benchmarkData?.healthData.find(
-    ({ year }) => year === period
+    ({ datePeriod }) => datePeriod === period
   );
   const groupDataPoint = groupData?.healthData.find(
-    ({ year }) => year === period
+    ({ datePeriod }) => datePeriod === period
   );
 
   const sortedTableRows = tableRows.toSorted((a, b) => {
@@ -78,7 +84,7 @@ export const convertBarChartEmbeddedTableToCsv = (
     csvData.push([
       indicatorID,
       indicatorName,
-      period,
+      formatDatePointLabel(period, frequency, 1),
       area,
       areaCode,
       benchmarkComparison?.benchmarkAreaCode,

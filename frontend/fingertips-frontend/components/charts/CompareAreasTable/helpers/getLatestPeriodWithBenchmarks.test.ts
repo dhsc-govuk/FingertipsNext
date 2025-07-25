@@ -1,7 +1,8 @@
-import { getLatestYearWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestYearWithBenchmarks';
+import { getLatestPeriodWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestPeriodWithBenchmarks';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
+import { PeriodType } from '@/generated-sources/ft-api-client';
 
 const testArea1 = mockHealthDataForArea({
   healthData: mockHealthDataPoints([2021, 2022, 2023, undefined]),
@@ -21,48 +22,54 @@ const groupDataWithNoPoints = mockHealthDataForArea({
   healthData: [],
 });
 
-describe('getLatestYearWithBenchmarks', () => {
+const mockDatePeriod = {
+  type: PeriodType.Calendar,
+  from: new Date('2023-01-01'),
+  to: new Date('2023-12-31'),
+};
+
+describe('getLatestPeriodWithBenchmarks', () => {
   it('should find the first complete year', () => {
     expect(
-      getLatestYearWithBenchmarks(
+      getLatestPeriodWithBenchmarks(
         [testArea1, testArea2, testArea3],
         undefined,
         undefined,
         areaCodeForEngland
       )
-    ).toEqual(2023);
+    ).toEqual(mockDatePeriod);
   });
 
   it('should ignore englandData with no healthData points', () => {
     expect(
-      getLatestYearWithBenchmarks(
+      getLatestPeriodWithBenchmarks(
         [testArea1, testArea2, testArea3],
         englandDataWithNoPoints,
         undefined,
         areaCodeForEngland
       )
-    ).toEqual(2023);
+    ).toEqual(mockDatePeriod);
   });
 
   it('should ignore groupData with no healthData points', () => {
     expect(
-      getLatestYearWithBenchmarks(
+      getLatestPeriodWithBenchmarks(
         [testArea1, testArea2, testArea3],
         undefined,
         groupDataWithNoPoints,
         'GROUP'
       )
-    ).toEqual(2023);
+    ).toEqual(mockDatePeriod);
   });
 
   it('should ignore both englandData and groupData with no healthData points', () => {
     expect(
-      getLatestYearWithBenchmarks(
+      getLatestPeriodWithBenchmarks(
         [testArea1, testArea2, testArea3],
         englandDataWithNoPoints,
         groupDataWithNoPoints,
         areaCodeForEngland
       )
-    ).toEqual(2023);
+    ).toEqual(mockDatePeriod);
   });
 });
