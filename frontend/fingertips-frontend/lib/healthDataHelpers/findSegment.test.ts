@@ -1,11 +1,12 @@
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { mockSexData } from '@/mock/data/mockSexData';
 import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
-import { findHealthPointsBySegmentation } from '@/lib/healthDataHelpers/findHealthPointsBySegmentation';
-import { SearchParams } from '@/lib/searchStateManager';
+import { findSegment } from '@/lib/healthDataHelpers/findSegment';
+import { mockAgeData } from '@/mock/data/mockAgeData';
 
 const testSegmentPersons = mockIndicatorSegment({
   sex: mockSexData({ isAggregate: true, value: 'Persons' }),
+  age: mockAgeData({ isAggregate: true, value: 'Ages' }),
   healthData: [mockHealthDataPoint({ value: 123 })],
 });
 
@@ -22,41 +23,53 @@ const testSegmentFemale = mockIndicatorSegment({
 const testData = [testSegmentPersons, testSegmentMale, testSegmentFemale];
 
 describe('findHealthPointsBySegmentation', () => {
-  it('should return empty array when no matching segment is found', () => {
+  it('should return undefined when no matching segment is found', () => {
     expect(
-      findHealthPointsBySegmentation(testData, {
-        [SearchParams.SegmentationSex]: 'ABC',
+      findSegment(testData, {
+        sex: 'ABC',
+        age: '',
+        frequency: '',
       })
-    ).toEqual([]);
+    ).toBeUndefined();
   });
 
   it('should return the aggregate segment when no search criteria', () => {
-    expect(findHealthPointsBySegmentation(testData, {})).toEqual(
-      testSegmentPersons.healthData
-    );
+    expect(
+      findSegment(testData, {
+        sex: '',
+        age: '',
+        frequency: '',
+      })
+    ).toEqual(testSegmentPersons);
   });
 
   it('should return the aggregate segment when search param for sex is persons', () => {
     expect(
-      findHealthPointsBySegmentation(testData, {
-        [SearchParams.SegmentationSex]: 'persons',
+      findSegment(testData, {
+        sex: 'persons',
+        age: '',
+        frequency: '',
       })
-    ).toEqual(testSegmentPersons.healthData);
+    ).toEqual(testSegmentPersons);
   });
 
   it('should return the male segment when search param for sex is male', () => {
     expect(
-      findHealthPointsBySegmentation(testData, {
-        [SearchParams.SegmentationSex]: 'MALE',
+      findSegment(testData, {
+        sex: 'MALE',
+        age: '',
+        frequency: '',
       })
-    ).toEqual(testSegmentMale.healthData);
+    ).toEqual(testSegmentMale);
   });
 
   it('should return the female segment when search param for sex is female', () => {
     expect(
-      findHealthPointsBySegmentation(testData, {
-        [SearchParams.SegmentationSex]: 'female',
+      findSegment(testData, {
+        sex: 'female',
+        age: '',
+        frequency: '',
       })
-    ).toEqual(testSegmentFemale.healthData);
+    ).toEqual(testSegmentFemale);
   });
 });

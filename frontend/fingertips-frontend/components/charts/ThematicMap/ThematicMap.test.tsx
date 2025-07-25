@@ -23,7 +23,7 @@ vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 
-const testRender = () => {
+const testRender = (name?: string) => {
   (fetch as Mock).mockResolvedValueOnce({
     ok: true,
     json: async () => regionsMap,
@@ -38,6 +38,7 @@ const testRender = () => {
   render(
     <QueryClientProvider client={reactQueryClient}>
       <ThematicMap
+        name={name}
         healthIndicatorData={mockHealthData['92420']}
         benchmarkComparisonMethod={'Unknown'}
         polarity={'Unknown'}
@@ -139,5 +140,13 @@ describe('ThematicMap', () => {
     testRender();
     const btn = await screen.findByRole('button', { name: 'Export options' });
     expect(btn).toBeInTheDocument();
+  });
+
+  it('should render the overridden chart title', async () => {
+    testRender('Override');
+    const titles = await screen.findAllByRole('heading', { level: 4 });
+    expect(titles[0]).toHaveTextContent(
+      'Override for Regions in North West, 2023'
+    );
   });
 });
