@@ -15,6 +15,7 @@ public class WebApplicationFactoryWithAuth<T> : WebApplicationFactory<T> where T
 {
     private const string JwtStubIssuer = "TestIssuer";
     private const string JwtStubAudience = "TestAudience";
+    public string SubClaim => "test-user";
 
     public FakeTimeProvider MockTime { get; } = new();
 
@@ -57,7 +58,7 @@ public class WebApplicationFactoryWithAuth<T> : WebApplicationFactory<T> where T
 
         if (tokenContainsSubClaim)
         {
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, SubClaim));
         }
 
         if (includeRoleClaims != null)
