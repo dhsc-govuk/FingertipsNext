@@ -211,6 +211,10 @@ export default class BasePage {
     );
   }
 
+  async checkSignInDisplayed() {
+    await expect(this.page.getByTestId(this.signInButton)).toBeVisible();
+  }
+
   async checkSignOutDisplayed() {
     await expect(this.page.getByTestId(this.signOutButton)).toBeVisible();
   }
