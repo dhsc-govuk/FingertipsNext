@@ -159,6 +159,28 @@ test.describe('Home Page Tests', () => {
     });
   });
 
+  test('should navigate to home page after sign out', async ({
+    homePage,
+    resultsPage,
+  }) => {
+    await test.step('Navigate directly to results page', async () => {
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
+    });
+    await test.step('Click Sign in button', async () => {
+      await resultsPage.clickSignIn();
+    });
+
+    await test.step('Enter correct password and verify message is displayed', async () => {
+      await resultsPage.signInToMock(password);
+      await resultsPage.checkSignOutDisplayed();
+    });
+
+    await test.step('Click Sign out button', async () => {
+      await resultsPage.clickSignOut();
+      await homePage.checkOnHomePage();
+    });
+  });
+
   test('header nav link should return user to home page', async ({
     homePage,
     resultsPage,

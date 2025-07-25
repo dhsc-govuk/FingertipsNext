@@ -7,6 +7,8 @@ import { spaceSeparatedPattern } from '@/lib/constants';
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
   readonly headerHomeLinkId = 'header-home-nav';
+  readonly signInButton = 'sign-in-button';
+  readonly signOutButton = 'sign-out-button';
 
   constructor(public readonly page: PlaywrightPage) {}
 
@@ -184,5 +186,32 @@ export default class BasePage {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.headerHomeLinkId)
     );
+  }
+
+  async clickSignIn() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.signInButton)
+    );
+  }
+
+  async clickSignOut() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.signOutButton)
+    );
+  }
+
+  async signInToMock(password: string) {
+    await this.fillAndAwaitLoadingComplete(
+      this.page.getByRole('textbox', { name: 'Password' }),
+      password
+    );
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'Sign in with password' })
+    );
+  }
+
+  async checkSignOutDisplayed() {
+    await expect(this.page.getByTestId(this.signOutButton)).toBeVisible();
   }
 }
