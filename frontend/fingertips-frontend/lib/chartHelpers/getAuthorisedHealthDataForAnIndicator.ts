@@ -15,7 +15,7 @@ export async function getAuthorisedHealthDataForAnIndicator(
   const session = await auth();
 
   if (!session) {
-    const indicatorApi = await ApiClientFactory.getIndicatorsApiClient();
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
     return await indicatorApi.getHealthDataForAnIndicator(
       apiRequestParams,
@@ -38,7 +38,7 @@ export async function getAuthorisedHealthDataForAnIndicator(
       console.warn(
         `Auth error getting unpublished healthdata for ${apiRequestParams.indicatorId}, falling back to published health data endpoint`
       );
-      const indicatorApi = await ApiClientFactory.getIndicatorsApiClient();
+      const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
       return await indicatorApi.getHealthDataForAnIndicator(
         apiRequestParams,
         API_CACHE_CONFIG
