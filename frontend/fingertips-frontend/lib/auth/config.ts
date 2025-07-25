@@ -1,5 +1,6 @@
 import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
 import { tryReadEnvVar } from '@/lib/envUtils';
+import { randomUUID } from 'crypto';
 import { NextAuthConfig } from 'next-auth';
 import 'next-auth/jwt';
 
@@ -26,6 +27,8 @@ export class AuthConfigFactory {
       providers: AuthProvidersFactory.getProviders(),
       callbacks: {
         jwt: async ({ token, user, account }) => {
+          const uuid = randomUUID();
+          console.log(`[${uuid}] JH IN JWT CALLBACK`);
           if (!account?.access_token) return token;
           // this callback gets invoked on both the node and edge runtime,
           // but the state where account is present (signin)
@@ -34,11 +37,14 @@ export class AuthConfigFactory {
           // nextjs still complains that the user api code isn't built for the edge runtime
           // even if it will never be called
           if (process.env.NEXT_RUNTIME === 'nodejs') {
+            console.log(`[${uuid}] JH VALIDATING ACCESS TOKEN`);
             const { validateUser } = await import('@/lib/auth/validation');
 
             if (await validateUser(account.access_token)) {
+              console.log(`[${uuid}] JH SUCCESSFULLY VALIDATED TOKEN`);
               return { ...token, accessToken: account.access_token };
             } else {
+              console.log(`[${uuid}] JH FAILED TO VALIDATE TOKEN`);
               console.log(`failed to validate user ${user.id}`);
             }
           }
