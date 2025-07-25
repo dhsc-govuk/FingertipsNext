@@ -23,6 +23,7 @@ export const useLineChartOverTimeData = () => {
     const segmentedData = isNotQuintiles
       ? flattenSegment(healthData, searchState)
       : healthData;
+
     return lineChartOverTimeData(indicatorMetaData, segmentedData, searchState);
   }, [healthData, indicatorMetaData, isRequired, searchState]);
 };

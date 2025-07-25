@@ -114,6 +114,7 @@ describe('useLineChartOverTimeData', () => {
     );
 
     const withChosenSegmentOnly = mockIndicatorWithHealthDataForArea({
+      name: `${mockHealthQuery.healthData?.name} (Persons, All ages)`,
       areaHealthData: [mockHealthDataForArea({ indicatorSegments: undefined })],
     });
 

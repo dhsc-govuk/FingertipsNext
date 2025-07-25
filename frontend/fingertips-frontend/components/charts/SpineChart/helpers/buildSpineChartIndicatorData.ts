@@ -11,7 +11,6 @@ import { segmentCombinations } from '@/lib/healthDataHelpers/segmentCombinations
 import { findHealthDataForArea } from '@/lib/healthDataHelpers/findHealthDataForArea';
 import { filterDefined } from '@/lib/chartHelpers/filterDefined';
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
-import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
 import { segmentIdFromInfo } from '@/lib/healthDataHelpers/segmentIdFromInfo';
 import { searchFromSegmentInfo } from '@/lib/healthDataHelpers/searchFromSegmentInfo';
 import { findHealthDataForAreas } from '@/lib/healthDataHelpers/findHealthDataForAreas';
@@ -78,8 +77,6 @@ export const buildSpineChartIndicatorData = (
       const extractedSegment = flattenSegment(indicator, search);
       const segmentId = segmentIdFromInfo(indicatorId, segmentInfo);
 
-      const segmentName = segmentNameFromInfo(segmentInfo);
-
       const matchedQuartileData = findQuartileBySegmentation(
         quartileData,
         indicatorId,
@@ -112,7 +109,7 @@ export const buildSpineChartIndicatorData = (
       const result: SpineChartIndicatorData = {
         rowId: segmentId,
         indicatorId,
-        indicatorName: `${name} (${segmentName})`,
+        indicatorName: extractedSegment.name ?? name,
         valueUnit: metaData?.unitLabel ?? '',
         benchmarkComparisonMethod: benchmarkMethod,
         latestDataPeriod,
