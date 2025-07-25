@@ -217,10 +217,9 @@ describe('Chart Page', () => {
       ).toBe(true);
     });
 
-    it('should call the published healthData endpoint when seeding there is a session', async () => {
-      (auth as Mock).mockImplementation(
-        vi.fn().mockResolvedValue({ expires: 'some string' })
-      );
+    it('should call the unpublished healthData endpoint when seeding if there is a session', async () => {
+      mockAuth.mockResolvedValue({ expires: 'some string' });
+
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',

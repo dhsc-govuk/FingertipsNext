@@ -38,7 +38,7 @@ const apiRequestParams: GetHealthDataForAnIndicatorRequest = {
   indicatorId: 1,
 };
 
-describe('getChartQuerySeedData', () => {
+describe('getAuthorisedHealthDataForAnIndicator', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -107,5 +107,21 @@ describe('getChartQuerySeedData', () => {
       API_CACHE_CONFIG
     );
     expect(result).toEqual(mockPublishedResponse);
+  });
+
+  it('calls the unpublished endpoints but throws an error if there is a session but the response is an error other than 401 or 403', async () => {
+    mockAuth.mockResolvedValue(mockSession);
+    const responseError500 = new ResponseError({ status: 500 } as Response);
+    mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockRejectedValue(
+      responseError500
+    );
+
+    await expect(
+      getAuthorisedHealthDataForAnIndicator(apiRequestParams)
+    ).rejects.toThrow(responseError500);
+
+    expect(
+      mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
+    ).toHaveBeenCalledWith(apiRequestParams, API_CACHE_CONFIG);
   });
 });
