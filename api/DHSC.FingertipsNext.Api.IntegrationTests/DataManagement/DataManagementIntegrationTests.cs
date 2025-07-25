@@ -5,33 +5,33 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 
-public abstract class DataManagementIntegrationTests : IClassFixture<DataManagementWebApplicationFactory<Program>>, IDisposable
+public abstract class DataManagementIntegrationTests : IClassFixture<WebApplicationFactoryWithAuth<Program>>, IDisposable
 {
     protected const string AdminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
     protected const string Indicator383GroupRoleId = "3b25520b-4cd5-4f45-8718-a0c8bcbcbf26";
     protected const string SqlScriptDirectory = "DataManagement";
 
-    protected DataManagementIntegrationTests(DataManagementWebApplicationFactory<Program> factory)
+    protected DataManagementIntegrationTests(WebApplicationFactoryWithAuth<Program> factoryWithAuth)
     {
-        Factory = factory;
-        Factory.AdminRoleGuid = AdminRoleGuid;
+        FactoryWithAuth = factoryWithAuth;
+        FactoryWithAuth.AdminRoleGuid = AdminRoleGuid;
 
-        using var scope = Factory.Services.CreateScope();
+        using var scope = FactoryWithAuth.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DataManagementDbContext>();
         var connectionString = dbContext.Database.GetDbConnection().ConnectionString;
         Connection = new SqlConnection(connectionString);
         Connection.Open();
 
-        ArgumentNullException.ThrowIfNull(factory);
+        ArgumentNullException.ThrowIfNull(factoryWithAuth);
         MockTime = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
-        Factory.MockTime.SetUtcNow(MockTime);
+        FactoryWithAuth.MockTime.SetUtcNow(MockTime);
     }
 
     protected SqlConnection Connection { get; }
 
     protected DateTime MockTime { get; }
 
-    protected DataManagementWebApplicationFactory<Program> Factory { get; }
+    protected WebApplicationFactoryWithAuth<Program> FactoryWithAuth { get; }
 
 
     public void Dispose()

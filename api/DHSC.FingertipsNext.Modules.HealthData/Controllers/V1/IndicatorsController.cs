@@ -4,6 +4,8 @@ using DHSC.FingertipsNext.Modules.HealthData.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using DHSC.FingertipsNext.Modules.Common.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DHSC.FingertipsNext.Modules.HealthData.Controllers.V1;
 
@@ -166,9 +168,12 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// </remarks>
     [HttpGet]
     [Route("quartiles/all")]
+    [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
     [ProducesResponseType(typeof(List<Schemas.IndicatorQuartileData>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> GetPublishedAndUnpublishedQuartileDataAsync(
         [FromQuery(Name = "indicator_ids")] int[]? indicatorIds = null,
         [FromQuery(Name = "area_code")] string areaCode = "",

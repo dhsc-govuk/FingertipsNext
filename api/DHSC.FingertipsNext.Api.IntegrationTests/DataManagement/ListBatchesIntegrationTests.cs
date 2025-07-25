@@ -37,7 +37,7 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
         PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
     };
 
-    public ListBatchesIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
+    public ListBatchesIntegrationTests(WebApplicationFactoryWithAuth<Program> factoryWithAuth) : base(factoryWithAuth)
     {
         InitialiseDb(Connection, "list-batches-setup.sql");
     }
@@ -54,9 +54,9 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
     public async Task ListBatchesEndpointShouldListAllBatchesForAdministrators()
     {
         // Arrange
-        var apiClient = Factory.CreateClient();
+        var apiClient = FactoryWithAuth.CreateClient();
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken([AdminRoleGuid]));
+            FactoryWithAuth.GenerateTestToken([AdminRoleGuid]));
 
         // Act
         var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
@@ -73,9 +73,9 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
     public async Task ListBatchesEndpointShouldListAllBatchesForAdministratorsWithAdditionalRoles()
     {
         // Arrange
-        var apiClient = Factory.CreateClient();
+        var apiClient = FactoryWithAuth.CreateClient();
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken([AdminRoleGuid, Indicator41101GroupRoleId]));
+            FactoryWithAuth.GenerateTestToken([AdminRoleGuid, Indicator41101GroupRoleId]));
 
         // Act
         var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
@@ -94,9 +94,9 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
         // Arrange
         var expectedResult = new[] { BatchFor41101 };
 
-        var apiClient = Factory.CreateClient();
+        var apiClient = FactoryWithAuth.CreateClient();
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken([Indicator41101GroupRoleId]));
+            FactoryWithAuth.GenerateTestToken([Indicator41101GroupRoleId]));
 
         // Act
         var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
@@ -111,9 +111,9 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
         // Arrange
         var expectedResult = new[] { BatchFor41101, BatchFor383 };
 
-        var apiClient = Factory.CreateClient();
+        var apiClient = FactoryWithAuth.CreateClient();
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken([Indicator41101GroupRoleId, Indicator383GroupRoleId]));
+            FactoryWithAuth.GenerateTestToken([Indicator41101GroupRoleId, Indicator383GroupRoleId]));
 
         // Act
         var response = await apiClient.GetFromJsonAsync<Batch[]>(new Uri("/batches", UriKind.Relative));
@@ -126,9 +126,9 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
     public async Task ListBatchesEndpointShouldReturnForbiddenWhenAuthorisedUserHasNoPermissions()
     {
         // Arrange
-        var apiClient = Factory.CreateClient();
+        var apiClient = FactoryWithAuth.CreateClient();
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken());
+            FactoryWithAuth.GenerateTestToken());
 
         // Act
         var response = await apiClient.GetAsync(new Uri("/batches", UriKind.Relative));
@@ -141,7 +141,7 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
     public async Task UnauthorisedRequestToListBatchesEndpointShouldBeRejected()
     {
         // Arrange
-        var apiClient = Factory.CreateClient();
+        var apiClient = FactoryWithAuth.CreateClient();
 
         // Act
         var response = await apiClient.GetAsync(new Uri("/batches", UriKind.Relative));
@@ -154,11 +154,11 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
     public async Task ExpiredRequestToListBatchesEndpointEndpointShouldBeRejected()
     {
         // Arrange
-        var apiClient = Factory.CreateClient();
+        var apiClient = FactoryWithAuth.CreateClient();
 
 
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            Factory.GenerateTestToken([Indicator41101GroupRoleId], true));
+            FactoryWithAuth.GenerateTestToken([Indicator41101GroupRoleId], true));
 
         // Act
         var response = await apiClient.GetAsync(new Uri("/batches", UriKind.Relative));
