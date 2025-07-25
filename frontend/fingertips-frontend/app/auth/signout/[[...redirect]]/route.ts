@@ -1,6 +1,9 @@
 import { auth } from '@/lib/auth';
 import { signOutHandler } from '@/lib/auth/handlers';
-import { getLogoutEndpoint } from '@/lib/auth/providers/fingertipsAuthProvider';
+import {
+  FTA_SIGNOUT_REDIRECT_PARAM,
+  getLogoutEndpoint,
+} from '@/lib/auth/providers/fingertipsAuthProvider';
 import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
@@ -22,8 +25,11 @@ export async function GET(
   const logoutEndpoint = getLogoutEndpoint();
 
   if (!logoutEndpoint) {
-    redirect(redirectTo);
+    return redirect(redirectTo);
   }
 
-  redirect(`${logoutEndpoint}?post_logout_redirect_uri=${redirectTo}`);
+  const logoutURL = new URL(logoutEndpoint);
+  logoutURL.searchParams.append(FTA_SIGNOUT_REDIRECT_PARAM, redirectTo);
+
+  return redirect(logoutURL.toString());
 }

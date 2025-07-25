@@ -8,7 +8,10 @@ import { mockRedirect } from '@/mock/utils/mockNextNavigation';
 import { signOutHandler } from '@/lib/auth/handlers';
 import { GET } from '@/app/auth/signout/[[...redirect]]/route';
 import { NextRequest } from 'next/server';
-import { getLogoutEndpoint } from '@/lib/auth/providers/fingertipsAuthProvider';
+import {
+  FTA_SIGNOUT_REDIRECT_PARAM,
+  getLogoutEndpoint,
+} from '@/lib/auth/providers/fingertipsAuthProvider';
 import { Mock } from 'vitest';
 import { mockSession } from '@/mock/utils/mockAuth';
 
@@ -18,8 +21,13 @@ vi.mock('@/lib/auth/handlers', () => {
   };
 });
 
-vi.mock('@/lib/auth/providers/fingertipsAuthProvider', () => {
+vi.mock('@/lib/auth/providers/fingertipsAuthProvider', async () => {
+  const originalModule = await vi.importActual(
+    '@/lib/auth/providers/fingertipsAuthProvider'
+  );
+
   return {
+    ...originalModule,
     getLogoutEndpoint: vi.fn(),
   };
 });
@@ -65,11 +73,11 @@ describe('sign out route handler', () => {
     (getLogoutEndpoint as Mock).mockReturnValue(expectedLogoutEndpoint);
 
     const redirectTo = `${baseURL}/some/route`;
+    const expectedResult = new URL(expectedLogoutEndpoint);
+    expectedResult.searchParams.append(FTA_SIGNOUT_REDIRECT_PARAM, redirectTo);
 
     await GET(req, { params: Promise.resolve({ redirect: redirectTo }) });
 
-    expect(mockRedirect).toHaveBeenCalledWith(
-      `${expectedLogoutEndpoint}?post_logout_redirect_uri=${redirectTo}`
-    );
+    expect(mockRedirect).toHaveBeenCalledWith(expectedResult.toString());
   });
 });

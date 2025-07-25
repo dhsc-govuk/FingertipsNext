@@ -44,7 +44,7 @@ function SignOutButton() {
       data-testid="sign-out-button"
       onClick={() => {
         setIsLoading(true);
-        const returnTo = encodeURI(String(window.location.origin));
+        const returnTo = window.location.toString();
         signOutHandler(returnTo);
       }}
     >

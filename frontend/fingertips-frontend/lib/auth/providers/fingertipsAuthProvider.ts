@@ -5,6 +5,8 @@ import { FTA_PROVIDER_ID } from '@/lib/auth/providers';
 import { tryReadEnvVar } from '@/lib/envUtils';
 import { OIDCConfig } from 'next-auth/providers';
 
+export const FTA_SIGNOUT_REDIRECT_PARAM = 'post_logout_redirect_uri';
+
 export interface FingertipsProfile {
   aud: string;
 }
