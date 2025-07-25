@@ -1,6 +1,10 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  DatePeriod,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { determineUniquePeriods } from '@/components/charts/CompareAreasTable/helpers/determineUniquePeriods';
 
 export const getLatestPeriodWithBenchmarks = (
   healthDataForAreas: HealthDataForArea[],
@@ -17,7 +21,10 @@ export const getLatestPeriodWithBenchmarks = (
     areaData.healthData.map((point) => point.datePeriod)
   );
 
-  const uniquePeriods = new Set(allPeriods);
+  const definePeriods = allPeriods.filter(
+    (period): period is DatePeriod => period !== undefined
+  );
+  const uniquePeriods = determineUniquePeriods(definePeriods);
 
   const descendingPeriods = [...uniquePeriods].sort(
     (a, b) => convertDateToNumber(b?.to) - convertDateToNumber(a?.to)
