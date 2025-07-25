@@ -25,6 +25,8 @@ batches:
         $ref: "../responses.yaml#/InternalServerError"
 batch-delete:
   delete:
+    security:
+      - bearerAuth: []
     parameters:
       - $ref: "./parameters.yaml#/batch_id"
     tags:
@@ -40,6 +42,10 @@ batch-delete:
               $ref: "../schemas.yaml#/Batch"
       "400":
         $ref: "../responses.yaml#/BadRequest"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "403":
+        $ref: "../responses.yaml#/Forbidden"
       "404":
         $ref: "../responses.yaml#/NotFound"
       "500":

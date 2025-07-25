@@ -53,8 +53,8 @@ export function sortHealthDataForAreaByDate(
     ...data,
     healthData: data.healthData.toSorted(
       (a, b) =>
-        convertDateToNumber(a.datePeriod?.from) -
-        convertDateToNumber(b.datePeriod?.from)
+        convertDateToNumber(a.datePeriod?.to) -
+        convertDateToNumber(b.datePeriod?.to)
     ),
   };
 }
@@ -76,8 +76,8 @@ export function sortHealthDataPointsByDescendingYear(
   }
   return data.toSorted(
     (a, b) =>
-      convertDateToNumber(b.datePeriod?.from) -
-      convertDateToNumber(a.datePeriod?.from)
+      convertDateToNumber(b.datePeriod?.to) -
+      convertDateToNumber(a.datePeriod?.to)
   );
 }
 
@@ -207,8 +207,8 @@ export function getLatestPeriod(
 
   const latestDateAsNumber = points.reduce(
     (previous, point) =>
-      Math.max(previous, convertDateToNumber(point.datePeriod?.from)),
-    convertDateToNumber(points[0].datePeriod?.from)
+      Math.max(previous, convertDateToNumber(point.datePeriod?.to)),
+    convertDateToNumber(points[0].datePeriod?.to)
   );
   return latestDateAsNumber;
 }
@@ -232,8 +232,8 @@ export function getFirstPeriod(
 
   const firstDateAsNumber = points.reduce(
     (previous, point) =>
-      Math.min(previous, convertDateToNumber(point.datePeriod?.from)),
-    convertDateToNumber(points[0].datePeriod?.from)
+      Math.min(previous, convertDateToNumber(point.datePeriod?.to)),
+    convertDateToNumber(points[0].datePeriod?.to)
   );
   return firstDateAsNumber;
 }

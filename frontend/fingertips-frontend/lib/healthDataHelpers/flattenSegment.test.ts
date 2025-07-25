@@ -88,4 +88,15 @@ describe('flattenSegment', () => {
 
     expect(result.areaHealthData).toEqual([]);
   });
+
+  it('should ignore invalid values and default to the first option(aggregate)', () => {
+    const result = flattenSegment(testData, {
+      [SearchParams.SegmentationSex]: 'boy',
+    });
+
+    expect(result.areaHealthData).toHaveLength(3);
+    expect(result.areaHealthData?.at(0)?.healthData).toEqual(personsHealthData);
+    expect(result.areaHealthData?.at(1)?.healthData).toEqual(personsHealthData);
+    expect(result.areaHealthData?.at(2)?.healthData).toEqual(personsHealthData);
+  });
 });

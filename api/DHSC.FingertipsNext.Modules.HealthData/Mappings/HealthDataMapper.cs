@@ -15,6 +15,18 @@ public class HealthDataMapper : IHealthDataMapper
         _ => IndicatorPolarity.Unknown
     };
 
+    public ReportingPeriod MapReportingPeriod(string? source) => source switch
+    {
+        "monthly" => ReportingPeriod.Monthly,
+        "quarterly" => ReportingPeriod.Quarterly,
+        "cumulative quarterly" => ReportingPeriod.CumulativeQuarterly,
+        "yearly" => ReportingPeriod.Yearly,
+        "2 yearly" => ReportingPeriod.TwoYearly,
+        "3 yearly" => ReportingPeriod.ThreeYearly,
+        "5 yearly" => ReportingPeriod.FiveYearly,
+        _ => ReportingPeriod.Unknown
+    };
+
     public CollectionFrequency MapCollectionFrequency(string? source)
     {
         if (source == null)
@@ -65,12 +77,13 @@ public class HealthDataMapper : IHealthDataMapper
             UpperConfidenceInterval = source.UpperCi,
             AgeBand = Map(source.AgeDimension),
             Sex = Map(source.SexDimension),
+            ReportingPeriod = MapReportingPeriod(source.PeriodDimension.Period),
             Trend = source.TrendDimension?.Name ?? string.Empty,
             Deprivation = Map(source.DeprivationDimension),
         };
     }
 
-    public static HealthDataPoint Map(DenormalisedHealthMeasureModel source)
+    public HealthDataPoint Map(DenormalisedHealthMeasureModel source)
     {
         ArgumentNullException.ThrowIfNull(source);
         return new HealthDataPoint
@@ -97,6 +110,7 @@ public class HealthDataMapper : IHealthDataMapper
                 IsAggregate = source.AgeDimensionIsAggregate,
             }),
             Sex = new Sex { Value = source.SexDimensionName, IsAggregate = source.SexDimensionIsAggregate },
+            ReportingPeriod = MapReportingPeriod(source.ReportingPeriod),
             Trend = source.TrendDimensionName ?? string.Empty,
             Deprivation = Map(new DeprivationDimensionModel()
             {
@@ -175,6 +189,7 @@ public class HealthDataMapper : IHealthDataMapper
         Polarity = source.Polarity == null ? null : MapIndicatorPolarity(source.Polarity),
         Sex = (source.SexName != null && source.IsSexAggregatedOrSingle != null) ? new Sex { Value = source.SexName, IsAggregate = (bool)source.IsSexAggregatedOrSingle } : null,
         Age = (source.AgeName != null && source.IsAgeAggregatedOrSingle != null) ? new Age { Value = source.AgeName, IsAggregate = (bool)source.IsAgeAggregatedOrSingle } : null,
+        ReportingPeriod = source.ReportingPeriod != null ? MapReportingPeriod(source.ReportingPeriod) : null,
         IsAggregate = source.IsAgeAggregatedOrSingle.HasValue && source.IsSexAggregatedOrSingle.HasValue ? source.IsAgeAggregatedOrSingle.Value && source.IsSexAggregatedOrSingle.Value : null,
         Year = source.Year,
         DatePeriod = (source.FromDate.HasValue && source.ToDate.HasValue && source.PeriodType != null)
