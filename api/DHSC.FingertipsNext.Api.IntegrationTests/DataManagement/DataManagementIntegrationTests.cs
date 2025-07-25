@@ -14,16 +14,16 @@ public abstract class DataManagementIntegrationTests : IClassFixture<WebApplicat
 
     protected DataManagementIntegrationTests(WebApplicationFactoryWithAuth<Program> factory)
     {
-        FactoryWithAuth = factoryWithAuth;
-        FactoryWithAuth.AdminRoleGuid = AdminRoleGuid;
+        Factory = factory;
+        Factory.AdminRoleGuid = AdminRoleGuid;
 
-        using var scope = FactoryWithAuth.Services.CreateScope();
+        using var scope = Factory.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<DataManagementDbContext>();
         var connectionString = dbContext.Database.GetDbConnection().ConnectionString;
         Connection = new SqlConnection(connectionString);
         Connection.Open();
 
-        ArgumentNullException.ThrowIfNull(factoryWithAuth);
+        ArgumentNullException.ThrowIfNull(factory);
         MockTime = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
         FormattedMockTime = MockTime.ToString("yyyy-MM-ddTHH:mm:ss.fff");
         Factory.MockTime.SetUtcNow(MockTime);

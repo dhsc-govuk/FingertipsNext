@@ -52,7 +52,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task AuthorisedRequestToDataManagementEndpointShouldUploadAFile(params string[] userRoleIds)
     {
         // Arrange
-        var apiClient = FactoryWithAuth.CreateClient();
+        var apiClient = Factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
 
@@ -67,7 +67,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", FactoryWithAuth.GenerateTestToken(userRoleIds));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Factory.GenerateTestToken(userRoleIds));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -98,7 +98,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task UnauthorisedRequestToDataManagementEndpointShouldBeRejected()
     {
         // Arrange
-        var apiClient = FactoryWithAuth.CreateClient();
+        var apiClient = Factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
 
@@ -113,11 +113,11 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task ExpiredRequestToDataManagementEndpointShouldBeRejected()
     {
         // Arrange
-        var apiClient = FactoryWithAuth.CreateClient();
+        var apiClient = Factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", FactoryWithAuth.GenerateTestToken([Indicator41203GroupRoleId], true));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Factory.GenerateTestToken([Indicator41203GroupRoleId], true));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -130,11 +130,11 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task InvalidRoleForIndicatorShouldBeRejected()
     {
         // Arrange
-        var apiClient = FactoryWithAuth.CreateClient();
+        var apiClient = Factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", FactoryWithAuth.GenerateTestToken([Indicator41203GroupRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Factory.GenerateTestToken([Indicator41203GroupRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri("/indicators/9999/data", UriKind.Relative), content);
@@ -178,7 +178,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task UploadFailuresShouldReturn500Response(string userRoleId)
     {
         // Arrange
-        var apiClient = FactoryWithAuth.CreateClient();
+        var apiClient = Factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
 
@@ -193,7 +193,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", FactoryWithAuth.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Factory.GenerateTestToken([userRoleId]));
 
         // Act
         await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -209,7 +209,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task UploadingInvalidFileShouldReturn400Response(string userRoleId)
     {
         // Arrange
-        var apiClient = FactoryWithAuth.CreateClient();
+        var apiClient = Factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
 
@@ -224,7 +224,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", FactoryWithAuth.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -240,14 +240,14 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task UploadingEmptyFileShouldReturn400Response(string userRoleId)
     {
         // Arrange
-        var apiClient = FactoryWithAuth.CreateClient();
+        var apiClient = Factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
         using var streamContent = new StreamContent(Stream.Null);
         streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
         content.Add(streamContent, "file", IntegrationTestFileName);
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", FactoryWithAuth.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -262,11 +262,11 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task UploadingNoFileShouldReturn400Response(string userRoleId)
     {
         // Arrange
-        var apiClient = FactoryWithAuth.CreateClient();
+        var apiClient = Factory.CreateClient();
 
         using var content = new MultipartFormDataContent();
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", FactoryWithAuth.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
@@ -281,7 +281,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     public async Task UploadToBlobStorageShouldFailIfContainerDoesNotExist(string userRoleId)
     {
         // Arrange
-        var apiClient = FactoryWithAuth.WithWebHostBuilder(config => config.UseSetting("UPLOAD_STORAGE_CONTAINER_NAME", "invalid-container-name")).CreateClient();
+        var apiClient = Factory.WithWebHostBuilder(config => config.UseSetting("UPLOAD_STORAGE_CONTAINER_NAME", "invalid-container-name")).CreateClient();
 
         using var content = new MultipartFormDataContent();
 
@@ -296,7 +296,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         content.Add(streamContent, "file", IntegrationTestFileName);
         content.Add(publishedAtContent, "publishedAt");
 
-        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", FactoryWithAuth.GenerateTestToken([userRoleId]));
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Factory.GenerateTestToken([userRoleId]));
 
         // Act
         var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
