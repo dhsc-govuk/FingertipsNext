@@ -19,7 +19,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
     private const string Indicator92266GroupRoleId = "e3cba68a-0640-4642-bc90-625928a9dce1";
     private const string Indicator93701GroupRoleId = "09df2bac-1bd0-4897-b2e8-b999d3d366a4";
 
-    public DeleteBatchIntegrationTests(WebApplicationFactoryWithAuth<Program> factoryWithAuth) : base(factoryWithAuth)
+    public DeleteBatchIntegrationTests(WebApplicationFactoryWithAuth<Program> factory) : base(factory)
     {
         InitialiseDb(Connection, "delete-batch-setup.sql");
     }
@@ -57,6 +57,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         var batch = await response.Content.ReadFromJsonAsync(typeof(Batch)) as Batch;
         batch.BatchId.ShouldBe(batchId);
         batch.DeletedAt.ShouldNotBeNull();
+        batch.DeletedUserId.ShouldBe(Factory.SubClaim);
         batch.Status.ShouldBe(BatchStatus.Deleted);
         batch.IndicatorId.ShouldBe(IndicatorId);
 
@@ -114,6 +115,41 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
 
+    [Fact]
+    public async Task ATokenWithoutASubClaimShouldBeRejectedByDeleteBatchEndpoint()
+    {
+        // Arrange
+        var apiClient = Factory.CreateClient();
+        const string batchId = "92266_2017-07-03T14:22:37.123";
+        const bool includeSubClaimInToken = false;
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            Factory.GenerateTestToken(roleIds));
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task ATokenWithoutASubClaimShouldBeRejectedByDeleteBatchEndpoint()
+    {
+        // Arrange
+        var apiClient = Factory.CreateClient();
+        const string batchId = "92266_2017-07-03T14:22:37.123";
+        const bool includeSubClaimInToken = false;
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            Factory.GenerateTestToken([Indicator92266GroupRoleId], false, includeSubClaimInToken));
+
+        // Act
+        var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
 
     [Fact]
     public async Task DeleteBatchEndpointShouldReturn404ResponseWhenBatchDoesNotExist()
@@ -122,7 +158,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
         var apiClient = FactoryWithAuth.CreateClient();
         const string batchId = "1234";
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-            FactoryWithAuth.GenerateTestToken([AdminRoleGuid]));
+            Factory.GenerateTestToken([AdminRoleGuid]));
 
         // Act
         var response = await apiClient.DeleteAsync(new Uri($"/batches/{batchId}", UriKind.Relative));

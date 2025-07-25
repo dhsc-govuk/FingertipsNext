@@ -71,7 +71,7 @@ export function generateSeriesData({
     {
       type: 'bar',
       name: formatBarHover({
-        period: period,
+        period,
         lowerName: 'Worst',
         lowerValue: worst,
         upperName: '25th percentile',
@@ -88,7 +88,7 @@ export function generateSeriesData({
     {
       type: 'bar',
       name: formatBarHover({
-        period: period,
+        period,
         upperName: 'Best',
         upperValue: best,
         lowerName: '75th percentile',
@@ -105,7 +105,7 @@ export function generateSeriesData({
     {
       type: 'bar',
       name: formatBarHover({
-        period: period,
+        period,
         lowerName: '25th percentile',
         lowerValue: lowerQuartile,
         upperName: '75th percentile',
@@ -122,7 +122,7 @@ export function generateSeriesData({
     {
       type: 'bar',
       name: formatBarHover({
-        period: period,
+        period,
         lowerName: '25th percentile',
         lowerValue: lowerQuartile,
         upperName: '75th percentile',

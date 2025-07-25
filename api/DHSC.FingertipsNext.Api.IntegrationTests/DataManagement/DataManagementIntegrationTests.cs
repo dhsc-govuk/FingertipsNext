@@ -10,8 +10,9 @@ public abstract class DataManagementIntegrationTests : IClassFixture<WebApplicat
     protected const string AdminRoleGuid = "a6f09d79-e3de-48ae-b0ce-c48d5d8e5353";
     protected const string Indicator383GroupRoleId = "3b25520b-4cd5-4f45-8718-a0c8bcbcbf26";
     protected const string SqlScriptDirectory = "DataManagement";
+    protected string FormattedMockTime { get; }
 
-    protected DataManagementIntegrationTests(WebApplicationFactoryWithAuth<Program> factoryWithAuth)
+    protected DataManagementIntegrationTests(WebApplicationFactoryWithAuth<Program> factory)
     {
         FactoryWithAuth = factoryWithAuth;
         FactoryWithAuth.AdminRoleGuid = AdminRoleGuid;
@@ -24,14 +25,15 @@ public abstract class DataManagementIntegrationTests : IClassFixture<WebApplicat
 
         ArgumentNullException.ThrowIfNull(factoryWithAuth);
         MockTime = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
-        FactoryWithAuth.MockTime.SetUtcNow(MockTime);
+        FormattedMockTime = MockTime.ToString("yyyy-MM-ddTHH:mm:ss.fff");
+        Factory.MockTime.SetUtcNow(MockTime);
     }
 
     protected SqlConnection Connection { get; }
 
     protected DateTime MockTime { get; }
 
-    protected WebApplicationFactoryWithAuth<Program> FactoryWithAuth { get; }
+    protected WebApplicationFactoryWithAuth<Program> Factory { get; }
 
 
     public void Dispose()

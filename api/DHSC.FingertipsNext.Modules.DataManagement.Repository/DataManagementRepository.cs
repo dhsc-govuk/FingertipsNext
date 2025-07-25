@@ -51,7 +51,7 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
     /// <param name="indicatorsThatCanBeModified">The indicator IDs the user has permission to modify.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public async Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified)
+    public async Task<BatchModel?> DeleteBatchAsync(string batchId, string userId, IList<int> indicatorsThatCanBeModified)
     {
         ArgumentException.ThrowIfNullOrEmpty(batchId);
         ArgumentNullException.ThrowIfNull(indicatorsThatCanBeModified);

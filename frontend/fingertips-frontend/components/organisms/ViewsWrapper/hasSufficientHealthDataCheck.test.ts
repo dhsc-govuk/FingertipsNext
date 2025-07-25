@@ -5,6 +5,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { hasSufficientHealthDataCheck } from './hasSufficientHealthDataCheck';
 import { healthDataPoint } from '@/lib/mocks';
+import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 
 export const generateMockHealthDataPoint = (year: number): HealthDataPoint => {
   return {
@@ -18,9 +19,10 @@ export const generateMockAreaHealthData = (
   healthData: HealthDataPoint[] = []
 ): HealthDataForArea => {
   return {
+    healthData: [],
     areaCode,
     areaName: `Name ${areaCode}`,
-    healthData: healthData,
+    indicatorSegments: [mockIndicatorSegment({ healthData })],
   };
 };
 

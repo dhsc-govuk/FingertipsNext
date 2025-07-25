@@ -22,6 +22,96 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
     }
 
     [Fact]
+    public async Task GetIndicatorDataIncludingUnpublishedWithoutAuth401Response()
+    {
+        var client = _factory.CreateClient();
+
+        var response = await client.GetAsync(new Uri($"/indicators/{IndicatorId}/data/all", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task GetIndicatorDataIncludingUnpublishedWithInvalidAuth403Response()
+    {
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken());
+
+        using var req = new HttpRequestMessage(HttpMethod.Get, new Uri($"/indicators/{IndicatorId}/data/all", UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Theory]
+    [InlineData(AdminRoleGuid)]
+    [InlineData(Indicator90453GroupRoleId)]
+    public async Task GetQuintileIndicatorDataIncludingUnpublishedWithValidAuth200ResponseAndExpectedYears(string userRoleId)
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+        // Specific Uri used in order to replace http test
+        const string targetUri = "/indicators/90453/data/all?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational";
+        var expectedYears = new List<int> { 2020, 2021, 2022, 2023, 2024, 2025 };
+
+        // Act
+        using var req = new HttpRequestMessage(HttpMethod.Get, new Uri(targetUri, UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        // Extract
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseData = JsonSerializer.Deserialize<IndicatorWithHealthDataForAreas>(responseContent);
+        var healthDataItems = responseData.AreaHealthData
+                .ToList()[2]
+                .IndicatorSegments.First()
+                .HealthData;
+        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.Year).Distinct().ToList();
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        responseData.BenchmarkMethod.ToString().ShouldBe("Quintiles");
+        healthDataYearList.Count.ShouldBe(expectedYears.Count);
+        healthDataYearList.ShouldBe(expectedYears, ignoreOrder: true);
+    }
+
+    [Theory]
+    [InlineData(AdminRoleGuid)]
+    [InlineData(Indicator41101GroupRoleId)]
+    public async Task GetNonQuintileIndicatorDataIncludingUnpublishedWithValidAuth200ResponseAndExpectedYears(string userRoleId)
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+        // Specific Uri used in order to replace http test
+        const string targetUri = "/indicators/41101/data/all?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational";
+
+        var expectedYears = new List<int> { 2020, 2021, 2022, 2023, 2024 };
+
+        // Act
+        using var req = new HttpRequestMessage(HttpMethod.Get, new Uri(targetUri, UriKind.Relative));
+        var response = await client.SendAsync(req);
+
+        // Extract
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseData = JsonSerializer.Deserialize<IndicatorWithHealthDataForAreas>(responseContent);
+        var healthDataItems = responseData.AreaHealthData
+            .ToList()[0]
+            .IndicatorSegments.First()
+            .HealthData;
+        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.Year).Distinct().ToList();
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        responseData.BenchmarkMethod.ToString().ShouldBe("CIOverlappingReferenceValue95");
+        healthDataYearList.Count.ShouldBe(expectedYears.Count);
+        healthDataYearList.ShouldBe(expectedYears, ignoreOrder: true);
+    }
+
+    
+    [Fact]
     public async Task GetQuartilesAllShouldRespondWith401WithoutAuth()
     {
         var client = _factory.CreateClient();

@@ -4,6 +4,8 @@ import { singleIndicatorBasicTableData } from '@/components/charts/BasicTable/he
 import { useMemo } from 'react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
+import { withoutYears } from '@/lib/healthDataHelpers/withoutYears';
+import { Frequency } from '@/generated-sources/ft-api-client';
 
 export const useSingleIndicatorBasicTableData = () => {
   const searchState = useSearchStateParams();
@@ -12,13 +14,18 @@ export const useSingleIndicatorBasicTableData = () => {
   return useMemo(() => {
     if (!healthData || !indicatorMetaData) return null;
 
+    const cleanData = withoutYears(healthData);
     const areaCode = areasSelected?.at(0) ?? areaCodeForEngland;
-    const area = healthData.areaHealthData?.find(
+    const area = cleanData.areaHealthData?.find(
       (healthData) => healthData.areaCode === areaCode
     );
 
     if (!area) return null;
 
-    return singleIndicatorBasicTableData(area, indicatorMetaData);
+    return singleIndicatorBasicTableData(
+      area,
+      indicatorMetaData,
+      healthData.frequency ?? Frequency.Annually
+    );
   }, [areasSelected, healthData, indicatorMetaData]);
 };
