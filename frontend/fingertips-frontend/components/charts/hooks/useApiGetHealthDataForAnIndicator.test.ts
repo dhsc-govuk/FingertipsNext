@@ -1,9 +1,3 @@
-// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import {
-  mockGetHealthDataForAnIndicator,
-  mockGetHealthDataForAnIndicatorIncludingUnpublishedData,
-} from '@/mock/utils/mockApiClient';
-//
 import { mockAuth } from '@/mock/utils/mockAuth';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForAnIndicator } from './useApiGetHealthDataForAnIndicator';

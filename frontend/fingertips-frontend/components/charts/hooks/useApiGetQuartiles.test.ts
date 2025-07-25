@@ -27,7 +27,7 @@ describe('useApiGetQuartiles', () => {
 
     // act
     renderHook(() => useApiGetQuartiles(options), {
-      wrapper: testRenderWrapper({}, queryClient, null),
+      wrapper: testRenderWrapper({}, queryClient),
     });
 
     // assert
@@ -44,9 +44,7 @@ describe('useApiGetQuartiles', () => {
 
     // act
     renderHook(() => useApiGetQuartiles(options), {
-      wrapper: testRenderWrapper({}, queryClient, {
-        expires: 'some timestamp',
-      }),
+      wrapper: testRenderWrapper({}, queryClient),
     });
 
     // assert

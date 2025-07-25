@@ -31,9 +31,7 @@ describe('useApiGetHealthDataForMultipleIndicators', () => {
     const queryClient = new QueryClient();
 
     renderHook(() => useApiGetHealthDataForMultipleIndicators(options), {
-      wrapper: testRenderWrapper({}, queryClient, {
-        expires: 'some timestamp',
-      }),
+      wrapper: testRenderWrapper({}, queryClient),
     });
 
     await waitFor(() => {
@@ -64,7 +62,7 @@ describe('useApiGetHealthDataForMultipleIndicators', () => {
     const queryClient = new QueryClient();
 
     renderHook(() => useApiGetHealthDataForMultipleIndicators(options), {
-      wrapper: testRenderWrapper({}, queryClient, null),
+      wrapper: testRenderWrapper({}, queryClient),
     });
 
     await waitFor(() => {
