@@ -181,7 +181,8 @@ public class DataManagementService : IDataManagementService
         };
     }
 
-    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, string userId, DateTime publishedAt, string batchId,
+    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, string userId, DateTime publishedAt,
+        string batchId,
         string originalFileName)
     {
         var model = new BatchModel
@@ -199,7 +200,7 @@ public class DataManagementService : IDataManagementService
     }
 
     private static void WriteUploadSuccessLog(ILogger<DataManagementService> logger, string originalFileName,
-        DateTime valueLastModified, Guid userId, DateTime publishedAt, string batchId, int indicatorId)
+        DateTime valueLastModified, string userId, DateTime publishedAt, string batchId, int indicatorId)
     {
         var logObject = new BatchUploadLog
         {

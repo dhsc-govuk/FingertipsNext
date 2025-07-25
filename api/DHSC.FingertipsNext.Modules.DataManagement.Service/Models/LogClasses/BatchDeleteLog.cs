@@ -9,7 +9,7 @@ public class BatchDeleteLog
     [JsonPropertyName("Timestamp")] public required DateTime? Timestamp { get; init; }
 
     // User who deleted the batch
-    [JsonPropertyName("UserId")] public required Guid? UserId { get; init; }
+    [JsonPropertyName("UserId")] public required string? UserId { get; init; }
 
     [JsonPropertyName("PublishedAt")] public required DateTime PublishedAt { get; init; }
 

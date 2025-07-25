@@ -276,10 +276,7 @@ public class DataManagementServiceTests
             OriginalFileName = "upload.csv",
             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
             PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0).AddYears(1),
-            DeletedAt = DateTime.UtcNow,
-            DeletedUserId = UserId,
             UserId = UserId,
-            Status = BatchStatus.Deleted
         };
         var expected = BatchExamples.Batch with
         {
@@ -295,8 +292,8 @@ public class DataManagementServiceTests
         };
 
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(model);
-        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
+        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>()).Returns(model);
+        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(Task.CompletedTask);
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expected);
 
         // Act
@@ -320,8 +317,6 @@ public class DataManagementServiceTests
         // Arrange
         var model = BatchExamples.BatchModel;
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(Task.FromResult<BatchModel?>(null));
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>())
-            .Throws(new ArgumentException(exceptionMessage));
 
         // Act
         var result = await _service.DeleteBatchAsync("123", UserId, []);
@@ -345,7 +340,7 @@ public class DataManagementServiceTests
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);
+        var result = await _service.DeleteBatchAsync("123", UserId, []);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.ClientError);
@@ -362,7 +357,7 @@ public class DataManagementServiceTests
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);
+        var result = await _service.DeleteBatchAsync("123", UserId, []);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.ClientError);
@@ -384,10 +379,10 @@ public class DataManagementServiceTests
         {
             Status = BatchStatus.Deleted,
             DeletedAt = _timeProvider.GetUtcNow().Date,
-            DeletedUserId = Guid.Empty
+            DeletedUserId = UserId
         };
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
-        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<Guid>())
+        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>())
             .Throws(new ArgumentNullException());
 
         // Act
@@ -414,14 +409,14 @@ public class DataManagementServiceTests
         {
             Status = BatchStatus.Deleted,
             DeletedAt = _timeProvider.GetUtcNow().Date,
-            DeletedUserId = Guid.Empty
+            DeletedUserId = UserId
         };
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
-        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<Guid>()).Returns(expectedModel);
+        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>()).Returns(expectedModel);
         _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(Task.CompletedTask);
 
         // Act
-        var result = await _service.DeleteBatchAsync(model.BatchId, Guid.Empty, indicatorIdsThatCanBeModified);
+        var result = await _service.DeleteBatchAsync(model.BatchId, UserId, indicatorIdsThatCanBeModified);
 
 
         // Assert
@@ -445,7 +440,7 @@ public class DataManagementServiceTests
         {
             Status = BatchStatus.Deleted,
             DeletedAt = _timeProvider.GetUtcNow().Date,
-            DeletedUserId = Guid.Empty
+            DeletedUserId = UserId
         };
 
         var model456 = BatchExamples.BatchModel with
@@ -458,7 +453,7 @@ public class DataManagementServiceTests
         {
             Status = BatchStatus.Deleted,
             DeletedAt = _timeProvider.GetUtcNow().Date,
-            DeletedUserId = Guid.Empty
+            DeletedUserId = UserId
         };
 
         var model789 = BatchExamples.BatchModel with
@@ -471,30 +466,30 @@ public class DataManagementServiceTests
         {
             Status = BatchStatus.Deleted,
             DeletedAt = _timeProvider.GetUtcNow().Date,
-            DeletedUserId = Guid.Empty
+            DeletedUserId = UserId
         };
         _repository.GetBatchByIdAsync(model123.BatchId).Returns(model123);
         _repository.GetBatchByIdAsync(model456.BatchId).Returns(model456);
         _repository.GetBatchByIdAsync(model789.BatchId).Returns(model789);
-        _repository.DeleteBatchAsync(model123, Arg.Any<Guid>()).Returns(expectedModel123);
-        _repository.DeleteBatchAsync(model456, Arg.Any<Guid>()).Returns(expectedModel456);
-        _repository.DeleteBatchAsync(model789, Arg.Any<Guid>()).Returns(expectedModel789);
+        _repository.DeleteBatchAsync(model123, Arg.Any<string>()).Returns(expectedModel123);
+        _repository.DeleteBatchAsync(model456, Arg.Any<string>()).Returns(expectedModel456);
+        _repository.DeleteBatchAsync(model789, Arg.Any<string>()).Returns(expectedModel789);
 
 
         // Act
-        var result123 = await _service.DeleteBatchAsync(model123.BatchId, Guid.Empty, adminIndicatorsThatCanBeModified);
+        var result123 = await _service.DeleteBatchAsync(model123.BatchId, UserId, adminIndicatorsThatCanBeModified);
 
         // Assert
         result123.Outcome.ShouldBe(OutcomeType.Ok);
 
         // Act
-        var result456 = await _service.DeleteBatchAsync(model456.BatchId, Guid.Empty, adminIndicatorsThatCanBeModified);
+        var result456 = await _service.DeleteBatchAsync(model456.BatchId, UserId, adminIndicatorsThatCanBeModified);
 
         // Assert
         result456.Outcome.ShouldBe(OutcomeType.Ok);
 
         // Act
-        var result789 = await _service.DeleteBatchAsync(model789.BatchId, Guid.Empty, adminIndicatorsThatCanBeModified);
+        var result789 = await _service.DeleteBatchAsync(model789.BatchId, UserId, adminIndicatorsThatCanBeModified);
 
         // Assert
         result789.Outcome.ShouldBe(OutcomeType.Ok);
@@ -518,13 +513,13 @@ public class DataManagementServiceTests
         {
             Status = BatchStatus.Deleted,
             DeletedAt = _timeProvider.GetUtcNow().Date,
-            DeletedUserId = Guid.Empty
+            DeletedUserId = UserId
         };
         _repository.GetBatchByIdAsync(model123.BatchId).Returns(model123);
-        _repository.DeleteBatchAsync(model123, Arg.Any<Guid>()).Returns(expectedModel123);
+        _repository.DeleteBatchAsync(model123, Arg.Any<string>()).Returns(expectedModel123);
 
         // Act
-        var result = await _service.DeleteBatchAsync(model123.BatchId, Guid.Empty, indicatorIdsThatCanBeModified);
+        var result = await _service.DeleteBatchAsync(model123.BatchId, UserId, indicatorIdsThatCanBeModified);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.PermissionDenied);
@@ -535,14 +530,14 @@ public class DataManagementServiceTests
     [Fact]
     public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullBatchIdIsSpecified()
     {
-        await _service.DeleteBatchAsync(null!, Guid.Empty, [])
+        await _service.DeleteBatchAsync(null!, UserId, [])
             .ShouldThrowAsync(typeof(ArgumentNullException));
     }
 
     [Fact]
     public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullListOfIndicatorsIsSpecified()
     {
-        await _service.DeleteBatchAsync("batch-id", Guid.Empty, null!)
+        await _service.DeleteBatchAsync("batch-id", UserId, null!)
             .ShouldThrowAsync(typeof(ArgumentNullException));
     }
 
