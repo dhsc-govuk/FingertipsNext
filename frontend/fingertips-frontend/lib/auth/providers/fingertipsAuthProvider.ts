@@ -38,6 +38,7 @@ export const FingertipsAuthProvider = ({
   issuer: issuer,
   clientId: clientId,
   clientSecret: clientSecret,
+  checks: ['none'],
   wellKnown: wellKnown,
   authorization: {
     params: {
