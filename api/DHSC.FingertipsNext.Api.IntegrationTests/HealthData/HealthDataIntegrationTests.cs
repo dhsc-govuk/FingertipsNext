@@ -75,7 +75,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         healthDataYearList.Count.ShouldBe(expectedYears.Count);
         healthDataYearList.ShouldBe(expectedYears, ignoreOrder: true);
     }
-    
+
     [Theory]
     [InlineData(AdminRoleGuid)]
     [InlineData(Indicator41101GroupRoleId)]
@@ -87,8 +87,8 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
             new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
         // Specific Uri used in order to replace http test
         const string targetUri = "/indicators/41101/data/all?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational";
-        
-        var expectedYears = new List<int> { 2020, 2021, 2022, 2023, 2024};
+
+        var expectedYears = new List<int> { 2020, 2021, 2022, 2023, 2024 };
 
         // Act
         using var req = new HttpRequestMessage(HttpMethod.Get, new Uri(targetUri, UriKind.Relative));
