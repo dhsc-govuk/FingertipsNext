@@ -770,6 +770,11 @@ jobs:
             name        = "NEXT_PUBLIC_AUTH_URL"
             secret_name = null
             value       = "${{ vars.FINGERTIPS_FRONTEND_URL }}/auth"
+          },
+          {
+            name        = "AUTH_TRUST_HOST"
+            secret_name = null
+            value       = true
           }
         ]
       container_liveness_probe: |
