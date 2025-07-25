@@ -138,7 +138,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
     {
         // Arrange
         var apiClient = Factory.CreateClient();
-        const string batchId = "92266_2017-07-04T14:22:37.123";
+        const string batchId = "92266_2017-07-04T14:22:37.124";
         apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
             Factory.GenerateTestToken([Indicator92266GroupRoleId]));
 

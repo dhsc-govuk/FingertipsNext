@@ -46,43 +46,23 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
     /// <summary>
     ///     Delete the specified batch.
     /// </summary>
-    /// <param name="batchId">The ID of the batch to delete.</param>
+    /// <param name="model"></param>
     /// <param name="userId">The ID of the user deleting the batch.</param>
-    /// <param name="indicatorsThatCanBeModified">The indicator IDs the user has permission to modify.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public async Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified)
+    public async Task<BatchModel?> DeleteBatchAsync(BatchModel model, Guid userId)
     {
-        ArgumentException.ThrowIfNullOrEmpty(batchId);
-        ArgumentNullException.ThrowIfNull(indicatorsThatCanBeModified);
-
-        // Batch must be unpublished
-        var model = await _dbContext.Batch.Where(b => b.BatchId == batchId).FirstOrDefaultAsync();
-
-        if (model == null)
-        {
-            throw new ArgumentException("BatchNotFound");
-        }
-
-        if (indicatorsThatCanBeModified.Any() && !indicatorsThatCanBeModified.Contains(model.IndicatorId))
-        {
-            throw new ArgumentException("PermissionDenied");
-        }
-
-        if (model is { DeletedAt: not null, Status: BatchStatus.Deleted })
-        {
-            throw new ArgumentException("BatchDeleted");
-        }
-
-        if (model.PublishedAt <= DateTime.UtcNow)
-        {
-            throw new ArgumentException("BatchPublished");
-        }
+        ArgumentNullException.ThrowIfNull(model);
 
         model.DeletedAt = DateTime.UtcNow;
         model.DeletedUserId = userId;
         model.Status = BatchStatus.Deleted;
         await _dbContext.SaveChangesAsync();
         return model;
+    }
+
+    public async Task<BatchModel?> GetBatchByIdAsync(string batchId)
+    {
+        return await _dbContext.Batch.Where(b => b.BatchId == batchId).FirstOrDefaultAsync();
     }
 }

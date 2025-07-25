@@ -7,5 +7,6 @@ public interface IDataManagementRepository
     Task<BatchModel> AddBatchAsync(BatchModel batch);
     Task<IEnumerable<BatchModel>> GetAllBatchesAsync();
     Task<IEnumerable<BatchModel>> GetBatchesByIdsAsync(int[] indicators);
-    Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified);
+    Task<BatchModel?> DeleteBatchAsync(BatchModel model, Guid userId);
+    Task<BatchModel?> GetBatchByIdAsync(string batchId);
 }
