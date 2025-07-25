@@ -757,9 +757,9 @@ jobs:
             value       = "https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0"
           },
           {
-            name        = "AUTH_WELLKNOWN"
+            name        = "AUTH_LOGOUT"
             secret_name = null
-            value       = "https://login.microsoftonline.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0/.well-known/openid-configuration"
+            value       = "https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}oauth2/v2.0/logout"
           },
           {
             name        = "AUTH_URL"

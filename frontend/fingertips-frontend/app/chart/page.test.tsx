@@ -2,7 +2,7 @@
  * @vitest-environment node
  */
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import { mockAuth } from '@/mock/utils/mockAuth';
+import { mockAuth, mockSession } from '@/mock/utils/mockAuth';
 //
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -217,7 +217,7 @@ describe('Chart Page', () => {
     });
 
     it('should call the unpublished healthData endpoint when seeding if there is a session', async () => {
-      mockAuth.mockResolvedValue({ expires: 'some string' });
+      mockAuth.mockResolvedValue(mockSession());
 
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {

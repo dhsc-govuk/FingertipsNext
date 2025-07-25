@@ -6,7 +6,7 @@ describe('build auth providers', () => {
     vi.stubEnv('AUTH_CLIENT_ID', undefined);
     vi.stubEnv('AUTH_CLIENT_SECRET', undefined);
     vi.stubEnv('AUTH_ISSUER', undefined);
-    vi.stubEnv('AUTH_WELLKNOWN', undefined);
+    vi.stubEnv('AUTH_LOGOUT', undefined);
 
     AuthProvidersFactory.reset();
   });
@@ -27,7 +27,7 @@ describe('build auth providers', () => {
     vi.stubEnv('AUTH_CLIENT_ID', 'foo');
     vi.stubEnv('AUTH_CLIENT_SECRET', 'bar');
     vi.stubEnv('AUTH_ISSUER', 'baz');
-    vi.stubEnv('AUTH_WELLKNOWN', 'alsobaz');
+    vi.stubEnv('AUTH_LOGOUT', 'alsobaz');
 
     expect(AuthProvidersFactory.getProviders()).toHaveLength(1);
     expect(AuthProvidersFactory.getProviders()[0].id).toEqual('fta');
@@ -39,7 +39,7 @@ describe('build auth providers', () => {
     vi.stubEnv('AUTH_CLIENT_ID', 'foo');
     vi.stubEnv('AUTH_CLIENT_SECRET', 'bar');
     vi.stubEnv('AUTH_ISSUER', 'baz');
-    vi.stubEnv('AUTH_WELLKNOWN', 'alsobaz');
+    vi.stubEnv('AUTH_LOGOUT', 'alsobaz');
 
     expect(AuthProvidersFactory.getProviders()).toHaveLength(2);
   });

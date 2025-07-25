@@ -84,13 +84,13 @@ When the application is running behind a reverse proxy - or in a docker containe
 AUTH_TRUST_HOST: true
 ```
 
-The OIDC client ID, client secret, issuer, and OIDC configuration endpoint (well-known endpoint) are required to integrate with an external authentication provider.
+The OIDC client ID, client secret, issuer, and logout endpoint are required to integrate with an external authentication provider.
 
 ```
 AUTH_CLIENT_ID="example-client-id"
 AUTH_CLIENT_SECRET="example-client-secret"
 AUTH_ISSUER="https://example-tenant-id.ciamlogin.com/example-tenant-id/v2.0"
-AUTH_WELLKNOWN="https://login.microsoftonline.com/example-tenant-id/v2.0/.well-known/openid-configuration"
+AUTH_LOGOUT="https://example-tenant-id.ciamlogin.com/example-tenant-id/oauth2/v2.0/logout"
 ```
 
 ## Building

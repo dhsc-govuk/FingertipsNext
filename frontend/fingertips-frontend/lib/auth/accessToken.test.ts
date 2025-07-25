@@ -1,11 +1,11 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import { mockAuth } from '@/mock/utils/mockAuth';
+import { mockAuth, mockJWT } from '@/mock/utils/mockAuth';
 //
 import { getAccessToken } from '@/lib/auth/accessToken';
 import { getJWT } from '@/lib/auth/getJWT';
-import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import { Mock } from 'vitest';
+import { mockSession } from '@/mock/utils/mockAuth';
 
 vi.mock('@/lib/auth/getJWT', () => {
   return { getJWT: vi.fn() };
@@ -13,12 +13,11 @@ vi.mock('@/lib/auth/getJWT', () => {
 
 const mockGetJWT = getJWT as Mock;
 
-const validJWT: JWT = { accessToken: 'hunter2' };
-const validSession: Session = { expires: 'some time' };
+const validJWT = mockJWT();
 
 describe('get access token', () => {
   it('should return the access token on a JWT if a session exists and a JWT with a valid access token is found', async () => {
-    mockAuth.mockResolvedValue(validSession);
+    mockAuth.mockResolvedValue(mockSession());
     mockGetJWT.mockResolvedValue(validJWT);
 
     const result = await getAccessToken();
@@ -36,7 +35,7 @@ describe('get access token', () => {
   });
 
   it('should return no access token if JWT not found', async () => {
-    mockAuth.mockResolvedValue(validSession);
+    mockAuth.mockResolvedValue(mockSession());
     mockGetJWT.mockResolvedValue(null);
 
     const result = await getAccessToken();
@@ -45,9 +44,9 @@ describe('get access token', () => {
   });
 
   it('should return no access token if access token not on JWT', async () => {
-    const invalidJWT: JWT = { accessToken: undefined };
+    const invalidJWT: JWT = mockJWT({ accessToken: undefined });
 
-    mockAuth.mockResolvedValue(validSession);
+    mockAuth.mockResolvedValue(mockSession());
     mockGetJWT.mockResolvedValue(invalidJWT);
 
     const result = await getAccessToken();

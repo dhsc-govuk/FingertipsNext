@@ -1,6 +1,7 @@
 'use server';
 
-import { signIn, signOut } from '@/lib/auth';
+import { auth, signIn, signOut } from '@/lib/auth';
+import { FTA_PROVIDER_ID } from '@/lib/auth/providers';
 import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
 
 export async function signInHandler() {
@@ -16,6 +17,14 @@ export async function signInHandler() {
   return await signIn(providers[0].id as string);
 }
 
-export async function signOutHandler() {
-  return await signOut();
+export async function signOutHandler(redirect: string) {
+  const session = await auth();
+
+  if (session?.provider === FTA_PROVIDER_ID) {
+    return signOut({
+      redirectTo: `/auth/signout/${encodeURIComponent(redirect)}`,
+    });
+  }
+
+  return signOut();
 }

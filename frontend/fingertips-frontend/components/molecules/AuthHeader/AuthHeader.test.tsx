@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import { AuthHeader } from '.';
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
 import userEvent from '@testing-library/user-event';
+import { mockSession } from '@/mock/utils/mockAuth';
 
 vi.mock('next-auth/react', () => {
   return { getSession: vi.fn() };
@@ -40,7 +41,7 @@ describe('auth header', () => {
   });
 
   it('should render a sign out button if session is not null', () => {
-    const screen = render(<AuthHeader session={{ expires: '' }} />);
+    const screen = render(<AuthHeader session={mockSession()} />);
 
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByRole('button')).toHaveTextContent('Sign out');
@@ -48,7 +49,7 @@ describe('auth header', () => {
   });
 
   it('should call the sign out handler when the "Sign out" button is clicked', async () => {
-    const screen = render(<AuthHeader session={{ expires: '' }} />);
+    const screen = render(<AuthHeader session={mockSession()} />);
 
     const user = userEvent.setup();
     await user.click(screen.getByRole('button'));
