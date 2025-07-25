@@ -663,6 +663,11 @@ jobs:
             name        = "AUTH_TRUST_HOST"
             secret_name = null
             value       = true
+          },
+          {
+            name        = "NODE_TLS_REJECT_UNAUTHORISED"
+            secret_name = null
+            value       = 0
           }
         ]
       container_liveness_probe: |
