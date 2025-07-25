@@ -246,7 +246,7 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
                 <div
                   class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
                 >
-                  2004
+                  2001
                 </div>
               </td>
               <td
@@ -260,13 +260,13 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
                 </div>
               </td>
               <td
-                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo kanshG highcharts-point"
                 data-testid="heatmap-cell-data"
               >
                 <div
                   class="sc-bXCLTC enPqre"
                 >
-                  X
+                  11.0
                 </div>
               </td>
               <td
@@ -280,13 +280,13 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
                 </div>
               </td>
               <td
-                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo cgMjml highcharts-point"
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
                 data-testid="heatmap-cell-data"
               >
                 <div
                   class="sc-bXCLTC enPqre"
                 >
-                  41.0
+                  X
                 </div>
               </td>
               <td
@@ -720,7 +720,7 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
                 <div
                   class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
                 >
-                  2004
+                  2001
                 </div>
               </td>
               <td
@@ -734,13 +734,13 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
                 </div>
               </td>
               <td
-                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo hUcaLh highcharts-point"
                 data-testid="heatmap-cell-data"
               >
                 <div
                   class="sc-bXCLTC enPqre"
                 >
-                  X
+                  11.0
                 </div>
               </td>
               <td
@@ -754,13 +754,13 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
                 </div>
               </td>
               <td
-                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo cgMjml highcharts-point"
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
                 data-testid="heatmap-cell-data"
               >
                 <div
                   class="sc-bXCLTC enPqre"
                 >
-                  41.0
+                  X
                 </div>
               </td>
               <td

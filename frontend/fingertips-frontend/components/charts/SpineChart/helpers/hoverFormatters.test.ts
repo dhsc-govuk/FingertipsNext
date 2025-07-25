@@ -10,7 +10,7 @@ describe('hoverFormatters', () => {
   describe('formatBarHover', () => {
     it('should format bar hover content correctly', () => {
       const result = formatBarHover({
-        period: 2025,
+        period: '2025',
         lowerName: 'Lower Area',
         lowerValue: 10.7,
         upperName: 'Upper Area',
@@ -33,7 +33,7 @@ describe('hoverFormatters', () => {
   describe('formatSymbolHover', () => {
     const mockProps = {
       title: 'Test Title',
-      period: 2025,
+      period: '2025',
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       value: 15.8,

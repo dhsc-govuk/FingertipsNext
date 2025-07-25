@@ -35,9 +35,7 @@ export const generateRows = (
       {
         key: `col-${indicator.id}-period`,
         type: CellType.IndicatorPeriod,
-        content: indicator.latestDataPeriod
-          ? indicator.latestDataPeriod.toString()
-          : '',
+        content: indicator.latestDataPeriod,
       },
       {
         key: `col-${indicator.id}-unitlabel`,

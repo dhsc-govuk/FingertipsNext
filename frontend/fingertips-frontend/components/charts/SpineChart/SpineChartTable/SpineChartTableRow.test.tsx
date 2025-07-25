@@ -1,5 +1,7 @@
+// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
+import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams';
+//
 import { render, screen } from '@testing-library/react';
-
 import { SpineChartTableRow } from './SpineChartTableRow';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
@@ -16,22 +18,29 @@ const mockSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'some search',
 };
 
-vi.mock('@/components/hooks/useSearchStateParams', () => ({
-  useSearchStateParams: () => mockSearchState,
-}));
+mockUseSearchStateParams.mockReturnValue(mockSearchState);
+
+const testRender = (
+  indicatorData: SpineChartIndicatorData,
+  benchmarkToUse: string,
+  twoAreasRequested = false
+) => {
+  render(
+    <table>
+      <tbody>
+        <SpineChartTableRow
+          indicatorData={indicatorData}
+          benchmarkToUse={benchmarkToUse}
+          twoAreasRequested={twoAreasRequested}
+        />
+      </tbody>
+    </table>
+  );
+};
 
 describe('Spine chart table row', () => {
   it('should have dark grey cell color for benchmark column', () => {
-    render(
-      <table>
-        <tbody>
-          <SpineChartTableRow
-            indicatorData={mockSpineIndicatorData}
-            benchmarkToUse={areaCodeForEngland}
-          />
-        </tbody>
-      </table>
-    );
+    testRender(mockSpineIndicatorData, areaCodeForEngland);
 
     expect(screen.getByTestId('benchmark-value-cell')).toHaveStyle(
       `background-color: ${GovukColours.MidGrey}`
@@ -45,16 +54,7 @@ describe('Spine chart table row', () => {
   });
 
   it('should have mid grey cell color for benchmark column', () => {
-    render(
-      <table>
-        <tbody>
-          <SpineChartTableRow
-            indicatorData={mockSpineIndicatorData}
-            benchmarkToUse={areaCodeForEngland}
-          />
-        </tbody>
-      </table>
-    );
+    testRender(mockSpineIndicatorData, areaCodeForEngland);
 
     expect(screen.getByTestId('group-value-cell')).toHaveStyle(
       `background-color: ${GovukColours.LightGrey}`
@@ -81,16 +81,7 @@ describe('Spine chart table row', () => {
       quartileData: {},
     };
 
-    render(
-      <table>
-        <tbody>
-          <SpineChartTableRow
-            indicatorData={indicatorWithMissingData}
-            benchmarkToUse={areaCodeForEngland}
-          />
-        </tbody>
-      </table>
-    );
+    testRender(indicatorWithMissingData, areaCodeForEngland);
 
     expect(screen.getByTestId('count-cell')).toHaveTextContent(`X`);
 
@@ -127,17 +118,8 @@ describe('Spine chart table row', () => {
         },
       ],
     };
-    render(
-      <table>
-        <tbody>
-          <SpineChartTableRow
-            indicatorData={indicatorDataWithTwoAreas}
-            twoAreasRequested
-            benchmarkToUse={areaCodeForEngland}
-          />
-        </tbody>
-      </table>
-    );
+
+    testRender(indicatorDataWithTwoAreas, areaCodeForEngland, true);
 
     expect(screen.getByTestId('area-1-count-cell')).toHaveTextContent('222');
     expect(screen.getByTestId('area-1-value-cell')).toHaveTextContent('690.3');
@@ -172,17 +154,15 @@ describe('Spine chart table row', () => {
       },
     };
 
-    render(
-      <table>
-        <tbody>
-          <SpineChartTableRow
-            indicatorData={indicatorDataGroupEngland}
-            benchmarkToUse={areaCodeForEngland}
-          />
-        </tbody>
-      </table>
-    );
+    testRender(indicatorDataGroupEngland, areaCodeForEngland);
 
     expect(screen.queryByTestId('group-value-cell')).not.toBeInTheDocument();
+  });
+
+  it('should show a formatted date period', () => {
+    testRender(mockSpineIndicatorData, areaCodeForEngland);
+
+    const periodCell = screen.getByTestId('period-cell');
+    expect(periodCell.textContent).toEqual('2023/24');
   });
 });

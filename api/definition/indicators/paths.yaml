@@ -138,6 +138,8 @@ indicators_by_indicator_id_all_data:
     - $ref: "./parameters.yaml#/inequalities"
     - $ref: "./parameters.yaml#/latest_only"
   get:
+    security:
+      - bearerAuth: [ ]
     tags:
       - indicators
     summary: Get published and unpublished health data for an indicator
@@ -161,6 +163,10 @@ indicators_by_indicator_id_all_data:
               $ref: "./schemas.yaml#/IndicatorWithHealthDataForArea"
       "400":
         $ref: "../responses.yaml#/BadRequest"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "403":
+        $ref: "../responses.yaml#/Forbidden"
       "500":
         $ref: "../responses.yaml#/InternalServerError"
     operationId: getHealthDataForAnIndicatorIncludingUnpublishedData

@@ -23,44 +23,59 @@ public class DataManagementController(IDataManagementService dataManagementServi
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt, [FromRoute] int indicatorId)
     {
+        var userId = AuthUtilities.GetUserId(User);
+        if (userId == null)
+        {
+            return new ForbidResult();
+        }
+
         if (file == null || file.Length == 0)
+        {
             return new BadRequestObjectResult(new SimpleError
             {
                 Message = "File is empty"
             });
+        }
+
         var untrustedFileName = Path.GetFileName(file.FileName);
         var encodedUntrustedFileName = HttpUtility.HtmlEncode(untrustedFileName);
 
         if (!DateTime.TryParse(publishedAt, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var parsedPublishedAt))
+        {
             return new BadRequestObjectResult(new SimpleError
             {
                 Message = "publishedAt is invalid. Must be in the format dd-MM-yyyyTHH:mm:ss.fff"
             });
+        }
 
         parsedPublishedAt = parsedPublishedAt.ToUniversalTime();
 
         if (parsedPublishedAt <= timeProvider.GetUtcNow())
+        {
             return new BadRequestObjectResult(new SimpleError
             {
                 Message = "publishedAt cannot be in the past"
             });
+        }
 
-        UploadHealthDataResponse? response = null;
+        UploadHealthDataResponse? response;
         await using (var fileStream = file.OpenReadStream())
         {
             var validationErrors = dataManagementService.ValidateCsv(fileStream);
             if (validationErrors.Count != 0)
+            {
                 return new BadRequestObjectResult(new ErrorWithDetail
                 {
                     Message = "The CSV file provided was invalid.",
                     Errors = validationErrors
                 });
+            }
         }
 
         // Will need to re-initialise fileStream as it will have been disposed during ValidateCsv
         await using (var fileStream = file.OpenReadStream())
         {
-            response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, parsedPublishedAt, encodedUntrustedFileName);
+            response = await dataManagementService.UploadFileAsync(fileStream, indicatorId, userId, parsedPublishedAt, encodedUntrustedFileName);
         }
 
         return response.Outcome switch

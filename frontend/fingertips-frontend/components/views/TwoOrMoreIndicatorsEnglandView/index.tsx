@@ -4,7 +4,6 @@ import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
-import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
 
 import { getHealthDataForIndicator } from '@/lib/ViewsHelpers';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
@@ -41,12 +40,9 @@ export default async function TwoOrMoreIndicatorsEnglandView({
 
   await connection();
 
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(
-        indicatorApi,
         indicator,
         [{ areaCodes: [areaCodeForEngland], areaType: englandAreaType.key }],
         BenchmarkReferenceType.England,
