@@ -25,7 +25,7 @@ export const singleIndicatorBasicTableData = (
       const data: BasicTableData = {
         indicatorId: Number(indicatorMetaData.indicatorID),
         indicatorName: `${indicatorMetaData.indicatorName} (${segName})`,
-        period: indicatorMetaData.latestDataPeriod,
+        period: point.year.toString(),
         unitLabel: indicatorMetaData.unitLabel,
         areaName: area.areaName,
         areaCode: area.areaCode,
