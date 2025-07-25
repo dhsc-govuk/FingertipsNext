@@ -32,6 +32,7 @@ export const FingertipsAuthProvider = ({
   issuer,
   wellKnown,
 }: FTAProviderConfig): OIDCConfig<FingertipsProfile> => ({
+  checks: ['none'], // REQUIRED FOR SELF-CERT
   id: 'fta',
   name: 'FTA',
   type: 'oidc',

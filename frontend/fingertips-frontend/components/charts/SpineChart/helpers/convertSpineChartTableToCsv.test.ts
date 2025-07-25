@@ -40,7 +40,7 @@ describe('convertSpineChartTableToCsv', () => {
 
     expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
     expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
-    expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
+    expect(row[2]).toEqual('2023/24');
     expect(row[3]).toEqual(mockSpineHealthDataForArea.areaName);
     expect(row[4]).toEqual(mockSpineHealthDataForArea.areaCode);
     expect(row[5]).toEqual(areaBenchmark?.benchmarkAreaCode);
@@ -63,7 +63,7 @@ describe('convertSpineChartTableToCsv', () => {
 
     expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
     expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
-    expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
+    expect(row[2]).toEqual('2023/24');
     expect(row[3]).toEqual(`Group: ${mockSpineGroupData.areaName}`);
     expect(row[4]).toEqual(mockSpineGroupData.areaCode);
     expect(row[5]).toEqual(groupBenchmark?.benchmarkAreaCode);
@@ -84,7 +84,7 @@ describe('convertSpineChartTableToCsv', () => {
 
     expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
     expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
-    expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
+    expect(row[2]).toEqual('2023/24');
     expect(row[3]).toEqual(mockSpineEnglandData.areaName);
     expect(row[4]).toEqual(mockSpineEnglandData.areaCode);
     expect(row[5]).toEqual(

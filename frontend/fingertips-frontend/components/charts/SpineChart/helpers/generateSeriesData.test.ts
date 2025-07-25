@@ -14,7 +14,7 @@ import {
 describe('generateSeriesData', () => {
   const mockProps: SpineChartProps = {
     name: 'Test Indicator',
-    period: 2025,
+    period: '2025',
     units: '%',
     benchmarkName: englandAreaString,
     benchmarkValue: 50,

@@ -1,12 +1,14 @@
 import { QuartileData } from '@/generated-sources/ft-api-client';
 import { mockSexData } from '@/mock/data/mockSexData';
 import { mockAgeData } from '@/mock/data/mockAgeData';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 export const mockQuartileData = (
   overrides?: Partial<QuartileData>
 ): QuartileData => ({
   indicatorId: 41101,
-  year: 2023,
+  year: 0,
+  datePeriod: mockDatePeriod(2023),
   polarity: 'LowIsGood',
   q0Value: 11.5,
   q1Value: 13.3,

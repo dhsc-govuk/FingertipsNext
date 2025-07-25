@@ -19,7 +19,7 @@ public sealed class DeleteBatchIntegrationTests : DataManagementIntegrationTests
     private const string Indicator92266GroupRoleId = "e3cba68a-0640-4642-bc90-625928a9dce1";
     private const string Indicator93701GroupRoleId = "09df2bac-1bd0-4897-b2e8-b999d3d366a4";
 
-    public DeleteBatchIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
+    public DeleteBatchIntegrationTests(WebApplicationFactoryWithAuth<Program> factory) : base(factory)
     {
         InitialiseDb(Connection, "delete-batch-setup.sql");
     }
