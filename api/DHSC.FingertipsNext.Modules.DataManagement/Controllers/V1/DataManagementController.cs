@@ -7,12 +7,14 @@ using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web;
 
 namespace DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
 
 [ApiController]
 [Route("/indicators/{indicatorId:int}/data")]
-public class DataManagementController(IDataManagementService dataManagementService, TimeProvider timeProvider) : ControllerBase
+public class DataManagementController(IDataManagementService dataManagementService, TimeProvider timeProvider)
+    : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -21,7 +23,8 @@ public class DataManagementController(IDataManagementService dataManagementServi
     [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt, [FromRoute] int indicatorId)
+    public async Task<IActionResult> UploadHealthData([FromForm] IFormFile? file, [FromForm] string publishedAt,
+        [FromRoute] int indicatorId)
     {
         var userId = AuthUtilities.GetUserId(User);
         if (userId == null)

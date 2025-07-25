@@ -60,7 +60,8 @@ public class HealthDataRepositoryDeleteTests : IDisposable
 
         // Act
         var act = async () => await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync("batchId1");
-        var dbContent = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
+        var dbContent = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1)
+            .ToListAsync();
 
         // Assert
         act.ShouldThrow<InvalidOperationException>()
@@ -78,11 +79,11 @@ public class HealthDataRepositoryDeleteTests : IDisposable
             .Build());
 
         // Act
-        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync("batchId1");
-        var populatedIndicator = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
+        await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync("batchId1");
+        var populatedIndicator =
+            await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
 
         // Assert
-        result.ShouldBe(true);
         populatedIndicator.Count.ShouldBe(0);
     }
 
@@ -97,11 +98,11 @@ public class HealthDataRepositoryDeleteTests : IDisposable
             .Build());
 
         // Act
-        var result = await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(nonExistentBatchId);
-        var populatedIndicator = await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
+        await _healthDataRepository.DeleteAllHealthMeasureByBatchIdAsync(nonExistentBatchId);
+        var populatedIndicator =
+            await _dbContext.HealthMeasure.Where(hm => hm.IndicatorDimension.IndicatorId == 1).ToListAsync();
 
         // Assert
-        result.ShouldBe(false);
         populatedIndicator.Count.ShouldBe(1);
     }
 

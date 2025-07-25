@@ -6,9 +6,8 @@ public class HealthDataClient(IIndicatorsService service) : IHealthDataClient
 {
     private IIndicatorsService Service { get; } = service;
 
-    public async Task<bool> DeleteHealthDataAsync(string batchId)
+    public async Task DeleteHealthDataAsync(string batchId)
     {
-        var response = await Service.DeleteUnpublishedDataAsync(batchId);
-        return response.Status == ResponseStatus.Success;
+        await Service.DeleteUnpublishedDataAsync(batchId);
     }
 }
