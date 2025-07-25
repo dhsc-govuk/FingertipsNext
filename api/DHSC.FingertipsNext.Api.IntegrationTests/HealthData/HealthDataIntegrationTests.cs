@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text.Json;
 using DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
@@ -108,5 +109,72 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         responseData.BenchmarkMethod.ToString().ShouldBe("CIOverlappingReferenceValue95");
         healthDataYearList.Count.ShouldBe(expectedYears.Count);
         healthDataYearList.ShouldBe(expectedYears, ignoreOrder: true);
+    }
+
+
+    [Fact]
+    public async Task GetQuartilesAllShouldRespondWith401WithoutAuth()
+    {
+        var client = _factory.CreateClient();
+
+        var response = await client.GetAsync(new Uri($"indicators/quartiles/all?indicator_ids={IndicatorId}&area_code=N85008&area_type=gps&ancestor_code=U79121", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task GetQuartilesAllShouldRespondWith401WhenTokenIsExpired()
+    {
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([AdminRoleGuid], tokenIsExpired: true));
+
+        var response = await client.GetAsync(new Uri($"indicators/quartiles/all?indicator_ids={IndicatorId}&area_code=N85008&area_type=gps&ancestor_code=U79121", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    [Fact]
+    public async Task GetQuartilesAllShouldRespondWith403WhenRoleIsMissing()
+    {
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken());
+
+        var response = await client.GetAsync(new Uri($"indicators/quartiles/all?indicator_ids={IndicatorId}&area_code=N85008&area_type=gps&ancestor_code=U79121", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Theory]
+    [InlineData(Indicator90453GroupRoleId)]
+    [InlineData(Indicator41101GroupRoleId)]
+    public async Task GetQuartilesAllShouldRespondWith403WhenRoleLacksAccessToAllIndicators(string userRoleId)
+    {
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+
+        var response = await client.GetAsync(new Uri($"indicators/quartiles/all?indicator_ids={IndicatorId}&indicator_ids=90453&area_code=N85008&area_type=gps&ancestor_code=U79121", UriKind.Relative));
+
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Theory]
+    [InlineData(AdminRoleGuid, 41101, 90453)]
+    [InlineData(Indicator41101GroupRoleId, 41101)]
+    [InlineData(Indicator90453GroupRoleId, 90453)]
+    public async Task GetQuartilesAllShouldRespondWith200WhenAuthIsValid(string userRoleId, params int[] indicatorIds)
+    {
+        ArgumentNullException.ThrowIfNull(indicatorIds);
+
+        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=gps&ancestor_code=U79121";
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+
+        var uriPath = uriPrefix + string.Join("", indicatorIds.Select(id => $"&indicator_ids={id}"));
+
+        var response = await client.GetFromJsonAsync<List<IndicatorQuartileData>>(new Uri(uriPath, UriKind.Relative));
+
+        response.ShouldNotBeNull();
+        response.Count.ShouldBe(indicatorIds.Length);
+        response.All(quartileData => indicatorIds.Contains(quartileData.IndicatorId)).ShouldBeTrue();
     }
 }
