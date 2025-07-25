@@ -27,8 +27,7 @@ import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
-import { Mock, MockedFunction } from 'vitest';
-import { auth } from '@/lib/auth';
+import { MockedFunction } from 'vitest';
 import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
