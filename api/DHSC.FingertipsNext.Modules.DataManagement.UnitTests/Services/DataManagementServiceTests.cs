@@ -20,12 +20,15 @@ public class DataManagementServiceTests
 {
     private const string ContainerName = "TestContainer";
     private const int StubIndicatorId = 1;
+    private const string UserId = "413e6b6f-a067-4971-bda5-7af790f34465";
     private readonly BlobClient _blobClient = Substitute.For<BlobClient>();
     private readonly BlobServiceClient _blobServiceClient = Substitute.For<BlobServiceClient>();
     private readonly BlobContainerClient _containerClient = Substitute.For<BlobContainerClient>();
     private readonly IHealthDataClient _healthDataClient = Substitute.For<IHealthDataClient>();
     private readonly ILogger<DataManagementService> _logger = Substitute.For<ILogger<DataManagementService>>();
     private readonly IDataManagementMapper _mapper = Substitute.For<IDataManagementMapper>();
+    private readonly DateTime _mockDate;
+    private readonly string _formattedMockDate;
     private readonly IDataManagementRepository _repository = Substitute.For<IDataManagementRepository>();
     private readonly TimeProvider _timeProvider = Substitute.For<TimeProvider>();
     private IConfiguration _configuration;
@@ -43,10 +46,11 @@ public class DataManagementServiceTests
         _service = new DataManagementService(_blobServiceClient, _configuration, _logger, _timeProvider, _repository,
             _mapper, _healthDataClient);
 
-        var mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
-        _timeProvider.GetUtcNow().Returns(mockDate);
+        _mockDate = new DateTime(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
+        _formattedMockDate = _mockDate.ToString("yyyy-MM-ddTHH:mm:ss.fff");
+        _timeProvider.GetUtcNow().Returns(_mockDate);
         _blobServiceClient.GetBlobContainerClient(ContainerName).Returns(_containerClient);
-        _containerClient.GetBlobClient($"{StubIndicatorId}_{mockDate:yyyy-MM-ddTHH:mm:ss.fff}.csv")
+        _containerClient.GetBlobClient($"{StubIndicatorId}_{_formattedMockDate}.csv")
             .Returns(_blobClient);
     }
 
@@ -54,26 +58,20 @@ public class DataManagementServiceTests
     public async Task UploadShouldSucceed()
     {
         // Arrange
-        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows2.csv";
+        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows2.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
-        var expectedBatch = BatchExamples.Batch with
-        {
-            IndicatorId = StubIndicatorId,
-            CreatedAt = DateTime.UtcNow,
-            Status = BatchStatus.Received,
-            OriginalFileName = "ValidHeadersAndValidDataRows2.csv",
-            PublishedAt = publishedAt,
-            UserId = Guid.Empty.ToString()
-        };
+        const string expectedUserId = "user-id";
+        const string expectedOriginalFilename = "ValidHeadersAndValidDataRows2.csv";
+        var expectedBatch = BatchExamples.Batch;
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expectedBatch);
 
         // Act
         await using (var stream = File.Open(path, FileMode.Open))
         {
-            result = await _service.UploadFileAsync(stream, StubIndicatorId, publishedAt,
-                "ValidHeadersAndValidDataRows2.csv", Guid.Empty);
+            result = await _service.UploadFileAsync(stream, StubIndicatorId, expectedUserId, publishedAt,
+                expectedOriginalFilename);
         }
 
         // Assert
@@ -81,16 +79,18 @@ public class DataManagementServiceTests
         result.Outcome.ShouldBe(OutcomeType.Ok);
 
         var parameter = _repository.ReceivedCalls().First().GetArguments().First() as BatchModel;
+        parameter.BatchId.ShouldBe($"{StubIndicatorId}_{_formattedMockDate}");
         parameter.IndicatorId.ShouldBe(StubIndicatorId);
-        parameter.CreatedAt.Date.ShouldBe(DateTime.Today);
+        parameter.OriginalFileName.ShouldBe(expectedOriginalFilename);
+        parameter.CreatedAt.ShouldBe(_mockDate);
+        parameter.DeletedAt.ShouldBeNull();
         parameter.PublishedAt.ShouldBe(publishedAt);
+        parameter.UserId.ShouldBe(expectedUserId);
+        parameter.DeletedUserId.ShouldBeNull();
+        parameter.Status.ShouldBe(BatchStatus.Received);
 
         var model = result.Model;
-        model.IndicatorId.ShouldBe(StubIndicatorId);
-        model.Status.ShouldBe(BatchStatus.Received);
-        model.OriginalFileName.ShouldBe("ValidHeadersAndValidDataRows2.csv");
-        model.UserId.ShouldBe(Guid.Empty.ToString());
-        model.PublishedAt.ShouldBe(publishedAt);
+        model.ShouldBe(expectedBatch);
 
         var logCalls = _logger.ReceivedCalls().ToList();
         logCalls.Count.ShouldBe(2);
@@ -102,7 +102,7 @@ public class DataManagementServiceTests
     public void ValidateCsvShouldFailWhenCsvIsInvalid()
     {
         // Act
-        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndNoDataRows.csv";
+        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndNoDataRows.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
 
@@ -121,7 +121,7 @@ public class DataManagementServiceTests
     public void ValidateCsvShouldSucceedWhenCsvIsValid()
     {
         // Act
-        var validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows2.csv";
+        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows2.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
 
@@ -145,8 +145,7 @@ public class DataManagementServiceTests
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
 
         // Act
-        var result =
-            await _service.UploadFileAsync(Stream.Null, StubIndicatorId, publishedAt, "upload.csv", Guid.Empty);
+        var result = await _service.UploadFileAsync(Stream.Null, StubIndicatorId, "user-id", publishedAt, "upload.csv");
 
         // Assert
         await _blobClient.Received(1).UploadAsync(Arg.Any<Stream>());
@@ -202,7 +201,7 @@ public class DataManagementServiceTests
             }
         };
         _repository.GetBatchesByIdsAsync(indicatorIds).Returns(batchesInDb);
-        _mapper.Map(Arg.Any<BatchModel>()).Returns(x => expectedBatches[0], x => expectedBatches[1]);
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(_ => expectedBatches[0], _ => expectedBatches[1]);
 
         // Act
         var batches = await _service.ListBatches(indicatorIds);
@@ -247,7 +246,7 @@ public class DataManagementServiceTests
         };
         _repository.GetAllBatchesAsync().Returns(batchesInDb);
 
-        _mapper.Map(Arg.Any<BatchModel>()).Returns(x => expectedBatches[0], x => expectedBatches[1]);
+        _mapper.Map(Arg.Any<BatchModel>()).Returns(_ => expectedBatches[0], _ => expectedBatches[1]);
 
         // Act
         var batches = await _service.ListBatches([]);
@@ -271,27 +270,37 @@ public class DataManagementServiceTests
         // Arrange
         var model = BatchExamples.BatchModel with
         {
-            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
-        };
-        var deletedModel = model with
-        {
-            DeletedAt = _timeProvider.GetUtcNow().UtcDateTime,
-            DeletedUserId = Guid.Empty,
+            BatchKey = 0,
+            BatchId = "123",
+            IndicatorId = 0,
+            OriginalFileName = "upload.csv",
+            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
+            PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0).AddYears(1),
+            DeletedAt = DateTime.UtcNow,
+            DeletedUserId = UserId,
+            UserId = UserId,
             Status = BatchStatus.Deleted
         };
         var expected = BatchExamples.Batch with
         {
-            DeletedAt = deletedModel.DeletedAt,
-            DeletedUserId = deletedModel.DeletedUserId.ToString(),
-            Status = deletedModel.Status
+            BatchId = model.BatchId,
+            IndicatorId = model.IndicatorId,
+            OriginalFileName = model.OriginalFileName,
+            CreatedAt = model.CreatedAt,
+            PublishedAt = model.PublishedAt,
+            DeletedAt = model.DeletedAt,
+            UserId = model.UserId,
+            DeletedUserId = model.DeletedUserId,
+            Status = model.Status
         };
+
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
-        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<Guid>()).Returns(deletedModel);
-        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(Task.CompletedTask);
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(model);
+        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expected);
 
         // Act
-        var result = await _service.DeleteBatchAsync(model.BatchId, Guid.Empty, [model.IndicatorId]);
+        var result = await _service.DeleteBatchAsync("123", UserId, [model.IndicatorId]);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.Ok);
@@ -311,9 +320,11 @@ public class DataManagementServiceTests
         // Arrange
         var model = BatchExamples.BatchModel;
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(Task.FromResult<BatchModel?>(null));
+        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>())
+            .Throws(new ArgumentException(exceptionMessage));
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);
+        var result = await _service.DeleteBatchAsync("123", UserId, []);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.NotFound);
@@ -380,7 +391,7 @@ public class DataManagementServiceTests
             .Throws(new ArgumentNullException());
 
         // Act
-        var result = await _service.DeleteBatchAsync("123", Guid.Empty, []);
+        var result = await _service.DeleteBatchAsync("123", UserId, []);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.ServerError);

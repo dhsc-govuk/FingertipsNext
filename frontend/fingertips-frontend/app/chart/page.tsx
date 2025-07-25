@@ -13,12 +13,7 @@ import { ErrorPage } from '@/components/pages/error';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
 import {
   EndPoints,
   queryKeyFromRequestParams,
@@ -27,9 +22,13 @@ import { compareAreasTableIsRequired } from '@/components/charts/CompareAreasTab
 import { inequalitiesIsRequired } from '@/components/charts/Inequalities/helpers/inequalitiesIsRequired';
 import { inequalitiesRequestParams } from '@/components/charts/Inequalities/helpers/inequalitiesRequestParams';
 import { populationPyramidRequestParams } from '@/components/charts/PopulationPyramid/helpers/populationPyramidRequestParams';
-import { auth } from '@/lib/auth';
+import { getAuthorisedHealthDataForAnIndicator } from '../../lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
+import {
+  API_CACHE_CONFIG,
+  ApiClientFactory,
+} from '@/lib/apiClient/apiClientFactory';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -38,11 +37,6 @@ export default async function ChartPage(
 ) {
   // We don't want to render this page statically
   await connection();
-  const session = await auth();
-
-  const healthEndpoint = session
-    ? EndPoints.HealthDataForAnIndicatorIncludingUnpublished
-    : EndPoints.HealthDataForAnIndicator;
 
   try {
     const searchParams = await props.searchParams;
@@ -91,8 +85,6 @@ export default async function ChartPage(
       selectedAreasData
     );
 
-    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-
     // if we want to show the line chart or compare areas bar chart data then
     // load that now server side and seed the cache - this will help with
     // progressive enhancement and coping with devices that do not have
@@ -102,29 +94,17 @@ export default async function ChartPage(
       lineChartOverTimeIsRequired(searchState) ||
       compareAreasTableIsRequired(searchState)
     ) {
-      let healthData: IndicatorWithHealthDataForArea | undefined;
-      let queryKeyLineChart;
       const apiRequestParams = oneIndicatorRequestParams(
         searchState,
         availableAreas ?? []
       );
+      const queryKeyLineChart = queryKeyFromRequestParams(
+        EndPoints.HealthDataForAnIndicator,
+        apiRequestParams
+      );
       try {
-        queryKeyLineChart = queryKeyFromRequestParams(
-          healthEndpoint,
-          apiRequestParams
-        );
-        if (session) {
-          healthData =
-            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-              apiRequestParams,
-              API_CACHE_CONFIG
-            );
-        } else {
-          healthData = await indicatorApi.getHealthDataForAnIndicator(
-            apiRequestParams,
-            API_CACHE_CONFIG
-          );
-        }
+        const healthData =
+          await getAuthorisedHealthDataForAnIndicator(apiRequestParams);
         seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
@@ -149,15 +129,14 @@ export default async function ChartPage(
       !Object.keys(seedData).includes(inequalitiesQueryKey)
     ) {
       try {
-        seedData[inequalitiesQueryKey] =
-          await indicatorApi.getHealthDataForAnIndicator(
-            inequalitiesQueryParams,
-            API_CACHE_CONFIG
-          );
-      } catch (e) {
+        const healthData = await getAuthorisedHealthDataForAnIndicator(
+          inequalitiesQueryParams
+        );
+        seedData[inequalitiesQueryKey] = healthData;
+      } catch (error) {
         console.error(
           'error getting health indicator data for inequalities',
-          e
+          error
         );
       }
     }
@@ -168,33 +147,25 @@ export default async function ChartPage(
       availableAreas ?? []
     );
     const populationPyramidQueryKey = queryKeyFromRequestParams(
-      healthEndpoint,
+      EndPoints.HealthDataForAnIndicator,
       populationPyramidQueryParams
     );
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
       try {
-        if (session) {
-          seedData[populationPyramidQueryKey] =
-            await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
-              populationPyramidQueryParams,
-              API_CACHE_CONFIG
-            );
-        } else {
-          seedData[populationPyramidQueryKey] =
-            await indicatorApi.getHealthDataForAnIndicator(
-              populationPyramidQueryParams,
-              API_CACHE_CONFIG
-            );
-        }
-      } catch (e) {
+        const healthData = await getAuthorisedHealthDataForAnIndicator(
+          populationPyramidQueryParams
+        );
+        seedData[populationPyramidQueryKey] = healthData;
+      } catch (error) {
         console.error(
           'error getting health indicator data for population pyramid',
-          e
+          error
         );
       }
     }
 
     // load quartiles data and seed if we don't have it already
+    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
     const quartilesParams = quartilesQueryParams(searchState);
     const quartilesKey = queryKeyFromRequestParams(
       EndPoints.Quartiles,

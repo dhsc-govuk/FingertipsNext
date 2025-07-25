@@ -61,14 +61,14 @@ public class DataManagementService : IDataManagementService
         _healthDataClient = healthDataClient;
     }
 
-    public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId,
-        DateTime publishedAt, string originalFileName, Guid userId)
+    public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId, string userId,
+        DateTime publishedAt, string originalFileName)
     {
         var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
         var batchId = $"{indicatorId}_{_timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
 
         var blobClient = containerClient.GetBlobClient($"{batchId}.csv");
-        Batch? model = null;
+        Batch? model;
 
         try
         {
@@ -78,7 +78,7 @@ public class DataManagementService : IDataManagementService
                 userId, publishedAt, batchId, indicatorId);
 
 
-            model = await CreateAndInsertBatchDetails(indicatorId, publishedAt, batchId, originalFileName);
+            model = await CreateAndInsertBatchDetails(indicatorId, userId, publishedAt, batchId, originalFileName);
         }
         catch (Exception exception) when (exception is RequestFailedException or AggregateException)
         {
@@ -119,7 +119,7 @@ public class DataManagementService : IDataManagementService
         return batches.Select(batch => _mapper.Map(batch));
     }
 
-    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId,
+    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, string userId,
         IList<int> indicatorsThatCanBeModified)
     {
         ArgumentNullException.ThrowIfNull(batchId);
@@ -181,7 +181,7 @@ public class DataManagementService : IDataManagementService
         };
     }
 
-    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, DateTime publishedAt, string batchId,
+    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, string userId, DateTime publishedAt, string batchId,
         string originalFileName)
     {
         var model = new BatchModel
@@ -190,9 +190,9 @@ public class DataManagementService : IDataManagementService
             IndicatorId = indicatorId,
             OriginalFileName = originalFileName,
             PublishedAt = publishedAt.ToUniversalTime(),
-            UserId = Guid.Empty, //Can only properly set this when the auth is implemented
+            UserId = userId,
             Status = BatchStatus.Received,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = _timeProvider.GetUtcNow().DateTime
         };
         await _repository.AddBatchAsync(model);
         return _mapper.Map(model);

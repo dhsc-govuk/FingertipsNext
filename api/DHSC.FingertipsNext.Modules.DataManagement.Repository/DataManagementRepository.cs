@@ -50,7 +50,7 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
     /// <param name="userId">The ID of the user deleting the batch.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public async Task<BatchModel?> DeleteBatchAsync(BatchModel model, Guid userId)
+    public async Task<BatchModel?> DeleteBatchAsync(BatchModel model, string userId)
     {
         ArgumentNullException.ThrowIfNull(model);
 

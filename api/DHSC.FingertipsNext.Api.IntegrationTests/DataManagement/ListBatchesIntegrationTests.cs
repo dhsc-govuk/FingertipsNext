@@ -37,7 +37,7 @@ public sealed class ListBatchesIntegrationTests : DataManagementIntegrationTests
         PublishedAt = new DateTime(2025, 10, 9, 0, 0, 0, 0)
     };
 
-    public ListBatchesIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
+    public ListBatchesIntegrationTests(WebApplicationFactoryWithAuth<Program> factory) : base(factory)
     {
         InitialiseDb(Connection, "list-batches-setup.sql");
     }

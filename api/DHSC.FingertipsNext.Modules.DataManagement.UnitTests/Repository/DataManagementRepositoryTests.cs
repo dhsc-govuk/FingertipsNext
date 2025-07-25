@@ -8,6 +8,8 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Repository;
 
 public class DataManagementRepositoryTests : IDisposable
 {
+    private const string UserId = "88011af4-fda1-4ae0-bbeb-c6f6cd8179ae";
+
     private readonly BatchModel _batchFor22401 = BatchExamples.BatchModel with
     {
         BatchId = "22401_2017-06-30T14:22:37.123Z",
@@ -30,7 +32,6 @@ public class DataManagementRepositoryTests : IDisposable
         CreatedAt = new DateTime(2028, 2, 29, 12, 00, 00),
         PublishedAt = new DateTime(2028, 2, 29, 12, 00, 00)
     };
-
 
     private readonly DataManagementRepository _dataManagementRepository;
 
@@ -141,7 +142,7 @@ public class DataManagementRepositoryTests : IDisposable
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var success = await _dataManagementRepository.DeleteBatchAsync(_batchFor383, Guid.Empty);
+        var success = await _dataManagementRepository.DeleteBatchAsync(_batchFor383, UserId);
 
         // Assert
         success.ShouldNotBeNull();
@@ -152,7 +153,7 @@ public class DataManagementRepositoryTests : IDisposable
         var batchModels = batches.ToList();
         var batch383 = batchModels.FirstOrDefault(b => b.IndicatorId == 383);
         batch383.DeletedAt.ShouldNotBe(null);
-        batch383.DeletedUserId.ShouldBe(Guid.Empty);
+        batch383.DeletedUserId.ShouldBe(UserId);
         batch383.Status.ShouldBe(BatchStatus.Deleted);
 
         // Ensure the 41101 batch still exists
