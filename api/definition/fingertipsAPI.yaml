@@ -28,7 +28,7 @@ paths:
       description: Returns the health status of the API.
       operationId: getHealthcheck
       responses:
-        "200":
+        '200':
           description: API is healthy
           content:
             application/json:
@@ -38,7 +38,7 @@ paths:
                   status:
                     type: string
                     example: Healthy
-        "500":
+        '500':
           description: API is down
           content:
             application/json:
@@ -59,7 +59,7 @@ paths:
       description: Get all available hierarchy types
       operationId: getAreaHierarchies
       responses:
-        "200":
+        '200':
           description: The available hierarchy types, e.g. NHS or Administrative
           content:
             application/json:
@@ -67,8 +67,8 @@ paths:
                 type: array
                 items:
                   type: string
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /areas/areatypes:
     get:
       tags:
@@ -77,18 +77,18 @@ paths:
       description: Get area types, optionally filtering by hierarchy type
       operationId: getAreaTypes
       parameters:
-        - $ref: "#/components/parameters/hierarchy_type"
+        - $ref: '#/components/parameters/hierarchy_type'
       responses:
-        "200":
+        '200':
           description: The available area types e.g. ICB, PCN or GP Surgery, together with related data
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/AreaType"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                  $ref: '#/components/schemas/AreaType'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /areas/areatypes/{area_type_key}/areas:
     get:
       tags:
@@ -97,20 +97,20 @@ paths:
       description: Get the areas that have a given area type
       operationId: getAreaTypeMembers
       parameters:
-        - $ref: "#/components/parameters/area_type_key"
+        - $ref: '#/components/parameters/area_type_key'
       responses:
-        "200":
+        '200':
           description: The available areas for the area type
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Area"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                  $ref: '#/components/schemas/Area'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /areas/{area_code}:
     get:
       tags:
@@ -119,21 +119,21 @@ paths:
       description: Get the full details of a given area, including it's parents, optionally including it's children, siblings and cousins
       operationId: getArea
       parameters:
-        - $ref: "#/components/parameters/area_code"
-        - $ref: "#/components/parameters/include_children"
-        - $ref: "#/components/parameters/include_siblings"
-        - $ref: "#/components/parameters/child_area_type"
+        - $ref: '#/components/parameters/area_code'
+        - $ref: '#/components/parameters/include_children'
+        - $ref: '#/components/parameters/include_siblings'
+        - $ref: '#/components/parameters/child_area_type'
       responses:
-        "200":
+        '200':
           description: The area node
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AreaWithRelations"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                $ref: '#/components/schemas/AreaWithRelations'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /areas/root:
     get:
       tags:
@@ -142,14 +142,14 @@ paths:
       description: Get the root node of the area hierarchy
       operationId: getAreaRoot
       responses:
-        "200":
+        '200':
           description: The root area node
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RootArea"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                $ref: '#/components/schemas/RootArea'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /areas:
     get:
       tags:
@@ -158,9 +158,9 @@ paths:
       description: Get the basic details without children, parent relationships etc. for 1 or more areas. Will return duplicate of areas that are applicable to multiple areaTypes.
       operationId: getAreas
       parameters:
-        - $ref: "#/components/parameters/area_codes"
+        - $ref: '#/components/parameters/area_codes'
       responses:
-        "200":
+        '200':
           description: A list of the basic area details for each of the requested area codes.
           content:
             application/json:
@@ -168,13 +168,13 @@ paths:
                 type: array
                 maxItems: 300
                 items:
-                  $ref: "#/components/schemas/Area"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                  $ref: '#/components/schemas/Area'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators:
     get:
       tags:
@@ -184,55 +184,55 @@ paths:
       description: |
         Get summaries of public health indicators, by passing in the appropriate options you can filter the results
       parameters:
-        - $ref: "#/components/parameters/indicator_ids"
+        - $ref: '#/components/parameters/indicator_ids'
       responses:
-        "200":
+        '200':
           description: search results matching criteria
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/IndicatorSummary"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                  $ref: '#/components/schemas/IndicatorSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/{indicator_id}:
     get:
       tags:
         - indicators
       summary: Get indicator
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Indicator"
+                $ref: '#/components/schemas/Indicator'
           description: The request was successful, and the server has returned the requested resource in the response body.
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       parameters:
-        - $ref: "#/components/parameters/indicator_id"
+        - $ref: '#/components/parameters/indicator_id'
       description: |
         Fetches details of a specific indicator by its unique identifier. The response includes the indicator's metadata
       operationId: getIndicator
   /indicators/{indicator_id}/data:
     parameters:
-      - $ref: "#/components/parameters/indicator_id"
+      - $ref: '#/components/parameters/indicator_id'
     get:
       parameters:
-        - $ref: "#/components/parameters/area_codes"
-        - $ref: "#/components/parameters/area_type"
-        - $ref: "#/components/parameters/ancestor_code"
-        - $ref: "#/components/parameters/benchmark_ref_type"
-        - $ref: "#/components/parameters/years"
-        - $ref: "#/components/parameters/to_date"
-        - $ref: "#/components/parameters/from_date"
-        - $ref: "#/components/parameters/inequalities"
-        - $ref: "#/components/parameters/latest_only"
+        - $ref: '#/components/parameters/area_codes'
+        - $ref: '#/components/parameters/area_type'
+        - $ref: '#/components/parameters/ancestor_code'
+        - $ref: '#/components/parameters/benchmark_ref_type'
+        - $ref: '#/components/parameters/years'
+        - $ref: '#/components/parameters/to_date'
+        - $ref: '#/components/parameters/from_date'
+        - $ref: '#/components/parameters/inequalities'
+        - $ref: '#/components/parameters/latest_only'
       tags:
         - indicators
       summary: Get published health data for an indicator
@@ -241,16 +241,16 @@ paths:
         The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters.
         Data can be provided disagregated by various categories such as age and sex using the inequalities query parameter.
       responses:
-        "200":
+        '200':
           description: Data containing the published health data points for the indicator, years and geographical areas requested
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/IndicatorWithHealthDataForArea"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                $ref: '#/components/schemas/IndicatorWithHealthDataForArea'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicator
     post:
       security:
@@ -275,35 +275,35 @@ paths:
                 publishedAt:
                   type: string
                   format: date-time
-                  example: "2023-01-01T00:00:00.000"
+                  example: '2023-01-01T00:00:00.000'
                   description: The date, in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.fff), for when uploaded indicator data will be published
       responses:
-        "202":
+        '202':
           description: The file has been accepted by the API and further processing will be conducted.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Batch"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                $ref: '#/components/schemas/Batch'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/{indicator_id}/data/all:
     parameters:
-      - $ref: "#/components/parameters/indicator_id"
-      - $ref: "#/components/parameters/area_codes"
-      - $ref: "#/components/parameters/area_type"
-      - $ref: "#/components/parameters/ancestor_code"
-      - $ref: "#/components/parameters/benchmark_ref_type"
-      - $ref: "#/components/parameters/years"
-      - $ref: "#/components/parameters/to_date"
-      - $ref: "#/components/parameters/from_date"
-      - $ref: "#/components/parameters/inequalities"
-      - $ref: "#/components/parameters/latest_only"
+      - $ref: '#/components/parameters/indicator_id'
+      - $ref: '#/components/parameters/area_codes'
+      - $ref: '#/components/parameters/area_type'
+      - $ref: '#/components/parameters/ancestor_code'
+      - $ref: '#/components/parameters/benchmark_ref_type'
+      - $ref: '#/components/parameters/years'
+      - $ref: '#/components/parameters/to_date'
+      - $ref: '#/components/parameters/from_date'
+      - $ref: '#/components/parameters/inequalities'
+      - $ref: '#/components/parameters/latest_only'
     get:
       security:
         - bearerAuth: []
@@ -315,20 +315,20 @@ paths:
         The returned data will include a benchmark comparison against either England or an ancestor area group, depending on the benchmark_ref_type and ancestor_code parameters.
         Data can be provided disaggregated by various categories such as age and sex using the inequalities query parameter.
       responses:
-        "200":
+        '200':
           description: Data containing the published and unpublished health data points for the indicator, years and geographical areas requested
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/IndicatorWithHealthDataForArea"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                $ref: '#/components/schemas/IndicatorWithHealthDataForArea'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
   /indicators/quartiles:
     get:
@@ -372,20 +372,20 @@ paths:
           in: query
           description: The benchmark reference type
           schema:
-            $ref: "#/components/schemas/BenchmarkReferenceType"
+            $ref: '#/components/schemas/BenchmarkReferenceType'
       responses:
-        "200":
+        '200':
           description: search results matching criteria
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/QuartileData"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                  $ref: '#/components/schemas/QuartileData'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /indicators/quartiles/all:
     get:
       tags:
@@ -428,20 +428,20 @@ paths:
           in: query
           description: The benchmark reference type
           schema:
-            $ref: "#/components/schemas/BenchmarkReferenceType"
+            $ref: '#/components/schemas/BenchmarkReferenceType'
       responses:
-        "200":
+        '200':
           description: search results matching criteria
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/QuartileData"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                  $ref: '#/components/schemas/QuartileData'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /batches:
     get:
       security:
@@ -453,47 +453,47 @@ paths:
       description: |
         Get details of all health data upload batches that are for indicators that you have permissions to modify.
       responses:
-        "200":
+        '200':
           description: Batches for indicators you have permissions to modify.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Batch"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                  $ref: '#/components/schemas/Batch'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /batches/{batch_id}:
     delete:
       security:
         - bearerAuth: []
       parameters:
-        - $ref: "#/components/parameters/batch_id"
+        - $ref: '#/components/parameters/batch_id'
       tags:
         - batches
       summary: Delete a batch of unpublished data for an indicator
       description: Deletes all unpublished data for the specified indicator and batch.
       responses:
-        "200":
+        '200':
           description: The batch of unpublished data has been deleted successfully.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Batch"
-        "400":
-          $ref: "#/components/responses/BadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                $ref: '#/components/schemas/Batch'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /user/info:
     get:
       security:
@@ -504,18 +504,18 @@ paths:
       description: Get info for logged in user
       operationId: getUserInfo
       responses:
-        "200":
+        '200':
           description: The information about the logged in user
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserInfoType"
-        "400":
-          $ref: "#/components/responses/UserBadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+                $ref: '#/components/schemas/UserInfoType'
+        '400':
+          $ref: '#/components/responses/UserBadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /user/indicator/{indicator_id}:
     head:
       parameters:
@@ -533,16 +533,16 @@ paths:
       description: Queries against a specified indicator id. Return success if the user has administrative permission for the indicator. 403 if the user does not.
       operationId: checkIndicatorPermissions
       responses:
-        "200":
+        '200':
           description: The user has administrator permissions for the specified indicator.
-        "400":
-          $ref: "#/components/responses/UserBadRequest"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "403":
-          $ref: "#/components/responses/Forbidden"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
+        '400':
+          $ref: '#/components/responses/UserBadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   securitySchemes:
     bearerAuth:
@@ -694,7 +694,7 @@ components:
       name: benchmark_ref_type
       description: The benchmark reference type
       schema:
-        $ref: "#/components/schemas/BenchmarkReferenceType"
+        $ref: '#/components/schemas/BenchmarkReferenceType'
     years:
       in: query
       name: years
@@ -712,14 +712,14 @@ components:
       description: The latest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the latest date for the indicator will be used.
       schema:
         type: string
-        example: "2023-12-31"
+        example: '2023-12-31'
     from_date:
       in: query
       name: from_date
       description: The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
       schema:
         type: string
-        example: "2023-01-01"
+        example: '2023-01-01'
     inequalities:
       in: query
       name: inequalities
@@ -770,7 +770,7 @@ components:
           description: The name of the area type for presentation
         level:
           type: integer
-          example: "3"
+          example: '3'
           description: The level in the hierarchy
         hierarchyName:
           type: string
@@ -794,25 +794,25 @@ components:
           example: County Durham
           description: The name of the area / geography
         areaType:
-          $ref: "#/components/schemas/AreaType"
+          $ref: '#/components/schemas/AreaType'
     AreaWithRelations:
       title: Area With Relations
       allOf:
-        - $ref: "#/components/schemas/Area"
+        - $ref: '#/components/schemas/Area'
         - type: object
           properties:
             parents:
               type: array
               items:
-                $ref: "#/components/schemas/Area"
+                $ref: '#/components/schemas/Area'
             children:
               type: array
               items:
-                $ref: "#/components/schemas/Area"
+                $ref: '#/components/schemas/Area'
             siblings:
               type: array
               items:
-                $ref: "#/components/schemas/Area"
+                $ref: '#/components/schemas/Area'
     RootArea:
       title: Root Area
       type: object
@@ -844,7 +844,7 @@ components:
           description: The unique identifier of the indicator
         title:
           type: string
-          example: "Hypertension: QOF prevalence (all ages)"
+          example: 'Hypertension: QOF prevalence (all ages)'
           description: The title of the indicator
     PeriodType:
       type: string
@@ -882,7 +882,7 @@ components:
           description: The unique identifier of the indicator
         title:
           type: string
-          example: "Hypertension: QOF prevalence (all ages)"
+          example: 'Hypertension: QOF prevalence (all ages)'
           description: The title of the indicator
         definition:
           type: string
@@ -891,7 +891,7 @@ components:
         period_types:
           type: array
           items:
-            $ref: "#/components/schemas/PeriodType"
+            $ref: '#/components/schemas/PeriodType'
           description: The period types that the indicator holds data for
     BenchmarkReferenceType:
       title: Benchmark Reference Type
@@ -1002,7 +1002,7 @@ components:
     Date:
       type: string
       format: date
-      example: "2023-12-31"
+      example: '2023-12-31'
       description: Date in ISO 8601 format (YYYY-MM-DD).
     DatePeriod:
       title: Date Period
@@ -1014,13 +1014,13 @@ components:
         - to
       properties:
         type:
-          $ref: "#/components/schemas/PeriodType"
+          $ref: '#/components/schemas/PeriodType'
           description: The type of date period, e.g. Calendar or Financial year.
         from:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
           description: The start date for the data request, in ISO 8601 format (YYYY-MM-DD).
         to:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
           description: The end date for the data request, in ISO 8601 format (YYYY-MM-DD).
     BenchmarkOutcome:
       title: Benchmark Outcome
@@ -1099,7 +1099,7 @@ components:
           example: 2023
           description: The year that the data point is for
         datePeriod:
-          $ref: "#/components/schemas/DatePeriod"
+          $ref: '#/components/schemas/DatePeriod'
         count:
           type: number
           example: 222
@@ -1118,9 +1118,9 @@ components:
           example: 578.32766
           description: The upper confidence interval
         ageBand:
-          $ref: "#/components/schemas/AgeData"
+          $ref: '#/components/schemas/AgeData'
         sex:
-          $ref: "#/components/schemas/SexData"
+          $ref: '#/components/schemas/SexData'
           deprecated: true
         trend:
           type: string
@@ -1143,7 +1143,7 @@ components:
           type: object
           properties:
             outcome:
-              $ref: "#/components/schemas/BenchmarkOutcome"
+              $ref: '#/components/schemas/BenchmarkOutcome'
             benchmarkAreaCode:
               type: string
               example: E92000001
@@ -1157,7 +1157,7 @@ components:
               example: 123.5
               description: The value used in the comparison
         deprivation:
-          $ref: "#/components/schemas/DeprivationData"
+          $ref: '#/components/schemas/DeprivationData'
     IndicatorSegment:
       title: IndicatorSegment
       type: object
@@ -1168,18 +1168,18 @@ components:
         - reportingPeriod
       properties:
         age:
-          $ref: "#/components/schemas/AgeData"
+          $ref: '#/components/schemas/AgeData'
         sex:
-          $ref: "#/components/schemas/SexData"
+          $ref: '#/components/schemas/SexData'
         reportingPeriod:
-          $ref: "#/components/schemas/ReportingPeriod"
+          $ref: '#/components/schemas/ReportingPeriod'
         isAggregate:
           type: boolean
           description: Indicates if the segment is the aggregate.
         healthData:
           type: array
           items:
-            $ref: "#/components/schemas/HealthDataPoint"
+            $ref: '#/components/schemas/HealthDataPoint'
           description: The health data points for the area and indicator
     HealthDataForArea:
       title: Health Data For Area
@@ -1201,12 +1201,12 @@ components:
         indicatorSegments:
           type: array
           items:
-            $ref: "#/components/schemas/IndicatorSegment"
+            $ref: '#/components/schemas/IndicatorSegment'
           description: An array of indicator segments.
         healthData:
           type: array
           items:
-            $ref: "#/components/schemas/HealthDataPoint"
+            $ref: '#/components/schemas/HealthDataPoint'
           description: The health data points for the area and indicator.
           deprecated: true
     IndicatorWithHealthDataForArea:
@@ -1223,15 +1223,15 @@ components:
           example: Emergency readmissions within 30 days of discharge from hospital
           description: Name of the indicator
         polarity:
-          $ref: "#/components/schemas/IndicatorPolarity"
+          $ref: '#/components/schemas/IndicatorPolarity'
         benchmarkMethod:
-          $ref: "#/components/schemas/BenchmarkComparisonMethod"
+          $ref: '#/components/schemas/BenchmarkComparisonMethod'
         frequency:
-          $ref: "#/components/schemas/Frequency"
+          $ref: '#/components/schemas/Frequency'
         areaHealthData:
           type: array
           items:
-            $ref: "#/components/schemas/HealthDataForArea"
+            $ref: '#/components/schemas/HealthDataForArea'
     Batch:
       title: Batch details
       type: object
@@ -1261,17 +1261,17 @@ components:
           type: string
           format: date-time
           description: When the batch was created.
-          example: "2025-06-30T14:44:53.643Z"
+          example: '2025-06-30T14:44:53.643Z'
         publishedAt:
           type: string
           format: date-time
           description: When the data in the batch will be published.
-          example: "2025-07-30T00:00:00.000Z"
+          example: '2025-07-30T00:00:00.000Z'
         deletedAt:
           type: string
           format: date-time
           description: When the data in the batch was deleted.
-          example: "2025-07-30T00:00:00.000Z"
+          example: '2025-07-30T00:00:00.000Z'
         userId:
           type: string
           format: guid
@@ -1302,9 +1302,9 @@ components:
           example: 21404
           description: Unique ID of the indicator
         age:
-          $ref: "#/components/schemas/AgeData"
+          $ref: '#/components/schemas/AgeData'
         sex:
-          $ref: "#/components/schemas/SexData"
+          $ref: '#/components/schemas/SexData'
         isAggregate:
           type: boolean
           description: Indicates if the segment is the aggregate.
@@ -1314,12 +1314,12 @@ components:
           example: 2023
           description: The year that the data point is for
         datePeriod:
-          $ref: "#/components/schemas/DatePeriod"
+          $ref: '#/components/schemas/DatePeriod'
           description: The date period that the data point is for.
         polarity:
-          $ref: "#/components/schemas/IndicatorPolarity"
+          $ref: '#/components/schemas/IndicatorPolarity'
         frequency:
-          $ref: "#/components/schemas/Frequency"
+          $ref: '#/components/schemas/Frequency'
         q0Value:
           type: number
           description: Quartile Q0 value - the minimum value
