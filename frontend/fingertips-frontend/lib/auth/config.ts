@@ -24,6 +24,7 @@ export class AuthConfigFactory {
 
   private static buildConfig() {
     const config: NextAuthConfig = {
+      useSecureCookies: false,
       providers: AuthProvidersFactory.getProviders(),
       callbacks: {
         jwt: async ({ token, user, account }) => {
