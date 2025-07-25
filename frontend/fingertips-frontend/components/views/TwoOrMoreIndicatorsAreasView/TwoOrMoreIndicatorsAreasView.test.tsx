@@ -1,7 +1,6 @@
 /**
  * @vitest-environment node
  */
-
 import {
   BenchmarkReferenceType,
   HealthDataForArea,
