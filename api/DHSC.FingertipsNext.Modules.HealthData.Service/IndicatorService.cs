@@ -227,19 +227,19 @@ public class IndicatorService(
                     .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                     .ToList(),
                 IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
-                    {
-                        ageName = healthMeasure.AgeDimensionName,
-                        ageIsAggregate = healthMeasure.AgeDimensionIsAggregate,
-                        reportingPeriod = healthMeasure.ReportingPeriod,
-                        sexName = healthMeasure.SexDimensionName,
-                        sexIsAggregate = healthMeasure.SexDimensionIsAggregate
-                    })
+                {
+                    ageName = healthMeasure.AgeDimensionName,
+                    ageIsAggregate = healthMeasure.AgeDimensionIsAggregate,
+                    reportingPeriod = healthMeasure.ReportingPeriod,
+                    sexName = healthMeasure.SexDimensionName,
+                    sexIsAggregate = healthMeasure.SexDimensionIsAggregate
+                })
                     .Select(segmentGroup => new IndicatorSegment
                     {
                         Age = new Age
-                            { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
+                        { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
                         Sex = new Sex
-                            { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
+                        { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
                         ReportingPeriod = healthDataMapper.MapReportingPeriod(segmentGroup.Key.reportingPeriod),
                         IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
                         HealthData = healthDataMapper.Map(segmentGroup.ToList())
@@ -314,19 +314,19 @@ public class IndicatorService(
                     .OrderBy(dataPoint => dataPoint.DatePeriod.From)
                     .ToList(),
                 IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
-                    {
-                        ageName = healthMeasure.AgeDimension.Name,
-                        ageIsAggregate = healthMeasure.AgeDimension.IsAggregate,
-                        sexName = healthMeasure.SexDimension.Name,
-                        sexIsAggregate = healthMeasure.SexDimension.IsAggregate,
-                        reportingPeriod = healthMeasure.PeriodDimension.Period
-                    })
+                {
+                    ageName = healthMeasure.AgeDimension.Name,
+                    ageIsAggregate = healthMeasure.AgeDimension.IsAggregate,
+                    sexName = healthMeasure.SexDimension.Name,
+                    sexIsAggregate = healthMeasure.SexDimension.IsAggregate,
+                    reportingPeriod = healthMeasure.PeriodDimension.Period
+                })
                     .Select(segmentGroup => new IndicatorSegment
                     {
                         Age = new Age
-                            { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
+                        { Value = segmentGroup.Key.ageName, IsAggregate = segmentGroup.Key.ageIsAggregate },
                         Sex = new Sex
-                            { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
+                        { Value = segmentGroup.Key.sexName, IsAggregate = segmentGroup.Key.sexIsAggregate },
                         ReportingPeriod = healthDataMapper.MapReportingPeriod(segmentGroup.Key.reportingPeriod),
                         IsAggregate = segmentGroup.Key.ageIsAggregate && segmentGroup.Key.sexIsAggregate,
                         HealthData = healthDataMapper.Map(segmentGroup.ToList())
