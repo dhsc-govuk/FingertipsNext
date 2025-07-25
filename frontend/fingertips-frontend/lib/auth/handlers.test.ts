@@ -3,10 +3,7 @@ import { mockAuth, mockSignIn, mockSignOut } from '@/mock/utils/mockAuth';
 //
 import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
 import { AuthProvidersFactory } from '@/lib/auth/providers/providerFactory';
-import {
-  FTA_PROVIDER_ID,
-  MOCK_PASSWORD_PROVIDER_ID,
-} from '@/lib/auth/providers';
+import { FTA_PROVIDER_ID, MOCK_PROVIDER_ID } from '@/lib/auth/providers';
 import { mockSession } from '@/mock/utils/mockAuth';
 
 vi.mock('@/lib/auth/config');
@@ -42,9 +39,7 @@ describe('sign in handler', () => {
 });
 
 describe('sign out handler', () => {
-  mockAuth.mockResolvedValue(
-    mockSession({ provider: MOCK_PASSWORD_PROVIDER_ID })
-  );
+  mockAuth.mockResolvedValue(mockSession({ provider: MOCK_PROVIDER_ID }));
   it('should call sign out with no redirect if session provider is not set to fta provider', async () => {
     await signOutHandler('some redirect');
 
