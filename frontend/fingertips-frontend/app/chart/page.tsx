@@ -149,7 +149,10 @@ export default async function ChartPage(
             );
           seedData[queryKeySingleIndicator] = healthData;
         } catch (error) {
-          console.error('error getting health indicator data for area', error);
+          console.error(
+            'error getting health indicator data for spine chart',
+            error
+          );
         }
       });
     }

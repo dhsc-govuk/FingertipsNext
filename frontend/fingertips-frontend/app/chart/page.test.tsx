@@ -291,6 +291,8 @@ describe('Chart Page', () => {
           mockIndicatorsApi.indicatorsQuartilesAllGet
         ).toHaveBeenCalledTimes(1);
       });
+
+      it.todo('should err.warn if fetching data for spine-chart seeding fails');
     });
   });
 });
