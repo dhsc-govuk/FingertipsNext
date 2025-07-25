@@ -12,8 +12,8 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
 {
     private const string TestDataDir = "TestData";
 
-    // Uses a different indicator ID, to avoid conflicting
-    // with the "list batches" integration tests when run in parallel.
+    // Uses a different indicator ID from other tests, to avoid conflicting
+    // when run in parallel.
     private const int IndicatorId = 41203;
     private const string Indicator41203GroupRoleId = "eeea2d1a-0697-48e2-8834-ee64ef6694da";
 
@@ -23,7 +23,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
     private readonly string _blobName;
     private readonly DateTime _publishedAt = new(2024, 7, 15, 10, 30, 45, 123, DateTimeKind.Utc);
 
-    public FileUploadIntegrationTests(DataManagementWebApplicationFactory<Program> factory) : base(factory)
+    public FileUploadIntegrationTests(WebApplicationFactoryWithAuth<Program> factory) : base(factory)
     {
         // Load configuration from the test JSON file.
         var configuration = new ConfigurationBuilder()

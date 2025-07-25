@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import {
-  Configuration,
   GetHealthDataForAnIndicatorRequest,
-  IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -10,8 +8,7 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import { useMemo } from 'react';
-import { useSession } from 'next-auth/react';
-import { Session } from 'next-auth';
+import { getAuthorisedHealthDataForAnIndicator } from '@/lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 
 type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
   healthData: IndicatorWithHealthDataForArea | undefined;
@@ -20,34 +17,24 @@ type UseApiGetHealthDataForAnIndicatorResult = Readonly<{
 }>;
 
 export const queryFnHealthDataForAnIndicator =
-  (options: GetHealthDataForAnIndicatorRequest, session?: Session | null) =>
-  async () => {
-    const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
-    const config: Configuration = new Configuration({
-      basePath: apiUrl,
-      fetchApi: fetch,
-    });
-
-    const indicatorsApiInstance = new IndicatorsApi(config);
-    return session
-      ? indicatorsApiInstance.getHealthDataForAnIndicatorIncludingUnpublishedData(
-          options
-        )
-      : indicatorsApiInstance.getHealthDataForAnIndicator(options);
+  (apiRequestParams: GetHealthDataForAnIndicatorRequest) => async () => {
+    return getAuthorisedHealthDataForAnIndicator(apiRequestParams);
   };
 
 export const useApiGetHealthDataForAnIndicator = (
-  options: GetHealthDataForAnIndicatorRequest
+  apiRequestParams: GetHealthDataForAnIndicatorRequest
 ) => {
-  const { data: session } = useSession();
   const queryKey = [
-    queryKeyFromRequestParams(EndPoints.HealthDataForAnIndicator, options),
+    queryKeyFromRequestParams(
+      EndPoints.HealthDataForAnIndicator,
+      apiRequestParams
+    ),
   ];
 
   const query = useQuery<IndicatorWithHealthDataForArea>({
     queryKey,
-    queryFn: queryFnHealthDataForAnIndicator(options, session),
-    enabled: !!options.indicatorId,
+    queryFn: queryFnHealthDataForAnIndicator(apiRequestParams),
+    enabled: !!apiRequestParams.indicatorId,
   });
 
   return useMemo<UseApiGetHealthDataForAnIndicatorResult>(() => {

@@ -32,6 +32,8 @@ import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+ApiClientFactory.getAuthenticatedIndicatorsApiClient = async () =>
+  mockIndicatorsApi;
 
 mockAuth.mockResolvedValue(null);
 
@@ -186,113 +188,61 @@ describe('Chart Page', () => {
       ]);
     });
   });
-  describe('Seeding Data', () => {
-    describe('SeedingLineChartOverTimeWithAuth', () => {
-      it('should seed without unpublished data if there is no session', async () => {
-        const mockAreaCode = 'E06000047';
-        const searchParams: SearchStateParams = {
-          [SearchParams.SearchedIndicator]: 'testing',
-          [SearchParams.IndicatorsSelected]: ['333'],
-          [SearchParams.AreasSelected]: [mockAreaCode],
-        };
-        await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
 
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicator
-        ).toHaveBeenCalledTimes(3);
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-        ).not.toHaveBeenCalled();
+  describe('seed query with auth', () => {
+    it('should call the published healthData endpoint when seeding querys if there is no session', async () => {
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+      };
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
       });
+      const actualSeedData = page.props.children[0].props.seedData;
 
-      it('should seed with unpublished data if there is a session', async () => {
-        mockAuth.mockResolvedValue({ expires: 'some string' });
+      expect(
+        mockIndicatorsApi.getHealthDataForAnIndicator
+      ).toHaveBeenCalledTimes(3); // LineChart, Inequalites and Population
+      expect(
+        mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
+      ).not.toHaveBeenCalled();
 
-        const mockAreaCode = 'E06000047';
-        const searchParams: SearchStateParams = {
-          [SearchParams.SearchedIndicator]: 'testing',
-          [SearchParams.IndicatorsSelected]: ['333'],
-          [SearchParams.AreasSelected]: [mockAreaCode],
-        };
-
-        const page = await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-        const actualSeedData = page.props.children[0].props.seedData;
-
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicator
-        ).toHaveBeenCalledTimes(1);
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-        ).toHaveBeenCalledTimes(2);
-
-        expect(
-          Object.keys(actualSeedData).some((key) =>
-            key.includes(EndPoints.HealthDataForAnIndicator)
-          )
-        ).toBe(true);
-      });
+      expect(
+        Object.keys(actualSeedData).some((key) =>
+          key.includes(EndPoints.HealthDataForAnIndicator)
+        )
+      ).toBe(true);
     });
 
-    describe('SeedingSpineChartWithAuth', () => {
-      it('should seed without unpublished data if there is no session', async () => {
-        mockAuth.mockResolvedValue(null);
+    it('should call the unpublished healthData endpoint when seeding if there is a session', async () => {
+      mockAuth.mockResolvedValue({ expires: 'some string' });
 
-        const mockAreaCode = 'E06000047';
-        const searchParams: SearchStateParams = {
-          [SearchParams.SearchedIndicator]: 'testing',
-          [SearchParams.IndicatorsSelected]: ['333', '444'],
-          [SearchParams.AreasSelected]: [mockAreaCode],
-        };
+      const mockAreaCode = 'E06000047';
+      const searchParams: SearchStateParams = {
+        [SearchParams.SearchedIndicator]: 'testing',
+        [SearchParams.IndicatorsSelected]: ['333'],
+        [SearchParams.AreasSelected]: [mockAreaCode],
+      };
 
-        await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicator
-        ).toHaveBeenCalledTimes(4);
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-        ).not.toHaveBeenCalled();
-        expect(mockIndicatorsApi.indicatorsQuartilesGet).toHaveBeenCalledTimes(
-          1
-        );
-        expect(
-          mockIndicatorsApi.indicatorsQuartilesAllGet
-        ).not.toHaveBeenCalled();
+      const page = await ChartPage({
+        searchParams: generateSearchParams(searchParams),
       });
+      const actualSeedData = page.props.children[0].props.seedData;
 
-      it('should seed with unpublished data if there is a session', async () => {
-        mockAuth.mockResolvedValue({ expires: 'some string' });
+      expect(
+        mockIndicatorsApi.getHealthDataForAnIndicator
+      ).not.toHaveBeenCalled();
+      expect(
+        mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
+      ).toHaveBeenCalledTimes(3); // LineChart, Inequalites and Population
 
-        const mockAreaCode = 'E06000047';
-        const searchParams: SearchStateParams = {
-          [SearchParams.SearchedIndicator]: 'testing',
-          [SearchParams.IndicatorsSelected]: ['333', '444'],
-          [SearchParams.AreasSelected]: [mockAreaCode],
-        };
-
-        await ChartPage({
-          searchParams: generateSearchParams(searchParams),
-        });
-
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicator
-        ).toHaveBeenCalledTimes(1);
-        expect(
-          mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-        ).toHaveBeenCalledTimes(3);
-        expect(mockIndicatorsApi.indicatorsQuartilesGet).not.toHaveBeenCalled();
-        expect(
-          mockIndicatorsApi.indicatorsQuartilesAllGet
-        ).toHaveBeenCalledTimes(1);
-      });
-
-      it.todo('should err.warn if fetching data for spine-chart seeding fails');
+      expect(
+        Object.keys(actualSeedData).some((key) =>
+          key.includes(EndPoints.HealthDataForAnIndicator)
+        )
+      ).toBe(true);
     });
   });
 });

@@ -21,7 +21,7 @@ dotnet_diagnostic.CA1515.severity = none
 # Static holder types should be Static or NotInheritable
 dotnet_diagnostic.CA1052.severity = none
 
-[*WebApplicationFactory.cs]
+[WebApplicationFactoryWithAuth.cs]
 # Consider making public types internal
 dotnet_diagnostic.CA1515.severity = none
 

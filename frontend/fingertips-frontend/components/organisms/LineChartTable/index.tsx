@@ -248,7 +248,7 @@ export function LineChartTable({
     ...(englandIndicatorData?.healthData ?? []),
     ...(groupIndicatorData?.healthData ?? []),
     ...healthIndicatorData.flatMap((area) => area.healthData),
-  ].map(({ datePeriod }) => convertDateToNumber(datePeriod?.from));
+  ].map(({ datePeriod }) => convertDateToNumber(datePeriod?.to));
 
   const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
   const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
@@ -267,7 +267,7 @@ export function LineChartTable({
     .map((dateAsNumber) => {
       const englandHealthPoint = englandIndicatorData?.healthData.find(
         (healthPoint) =>
-          convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
+          convertDateToNumber(healthPoint.datePeriod?.to) === dateAsNumber
       );
 
       const datePeriod = englandHealthPoint?.datePeriod;
@@ -285,7 +285,7 @@ export function LineChartTable({
       healthIndicatorData.forEach((areaData) => {
         const matchByYear = areaData.healthData.find(
           (healthPoint) =>
-            convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
+            convertDateToNumber(healthPoint.datePeriod?.to) === dateAsNumber
         );
         row.areas.push(matchByYear ?? null);
       });
@@ -293,7 +293,7 @@ export function LineChartTable({
       // find the group value for the given year
       const groupMatchedByYear = groupIndicatorData?.healthData.find(
         (healthPoint) =>
-          convertDateToNumber(healthPoint.datePeriod?.from) === dateAsNumber
+          convertDateToNumber(healthPoint.datePeriod?.to) === dateAsNumber
       );
       row.groupValue = groupMatchedByYear?.value;
 

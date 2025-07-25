@@ -24,6 +24,7 @@ export const lineChartOverTimeData = (
 
   const benchmarkComparisonMethod = healthData?.benchmarkMethod;
   const polarity = healthData?.polarity;
+  const { name } = healthData;
 
   const [withoutEngland, englandData] = findAndRemoveByAreaCode(
     healthData.areaHealthData ?? [],
@@ -54,7 +55,7 @@ export const lineChartOverTimeData = (
   const benchmarkToUse = determineBenchmarkToUse(benchmarkAreaSelected);
 
   const periodType =
-    healthData.areaHealthData?.[0].healthData?.[0].datePeriod?.type ??
+    healthData.areaHealthData?.at(0)?.healthData?.at(0)?.datePeriod?.type ??
     PeriodType.Calendar;
   const frequency = healthData.frequency ?? Frequency.Annually;
 
@@ -65,7 +66,7 @@ export const lineChartOverTimeData = (
     periodType,
     frequency,
     {
-      indicatorName: indicatorMetaData?.indicatorName,
+      indicatorName: name,
       englandData: englandData,
       benchmarkComparisonMethod: benchmarkComparisonMethod,
       groupIndicatorData: groupData,

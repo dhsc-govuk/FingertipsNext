@@ -15,6 +15,7 @@
             "value": "Female",
             "isAggregate": false
           },
+          "reportingPeriod": "Yearly",
           "isAggregate": false,
           "healthData": [
             {
@@ -42,6 +43,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -76,6 +78,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -110,6 +113,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -144,6 +148,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
@@ -178,6 +183,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -212,6 +218,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
@@ -246,6 +253,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -280,6 +288,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -314,6 +323,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -348,6 +358,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
@@ -382,6 +393,7 @@
                 "value": "Female",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
@@ -402,6 +414,7 @@
             "value": "Male",
             "isAggregate": false
           },
+          "reportingPeriod": "Yearly",
           "isAggregate": false,
           "healthData": [
             {
@@ -429,6 +442,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -463,6 +477,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -497,6 +512,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -531,6 +547,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -565,6 +582,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -599,6 +617,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -633,6 +652,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -667,6 +687,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -701,6 +722,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -735,6 +757,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -769,6 +792,7 @@
                 "value": "Male",
                 "isAggregate": false
               },
+              "reportingPeriod": "Yearly",
               "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -789,6 +813,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "isAggregate": true,
           "healthData": [
             {
@@ -816,6 +841,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -850,6 +876,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -884,6 +911,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -918,6 +946,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -952,6 +981,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -986,6 +1016,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -1020,6 +1051,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -1054,6 +1086,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -1088,6 +1121,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -1122,6 +1156,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
@@ -1156,6 +1191,7 @@
                 "value": "Persons",
                 "isAggregate": true
               },
+              "reportingPeriod": "Yearly",
               "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
@@ -1194,6 +1230,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1228,6 +1265,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1262,6 +1300,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1296,6 +1335,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1330,6 +1370,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1364,6 +1405,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1398,6 +1440,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1432,6 +1475,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1466,6 +1510,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1500,6 +1545,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Worse",
@@ -1534,6 +1580,7 @@
             "value": "Persons",
             "isAggregate": true
           },
+          "reportingPeriod": "Yearly",
           "trend": "Cannot be calculated",
           "benchmarkComparison": {
             "outcome": "Similar",

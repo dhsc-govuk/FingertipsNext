@@ -9,5 +9,5 @@ public interface IDataManagementService
 
     ICollection<string> ValidateCsv(Stream fileStream);
     Task<IEnumerable<Batch>> ListBatches(int[] indicatorIds);
-    Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId);
+    Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified);
 }

@@ -5,6 +5,8 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import {
+  Configuration,
+  IndicatorsApi,
   IndicatorsQuartilesGetRequest,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
@@ -19,11 +21,18 @@ export const useApiGetQuartiles = (options: IndicatorsQuartilesGetRequest) => {
   const query = useQuery<QuartileData[]>({
     queryKey,
     queryFn: async () => {
-      return (await getQuartilesSeed(session, options)).filter(
-        (q) => q.isAggregate === true
-      );
+      const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
+      const config: Configuration = new Configuration({
+        basePath: apiUrl,
+        fetchApi: fetch,
+      });
+
+      const indicatorsApiInstance = new IndicatorsApi(config);
+      return (
+        await indicatorsApiInstance.indicatorsQuartilesGet(options)
+      ).filter((q) => q.isAggregate === true);
     },
-    enabled: indicatorIds.length >= 2,
+    enabled: indicatorIds.length >= 1,
   });
 
   return useMemo(() => {
