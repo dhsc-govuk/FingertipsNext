@@ -29,7 +29,6 @@ const secondSubjectSearchTerm = 'diabetes';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
 
-const password = 'password';
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
   (indicator: RawIndicatorDocument) => ({
@@ -149,11 +148,11 @@ test.describe('Home Page Tests', () => {
     });
 
     await test.step('Click Sign in button', async () => {
-      await homePage.clickSignIn();
+      await homePage.clickSignInOnHomePage();
     });
 
-    await test.step('Enter correct password and verify message is displayed', async () => {
-      await homePage.signInToMock(password);
+    await test.step('Enter password for mock sign in and click to sign in, in the mock then check sign out is now displayed', async () => {
+      await homePage.signInToMock();
 
       await homePage.checkSignOutDisplayed();
     });
@@ -527,7 +526,7 @@ test.describe('Navigation Tests', () => {
   });
 });
 
-// Capture and log out URL on test failure
+// Capture and write out the URL on test failure
 test.afterEach(async ({ page }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
     const url = page.url();

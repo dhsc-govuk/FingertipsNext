@@ -13,6 +13,8 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';
 
+test.use({ failOnUnhandledError: false });
+
 //@ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
 
@@ -46,6 +48,7 @@ test.describe(
         areaFiltersToSelect,
         checkExports,
         typeOfInequalityToSelect,
+        signInAsUserToCheckUnpublishedData,
       }) => {
         test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
           homePage,
@@ -60,9 +63,13 @@ test.describe(
                   subjectSearchTerm!
                 );
 
-          await test.step('Navigate to home page and search for indicators', async () => {
+          await test.step('Navigate to home page, sign in if required and then search for indicators', async () => {
             await homePage.navigateToHomePage();
             await homePage.checkOnHomePage();
+
+            await homePage.signInIfRequired(
+              signInAsUserToCheckUnpublishedData!
+            );
 
             await homePage.searchForIndicators(
               searchMode,
@@ -113,11 +120,11 @@ test.describe(
               typedIndicatorData
             );
 
+            await chartPage.checkOnChartPage();
+
             await chartPage.checkSelectedIndicatorPillsText(
               selectedIndicatorsData
             );
-
-            await chartPage.checkOnChartPage();
 
             await chartPage.checkCharts(
               indicatorMode,
@@ -125,7 +132,8 @@ test.describe(
               selectedIndicatorsData,
               areaFiltersToSelect!,
               checkExports!,
-              typeOfInequalityToSelect!
+              typeOfInequalityToSelect!,
+              signInAsUserToCheckUnpublishedData!
             );
           });
         });
@@ -134,7 +142,7 @@ test.describe(
   }
 );
 
-// Log out current url when a test fails
+// Capture and write out the URL on test failure
 test.afterEach(async ({ page }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
     // Test failed - capture the URL

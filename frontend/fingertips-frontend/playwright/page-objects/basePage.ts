@@ -146,7 +146,7 @@ export default class BasePage {
     const maxRetries = 3;
     let pageNavigation;
 
-    //Retry logic for page navigation
+    // Retry logic for page navigation
     while (retryAttempt < maxRetries) {
       try {
         pageNavigation = await this.page.goto(page);

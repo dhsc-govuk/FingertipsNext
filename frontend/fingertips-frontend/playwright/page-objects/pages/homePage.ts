@@ -1,9 +1,21 @@
-import { SearchMode } from '@/playwright/testHelpers/genericTestUtilities';
+import {
+  SearchMode,
+  SignInAs,
+} from '@/playwright/testHelpers/genericTestUtilities';
+import type { Page as PlaywrightPage } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 import { expect } from '../pageFactory';
 import { siteTitle } from '@/lib/constants';
+import EntraPage from './entraPage';
 
 export default class HomePage extends AreaFilter {
+  private readonly entraPage: EntraPage;
+
+  constructor(page: PlaywrightPage) {
+    super(page);
+    this.entraPage = new EntraPage(page);
+  }
+
   readonly subjectSearchField = 'indicator-search-form-input';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
@@ -11,6 +23,9 @@ export default class HomePage extends AreaFilter {
   readonly pillContainer = 'pill-container';
   readonly signInButton = 'sign-in-button';
   readonly signOutButton = 'sign-out-button';
+  readonly email = 'fallback@email.com';
+  readonly password =
+    process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD || 'password';
 
   async searchForIndicators(
     searchMode: SearchMode,
@@ -149,10 +164,76 @@ export default class HomePage extends AreaFilter {
     );
   }
 
-  async clickSignIn() {
+  async clickSignInOnHomePage() {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.signInButton)
     );
+  }
+
+  private determineSignInCredentials(signInRequired: SignInAs): {
+    email: string;
+    password: string;
+  } {
+    console.log(
+      `Determining sign-in credentials for: ${JSON.stringify(signInRequired)}`
+    );
+    console.log(
+      `Using password: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD} or ${this.password}`
+    );
+    if (signInRequired.administrator) {
+      console.log(
+        `Tring to use admin email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN} or ${this.email}`
+      );
+      return {
+        email:
+          process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN ||
+          this.email,
+        password: this.password,
+      };
+    } else if (signInRequired.userWithIndicatorPermissions) {
+      console.log(
+        `Tring to use user with multiple indicators email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS} or ${this.email}`
+      );
+      return {
+        email:
+          process.env
+            .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS ||
+          this.email,
+        password: this.password,
+      };
+    } else if (signInRequired.userWithoutIndicatorPermissions) {
+      console.log(
+        `Tring to use user with no indicators email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS} or ${this.email}`
+      );
+      return {
+        email:
+          process.env
+            .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS ||
+          this.email,
+        password: this.password,
+      };
+    } else {
+      return {
+        // this should never be used, but is a fallback that will correctly cause the test to fail if no sign in credentials are found
+        email: this.email,
+        password: this.password,
+      };
+    }
+  }
+
+  async signInIfRequired(signInRequired: SignInAs) {
+    if (signInRequired) {
+      const { email, password } =
+        this.determineSignInCredentials(signInRequired);
+
+      await this.clickSignInOnHomePage();
+
+      await this.entraPage.checkOnEntraSignInPage();
+
+      await this.entraPage.enterEmailAndPassword(email, password);
+
+      await this.checkSignOutDisplayed();
+    }
   }
 
   async clickSignOut() {
@@ -161,10 +242,10 @@ export default class HomePage extends AreaFilter {
     );
   }
 
-  async signInToMock(password: string) {
+  async signInToMock() {
     await this.fillAndAwaitLoadingComplete(
       this.page.getByRole('textbox', { name: 'Password' }),
-      password
+      this.password
     );
 
     await this.clickAndAwaitLoadingComplete(
