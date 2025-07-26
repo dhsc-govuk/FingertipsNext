@@ -877,7 +877,7 @@ export default class ChartPage extends AreaFilter {
 
     const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
 
-    // Try to find the simple year format first
+    // Try to find the calendar year format first
     try {
       const count = await this.page
         .getByTestId(chartComponentLocator)
@@ -894,7 +894,7 @@ export default class ChartPage extends AreaFilter {
       // Do nothing, we will try the fiscal year format next
     }
 
-    // Try the fiscal year format
+    // Then try the financial year format
     try {
       const count = await this.page
         .getByTestId(chartComponentLocator)
