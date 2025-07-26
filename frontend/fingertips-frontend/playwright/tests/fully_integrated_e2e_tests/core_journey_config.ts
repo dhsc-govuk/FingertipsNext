@@ -333,7 +333,7 @@ export const coreTestJourneys: TestParameters[] = [
       },
       {
         indicatorID: '90453', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
-        knownTrend: 'No significant change',
+        knownTrend: 'No recent trend data available', // 2023 has the trend 'No significant change' but 2024 has no trend data
         unpublishedDataYear: 2025,
       },
     ],

@@ -877,42 +877,64 @@ export default class ChartPage extends AreaFilter {
 
     const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
 
-    // Try to find the calendar year format first
-    try {
-      const count = await this.page
-        .getByTestId(chartComponentLocator)
-        .getByText(String(unpublishedDataYear))
-        .count();
+    // If the chart component is inequalities bar chart table, we need to check the combobox options for the unpublished data year
+    if (
+      chartComponentLocator === ChartPage.inequalitiesBarChartTableComponent
+    ) {
+      const combobox = this.page
+        .getByTestId(this.timePeriodDropDownComponent)
+        .getByRole('combobox');
 
+      const options = await this.getSelectOptions(combobox);
       if (shouldShowUnpublishedData) {
-        expect(count).toBeGreaterThanOrEqual(1);
+        expect(options).toContainEqual({
+          value: String(unpublishedDataYear),
+          text: String(unpublishedDataYear),
+        });
       } else {
-        expect(count).toEqual(0);
+        expect(options).not.toContainEqual({
+          value: String(unpublishedDataYear),
+          text: String(unpublishedDataYear),
+        });
       }
-      return;
-    } catch {
-      // Do nothing, we will try the fiscal year format next
-    }
+    } else {
+      // For all other components first try to find the calendar year format at least once somewhere on the chart
+      try {
+        const count = await this.page
+          .getByTestId(chartComponentLocator)
+          .getByText(String(unpublishedDataYear))
+          .count();
 
-    // Then try the financial year format
-    try {
-      const count = await this.page
-        .getByTestId(chartComponentLocator)
-        .getByText(`${String(unpublishedDataYear)}/${nextYearShort}`)
-        .count();
-
-      if (shouldShowUnpublishedData) {
-        expect(count).toBeGreaterThanOrEqual(1);
-      } else {
-        expect(count).toEqual(0);
+        if (shouldShowUnpublishedData) {
+          expect(count).toBeGreaterThanOrEqual(1);
+        } else {
+          expect(count).toEqual(0);
+        }
+        return;
+      } catch {
+        // Do nothing, as will try the fiscal year format next
       }
-      return;
-    } catch {
-      // Both formats failed so throw error
-      throw new Error(
-        `Could not find unpublished data year in chart. Tried both "${unpublishedDataYear}" and "${unpublishedDataYear}/${nextYearShort}" formats. ` +
-          `Expected to ${shouldShowUnpublishedData ? 'show' : 'not show'} unpublished data`
-      );
+
+      // Then try the financial year format at least once somewhere on the chart
+      try {
+        const count = await this.page
+          .getByTestId(chartComponentLocator)
+          .getByText(`${String(unpublishedDataYear)}/${nextYearShort}`)
+          .count();
+
+        if (shouldShowUnpublishedData) {
+          expect(count).toBeGreaterThanOrEqual(1);
+        } else {
+          expect(count).toEqual(0);
+        }
+        return;
+      } catch {
+        // Failed to find either format so throw error
+        throw new Error(
+          `Could not find unpublished data year in chart. Tried both "${unpublishedDataYear}" and "${unpublishedDataYear}/${nextYearShort}" formats. ` +
+            `Expected to ${shouldShowUnpublishedData ? 'show' : 'not show'} unpublished data`
+        );
+      }
     }
   }
 
