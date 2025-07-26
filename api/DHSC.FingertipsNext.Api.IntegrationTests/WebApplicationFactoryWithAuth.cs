@@ -9,12 +9,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
+namespace DHSC.FingertipsNext.Api.IntegrationTests;
 
-public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> where T : class
+public class WebApplicationFactoryWithAuth<T> : WebApplicationFactory<T> where T : class
 {
     private const string JwtStubIssuer = "TestIssuer";
     private const string JwtStubAudience = "TestAudience";
+    public string SubClaim => "test-user";
 
     public FakeTimeProvider MockTime { get; } = new();
 
@@ -57,7 +58,7 @@ public class DataManagementWebApplicationFactory<T> : WebApplicationFactory<T> w
 
         if (tokenContainsSubClaim)
         {
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "test-user"));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, SubClaim));
         }
 
         if (includeRoleClaims != null)

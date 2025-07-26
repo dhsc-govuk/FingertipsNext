@@ -1,5 +1,7 @@
 import {
   BenchmarkComparisonMethod,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   IndicatorWithHealthDataForArea,
   QuartileData,
@@ -16,6 +18,7 @@ import { searchFromSegmentInfo } from '@/lib/healthDataHelpers/searchFromSegment
 import { findHealthDataForAreas } from '@/lib/healthDataHelpers/findHealthDataForAreas';
 import { findQuartileBySegmentation } from '@/lib/healthDataHelpers/findQuartileBySegmentation';
 import { indicatorsSorted } from '@/lib/healthDataHelpers/indicatorsSorted';
+import { DatePeriodWithFrequency } from '@/lib/timePeriodHelpers/timePeriod.types';
 
 export const spineChartIndicatorTitleColumnMinWidth = 240;
 
@@ -23,7 +26,7 @@ export interface SpineChartIndicatorData {
   rowId: string;
   indicatorId: number;
   indicatorName: string;
-  latestDataPeriod?: number;
+  latestDataPeriod?: DatePeriod;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   valueUnit: string;
   areasHealthData: HealthDataForArea[];
@@ -34,13 +37,14 @@ export interface SpineChartIndicatorData {
 
 const onlyMatchingDataPoints = (
   areaHealthData?: HealthDataForArea,
-  period?: number
+  datePeriod?: DatePeriodWithFrequency
 ) => {
   if (!areaHealthData) return undefined;
   return {
     ...areaHealthData,
     healthData: areaHealthData.healthData.filter(
-      (dataPoint) => dataPoint.year === period
+      (dataPoint) =>
+        dataPoint.datePeriod?.to.getTime() === datePeriod?.to.getTime()
     ),
   };
 };
@@ -83,9 +87,13 @@ export const buildSpineChartIndicatorData = (
         segmentInfo
       );
 
-      const latestDataPeriod = matchedQuartileData?.year;
+      const datePeriod = matchedQuartileData?.datePeriod;
 
-      if (!matchedQuartileData || !latestDataPeriod) return;
+      if (!matchedQuartileData || !datePeriod) return;
+      const latestDataPeriod: DatePeriodWithFrequency = {
+        ...datePeriod,
+        frequency: matchedQuartileData.frequency ?? Frequency.Annually,
+      };
 
       const areasHealthData = findHealthDataForAreas(
         extractedSegment,

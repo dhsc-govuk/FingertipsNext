@@ -20,7 +20,7 @@ describe('generate headers and rows - benchmark area is England', () => {
       id: '1',
       name: 'Indicator 1',
       unitLabel: 'per 100',
-      latestDataPeriod: 1234,
+      latestDataPeriod: '1234',
       benchmarkMethod: BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       polarity: IndicatorPolarity.HighIsGood,
     },
@@ -28,7 +28,7 @@ describe('generate headers and rows - benchmark area is England', () => {
       id: '2',
       name: 'Indicator 2',
       unitLabel: 'per 1,000',
-      latestDataPeriod: 5678,
+      latestDataPeriod: '5678',
       benchmarkMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8,
       polarity: IndicatorPolarity.LowIsGood,

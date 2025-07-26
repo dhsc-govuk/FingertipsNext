@@ -61,18 +61,27 @@ internal static class BenchmarkComparisonEngine
                     polarity);
 
             // Perform Inequality benchmarking against aggregate segment
-            var aggregateSegment = areaHealthData.IndicatorSegments.First(segment => segment.IsAggregate);
+            var aggregateSegment = areaHealthData.IndicatorSegments.FirstOrDefault(segment => segment.IsAggregate);
             var newIndicatorSegments = new List<IndicatorSegment>();
-            foreach (var targetSegment in areaHealthData.IndicatorSegments)
+
+            // There may not be an aggregateSegment available - check for this and just return the original segments without benchmarking
+            if (aggregateSegment != null)
             {
-                var newSegment = ProcessBenchmarkComparisonsForAreaSegment(
-                    targetSegment,
-                    aggregateSegment,
-                    areaHealthData.AreaCode,
-                    areaHealthData.AreaName,
-                    polarity
-                );
-                newIndicatorSegments.Add(newSegment);
+                foreach (var targetSegment in areaHealthData.IndicatorSegments)
+                {
+                    var newSegment = ProcessBenchmarkComparisonsForAreaSegment(
+                        targetSegment,
+                        aggregateSegment,
+                        areaHealthData.AreaCode,
+                        areaHealthData.AreaName,
+                        polarity
+                    );
+                    newIndicatorSegments.Add(newSegment);
+                }
+            }
+            else
+            {
+                newIndicatorSegments.AddRange(areaHealthData.IndicatorSegments);
             }
 
             var newAreaHealthData = new HealthDataForArea

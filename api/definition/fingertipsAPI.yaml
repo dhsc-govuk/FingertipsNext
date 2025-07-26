@@ -305,6 +305,8 @@ paths:
       - $ref: '#/components/parameters/inequalities'
       - $ref: '#/components/parameters/latest_only'
     get:
+      security:
+        - bearerAuth: []
       tags:
         - indicators
       summary: Get published and unpublished health data for an indicator
@@ -321,6 +323,10 @@ paths:
                 $ref: '#/components/schemas/IndicatorWithHealthDataForArea'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
