@@ -255,6 +255,15 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     expect(
       await screen.findByTestId('basic-table-component')
     ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('link', {
+        name: chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title,
+      })
+    ).toHaveAttribute(
+      'href',
+      chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].href
+    );
   });
 
   it('should not render the single indicator basic table component when there is only one segment', async () => {
