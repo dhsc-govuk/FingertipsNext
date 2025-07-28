@@ -167,8 +167,7 @@ export default class HomePage extends AreaFilter {
 
   async signInIfRequired(signInRequired: SignInAs) {
     if (signInRequired) {
-      const { email, password } =
-        this.determineSignInCredentials(signInRequired);
+      const { email, password } = this.determineCredentials(signInRequired);
 
       await this.clickSignInOnHomePage();
 

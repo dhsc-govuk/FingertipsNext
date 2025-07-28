@@ -202,6 +202,17 @@ export default class BasePage {
       this.page.getByTestId(this.signOutButton)
     );
   }
+
+  async waitForSignOutToFinish() {
+    await this.page.waitForLoadState();
+    await expect(
+      this.page.getByText('Hang on a moment while we sign you out.')
+    ).toHaveCount(0);
+    await expect(
+      this.page.getByText('You signed out of your account')
+    ).toBeVisible();
+  }
+
   async checkSignInDisplayed() {
     await expect(this.page.getByTestId(this.signInButton)).toBeVisible();
   }
@@ -210,12 +221,12 @@ export default class BasePage {
     await expect(this.page.getByTestId(this.signOutButton)).toBeVisible();
   }
 
-  public determineSignInCredentials(signInRequired: SignInAs): {
+  public determineCredentials(signInRequired: SignInAs): {
     email: string;
     password: string;
   } {
     console.log(
-      `Determining sign-in credentials for: ${JSON.stringify(signInRequired)}`
+      `Determining credentials for: ${JSON.stringify(signInRequired)}`
     );
     if (signInRequired.administrator) {
       return {
@@ -251,12 +262,14 @@ export default class BasePage {
 
   async signOutIfRequired(signOutRequired: SignInAs) {
     if (signOutRequired) {
-      const { email } = this.determineSignInCredentials(signOutRequired);
+      const { email } = this.determineCredentials(signOutRequired);
       await this.clickSignOut();
 
       await this.clickAndAwaitLoadingComplete(
         this.page.locator(`[data-test-id="${email}"]`)
       );
+
+      await this.waitForSignOutToFinish();
 
       await this.checkSignInDisplayed();
     }
