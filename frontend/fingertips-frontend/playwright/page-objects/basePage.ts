@@ -9,6 +9,9 @@ export default class BasePage {
   readonly headerHomeLinkId = 'header-home-nav';
   readonly signInButton = 'sign-in-button';
   readonly signOutButton = 'sign-out-button';
+  readonly email = 'fallback@email.com';
+  readonly password =
+    process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD || 'password';
 
   constructor(public readonly page: PlaywrightPage) {}
 
@@ -199,7 +202,6 @@ export default class BasePage {
       this.page.getByTestId(this.signOutButton)
     );
   }
-
   async checkSignInDisplayed() {
     await expect(this.page.getByTestId(this.signInButton)).toBeVisible();
   }
@@ -208,9 +210,65 @@ export default class BasePage {
     await expect(this.page.getByTestId(this.signOutButton)).toBeVisible();
   }
 
+  public determineSignInCredentials(signInRequired: SignInAs): {
+    email: string;
+    password: string;
+  } {
+    console.log(
+      `Determining sign-in credentials for: ${JSON.stringify(signInRequired)}`
+    );
+    console.log(
+      `Using password: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD} or ${this.password}`
+    );
+    if (signInRequired.administrator) {
+      console.log(
+        `Tring to use admin email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN} or ${this.email}`
+      );
+      return {
+        email:
+          process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN ||
+          this.email,
+        password: this.password,
+      };
+    } else if (signInRequired.userWithIndicatorPermissions) {
+      console.log(
+        `Tring to use user with multiple indicators email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS} or ${this.email}`
+      );
+      return {
+        email:
+          process.env
+            .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS ||
+          this.email,
+        password: this.password,
+      };
+    } else if (signInRequired.userWithoutIndicatorPermissions) {
+      console.log(
+        `Tring to use user with no indicators email: ${process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS} or ${this.email}`
+      );
+      return {
+        email:
+          process.env
+            .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS ||
+          this.email,
+        password: this.password,
+      };
+    } else {
+      return {
+        // this should never be used, but is a fallback that will correctly cause the test to fail if no sign in credentials are found
+        email: this.email,
+        password: this.password,
+      };
+    }
+  }
+
   async signOutIfRequired(signOutRequired: SignInAs) {
     if (signOutRequired) {
+      const { email } = this.determineSignInCredentials(signOutRequired);
       await this.clickSignOut();
+
+      await this.clickAndAwaitLoadingComplete(
+        this.page.locator(`[data-test-id="${email}"]`)
+      );
 
       await this.checkSignInDisplayed();
     }
