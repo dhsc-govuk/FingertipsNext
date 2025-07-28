@@ -162,4 +162,11 @@ public class DataManagementRepositoryTests : IDisposable
         batch41101.DeletedAt.ShouldBeNull();
         batch41101.DeletedUserId.ShouldBeNull();
     }
+
+    [Fact]
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullModelIsSpecified()
+    {
+        await _dataManagementRepository.DeleteBatchAsync(null!, UserId)
+            .ShouldThrowAsync(typeof(ArgumentNullException));
+    }
 }

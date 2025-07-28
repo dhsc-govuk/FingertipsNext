@@ -315,7 +315,6 @@ public class DataManagementServiceTests
     public async Task DeleteBatchShouldReturnBatchNotFoundError()
     {
         // Arrange
-        var model = BatchExamples.BatchModel;
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(Task.FromResult<BatchModel?>(null));
 
         // Act
@@ -375,12 +374,6 @@ public class DataManagementServiceTests
             Status = BatchStatus.Received,
             PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
         };
-        var expectedModel = model with
-        {
-            Status = BatchStatus.Deleted,
-            DeletedAt = _timeProvider.GetUtcNow().Date,
-            DeletedUserId = UserId
-        };
         _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
         _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>())
             .Throws(new ArgumentNullException());
@@ -390,6 +383,33 @@ public class DataManagementServiceTests
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.ServerError);
+    }
+
+    [Fact]
+    public async Task DeleteBatchHealthDataClientShouldThrowException()
+    {
+        // Arrange
+        var model = BatchExamples.BatchModel with
+        {
+            IndicatorId = 123,
+            Status = BatchStatus.Received,
+            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
+        };
+        var expected = model with
+        {
+            DeletedAt = model.DeletedAt,
+            DeletedUserId = model.DeletedUserId,
+            Status = model.Status
+        };
+        _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>()).Returns(expected);
+        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).ThrowsAsync(new InvalidCastException("Error"));
+
+        // Act
+        await Should.ThrowAsync<InvalidCastException>(async () =>
+        {
+            await _service.DeleteBatchAsync("123", UserId, []);
+        });
     }
 
     [Theory]
@@ -527,7 +547,7 @@ public class DataManagementServiceTests
     }
 
     [Fact]
-    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullModelIsSpecified()
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullBatchIdIsSpecified()
     {
         await _service.DeleteBatchAsync(null!, UserId, [])
             .ShouldThrowAsync(typeof(ArgumentNullException));

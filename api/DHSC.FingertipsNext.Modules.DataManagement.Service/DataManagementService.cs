@@ -124,7 +124,6 @@ public class DataManagementService : IDataManagementService
     {
         ArgumentNullException.ThrowIfNull(batchId);
         ArgumentNullException.ThrowIfNull(indicatorsThatCanBeModified);
-        var errorMessage = "";
 
         try
         {
@@ -132,53 +131,40 @@ public class DataManagementService : IDataManagementService
 
             if (batchToDelete == null)
             {
-                throw new ArgumentException("BatchNotFound");
+                return new UploadHealthDataResponse(OutcomeType.NotFound, null, ["Not found"]);
             }
 
             if (indicatorsThatCanBeModified.Any() &&
                 !indicatorsThatCanBeModified.Contains(batchToDelete.IndicatorId))
             {
-                throw new ArgumentException("PermissionDenied");
+                return new UploadHealthDataResponse(OutcomeType.PermissionDenied, null,
+                    ["Permission denied when deleting batch"]);
             }
 
             if (batchToDelete is { DeletedAt: not null, Status: BatchStatus.Deleted })
             {
-                throw new ArgumentException("BatchDeleted");
+                return new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already deleted"]);
             }
 
             if (batchToDelete.PublishedAt <= _timeProvider.GetUtcNow().UtcDateTime)
             {
-                throw new ArgumentException("BatchPublished");
+                return new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]);
             }
 
             // Delete batch
             var deletedBatch = await _repository.DeleteBatchAsync(batchToDelete, userId);
 
-            if (deletedBatch != null)
-            {
-                // Delete associated health data
-                await _healthDataClient.DeleteHealthDataAsync(batchId);
+            // Delete associated health data
+            await _healthDataClient.DeleteHealthDataAsync(batchId);
 
-                // Write delete log
-                WriteDeleteSuccessLog(_logger, deletedBatch, deletedBatch.DeletedAt);
-                return new UploadHealthDataResponse(OutcomeType.Ok, _mapper.Map(deletedBatch));
-            }
+            // Write delete log
+            WriteDeleteSuccessLog(_logger, deletedBatch, deletedBatch.DeletedAt);
+            return new UploadHealthDataResponse(OutcomeType.Ok, _mapper.Map(deletedBatch));
         }
         catch (Exception e) when (e is ArgumentException)
         {
-            errorMessage = e.Message;
+            return new UploadHealthDataResponse(OutcomeType.ServerError, null, ["An unexpected error occurred"]);
         }
-
-        return errorMessage switch
-        {
-            "BatchNotFound" => new UploadHealthDataResponse(OutcomeType.NotFound, null, ["Not found"]),
-            "BatchDeleted" => new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already deleted"]),
-            "BatchPublished" =>
-                new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]),
-            "PermissionDenied" => new UploadHealthDataResponse(OutcomeType.PermissionDenied, null,
-                ["Permission denied when deleting batch"]),
-            _ => new UploadHealthDataResponse(OutcomeType.ServerError, null, ["An unexpected error occurred"])
-        };
     }
 
     private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, string userId, DateTime publishedAt,
