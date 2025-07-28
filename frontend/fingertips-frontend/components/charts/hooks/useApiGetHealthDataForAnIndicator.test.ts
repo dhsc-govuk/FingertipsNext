@@ -1,4 +1,4 @@
-import { mockAuth, mockSession } from '@/mock/utils/mockAuth';
+import { mockAuth } from '@/mock/utils/mockAuth';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForAnIndicator } from './useApiGetHealthDataForAnIndicator';
 import { renderHook, waitFor } from '@testing-library/react';
