@@ -16,10 +16,9 @@ const runCommand =
 // Create the base config
 const config: PlaywrightTestConfig = {
   testDir: './playwright/tests',
-  fullyParallel: true,
   forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code
   retries: isCI ? 1 : 0,
-  workers: isCI ? 2 : '25%', // 25% of the available CPUs when not in CI
+  workers: isCI ? 1 : '25%', // 25% of the available CPUs when not in CI
   timeout: 180_000,
   expect: {
     timeout: 20_000,
