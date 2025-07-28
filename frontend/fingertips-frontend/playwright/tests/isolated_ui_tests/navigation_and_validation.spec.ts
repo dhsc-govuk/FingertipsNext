@@ -13,6 +13,10 @@ import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  NOT_SIGNED_IN_ERROR_MESSAGE,
+  NOT_SIGNED_IN_ERROR_TITLE,
+} from '@/lib/auth/errorMessages';
 
 /**
  * Note that this test suite uses mock service worker to mock API responses, therefore these playwright tests are isolated from the backend
@@ -550,7 +554,7 @@ test.describe('Upload Page Tests', () => {
 
       await test
         .expect(uploadPage.errorPageTitle())
-        .toContainText('You are not signed in');
+        .toContainText(NOT_SIGNED_IN_ERROR_TITLE);
     });
   });
 
@@ -573,6 +577,7 @@ test.describe('Upload Page Tests', () => {
       await uploadPage.navigateToUploadPage();
 
       await test.expect(uploadPage.errorPageTitle()).toHaveCount(0);
+      await test.expect(uploadPage).not.toContain(NOT_SIGNED_IN_ERROR_MESSAGE);
     });
   });
 });
