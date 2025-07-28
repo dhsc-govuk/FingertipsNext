@@ -171,7 +171,7 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
     /// </remarks>
     [HttpGet]
     [Route("quartiles/all")]
-    [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
+    // [Authorize(Policy = CanAdministerIndicatorRequirement.Policy)]
     [ProducesResponseType(typeof(List<Schemas.IndicatorQuartileData>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(SimpleError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
