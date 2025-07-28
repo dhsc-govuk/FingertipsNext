@@ -22,7 +22,9 @@ test.describe(
     tag: [TestTag.CI, TestTag.CD],
   },
   () => {
-    test('upload a file', async ({ uploadPage }) => {
+    // The upload page requires authentication to view
+    // so this test is invalid until DHSCFT-1140 is completed
+    test.skip('upload a file', async ({ uploadPage }) => {
       await test.step('Navigate to upload page and upload a file', async () => {
         await uploadPage.navigateToUploadPage();
         await uploadPage.checkOnUploadPage();
