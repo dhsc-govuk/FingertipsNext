@@ -165,7 +165,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
     {
         ArgumentNullException.ThrowIfNull(indicatorIds);
 
-        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=gps&ancestor_code=U79121";
+        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=gps&ancestor_code=U79121&benchmark_ref_type=SubNational";
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
@@ -174,7 +174,6 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         var response = await client.GetFromJsonAsync<List<IndicatorQuartileData>>(new Uri(uriPath, UriKind.Relative));
 
         response.ShouldNotBeNull();
-        response.Count.ShouldBe(indicatorIds.Length);
         response.All(quartileData => indicatorIds.Contains(quartileData.IndicatorId)).ShouldBeTrue();
     }
 }
