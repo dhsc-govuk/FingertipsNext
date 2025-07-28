@@ -17,7 +17,6 @@ import {
 import { mockDeep } from 'vitest-mock-extended';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { Session } from 'next-auth';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
