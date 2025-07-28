@@ -24,15 +24,15 @@ const mockUnpublishedResponse = mockIndicatorWithHealthDataForArea({
   areaHealthData: [mockHealthDataForArea(), mockHealthDataForArea()],
 });
 
-mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolvedValue(
-  mockUnpublishedResponse
-);
 mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
   mockPublishedResponse
 );
+mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolvedValue(
+  mockUnpublishedResponse
+);
 
 const mockSession = mockDeep<Session>();
-mockAuth.mockResolvedValue(mockSession);
+mockAuth.mockResolvedValue({ expires: 'some sting' });
 
 const apiRequestParams: GetHealthDataForAnIndicatorRequest = {
   indicatorId: 1,
