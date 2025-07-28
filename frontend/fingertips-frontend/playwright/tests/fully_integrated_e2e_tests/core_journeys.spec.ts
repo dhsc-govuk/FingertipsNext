@@ -14,7 +14,7 @@ import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';
 
 // log tech debt to accept just the favicon error 404 rather than all unhandled errors
-test.use({ failOnUnhandledError: false, storageState: undefined });
+test.use({ failOnUnhandledError: false });
 
 // @ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
@@ -27,21 +27,6 @@ const typedIndicatorData = indicatorData.map(
 );
 
 const checkTrends = process.env.CHECK_TRENDS_ON_RESULTS_PAGE === 'true';
-
-test.beforeEach(async ({ context, page }) => {
-  // Clear any existing state
-  await context.clearCookies();
-  await context.clearPermissions();
-
-  // Navigate to a clean state before each test
-  await page.goto('/');
-
-  // Clear browser storage
-  await page.evaluate(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-  });
-});
 
 /**
  * This tests, in parallel, the 15 indicator + area scenario combinations defined in coreTestJourneys from core_journey_config.ts
