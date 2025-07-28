@@ -1,8 +1,4 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import {
-  mockGetHealthDataForAnIndicator,
-  mockGetHealthDataForAnIndicatorIncludingUnpublishedData,
-} from '@/mock/utils/mockApiClient';
 //
 import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -11,7 +7,6 @@ import { QueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForMultipleIndicators } from './useApiGetHealthDataForMultipleIndicators';
-import { mockAuth } from '@/mock/utils/mockAuth';
 
 vi.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator', () => ({
   queryFnHealthDataForAnIndicator: vi.fn((option) => async () => {

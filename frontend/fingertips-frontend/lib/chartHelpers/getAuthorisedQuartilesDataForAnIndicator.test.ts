@@ -1,10 +1,8 @@
 import {
-  BenchmarkReferenceType,
   IndicatorsApi,
   IndicatorsQuartilesGetRequest,
 } from '@/generated-sources/ft-api-client';
 import { mockAuth } from '@/mock/utils/mockAuth';
-import { QueryClient } from '@tanstack/react-query';
 import { waitFor } from '@testing-library/dom';
 import { getAuthorisedQuartilesDataForAnIndicator } from './getAuthorisedQuartilesDataForAnIndicator';
 import { mockDeep } from 'vitest-mock-extended';
@@ -36,14 +34,6 @@ mockIndicatorsApi.indicatorsQuartilesAllGet.mockResolvedValue(
 describe('getAuthorisedQuartilesDataForAnIndicator', () => {
   afterEach(() => vi.clearAllMocks());
 
-  const options = {
-    ancestorCode: 'E92000001',
-    areaCode: 'E92000001',
-    areaType: undefined,
-    benchmarkRefType: BenchmarkReferenceType.England,
-    indicatorIds: [333, 444],
-  };
-
   it('should call the published quartiles endpoint when there is no session', async () => {
     // arrange
     mockAuth.mockResolvedValue(null);
@@ -65,7 +55,6 @@ describe('getAuthorisedQuartilesDataForAnIndicator', () => {
   it('should call the unpublished quartiles endpoint when there is a session', async () => {
     // arrange
     mockAuth.mockResolvedValue({ expires: 'some string' });
-    const queryClient = new QueryClient();
 
     // act
     const result =
