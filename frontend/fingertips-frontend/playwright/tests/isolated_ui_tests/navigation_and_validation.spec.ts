@@ -555,6 +555,9 @@ test.describe('Upload Page Tests', () => {
       await test
         .expect(uploadPage.errorPageTitle())
         .toContainText(NOT_SIGNED_IN_ERROR_TITLE);
+      await test
+        .expect(uploadPage.page.getByText(NOT_SIGNED_IN_ERROR_MESSAGE))
+        .toBeVisible();
     });
   });
 
@@ -577,7 +580,9 @@ test.describe('Upload Page Tests', () => {
       await uploadPage.navigateToUploadPage();
 
       await test.expect(uploadPage.errorPageTitle()).toHaveCount(0);
-      await test.expect(uploadPage).not.toContain(NOT_SIGNED_IN_ERROR_MESSAGE);
+      await test
+        .expect(uploadPage.page.getByText(NOT_SIGNED_IN_ERROR_MESSAGE))
+        .toHaveCount(0);
     });
   });
 });
