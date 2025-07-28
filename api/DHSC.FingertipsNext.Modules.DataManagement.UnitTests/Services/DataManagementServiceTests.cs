@@ -392,7 +392,6 @@ public class DataManagementServiceTests
         result.Outcome.ShouldBe(OutcomeType.ServerError);
     }
 
-    // REPOSITORY TESTS
     [Theory]
     [InlineData(123)]
     [InlineData(321, 123)]
@@ -528,7 +527,7 @@ public class DataManagementServiceTests
     }
 
     [Fact]
-    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullBatchIdIsSpecified()
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullModelIsSpecified()
     {
         await _service.DeleteBatchAsync(null!, UserId, [])
             .ShouldThrowAsync(typeof(ArgumentNullException));
@@ -540,6 +539,4 @@ public class DataManagementServiceTests
         await _service.DeleteBatchAsync("batch-id", UserId, null!)
             .ShouldThrowAsync(typeof(ArgumentNullException));
     }
-
-    //REPOSITORY TESTS
 }
