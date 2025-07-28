@@ -15,8 +15,9 @@ export const areaSearchTerm: AreaDocument = {
 };
 
 /**
- * These 15 journeys come from https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448117/Area+Indicator+journeys
- * the mapping to which charts should be visible for each journey is defined in scenarioMapper.ts
+ * These include the original 15 journeys from https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448117/Area+Indicator+journeys
+ * as well as additional journeys to cover segmentation.
+ * The mapping to which charts should be visible for each journey is defined in scenarioMapper.ts
  */
 export const coreTestJourneys: TestParameters[] = [
   {
@@ -28,6 +29,20 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '41101', // this indicator has unpublished data which should not be returned to the chart page
         knownTrend: 'No recent trend data available',
+      },
+    ],
+    checkExports: true,
+    typeOfInequalityToSelect: InequalitiesTypes.Sex,
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    areaMode: AreaMode.ONE_AREA,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
+    subjectSearchTerm: 'hospital',
+    indicatorsToSelect: [
+      {
+        indicatorID: '92904',
+        knownTrend: 'Decreasing and getting better',
       },
     ],
     checkExports: true,
@@ -51,6 +66,23 @@ export const coreTestJourneys: TestParameters[] = [
     },
   },
   {
+    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    areaMode: AreaMode.TWO_AREAS,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: "17", // tests with number in subject search term - also segmentation
+    indicatorsToSelect: [
+      {
+        indicatorID: '92904',
+        knownTrend: 'No significant change',
+      },
+    ],
+    areaFiltersToSelect: {
+      areaType: 'districts-and-unitary-authorities',
+      groupType: 'regions',
+      group: 'East Midlands Region',
+    },
+  },
+  {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
@@ -66,6 +98,34 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'combined-authorities',
       group: 'Greater Manchester Combined Authority',
     },
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    areaMode: AreaMode.THREE_PLUS_AREAS,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: '108',
+    indicatorsToSelect: [
+      {
+        indicatorID: '108',
+        knownTrend: 'Decreasing and getting better',
+      },
+    ],
+    areaFiltersToSelect: {
+      areaType: 'districts-and-unitary-authorities',
+      groupType: 'regions',
+      group: 'East Midlands Region',
+    },
+    // indicatorsToSelect: [
+    //   {
+    //     indicatorID: '108',
+    //     knownTrend: 'No recent trend data available',
+    //   },
+    // ],
+    // areaFiltersToSelect: {
+    //   areaType: 'counties-and-unitary-authorities',
+    //   groupType: 'combined-authorities',
+    //   group: 'Cambs and Peterborough Combined Authority',
+    // },
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -85,6 +145,23 @@ export const coreTestJourneys: TestParameters[] = [
     },
   },
   {
+    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: 'check',
+    indicatorsToSelect: [
+      {
+        indicatorID: '91112',
+        knownTrend: 'No recent trend data available',
+      },
+    ],
+    areaFiltersToSelect: {
+      areaType: 'regions',
+      groupType: 'england',
+      group: 'england',
+    },
+  },
+  {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
@@ -92,6 +169,24 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorsToSelect: [
       {
         indicatorID: '22401',
+        knownTrend: 'Decreasing and getting better',
+      },
+    ],
+    areaFiltersToSelect: {
+      areaType: 'england',
+      groupType: 'england',
+      group: 'england',
+    },
+    typeOfInequalityToSelect: InequalitiesTypes.Deprivation,
+  },
+    {
+    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    areaMode: AreaMode.ENGLAND_AREA,
+    searchMode: SearchMode.ONLY_SUBJECT,
+    subjectSearchTerm: '92904', // tests searching for a single specific indicatorID
+    indicatorsToSelect: [
+      {
+        indicatorID: '92904',
         knownTrend: 'Decreasing and getting better',
       },
     ],

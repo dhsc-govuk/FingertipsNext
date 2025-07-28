@@ -138,4 +138,14 @@ export const allComponents: ChartComponentDefinition[] = [
       hasTooltipHovers: true,
     },
   },
+  // {
+  //   chartComponentLocator: ChartPage.singleIndicatorBasicTableComponent,
+  //   chartComponentProps: {
+  //     hasPNGExport: true,
+  //     hasCSVExport: true,
+  //     isWideComponent: true,
+  //     hasRecentTrend: true,
+  //     hasBenchmarkComparisons: true,
+  //   },
+  // },
 ];

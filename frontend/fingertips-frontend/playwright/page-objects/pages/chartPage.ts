@@ -64,6 +64,7 @@ export default class ChartPage extends AreaFilter {
   readonly exportDomContainer = 'domContainer';
   readonly trendTagContainer = 'trendTag-container';
   static readonly inequalitiesContainer = 'inequalities-component';
+  // static readonly singleIndicatorBasicTableComponent = 'singleIndicatorBasicTable-component';
 
   async checkOnChartPage() {
     await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
@@ -111,6 +112,17 @@ export default class ChartPage extends AreaFilter {
     if (typeOfInequalityToSelect) {
       await this.expandInequalitiesSection();
     }
+
+    // if (sexSegmentationToSelect){
+    //    action: async () =>
+    //       await this.selectInequalityTypeDropdownOption(
+    //         {
+    //           chartComponentLocator,
+    //           chartComponentProps,
+    //         },
+    //         typeOfInequalityToSelect
+    //       )
+    // }
 
     await this.verifyDataSourceIsDisplayed(
       indicatorMode,
@@ -378,8 +390,9 @@ export default class ChartPage extends AreaFilter {
     const dataSourceLocator = this.page.getByTestId('data-source');
 
     const isMultiIndicatorWithSpecificAreaMode =
-      indicatorMode !== IndicatorMode.ONE_INDICATOR &&
-      (areaMode === AreaMode.ENGLAND_AREA || areaMode === AreaMode.ONE_AREA);
+      (indicatorMode !== IndicatorMode.ONE_INDICATOR &&
+      (areaMode === AreaMode.ENGLAND_AREA || areaMode === AreaMode.ONE_AREA) )
+      ||(indicatorMode === IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION); //segmentation view charts currently don't show the data source
 
     const shouldShowDataSource =
       indicatorMode === IndicatorMode.ONE_INDICATOR ||
