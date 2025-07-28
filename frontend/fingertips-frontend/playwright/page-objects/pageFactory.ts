@@ -4,12 +4,7 @@ import HomePage from './pages/homePage';
 import ResultsPage from './pages/resultsPage';
 import ChartPage from './pages/chartPage';
 import UploadPage from './pages/uploadPage';
-import {
-  test as baseTest,
-  Page,
-  Browser,
-  BrowserContext,
-} from '@playwright/test';
+import { test as baseTest, Page } from '@playwright/test';
 import IndicatorPage from '@/playwright/page-objects/pages/indicatorPage';
 import type { Result } from 'axe-core';
 import { ACCESSIBILITY_TAGS } from '../testHelpers/testDefinitions';
@@ -27,8 +22,6 @@ interface PageObjects {
 interface TestOptions {
   axeBuilder: AxeBuilder;
   failOnUnhandledError: boolean;
-  freshContext: BrowserContext;
-  freshPage: Page;
 }
 
 const setupErrorHandling = (page: Page, failOnUnhandledError: boolean) => {
@@ -60,30 +53,10 @@ const logAccessibilityViolations = (
 const testBase = baseTest.extend<TestOptions>({
   failOnUnhandledError: [true, { option: true }],
 
-  freshContext: async ({ browser }, use) => {
-    const contextOptions: Parameters<Browser['newContext']>[0] = {};
-    contextOptions.storageState = undefined;
-
-    const context = await browser.newContext(contextOptions);
-
-    await use(context);
-
-    // Clean up the context after the test
-    await context.close();
-  },
-
-  freshPage: async ({ freshContext, failOnUnhandledError }, use) => {
-    const page = await freshContext.newPage();
+  page: async ({ page, failOnUnhandledError }, use) => {
     setupErrorHandling(page, failOnUnhandledError);
-
     await use(page);
   },
-
-  // Override the default page fixture to use our fresh page
-  page: async ({ freshPage }, use) => {
-    await use(freshPage);
-  },
-
   axeBuilder: [
     async ({ page }, use, testInfo) => {
       // Initialize an AxeBuilder with the specified accessibility standards
@@ -108,7 +81,7 @@ const testBase = baseTest.extend<TestOptions>({
       ).toEqual([]);
     },
 
-    // auto set to false, so a11y tests only execute when we call expectNoAccessibilityViolations(axeBuilder)
+    // auto set to false, so a11y tests only execute when we call expectNoAccessibilityViolations(axeBuilder) which is only in the isolated ui tests
     { scope: 'test', auto: false },
   ],
 });
