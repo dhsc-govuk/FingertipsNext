@@ -31,6 +31,8 @@ public class DataManagementBatchControllerTests
 
         // Mock the user and their permissions.
         var mockUser = Substitute.For<ClaimsPrincipal>();
+        mockUser.FindFirst(ClaimTypes.NameIdentifier)
+            .Returns(new Claim(ClaimTypes.NameIdentifier, "user-id"));
         var mockHttpContext = Substitute.For<HttpContext>();
         mockHttpContext.User = mockUser;
         var mockControllerContext = Substitute.For<ControllerContext>();
@@ -57,7 +59,7 @@ public class DataManagementBatchControllerTests
         };
 
         var expectedServiceResponse = new UploadHealthDataResponse(OutcomeType.Ok, expectedModel);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(expectedServiceResponse);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(expectedServiceResponse);
 
         // Act
         var response = await _controller.DeleteBatch("12345_2025-01-01T00:00:00.000") as ObjectResult;
@@ -86,7 +88,7 @@ public class DataManagementBatchControllerTests
         // Arrange
         const string errorMessage = "Permission denied when deleting batch";
         var response = new UploadHealthDataResponse(OutcomeType.PermissionDenied, null, [errorMessage]);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(response);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(response);
 
         // Act
         var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as ObjectResult;
@@ -101,7 +103,7 @@ public class DataManagementBatchControllerTests
     {
         // Arrange
         var response = new UploadHealthDataResponse(OutcomeType.NotFound);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(response);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(response);
 
         // Act
         var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as NotFoundResult;
@@ -122,7 +124,7 @@ public class DataManagementBatchControllerTests
 
 
         var response = new UploadHealthDataResponse(OutcomeType.ClientError, null, listToReturn);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(response);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(response);
 
         // Act
         var result = await _controller.DeleteBatch("1234_2025-01-01T00:00:00.000") as ObjectResult;
@@ -138,7 +140,7 @@ public class DataManagementBatchControllerTests
     public async Task DeleteReturns500WhenServiceReturnsAServerError()
     {
         var response = new UploadHealthDataResponse(OutcomeType.ServerError);
-        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<IList<int>>()).Returns(response);
+        _dataManagementService.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(response);
 
         // Act
         var result = await _controller.DeleteBatch("2025-01-01T00:00:00.000") as ObjectResult;

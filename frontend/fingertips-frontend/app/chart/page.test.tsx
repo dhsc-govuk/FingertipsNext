@@ -2,7 +2,7 @@
  * @vitest-environment node
  */
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-import { mockAuth } from '@/mock/utils/mockAuth';
+import { mockAuth, mockSession } from '@/mock/utils/mockAuth';
 //
 import ChartPage from './page';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
@@ -27,12 +27,13 @@ import { IIndicatorSearchService } from '@/lib/search/searchTypes';
 import { SearchServiceFactory } from '@/lib/search/searchServiceFactory';
 import { generateIndicatorDocument } from '@/lib/search/mockDataHelper';
 import { getSelectedAreasDataByAreaType } from '@/lib/areaFilterHelpers/getSelectedAreasData';
-import { Mock, MockedFunction } from 'vitest';
-import { auth } from '@/lib/auth';
+import { MockedFunction } from 'vitest';
 import { EndPoints } from '@/components/charts/helpers/queryKeyFromRequestParams';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
+ApiClientFactory.getAuthenticatedIndicatorsApiClient = async () =>
+  mockIndicatorsApi;
 
 mockAuth.mockResolvedValue(null);
 
@@ -187,8 +188,9 @@ describe('Chart Page', () => {
       ]);
     });
   });
-  describe('SeedingLineChartOverTimeWithAuth', () => {
-    it('should seed without unpublished data if there is no session', async () => {
+
+  describe('seed query with auth', () => {
+    it('should call the published healthData endpoint when seeding querys if there is no session', async () => {
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
@@ -202,7 +204,7 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenCalledTimes(3);
+      ).toHaveBeenCalledTimes(3); // LineChart, Inequalites and Population
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
       ).not.toHaveBeenCalled();
@@ -212,17 +214,11 @@ describe('Chart Page', () => {
           key.includes(EndPoints.HealthDataForAnIndicator)
         )
       ).toBe(true);
-      expect(
-        Object.keys(actualSeedData).some((key) =>
-          key.includes(EndPoints.HealthDataForAnIndicatorIncludingUnpublished)
-        )
-      ).toBe(false);
     });
 
-    it('should seed with unpublished data if there is a session', async () => {
-      (auth as Mock).mockImplementation(
-        vi.fn().mockResolvedValue({ expires: 'some string' })
-      );
+    it('should call the unpublished healthData endpoint when seeding if there is a session', async () => {
+      mockAuth.mockResolvedValue(mockSession());
+
       const mockAreaCode = 'E06000047';
       const searchParams: SearchStateParams = {
         [SearchParams.SearchedIndicator]: 'testing',
@@ -237,19 +233,14 @@ describe('Chart Page', () => {
 
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicator
-      ).toHaveBeenCalledTimes(1);
+      ).not.toHaveBeenCalled();
       expect(
         mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-      ).toHaveBeenCalledTimes(2);
+      ).toHaveBeenCalledTimes(3); // LineChart, Inequalites and Population
 
       expect(
         Object.keys(actualSeedData).some((key) =>
           key.includes(EndPoints.HealthDataForAnIndicator)
-        )
-      ).toBe(true);
-      expect(
-        Object.keys(actualSeedData).some((key) =>
-          key.includes(EndPoints.HealthDataForAnIndicatorIncludingUnpublished)
         )
       ).toBe(true);
     });

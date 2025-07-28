@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Web;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Controllers.V1;
@@ -17,10 +18,12 @@ public class DataManagementControllerTests
 {
     private const int StubIndicatorId = 123;
     private const string ValidFileName = "valid.csv";
+    private const string UserId = "user-id";
 
     private static readonly string FilePath = Path.Combine("TestData", ValidFileName);
     private static readonly byte[] Bytes = File.ReadAllBytes(FilePath);
     private static readonly MemoryStream Stream = new(Bytes);
+    private readonly DataManagementController _controller;
 
     private readonly IDataManagementService _dataManagementService;
 
@@ -28,7 +31,6 @@ public class DataManagementControllerTests
         "file", ValidFileName);
 
     private readonly DateTime _now = new(2024, 6, 15, 10, 30, 45, 123, DateTimeKind.Utc);
-    private readonly DataManagementController _controller;
 
     public DataManagementControllerTests()
     {
@@ -36,6 +38,16 @@ public class DataManagementControllerTests
         var fixedTimeProvider = new FakeTimeProvider();
         fixedTimeProvider.SetUtcNow(_now);
         _controller = new DataManagementController(_dataManagementService, fixedTimeProvider);
+
+        // Mock the user and their permissions.
+        var mockUser = Substitute.For<ClaimsPrincipal>();
+        mockUser.FindFirst(ClaimTypes.NameIdentifier)
+            .Returns(new Claim(ClaimTypes.NameIdentifier, UserId));
+        var mockHttpContext = Substitute.For<HttpContext>();
+        mockHttpContext.User = mockUser;
+        var mockControllerContext = Substitute.For<ControllerContext>();
+        mockControllerContext.HttpContext = mockHttpContext;
+        _controller.ControllerContext = mockControllerContext;
     }
 
     [Fact]
@@ -57,7 +69,7 @@ public class DataManagementControllerTests
 
         _dataManagementService.ValidateCsv(Arg.Any<Stream>()).Returns([]);
 
-        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, ValidFileName)
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, UserId, publishedAt, ValidFileName)
             .Returns(new UploadHealthDataResponse(OutcomeType.Ok, expectedModel));
 
         // Act
@@ -66,7 +78,7 @@ public class DataManagementControllerTests
 
         // Assert
         await _dataManagementService.Received(1)
-            .UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, ValidFileName);
+            .UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, UserId, publishedAt, ValidFileName);
         response?.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
         var model = response?.Value as Batch;
         model.ShouldBeEquivalentTo(expectedModel);
@@ -82,7 +94,9 @@ public class DataManagementControllerTests
         _dataManagementService.ValidateCsv(Arg.Any<Stream>()).Returns(["No records found"]);
 
         // Act
-        var response = await _controller.UploadHealthData(_formFile, publishedAtFormatted, StubIndicatorId) as BadRequestObjectResult;
+        var response =
+            await _controller.UploadHealthData(_formFile, publishedAtFormatted, StubIndicatorId) as
+                BadRequestObjectResult;
 
         // Assert
         response?.StatusCode.ShouldBe(StatusCodes.Status400BadRequest);
@@ -99,7 +113,8 @@ public class DataManagementControllerTests
         const string publishedAtFormatted = "2025-01-01T00:00:00.000";
 
         // Act
-        var result = await _controller.UploadHealthData(null, publishedAtFormatted, StubIndicatorId) as BadRequestObjectResult;
+        var result =
+            await _controller.UploadHealthData(null, publishedAtFormatted, StubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -114,7 +129,8 @@ public class DataManagementControllerTests
     public async Task InvalidDateReturns400(string publishedAt, string expectedErrorMessage)
     {
         // Act
-        var result = await _controller.UploadHealthData(_formFile, publishedAt, StubIndicatorId) as BadRequestObjectResult;
+        var result =
+            await _controller.UploadHealthData(_formFile, publishedAt, StubIndicatorId) as BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -133,7 +149,9 @@ public class DataManagementControllerTests
         const string publishedAtFormatted = "2025-01-01T00:00:00.000";
 
         // Act
-        var result = await _controller.UploadHealthData(formFile, publishedAtFormatted, StubIndicatorId) as BadRequestObjectResult;
+        var result =
+            await _controller.UploadHealthData(formFile, publishedAtFormatted, StubIndicatorId) as
+                BadRequestObjectResult;
 
         // Assert
         result.ShouldNotBeNull();
@@ -146,19 +164,22 @@ public class DataManagementControllerTests
     public async Task PostReturnsEncodedFilenameInResponse()
     {
         // Arrange
-        const string stubFileNameWithCharsToEncode = "Stub Healthdata Üpload.csv"; // filename with space and non-ASCII for encoding check
+        const string
+            stubFileNameWithCharsToEncode =
+                "Stub Healthdata Üpload.csv"; // filename with space and non-ASCII for encoding check
         var formFile = new FormFile(Stream, 0, Bytes.Length, "file", stubFileNameWithCharsToEncode);
         var publishedAt = _now.AddMonths(1);
         var publishedAtFormatted = publishedAt.ToString("o");
         var expectedEncoded = HttpUtility.HtmlEncode(stubFileNameWithCharsToEncode);
-        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, expectedEncoded)
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, UserId, publishedAt, expectedEncoded)
             .Returns(new UploadHealthDataResponse(OutcomeType.Ok));
 
         // Act
-        var response = await _controller.UploadHealthData(formFile, publishedAtFormatted, StubIndicatorId) as AcceptedResult;
+        var response =
+            await _controller.UploadHealthData(formFile, publishedAtFormatted, StubIndicatorId) as AcceptedResult;
 
         // Assert
-        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, expectedEncoded);
+        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, UserId, publishedAt, expectedEncoded);
         response?.StatusCode.ShouldBe(StatusCodes.Status202Accepted);
         response?.Value?.ToString()?.ShouldContain(expectedEncoded);
     }
@@ -180,14 +201,15 @@ public class DataManagementControllerTests
             PublishedAt = publishedAt
         };
 
-        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, "valid.csv")
+        _dataManagementService.UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, UserId, publishedAt, "valid.csv")
             .Returns(new UploadHealthDataResponse(OutcomeType.ServerError, expectedModel, new List<string> { "File upload was unsuccessful." }));
 
         // Act
-        var response = await _controller.UploadHealthData(_formFile, publishedAtFormatted, StubIndicatorId) as ObjectResult;
+        var response =
+            await _controller.UploadHealthData(_formFile, publishedAtFormatted, StubIndicatorId) as ObjectResult;
 
         // Assert
-        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, publishedAt, Arg.Any<string>());
+        await _dataManagementService.Received(1).UploadFileAsync(Arg.Any<Stream>(), StubIndicatorId, UserId, publishedAt, Arg.Any<string>());
         response?.StatusCode.ShouldBe(StatusCodes.Status500InternalServerError);
         response?.Value?.ToString()?.ShouldContain("File upload was unsuccessful.");
     }

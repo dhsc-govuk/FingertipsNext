@@ -11,7 +11,7 @@ const testValue = 67;
 
 const testHoverProps = {
   areaName: 'Sesame Street',
-  period: 1966,
+  period: '1966',
   indicatorName:
     'Cookies eaten by the cookie monster compared to total US production',
   value: testValue,
@@ -46,7 +46,7 @@ describe('heatmap hover', () => {
     const screen = render(
       <HeatmapHover
         areaName={testHoverProps.areaName}
-        period={0}
+        period={'0'}
         indicatorName={testHoverProps.indicatorName}
         unitLabel={testHoverProps.unitLabel}
         benchmark={testHoverProps.benchmark}
@@ -54,7 +54,7 @@ describe('heatmap hover', () => {
       />
     );
 
-    expect(screen.queryByText(0)).not.toBeInTheDocument();
+    expect(screen.queryByText('0')).not.toBeInTheDocument();
   });
 
   it('snapshot', () => {

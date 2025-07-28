@@ -3,6 +3,8 @@ import {
   HealthDataPoint,
   BenchmarkComparisonMethod,
   IndicatorPolarity,
+  PeriodType,
+  Frequency,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
@@ -21,7 +23,12 @@ const newHealthDataPoint = ({
   outcome?: BenchmarkOutcome;
 }): HealthDataPoint => {
   return {
-    year: year,
+    year: 0,
+    datePeriod: {
+      type: PeriodType.Calendar,
+      from: new Date(`${year}-01-01`),
+      to: new Date(`${year}-12-31`),
+    },
     value: value,
     ageBand: allAgesAge,
     sex: personsSex,
@@ -150,6 +157,7 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     polarity: indicator1.polarity,
     rowId: `${indicator1.id}-sex:persons`,
     segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    frequency: Frequency.Annually,
   },
   {
     indicatorId: indicator2.id,
@@ -181,6 +189,7 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     polarity: indicator2.polarity,
     rowId: `${indicator2.id}-sex:persons`,
     segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    frequency: Frequency.Annually,
   },
   {
     indicatorId: indicator3.id,
@@ -212,6 +221,7 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     polarity: indicator3.polarity,
     rowId: `${indicator3.id}-sex:persons`,
     segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    frequency: Frequency.Annually,
   },
 ];
 
@@ -238,11 +248,11 @@ describe('extract sorted areas, indicators, and data points - benchmark area is 
     ]);
   });
 
-  it('should only extract data from the most recent period', () => {
+  it('should only extract data from the most recent england period', () => {
     const id = 'indicator1-sex:persons';
-    expect(dataPoints[id][expectedSortedAreas[0].code].value).toBeUndefined();
+    expect(dataPoints[id][expectedSortedAreas[0].code].value).toEqual(11);
     expect(dataPoints[id][expectedSortedAreas[1].code].value).toBeUndefined();
-    expect(dataPoints[id][expectedSortedAreas[2].code].value).toEqual(41);
+    expect(dataPoints[id][expectedSortedAreas[2].code].value).toBeUndefined();
     expect(dataPoints[id][expectedSortedAreas[3].code].value).toBeUndefined();
   });
 

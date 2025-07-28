@@ -3,6 +3,7 @@ import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
   BenchmarkOutcome,
+  Frequency,
 } from '@/generated-sources/ft-api-client';
 
 import { SegmentInfo } from '@/lib/common-types';
@@ -16,6 +17,7 @@ export interface HeatmapIndicatorData {
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
   segmentInfo: SegmentInfo;
+  frequency: Frequency;
 }
 
 export interface Area {
@@ -29,7 +31,7 @@ export interface Indicator {
   position?: number;
   name: string;
   unitLabel: string;
-  latestDataPeriod: number;
+  latestDataPeriod: string;
   benchmarkMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
 }
@@ -73,7 +75,7 @@ export interface Cell {
 
 export interface CellHoverProps {
   areaName: string;
-  period: number;
+  period: string;
   indicatorName: string;
   value?: number;
   unitLabel: string;

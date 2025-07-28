@@ -23,6 +23,7 @@ export class AuthConfigFactory {
 
   private static buildConfig() {
     const config: NextAuthConfig = {
+      useSecureCookies: false, // REQUIRED FOR SELF-CERT
       providers: AuthProvidersFactory.getProviders(),
       callbacks: {
         jwt: async ({ token, user, account }) => {
@@ -37,12 +38,21 @@ export class AuthConfigFactory {
             const { validateUser } = await import('@/lib/auth/validation');
 
             if (await validateUser(account.access_token)) {
-              return { ...token, accessToken: account.access_token };
+              return {
+                ...token,
+                accessToken: account.access_token,
+                provider: account.provider,
+              };
             } else {
               console.log(`failed to validate user ${user.id}`);
             }
           }
-          return token;
+          return { ...token, provider: account.provider };
+        },
+
+        session({ session, token }) {
+          session.provider = token.provider;
+          return session;
         },
       },
     };
@@ -54,5 +64,12 @@ export class AuthConfigFactory {
 declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string;
+    provider: string;
+  }
+}
+
+declare module 'next-auth' {
+  interface Session {
+    provider: string;
   }
 }

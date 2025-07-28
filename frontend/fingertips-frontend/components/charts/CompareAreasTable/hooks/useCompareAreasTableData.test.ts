@@ -87,6 +87,8 @@ describe('useCompareAreasTableData', () => {
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       polarity: IndicatorPolarity.HighIsGood,
+      periodType: 'Calendar',
+      frequency: 'Annually',
     };
 
     mockUseSearchStateParams.mockReturnValue(mockSearchState);
@@ -108,6 +110,7 @@ describe('useCompareAreasTableData', () => {
     expect(result.current).toEqual({
       indicatorMetaData: mockMetaData,
       ...mockProcessedData,
+      name: `${mockHealthData.name} (Persons, All ages)`,
     });
 
     const lastCall = mockCompareAreasTableData.mock.lastCall;
@@ -119,6 +122,7 @@ describe('useCompareAreasTableData', () => {
           indicatorSegments: undefined,
         },
       ],
+      name: `${mockHealthData.name} (Persons, All ages)`,
     });
     expect(lastCall?.at(1)).toEqual('G123');
     expect(lastCall?.at(2)).toEqual(areaCodeForEngland);

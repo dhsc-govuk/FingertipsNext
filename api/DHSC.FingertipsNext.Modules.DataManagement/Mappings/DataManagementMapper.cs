@@ -17,8 +17,8 @@ public class DataManagementMapper : IDataManagementMapper
             CreatedAt = source.CreatedAt,
             DeletedAt = source.DeletedAt,
             PublishedAt = source.PublishedAt,
-            UserId = source.UserId.ToString(),
-            DeletedUserId = source.DeletedUserId?.ToString(),
+            UserId = source.UserId,
+            DeletedUserId = source.DeletedUserId,
             Status = source.Status
         };
     }

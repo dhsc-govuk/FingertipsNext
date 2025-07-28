@@ -1,5 +1,7 @@
 import {
   BenchmarkComparisonMethod,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   IndicatorWithHealthDataForArea,
   QuartileData,
@@ -11,12 +13,12 @@ import { segmentCombinations } from '@/lib/healthDataHelpers/segmentCombinations
 import { findHealthDataForArea } from '@/lib/healthDataHelpers/findHealthDataForArea';
 import { filterDefined } from '@/lib/chartHelpers/filterDefined';
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
-import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
 import { segmentIdFromInfo } from '@/lib/healthDataHelpers/segmentIdFromInfo';
 import { searchFromSegmentInfo } from '@/lib/healthDataHelpers/searchFromSegmentInfo';
 import { findHealthDataForAreas } from '@/lib/healthDataHelpers/findHealthDataForAreas';
 import { findQuartileBySegmentation } from '@/lib/healthDataHelpers/findQuartileBySegmentation';
 import { indicatorsSorted } from '@/lib/healthDataHelpers/indicatorsSorted';
+import { DatePeriodWithFrequency } from '@/lib/timePeriodHelpers/timePeriod.types';
 
 export const spineChartIndicatorTitleColumnMinWidth = 240;
 
@@ -24,7 +26,7 @@ export interface SpineChartIndicatorData {
   rowId: string;
   indicatorId: number;
   indicatorName: string;
-  latestDataPeriod?: number;
+  latestDataPeriod?: DatePeriod;
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   valueUnit: string;
   areasHealthData: HealthDataForArea[];
@@ -35,13 +37,14 @@ export interface SpineChartIndicatorData {
 
 const onlyMatchingDataPoints = (
   areaHealthData?: HealthDataForArea,
-  period?: number
+  datePeriod?: DatePeriodWithFrequency
 ) => {
   if (!areaHealthData) return undefined;
   return {
     ...areaHealthData,
     healthData: areaHealthData.healthData.filter(
-      (dataPoint) => dataPoint.year === period
+      (dataPoint) =>
+        dataPoint.datePeriod?.to.getTime() === datePeriod?.to.getTime()
     ),
   };
 };
@@ -78,17 +81,19 @@ export const buildSpineChartIndicatorData = (
       const extractedSegment = flattenSegment(indicator, search);
       const segmentId = segmentIdFromInfo(indicatorId, segmentInfo);
 
-      const segmentName = segmentNameFromInfo(segmentInfo);
-
       const matchedQuartileData = findQuartileBySegmentation(
         quartileData,
         indicatorId,
         segmentInfo
       );
 
-      const latestDataPeriod = matchedQuartileData?.year;
+      const datePeriod = matchedQuartileData?.datePeriod;
 
-      if (!matchedQuartileData || !latestDataPeriod) return;
+      if (!matchedQuartileData || !datePeriod) return;
+      const latestDataPeriod: DatePeriodWithFrequency = {
+        ...datePeriod,
+        frequency: matchedQuartileData.frequency ?? Frequency.Annually,
+      };
 
       const areasHealthData = findHealthDataForAreas(
         extractedSegment,
@@ -112,7 +117,7 @@ export const buildSpineChartIndicatorData = (
       const result: SpineChartIndicatorData = {
         rowId: segmentId,
         indicatorId,
-        indicatorName: `${name} (${segmentName})`,
+        indicatorName: extractedSegment.name ?? name,
         valueUnit: metaData?.unitLabel ?? '',
         benchmarkComparisonMethod: benchmarkMethod,
         latestDataPeriod,

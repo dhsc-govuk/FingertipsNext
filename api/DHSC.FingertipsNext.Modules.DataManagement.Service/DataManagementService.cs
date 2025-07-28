@@ -1,10 +1,12 @@
-﻿using Azure;
+﻿using System.Text.Json;
+using Azure;
 using Azure.Storage.Blobs;
 using DHSC.FingertipsNext.Modules.DataManagement.Clients;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Models;
+using DHSC.FingertipsNext.Modules.DataManagement.Service.Models.LogClasses;
 using DHSC.FingertipsNext.Modules.DataManagement.Service.Validation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -24,10 +26,15 @@ public class DataManagementService : IDataManagementService
             new EventId(2, "UploadDebugLog"),
             "Uploading file with batchId {BatchId} to container: {ContainerName}");
 
-    private static readonly Action<ILogger, Exception?> UploadSuccessfulLog = LoggerMessage.Define(
+    private static readonly Action<ILogger, string, Exception?> UploadSuccessfulLog = LoggerMessage.Define<string>(
         LogLevel.Information,
-        new EventId(3, nameof(UploadFileAsync)),
-        "Upload successful");
+        new EventId(3, "UploadSuccessfulLog"),
+        "{LogObject}");
+
+    private static readonly Action<ILogger, string, Exception?> DeleteSuccessfulLog = LoggerMessage.Define<string>(
+        LogLevel.Information,
+        new EventId(4, "DeleteSuccessfulLog"),
+        "{LogObject}");
 
     private readonly BlobServiceClient _blobServiceClient;
     private readonly string _containerName;
@@ -54,22 +61,24 @@ public class DataManagementService : IDataManagementService
         _healthDataClient = healthDataClient;
     }
 
-    public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId,
+    public async Task<UploadHealthDataResponse> UploadFileAsync(Stream fileStream, int indicatorId, string userId,
         DateTime publishedAt, string originalFileName)
     {
         var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
         var batchId = $"{indicatorId}_{_timeProvider.GetUtcNow():yyyy-MM-ddTHH:mm:ss.fff}";
 
         var blobClient = containerClient.GetBlobClient($"{batchId}.csv");
-        Batch? model = null;
+        Batch? model;
 
         try
         {
             UploadDebugLog(_logger, batchId, _containerName, null);
             await blobClient.UploadAsync(fileStream);
-            UploadSuccessfulLog(_logger, null);
+            WriteUploadSuccessLog(_logger, originalFileName, _timeProvider.GetUtcNow().UtcDateTime,
+                userId, publishedAt, batchId, indicatorId);
 
-            model = await CreateAndInsertBatchDetails(indicatorId, publishedAt, batchId, originalFileName);
+
+            model = await CreateAndInsertBatchDetails(indicatorId, userId, publishedAt, batchId, originalFileName);
         }
         catch (Exception exception) when (exception is RequestFailedException or AggregateException)
         {
@@ -110,44 +119,56 @@ public class DataManagementService : IDataManagementService
         return batches.Select(batch => _mapper.Map(batch));
     }
 
-    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, Guid userId, IList<int> indicatorsThatCanBeModified)
+    public async Task<UploadHealthDataResponse> DeleteBatchAsync(string batchId, string userId,
+        IList<int> indicatorsThatCanBeModified)
     {
         ArgumentNullException.ThrowIfNull(batchId);
-        var errorMessage = "";
+        ArgumentNullException.ThrowIfNull(indicatorsThatCanBeModified);
 
         try
         {
-            // Delete batch
-            var deletedBatch = await _repository.DeleteBatchAsync(batchId, userId, indicatorsThatCanBeModified);
+            var batchToDelete = await _repository.GetBatchByIdAsync(batchId);
 
-            if (deletedBatch != null)
+            if (batchToDelete == null)
             {
-                // Delete associated health data
-                var hasHealthDataBeenDeleted = await _healthDataClient.DeleteHealthDataAsync(batchId);
-
-                if (hasHealthDataBeenDeleted)
-                {
-                    return new UploadHealthDataResponse(OutcomeType.Ok, _mapper.Map(deletedBatch));
-                }
+                return new UploadHealthDataResponse(OutcomeType.NotFound, null, ["Not found"]);
             }
+
+            if (indicatorsThatCanBeModified.Any() &&
+                !indicatorsThatCanBeModified.Contains(batchToDelete.IndicatorId))
+            {
+                return new UploadHealthDataResponse(OutcomeType.PermissionDenied, null,
+                    ["Permission denied when deleting batch"]);
+            }
+
+            if (batchToDelete is { DeletedAt: not null, Status: BatchStatus.Deleted })
+            {
+                return new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already deleted"]);
+            }
+
+            if (batchToDelete.PublishedAt <= _timeProvider.GetUtcNow().UtcDateTime)
+            {
+                return new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]);
+            }
+
+            // Delete batch
+            var deletedBatch = await _repository.DeleteBatchAsync(batchToDelete, userId);
+
+            // Delete associated health data
+            await _healthDataClient.DeleteHealthDataAsync(batchId);
+
+            // Write delete log
+            WriteDeleteSuccessLog(_logger, deletedBatch, deletedBatch.DeletedAt);
+            return new UploadHealthDataResponse(OutcomeType.Ok, _mapper.Map(deletedBatch));
         }
         catch (Exception e) when (e is ArgumentException)
         {
-            errorMessage = e.Message;
+            return new UploadHealthDataResponse(OutcomeType.ServerError, null, ["An unexpected error occurred"]);
         }
-
-        return errorMessage switch
-        {
-            "BatchNotFound" => new UploadHealthDataResponse(OutcomeType.NotFound, null, ["Not found"]),
-            "BatchDeleted" => new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already deleted"]),
-            "BatchPublished" =>
-                new UploadHealthDataResponse(OutcomeType.ClientError, null, ["Batch already published"]),
-            "PermissionDenied" => new UploadHealthDataResponse(OutcomeType.PermissionDenied, null, ["Permission denied when deleting batch"]),
-            _ => new UploadHealthDataResponse(OutcomeType.ServerError)
-        };
     }
 
-    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, DateTime publishedAt, string batchId,
+    private async Task<Batch> CreateAndInsertBatchDetails(int indicatorId, string userId, DateTime publishedAt,
+        string batchId,
         string originalFileName)
     {
         var model = new BatchModel
@@ -156,11 +177,43 @@ public class DataManagementService : IDataManagementService
             IndicatorId = indicatorId,
             OriginalFileName = originalFileName,
             PublishedAt = publishedAt.ToUniversalTime(),
-            UserId = Guid.Empty, //Can only properly set this when the auth is implemented
+            UserId = userId,
             Status = BatchStatus.Received,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = _timeProvider.GetUtcNow().DateTime
         };
         await _repository.AddBatchAsync(model);
         return _mapper.Map(model);
+    }
+
+    private static void WriteUploadSuccessLog(ILogger<DataManagementService> logger, string originalFileName,
+        DateTime valueLastModified, string userId, DateTime publishedAt, string batchId, int indicatorId)
+    {
+        var logObject = new BatchUploadLog
+        {
+            BatchId = batchId,
+            Timestamp = valueLastModified,
+            IndicatorId = indicatorId,
+            OriginalFileName = originalFileName,
+            UserId = userId,
+            PublishedAt = publishedAt,
+        };
+
+        UploadSuccessfulLog(logger, JsonSerializer.Serialize(logObject), null);
+    }
+
+    private static void WriteDeleteSuccessLog(ILogger<DataManagementService> logger, BatchModel deletedBatch,
+        DateTime? timestamp)
+    {
+        var logObject = new BatchDeleteLog
+        {
+            BatchId = deletedBatch.BatchId,
+            Timestamp = timestamp,
+            UserId = deletedBatch.DeletedUserId,
+            IndicatorId = deletedBatch.IndicatorId,
+            OriginalFileName = deletedBatch.OriginalFileName,
+            PublishedAt = deletedBatch.PublishedAt
+        };
+
+        DeleteSuccessfulLog(logger, JsonSerializer.Serialize(logObject), null);
     }
 }
