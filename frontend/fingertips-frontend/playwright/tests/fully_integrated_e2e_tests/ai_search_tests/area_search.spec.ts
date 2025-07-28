@@ -27,7 +27,7 @@ test.describe(
     test(
       'suggestion panel should return only expected area when there is a full match for area code',
       {
-        tag: TestTag.CI,
+        tag: TestTag.CD,
       },
       async ({ homePage }) => {
         await test.step('Fill in full area code and check results', async () => {
