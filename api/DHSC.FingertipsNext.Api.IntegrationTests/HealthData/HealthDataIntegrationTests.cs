@@ -111,39 +111,39 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         healthDataYearList.ShouldBe(expectedYears, ignoreOrder: true);
     }
 
-    
+
     [Fact]
     public async Task GetQuartilesAllShouldRespondWith401WithoutAuth()
     {
         var client = _factory.CreateClient();
-    
+
         var response = await client.GetAsync(new Uri($"indicators/quartiles/all?indicator_ids={IndicatorId}&area_code=N85008&area_type=gps&ancestor_code=U79121", UriKind.Relative));
-    
+
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
-    
+
     [Fact]
     public async Task GetQuartilesAllShouldRespondWith401WhenTokenIsExpired()
     {
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([AdminRoleGuid], tokenIsExpired: true));
-    
+
         var response = await client.GetAsync(new Uri($"indicators/quartiles/all?indicator_ids={IndicatorId}&area_code=N85008&area_type=gps&ancestor_code=U79121", UriKind.Relative));
-    
+
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
-    
+
     [Fact]
     public async Task GetQuartilesAllShouldRespondWith403WhenRoleIsMissing()
     {
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken());
-    
+
         var response = await client.GetAsync(new Uri($"indicators/quartiles/all?indicator_ids={IndicatorId}&area_code=N85008&area_type=gps&ancestor_code=U79121", UriKind.Relative));
-    
+
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
-    
+
     [Theory]
     [InlineData(Indicator90453GroupRoleId)]
     [InlineData(Indicator41101GroupRoleId)]
@@ -151,12 +151,12 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
     {
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
-    
+
         var response = await client.GetAsync(new Uri($"indicators/quartiles/all?indicator_ids={IndicatorId}&indicator_ids=90453&area_code=N85008&area_type=gps&ancestor_code=U79121", UriKind.Relative));
-    
+
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
-    
+
     // [Theory]
     // [InlineData(AdminRoleGuid, 41101, 90453)]
     // [InlineData(Indicator41101GroupRoleId, 41101)]
