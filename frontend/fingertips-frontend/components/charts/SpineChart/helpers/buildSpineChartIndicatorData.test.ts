@@ -50,7 +50,7 @@ describe('buildSpineChartIndicatorData', () => {
     const [row1] = result;
     expect(row1).toHaveProperty(
       'rowId',
-      `${testDataWithGroup.indicatorId}?sex=persons&age=all+ages`
+      `${testDataWithGroup.indicatorId}?sex=persons&age=all+ages&reportingperiod=yearly`
     );
     expect(row1).toHaveProperty('indicatorId', testDataWithGroup.indicatorId);
     expect(row1).toHaveProperty(
