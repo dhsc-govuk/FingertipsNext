@@ -64,7 +64,6 @@ export default class ChartPage extends AreaFilter {
   readonly exportDomContainer = 'domContainer';
   readonly trendTagContainer = 'trendTag-container';
   static readonly inequalitiesContainer = 'inequalities-component';
-  // static readonly singleIndicatorBasicTableComponent = 'singleIndicatorBasicTable-component';
 
   async checkOnChartPage() {
     await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
@@ -112,17 +111,6 @@ export default class ChartPage extends AreaFilter {
     if (typeOfInequalityToSelect) {
       await this.expandInequalitiesSection();
     }
-
-    // if (sexSegmentationToSelect){
-    //    action: async () =>
-    //       await this.selectInequalityTypeDropdownOption(
-    //         {
-    //           chartComponentLocator,
-    //           chartComponentProps,
-    //         },
-    //         typeOfInequalityToSelect
-    //       )
-    // }
 
     await this.verifyDataSourceIsDisplayed(
       indicatorMode,
