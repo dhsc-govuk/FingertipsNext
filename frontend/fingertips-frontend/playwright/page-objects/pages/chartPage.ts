@@ -379,8 +379,9 @@ export default class ChartPage extends AreaFilter {
 
     const isMultiIndicatorWithSpecificAreaMode =
       (indicatorMode !== IndicatorMode.ONE_INDICATOR &&
-      (areaMode === AreaMode.ENGLAND_AREA || areaMode === AreaMode.ONE_AREA) )
-      ||(indicatorMode === IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION); //segmentation view charts currently don't show the data source
+        (areaMode === AreaMode.ENGLAND_AREA ||
+          areaMode === AreaMode.ONE_AREA)) ||
+      indicatorMode === IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION; //segmentation view charts currently don't show the data source
 
     const shouldShowDataSource =
       indicatorMode === IndicatorMode.ONE_INDICATOR ||
