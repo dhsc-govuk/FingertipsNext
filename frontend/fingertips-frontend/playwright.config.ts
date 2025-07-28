@@ -50,6 +50,9 @@ const config: PlaywrightTestConfig = {
     baseURL: url,
     trace: isCI ? 'off' : 'on-first-retry',
     screenshot: 'on-first-failure',
+
+    // Enhanced isolation settings
+    storageState: undefined, // Don't reuse storage state between tests
   },
 
   projects: [
