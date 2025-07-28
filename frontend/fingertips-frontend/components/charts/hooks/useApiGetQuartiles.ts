@@ -17,9 +17,7 @@ export const useApiGetQuartiles = (options: IndicatorsQuartilesGetRequest) => {
   const query = useQuery<QuartileData[]>({
     queryKey,
     queryFn: async () => {
-      return (await getAuthorisedQuartilesDataForAnIndicator(options)).filter(
-        (q) => q.isAggregate === true
-      );
+      return await getAuthorisedQuartilesDataForAnIndicator(options);
     },
     enabled: indicatorIds.length >= 1,
   });
