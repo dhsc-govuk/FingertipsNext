@@ -1,4 +1,4 @@
-import { mockAuth } from '@/mock/utils/mockAuth';
+import { mockAuth, mockSession } from '@/mock/utils/mockAuth';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForAnIndicator } from './useApiGetHealthDataForAnIndicator';
 import { renderHook, waitFor } from '@testing-library/react';
@@ -17,7 +17,6 @@ import {
 import { mockDeep } from 'vitest-mock-extended';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { Session } from 'next-auth';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -34,8 +33,6 @@ mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolv
 mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
   mockPublishedResponse
 );
-
-const mockSession = mockDeep<Session>();
 
 describe('useApiGetHealthDataForAnIndicator', () => {
   afterEach(() => {

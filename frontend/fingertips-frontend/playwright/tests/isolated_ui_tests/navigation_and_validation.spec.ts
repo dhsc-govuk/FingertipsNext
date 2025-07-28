@@ -139,7 +139,7 @@ test.describe('Home Page Tests', () => {
     });
   });
 
-  test('should display Sign out after successful mock sign in', async ({
+  test('should display sign out after successful mock sign in, and sign in after signing out', async ({
     homePage,
   }) => {
     await test.step('Navigate to home page', async () => {
@@ -154,6 +154,11 @@ test.describe('Home Page Tests', () => {
     await test.step('Enter password for mock sign in and click to sign in, in the mock then check sign out is now displayed', async () => {
       await homePage.signInToMock();
 
+    await test.step('Click sign out button', async () => {
+      await homePage.clickSignOut();
+    });
+
+    await test.step('verify sign in button displayed', async () => {
       await homePage.checkSignOutDisplayed();
     });
   });

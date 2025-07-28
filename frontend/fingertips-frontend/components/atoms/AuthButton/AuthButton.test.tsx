@@ -1,5 +1,6 @@
 // MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
 import { mockSetIsLoading } from '@/mock/utils/mockUseLoadingState';
+import { mockSession } from '@/mock/utils/mockAuth';
 //
 import { render } from '@testing-library/react';
 import { AuthButton } from '.';
@@ -33,7 +34,7 @@ describe('auth button', () => {
   });
 
   it('should display a button labelled "Sign out" when a session is provided', () => {
-    const screen = render(<AuthButton session={{ expires: '' }} />);
+    const screen = render(<AuthButton session={mockSession()} />);
 
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByTestId('sign-out-button')).toBeInTheDocument();
@@ -50,7 +51,7 @@ describe('auth button', () => {
   });
 
   it('should call the sign out handler when the "Sign out" button is clicked', async () => {
-    const screen = render(<AuthButton session={{ expires: '' }} />);
+    const screen = render(<AuthButton session={mockSession()} />);
 
     const user = userEvent.setup();
     await user.click(screen.getByRole('button'));
