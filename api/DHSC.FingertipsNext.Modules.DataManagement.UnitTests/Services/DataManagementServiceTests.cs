@@ -1,5 +1,6 @@
 using Azure;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using DHSC.FingertipsNext.Modules.DataManagement.Clients;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository;
 using DHSC.FingertipsNext.Modules.DataManagement.Repository.Models;
@@ -57,12 +58,12 @@ public class DataManagementServiceTests
     public async Task UploadShouldSucceed()
     {
         // Arrange
-        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
+        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows2.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         UploadHealthDataResponse result;
         var publishedAt = new DateTime(2025, 1, 1, 0, 0, 0);
         const string expectedUserId = "user-id";
-        const string expectedOriginalFilename = "ValidHeadersAndValidDataRows.csv";
+        const string expectedOriginalFilename = "ValidHeadersAndValidDataRows2.csv";
         var expectedBatch = BatchExamples.Batch;
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expectedBatch);
 
@@ -90,6 +91,11 @@ public class DataManagementServiceTests
 
         var model = result.Model;
         model.ShouldBe(expectedBatch);
+
+        var logCalls = _logger.ReceivedCalls().ToList();
+        logCalls.Count.ShouldBe(2);
+        logCalls[0].GetArguments()[0].ShouldBe(LogLevel.Debug);
+        logCalls[1].GetArguments()[0].ShouldBe(LogLevel.Information);
     }
 
     [Fact]
@@ -115,7 +121,7 @@ public class DataManagementServiceTests
     public void ValidateCsvShouldSucceedWhenCsvIsValid()
     {
         // Act
-        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows.csv";
+        const string validCsvPath = @"Services/Validation/CSVs/ValidHeadersAndValidDataRows2.csv";
         var path = Path.Combine(Directory.GetCurrentDirectory(), validCsvPath);
         ICollection<string> result;
 
@@ -262,7 +268,7 @@ public class DataManagementServiceTests
     public async Task DeleteBatchShouldReturnOk()
     {
         // Arrange
-        var model = new BatchModel
+        var model = BatchExamples.BatchModel with
         {
             BatchKey = 0,
             BatchId = "123",
@@ -270,13 +276,9 @@ public class DataManagementServiceTests
             OriginalFileName = "upload.csv",
             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0),
             PublishedAt = new DateTime(2025, 1, 1, 0, 0, 0).AddYears(1),
-            DeletedAt = DateTime.UtcNow,
-            DeletedUserId = UserId,
             UserId = UserId,
-            Status = BatchStatus.Deleted
         };
-
-        var expected = new Batch
+        var expected = BatchExamples.Batch with
         {
             BatchId = model.BatchId,
             IndicatorId = model.IndicatorId,
@@ -289,8 +291,9 @@ public class DataManagementServiceTests
             Status = model.Status
         };
 
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Returns(model);
-        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(true);
+        _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>()).Returns(model);
+        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(Task.CompletedTask);
         _mapper.Map(Arg.Any<BatchModel>()).Returns(expected);
 
         // Act
@@ -300,41 +303,260 @@ public class DataManagementServiceTests
         result.Outcome.ShouldBe(OutcomeType.Ok);
 
         result.Model.ShouldNotBeNull();
-        result.Model.BatchId.ShouldBe("123");
+        result.Model.BatchId.ShouldBe(expected.BatchId);
         result.Model.ShouldBeEquivalentTo(expected);
+
+        var logCalls = _logger.ReceivedCalls().ToList();
+        logCalls.Count.ShouldBe(1);
+        logCalls[0].GetArguments()[0].ShouldBe(LogLevel.Information);
     }
 
-    [Theory]
-    [InlineData("BatchNotFound", "Not found", OutcomeType.NotFound)]
-    [InlineData("BatchPublished", "Batch already published", OutcomeType.ClientError)]
-    [InlineData("BatchDeleted", "Batch already deleted", OutcomeType.ClientError)]
-    [InlineData("PermissionDenied", "Permission denied when deleting batch", OutcomeType.PermissionDenied)]
-    public async Task DeleteBatchShouldReturnError(string exceptionMessage, string expectedErrorMessage,
-        OutcomeType expectedOutcome)
+    [Fact]
+    public async Task DeleteBatchShouldReturnBatchNotFoundError()
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>())
-            .Throws(new ArgumentException(exceptionMessage));
+        _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(Task.FromResult<BatchModel?>(null));
 
         // Act
         var result = await _service.DeleteBatchAsync("123", UserId, []);
 
         // Assert
-        result.Outcome.ShouldBe(expectedOutcome);
+        result.Outcome.ShouldBe(OutcomeType.NotFound);
         result.Errors.ShouldHaveSingleItem();
-        result.Errors.FirstOrDefault().ShouldBe(expectedErrorMessage);
+        result.Errors.FirstOrDefault().ShouldBe("Not found");
+    }
+
+    [Fact]
+    public async Task DeleteBatchShouldReturnBatchDeletedError()
+    {
+        // Arrange
+        var model = BatchExamples.BatchModel with
+        {
+            DeletedAt = _timeProvider.GetUtcNow().UtcDateTime,
+            Status = BatchStatus.Deleted
+        };
+
+        _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
+
+        // Act
+        var result = await _service.DeleteBatchAsync("123", UserId, []);
+
+        // Assert
+        result.Outcome.ShouldBe(OutcomeType.ClientError);
+        result.Errors.ShouldHaveSingleItem();
+        result.Errors.FirstOrDefault().ShouldBe("Batch already deleted");
+    }
+
+    [Fact]
+    public async Task DeleteBatchShouldReturnBatchPublishedError()
+    {
+        // Arrange
+        var model = BatchExamples.BatchModel;
+
+        _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
+
+        // Act
+        var result = await _service.DeleteBatchAsync("123", UserId, []);
+
+        // Assert
+        result.Outcome.ShouldBe(OutcomeType.ClientError);
+        result.Errors.ShouldHaveSingleItem();
+        result.Errors.FirstOrDefault().ShouldBe("Batch already published");
     }
 
     [Fact]
     public async Task DeleteBatchShouldReturnServerError()
     {
         // Arrange
-        _repository.DeleteBatchAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IList<int>>()).Throws(new ArgumentNullException());
+        var model = BatchExamples.BatchModel with
+        {
+            IndicatorId = 123,
+            Status = BatchStatus.Received,
+            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
+        };
+        _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>())
+            .Throws(new ArgumentNullException());
 
         // Act
         var result = await _service.DeleteBatchAsync("123", UserId, []);
 
         // Assert
         result.Outcome.ShouldBe(OutcomeType.ServerError);
+    }
+
+    [Fact]
+    public async Task DeleteBatchHealthDataClientShouldThrowException()
+    {
+        // Arrange
+        var model = BatchExamples.BatchModel with
+        {
+            IndicatorId = 123,
+            Status = BatchStatus.Received,
+            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
+        };
+        var expected = model with
+        {
+            DeletedAt = model.DeletedAt,
+            DeletedUserId = model.DeletedUserId,
+            Status = model.Status
+        };
+        _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>()).Returns(expected);
+        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).ThrowsAsync(new InvalidCastException("Error"));
+
+        // Act
+        await Should.ThrowAsync<InvalidCastException>(async () =>
+        {
+            await _service.DeleteBatchAsync("123", UserId, []);
+        });
+    }
+
+    [Theory]
+    [InlineData(123)]
+    [InlineData(321, 123)]
+    public async Task EnsureBatchTheUserHasPermissionsForCanBeDeleted(params int[] indicatorIdsThatCanBeModified)
+    {
+        // Arrange
+        var model = BatchExamples.BatchModel with
+        {
+            IndicatorId = 123,
+            Status = BatchStatus.Received,
+            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
+        };
+        var expectedModel = model with
+        {
+            Status = BatchStatus.Deleted,
+            DeletedAt = _timeProvider.GetUtcNow().Date,
+            DeletedUserId = UserId
+        };
+        _repository.GetBatchByIdAsync(Arg.Any<string>()).Returns(model);
+        _repository.DeleteBatchAsync(Arg.Any<BatchModel>(), Arg.Any<string>()).Returns(expectedModel);
+        _healthDataClient.DeleteHealthDataAsync(Arg.Any<string>()).Returns(Task.CompletedTask);
+
+        // Act
+        var result = await _service.DeleteBatchAsync(model.BatchId, UserId, indicatorIdsThatCanBeModified);
+
+
+        // Assert
+        result.Outcome.ShouldBe(OutcomeType.Ok);
+    }
+
+    [Fact]
+    public async Task EnsureAdminCanDeleteAnyBatch()
+    {
+        // Arrange
+        // The administrator is represented by an empty list of permissions.
+        var adminIndicatorsThatCanBeModified = Array.Empty<int>();
+
+        var model123 = BatchExamples.BatchModel with
+        {
+            IndicatorId = 123,
+            Status = BatchStatus.Received,
+            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
+        };
+        var expectedModel123 = model123 with
+        {
+            Status = BatchStatus.Deleted,
+            DeletedAt = _timeProvider.GetUtcNow().Date,
+            DeletedUserId = UserId
+        };
+
+        var model456 = BatchExamples.BatchModel with
+        {
+            IndicatorId = 456,
+            Status = BatchStatus.Received,
+            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
+        };
+        var expectedModel456 = model456 with
+        {
+            Status = BatchStatus.Deleted,
+            DeletedAt = _timeProvider.GetUtcNow().Date,
+            DeletedUserId = UserId
+        };
+
+        var model789 = BatchExamples.BatchModel with
+        {
+            IndicatorId = 789,
+            Status = BatchStatus.Received,
+            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
+        };
+        var expectedModel789 = model789 with
+        {
+            Status = BatchStatus.Deleted,
+            DeletedAt = _timeProvider.GetUtcNow().Date,
+            DeletedUserId = UserId
+        };
+        _repository.GetBatchByIdAsync(model123.BatchId).Returns(model123);
+        _repository.GetBatchByIdAsync(model456.BatchId).Returns(model456);
+        _repository.GetBatchByIdAsync(model789.BatchId).Returns(model789);
+        _repository.DeleteBatchAsync(model123, Arg.Any<string>()).Returns(expectedModel123);
+        _repository.DeleteBatchAsync(model456, Arg.Any<string>()).Returns(expectedModel456);
+        _repository.DeleteBatchAsync(model789, Arg.Any<string>()).Returns(expectedModel789);
+
+
+        // Act
+        var result123 = await _service.DeleteBatchAsync(model123.BatchId, UserId, adminIndicatorsThatCanBeModified);
+
+        // Assert
+        result123.Outcome.ShouldBe(OutcomeType.Ok);
+
+        // Act
+        var result456 = await _service.DeleteBatchAsync(model456.BatchId, UserId, adminIndicatorsThatCanBeModified);
+
+        // Assert
+        result456.Outcome.ShouldBe(OutcomeType.Ok);
+
+        // Act
+        var result789 = await _service.DeleteBatchAsync(model789.BatchId, UserId, adminIndicatorsThatCanBeModified);
+
+        // Assert
+        result789.Outcome.ShouldBe(OutcomeType.Ok);
+    }
+
+
+    [Theory]
+    [InlineData(383)]
+    [InlineData(383, 94532)]
+    public async Task EnsureBatchTheUserDoesNotHavePermissionsForIsNotDeleted(
+        params int[] indicatorIdsThatCanBeModified)
+    {
+        // Arrange
+        var model123 = BatchExamples.BatchModel with
+        {
+            IndicatorId = 123,
+            Status = BatchStatus.Received,
+            PublishedAt = _timeProvider.GetUtcNow().UtcDateTime.AddYears(1)
+        };
+        var expectedModel123 = model123 with
+        {
+            Status = BatchStatus.Deleted,
+            DeletedAt = _timeProvider.GetUtcNow().Date,
+            DeletedUserId = UserId
+        };
+        _repository.GetBatchByIdAsync(model123.BatchId).Returns(model123);
+        _repository.DeleteBatchAsync(model123, Arg.Any<string>()).Returns(expectedModel123);
+
+        // Act
+        var result = await _service.DeleteBatchAsync(model123.BatchId, UserId, indicatorIdsThatCanBeModified);
+
+        // Assert
+        result.Outcome.ShouldBe(OutcomeType.PermissionDenied);
+        result.Errors.Count.ShouldBe(1);
+        result.Errors.First().ShouldBe("Permission denied when deleting batch");
+    }
+
+    [Fact]
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullBatchIdIsSpecified()
+    {
+        await _service.DeleteBatchAsync(null!, UserId, [])
+            .ShouldThrowAsync(typeof(ArgumentNullException));
+    }
+
+    [Fact]
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullListOfIndicatorsIsSpecified()
+    {
+        await _service.DeleteBatchAsync("batch-id", UserId, null!)
+            .ShouldThrowAsync(typeof(ArgumentNullException));
     }
 }

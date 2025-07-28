@@ -25,7 +25,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     /// <param name="indicatorId"></param>
     /// <param name="areaCodes"></param>
     /// <returns>IndicatorDimensionModel containing relevant indicator metadata</returns>
-    public async Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes, bool includeUnpublished = false)
+    public async Task<IndicatorDimensionModel?> GetIndicatorDimensionAsync(int indicatorId, string[] areaCodes,
+        bool includeUnpublished = false)
     {
         var queryable = _dbContext.GetHealthMeasures(includeUnpublished);
         var model = await queryable
@@ -122,21 +123,20 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .ToListAsync();
     }
 
-    public async Task<bool> DeleteAllHealthMeasureByBatchIdAsync(string batchId)
+    public async Task DeleteAllHealthMeasureByBatchIdAsync(string batchId)
     {
         var batchToDelete = _dbContext.HealthMeasure
             .Where(healthMeasure => healthMeasure.BatchId == batchId);
 
         var batchToDeleteFirstEntry = await batchToDelete.FirstOrDefaultAsync();
-        if (batchToDeleteFirstEntry == null) return false;
+        if (batchToDeleteFirstEntry == null) return;
 
         if (batchToDeleteFirstEntry.PublishedAt <= DateTime.UtcNow)
         {
             throw new InvalidOperationException("Error attempting to delete published batch.");
         }
 
-        var deletedRows = await batchToDelete.ExecuteDeleteAsync();
-        return deletedRows > 0;
+        await batchToDelete.ExecuteDeleteAsync();
     }
 
     public async Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync
@@ -182,7 +182,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var requestedIndicatorId = new SqlParameter("@RequestedIndicatorId", indicatorId);
         var requestedBenchmarkAreaCode = new SqlParameter("@RequestedBenchmarkAreaCode", benchmarkAreaCode);
 
-        var requestedFromDate = new SqlParameter("@RequestedFromDate", fromDate.HasValue ? fromDate.Value : DBNull.Value);
+        var requestedFromDate =
+            new SqlParameter("@RequestedFromDate", fromDate.HasValue ? fromDate.Value : DBNull.Value);
         var requestedToDate = new SqlParameter("@RequestedToDate", toDate.HasValue ? toDate.Value : DBNull.Value);
         var includeUnpublishedData = new SqlParameter("@IncludeUnpublishedData", includeUnpublished);
 
