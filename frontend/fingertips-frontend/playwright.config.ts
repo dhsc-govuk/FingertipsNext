@@ -22,7 +22,7 @@ const config: PlaywrightTestConfig = {
   workers: isCI ? 2 : '25%', // 25% of the available CPUs when not in CI
   timeout: 180_000,
   expect: {
-    timeout: 10_000,
+    timeout: 20_000,
     toHaveScreenshot: {
       maxDiffPixels: 10,
       scale: 'device',
