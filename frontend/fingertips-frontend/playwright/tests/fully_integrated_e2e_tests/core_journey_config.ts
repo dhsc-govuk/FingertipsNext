@@ -69,7 +69,7 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: "17", // tests with number in subject search term - also segmentation
+    subjectSearchTerm: "17", // tests with number in subject search term - with segmentation
     indicatorsToSelect: [
       {
         indicatorID: '92904',
