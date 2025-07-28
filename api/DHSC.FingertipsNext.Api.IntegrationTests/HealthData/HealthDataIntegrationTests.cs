@@ -157,23 +157,23 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
     }
 
-    // [Theory]
-    // [InlineData(AdminRoleGuid, 41101, 90453)]
-    // [InlineData(Indicator41101GroupRoleId, 41101)]
-    // [InlineData(Indicator90453GroupRoleId, 90453)]
-    // public async Task GetQuartilesAllShouldRespondWith200WhenAuthIsValid(string userRoleId, params int[] indicatorIds)
-    // {
-    //     ArgumentNullException.ThrowIfNull(indicatorIds);
-    //
-    //     var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=gps&ancestor_code=U79121&benchmark_ref_type=SubNational";
-    //     var client = _factory.CreateClient();
-    //     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
-    //
-    //     var uriPath = uriPrefix + string.Join("", indicatorIds.Select(id => $"&indicator_ids={id}"));
-    //
-    //     var response = await client.GetFromJsonAsync<List<IndicatorQuartileData>>(new Uri(uriPath, UriKind.Relative));
-    //
-    //     response.ShouldNotBeNull();
-    //     response.All(quartileData => indicatorIds.Contains(quartileData.IndicatorId)).ShouldBeTrue();
-    // }
+    [Theory]
+    [InlineData(AdminRoleGuid, 41101, 90453)]
+    [InlineData(Indicator41101GroupRoleId, 41101)]
+    [InlineData(Indicator90453GroupRoleId, 90453)]
+    public async Task GetQuartilesAllShouldRespondWith200WhenAuthIsValid(string userRoleId, params int[] indicatorIds)
+    {
+        ArgumentNullException.ThrowIfNull(indicatorIds);
+    
+        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=gps&ancestor_code=U79121&benchmark_ref_type=SubNational";
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
+    
+        var uriPath = uriPrefix + string.Join("", indicatorIds.Select(id => $"&indicator_ids={id}"));
+    
+        var response = await client.GetFromJsonAsync<List<IndicatorQuartileData>>(new Uri(uriPath, UriKind.Relative));
+    
+        response.ShouldNotBeNull();
+        response.All(quartileData => indicatorIds.Contains(quartileData.IndicatorId)).ShouldBeTrue();
+    }
 }
