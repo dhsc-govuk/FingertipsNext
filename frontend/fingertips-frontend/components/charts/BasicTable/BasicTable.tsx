@@ -36,7 +36,7 @@ export function BasicTable({
   return (
     <div data-testid={`${id}-component`}>
       <ContainerWithOutline>
-        <div id={`${id}-chart`}>
+        <div id={id}>
           <ChartTitle>{title}</ChartTitle>
           <StyledTable
             head={
