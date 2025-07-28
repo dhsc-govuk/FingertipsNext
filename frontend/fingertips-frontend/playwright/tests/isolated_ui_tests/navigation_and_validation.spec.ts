@@ -162,19 +162,19 @@ test.describe('Home Page Tests', () => {
         await homePage.checkSignOutDisplayed();
       });
     });
+  });
 
-    test('header nav link should return user to home page', async ({
-      homePage,
-      resultsPage,
-    }) => {
-      await test.step('Navigate directly to results page', async () => {
-        await resultsPage.navigateToResults(subjectSearchTerm, []);
-      });
+  test('header nav link should return user to home page', async ({
+    homePage,
+    resultsPage,
+  }) => {
+    await test.step('Navigate directly to results page', async () => {
+      await resultsPage.navigateToResults(subjectSearchTerm, []);
+    });
 
-      await test.step('Navigate to home page', async () => {
-        await resultsPage.clickHeaderHomeNavigation();
-        await homePage.checkOnHomePage();
-      });
+    await test.step('Navigate to home page', async () => {
+      await resultsPage.clickHeaderHomeNavigation();
+      await homePage.checkOnHomePage();
     });
   });
 });
