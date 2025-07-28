@@ -31,7 +31,7 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
             .AddEnvironmentVariables()
             .Build();
 
-        _blobName = $"{IndicatorId}_{MockTime:yyyy-MM-ddTHH:mm:ss.fff}.csv";
+        _blobName = $"{IndicatorId}_{FormattedMockTime}.csv";
         _azureStorageBlobClient = new AzureStorageBlobClient(configuration);
     }
 
@@ -76,11 +76,18 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
         response.EnsureSuccessStatusCode();
 
         var model = await response.Content.ReadFromJsonAsync<Batch>();
-        model.IndicatorId.ShouldBe(IndicatorId);
-        model.Status.ShouldBe(BatchStatus.Received);
-        model.OriginalFileName.ShouldBe(IntegrationTestFileName);
-        model.UserId.ShouldBe(Guid.Empty.ToString());
-        model.PublishedAt.ShouldBe(_publishedAt);
+        model.ShouldBe(new Batch
+        {
+            BatchId = $"{IndicatorId}_{FormattedMockTime}",
+            IndicatorId = IndicatorId,
+            OriginalFileName = IntegrationTestFileName,
+            CreatedAt = MockTime,
+            PublishedAt = _publishedAt,
+            DeletedAt = null,
+            UserId = Factory.SubClaim,
+            DeletedUserId = null,
+            Status = BatchStatus.Received
+        });
 
         var blobContent = await _azureStorageBlobClient.DownloadBlob(_blobName);
         var localFileContent = await File.ReadAllBytesAsync(blobContentFilePath);
@@ -131,6 +138,35 @@ public sealed class FileUploadIntegrationTests : DataManagementIntegrationTests
 
         // Act
         var response = await apiClient.PostAsync(new Uri("/indicators/9999/data", UriKind.Relative), content);
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task ATokenWithoutASubClaimShouldBeRejectedByUploadBatchEndpoint()
+    {
+        // Arrange
+        var apiClient = Factory.CreateClient();
+        using var content = new MultipartFormDataContent();
+        const bool includeSubClaimInToken = false;
+
+        var blobContentFilePath = Path.Combine(TestDataDir, "valid.csv");
+        var fileStream = File.OpenRead(blobContentFilePath);
+
+        using var streamContent = new StreamContent(fileStream);
+        using var publishedAtContent = new StringContent(_publishedAt.ToString("o"));
+
+        streamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+        content.Add(streamContent, "file", IntegrationTestFileName);
+        content.Add(publishedAtContent, "publishedAt");
+
+        apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            Factory.GenerateTestToken([Indicator41203GroupRoleId], false, includeSubClaimInToken));
+
+        // Act
+        var response = await apiClient.PostAsync(new Uri($"/indicators/{IndicatorId}/data", UriKind.Relative), content);
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);

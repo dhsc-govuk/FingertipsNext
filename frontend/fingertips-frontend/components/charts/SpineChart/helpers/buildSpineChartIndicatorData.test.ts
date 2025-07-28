@@ -12,6 +12,8 @@ import {
 } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockQuartileData } from '@/mock/data/mockQuartileData';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
+import { Frequency } from '@/generated-sources/ft-api-client';
 
 const testArea = mockHealthDataForArea({ healthData: [] });
 const testGroup = mockHealthDataForArea_Group({ healthData: [] });
@@ -55,7 +57,10 @@ describe('buildSpineChartIndicatorData', () => {
       'indicatorName',
       `${testDataWithGroup.name} (Persons, All ages)`
     );
-    expect(row1).toHaveProperty('latestDataPeriod', testQuartile.year);
+    expect(row1).toHaveProperty('latestDataPeriod', {
+      ...mockDatePeriod(2023),
+      frequency: Frequency.Annually,
+    });
     expect(row1).toHaveProperty('valueUnit', '%');
     expect(row1).toHaveProperty('benchmarkComparisonMethod');
     expect(row1).toHaveProperty('quartileData', testQuartile);
@@ -162,7 +167,7 @@ describe('buildSpineChartIndicatorData', () => {
     const result = buildSpineChartIndicatorData(
       [testDataWithGroup],
       [testMeta],
-      [{ ...testQuartile, year: 1999 }],
+      [{ ...testQuartile, datePeriod: mockDatePeriod(1999) }],
       areasSelected,
       selectedGroupCode
     );

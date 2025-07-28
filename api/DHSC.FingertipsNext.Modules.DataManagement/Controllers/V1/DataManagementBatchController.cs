@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using DHSC.FingertipsNext.Modules.Common.Auth;
 using DHSC.FingertipsNext.Modules.Common.Schemas;
 using DHSC.FingertipsNext.Modules.DataManagement.Schemas;
@@ -31,27 +30,6 @@ public class DataManagementBatchController : ControllerBase
         _dataManagementService = dataManagementService;
     }
 
-    private static List<Guid> GetRoles(ClaimsPrincipal user)
-    {
-        var userRoleIds = user.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
-        var userRoles = new List<Guid>();
-
-        foreach (var id in userRoleIds)
-            if (Guid.TryParse(id, out var roleGuid))
-            {
-                userRoles.Add(roleGuid);
-            }
-
-        return userRoles;
-    }
-
-    private async Task<int[]> GetIndicatorIdsFromRoles(IEnumerable<Guid> roles)
-    {
-        var userIndicatorPermissions = await _indicatorPermissionsLookupService.GetIndicatorsForRoles(roles);
-
-        return userIndicatorPermissions.ToArray();
-    }
-
     /// <summary>
     ///     Get details of all health data upload batches that are for indicators that you have permissions to modify.
     /// </summary>
@@ -63,8 +41,8 @@ public class DataManagementBatchController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ListBatches()
     {
-        var userRoles = GetRoles(User);
-        var indicatorIds = await GetIndicatorIdsFromRoles(userRoles);
+        var userRoles = AuthUtilities.GetRoles(User);
+        var indicatorIds = await AuthUtilities.GetIndicatorIdsFromRoles(_indicatorPermissionsLookupService, userRoles);
 
         if (indicatorIds.Length == 0 && !User.IsInRole(_adminRole))
         {
@@ -93,8 +71,8 @@ public class DataManagementBatchController : ControllerBase
             });
         }
 
-        var userRoles = GetRoles(User);
-        var indicatorIds = await GetIndicatorIdsFromRoles(userRoles);
+        var userRoles = AuthUtilities.GetRoles(User);
+        var indicatorIds = await AuthUtilities.GetIndicatorIdsFromRoles(_indicatorPermissionsLookupService, userRoles);
         if (indicatorIds.Length == 0 && !User.IsInRole(_adminRole))
         {
             return new ForbidResult();
@@ -106,7 +84,13 @@ public class DataManagementBatchController : ControllerBase
             indicatorIds = [];
         }
 
-        var result = await _dataManagementService.DeleteBatchAsync(batchId, Guid.Empty, indicatorIds);
+        var userId = AuthUtilities.GetUserId(User);
+        if (userId == null)
+        {
+            return new ForbidResult();
+        }
+
+        var result = await _dataManagementService.DeleteBatchAsync(batchId, userId, indicatorIds);
 
         var message = result.Errors == null ? "An unexpected error occurred" : result.Errors.FirstOrDefault();
 

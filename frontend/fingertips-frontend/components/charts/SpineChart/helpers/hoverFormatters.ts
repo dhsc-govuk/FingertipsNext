@@ -30,7 +30,7 @@ function formatUnits(units: string): string {
 }
 
 interface FormatBarHoverProps {
-  period?: number;
+  period?: string;
   lowerName: string;
   lowerValue: number;
   upperName: string;
@@ -43,7 +43,7 @@ interface FormatBarHoverProps {
 
 interface FormatSymbolHoverProps {
   title: string;
-  period?: number;
+  period?: string;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   value: number;
   units: string;
@@ -93,7 +93,7 @@ function hoverTemplate(
 function formatTitleBlock(
   title: string,
   indicatorName: string,
-  period?: number
+  period?: string
 ) {
   return `<div>
             <h4 style="margin:0px; padding:0px;">${title}</h4>

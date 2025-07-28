@@ -10,7 +10,7 @@ internal static class BatchExamples
     private const BatchStatus BatchStatus = DataManagement.Repository.Models.BatchStatus.Received;
     private const string OriginalFileName = "upload.csv";
 
-    private static readonly Guid UserId = new("4fbbbb61-ed6d-4777-943c-7d597f90445a");
+    private const string UserId = "4fbbbb61-ed6d-4777-943c-7d597f90445a";
     private static readonly DateTime CreatedAt = new(2017, 6, 30, 18, 49, 37);
     private static readonly DateTime PublishedAt = new(2020, 3, 7, 0, 0, 0);
 
@@ -20,7 +20,7 @@ internal static class BatchExamples
         IndicatorId = IndicatorId,
         Status = BatchStatus,
         OriginalFileName = OriginalFileName,
-        UserId = UserId.ToString(),
+        UserId = UserId,
         CreatedAt = CreatedAt,
         PublishedAt = PublishedAt
     };
