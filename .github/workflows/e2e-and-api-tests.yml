@@ -42,6 +42,9 @@ on:
       fingertips_e2e_automation_email_address_no_indicators:
         description: 'email address for the fingertips e2e automation user account with no indicators permissions'
         required: true
+      auth_client_secret:
+        description: 'Client secret for the authentication service'
+        required: true
 
 jobs:
   execute-e2e-tests-docker:
@@ -56,7 +59,7 @@ jobs:
       DB_PASSWORD: ${{ secrets.fingertips_e2e_db_password }}
       UPLOAD_STORAGE_CONTAINER_NAME: fingertips-upload-container
       AUTH_SECRET: 'random-string-for-testing-123'
-      AUTH_CLIENT_SECRET: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
+      AUTH_CLIENT_SECRET: ${{ secrets.auth_client_secret }}
       AUTH_CLIENT_ID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
       AUTH_TENANT_ID: ${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}
       AZUREAD__INSTANCE: ${{ vars.DEVELOPMENT_ENTRA_INSTANCE_URI }}

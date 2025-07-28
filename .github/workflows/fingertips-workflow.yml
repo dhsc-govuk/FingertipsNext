@@ -282,6 +282,7 @@ jobs:
       fingertips_e2e_automation_email_address_admin: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN }}
       fingertips_e2e_automation_email_address_assigned_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS }}
       fingertips_e2e_automation_email_address_no_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS }}
+      auth_client_secret: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
@@ -829,3 +830,4 @@ jobs:
       fingertips_e2e_automation_email_address_admin: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN }}
       fingertips_e2e_automation_email_address_assigned_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS }}
       fingertips_e2e_automation_email_address_no_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS }}
+      auth_client_secret: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
