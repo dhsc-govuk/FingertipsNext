@@ -11,6 +11,15 @@ import { QueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForMultipleIndicators } from './useApiGetHealthDataForMultipleIndicators';
+import { mockAuth } from '@/mock/utils/mockAuth';
+
+vi.mock('@/components/charts/hooks/useApiGetHealthDataForAnIndicator', () => ({
+  queryFnHealthDataForAnIndicator: vi.fn((option) => async () => {
+    return { indicatorId: option.indicatorId };
+  }),
+}));
+
+import { queryFnHealthDataForAnIndicator } from '@/components/charts/hooks/useApiGetHealthDataForAnIndicator';
 
 describe('useApiGetHealthDataForMultipleIndicators', () => {
   afterEach(() => {
@@ -27,7 +36,7 @@ describe('useApiGetHealthDataForMultipleIndicators', () => {
     ),
   ];
 
-  it('should call getHealthDataForAnIndicatorIncludingUnpublishedData when session is present', async () => {
+  it('should call queryFnHealthDataForAnIndicator for each request option', async () => {
     const queryClient = new QueryClient();
 
     renderHook(() => useApiGetHealthDataForMultipleIndicators(options), {
@@ -35,55 +44,15 @@ describe('useApiGetHealthDataForMultipleIndicators', () => {
     });
 
     await waitFor(() => {
-      expect(
-        mockGetHealthDataForAnIndicatorIncludingUnpublishedData
-      ).toHaveBeenNthCalledWith(1, {
-        ancestorCode: undefined,
-        areaCodes: ['E92000001'],
-        areaType: 'england',
-        benchmarkRefType: 'England',
-        indicatorId: 333,
-      });
-      expect(
-        mockGetHealthDataForAnIndicatorIncludingUnpublishedData
-      ).toHaveBeenNthCalledWith(2, {
-        ancestorCode: undefined,
-        areaCodes: ['E92000001'],
-        areaType: 'england',
-        benchmarkRefType: 'England',
-        indicatorId: 444,
-      });
+      expect(queryFnHealthDataForAnIndicator).toHaveBeenCalledTimes(2);
+      expect(queryFnHealthDataForAnIndicator).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({ indicatorId: 333 })
+      );
+      expect(queryFnHealthDataForAnIndicator).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({ indicatorId: 444 })
+      );
     });
-
-    expect(mockGetHealthDataForAnIndicator).not.toHaveBeenCalled();
-  });
-
-  it('should call getHealthDataForAnIndicator when session is not present', async () => {
-    const queryClient = new QueryClient();
-
-    renderHook(() => useApiGetHealthDataForMultipleIndicators(options), {
-      wrapper: testRenderWrapper({}, queryClient),
-    });
-
-    await waitFor(() => {
-      expect(mockGetHealthDataForAnIndicator).toHaveBeenNthCalledWith(1, {
-        ancestorCode: undefined,
-        areaCodes: ['E92000001'],
-        areaType: 'england',
-        benchmarkRefType: 'England',
-        indicatorId: 333,
-      });
-      expect(mockGetHealthDataForAnIndicator).toHaveBeenNthCalledWith(2, {
-        ancestorCode: undefined,
-        areaCodes: ['E92000001'],
-        areaType: 'england',
-        benchmarkRefType: 'England',
-        indicatorId: 444,
-      });
-    });
-
-    expect(
-      mockGetHealthDataForAnIndicatorIncludingUnpublishedData
-    ).not.toHaveBeenCalled();
   });
 });
