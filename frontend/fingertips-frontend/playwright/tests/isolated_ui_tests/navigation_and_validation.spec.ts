@@ -534,6 +534,49 @@ test.describe('Navigation Tests', () => {
   });
 });
 
+test.describe('Upload Page Tests', () => {
+  test('Navigating to upload page while not signed in should show an error page', async ({
+    homePage,
+    uploadPage,
+  }) => {
+    await test.step('Navigate to home page and verify not signed in', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+      await homePage.checkSignInDisplayed();
+    });
+
+    await test.step('Navigate to upload page and verify error message', async () => {
+      await uploadPage.navigateToUploadPage();
+
+      await test
+        .expect(uploadPage.errorPageTitle())
+        .toContainText('You are not signed in');
+    });
+  });
+
+  test('Navigating to upload page while signed in should not show an error page', async ({
+    homePage,
+    uploadPage,
+  }) => {
+    await test.step('Navigate to home page', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+    });
+
+    await test.step('Sign in', async () => {
+      await homePage.clickSignIn();
+      await homePage.signInToMock(password);
+      await homePage.checkSignOutDisplayed();
+    });
+
+    await test.step('Navigate to upload page and verify no error message', async () => {
+      await uploadPage.navigateToUploadPage();
+
+      await test.expect(uploadPage.errorPageTitle()).toHaveCount(0);
+    });
+  });
+});
+
 // Capture and log out URL on test failure
 test.afterEach(async ({ page }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
