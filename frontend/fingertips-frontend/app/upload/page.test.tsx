@@ -18,7 +18,7 @@ beforeEach(vi.clearAllMocks);
 
 describe('Upload page component', () => {
   it('should make an API call to fetch batches', async () => {
-    mockAuth.mockImplementation(() => mockSession);
+    mockAuth.mockResolvedValue(mockSession);
     mockAuthenticatedBatchesApi.getBatches.mockResolvedValue([mockBatch()]);
 
     const uploadPage = await UploadPage();
@@ -28,7 +28,7 @@ describe('Upload page component', () => {
   });
 
   it('should not make a batches API call if user is not signed in', async () => {
-    mockAuth.mockImplementation(() => null);
+    mockAuth.mockResolvedValue(null);
 
     const _ = await UploadPage();
 
@@ -36,7 +36,7 @@ describe('Upload page component', () => {
   });
 
   it('should populate error page with expected props if user is not signed in', async () => {
-    mockAuth.mockImplementation(() => null);
+    mockAuth.mockResolvedValue(null);
 
     const uploadPage = await UploadPage();
 
