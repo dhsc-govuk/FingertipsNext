@@ -136,6 +136,12 @@ test.describe(
               signInAsUserToCheckUnpublishedData!
             );
           });
+
+          await test.step(`sign out if required and verify sign in now displayed`, async () => {
+            await chartPage.signOutIfRequired(
+              signInAsUserToCheckUnpublishedData!
+            );
+          });
         });
       }
     );

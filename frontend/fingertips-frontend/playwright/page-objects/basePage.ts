@@ -1,7 +1,7 @@
 import type { Locator, Page as PlaywrightPage } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
-import { SearchMode } from '../testHelpers/genericTestUtilities';
+import { SearchMode, SignInAs } from '../testHelpers/genericTestUtilities';
 import { spaceSeparatedPattern } from '@/lib/constants';
 
 export default class BasePage {
@@ -200,22 +200,19 @@ export default class BasePage {
     );
   }
 
-  async signInToMock(password: string) {
-    await this.fillAndAwaitLoadingComplete(
-      this.page.getByRole('textbox', { name: 'Password' }),
-      password
-    );
-
-    await this.clickAndAwaitLoadingComplete(
-      this.page.getByRole('button', { name: 'Sign in with password' })
-    );
-  }
-
   async checkSignInDisplayed() {
     await expect(this.page.getByTestId(this.signInButton)).toBeVisible();
   }
 
   async checkSignOutDisplayed() {
     await expect(this.page.getByTestId(this.signOutButton)).toBeVisible();
+  }
+
+  async signOutIfRequired(signOutRequired: SignInAs) {
+    if (signOutRequired) {
+      await this.clickSignOut();
+
+      await this.checkSignInDisplayed();
+    }
   }
 }

@@ -21,8 +21,6 @@ export default class HomePage extends AreaFilter {
   readonly validationSummary = 'search-form-error-summary';
   readonly indicatorSearchButton = 'indicator-search-form-submit';
   readonly pillContainer = 'pill-container';
-  readonly signInButton = 'sign-in-button';
-  readonly signOutButton = 'sign-out-button';
   readonly email = 'fallback@email.com';
   readonly password =
     process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD || 'password';
@@ -236,12 +234,6 @@ export default class HomePage extends AreaFilter {
     }
   }
 
-  async clickSignOut() {
-    await this.clickAndAwaitLoadingComplete(
-      this.page.getByTestId(this.signOutButton)
-    );
-  }
-
   async signInToMock() {
     await this.fillAndAwaitLoadingComplete(
       this.page.getByRole('textbox', { name: 'Password' }),
@@ -251,9 +243,5 @@ export default class HomePage extends AreaFilter {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByRole('button', { name: 'Sign in with password' })
     );
-  }
-
-  async checkSignOutDisplayed() {
-    await expect(this.page.getByTestId(this.signOutButton)).toBeVisible();
   }
 }
