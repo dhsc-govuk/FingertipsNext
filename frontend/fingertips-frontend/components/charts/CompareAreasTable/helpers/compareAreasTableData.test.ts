@@ -34,6 +34,11 @@ describe('compareAreasTableData', () => {
       benchmarkToUse: 'BENCHMARK_X',
       periodType: 'Calendar',
       frequency: 'Annually',
+      latestDataPeriod: {
+        to: new Date('2023-12-31'),
+        from: new Date('2023-01-01'),
+        type: 'Calendar',
+      },
     });
   });
 
@@ -51,6 +56,41 @@ describe('compareAreasTableData', () => {
       benchmarkToUse: areaCodeForEngland,
       periodType: 'Calendar',
       frequency: 'Annually',
+    });
+  });
+
+  it('should extract the latest England data period', () => {
+    const englandHealthData = mockHealthDataForArea_England({
+      healthData: [
+        {
+          ...mockHealthDataForArea_England().healthData[0],
+          datePeriod: {
+            to: new Date('2022-12-31'),
+            from: new Date('2022-01-01'),
+            type: 'Unknown',
+          },
+        },
+        {
+          ...mockHealthDataForArea_England().healthData[0],
+          datePeriod: {
+            to: new Date('2023-12-31'),
+            from: new Date('2023-01-01'),
+            type: 'Unknown',
+          },
+        },
+      ],
+    });
+
+    const input = mockIndicatorWithHealthDataForArea({
+      areaHealthData: [englandHealthData],
+    });
+
+    const result = compareAreasTableData(input);
+
+    expect(result.latestDataPeriod).toEqual({
+      to: new Date('2023-12-31'),
+      from: new Date('2023-01-01'),
+      type: 'Unknown',
     });
   });
 });
