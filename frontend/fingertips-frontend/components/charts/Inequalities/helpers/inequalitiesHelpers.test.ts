@@ -1248,7 +1248,7 @@ describe('getAreasWithInequalitiesData', () => {
 
   describe('for a particular year', () => {
     it('should return all the areas that have sex inequality data for the year provided', () => {
-      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A004'];
+      const expectedAreaCodes = [areaCodeForEngland, 'A001', 'A004'];
 
       const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
         mockHealthIndicatorData,
@@ -1264,7 +1264,7 @@ describe('getAreasWithInequalitiesData', () => {
     });
 
     it('should return all the areas that have deprivation inequality data for the year provided', () => {
-      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A003'];
+      const expectedAreaCodes = [areaCodeForEngland, 'A001', 'A002', 'A003'];
 
       const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
         mockHealthIndicatorData,
@@ -1291,8 +1291,8 @@ describe('getAreasWithInequalitiesData', () => {
   });
 
   describe('for all years', () => {
-    it('should return all the areas that have sex inequality data for at least one year', () => {
-      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A004'];
+    it('should return all the areas sorted alphabetically with england first - that have sex inequality data for at least one year', () => {
+      const expectedAreaCodes = [areaCodeForEngland, 'A001', 'A002', 'A004'];
 
       const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
         mockHealthIndicatorData,
@@ -1307,7 +1307,7 @@ describe('getAreasWithInequalitiesData', () => {
     });
 
     it('should return all the areas that have deprivation inequality data for at least one year', () => {
-      const expectedAreaCodes = ['A001', areaCodeForEngland, 'A002', 'A003'];
+      const expectedAreaCodes = [areaCodeForEngland, 'A001', 'A002', 'A003'];
 
       const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
         mockHealthIndicatorData,

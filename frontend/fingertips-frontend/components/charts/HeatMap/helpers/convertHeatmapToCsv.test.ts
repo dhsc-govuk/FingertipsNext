@@ -22,7 +22,7 @@ const mockIndicator = {
   id: '41101',
   name: 'Emergency readmissions within 30 days of discharge from hospital',
   unitLabel: '%',
-  latestDataPeriod: 2023,
+  latestDataPeriod: '2023',
   benchmarkMethod: 'CIOverlappingReferenceValue95',
   polarity: 'LowIsGood',
 };

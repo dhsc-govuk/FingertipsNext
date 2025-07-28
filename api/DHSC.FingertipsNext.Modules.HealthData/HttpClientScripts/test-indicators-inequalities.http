@@ -138,3 +138,20 @@ GET http://localhost:5144/indicators/92708/data?area_codes=E92000001&inequalitie
         });
     });
 %}
+
+
+
+### GET inequality for when there is no 'aggregate' data available - check benchmarkComparison is null
+GET http://localhost:5144/indicators/90362/data?area_codes=E92000001&area_type=england&[…]rk_ref_type=England&inequalities=sex&inequalities=deprivation 
+> {%
+    client.test("Expected health data returned with sex inequalities breakdown", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        response.body.areaHealthData[0].indicatorSegments[0].healthData.forEach((dataPoint) => {
+             client.assert(
+               dataPoint.benchmarkComparison === null,
+                `HealthData expected to have null benchmarkComparison, but found ${dataPoint.benchmarkComparison}`
+            );
+        });
+    });
+%}
