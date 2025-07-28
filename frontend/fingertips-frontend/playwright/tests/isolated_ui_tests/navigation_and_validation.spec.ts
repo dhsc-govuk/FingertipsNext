@@ -154,26 +154,27 @@ test.describe('Home Page Tests', () => {
     await test.step('Enter password for mock sign in and click to sign in, in the mock then check sign out is now displayed', async () => {
       await homePage.signInToMock();
 
-    await test.step('Click sign out button', async () => {
-      await homePage.clickSignOut();
+      await test.step('Click sign out button', async () => {
+        await homePage.clickSignOut();
+      });
+
+      await test.step('verify sign in button displayed', async () => {
+        await homePage.checkSignOutDisplayed();
+      });
     });
 
-    await test.step('verify sign in button displayed', async () => {
-      await homePage.checkSignOutDisplayed();
-    });
-  });
+    test('header nav link should return user to home page', async ({
+      homePage,
+      resultsPage,
+    }) => {
+      await test.step('Navigate directly to results page', async () => {
+        await resultsPage.navigateToResults(subjectSearchTerm, []);
+      });
 
-  test('header nav link should return user to home page', async ({
-    homePage,
-    resultsPage,
-  }) => {
-    await test.step('Navigate directly to results page', async () => {
-      await resultsPage.navigateToResults(subjectSearchTerm, []);
-    });
-
-    await test.step('Navigate to home page', async () => {
-      await resultsPage.clickHeaderHomeNavigation();
-      await homePage.checkOnHomePage();
+      await test.step('Navigate to home page', async () => {
+        await resultsPage.clickHeaderHomeNavigation();
+        await homePage.checkOnHomePage();
+      });
     });
   });
 });

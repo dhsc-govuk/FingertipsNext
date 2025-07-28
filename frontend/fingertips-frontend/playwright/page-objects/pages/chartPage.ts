@@ -853,6 +853,7 @@ export default class ChartPage extends AreaFilter {
   ): string {
     return inputString.replaceAll('-component', replaceWith);
   }
+
   async verifyUnpublishedDataDisplayed(
     chartComponentLocator: string,
     signInAsUserToCheckUnpublishedData: SignInAs,
@@ -872,8 +873,9 @@ export default class ChartPage extends AreaFilter {
     }
 
     const shouldShowUnpublishedData =
-      signInAsUserToCheckUnpublishedData.administrator ||
-      signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions;
+      signInAsUserToCheckUnpublishedData != undefined &&
+      (signInAsUserToCheckUnpublishedData.administrator ||
+        signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions);
 
     const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
 

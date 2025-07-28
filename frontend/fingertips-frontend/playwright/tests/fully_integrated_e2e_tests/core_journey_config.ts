@@ -270,7 +270,7 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available',
-        unpublishedDataYear: 2024,
+        unpublishedDataYear: 2024, // this journey will check we do not show this unpublished data year as we are not signed in
       },
       {
         indicatorID: '22401',
@@ -286,9 +286,6 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'england',
       group: 'england',
     },
-    signInAsUserToCheckUnpublishedData: {
-      userWithoutIndicatorPermissions: true,
-    }, // this journey will check we do not show the unpublished data as we are signed in as a user without indicator permissions
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
