@@ -68,7 +68,7 @@ from_date:
   name: from_date
   description: The earliest date, in ISO 8601 format (YYYY-MM-DD), for which data should be returned, if not specified then the earliest date for the indicator will be used.
   schema:
-    type: string    
+    type: string
     example: '2023-01-01'
 inequalities:
   in: query
@@ -83,3 +83,12 @@ inequalities:
         - sex
         - deprivation
   description: Determines the kind of inequality data that should be returned if an option is specified
+area_code:
+  in: query
+  name: area_code
+  style: simple
+  schema:
+    type: string
+    example: G82109
+  explode: false
+  description: The area code of the area/ geography
