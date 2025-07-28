@@ -1,14 +1,14 @@
 
 
 ### check quintile comparison for specific years -- existing site doesn't expose this data to allow us to validate against
-GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps&years=2023&years=2022
+GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps&from_date=2022-01-01&to_date=2023-12-31
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(response.body.areaHealthData[0].healthData.length ==2, "HealthData doesn't contain two records");
-        client.assert(response.body.areaHealthData[0].healthData[0].year ==2022, "HealthData doesn't contain two records");
-        client.assert(response.body.areaHealthData[0].healthData[1].year ==2023, "HealthData doesn't contain two records");
+        client.assert(response.body.areaHealthData[0].healthData[0].datePeriod.from == "2022-01-01", "HealthData doesn't contain two records");
+        client.assert(response.body.areaHealthData[0].healthData[1].datePeriod.from == "2023-01-01", "HealthData doesn't contain two records");
 
         client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData.length ==2, "HealthData doesn't contain two records");
         client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData[0].datePeriod.from == "2022-01-01", "HealthData doesn't contain two records");
@@ -29,7 +29,7 @@ GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_codes=K8403
 %}
 
 ### check quintile comparison for counties - this makes sure get data for 4 areas - Quintile values have been validated against current site
-GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E06000009&area_type=counties-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E06000009&area_type=counties-and-unitary-authorities&from_date=2019-01-01
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
@@ -39,7 +39,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 %}
 
 ### check quintile comparison for districts - this makes sure get data for 3 areas - current site does not return data for this indicator for Districts!
-GET http://localhost:5144/indicators/94103/data?area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=districts-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=districts-and-unitary-authorities&from_date=2019-01-01
 
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
@@ -48,10 +48,8 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E08000029&area_codes=
     });
 %}
 
-### check High is good TODO - POC data doesn't offer data to validate this
-
 ### check No Judgement 
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84022&area_type=gps&years=2023&years=2022&years=2021&years=2020
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84022&area_type=gps&from_date=2020-01-01
 
 > {%
         client.test("received expected health data with quintile comparison", () => {
@@ -89,7 +87,7 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84
 
 
 ### check Low is good polarity
-GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=counties-and-unitary-authorities&years=2019&years=2018&years=2017&years=2016
+GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=E08000029&area_codes=E06000005&area_codes=E09000023&area_type=counties-and-unitary-authorities&from_date=2016-01-01
 
 > {%
         client.test("received expected health data with quintile comparison", () => {
@@ -125,7 +123,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=
 
 
 ### check quintile comparison for counties - Quintile values have been validated against current site - there are known differences
-GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&from_year=2019-01-01
 
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
@@ -162,7 +160,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 %}
 
 ### check quintile comparison for counties - Quintile values have been validated against current site - there are known differences
-GET http://localhost:5144/indicators/94103/data?area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E08000001&area_codes=E06000009&area_type=counties-and-unitary-authorities&years=2019
+GET http://localhost:5144/indicators/94103/data?area_codes=E06000052&area_codes=E10000020&area_codes=E06000013&area_codes=E06000005&area_codes=E08000001&area_codes=E06000009&area_type=counties-and-unitary-authorities&from_date=2019-01-01
 
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
@@ -196,7 +194,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E06000052&area_codes=
     });
 %}
 ### check quintile comparison is unchanged when including multiple years
-GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019&years=2016
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&to_date=2019-12-31&from_date=2016-01-01
 
 > {%
     client.test("Expected health data returned with quintile comparison", function (callbackfn, thisArg) {
@@ -232,7 +230,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 
 
 ### Check Quintile Benchmarking against AreaGroup - No Judgement - current site doesn't
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_type=gps&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&benchmark_ref_type=SubNational
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_type=gps&from_date=2020-01-01&ancestor_code=E38000136&benchmark_ref_type=SubNational
 
 > {%
         client.test("Quintile with Benchmark against AreaGroup", () => {
@@ -270,7 +268,7 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
 
 
 ### Check Quintile Benchmarking for small group size
-GET http://localhost:5144/indicators/90453/data?area_codes=D83060&area_codes=D83075&area_type=gps&years=2023&years=2022&years=2021&years=2020&ancestor_code=U10430&benchmark_ref_type=SubNational
+GET http://localhost:5144/indicators/90453/data?area_codes=D83060&area_codes=D83075&area_type=gps&from_date=2020-01-01&ancestor_code=U10430&benchmark_ref_type=SubNational
 
 > {%
         client.test("Quintile with Benchmark against small group size", () => {
@@ -308,7 +306,7 @@ GET http://localhost:5144/indicators/90453/data?area_codes=D83060&area_codes=D83
 
 ### check null quintile comparison when areaGroup is not a descendant of the areaType
 
-GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&years=2019&years=2016&ancestor_code=E07000228&benchmark_ref_type=SubNational
+GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=E10000032&area_codes=E10000018&area_codes=E06000062&area_codes=E06000030&area_codes=E06000050&area_type=counties-and-unitary-authorities&to_date=2019-12-31&from_date=2016-01-01&ancestor_code=E07000228&benchmark_ref_type=SubNational
 
 > {%
     client.test("Expected empty healthdata arrays if area_codes not in ancestor_code", function (callbackfn, thisArg) {
@@ -328,7 +326,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 %}
 
 #### check quintile comparison when England and an ancestor code is provided - benchmark against ancestor
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=E38000136&area_codes=E92000001&area_type=gps&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&benchmark_ref_type=SubNational
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=E38000136&area_codes=E92000001&area_type=gps&from_date=2020&ancestor_code=E38000136&benchmark_ref_type=SubNational
 
 > {% 
     client.test("Expected area codes and outcomes if ancestor code is provided", function (callbackfn, thisArg) {
@@ -353,7 +351,7 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
    });
 
 #### check quintile comparison when England and an ancestor code is provided. Ensure that an unrelated area returns an empty result - benchmark against ancestor
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=P81002&area_type=gps&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=P81002&area_type=gps&from_date=2020-01-01&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
 > {% 
     client.test("Expected area codes and outcomes if ancestor code and unrelated area code is provided", function (callbackfn, thisArg) {
        client.assert(response.status === 200, "Response status is not 200");
@@ -381,7 +379,7 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
    });
     
 #### check quintile comparison when England and an ancestor code is provided - benchmark against England
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=E38000136&area_codes=E92000001&area_type=gps&years=2023&years=2022&years=2021&years=2020&ancestor_code=E92000001&benchmark_ref_type=SubNational
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=E38000136&area_codes=E92000001&area_type=gps&from_date=2020-01-01&ancestor_code=E92000001&benchmark_ref_type=SubNational
 
 > {% 
     client.test("Expected area codes and outcomes if ancestor code is provided", function (callbackfn, thisArg) {
@@ -407,7 +405,7 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
 %}
 
 ### Ensure unpublished data is not returned
-GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=P81002&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
+GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84017&area_codes=P81002&area_type=gps&from_date=2020-01-01&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
 > {%
     client.test("Ensure unpublished data is not returned", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");

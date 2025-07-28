@@ -1,0 +1,22 @@
+﻿### Ensure unpublished data is not returned
+GET http://localhost:5144/indicators/41101/data?area_codes=E38000101&area_type=gps&from_date=2020-01-01&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational
+> {%
+    client.test("Ensure unpublished data is not returned", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        client.assert(response.body.benchmarkMethod =="CIOverlappingReferenceValue95", "benchmarkMethod not as expected");
+
+        healthData = response.body.areaHealthData[0].healthData;
+        fromYearList = [];
+        healthData.forEach(item => {
+            fromYearList.push(item.datePeriod.from);
+        });
+
+        expectedFromYears = ['2020-04-01', '2021-04-01', '2022-04-01', '2023-04-01'];
+
+        containsAllExpectedYears = expectedFromYears.every(r => fromYearList.includes(r))
+        client.assert(containsAllExpectedYears == true, "Fails because doesn't contain data for each expected year")
+        client.assert(fromYearList.indexOf('2024-04-01') == -1, "Fails because it includes data for 2024")
+        client.assert(fromYearList.length == 4, "Fails because has data for more than expected numbe of years")
+    });
+%}
