@@ -1,5 +1,3 @@
-// MUST BE AT THE TOP DUE TO HOISTING OF MOCKED MODULES
-//
 import { GetHealthDataForAnIndicatorRequest } from '@/generated-sources/ft-api-client';
 import { SearchParams } from '@/lib/searchStateManager';
 import { oneIndicatorRequestParams } from '../helpers/oneIndicatorRequestParams';

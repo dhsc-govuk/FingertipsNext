@@ -1,4 +1,4 @@
-import { mockAuth } from '@/mock/utils/mockAuth';
+import { mockAuth, mockSession } from '@/mock/utils/mockAuth';
 import { getAuthorisedHealthDataForAnIndicator } from './getAuthorisedHealthDataForAnIndicator';
 import {
   GetHealthDataForAnIndicatorRequest,
@@ -12,7 +12,6 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
-import { Session } from 'next-auth';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -30,9 +29,6 @@ mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
 mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolvedValue(
   mockUnpublishedResponse
 );
-
-const mockSession = mockDeep<Session>();
-mockAuth.mockResolvedValue({ expires: 'some sting' });
 
 const apiRequestParams: GetHealthDataForAnIndicatorRequest = {
   indicatorId: 1,

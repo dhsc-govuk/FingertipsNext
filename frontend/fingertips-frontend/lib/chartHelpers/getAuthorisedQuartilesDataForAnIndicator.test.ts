@@ -1,8 +1,9 @@
 import {
   IndicatorsApi,
   IndicatorsQuartilesGetRequest,
+  ResponseError,
 } from '@/generated-sources/ft-api-client';
-import { mockAuth } from '@/mock/utils/mockAuth';
+import { mockAuth, mockSession } from '@/mock/utils/mockAuth';
 import { waitFor } from '@testing-library/dom';
 import { getAuthorisedQuartilesDataForAnIndicator } from './getAuthorisedQuartilesDataForAnIndicator';
 import { mockDeep } from 'vitest-mock-extended';
@@ -54,7 +55,7 @@ describe('getAuthorisedQuartilesDataForAnIndicator', () => {
 
   it('should call the unpublished quartiles endpoint when there is a session', async () => {
     // arrange
-    mockAuth.mockResolvedValue({ expires: 'some string' });
+    mockAuth.mockResolvedValue(mockSession);
 
     // act
     const result =
@@ -69,5 +70,62 @@ describe('getAuthorisedQuartilesDataForAnIndicator', () => {
     });
     expect(mockIndicatorsApi.indicatorsQuartilesGet).not.toHaveBeenCalled();
     expect(result).toEqual(mockUnpublishedResponse);
+  });
+
+  it('calls both endpoints and returns published data if there is a session but the response from Unpublished data is 401', async () => {
+    mockAuth.mockResolvedValue(mockSession);
+    const responseError401 = new ResponseError({ status: 401 } as Response);
+    mockIndicatorsApi.indicatorsQuartilesAllGet.mockRejectedValue(
+      responseError401
+    );
+    const result =
+      await getAuthorisedQuartilesDataForAnIndicator(apiRequestParams);
+
+    expect(mockIndicatorsApi.indicatorsQuartilesAllGet).toHaveBeenCalledWith(
+      apiRequestParams,
+      API_CACHE_CONFIG
+    );
+    expect(mockIndicatorsApi.indicatorsQuartilesGet).toHaveBeenCalledWith(
+      apiRequestParams,
+      API_CACHE_CONFIG
+    );
+    expect(result).toEqual(mockPublishedResponse);
+  });
+
+  it('calls both endpoints and returns published data if there is a session but the response from Unpublished data is 403', async () => {
+    mockAuth.mockResolvedValue(mockSession);
+    const responseError403 = new ResponseError({ status: 403 } as Response);
+    mockIndicatorsApi.indicatorsQuartilesAllGet.mockRejectedValue(
+      responseError403
+    );
+    const result =
+      await getAuthorisedQuartilesDataForAnIndicator(apiRequestParams);
+
+    expect(mockIndicatorsApi.indicatorsQuartilesAllGet).toHaveBeenCalledWith(
+      apiRequestParams,
+      API_CACHE_CONFIG
+    );
+    expect(mockIndicatorsApi.indicatorsQuartilesGet).toHaveBeenCalledWith(
+      apiRequestParams,
+      API_CACHE_CONFIG
+    );
+    expect(result).toEqual(mockPublishedResponse);
+  });
+
+  it('calls the unpublished endpoints but throws an error if there is a session but the response is an error other than 401 or 403', async () => {
+    mockAuth.mockResolvedValue(mockSession);
+    const responseError500 = new ResponseError({ status: 500 } as Response);
+    mockIndicatorsApi.indicatorsQuartilesAllGet.mockRejectedValue(
+      responseError500
+    );
+
+    await expect(
+      getAuthorisedQuartilesDataForAnIndicator(apiRequestParams)
+    ).rejects.toThrow(responseError500);
+
+    expect(mockIndicatorsApi.indicatorsQuartilesAllGet).toHaveBeenCalledWith(
+      apiRequestParams,
+      API_CACHE_CONFIG
+    );
   });
 });
