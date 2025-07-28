@@ -22,3 +22,35 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=
         client.assert(response.status === 200, "Response status is not 200");
     });
 %}
+
+### attempt to use indicatorId hardcoded to generate exception
+GET http://localhost:5144/Indicators/-1/data
+> {%
+    client.test("test request for invalid indicatorId", function (callbackfn, thisArg) {
+        client.assert(response.status === 404, "Response status is not 404");
+    });
+%}
+###
+
+### attempt to use invalid indicatorId
+GET http://localhost:5144/Indicators/sausage/data
+> {%
+    client.test("test request for invalid indicatorId", function (callbackfn, thisArg) {
+        client.assert(response.status === 404, "Response status is not 404");
+    });
+%}
+###
+
+### test request for unsupported areaCode
+GET http://localhost:5144/Indicators/108/data
+    ?areaCodes=areaCode1
+    &years=1970
+    &years=1980
+    &areaCodes=unknownAreaCode
+    &areaCodes=areaCode2
+> {%
+    client.test("test request for unsupported areaCode", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.areaHealthData.length == 0, "areaHealthData not as expected");
+    });
+%}
