@@ -24,15 +24,15 @@ export const segmentValues = (
     SegmentationId.Age
   );
 
-  const freqOptions = segmentDropDownValuesForSegmentation(
+  const reportingPeriodOptions = segmentDropDownValuesForSegmentation(
     indicatorWithHealthDataForArea,
-    SegmentationId.Frequency
+    SegmentationId.ReportingPeriod
   );
 
   return {
     [SegmentationId.Sex]: sexOptions,
     [SegmentationId.Age]: ageOptions,
-    [SegmentationId.Frequency]: freqOptions,
+    [SegmentationId.ReportingPeriod]: reportingPeriodOptions,
   };
 };
 

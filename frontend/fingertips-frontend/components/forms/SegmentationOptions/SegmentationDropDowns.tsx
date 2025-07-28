@@ -23,7 +23,7 @@ export function SegmentationDropDowns({
   const {
     [SearchParams.SegmentationSex]: selectedSegSex,
     [SearchParams.SegmentationAge]: selectedSegAge,
-    [SearchParams.SegmentationFrequency]: selectedSegFreq,
+    [SearchParams.SegmentationReportingPeriod]: selectedSegRepPeriod,
   } = searchState;
 
   const searchStateManager = SearchStateManager.initialise(searchState);
@@ -40,11 +40,11 @@ export function SegmentationDropDowns({
 
   const sexOptions = options[SegmentationId.Sex].map(toOption);
   const ageOptions = options[SegmentationId.Age].map(toOption);
-  const freqOptions = options[SegmentationId.Frequency].map(toOption);
+  const freqOptions = options[SegmentationId.ReportingPeriod].map(toOption);
 
   const sexValue = valueOrDefault(sexOptions, selectedSegSex);
   const ageValue = valueOrDefault(ageOptions, selectedSegAge);
-  const freqValue = valueOrDefault(freqOptions, selectedSegFreq);
+  const freqValue = valueOrDefault(freqOptions, selectedSegRepPeriod);
 
   return (
     <div data-testid="segmentation-options">
@@ -67,10 +67,10 @@ export function SegmentationDropDowns({
           value={ageValue}
         />
         <SegmentationDropDown
-          label={'Options for segmentation by frequency'}
-          segmentId={SearchParams.SegmentationFrequency}
+          label={'Options for segmentation by reporting period'}
+          segmentId={SearchParams.SegmentationReportingPeriod}
           options={freqOptions}
-          onChange={onChange(SearchParams.SegmentationFrequency)}
+          onChange={onChange(SearchParams.SegmentationReportingPeriod)}
           value={freqValue}
         />
       </InlineDropDownsContainer>
