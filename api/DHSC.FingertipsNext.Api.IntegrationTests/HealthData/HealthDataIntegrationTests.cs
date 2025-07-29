@@ -172,4 +172,26 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         response.ShouldNotBeNull();
         response.All(quartileData => quartileData.IndicatorId == indicatorId).ShouldBeTrue();
     }
+
+    [Fact]
+    public async Task GetQuartilesAllShouldRespondWithUnpublishedData()
+    {
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([Indicator90453GroupRoleId]));
+        var indicatorId = 90453;
+        
+        var response = await client.GetFromJsonAsync<List<IndicatorQuartileData>>(new Uri(
+            $"indicators/quartiles/all?indicator_ids={indicatorId}&area_code=K84031&area_type=gps&ancestor_code=E38000136",
+            UriKind.Relative));
+
+        var quartileData = response[0];
+        
+        response.ShouldNotBeNull();
+        quartileData.ShouldNotBeNull();
+        quartileData.Year.ShouldBe((short) 2025);
+        quartileData.DatePeriod.From.ToShortDateString().ShouldBe("1/1/2025");
+        quartileData.DatePeriod.To.ToShortDateString().ShouldBe("12/31/2025");
+        quartileData.IndicatorId.ShouldBe(indicatorId);
+        quartileData.Q0Value.ShouldBe(3.07953);
+    }
 }
