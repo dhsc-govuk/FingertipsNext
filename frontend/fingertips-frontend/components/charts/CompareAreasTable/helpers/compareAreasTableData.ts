@@ -33,7 +33,7 @@ export const compareAreasTableData = (
     PeriodType.Calendar;
 
   const frequency = healthData.frequency ?? Frequency.Annually;
-  
+
   const latestPeriodNumber = getLatestPeriod(englandData?.healthData ?? []);
   const latestHealthDataPoint = englandData?.healthData?.find(
     (point) => convertDateToNumber(point.datePeriod?.to) === latestPeriodNumber
@@ -49,6 +49,6 @@ export const compareAreasTableData = (
     benchmarkToUse,
     periodType,
     frequency,
-    latestDataPeriod
+    latestDataPeriod,
   };
 };
