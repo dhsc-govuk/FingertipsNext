@@ -14,12 +14,15 @@ import { MultipleIndicatorHeatMap } from '@/components/charts/HeatMap/MultipleIn
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks';
 import { heatMapIsRequired } from '@/components/charts/HeatMap/helpers/heatMapIsRequired';
+import { MultipleIndicatorBasicTable } from '@/components/charts/BasicTable/MultipleIndicatorBasicTable';
+import { singleIndicatorBasicTableIsRequired } from '@/components/charts/BasicTable/helpers/singleIndicatorBasicTableIsRequired';
+import { useApiAvailableAreas } from '@/components/charts/hooks/useApiAvailableAreas';
 
 export function TwoOrMoreIndicatorsAreasViewPlot({
   indicatorData,
-  availableAreas,
 }: Readonly<TwoOrMoreIndicatorsViewPlotProps>) {
   const searchState = useSearchStateParams();
+  const { availableAreas } = useApiAvailableAreas();
 
   const {
     [SearchParams.AreasSelected]: areasSelected,
@@ -44,11 +47,13 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     groupAreaSelected
   );
 
+  const showBasicTable = singleIndicatorBasicTableIsRequired(searchState);
   const showSpine = spineChartIsRequired(searchState);
-
   const showHeatmap = heatMapIsRequired(searchState);
 
   const availableChartLinks: ChartTitleKeysEnum[] = [];
+  if (showBasicTable)
+    availableChartLinks.push(ChartTitleKeysEnum.BasicTableChart);
   if (showSpine) availableChartLinks.push(ChartTitleKeysEnum.SpineChart);
   if (showHeatmap) availableChartLinks.push(ChartTitleKeysEnum.Heatmap);
   availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
@@ -57,6 +62,7 @@ export function TwoOrMoreIndicatorsAreasViewPlot({
     <section data-testid="twoOrMoreIndicatorsAreasViewPlot-component">
       <AvailableChartLinks availableCharts={availableChartLinks} />
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
+      {showBasicTable ? <MultipleIndicatorBasicTable /> : null}
       {showSpine ? <MultipleIndicatorSpineChart /> : null}
       {showHeatmap ? <MultipleIndicatorHeatMap /> : null}
     </section>

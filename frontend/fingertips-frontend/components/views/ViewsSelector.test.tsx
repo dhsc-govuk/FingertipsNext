@@ -35,16 +35,6 @@ vi.mock('./TwoOrMoreIndicatorsAreasView/', () => {
   };
 });
 
-const mockTwoOrMoreIndicatorsEnglandView = vi.fn();
-vi.mock('./TwoOrMoreIndicatorsEnglandView/', () => {
-  return {
-    default: () => {
-      mockTwoOrMoreIndicatorsEnglandView();
-      return <div />;
-    },
-  };
-});
-
 describe('ViewsSelector', () => {
   const mockAvailableAreas = [
     {
@@ -83,8 +73,8 @@ describe('ViewsSelector', () => {
     [['1', '2'], ['A001'], mockTwoOrMoreIndicatorsAreasView],
     [['1', '2', '3'], ['A001'], mockTwoOrMoreIndicatorsAreasView],
     [['1', '2', '3'], ['A001', 'A002'], mockTwoOrMoreIndicatorsAreasView],
-    [['1', '2'], [areaCodeForEngland], mockTwoOrMoreIndicatorsEnglandView],
-    [['1', '2', '3'], [areaCodeForEngland], mockTwoOrMoreIndicatorsEnglandView],
+    [['1', '2'], [areaCodeForEngland], mockTwoOrMoreIndicatorsAreasView],
+    [['1', '2', '3'], [areaCodeForEngland], mockTwoOrMoreIndicatorsAreasView],
   ])(
     'should return the expected view',
     async (indicators, areaCodes, correctView) => {
