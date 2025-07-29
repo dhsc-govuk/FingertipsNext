@@ -4,17 +4,17 @@ import {
   buildLogoutURLWithRedirect,
   getLogoutEndpoint,
 } from '@/lib/auth/providers/fingertipsAuthProvider';
+import { getFingertipsFrontendURL } from '@/lib/urlHelper';
 import { redirect } from 'next/navigation';
-import { NextRequest } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const session = await auth();
 
   if (session) {
     return await signOutHandler();
   }
 
-  const redirectTo = request.nextUrl.origin;
+  const redirectTo = getFingertipsFrontendURL().toString();
   const logoutEndpoint = getLogoutEndpoint();
   if (!logoutEndpoint) {
     return redirect(redirectTo);

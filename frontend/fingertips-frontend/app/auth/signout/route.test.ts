@@ -7,13 +7,13 @@ import { mockRedirect } from '@/mock/utils/mockNextNavigation';
 //
 import { signOutHandler } from '@/lib/auth/handlers';
 import { GET } from '@/app/auth/signout/route';
-import { NextRequest } from 'next/server';
 import {
   FTA_SIGNOUT_REDIRECT_PARAM,
   getLogoutEndpoint,
 } from '@/lib/auth/providers/fingertipsAuthProvider';
 import { Mock } from 'vitest';
 import { mockSession } from '@/mock/utils/mockAuth';
+import { getFingertipsFrontendURL } from '@/lib/urlHelper';
 
 vi.mock('@/lib/auth/handlers', () => {
   return {
@@ -32,11 +32,14 @@ vi.mock('@/lib/auth/providers/fingertipsAuthProvider', async () => {
   };
 });
 
-const origin = 'http://localhost:3000';
-const authEndpoint = '/auth/signout';
-const reqURL = new URL(origin + authEndpoint);
+vi.mock('@/lib/urlHelper', () => {
+  return {
+    getFingertipsFrontendURL: vi.fn(),
+  };
+});
 
-const req = new NextRequest(reqURL);
+const fingertipsFrontendURL = 'https://some-external-url.foobar/';
+(getFingertipsFrontendURL as Mock).mockReturnValue(fingertipsFrontendURL);
 
 beforeEach(vi.clearAllMocks);
 
@@ -44,7 +47,7 @@ describe('sign out route handler', () => {
   it('should call the sign out handler if session present', async () => {
     mockAuth.mockResolvedValue(mockSession());
 
-    await GET(req);
+    await GET();
 
     expect(signOutHandler).toHaveBeenCalled();
   });
@@ -53,18 +56,18 @@ describe('sign out route handler', () => {
     mockAuth.mockResolvedValue(undefined);
     (getLogoutEndpoint as Mock).mockReturnValue(undefined);
 
-    await GET(req);
+    await GET();
 
-    expect(mockRedirect).toHaveBeenCalledWith(origin);
+    expect(mockRedirect).toHaveBeenCalledWith(fingertipsFrontendURL);
   });
 
   it('should redirect to logout url if logout endpoint set', async () => {
     mockAuth.mockResolvedValue(undefined);
     const logoutEndpoint = 'https://some-external-url.foobar/';
     (getLogoutEndpoint as Mock).mockReturnValue(logoutEndpoint);
-    const expectedLogoutURL = `${logoutEndpoint}?${FTA_SIGNOUT_REDIRECT_PARAM}=${origin}`;
+    const expectedLogoutURL = `${logoutEndpoint}?${FTA_SIGNOUT_REDIRECT_PARAM}=${fingertipsFrontendURL}`;
 
-    await GET(req);
+    await GET();
 
     expect(mockRedirect).toHaveBeenCalledWith(expectedLogoutURL);
   });
