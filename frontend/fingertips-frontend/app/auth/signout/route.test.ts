@@ -8,10 +8,7 @@ import { mockRedirect } from '@/mock/utils/mockNextNavigation';
 import { signOutHandler } from '@/lib/auth/handlers';
 import { GET } from '@/app/auth/signout/route';
 import { NextRequest } from 'next/server';
-import {
-  FTA_SIGNOUT_REDIRECT_PARAM,
-  getLogoutEndpoint,
-} from '@/lib/auth/providers/fingertipsAuthProvider';
+import { buildLogoutURLWithRedirect } from '@/lib/auth/providers/fingertipsAuthProvider';
 import { Mock } from 'vitest';
 import { mockSession } from '@/mock/utils/mockAuth';
 
@@ -28,7 +25,7 @@ vi.mock('@/lib/auth/providers/fingertipsAuthProvider', async () => {
 
   return {
     ...originalModule,
-    getLogoutEndpoint: vi.fn(),
+    buildLogoutURLWithRedirect: vi.fn(),
   };
 });
 
@@ -51,23 +48,22 @@ describe('sign out route handler', () => {
 
   it('should redirect to origin if logout endpoint not set', async () => {
     mockAuth.mockResolvedValue(undefined);
-    (getLogoutEndpoint as Mock).mockReturnValue(undefined);
+    (buildLogoutURLWithRedirect as Mock).mockReturnValue(undefined);
 
     await GET(req);
 
     expect(mockRedirect).toHaveBeenCalledWith(origin);
   });
 
-  it('should redirect to origin if logout endpoint set', async () => {
+  it('should redirect to logout url if logout endpoint set', async () => {
     mockAuth.mockResolvedValue(undefined);
-    const expectedLogoutEndpoint = 'https://some-external-url.foobar';
-    (getLogoutEndpoint as Mock).mockReturnValue(expectedLogoutEndpoint);
-
-    const expectedResult = new URL(expectedLogoutEndpoint);
-    expectedResult.searchParams.append(FTA_SIGNOUT_REDIRECT_PARAM, origin);
+    const expectedLogoutEndpoint = 'https://some-external-url.foobar/';
+    (buildLogoutURLWithRedirect as Mock).mockReturnValue(
+      expectedLogoutEndpoint
+    );
 
     await GET(req);
 
-    expect(mockRedirect).toHaveBeenCalledWith(expectedResult.toString());
+    expect(mockRedirect).toHaveBeenCalledWith(expectedLogoutEndpoint);
   });
 });
