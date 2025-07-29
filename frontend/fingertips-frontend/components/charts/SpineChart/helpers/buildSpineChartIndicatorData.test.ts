@@ -55,7 +55,7 @@ describe('buildSpineChartIndicatorData', () => {
     expect(row1).toHaveProperty('indicatorId', testDataWithGroup.indicatorId);
     expect(row1).toHaveProperty(
       'indicatorName',
-      `${testDataWithGroup.name} (Persons, All ages)`
+      `${testDataWithGroup.name} (Persons, All ages, Yearly)`
     );
     expect(row1).toHaveProperty('latestDataPeriod', {
       ...mockDatePeriod(2023),
