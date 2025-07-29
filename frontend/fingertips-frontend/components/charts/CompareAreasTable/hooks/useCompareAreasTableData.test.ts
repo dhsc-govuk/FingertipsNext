@@ -89,6 +89,11 @@ describe('useCompareAreasTableData', () => {
       polarity: IndicatorPolarity.HighIsGood,
       periodType: 'Calendar',
       frequency: 'Annually',
+      latestDataPeriod: {
+        type: 'Calendar',
+        from: new Date('2023-01-01'),
+        to: new Date('2023-12-31'),
+      },
     };
 
     mockUseSearchStateParams.mockReturnValue(mockSearchState);

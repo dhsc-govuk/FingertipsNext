@@ -38,8 +38,7 @@ function SignOutButton() {
       data-testid="sign-out-button"
       onClick={() => {
         setIsLoading(true);
-        const returnTo = window.location.toString();
-        signOutHandler(returnTo);
+        signOutHandler();
       }}
     >
       Sign out
