@@ -13,8 +13,11 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';
 
-// log tech debt to accept just the favicon error 404 rather than all unhandled errors
-test.use({ failOnUnhandledError: false });
+// favicon is behind a CDN and wont load in CI so we ignore the error
+test.use({
+  allowMessage:
+    'Failed to load resource: the server responded with a status of 404 (Not Found)',
+});
 
 // @ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];

@@ -22,11 +22,20 @@ interface PageObjects {
 interface TestOptions {
   axeBuilder: AxeBuilder;
   failOnUnhandledError: boolean;
+  allowMessage: string;
 }
 
-const setupErrorHandling = (page: Page, failOnUnhandledError: boolean) => {
+const setupErrorHandling = (
+  page: Page,
+  failOnUnhandledError: boolean,
+  allowMessage: string
+) => {
   page.on('console', (message) => {
-    if (failOnUnhandledError && message.type() === 'error') {
+    if (
+      failOnUnhandledError &&
+      message.type() === 'error' &&
+      !message.text().includes(allowMessage)
+    ) {
       throw new Error(`Console error: ${message.text()}`);
     }
   });
@@ -52,9 +61,10 @@ const logAccessibilityViolations = (
 
 const testBase = baseTest.extend<TestOptions>({
   failOnUnhandledError: [true, { option: true }],
+  allowMessage: ['', { option: true }],
 
-  page: async ({ page, failOnUnhandledError }, use) => {
-    setupErrorHandling(page, failOnUnhandledError);
+  page: async ({ page, failOnUnhandledError, allowMessage }, use) => {
+    setupErrorHandling(page, failOnUnhandledError, allowMessage);
     await use(page);
   },
   axeBuilder: [
