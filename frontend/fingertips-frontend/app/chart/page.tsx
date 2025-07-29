@@ -25,10 +25,7 @@ import { populationPyramidRequestParams } from '@/components/charts/PopulationPy
 import { getAuthorisedHealthDataForAnIndicator } from '../../lib/chartHelpers/getAuthorisedHealthDataForAnIndicator';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
+import { getAuthorisedQuartilesDataForAnIndicator } from '@/lib/chartHelpers/getAuthorisedQuartilesDataForAnIndicator';
 
 export default async function ChartPage(
   props: Readonly<{
@@ -103,9 +100,8 @@ export default async function ChartPage(
         apiRequestParams
       );
       try {
-        const healthData =
+        seedData[queryKeyLineChart] =
           await getAuthorisedHealthDataForAnIndicator(apiRequestParams);
-        seedData[queryKeyLineChart] = healthData;
       } catch (error) {
         console.error('error getting health indicator data for area', error);
       }
@@ -129,10 +125,8 @@ export default async function ChartPage(
       !Object.keys(seedData).includes(inequalitiesQueryKey)
     ) {
       try {
-        const healthData = await getAuthorisedHealthDataForAnIndicator(
-          inequalitiesQueryParams
-        );
-        seedData[inequalitiesQueryKey] = healthData;
+        seedData[inequalitiesQueryKey] =
+          await getAuthorisedHealthDataForAnIndicator(inequalitiesQueryParams);
       } catch (error) {
         console.error(
           'error getting health indicator data for inequalities',
@@ -152,10 +146,10 @@ export default async function ChartPage(
     );
     if (!Object.keys(seedData).includes(populationPyramidQueryKey)) {
       try {
-        const healthData = await getAuthorisedHealthDataForAnIndicator(
-          populationPyramidQueryParams
-        );
-        seedData[populationPyramidQueryKey] = healthData;
+        seedData[populationPyramidQueryKey] =
+          await getAuthorisedHealthDataForAnIndicator(
+            populationPyramidQueryParams
+          );
       } catch (error) {
         console.error(
           'error getting health indicator data for population pyramid',
@@ -165,22 +159,19 @@ export default async function ChartPage(
     }
 
     // load quartiles data and seed if we don't have it already
-    const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
     const quartilesParams = quartilesQueryParams(searchState);
-    const quartilesKey = queryKeyFromRequestParams(
+    const quartilesQueryKey = queryKeyFromRequestParams(
       EndPoints.Quartiles,
       quartilesParams
     );
 
     if (
       spineChartIsRequired(searchState) &&
-      !Object.keys(seedData).includes(quartilesKey)
+      !Object.keys(seedData).includes(quartilesQueryKey)
     ) {
       try {
-        seedData[quartilesKey] = await indicatorApi.indicatorsQuartilesGet(
-          quartilesParams,
-          API_CACHE_CONFIG
-        );
+        seedData[quartilesQueryKey] =
+          await getAuthorisedQuartilesDataForAnIndicator(quartilesParams);
       } catch (e) {
         console.error('error getting quartile data', e);
       }

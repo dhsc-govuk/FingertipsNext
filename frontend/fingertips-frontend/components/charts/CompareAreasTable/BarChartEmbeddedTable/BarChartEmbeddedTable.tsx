@@ -2,8 +2,10 @@
 
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   HealthDataForArea,
   IndicatorPolarity,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { Table } from 'govuk-react';
 import {
@@ -39,7 +41,12 @@ import { ContainerWithScrolling } from '@/components/atoms/ContainerWithScrollin
 import { ConfidenceLimitsHeader } from '@/components/atoms/ConfidenceLimitsHeader/ConfidenceLimitsHeader';
 import { sortByValueAndAreaName } from '@/lib/healthDataHelpers/sortByValueAndAreaName';
 import { getMaxValue } from '@/lib/healthDataHelpers/getMaxValue';
-import { getLatestYearWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestYearWithBenchmarks';
+import { getLatestPeriodWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestPeriodWithBenchmarks';
+import {
+  convertDateToNumber,
+  formatDatePointLabel,
+  getPeriodLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 interface BarChartEmbeddedTableProps {
   name?: string;
@@ -50,6 +57,8 @@ interface BarChartEmbeddedTableProps {
   benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   polarity?: IndicatorPolarity;
   indicatorMetadata?: IndicatorDocument;
+  periodType: PeriodType;
+  frequency: Frequency;
 }
 
 export function BarChartEmbeddedTable({
@@ -61,12 +70,14 @@ export function BarChartEmbeddedTable({
   benchmarkComparisonMethod = BenchmarkComparisonMethod.Unknown,
   polarity = IndicatorPolarity.Unknown,
   indicatorMetadata,
+  periodType,
+  frequency,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const { unitLabel: measurementUnit, dataSource } = indicatorMetadata ?? {};
 
   const maxValue = getMaxValue(healthIndicatorData);
 
-  const fullYear = getLatestYearWithBenchmarks(
+  const fullPeriod = getLatestPeriodWithBenchmarks(
     healthIndicatorData,
     englandData,
     groupIndicatorData,
@@ -76,14 +87,16 @@ export function BarChartEmbeddedTable({
   const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData.map(
     (areaData) => {
       const point = areaData?.healthData.find(
-        (point) => point.year === fullYear
+        (point) =>
+          convertDateToNumber(point.datePeriod?.to) ===
+          convertDateToNumber(fullPeriod?.to)
       );
 
       if (!point) {
         return {
           area: areaData.areaName,
           areaCode: areaData.areaCode,
-          year: fullYear,
+          datePeriod: fullPeriod,
         } as BarChartEmbeddedTableRow;
       }
 
@@ -100,10 +113,14 @@ export function BarChartEmbeddedTable({
     sortedTableRows[0].benchmarkComparison?.benchmarkAreaName ?? '';
 
   const englandDataPoint = englandData?.healthData.find(
-    (point) => point.year === fullYear
+    (point) =>
+      convertDateToNumber(point.datePeriod?.to) ===
+      convertDateToNumber(fullPeriod?.to)
   );
   const groupDataPoint = groupIndicatorData?.healthData.find(
-    (point) => point.year === fullYear
+    (point) =>
+      convertDateToNumber(point.datePeriod?.to) ===
+      convertDateToNumber(fullPeriod?.to)
   );
 
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
@@ -136,14 +153,16 @@ export function BarChartEmbeddedTable({
     () =>
       convertBarChartEmbeddedTableToCsv(
         sortedTableRows,
-        fullYear,
+        frequency,
+        fullPeriod,
         indicatorMetadata,
         englandData,
         groupIndicatorData,
         confidenceLimit
       ),
     [
-      fullYear,
+      frequency,
+      fullPeriod,
       sortedTableRows,
       indicatorMetadata,
       englandData,
@@ -152,7 +171,11 @@ export function BarChartEmbeddedTable({
     ]
   );
 
-  const title = `${name ?? indicatorMetadata?.indicatorName}, ${fullYear}`;
+  const periodLabelText = getPeriodLabel(periodType, frequency) ?? '';
+
+  const datePointLabel = formatDatePointLabel(fullPeriod, frequency, 1);
+
+  const title = `${name ?? indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
 
   return (
     <ContainerWithOutline>
@@ -267,6 +290,7 @@ export function BarChartEmbeddedTable({
                     measurementUnit={measurementUnit}
                     barColor={GovukColours.DarkGrey}
                     showComparisonLabels={showComparisonLabels}
+                    period={datePointLabel}
                   ></SparklineChart>
                 </Table.Cell>
                 <FormatNumberInTableCell
@@ -325,6 +349,7 @@ export function BarChartEmbeddedTable({
                     year={groupDataPoint.year}
                     measurementUnit={measurementUnit}
                     barColor={GovukColours.DarkGrey}
+                    period={datePointLabel}
                   />
                 </Table.Cell>
                 <FormatNumberInTableCell
@@ -344,6 +369,7 @@ export function BarChartEmbeddedTable({
               maxValue={maxValue}
               showConfidenceIntervalsData={showConfidenceIntervalsData}
               polarity={polarity}
+              period={datePointLabel}
             />
           </Table>
         </ContainerWithScrolling>

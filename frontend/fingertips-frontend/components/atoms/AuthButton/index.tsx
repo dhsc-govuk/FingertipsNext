@@ -1,5 +1,5 @@
 import { Session } from 'next-auth';
-import { signOutHandler, signInHandler } from '@/lib/auth/handlers';
+import { signInHandler, signOutHandler } from '@/lib/auth/handlers';
 import { StyledAuthButton } from './AuthButton.styles';
 import { useEffect } from 'react';
 import { useLoadingState } from '@/context/LoaderContext';
@@ -38,7 +38,8 @@ function SignOutButton() {
       data-testid="sign-out-button"
       onClick={() => {
         setIsLoading(true);
-        signOutHandler();
+        const returnTo = window.location.toString();
+        signOutHandler(returnTo);
       }}
     >
       Sign out

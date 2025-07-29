@@ -87,6 +87,8 @@ describe('useCompareAreasTableData', () => {
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       polarity: IndicatorPolarity.HighIsGood,
+      periodType: 'Calendar',
+      frequency: 'Annually',
     };
 
     mockUseSearchStateParams.mockReturnValue(mockSearchState);

@@ -1,6 +1,7 @@
 export const mockReplace = vi.fn();
 export const mockUsePathname = vi.fn();
 export const mockUseSearchParams = vi.fn();
+export const mockRedirect = vi.fn();
 
 vi.mock('next/navigation', async () => {
   const originalModule =
@@ -8,6 +9,7 @@ vi.mock('next/navigation', async () => {
 
   return {
     ...originalModule,
+    redirect: mockRedirect,
     usePathname: mockUsePathname,
     useSearchParams: mockUseSearchParams,
     useRouter: vi.fn().mockImplementation(() => ({

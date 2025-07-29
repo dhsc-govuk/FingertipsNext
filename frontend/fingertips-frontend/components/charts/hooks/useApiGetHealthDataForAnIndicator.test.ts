@@ -17,7 +17,6 @@ import {
 import { mockDeep } from 'vitest-mock-extended';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { Session } from 'next-auth';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -34,8 +33,6 @@ mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolv
 mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
   mockPublishedResponse
 );
-
-const mockSession = mockDeep<Session>();
 
 describe('useApiGetHealthDataForAnIndicator', () => {
   afterEach(() => {
@@ -86,7 +83,7 @@ describe('useApiGetHealthDataForAnIndicator', () => {
   it('should call the unpublished healthdata data endpoint if there is a session', async () => {
     // arrange
     const queryClient = new QueryClient();
-    mockAuth.mockResolvedValue(mockSession);
+    mockAuth.mockResolvedValue({ expires: 'some string' });
 
     // act
     renderHook(() => useApiGetHealthDataForAnIndicator(params), {

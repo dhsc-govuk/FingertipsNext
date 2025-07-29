@@ -32,7 +32,7 @@ export function BasicTable({
 }: Readonly<BasicTableProps>) {
   const areaName = tableData.at(0)?.areaName;
   const csvData = convertBasicTableToCsvData(tableData);
-  const id = 'basicTable';
+  const id = 'basic-table';
   return (
     <div data-testid={`${id}-component`}>
       <ContainerWithOutline>
