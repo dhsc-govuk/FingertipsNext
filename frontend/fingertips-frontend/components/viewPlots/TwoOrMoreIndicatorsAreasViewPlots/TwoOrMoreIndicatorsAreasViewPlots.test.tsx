@@ -75,8 +75,14 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
   },
 ];
 
-const mockMeta1 = mockIndicatorDocument({ indicatorID: indicatorIds[0] });
-const mockMeta2 = mockIndicatorDocument({ indicatorID: indicatorIds[1] });
+const mockMeta1 = mockIndicatorDocument({
+  indicatorID: indicatorIds[0],
+  indicatorName: 'one',
+});
+const mockMeta2 = mockIndicatorDocument({
+  indicatorID: indicatorIds[1],
+  indicatorName: 'two',
+});
 const mockMetaData = [mockMeta1, mockMeta2];
 
 mockUseApiGetHealthDataForMultipleIndicatorsSetup(mockIndicatorData);
@@ -202,5 +208,27 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(chartLinks[1]).toHaveTextContent(
       chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
     );
+  });
+
+  it('should render the basic table', async () => {
+    mockSearchParams[SearchParams.AreasSelected] = [];
+    mockSearchParams[SearchParams.AreaTypeSelected] = 'england';
+
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
+    );
+
+    expect(
+      screen.getByRole('link', {
+        name: chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title,
+      })
+    ).toHaveAttribute(
+      'href',
+      chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].href
+    );
+
+    expect(
+      await screen.findByTestId('basic-table-component')
+    ).toBeInTheDocument();
   });
 });

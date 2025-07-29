@@ -8,8 +8,9 @@ export const heatMapIsRequired = (searchState: SearchStateParams) => {
     [SearchParams.AreasSelected]: areasSelected,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
     [SearchParams.IndicatorsSelected]: indicatorsSelected = [],
+    [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = searchState;
-
+  if (areaTypeSelected === 'england') return false;
   const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected).filter(
     (code) => code !== areaCodeForEngland
   );

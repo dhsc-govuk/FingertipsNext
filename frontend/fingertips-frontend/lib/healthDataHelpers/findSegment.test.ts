@@ -6,7 +6,7 @@ import { mockAgeData } from '@/mock/data/mockAgeData';
 
 const testSegmentPersons = mockIndicatorSegment({
   sex: mockSexData({ isAggregate: true, value: 'Persons' }),
-  age: mockAgeData({ isAggregate: true, value: 'Ages' }),
+  age: mockAgeData({ isAggregate: true, value: 'All ages' }),
   healthData: [mockHealthDataPoint({ value: 123 })],
 });
 
@@ -71,5 +71,35 @@ describe('findHealthPointsBySegmentation', () => {
         frequency: '',
       })
     ).toEqual(testSegmentFemale);
+  });
+
+  it('should default to the first segment option when there is no aggregate to default to', () => {
+    const nonAggregateTestData = [
+      mockIndicatorSegment({
+        age: mockAgeData({ value: 'less than 10', isAggregate: false }),
+      }),
+      mockIndicatorSegment({
+        age: mockAgeData({ value: '10 - 12', isAggregate: false }),
+      }),
+      mockIndicatorSegment({
+        age: mockAgeData({ value: '12 - 18', isAggregate: false }),
+      }),
+      mockIndicatorSegment({
+        age: mockAgeData({ value: '18 - 30', isAggregate: false }),
+      }),
+      mockIndicatorSegment({
+        age: mockAgeData({ value: '30 - 60', isAggregate: false }),
+      }),
+      mockIndicatorSegment({
+        age: mockAgeData({ value: 'another value', isAggregate: false }),
+      }),
+    ];
+    expect(
+      findSegment(nonAggregateTestData, {
+        sex: '',
+        age: '',
+        frequency: '',
+      })
+    ).toEqual(nonAggregateTestData[1]); // 10-12 because alphabetically it would be first
   });
 });

@@ -62,7 +62,7 @@ export default class ChartPage extends AreaFilter {
     'inequalitiesTypes-dropDown-component-bc';
   readonly inequalitiesTypesDropDownComponentLC =
     'inequalitiesTypes-dropDown-component-lc';
-  static readonly basicTableComponent = 'basicTable-component';
+  static readonly basicTableComponent = 'basic-table-component';
   readonly benchmarkDropDownComponent = `${SearchParams.BenchmarkAreaSelected}-dropDown-benchmark-component`;
   readonly exportModalPaneComponent = 'modalPane';
   readonly exportDomContainer = 'domContainer';
