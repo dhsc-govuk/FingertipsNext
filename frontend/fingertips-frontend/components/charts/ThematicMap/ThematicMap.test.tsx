@@ -14,6 +14,7 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import { Frequency, PeriodType } from '@/generated-sources/ft-api-client';
 
 mockHighChartsWrapperSetup();
 
@@ -47,6 +48,8 @@ const testRender = (name?: string) => {
         englandData={mockHealthData['92420'][0]}
         groupData={mockHealthData['92420'][1]}
         indicatorMetadata={mockIndicatorDocument({ indicatorID: '92420' })}
+        periodType={PeriodType.Calendar}
+        frequency={Frequency.Annually}
       />
     </QueryClientProvider>
   );
@@ -78,11 +81,12 @@ describe('ThematicMap', () => {
     );
   });
 
+  // TODO: DHSCFT-1074 update this test for new requirements
   it('should render the correct chart title', async () => {
     testRender();
     const titles = await screen.findAllByRole('heading', { level: 4 });
     expect(titles[0]).toHaveTextContent(
-      'Emergency readmissions within 30 days of discharge from hospital for Regions in North West, 2023'
+      'Emergency readmissions within 30 days of discharge from hospital for Regions in North West, Calendar 2023'
     );
   });
 
@@ -108,6 +112,8 @@ describe('ThematicMap', () => {
           areaCodes={mockAreaCodes}
           selectedAreaType={'regions'}
           indicatorMetadata={mockIndicatorDocument({ indicatorID: '92420' })}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
         />
       </QueryClientProvider>
     );

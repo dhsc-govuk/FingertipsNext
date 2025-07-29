@@ -7,8 +7,10 @@ import {
 import { mockMapRegionBoundaries } from '@/mock/data/mapGroupBoundaries';
 import {
   BenchmarkOutcome,
+  Frequency,
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
@@ -200,15 +202,19 @@ describe('thematicMapTitle', () => {
     const selectedAreaType = 'regions';
     const groupData = mockHealthDataForArea_Group();
     const healthIndicatorData = mockHealthDataForArea();
+    const periodType = PeriodType.Calendar;
+    const frequency = Frequency.Annually;
 
     const result = thematicMapTitle(
       indicatorName,
       selectedAreaType,
       groupData,
-      [healthIndicatorData]
+      [healthIndicatorData],
+      periodType,
+      frequency
     );
     expect(result).toEqual(
-      `${indicatorName} for Regions in ${groupData.areaName}, ${healthIndicatorData.healthData[0].year}`
+      `${indicatorName} for Regions in ${groupData.areaName}, ${frequency} ${healthIndicatorData.healthData[0].year}`
     );
   });
 

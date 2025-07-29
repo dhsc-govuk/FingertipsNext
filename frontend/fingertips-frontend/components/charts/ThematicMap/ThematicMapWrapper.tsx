@@ -26,6 +26,8 @@ export function ThematicMapWrapper() {
     benchmarkToUse,
     polarity,
     healthIndicatorData,
+    periodType,
+    frequency,
   } = data;
 
   const {
@@ -50,6 +52,8 @@ export function ThematicMapWrapper() {
           benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown
         }
         polarity={polarity ?? IndicatorPolarity.Unknown}
+        periodType={periodType}
+        frequency={frequency}
         indicatorMetadata={indicatorMetaData}
         groupData={groupData}
         englandData={englandData}
