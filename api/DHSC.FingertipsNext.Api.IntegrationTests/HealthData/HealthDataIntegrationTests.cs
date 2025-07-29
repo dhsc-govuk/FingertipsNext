@@ -2,7 +2,6 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
-using DHSC.FingertipsNext.Api.IntegrationTests.DataManagement;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using Shouldly;
 
@@ -165,7 +164,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
     {
         ArgumentNullException.ThrowIfNull(indicatorIds);
 
-        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=gps&ancestor_code=U79121&benchmark_ref_type=SubNational";
+        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=districts-and-unitary-authorities&ancestor_code=U79121&benchmark_ref_type=SubNational";
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
