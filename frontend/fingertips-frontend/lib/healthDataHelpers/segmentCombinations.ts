@@ -6,9 +6,9 @@ export const segmentCombinations = (
   const result: SegmentInfo[] = [];
   const sexValues = segValues.sex;
   const ageValues = segValues.age;
-  const frequencyValues = segValues.frequency;
+  const reportingPeriodValues = segValues.reportingPeriod;
 
-  if (!sexValues.length && !ageValues.length && !frequencyValues.length) {
+  if (!sexValues.length && !ageValues.length && !reportingPeriodValues.length) {
     // there are no combinations in any segmentation
     return [];
   }
@@ -23,15 +23,15 @@ export const segmentCombinations = (
     ageValues.push('');
   }
 
-  if (frequencyValues.length === 0) {
-    frequencyValues.push('');
+  if (reportingPeriodValues.length === 0) {
+    reportingPeriodValues.push('');
   }
 
   // loop through all 3 segmentations
   sexValues.forEach((sex) => {
     ageValues.forEach((age) => {
-      frequencyValues.forEach((frequency) => {
-        result.push({ sex, age, frequency });
+      reportingPeriodValues.forEach((reportingPeriod) => {
+        result.push({ sex, age, reportingPeriod });
       });
     });
   });

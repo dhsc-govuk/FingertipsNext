@@ -97,12 +97,12 @@ describe('MultipleIndicatorBasicTable', () => {
     expect(firstCellsText).toEqual([
       'England',
       'Indicator',
-      'bar (Persons, All ages)',
-      'bar (Male, All ages)',
-      'bar (Female, All ages)',
-      'foo (Persons, All ages)',
-      'foo (Male, All ages)',
-      'foo (Female, All ages)',
+      'bar (Persons, All ages, Yearly)',
+      'bar (Male, All ages, Yearly)',
+      'bar (Female, All ages, Yearly)',
+      'foo (Persons, All ages, Yearly)',
+      'foo (Male, All ages, Yearly)',
+      'foo (Female, All ages, Yearly)',
     ]);
   });
 

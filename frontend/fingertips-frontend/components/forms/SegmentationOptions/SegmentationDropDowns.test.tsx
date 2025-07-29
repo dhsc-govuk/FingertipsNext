@@ -13,13 +13,13 @@ mockUsePathname.mockReturnValue('some-pathname');
 const options = {
   [SegmentationId.Sex]: ['Persons', 'Male', 'Female'],
   [SegmentationId.Age]: ['All', 'Old', 'Young'],
-  [SegmentationId.Frequency]: ['Annual', 'Quarterly'],
+  [SegmentationId.ReportingPeriod]: ['Annual', 'Quarterly'],
 };
 
 mockUseSearchStateParams.mockReturnValue({
   [SearchParams.SegmentationSex]: 'female',
   [SearchParams.SegmentationAge]: 'old',
-  [SearchParams.SegmentationFrequency]: 'quarterly',
+  [SearchParams.SegmentationReportingPeriod]: 'quarterly',
 });
 
 const title = 'Select segmentation options for the charts below';
@@ -39,7 +39,7 @@ const testRender = (options: Record<SegmentationId, string[]>) => {
     name: `Options for segmentation by age`,
   });
   const selectFreq = screen.getByRole<HTMLSelectElement>('combobox', {
-    name: `Options for segmentation by frequency`,
+    name: `Options for segmentation by reporting period`,
   });
 
   return {
@@ -56,7 +56,7 @@ describe('SegmentationDropDowns', () => {
     mockUseSearchStateParams.mockReturnValue({
       [SearchParams.SegmentationSex]: 'female',
       [SearchParams.SegmentationAge]: 'old',
-      [SearchParams.SegmentationFrequency]: 'quarterly',
+      [SearchParams.SegmentationReportingPeriod]: 'quarterly',
     });
   });
 
@@ -105,21 +105,21 @@ describe('SegmentationDropDowns', () => {
     expect(urlChangeSpy).toHaveBeenCalledWith(
       null,
       '',
-      'some-pathname?segs=male&sega=old&segf=quarterly'
+      'some-pathname?segs=male&sega=old&segp=quarterly'
     );
 
     await userEvent.selectOptions(selectAge, 'all');
     expect(urlChangeSpy).toHaveBeenCalledWith(
       null,
       '',
-      'some-pathname?segs=male&sega=all&segf=quarterly'
+      'some-pathname?segs=male&sega=all&segp=quarterly'
     );
 
     await userEvent.selectOptions(selectFreq, 'annual');
     expect(urlChangeSpy).toHaveBeenCalledWith(
       null,
       '',
-      'some-pathname?segs=male&sega=all&segf=annual'
+      'some-pathname?segs=male&sega=all&segp=annual'
     );
   });
 
@@ -134,7 +134,7 @@ describe('SegmentationDropDowns', () => {
     const { selectSex, selectAge, selectFreq } = testRender({
       [SegmentationId.Sex]: [],
       [SegmentationId.Age]: [],
-      [SegmentationId.Frequency]: [],
+      [SegmentationId.ReportingPeriod]: [],
     });
 
     expect(selectSex).toBeDisabled();

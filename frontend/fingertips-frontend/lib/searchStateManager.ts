@@ -19,7 +19,7 @@ export enum SearchParams {
   BenchmarkAreaSelected = 'bas',
   SegmentationSex = 'segs',
   SegmentationAge = 'sega',
-  SegmentationFrequency = 'segf',
+  SegmentationReportingPeriod = 'segp',
 }
 
 export type SearchStateParams = {
@@ -41,7 +41,7 @@ export type SearchStateParams = {
   [SearchParams.BenchmarkAreaSelected]?: string;
   [SearchParams.SegmentationSex]?: string;
   [SearchParams.SegmentationAge]?: string;
-  [SearchParams.SegmentationFrequency]?: string;
+  [SearchParams.SegmentationReportingPeriod]?: string;
 };
 
 export type SearchParamKeys = `${SearchParams}`;

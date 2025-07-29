@@ -85,6 +85,7 @@ export function generateStandardLineChartOptions(
   benchmarkToUse: string,
   periodType: PeriodType,
   frequency: Frequency,
+  reportingPeriodFlag: boolean,
   optionalParams?: {
     indicatorName?: string;
     englandData?: HealthDataForArea;
@@ -126,7 +127,11 @@ export function generateStandardLineChartOptions(
   const categories: { key: number; value: string }[] =
     filteredSortedEnglandData?.healthData.map((point) => ({
       key: convertDateToNumber(point.datePeriod?.to),
-      value: formatDatePointLabel(point.datePeriod, frequency, 1),
+      value: formatDatePointLabel(
+        point.datePeriod,
+        frequency,
+        reportingPeriodFlag
+      ),
     })) ?? [];
 
   const xCategoryKeys: number[] = categories.map((category) => category.key);
