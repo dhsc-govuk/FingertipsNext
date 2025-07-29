@@ -17,12 +17,12 @@ export async function signInHandler() {
   return await signIn(providers[0].id as string);
 }
 
-export async function signOutHandler(redirect: string) {
+export async function signOutHandler() {
   const session = await auth();
 
   if (session?.provider === FTA_PROVIDER_ID) {
     return signOut({
-      redirectTo: `/auth/signout/${encodeURIComponent(redirect)}`,
+      redirectTo: `/auth/signout`,
     });
   }
 
