@@ -1,5 +1,7 @@
 import {
+  buildLogoutURLWithRedirect,
   FingertipsAuthProvider,
+  FTA_SIGNOUT_REDIRECT_PARAM,
   getFTAProviderConfig,
   getLogoutEndpoint,
 } from '@/lib/auth/providers/fingertipsAuthProvider';
@@ -81,5 +83,18 @@ describe('get auth logout endpoint', () => {
     vi.stubEnv('AUTH_LOGOUT', 'logout');
 
     expect(getLogoutEndpoint()).toEqual('logout');
+  });
+});
+
+describe('build logout URL', () => {
+  it('should return URL with redirect without formatting', () => {
+    const endpoint = 'https://someurl.example.com/logout/';
+    const redirect = 'https://some-url.place.app.cloudprovider.com';
+
+    const expectedURLString = `${endpoint}?${FTA_SIGNOUT_REDIRECT_PARAM}=${redirect}`;
+
+    expect(buildLogoutURLWithRedirect(endpoint, redirect)).toEqual(
+      expectedURLString
+    );
   });
 });
