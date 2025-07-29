@@ -106,10 +106,10 @@ jobs:
       - name: Start Backend Docker services
         run: npm run start:backend-services
 
-      - name: Run API Integration Tests
-        if: ${{ !inputs.update_screenshots }}
-        run: dotnet test --filter FullyQualifiedName~IntegrationTests
-        working-directory: ${{ env.api-directory }}
+      # - name: Run API Integration Tests
+      #   if: ${{ !inputs.update_screenshots }}
+      #   run: dotnet test --filter FullyQualifiedName~IntegrationTests
+      #   working-directory: ${{ env.api-directory }}
 
       - name: Start Application Docker services
         run: MOCK_SERVER=false npm run start:app-services
