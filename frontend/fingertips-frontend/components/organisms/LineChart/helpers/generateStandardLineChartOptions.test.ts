@@ -17,6 +17,7 @@ describe('generateStandardLineChartOptions', () => {
       areaCodeForEngland,
       PeriodType.Calendar,
       Frequency.Annually,
+      true,
       {
         englandData: mockEnglandData,
         groupIndicatorData: undefined,
@@ -40,6 +41,7 @@ describe('generateStandardLineChartOptions', () => {
       areaCodeForEngland,
       PeriodType.Calendar,
       Frequency.Annually,
+      true,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
@@ -80,6 +82,7 @@ describe('generateStandardLineChartOptions', () => {
       areaCodeForEngland,
       PeriodType.Calendar,
       Frequency.Annually,
+      true,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockBenchmarkAreaWithEarlyYear,
@@ -101,6 +104,7 @@ describe('generateStandardLineChartOptions', () => {
       areaCodeForEngland,
       PeriodType.Calendar,
       Frequency.Annually,
+      true,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,

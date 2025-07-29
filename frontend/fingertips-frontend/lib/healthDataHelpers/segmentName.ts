@@ -6,7 +6,7 @@ export const segmentName = (segment: IndicatorSegment) => {
   const info: SegmentInfo = {
     [SegmentationId.Sex]: segment.sex?.value ?? '',
     [SegmentationId.Age]: segment.age?.value ?? '',
-    [SegmentationId.Frequency]: '', // segment.frequency.value,
+    [SegmentationId.ReportingPeriod]: segment.reportingPeriod,
   };
 
   return segmentNameFromInfo(info);

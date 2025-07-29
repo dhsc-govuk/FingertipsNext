@@ -32,7 +32,7 @@ export const singleIndicatorBasicTableData = (
       const data: BasicTableData = {
         indicatorId: Number(indicatorMetaData.indicatorID),
         indicatorName: `${indicatorMetaData.indicatorName} (${segName})`,
-        period: formatDatePointLabel(datePeriod, frequency, 1),
+        period: formatDatePointLabel(datePeriod, frequency, true),
         unitLabel: indicatorMetaData.unitLabel,
         areaName: area.areaName,
         areaCode: area.areaCode,
