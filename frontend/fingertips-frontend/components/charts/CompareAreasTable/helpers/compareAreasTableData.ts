@@ -5,6 +5,8 @@ import {
   IndicatorWithHealthDataForArea,
   PeriodType,
 } from '@/generated-sources/ft-api-client';
+import { getLatestPeriod } from '@/lib/chartHelpers/chartHelpers';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const compareAreasTableData = (
   healthData: IndicatorWithHealthDataForArea,
@@ -32,6 +34,12 @@ export const compareAreasTableData = (
 
   const frequency = healthData.frequency ?? Frequency.Annually;
 
+  const latestPeriodNumber = getLatestPeriod(englandData?.healthData ?? []);
+  const latestHealthDataPoint = englandData?.healthData?.find(
+    (point) => convertDateToNumber(point.datePeriod?.to) === latestPeriodNumber
+  );
+  const latestDataPeriod = latestHealthDataPoint?.datePeriod;
+
   return {
     benchmarkComparisonMethod,
     polarity,
@@ -41,5 +49,6 @@ export const compareAreasTableData = (
     benchmarkToUse,
     periodType,
     frequency,
+    latestDataPeriod,
   };
 };

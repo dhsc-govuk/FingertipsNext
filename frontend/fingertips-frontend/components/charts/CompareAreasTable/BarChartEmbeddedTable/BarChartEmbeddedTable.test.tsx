@@ -249,6 +249,7 @@ describe('BarChartEmbeddedTable', () => {
         }
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -271,6 +272,7 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -289,6 +291,7 @@ describe('BarChartEmbeddedTable', () => {
         groupIndicatorData={mockGroupData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -308,6 +311,7 @@ describe('BarChartEmbeddedTable', () => {
           groupIndicatorData={undefined}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
         />
       );
     });
@@ -325,6 +329,7 @@ describe('BarChartEmbeddedTable', () => {
           englandData={mockBenchmarkData}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
         />
       );
     });
@@ -351,6 +356,7 @@ describe('BarChartEmbeddedTable', () => {
           healthIndicatorData={mockHealthIndicatorData}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
         />
       )
     );
@@ -386,6 +392,7 @@ describe('BarChartEmbeddedTable', () => {
           healthIndicatorData={mockData}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
         />
       )
     );
@@ -412,6 +419,7 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -434,6 +442,7 @@ describe('BarChartEmbeddedTable', () => {
         benchmarkToUse={areaCodeForEngland}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -454,6 +463,7 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -469,6 +479,7 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -488,6 +499,7 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
     const checkbox = await screen.findByRole('checkbox');
@@ -504,6 +516,7 @@ describe('BarChartEmbeddedTable', () => {
           englandData={mockBenchmarkData}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
         />
       )
     );
@@ -532,6 +545,7 @@ describe('BarChartEmbeddedTable', () => {
         }
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -548,6 +562,7 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
