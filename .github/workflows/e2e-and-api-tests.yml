@@ -58,9 +58,11 @@ jobs:
       DB_USER: sa
       DB_PASSWORD: ${{ secrets.fingertips_e2e_db_password }}
       UPLOAD_STORAGE_CONTAINER_NAME: fingertips-upload-container
-      AUTH_CLIENT_SECRET: ${{ secrets.auth_client_secret }}
+      AUTH_SECRET: 'insecure-secret-for-e2e-tests'
+      AUTH_TRUST_HOST: true
       AUTH_CLIENT_ID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
-      AUTH_TENANT_ID: ${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}
+      AUTH_ISSUER: 'https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0'
+      AUTH_LOGOUT: 'https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/oauth2/v2.0/logout'
       AZUREAD__INSTANCE: ${{ vars.DEVELOPMENT_ENTRA_INSTANCE_URI }}
       AZUREAD__TENANTID: ${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}
       AZUREAD__CLIENTID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
