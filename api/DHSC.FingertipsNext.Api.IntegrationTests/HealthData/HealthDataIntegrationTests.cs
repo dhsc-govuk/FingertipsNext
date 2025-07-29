@@ -164,7 +164,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
     {
         ArgumentNullException.ThrowIfNull(indicatorIds);
 
-        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=districts-and-unitary-authorities&ancestor_code=U79121&benchmark_ref_type=SubNational";
+        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=regions&ancestor_code=U79121&benchmark_ref_type=SubNational";
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
