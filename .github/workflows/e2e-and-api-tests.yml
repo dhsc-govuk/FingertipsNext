@@ -61,6 +61,7 @@ jobs:
       AUTH_SECRET: 'insecure-secret-for-e2e-tests'
       AUTH_TRUST_HOST: true
       AUTH_CLIENT_ID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
+      AUTH_CLIENT_SECRET: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
       AUTH_ISSUER: 'https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0'
       AUTH_LOGOUT: 'https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/oauth2/v2.0/logout'
       AZUREAD__INSTANCE: ${{ vars.DEVELOPMENT_ENTRA_INSTANCE_URI }}
