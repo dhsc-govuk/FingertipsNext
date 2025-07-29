@@ -5,6 +5,7 @@ import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTi
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
 import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
 import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
+import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
 
 export const useLineChartOverTimeData = () => {
   const searchState = useSearchStateParams();
@@ -20,10 +21,17 @@ export const useLineChartOverTimeData = () => {
     const isNotQuintiles =
       healthData.benchmarkMethod !== BenchmarkComparisonMethod.Quintiles;
 
+    const { reportingPeriod } = segmentValues(healthData);
+
     const segmentedData = isNotQuintiles
       ? flattenSegment(healthData, searchState)
       : healthData;
 
-    return lineChartOverTimeData(indicatorMetaData, segmentedData, searchState);
+    return lineChartOverTimeData(
+      indicatorMetaData,
+      segmentedData,
+      searchState,
+      reportingPeriod
+    );
   }, [healthData, indicatorMetaData, isRequired, searchState]);
 };

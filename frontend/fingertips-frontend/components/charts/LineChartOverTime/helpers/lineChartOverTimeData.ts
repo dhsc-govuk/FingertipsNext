@@ -6,6 +6,7 @@ import {
   Frequency,
   IndicatorWithHealthDataForArea,
   PeriodType,
+  ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
@@ -14,12 +15,14 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
   healthData: IndicatorWithHealthDataForArea,
-  searchState: SearchStateParams
+  searchState: SearchStateParams,
+  reportingPeriodOptions: string[]
 ) => {
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
     [SearchParams.AreasSelected]: areasSelected = [],
+    [SearchParams.SegmentationReportingPeriod]: selectedReportingPeriod,
   } = searchState;
 
   const benchmarkComparisonMethod = healthData?.benchmarkMethod;
@@ -58,6 +61,12 @@ export const lineChartOverTimeData = (
     healthData.areaHealthData?.at(0)?.healthData?.at(0)?.datePeriod?.type ??
     PeriodType.Calendar;
   const frequency = healthData.frequency ?? Frequency.Annually;
+  const reportingPeriod = selectedReportingPeriod ?? reportingPeriodOptions[0];
+
+  const reportingPeriodFlag =
+    reportingPeriod === frequency ||
+    (reportingPeriod === ReportingPeriod.Yearly &&
+      frequency === Frequency.Annually);
 
   const chartOptions = generateStandardLineChartOptions(
     withoutEnglandOrGroup,
@@ -65,6 +74,7 @@ export const lineChartOverTimeData = (
     benchmarkToUse,
     periodType,
     frequency,
+    reportingPeriodFlag,
     {
       indicatorName: name,
       englandData: englandData,

@@ -5,9 +5,15 @@ export const findSegment = (
   indicatorSegments: IndicatorSegment[],
   segmentInfo: Record<SegmentationId, string>
 ) => {
-  const { sex: selectedSex, age: selectedAge } = segmentInfo;
+  const {
+    sex: selectedSex,
+    age: selectedAge,
+    reportingPeriod: selectedReportingPeriod,
+  } = segmentInfo;
+
   return indicatorSegments.find((segment) => {
-    const { sex, age } = segment;
+    const { sex, age, reportingPeriod } = segment;
+
     const sexMatch =
       !sex ||
       (!selectedSex && sex.isAggregate) ||
@@ -18,7 +24,11 @@ export const findSegment = (
       (!selectedAge && age.isAggregate) ||
       age.value.toLowerCase() === selectedAge?.toLowerCase();
 
-    const freqMatch = true;
-    return sexMatch && ageMatch && freqMatch;
+    const reportingPeriodMatch =
+      !reportingPeriod ||
+      (!selectedReportingPeriod && reportingPeriod) ||
+      selectedReportingPeriod.toLowerCase() === reportingPeriod.toLowerCase();
+
+    return sexMatch && ageMatch && reportingPeriodMatch;
   });
 };

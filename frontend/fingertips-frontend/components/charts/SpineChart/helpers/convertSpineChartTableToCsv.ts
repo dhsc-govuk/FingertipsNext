@@ -43,7 +43,7 @@ export const convertSpineChartTableToCsv = (
       ? formatDatePointLabel(
           latestDataPeriod,
           quartileData.frequency ?? Frequency.Annually,
-          1
+          true
         )
       : '';
 

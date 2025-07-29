@@ -40,11 +40,15 @@ export function SegmentationDropDowns({
 
   const sexOptions = options[SegmentationId.Sex].map(toOption);
   const ageOptions = options[SegmentationId.Age].map(toOption);
-  const freqOptions = options[SegmentationId.ReportingPeriod].map(toOption);
+  const reportingPeriodOptions =
+    options[SegmentationId.ReportingPeriod].map(toOption);
 
   const sexValue = valueOrDefault(sexOptions, selectedSegSex);
   const ageValue = valueOrDefault(ageOptions, selectedSegAge);
-  const freqValue = valueOrDefault(freqOptions, selectedSegRepPeriod);
+  const reportingPeriodValue = valueOrDefault(
+    reportingPeriodOptions,
+    selectedSegRepPeriod
+  );
 
   return (
     <div data-testid="segmentation-options">
@@ -69,9 +73,9 @@ export function SegmentationDropDowns({
         <SegmentationDropDown
           label={'Options for segmentation by reporting period'}
           segmentId={SearchParams.SegmentationReportingPeriod}
-          options={freqOptions}
+          options={reportingPeriodOptions}
           onChange={onChange(SearchParams.SegmentationReportingPeriod)}
-          value={freqValue}
+          value={reportingPeriodValue}
         />
       </InlineDropDownsContainer>
     </div>

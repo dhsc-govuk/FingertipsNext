@@ -272,7 +272,7 @@ export function LineChartTable({
 
       const datePeriod = englandHealthPoint?.datePeriod;
 
-      const formattedPeriod = formatDatePointLabel(datePeriod, frequency, 1);
+      const formattedPeriod = formatDatePointLabel(datePeriod, frequency, true);
 
       const row: AreaDataMatchedByYear = {
         dateAsNumber,
