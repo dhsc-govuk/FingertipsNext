@@ -43,6 +43,10 @@ export function OneIndicatorOneAreaViewPlots({
 
   const availableChartLinks: ChartTitleKeysEnum[] = [];
 
+  if (showBasicTable) {
+    availableChartLinks.push(ChartTitleKeysEnum.BasicTableChart);
+  }
+
   if (showSpine) {
     availableChartLinks.push(ChartTitleKeysEnum.SingleIndicatorSpineChart);
   }

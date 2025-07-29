@@ -46,7 +46,7 @@ describe('BasicTable', () => {
   it('should render BasicTable component', () => {
     render(<BasicTable tableData={mockTableData} />);
     expect(screen.getByRole('table')).toBeInTheDocument();
-    expect(screen.getByTestId('basicTable-component')).toBeInTheDocument();
+    expect(screen.getByTestId('basic-table-component')).toBeInTheDocument();
   });
 
   it('should always display indicator name when no health data for the indicator is present', () => {
