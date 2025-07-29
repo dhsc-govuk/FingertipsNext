@@ -21,6 +21,7 @@ export function CompareAreasTable() {
     indicatorMetaData,
     periodType,
     frequency,
+    latestDataPeriod,
     name = '',
   } = data;
 
@@ -42,6 +43,7 @@ export function CompareAreasTable() {
         benchmarkToUse={benchmarkToUse}
         periodType={periodType}
         frequency={frequency}
+        latestDataPeriod={latestDataPeriod}
       />
     </StyleChartWrapper>
   );
