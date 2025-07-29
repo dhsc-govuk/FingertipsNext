@@ -13,10 +13,11 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';
 
-// favicon is behind a CDN and wont load in CI so we ignore the error
 test.use({
-  allowMessage:
-    'Failed to load resource: the server responded with a status of 404 (Not Found)',
+  allowMessages: [
+    'Failed to load resource: the server responded with a status of 404 (Not Found)', // relates to favicon which is behind a CDN and wont load in CI so we ignore the error
+    `Failed to execute 'postMessage' on 'Window': The provided value cannot be converted to a sequence.`, // sometimes happens on sign out but has no functional impact
+  ],
 });
 
 // @ts-expect-error don't type check this json file

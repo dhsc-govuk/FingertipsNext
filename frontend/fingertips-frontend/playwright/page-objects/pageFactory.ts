@@ -22,28 +22,32 @@ interface PageObjects {
 interface TestOptions {
   axeBuilder: AxeBuilder;
   failOnUnhandledError: boolean;
-  allowMessage: string;
+  allowMessages: string[];
 }
 
 const setupErrorHandling = (
   page: Page,
   failOnUnhandledError: boolean,
-  allowMessage: string
+  allowMessages: string[]
 ) => {
   page.on('console', (message) => {
     if (
       failOnUnhandledError &&
       message.type() === 'error' &&
-      !message.text().includes(allowMessage)
+      !allowMessages.some((allowedMsg) => message.text().includes(allowedMsg))
     ) {
       throw new Error(`Console error: ${message.text()}`);
     }
   });
 
   page.on('pageerror', (error) => {
-    throw new Error(
-      `Page error: ${error.message}. Stack trace: ${error.stack}`
-    );
+    if (
+      failOnUnhandledError &&
+      !allowMessages.some((allowedMsg) => error.message.includes(allowedMsg))
+    )
+      throw new Error(
+        `Page error: ${error.message}. Stack trace: ${error.stack}`
+      );
   });
 };
 
@@ -61,10 +65,10 @@ const logAccessibilityViolations = (
 
 const testBase = baseTest.extend<TestOptions>({
   failOnUnhandledError: [true, { option: true }],
-  allowMessage: ['', { option: true }],
+  allowMessages: [[''], { option: true }],
 
-  page: async ({ page, failOnUnhandledError, allowMessage }, use) => {
-    setupErrorHandling(page, failOnUnhandledError, allowMessage);
+  page: async ({ page, failOnUnhandledError, allowMessages }, use) => {
+    setupErrorHandling(page, failOnUnhandledError, allowMessages);
     await use(page);
   },
   axeBuilder: [
