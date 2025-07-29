@@ -90,7 +90,6 @@ export const reportingPeriodLabelOrder: {
 function getReportingPeriodLabels(
   periods: (ReportingPeriod | undefined)[]
 ): string[] {
-  // Map to label, filter undefined and unmapped, deduplicate, and sort by order
   const labels = periods
     .filter((p): p is ReportingPeriod => p !== undefined)
     .map((p) => reportingPeriodLabelOrder[p]?.label)
@@ -100,9 +99,9 @@ function getReportingPeriodLabels(
   return uniqueLabels.sort(
     (a, b) =>
       (Object.values(reportingPeriodLabelOrder).find((v) => v?.label === a)
-        ?.order ?? 99) -
+        ?.order ?? 0) -
       (Object.values(reportingPeriodLabelOrder).find((v) => v?.label === b)
-        ?.order ?? 99)
+        ?.order ?? 0)
   );
 }
 
