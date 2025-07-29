@@ -18,7 +18,7 @@ const config: PlaywrightTestConfig = {
   testDir: './playwright/tests',
   forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code
   retries: isCI ? 1 : 0,
-  workers: isCI ? 1 : '25%', // 25% of the available CPUs when not in CI
+  workers: isCI ? 2 : '25%', // 25% of the available CPUs when not in CI
   timeout: 180_000,
   expect: {
     timeout: 20_000,
@@ -61,13 +61,13 @@ const config: PlaywrightTestConfig = {
           args: [
             '--disable-dev-shm-usage',
             '--no-sandbox',
-            '--disable-features=VizDisplayCompositor',
-            '--disable-backgrounding-occluded-windows',
-            '--disable-renderer-backgrounding',
-            '--disable-background-timer-throttling',
-            '--disable-ipc-flooding-protection',
-            '--disable-web-security',
-            '--disable-site-isolation-trials',
+            // '--disable-features=VizDisplayCompositor',
+            // '--disable-backgrounding-occluded-windows',
+            // '--disable-renderer-backgrounding',
+            // '--disable-background-timer-throttling',
+            // '--disable-ipc-flooding-protection',
+            // '--disable-web-security',
+            // '--disable-site-isolation-trials',
           ],
         },
         ignoreHTTPSErrors: true,
