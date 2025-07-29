@@ -54,7 +54,7 @@ paths:
   /indicators/quartiles:
     $ref: "./indicators/paths.yaml#/quartiles"
   /indicators/quartiles/all:
-    $ref: "./indicators/paths.yaml#/quartiles"
+    $ref: "./indicators/paths.yaml#/quartiles_all"
   /batches:
     $ref: "./batches/paths.yaml#/batches"
   /batches/{batch_id}:
