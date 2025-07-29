@@ -115,17 +115,6 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'regions',
       group: 'East Midlands Region',
     },
-    // indicatorsToSelect: [
-    //   {
-    //     indicatorID: '108',
-    //     knownTrend: 'No recent trend data available',
-    //   },
-    // ],
-    // areaFiltersToSelect: {
-    //   areaType: 'counties-and-unitary-authorities',
-    //   groupType: 'combined-authorities',
-    //   group: 'Cambs and Peterborough Combined Authority',
-    // },
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
