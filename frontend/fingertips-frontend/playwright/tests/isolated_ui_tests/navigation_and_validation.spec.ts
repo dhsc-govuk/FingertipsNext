@@ -13,6 +13,10 @@ import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  NOT_SIGNED_IN_ERROR_MESSAGE,
+  NOT_SIGNED_IN_ERROR_TITLE,
+} from '@/lib/auth/errorMessages';
 
 /**
  * Note that this test suite uses mock service worker to mock API responses, therefore these playwright tests are isolated from the backend
@@ -531,6 +535,55 @@ test.describe('Navigation Tests', () => {
       await indicatorPage.clickBackLink();
     });
     return;
+  });
+});
+
+test.describe('Upload Page Tests', () => {
+  test('Navigating to upload page while not signed in should show an error page', async ({
+    homePage,
+    uploadPage,
+  }) => {
+    await test.step('Navigate to home page and verify not signed in', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+      await homePage.checkSignInDisplayed();
+    });
+
+    await test.step('Navigate to upload page and verify error message', async () => {
+      await uploadPage.navigateToUploadPage();
+
+      await test
+        .expect(uploadPage.errorPageTitle())
+        .toContainText(NOT_SIGNED_IN_ERROR_TITLE);
+      await test
+        .expect(uploadPage.page.getByText(NOT_SIGNED_IN_ERROR_MESSAGE))
+        .toBeVisible();
+    });
+  });
+
+  test('Navigating to upload page while signed in should not show an error page', async ({
+    homePage,
+    uploadPage,
+  }) => {
+    await test.step('Navigate to home page', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+    });
+
+    await test.step('Sign in', async () => {
+      await homePage.clickSignIn();
+      await homePage.signInToMock(password);
+      await homePage.checkSignOutDisplayed();
+    });
+
+    await test.step('Navigate to upload page and verify no error message', async () => {
+      await uploadPage.navigateToUploadPage();
+
+      await test.expect(uploadPage.errorPageTitle()).toHaveCount(0);
+      await test
+        .expect(uploadPage.page.getByText(NOT_SIGNED_IN_ERROR_MESSAGE))
+        .toHaveCount(0);
+    });
   });
 });
 

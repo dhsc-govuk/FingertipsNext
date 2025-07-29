@@ -5,11 +5,10 @@ import {
   queryKeyFromRequestParams,
 } from '@/components/charts/helpers/queryKeyFromRequestParams';
 import {
-  Configuration,
-  IndicatorsApi,
   IndicatorsQuartilesGetRequest,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
+import { getAuthorisedQuartilesDataForAnIndicator } from '@/lib/chartHelpers/getAuthorisedQuartilesDataForAnIndicator';
 
 export const useApiGetQuartiles = (options: IndicatorsQuartilesGetRequest) => {
   const { indicatorIds = [] } = options;
@@ -18,14 +17,7 @@ export const useApiGetQuartiles = (options: IndicatorsQuartilesGetRequest) => {
   const query = useQuery<QuartileData[]>({
     queryKey,
     queryFn: async () => {
-      const apiUrl = process.env.NEXT_PUBLIC_FINGERTIPS_API_URL;
-      const config: Configuration = new Configuration({
-        basePath: apiUrl,
-        fetchApi: fetch,
-      });
-
-      const indicatorsApiInstance = new IndicatorsApi(config);
-      return await indicatorsApiInstance.indicatorsQuartilesGet(options);
+      return await getAuthorisedQuartilesDataForAnIndicator(options);
     },
     enabled: indicatorIds.length >= 1,
   });

@@ -1,4 +1,4 @@
-import { mockAuth } from '@/mock/utils/mockAuth';
+import { mockAuth, mockSession } from '@/mock/utils/mockAuth';
 import { getAuthorisedHealthDataForAnIndicator } from './getAuthorisedHealthDataForAnIndicator';
 import {
   GetHealthDataForAnIndicatorRequest,
@@ -12,7 +12,6 @@ import {
 } from '@/lib/apiClient/apiClientFactory';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
-import { Session } from 'next-auth';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
 ApiClientFactory.getIndicatorsApiClient = () => mockIndicatorsApi;
@@ -24,15 +23,12 @@ const mockUnpublishedResponse = mockIndicatorWithHealthDataForArea({
   areaHealthData: [mockHealthDataForArea(), mockHealthDataForArea()],
 });
 
-mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolvedValue(
-  mockUnpublishedResponse
-);
 mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
   mockPublishedResponse
 );
-
-const mockSession = mockDeep<Session>();
-mockAuth.mockResolvedValue(mockSession);
+mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolvedValue(
+  mockUnpublishedResponse
+);
 
 const apiRequestParams: GetHealthDataForAnIndicatorRequest = {
   indicatorId: 1,

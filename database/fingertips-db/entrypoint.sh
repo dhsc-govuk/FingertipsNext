@@ -10,7 +10,7 @@ if [[ $TRUST_CERT == "True" ]]; then
 fi
 
 # Wait a little time for the db to be ready to accept connections
-sleep 10
+sleep 15
 
 sqlpackage \
     /Action:publish \

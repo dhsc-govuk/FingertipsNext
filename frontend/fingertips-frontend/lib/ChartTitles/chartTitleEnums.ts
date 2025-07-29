@@ -66,6 +66,7 @@ export const chartTitleConfig: ChartTitleConfigType = {
   },
   [ChartTitleKeysEnum.BasicTableChart]: {
     title: 'Compare indicators for an area',
-    href: '#basic-table-chart',
+    href: '#basic-table',
+    subTitle: 'Overview of selected indicators',
   },
 };

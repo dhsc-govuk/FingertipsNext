@@ -1,4 +1,4 @@
-import { mockAuth, mockSession } from '@/mock/utils/mockAuth';
+import { mockAuth } from '@/mock/utils/mockAuth';
 import { testRenderWrapper } from '@/mock/utils/testRenderQueryClient';
 import { useApiGetHealthDataForAnIndicator } from './useApiGetHealthDataForAnIndicator';
 import { renderHook, waitFor } from '@testing-library/react';
@@ -83,7 +83,7 @@ describe('useApiGetHealthDataForAnIndicator', () => {
   it('should call the unpublished healthdata data endpoint if there is a session', async () => {
     // arrange
     const queryClient = new QueryClient();
-    mockAuth.mockResolvedValue(mockSession);
+    mockAuth.mockResolvedValue({ expires: 'some string' });
 
     // act
     renderHook(() => useApiGetHealthDataForAnIndicator(params), {
