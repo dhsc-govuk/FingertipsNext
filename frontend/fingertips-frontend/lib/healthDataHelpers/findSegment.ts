@@ -3,7 +3,10 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { SegmentationId } from '@/lib/common-types';
-import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
+import {
+  reportingPeriodLabelOrder,
+  segmentValues,
+} from '@/lib/healthDataHelpers/segmentValues';
 
 export const findSegment = (
   indicatorSegments: IndicatorSegment[],
@@ -51,7 +54,8 @@ export const findSegment = (
     const reportingPeriodMatch =
       !reportingPeriod ||
       (!selectedReportingPeriod && reportingPeriod) ||
-      selectedReportingPeriod.toLowerCase() === reportingPeriod.toLowerCase();
+      selectedReportingPeriod.toLowerCase() ===
+        reportingPeriodLabelOrder[reportingPeriod]?.label.toLowerCase();
 
     return sexMatch && ageMatch && reportingPeriodMatch;
   });

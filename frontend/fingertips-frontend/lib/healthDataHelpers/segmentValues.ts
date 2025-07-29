@@ -72,7 +72,7 @@ const segmentDropDownValuesForSegmentation = (
   return [optionsInfo.default, ...alphabetical].filter((i) => !!i);
 };
 
-const reportingPeriodLabelOrder: {
+export const reportingPeriodLabelOrder: {
   [key in ReportingPeriod]?: { label: string; order: number };
 } = {
   [ReportingPeriod.Monthly]: { label: 'Monthly', order: 1 },

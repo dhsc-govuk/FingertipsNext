@@ -11,6 +11,7 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { reportingPeriodLabelOrder } from '@/lib/healthDataHelpers/segmentValues';
 
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
@@ -61,12 +62,21 @@ export const lineChartOverTimeData = (
     healthData.areaHealthData?.at(0)?.healthData?.at(0)?.datePeriod?.type ??
     PeriodType.Calendar;
   const frequency = healthData.frequency ?? Frequency.Annually;
-  const reportingPeriod = selectedReportingPeriod ?? reportingPeriodOptions[0];
+  const reportingPeriod =
+    selectedReportingPeriod ??
+    reportingPeriodOptions[0] ??
+    ReportingPeriod.Yearly;
 
   const reportingPeriodFlag =
-    reportingPeriod === frequency ||
-    (reportingPeriod === ReportingPeriod.Yearly &&
-      frequency === Frequency.Annually);
+    reportingPeriod.toLowerCase() === frequency.toLowerCase() ||
+    (reportingPeriod.toLowerCase() ===
+      reportingPeriodLabelOrder[ReportingPeriod.Yearly]?.label.toLowerCase() &&
+      frequency === Frequency.Annually) ||
+    (reportingPeriod.toLowerCase() ===
+      reportingPeriodLabelOrder[
+        ReportingPeriod.CumulativeQuarterly
+      ]?.label.toLowerCase() &&
+      frequency === Frequency.Quarterly);
 
   const chartOptions = generateStandardLineChartOptions(
     withoutEnglandOrGroup,
