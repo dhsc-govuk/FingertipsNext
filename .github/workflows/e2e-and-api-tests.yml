@@ -154,6 +154,11 @@ jobs:
       - name: Run Playwright tests and update baseline screenshot
         if: ${{ inputs.update_screenshots }}
         run: npm run test-e2e-ci -- --update-snapshots
+        env:
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD: ${{ secrets.fingertips_e2e_automation_password }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN: ${{ secrets.fingertips_e2e_automation_email_address_admin }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS: ${{ secrets.fingertips_e2e_automation_email_address_assigned_indicators }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS: ${{ secrets.fingertips_e2e_automation_email_address_no_indicators }}
 
       - name: Commit updated baseline screenshots to branch for review
         if: ${{ inputs.update_screenshots }}
