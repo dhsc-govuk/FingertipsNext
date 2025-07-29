@@ -9,6 +9,7 @@ GET http://localhost:5144/Indicators/108/data
     &areaCodes=unknownAreaCode
     &areaCodes=areaCode2
 
+
 ###
 
 ### attempt to use indicatorId hardcoded to generate exception
