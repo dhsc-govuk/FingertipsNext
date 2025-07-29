@@ -58,17 +58,7 @@ const config: PlaywrightTestConfig = {
         ...devices['Desktop Chrome'],
         channel: 'chromium',
         launchOptions: {
-          args: [
-            '--disable-dev-shm-usage',
-            '--no-sandbox',
-            // '--disable-features=VizDisplayCompositor',
-            // '--disable-backgrounding-occluded-windows',
-            // '--disable-renderer-backgrounding',
-            // '--disable-background-timer-throttling',
-            // '--disable-ipc-flooding-protection',
-            // '--disable-web-security',
-            // '--disable-site-isolation-trials',
-          ],
+          args: ['--disable-dev-shm-usage', '--no-sandbox'],
         },
         ignoreHTTPSErrors: true,
       },
