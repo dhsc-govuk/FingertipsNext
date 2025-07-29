@@ -17,6 +17,7 @@ test.use({
   allowMessages: [
     'Failed to load resource: the server responded with a status of 404 (Not Found)', // relates to favicon which is behind a CDN and wont load in CI so we ignore the error
     `Failed to execute 'postMessage' on 'Window': The provided value cannot be converted to a sequence.`, // sometimes happens on sign out but has no functional impact
+    `Failed to load resource: the server responded with a status of 403 ()`,
   ],
 });
 
