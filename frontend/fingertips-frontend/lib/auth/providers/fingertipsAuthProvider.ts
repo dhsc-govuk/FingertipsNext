@@ -51,3 +51,13 @@ export const FingertipsAuthProvider = ({
 export function getLogoutEndpoint() {
   return getFTAProviderConfig()?.logout;
 }
+
+export function buildLogoutURLWithRedirect(
+  endpoint: string,
+  redirect: string
+): string {
+  const logoutURL = new URL(endpoint);
+  logoutURL.searchParams.append(FTA_SIGNOUT_REDIRECT_PARAM, redirect);
+
+  return decodeURIComponent(logoutURL.toString());
+}

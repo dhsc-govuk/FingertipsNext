@@ -775,6 +775,11 @@ jobs:
             name        = "AUTH_TRUST_HOST"
             secret_name = null
             value       = true
+          },
+          {
+            name        = "FINGERTIPS_FRONTEND_URL"
+            secret_name = null
+            value       = "${{ vars.FINGERTIPS_FRONTEND_URL }}"
           }
         ]
       container_liveness_probe: |

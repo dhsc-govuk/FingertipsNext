@@ -93,6 +93,11 @@ AUTH_ISSUER="https://example-tenant-id.ciamlogin.com/example-tenant-id/v2.0"
 AUTH_LOGOUT="https://example-tenant-id.ciamlogin.com/example-tenant-id/oauth2/v2.0/logout"
 ```
 
+Finally, `FINGERTIPS_FRONTEND_URL` will need to be set for the signout redirect to work on deployed environments. This will default to http://localhost:3000 if not set.
+```
+FINGERTIPS_FRONTEND_URL="https://some-deployed-env.example.com"
+``` 
+
 ## Building
 
 ### Building the Next Application
