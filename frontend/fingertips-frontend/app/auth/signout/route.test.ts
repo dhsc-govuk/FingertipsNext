@@ -6,7 +6,7 @@ import { mockAuth } from '@/mock/utils/mockAuth';
 import { mockRedirect } from '@/mock/utils/mockNextNavigation';
 //
 import { signOutHandler } from '@/lib/auth/handlers';
-import { GET } from '@/app/auth/signout/[[...redirect]]/route';
+import { GET } from '@/app/auth/signout/route';
 import { NextRequest } from 'next/server';
 import {
   FTA_SIGNOUT_REDIRECT_PARAM,
@@ -32,51 +32,41 @@ vi.mock('@/lib/auth/providers/fingertipsAuthProvider', async () => {
   };
 });
 
-const baseURL = 'http://localhost:3000';
-const req = new NextRequest(baseURL);
+const origin = 'http://localhost:3000';
+const authEndpoint = '/auth/signout';
+const reqURL = new URL(origin + authEndpoint);
+
+const req = new NextRequest(reqURL);
 
 beforeEach(vi.clearAllMocks);
 
 describe('sign out route handler', () => {
-  it('should call the sign out handler with redirect if session and returnto present', async () => {
+  it('should call the sign out handler if session present', async () => {
     mockAuth.mockResolvedValue(mockSession());
 
-    const redirect = `${baseURL}/some/route`;
+    await GET(req);
 
-    await GET(req, { params: Promise.resolve({ redirect }) });
-
-    expect(signOutHandler).toHaveBeenCalledWith(redirect);
+    expect(signOutHandler).toHaveBeenCalled();
   });
 
-  it('should call the sign out handler with base route if session present and returnto not set', async () => {
-    mockAuth.mockResolvedValue(mockSession());
-
-    await GET(req, { params: Promise.resolve({}) });
-
-    expect(signOutHandler).toHaveBeenCalledWith(baseURL);
-  });
-
-  it('should redirect to returnto if logout endpoint not set', async () => {
+  it('should redirect to origin if logout endpoint not set', async () => {
     mockAuth.mockResolvedValue(undefined);
     (getLogoutEndpoint as Mock).mockReturnValue(undefined);
 
-    const redirectTo = `${baseURL}/some/route`;
+    await GET(req);
 
-    await GET(req, { params: Promise.resolve({ redirect: redirectTo }) });
-
-    expect(mockRedirect).toHaveBeenCalledWith(redirectTo);
+    expect(mockRedirect).toHaveBeenCalledWith(origin);
   });
 
-  it('should redirect to returnto if logout endpoint set', async () => {
+  it('should redirect to origin if logout endpoint set', async () => {
     mockAuth.mockResolvedValue(undefined);
     const expectedLogoutEndpoint = 'https://some-external-url.foobar';
     (getLogoutEndpoint as Mock).mockReturnValue(expectedLogoutEndpoint);
 
-    const redirectTo = `${baseURL}/some/route`;
     const expectedResult = new URL(expectedLogoutEndpoint);
-    expectedResult.searchParams.append(FTA_SIGNOUT_REDIRECT_PARAM, redirectTo);
+    expectedResult.searchParams.append(FTA_SIGNOUT_REDIRECT_PARAM, origin);
 
-    await GET(req, { params: Promise.resolve({ redirect: redirectTo }) });
+    await GET(req);
 
     expect(mockRedirect).toHaveBeenCalledWith(expectedResult.toString());
   });

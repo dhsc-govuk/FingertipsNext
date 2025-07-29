@@ -7,19 +7,12 @@ import {
 import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
-export async function GET(
-  request: NextRequest,
-  {
-    params,
-  }: {
-    params: Promise<{ redirect?: string }>;
-  }
-) {
-  const { redirect: redirectTo = request.nextUrl.origin } = await params;
+export async function GET(request: NextRequest) {
+  const redirectTo = request.nextUrl.origin;
   const session = await auth();
 
   if (session) {
-    return await signOutHandler(redirectTo);
+    return await signOutHandler();
   }
 
   const logoutEndpoint = getLogoutEndpoint();
