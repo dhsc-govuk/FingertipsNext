@@ -67,6 +67,7 @@ export interface LineChartTableProps {
   polarity?: IndicatorPolarity;
   benchmarkToUse?: string;
   frequency: Frequency;
+  reportingPeriodFlag: boolean;
 }
 
 export interface LineChartTableRowData {
@@ -221,6 +222,7 @@ export function LineChartTable({
   polarity = IndicatorPolarity.Unknown,
   benchmarkToUse,
   frequency,
+  reportingPeriodFlag,
 }: Readonly<LineChartTableProps>) {
   const englandColumnPrefix =
     benchmarkToUse !== areaCodeForEngland ? '' : 'Benchmark: ';
@@ -272,7 +274,11 @@ export function LineChartTable({
 
       const datePeriod = englandHealthPoint?.datePeriod;
 
-      const formattedPeriod = formatDatePointLabel(datePeriod, frequency, true);
+      const formattedPeriod = formatDatePointLabel(
+        datePeriod,
+        frequency,
+        reportingPeriodFlag
+      );
 
       const row: AreaDataMatchedByYear = {
         dateAsNumber,

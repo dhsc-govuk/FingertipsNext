@@ -108,5 +108,6 @@ export const lineChartOverTimeData = (
     benchmarkToUse,
     periodType,
     frequency,
+    reportingPeriodFlag,
   };
 };
