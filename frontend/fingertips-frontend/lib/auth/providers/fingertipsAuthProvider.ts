@@ -53,14 +53,10 @@ export function getLogoutEndpoint() {
 }
 
 export function buildLogoutURLWithRedirect(
+  endpoint: string,
   redirect: string
-): string | undefined {
-  const logoutEndpoint = getLogoutEndpoint();
-  if (!logoutEndpoint) {
-    return undefined;
-  }
-
-  const logoutURL = new URL(logoutEndpoint);
+): string {
+  const logoutURL = new URL(endpoint);
   logoutURL.searchParams.append(FTA_SIGNOUT_REDIRECT_PARAM, redirect);
 
   return decodeURIComponent(logoutURL.toString());

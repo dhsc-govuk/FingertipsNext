@@ -84,18 +84,17 @@ describe('get auth logout endpoint', () => {
 
     expect(getLogoutEndpoint()).toEqual('logout');
   });
+});
 
-  it('should not encode redirect string', () => {
-    const baseLogoutURL = 'https://someurl.example.com/logout/';
-    vi.stubEnv('AUTH_CLIENT_ID', 'id');
-    vi.stubEnv('AUTH_CLIENT_SECRET', 'secret');
-    vi.stubEnv('AUTH_ISSUER', 'issuer');
-    vi.stubEnv('AUTH_LOGOUT', baseLogoutURL);
-
+describe('build logout URL', () => {
+  it('should return URL with redirect without formatting', () => {
+    const endpoint = 'https://someurl.example.com/logout/';
     const redirect = 'https://some-url.place.app.cloudprovider.com';
 
-    const expectedURLString = `${baseLogoutURL}?${FTA_SIGNOUT_REDIRECT_PARAM}=${redirect}`;
+    const expectedURLString = `${endpoint}?${FTA_SIGNOUT_REDIRECT_PARAM}=${redirect}`;
 
-    expect(buildLogoutURLWithRedirect(redirect)).toEqual(expectedURLString);
+    expect(buildLogoutURLWithRedirect(endpoint, redirect)).toEqual(
+      expectedURLString
+    );
   });
 });
