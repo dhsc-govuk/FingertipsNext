@@ -84,7 +84,7 @@ export const convertBarChartEmbeddedTableToCsv = (
     csvData.push([
       indicatorID,
       indicatorName,
-      formatDatePointLabel(period, frequency, 1),
+      formatDatePointLabel(period, frequency, true),
       area,
       areaCode,
       benchmarkComparison?.benchmarkAreaCode,

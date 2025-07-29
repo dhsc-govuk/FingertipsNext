@@ -7,7 +7,7 @@ import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
 
 export const findSegment = (
   indicatorSegments: IndicatorSegment[],
-  segmentInfo: Record<SegmentationId, string>,
+  segmentInfo: Record<SegmentationId, string>
 ) => {
   const values = segmentValues({
     areaHealthData: [{ indicatorSegments }],
@@ -17,7 +17,10 @@ export const findSegment = (
   const defaultAge = values.age.at(0) ?? '';
   const defaultReportingPeriod = values.reportingPeriod.at(0) ?? '';
 
-  let { sex: selectedSex, age: selectedAge, reportingPeriod: selectedReportingPeriod,
+  let {
+    sex: selectedSex,
+    age: selectedAge,
+    reportingPeriod: selectedReportingPeriod,
   } = segmentInfo;
 
   if (selectedSex === '') {

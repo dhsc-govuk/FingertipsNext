@@ -98,7 +98,7 @@ describe('findHealthPointsBySegmentation', () => {
       findSegment(nonAggregateTestData, {
         sex: '',
         age: '',
-        frequency: '',
+        reportingPeriod: '',
       })
     ).toEqual(nonAggregateTestData[1]); // 10-12 because alphabetically it would be first
   });

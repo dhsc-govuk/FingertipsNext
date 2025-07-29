@@ -173,7 +173,7 @@ export function BarChartEmbeddedTable({
 
   const periodLabelText = getPeriodLabel(periodType, frequency) ?? '';
 
-  const datePointLabel = formatDatePointLabel(fullPeriod, frequency, 1);
+  const datePointLabel = formatDatePointLabel(fullPeriod, frequency, true);
 
   const title = `${name ?? indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
 
