@@ -352,7 +352,7 @@ describe('formatDatePointLabel', () => {
         Frequency.Annually,
         false
       );
-      expect(datePointLabel).toEqual('2023/24 to 2025/26');
+      expect(datePointLabel).toEqual('2023/24 to 2024/25');
     });
 
     it('should return the correct datePointLabel when periodType is Yearly and collectionFrequency is Annually', () => {
@@ -365,7 +365,7 @@ describe('formatDatePointLabel', () => {
         Frequency.Annually,
         false
       );
-      expect(datePointLabel).toEqual('2023/24 to 2025/26');
+      expect(datePointLabel).toEqual('2023/24 to 2024/25');
     });
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Annually', () => {
@@ -378,7 +378,7 @@ describe('formatDatePointLabel', () => {
         Frequency.Annually,
         false
       );
-      expect(datePointLabel).toEqual('2023/24 to 2025/26');
+      expect(datePointLabel).toEqual('2023/24 to 2024/25');
     });
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Quarterly', () => {
@@ -417,7 +417,7 @@ describe('formatDatePointLabel', () => {
         Frequency.Annually,
         false
       );
-      expect(datePointLabel).toEqual('31 Mar 2022/23 to 31 Mar 2025/26');
+      expect(datePointLabel).toEqual('31 Mar 2022/23 to 31 Mar 2024/25');
     });
 
     it('should return the correct datePointLabel when periodType is FinancialMultiYear and collectionFrequency is Cumulative quarters', () => {

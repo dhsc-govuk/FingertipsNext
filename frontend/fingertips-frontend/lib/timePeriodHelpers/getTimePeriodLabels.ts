@@ -67,7 +67,7 @@ const labelFormatters: {
           return getRollingYears(datePeriod.from);
         }
         const fromLabel = getRollingYears(datePeriod.from);
-        const toLabel = getRollingYears(datePeriod.to);
+        const toLabel = getRollingYears(subYears(datePeriod.to, 1));
         return `${fromLabel} to ${toLabel}`;
       },
     },
@@ -82,7 +82,7 @@ const labelFormatters: {
           return `${fromYear}/${toYearShort}`;
         }
 
-        return `${getRollingYears(datePeriod.from)} to ${getRollingYears(datePeriod.to)}`;
+        return `${getRollingYears(datePeriod.from)} to ${getRollingYears(subYears(datePeriod.to, 1))}`;
       },
     },
   },
@@ -94,7 +94,7 @@ const labelFormatters: {
           return getRollingYears(datePeriod.from);
         }
         const fromLabel = getRollingYears(datePeriod.from);
-        const toLabel = getRollingYears(datePeriod.to);
+        const toLabel = getRollingYears(subYears(datePeriod.to, 1));
         return `${fromLabel} to ${toLabel}`;
       },
     },
@@ -137,7 +137,7 @@ const labelFormatters: {
         }
 
         const fromLabel = `${dayMonth} ${getRollingYears(fromDate)}`;
-        const toLabel = `${dayMonth} ${getRollingYears(datePeriod.to)}`;
+        const toLabel = `${dayMonth} ${getRollingYears(subYears(datePeriod.to, 1))}`;
         return `${fromLabel} to ${toLabel}`;
       },
     },
