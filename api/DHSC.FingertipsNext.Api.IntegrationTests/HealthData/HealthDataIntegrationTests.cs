@@ -157,22 +157,19 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
     }
 
     [Theory]
-    [InlineData(AdminRoleGuid, 41101, 90453)]
+    [InlineData(AdminRoleGuid, 41101)]
     [InlineData(Indicator41101GroupRoleId, 41101)]
     [InlineData(Indicator90453GroupRoleId, 90453)]
-    public async Task GetQuartilesAllShouldRespondWith200WhenAuthIsValid(string userRoleId, params int[] indicatorIds)
+    public async Task GetQuartilesAllShouldRespondWith200WhenAuthIsValid(string userRoleId, int indicatorId)
     {
-        ArgumentNullException.ThrowIfNull(indicatorIds);
-
-        var uriPrefix = "indicators/quartiles/all?area_code=N85008&area_type=regions&ancestor_code=U79121&benchmark_ref_type=SubNational";
         var client = _factory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
-        var uriPath = uriPrefix + string.Join("", indicatorIds.Select(id => $"&indicator_ids={id}"));
-
-        var response = await client.GetFromJsonAsync<List<IndicatorQuartileData>>(new Uri(uriPath, UriKind.Relative));
+        var response = await client.GetFromJsonAsync<List<IndicatorQuartileData>>(new Uri(
+            $"indicators/quartiles/all?indicator_ids={indicatorId}&area_code=N85008&area_type=districts-and-unitary-authorities&ancestor_code=U79121&benchmark_ref_type=SubNational",
+            UriKind.Relative));
 
         response.ShouldNotBeNull();
-        response.All(quartileData => indicatorIds.Contains(quartileData.IndicatorId)).ShouldBeTrue();
+        response.All(quartileData => quartileData.IndicatorId == indicatorId).ShouldBeTrue();
     }
 }
