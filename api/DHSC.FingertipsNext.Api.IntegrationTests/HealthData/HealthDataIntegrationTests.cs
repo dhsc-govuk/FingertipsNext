@@ -166,7 +166,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
 
         var response = await client.GetFromJsonAsync<List<IndicatorQuartileData>>(new Uri(
-            $"indicators/quartiles/all?indicator_ids={indicatorId}&area_code=N85008&area_type=regions&ancestor_code=U79121&benchmark_ref_type=SubNational",
+            $"indicators/quartiles/all?indicator_ids={indicatorId}&area_code=E12000004&area_type=regions&ancestor_code=E92000001",
             UriKind.Relative));
 
         response.ShouldNotBeNull();
