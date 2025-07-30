@@ -90,8 +90,6 @@ export const extractAreasIndicatorsAndDataPoints = (
     );
     const latestDataPeriod = latestHealthDataPoint?.datePeriod;
 
-    // console.log(`indicatorData ${JSON.stringify(indicatorData, null, 2)}`)
-
     if (!indicators[indicatorData.rowId]) {
       indicators[indicatorData.rowId] = {
         id: indicatorData.rowId,

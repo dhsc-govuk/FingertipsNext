@@ -6,21 +6,26 @@ export const isSmallestReportingPeriod = (
   reportingPeriodOptions: string[],
   frequency: Frequency
 ): boolean => {
-  const reportingPeriod =
+  const period = (
     selectedReportingPeriod ??
     reportingPeriodOptions[0] ??
-    ReportingPeriod.Yearly;
+    ''
+  ).toLowerCase();
 
-  const reportingPeriodFlag =
-    reportingPeriod.toLowerCase() === frequency.toLowerCase() ||
-    (reportingPeriod.toLowerCase() ===
-      reportingPeriodLabelOrder[ReportingPeriod.Yearly]?.label.toLowerCase() &&
-      frequency === Frequency.Annually) ||
-    (reportingPeriod.toLowerCase() ===
-      reportingPeriodLabelOrder[
-        ReportingPeriod.CumulativeQuarterly
-      ]?.label.toLowerCase() &&
-      frequency === Frequency.Quarterly);
+  // Direct match with frequency
+  if (period === frequency.toLowerCase()) return true;
 
-  return reportingPeriodFlag;
+  // Match with mapped labels
+  const yearlyLabel =
+    reportingPeriodLabelOrder[ReportingPeriod.Yearly]?.label.toLowerCase();
+  const cumulativeQuarterlyLabel =
+    reportingPeriodLabelOrder[
+      ReportingPeriod.CumulativeQuarterly
+    ]?.label.toLowerCase();
+
+  if (period === yearlyLabel && frequency === Frequency.Annually) return true;
+  if (period === cumulativeQuarterlyLabel && frequency === Frequency.Quarterly)
+    return true;
+
+  return false;
 };

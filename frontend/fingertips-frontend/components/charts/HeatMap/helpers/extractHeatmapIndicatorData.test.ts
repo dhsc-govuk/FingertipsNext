@@ -5,8 +5,10 @@ import {
   BenchmarkComparisonMethod,
   Frequency,
   IndicatorPolarity,
+  ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
 import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap/HeatMap';
+import { SearchParams } from '@/lib/searchStateManager';
 
 describe('extractHeatmapIndicatorData', () => {
   const populatedIndicatorData = mockIndicatorWithHealthDataForArea();
@@ -32,7 +34,7 @@ describe('extractHeatmapIndicatorData', () => {
       populatedIndicatorData,
       populatedIndicatorMetadata,
       { sex: 'persons', age: '', reportingPeriod: '' },
-      {},
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
       []
     );
 
@@ -44,7 +46,7 @@ describe('extractHeatmapIndicatorData', () => {
       { ...populatedIndicatorData, areaHealthData: undefined },
       populatedIndicatorMetadata,
       { sex: 'persons', age: '', reportingPeriod: '' },
-      {},
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
       []
     );
 
@@ -73,7 +75,7 @@ describe('extractHeatmapIndicatorData', () => {
       },
       populatedIndicatorMetadata,
       { sex: 'persons', age: '', reportingPeriod: '' },
-      {},
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
       []
     );
 
