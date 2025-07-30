@@ -23,13 +23,13 @@ export const flattenSegment = (
   const {
     [SearchParams.SegmentationSex]: segSex = '',
     [SearchParams.SegmentationAge]: segAge = '',
-    [SearchParams.SegmentationFrequency]: segFreq = '',
+    [SearchParams.SegmentationReportingPeriod]: segRepPeriod = '',
   } = searchState;
 
   const segmentInfo: SegmentInfo = {
     sex: valueOrBlank(segments.sex, segSex),
     age: valueOrBlank(segments.age, segAge),
-    frequency: valueOrBlank(segments.frequency, segFreq),
+    reportingPeriod: valueOrBlank(segments.reportingPeriod, segRepPeriod),
   };
 
   let indicatorName = name;

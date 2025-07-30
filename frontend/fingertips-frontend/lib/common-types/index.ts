@@ -24,7 +24,7 @@ export type AreaWithoutAreaType = Pick<Area, 'code' | 'name'>;
 export enum SegmentationId {
   Sex = 'sex',
   Age = 'age',
-  Frequency = 'frequency',
+  ReportingPeriod = 'reportingPeriod',
 }
 
 export type SegmentInfo = Record<SegmentationId, string>;

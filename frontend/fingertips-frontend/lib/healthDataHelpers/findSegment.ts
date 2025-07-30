@@ -3,7 +3,10 @@ import {
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { SegmentationId } from '@/lib/common-types';
-import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
+import {
+  reportingPeriodLabelOrder,
+  segmentValues,
+} from '@/lib/healthDataHelpers/segmentValues';
 
 export const findSegment = (
   indicatorSegments: IndicatorSegment[],
@@ -15,8 +18,13 @@ export const findSegment = (
 
   const defaultSex = values.sex.at(0) ?? '';
   const defaultAge = values.age.at(0) ?? '';
+  const defaultReportingPeriod = values.reportingPeriod.at(0) ?? '';
 
-  let { sex: selectedSex, age: selectedAge } = segmentInfo;
+  let {
+    sex: selectedSex,
+    age: selectedAge,
+    reportingPeriod: selectedReportingPeriod,
+  } = segmentInfo;
 
   if (selectedSex === '') {
     selectedSex = defaultSex;
@@ -26,8 +34,13 @@ export const findSegment = (
     selectedAge = defaultAge;
   }
 
+  if (selectedReportingPeriod === '') {
+    selectedReportingPeriod = defaultReportingPeriod;
+  }
+
   return indicatorSegments.find((segment) => {
-    const { sex, age } = segment;
+    const { sex, age, reportingPeriod } = segment;
+
     const sexMatch =
       !sex ||
       (!selectedSex && sex.isAggregate) ||
@@ -38,7 +51,12 @@ export const findSegment = (
       (!selectedAge && age.isAggregate) ||
       age.value.toLowerCase() === selectedAge?.toLowerCase();
 
-    const freqMatch = true;
-    return sexMatch && ageMatch && freqMatch;
+    const reportingPeriodMatch =
+      !reportingPeriod ||
+      (!selectedReportingPeriod && reportingPeriod) ||
+      selectedReportingPeriod.toLowerCase() ===
+        reportingPeriodLabelOrder[reportingPeriod]?.label.toLowerCase();
+
+    return sexMatch && ageMatch && reportingPeriodMatch;
   });
 };

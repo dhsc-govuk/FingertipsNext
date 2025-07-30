@@ -28,7 +28,7 @@ describe('findHealthPointsBySegmentation', () => {
       findSegment(testData, {
         sex: 'ABC',
         age: '',
-        frequency: '',
+        reportingPeriod: '',
       })
     ).toBeUndefined();
   });
@@ -38,7 +38,7 @@ describe('findHealthPointsBySegmentation', () => {
       findSegment(testData, {
         sex: '',
         age: '',
-        frequency: '',
+        reportingPeriod: '',
       })
     ).toEqual(testSegmentPersons);
   });
@@ -48,7 +48,7 @@ describe('findHealthPointsBySegmentation', () => {
       findSegment(testData, {
         sex: 'persons',
         age: '',
-        frequency: '',
+        reportingPeriod: '',
       })
     ).toEqual(testSegmentPersons);
   });
@@ -58,7 +58,7 @@ describe('findHealthPointsBySegmentation', () => {
       findSegment(testData, {
         sex: 'MALE',
         age: '',
-        frequency: '',
+        reportingPeriod: '',
       })
     ).toEqual(testSegmentMale);
   });
@@ -68,7 +68,7 @@ describe('findHealthPointsBySegmentation', () => {
       findSegment(testData, {
         sex: 'female',
         age: '',
-        frequency: '',
+        reportingPeriod: '',
       })
     ).toEqual(testSegmentFemale);
   });
@@ -98,7 +98,7 @@ describe('findHealthPointsBySegmentation', () => {
       findSegment(nonAggregateTestData, {
         sex: '',
         age: '',
-        frequency: '',
+        reportingPeriod: '',
       })
     ).toEqual(nonAggregateTestData[1]); // 10-12 because alphabetically it would be first
   });

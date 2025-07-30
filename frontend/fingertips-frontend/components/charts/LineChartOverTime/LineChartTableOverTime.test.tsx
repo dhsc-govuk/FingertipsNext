@@ -53,6 +53,7 @@ describe('LineChartTableOverTime', () => {
       benchmarkToUse: 'England',
       periodType: PeriodType.Calendar,
       frequency: Frequency.Annually,
+      reportingPeriodFlag: true,
     });
 
     render(<LineChartTableOverTime />);
@@ -77,6 +78,7 @@ describe('LineChartTableOverTime', () => {
       benchmarkToUse: 'None',
       periodType: PeriodType.Calendar,
       frequency: Frequency.Annually,
+      reportingPeriodFlag: true,
     });
 
     render(<LineChartTableOverTime />);

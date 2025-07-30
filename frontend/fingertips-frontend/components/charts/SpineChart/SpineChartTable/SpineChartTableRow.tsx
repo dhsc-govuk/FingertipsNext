@@ -86,7 +86,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   const formattedPeriod = formatDatePointLabel(
     latestDataPeriod,
     quartileData.frequency ?? Frequency.Annually,
-    1
+    true
   );
 
   return (
