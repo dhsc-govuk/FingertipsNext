@@ -151,6 +151,7 @@ export function BarChartEmbeddedTable({
       convertBarChartEmbeddedTableToCsv(
         sortedTableRows,
         frequency,
+        isSmallestReportingPeriod,
         latestDataPeriod,
         indicatorMetadata,
         englandData,
@@ -159,6 +160,7 @@ export function BarChartEmbeddedTable({
       ),
     [
       frequency,
+      isSmallestReportingPeriod,
       latestDataPeriod,
       sortedTableRows,
       indicatorMetadata,
