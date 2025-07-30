@@ -857,6 +857,7 @@ export default class ChartPage extends AreaFilter {
     signInAsUserToCheckUnpublishedData: SignInAs,
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
+    // get the unpublished data year from the selected indicators for the current journey - future improvement to handle multiple indicators with unpublished data years
     const unpublishedDataYear = selectedIndicators.find(
       (indicator) => indicator.unpublishedDataYear
     )?.unpublishedDataYear;
@@ -929,10 +930,9 @@ export default class ChartPage extends AreaFilter {
         }
         return;
       } catch {
-        // Failed to find either format so throw error
+        // Failed to assert the correct presence or absence of either date format so throw error and fail test
         throw new Error(
-          `Could not find unpublished data year in chart. Tried both "${unpublishedDataYear}" and "${unpublishedDataYear}/${nextYearShort}" formats. ` +
-            `Expected to ${shouldShowUnpublishedData ? 'show' : 'not show'} unpublished data`
+          `Incorrectly ${shouldShowUnpublishedData ? 'found' : 'did not find'} the unpublished data year in the chart.`
         );
       }
     }
