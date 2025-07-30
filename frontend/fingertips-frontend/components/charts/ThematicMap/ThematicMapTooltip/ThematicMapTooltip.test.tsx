@@ -86,7 +86,7 @@ const expectedDatePointLabel = formatDatePointLabel(
 );
 
 describe('ThematicMapTooltip', () => {
-  it('should render the expected RAG tooltip content for an area ', () => {
+  it('should render the expected RAG tooltip content for an area', () => {
     render(
       <ThematicMapTooltip
         indicatorData={stubAreaData}
