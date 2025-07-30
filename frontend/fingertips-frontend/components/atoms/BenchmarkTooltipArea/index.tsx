@@ -12,7 +12,7 @@ import {
 
 interface BenchmarkTooltipArea {
   titleText: string;
-  year?: number;
+  periodLabel?: string;
   valueText?: string;
   symbol: SymbolsEnum;
   comparisonText?: string;
@@ -21,7 +21,7 @@ interface BenchmarkTooltipArea {
 
 export function BenchmarkTooltipArea({
   titleText,
-  year,
+  periodLabel,
   valueText,
   comparisonText,
   symbol,
@@ -31,7 +31,7 @@ export function BenchmarkTooltipArea({
     <StyledHoverWrapper data-testid={'benchmark-tooltip-area'}>
       <div>
         <StyledTitleH5>{titleText}</StyledTitleH5>
-        <StyledYearParagraph>{year}</StyledYearParagraph>
+        <StyledYearParagraph>{periodLabel}</StyledYearParagraph>
       </div>
       <StyledDataWrapper>
         <StyledSymbolDiv color={symbolColour}>{symbol}</StyledSymbolDiv>

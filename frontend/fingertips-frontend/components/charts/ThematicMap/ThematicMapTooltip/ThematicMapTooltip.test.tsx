@@ -3,74 +3,92 @@ import { ThematicMapTooltip } from './index';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import {
+  formatDatePointLabel,
+  getPeriodLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+
+const stubAreaData: HealthDataForArea = {
+  areaCode: 'areaCode1',
+  areaName: 'Area Name 1',
+  healthData: [
+    {
+      year: 2023,
+      value: 1,
+      ageBand: allAgesAge,
+      sex: personsSex,
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
+      benchmarkComparison: {
+        benchmarkAreaCode: areaCodeForEngland,
+        benchmarkAreaName: 'England',
+        benchmarkValue: 2,
+        outcome: BenchmarkOutcome.Better,
+      },
+    },
+  ],
+};
+
+const stubGroupData = {
+  areaCode: 'areaCode2',
+  areaName: 'Group Name',
+  healthData: [
+    {
+      year: 2023,
+      value: 3,
+      ageBand: allAgesAge,
+      sex: personsSex,
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
+      benchmarkComparison: {
+        benchmarkAreaCode: areaCodeForEngland,
+        benchmarkAreaName: 'England',
+        benchmarkValue: 4,
+        outcome: BenchmarkOutcome.Worse,
+      },
+    },
+  ],
+};
+
+const stubEnglandData = {
+  areaCode: 'areaCode3',
+  areaName: 'Benchmark Name',
+  healthData: [
+    {
+      year: 2023,
+      value: 3,
+      ageBand: allAgesAge,
+      sex: personsSex,
+      trend: HealthDataPointTrendEnum.NotYetCalculated,
+      deprivation: noDeprivation,
+    },
+  ],
+};
+const mockFrequency = Frequency.Annually;
+const mockDatePeriod: DatePeriod = {
+  type: PeriodType.Financial,
+  from: new Date('2008-01-01'),
+  to: new Date('2008-12-31'),
+};
+const expectedDatePointLabel = formatDatePointLabel(
+  mockDatePeriod,
+  mockFrequency,
+  true
+);
 
 describe('ThematicMapTooltip', () => {
-  const stubAreaData: HealthDataForArea = {
-    areaCode: 'areaCode1',
-    areaName: 'Area Name 1',
-    healthData: [
-      {
-        year: 2023,
-        value: 1,
-        ageBand: allAgesAge,
-        sex: personsSex,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        benchmarkComparison: {
-          benchmarkAreaCode: areaCodeForEngland,
-          benchmarkAreaName: 'England',
-          benchmarkValue: 2,
-          outcome: BenchmarkOutcome.Better,
-        },
-      },
-    ],
-  };
-
-  const stubGroupData = {
-    areaCode: 'areaCode2',
-    areaName: 'Group Name',
-    healthData: [
-      {
-        year: 2023,
-        value: 3,
-        ageBand: allAgesAge,
-        sex: personsSex,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        benchmarkComparison: {
-          benchmarkAreaCode: areaCodeForEngland,
-          benchmarkAreaName: 'England',
-          benchmarkValue: 4,
-          outcome: BenchmarkOutcome.Worse,
-        },
-      },
-    ],
-  };
-
-  const stubEnglandData = {
-    areaCode: 'areaCode3',
-    areaName: 'Benchmark Name',
-    healthData: [
-      {
-        year: 2023,
-        value: 3,
-        ageBand: allAgesAge,
-        sex: personsSex,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-      },
-    ],
-  };
-
   it('should render the expected RAG tooltip content for an area', () => {
     render(
       <ThematicMapTooltip
@@ -81,14 +99,14 @@ describe('ThematicMapTooltip', () => {
         measurementUnit={'%'}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse="England"
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(1);
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    expect(
-      screen.queryByText(stubAreaData.healthData[0].year.toString())
-    ).toBeInTheDocument();
+    expect(screen.queryByText(expectedDatePointLabel)).toBeInTheDocument();
     expect(
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
@@ -110,6 +128,8 @@ describe('ThematicMapTooltip', () => {
         groupData={stubGroupData}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -118,9 +138,7 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    expect(
-      screen.queryAllByText(stubAreaData.healthData[0].year.toString())
-    ).toHaveLength(2);
+    expect(screen.queryAllByText(expectedDatePointLabel)).toHaveLength(2);
     expect(
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
@@ -149,6 +167,8 @@ describe('ThematicMapTooltip', () => {
         englandData={stubEnglandData}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -157,9 +177,7 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`Benchmark: ${stubEnglandData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    expect(
-      screen.queryAllByText(stubAreaData.healthData[0].year.toString())
-    ).toHaveLength(2);
+    expect(screen.queryAllByText(expectedDatePointLabel)).toHaveLength(2);
     expect(
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
@@ -189,6 +207,8 @@ describe('ThematicMapTooltip', () => {
         groupData={stubGroupData}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={stubGroupData.areaCode}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -197,9 +217,7 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`Benchmark: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    expect(
-      screen.queryAllByText(stubAreaData.healthData[0].year.toString())
-    ).toHaveLength(2);
+    expect(screen.queryAllByText(expectedDatePointLabel)).toHaveLength(2);
     expect(
       screen.queryByText(`${formatNumber(stubAreaData.healthData[0].value)} %`)
     ).toBeInTheDocument();
@@ -230,6 +248,8 @@ describe('ThematicMapTooltip', () => {
         englandData={stubEnglandData}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -263,6 +283,8 @@ describe('ThematicMapTooltip', () => {
         groupData={stubGroupData}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -291,6 +313,8 @@ describe('ThematicMapTooltip', () => {
         groupData={{ ...stubGroupData, healthData: [] }}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -317,6 +341,8 @@ describe('ThematicMapTooltip', () => {
         englandData={{ ...stubEnglandData, healthData: [] }}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -346,6 +372,8 @@ describe('ThematicMapTooltip', () => {
         }}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 
@@ -369,6 +397,8 @@ describe('ThematicMapTooltip', () => {
         }}
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
+        frequency={mockFrequency}
+        latestDataPeriod={mockDatePeriod}
       />
     );
 

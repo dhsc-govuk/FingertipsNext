@@ -132,6 +132,8 @@ export function ThematicMap({
                 indicatorData={indicatorDataForArea}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 measurementUnit={indicatorMetadata?.unitLabel}
+                frequency={frequency}
+                latestDataPeriod={latestDataPeriod}
                 englandData={englandData}
                 groupData={groupData}
                 polarity={polarity}

@@ -2,6 +2,8 @@ import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
@@ -18,11 +20,14 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 interface BenchmarkTooltipProps {
   indicatorData: HealthDataForArea;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   measurementUnit: string | undefined;
+  frequency: Frequency;
+  latestDataPeriod?: DatePeriod;
   englandData?: HealthDataForArea;
   groupData?: HealthDataForArea;
   polarity: IndicatorPolarity;
@@ -33,6 +38,8 @@ export function ThematicMapTooltip({
   indicatorData,
   benchmarkComparisonMethod,
   measurementUnit,
+  frequency,
+  latestDataPeriod,
   englandData,
   groupData,
   polarity,
@@ -121,13 +128,18 @@ export function ThematicMapTooltip({
   const titleForNonBenchMark =
     nonBenchmarkData && getAreaTitle(nonBenchmarkData.areaName, 'nonBenchmark');
   const titleForArea = getAreaTitle(indicatorData.areaName, 'area');
+  const datePointLabel = formatDatePointLabel(
+    latestDataPeriod,
+    frequency,
+    true
+  );
 
   return (
     <div>
       {BenchmarkData && titleForBenchmark ? (
         <BenchmarkTooltipArea
           titleText={titleForBenchmark}
-          year={mostRecentDataForBenchmark?.year}
+          periodLabel={datePointLabel}
           valueText={valueStringForBenchmark}
           symbol={symbolForBenchmark}
           symbolColour={GovukColours.Black}
@@ -136,7 +148,7 @@ export function ThematicMapTooltip({
       {nonBenchmarkData && titleForNonBenchMark ? (
         <BenchmarkTooltipArea
           titleText={titleForNonBenchMark}
-          year={mostRecentDataPointForArea?.year}
+          periodLabel={datePointLabel}
           valueText={valueStringForNonBenchmark}
           comparisonText={comparisonTextForNonBenchmark}
           symbol={symbolForNonBenchmark}
@@ -146,7 +158,7 @@ export function ThematicMapTooltip({
 
       <BenchmarkTooltipArea
         titleText={titleForArea}
-        year={mostRecentDataPointForArea?.year}
+        periodLabel={datePointLabel}
         valueText={valueStringForArea}
         comparisonText={comparisonTextForArea}
         symbol={symbolForArea}
