@@ -15,10 +15,7 @@ import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import {
-  formatDatePointLabel,
-  getPeriodLabel,
-} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 const stubAreaData: HealthDataForArea = {
   areaCode: 'areaCode1',
