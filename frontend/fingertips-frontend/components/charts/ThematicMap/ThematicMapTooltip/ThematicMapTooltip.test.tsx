@@ -5,7 +5,6 @@ import {
   BenchmarkOutcome,
   DatePeriod,
   Frequency,
-  HealthDataForArea,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
   PeriodType,
@@ -16,10 +15,13 @@ import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import {
+  mockHealthDataForArea,
+  mockHealthDataForArea_England,
+  mockHealthDataForArea_Group,
+} from '@/mock/data/mockHealthDataForArea';
 
-const stubAreaData: HealthDataForArea = {
-  areaCode: 'areaCode1',
-  areaName: 'Area Name 1',
+const stubAreaData = mockHealthDataForArea({
   healthData: [
     {
       year: 2023,
@@ -36,43 +38,11 @@ const stubAreaData: HealthDataForArea = {
       },
     },
   ],
-};
+});
 
-const stubGroupData = {
-  areaCode: 'areaCode2',
-  areaName: 'Group Name',
-  healthData: [
-    {
-      year: 2023,
-      value: 3,
-      ageBand: allAgesAge,
-      sex: personsSex,
-      trend: HealthDataPointTrendEnum.NotYetCalculated,
-      deprivation: noDeprivation,
-      benchmarkComparison: {
-        benchmarkAreaCode: areaCodeForEngland,
-        benchmarkAreaName: 'England',
-        benchmarkValue: 4,
-        outcome: BenchmarkOutcome.Worse,
-      },
-    },
-  ],
-};
+const stubGroupData = mockHealthDataForArea_Group();
 
-const stubEnglandData = {
-  areaCode: 'areaCode3',
-  areaName: 'Benchmark Name',
-  healthData: [
-    {
-      year: 2023,
-      value: 3,
-      ageBand: allAgesAge,
-      sex: personsSex,
-      trend: HealthDataPointTrendEnum.NotYetCalculated,
-      deprivation: noDeprivation,
-    },
-  ],
-};
+const stubEnglandData = mockHealthDataForArea_England();
 const mockFrequency = Frequency.Annually;
 const mockDatePeriod: DatePeriod = {
   type: PeriodType.Financial,
