@@ -19,10 +19,6 @@ import {
   mockHealthDataForArea,
   mockHealthDataForArea_Group,
 } from '@/mock/data/mockHealthDataForArea';
-import {
-  formatDatePointLabel,
-  getPeriodLabel,
-} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 describe('getMapGeographyData', () => {
   it('should return an object with the expected mapGroupBoundary', () => {
@@ -201,19 +197,15 @@ describe('prepareThematicMapSeriesData', () => {
 });
 
 describe('thematicMapTitle', () => {
-  const periodType = PeriodType.Calendar;
+  const periodType = PeriodType.Financial;
   const frequency = Frequency.Annually;
   const mockDatePeriod: DatePeriod = {
     type: PeriodType.Financial,
     from: new Date('2008-01-01'),
     to: new Date('2008-12-31'),
   };
-  const expectedDatePointLabel = formatDatePointLabel(
-    mockDatePeriod,
-    frequency,
-    true
-  );
-  const expectedPeriodLabelText = getPeriodLabel(periodType, frequency) ?? '';
+  const expectedDatePointLabel = '2008/09';
+  const expectedPeriodLabelText = 'Financial year';
   it('should return the title for regions in the North West', () => {
     const indicatorName = 'Indicator';
     const selectedAreaType = 'regions';
