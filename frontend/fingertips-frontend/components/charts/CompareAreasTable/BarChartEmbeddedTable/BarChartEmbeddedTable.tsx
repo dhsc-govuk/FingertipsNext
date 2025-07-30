@@ -60,6 +60,7 @@ interface BarChartEmbeddedTableProps {
   periodType: PeriodType;
   frequency: Frequency;
   latestDataPeriod?: DatePeriod;
+  isSmallestReportingPeriod: boolean;
 }
 
 export function BarChartEmbeddedTable({
@@ -74,6 +75,7 @@ export function BarChartEmbeddedTable({
   periodType,
   frequency,
   latestDataPeriod,
+  isSmallestReportingPeriod,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const { unitLabel: measurementUnit, dataSource } = indicatorMetadata ?? {};
 
@@ -171,7 +173,7 @@ export function BarChartEmbeddedTable({
   const datePointLabel = formatDatePointLabel(
     latestDataPeriod,
     frequency,
-    true
+    isSmallestReportingPeriod
   );
 
   const title = `${name ?? indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
