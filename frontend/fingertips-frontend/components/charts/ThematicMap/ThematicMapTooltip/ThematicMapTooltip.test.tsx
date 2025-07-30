@@ -68,6 +68,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse="England"
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -97,6 +98,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -136,6 +138,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -176,6 +179,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={stubGroupData.areaCode}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -217,6 +221,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -252,6 +257,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -259,12 +265,9 @@ describe('ThematicMapTooltip', () => {
       screen.queryByText(`Group: ${stubGroupData.areaName}`)
     ).toBeInTheDocument();
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
-    expect(screen.getAllByText('No data available')).toHaveLength(2);
-    expect(screen.getAllByText(SymbolsEnum.MultiplicationX)).toHaveLength(2);
+    expect(screen.getAllByText('No data available')).toHaveLength(1);
+    expect(screen.getAllByText(SymbolsEnum.MultiplicationX)).toHaveLength(1);
     expect(screen.getAllByText(SymbolsEnum.MultiplicationX)[0]).toHaveStyle({
-      color: GovukColours.Black,
-    });
-    expect(screen.getAllByText(SymbolsEnum.MultiplicationX)[1]).toHaveStyle({
       color: GovukColours.Black,
     });
   });
@@ -282,6 +285,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -310,6 +314,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -341,6 +346,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 
@@ -366,6 +372,7 @@ describe('ThematicMapTooltip', () => {
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
+        year={2023}
       />
     );
 

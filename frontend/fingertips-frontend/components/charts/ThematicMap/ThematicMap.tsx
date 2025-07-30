@@ -31,6 +31,7 @@ import {
   Frequency,
   PeriodType,
 } from '@/generated-sources/ft-api-client';
+import { getLatestYearForAreas } from '@/lib/chartHelpers/chartHelpers';
 
 interface ThematicMapProps {
   name?: string;
@@ -85,6 +86,8 @@ export function ThematicMap({
     selectedAreaType,
   ]);
 
+  console.log(chartOptions);
+
   if (isLoading) {
     return <div style={{ marginBottom: '2rem' }}>Fetching map geometry...</div>;
   }
@@ -114,6 +117,9 @@ export function ThematicMap({
     { benchmarkComparisonMethod, polarity },
   ]);
 
+  const mostReccentYear = getLatestYearForAreas(healthIndicatorData);
+  if (!mostReccentYear) return;
+
   return (
     <>
       <H3 id={ChartTitleKeysEnum.ThematicMap}>
@@ -138,6 +144,7 @@ export function ThematicMap({
                 groupData={groupData}
                 polarity={polarity}
                 benchmarkToUse={benchmarkToUse}
+                year={mostReccentYear}
               />
             </div>
           ))}

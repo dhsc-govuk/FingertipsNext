@@ -7,10 +7,7 @@ import {
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import {
-  getBenchmarkColour,
-  sortHealthDataPointsByDescendingYear,
-} from '@/lib/chartHelpers/chartHelpers';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import {
   getAreaTitle,
   getBenchmarkSymbol,
@@ -32,6 +29,7 @@ interface BenchmarkTooltipProps {
   groupData?: HealthDataForArea;
   polarity: IndicatorPolarity;
   benchmarkToUse?: string;
+  year: number;
 }
 
 export function ThematicMapTooltip({
@@ -44,23 +42,22 @@ export function ThematicMapTooltip({
   groupData,
   polarity,
   benchmarkToUse,
+  year,
 }: Readonly<BenchmarkTooltipProps>) {
   const BenchmarkData =
     benchmarkToUse === areaCodeForEngland ? englandData : groupData;
   const nonBenchmarkData =
     benchmarkToUse === areaCodeForEngland ? groupData : englandData;
 
-  const mostRecentDataPointForArea = sortHealthDataPointsByDescendingYear(
-    indicatorData.healthData
+  const mostRecentDataPointForArea = indicatorData.healthData.filter(
+    (area) => area.year === year
   )[0];
   const mostRecentDataForNonBenchmark =
-    nonBenchmarkData?.healthData.filter(
-      (area) => area.year === mostRecentDataPointForArea?.year
-    )[0] ?? undefined;
+    nonBenchmarkData?.healthData.filter((area) => area.year === year)[0] ??
+    undefined;
   const mostRecentDataForBenchmark =
-    BenchmarkData?.healthData.filter(
-      (area) => area.year === mostRecentDataPointForArea?.year
-    )[0] ?? undefined;
+    BenchmarkData?.healthData.filter((area) => area.year === year)[0] ??
+    undefined;
 
   const comparisonTextForArea = getComparisonString(
     mostRecentDataPointForArea?.benchmarkComparison?.outcome ?? undefined,
