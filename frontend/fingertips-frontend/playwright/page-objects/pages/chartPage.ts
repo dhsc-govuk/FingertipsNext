@@ -890,6 +890,18 @@ export default class ChartPage extends AreaFilter {
 
       if (shouldShowUnpublishedData) {
         expect(options).toContainEqual(expectedOption);
+
+        // select the unpublished data year option if it exists so that the chart updates showing unpublished data for subsequent checks
+        const unpublishedDataYearOption = options.find(
+          (option) =>
+            option.value === expectedOption.value &&
+            option.text === expectedOption.text
+        );
+
+        await this.selectOptionAndAwaitLoadingComplete(
+          combobox,
+          unpublishedDataYearOption!.value
+        );
       } else {
         expect(options).not.toContainEqual(expectedOption);
       }
@@ -921,7 +933,7 @@ export default class ChartPage extends AreaFilter {
     }
 
     throw new Error(
-      `Incorrectly ${shouldShowUnpublishedData ? 'found' : 'did not find'} the unpublished data year in the chart.`
+      `Incorrectly ${shouldShowUnpublishedData ? 'did not find' : 'found'} the unpublished data year in the ${chartComponentLocator} chart.`
     );
   }
 
