@@ -86,8 +86,6 @@ export function ThematicMap({
     selectedAreaType,
   ]);
 
-  console.log(chartOptions);
-
   if (isLoading) {
     return <div style={{ marginBottom: '2rem' }}>Fetching map geometry...</div>;
   }
