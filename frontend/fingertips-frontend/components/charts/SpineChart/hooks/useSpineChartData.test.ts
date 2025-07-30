@@ -43,7 +43,7 @@ describe('useSpineChartData', () => {
     expect(result.current).toHaveLength(1);
     expect(result.current?.at(0)).toHaveProperty(
       'rowId',
-      '41101?sex=persons&age=all+ages'
+      '41101?sex=persons&age=all+ages&reportingperiod=yearly'
     );
   });
 

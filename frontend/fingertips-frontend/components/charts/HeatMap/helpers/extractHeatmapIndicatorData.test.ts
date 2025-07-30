@@ -23,14 +23,14 @@ describe('extractHeatmapIndicatorData', () => {
         populatedIndicatorData.benchmarkMethod ??
         BenchmarkComparisonMethod.Unknown,
       polarity: populatedIndicatorData.polarity ?? IndicatorPolarity.Unknown,
-      segmentInfo: { sex: 'persons', age: '', frequency: '' },
+      segmentInfo: { sex: 'persons', age: '', reportingPeriod: '' },
       frequency: Frequency.Annually,
     };
 
     const heatmapData = extractHeatmapIndicatorData(
       populatedIndicatorData,
       populatedIndicatorMetadata,
-      { sex: 'persons', age: '', frequency: '' }
+      { sex: 'persons', age: '', reportingPeriod: '' }
     );
 
     expect(heatmapData).toEqual(expectedHeatmapIndicatorData);
@@ -40,7 +40,7 @@ describe('extractHeatmapIndicatorData', () => {
     const heatmapData = extractHeatmapIndicatorData(
       { ...populatedIndicatorData, areaHealthData: undefined },
       populatedIndicatorMetadata,
-      { sex: 'persons', age: '', frequency: '' }
+      { sex: 'persons', age: '', reportingPeriod: '' }
     );
 
     expect(heatmapData).toBe(undefined);
@@ -55,7 +55,7 @@ describe('extractHeatmapIndicatorData', () => {
       unitLabel: populatedIndicatorMetadata.unitLabel,
       benchmarkComparisonMethod: BenchmarkComparisonMethod.Unknown,
       polarity: IndicatorPolarity.Unknown,
-      segmentInfo: { sex: 'persons', age: '', frequency: '' },
+      segmentInfo: { sex: 'persons', age: '', reportingPeriod: '' },
       frequency: Frequency.Annually,
     };
 
@@ -66,7 +66,7 @@ describe('extractHeatmapIndicatorData', () => {
         polarity: undefined,
       },
       populatedIndicatorMetadata,
-      { sex: 'persons', age: '', frequency: '' }
+      { sex: 'persons', age: '', reportingPeriod: '' }
     );
 
     expect(heatmapData).toEqual(expectedHeatmapIndicatorData);

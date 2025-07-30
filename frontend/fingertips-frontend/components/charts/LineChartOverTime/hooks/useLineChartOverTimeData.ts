@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { lineChartOverTimeIsRequired } from '@/components/charts/LineChartOverTime/helpers/lineChartOverTimeIsRequired';
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
 import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
+import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
 
 export const useLineChartOverTimeData = () => {
   const searchState = useSearchStateParams();
@@ -16,6 +17,13 @@ export const useLineChartOverTimeData = () => {
 
     const segmentedData = flattenSegment(healthData, searchState);
 
-    return lineChartOverTimeData(indicatorMetaData, segmentedData, searchState);
+    const { reportingPeriod } = segmentValues(healthData);
+
+    return lineChartOverTimeData(
+      indicatorMetaData,
+      segmentedData,
+      searchState,
+      reportingPeriod
+    );
   }, [healthData, indicatorMetaData, isRequired, searchState]);
 };
