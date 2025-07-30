@@ -9,7 +9,7 @@ describe('BenchmarkTooltipArea', () => {
       render(
         <BenchmarkTooltipArea
           titleText="Test Area"
-          periodLabel={1976}
+          periodLabel={'1976'}
           valueText={'some string'}
           comparisonText={'test text'}
           symbol={SymbolsEnum.Circle}
