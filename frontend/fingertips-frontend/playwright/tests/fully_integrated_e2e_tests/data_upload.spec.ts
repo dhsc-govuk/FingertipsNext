@@ -1,6 +1,6 @@
 import path from 'path';
 import { test } from '../../page-objects/pageFactory';
-import { TestTag } from '../../testHelpers/genericTestUtilities';
+import { SignInAs, TestTag } from '../../testHelpers/genericTestUtilities';
 
 const indicatorId = '41101';
 
@@ -12,6 +12,7 @@ const pathToExampleCsv = path.join(
   'resources',
   csvFileName
 );
+const signInAsUserToCheckUnpublishedData = SignInAs.administrator;
 
 /**
  * This tests the indicator data upload journey.
@@ -22,9 +23,17 @@ test.describe(
     tag: [TestTag.CI, TestTag.CD],
   },
   () => {
-    // The upload page requires authentication to view
-    // so this test is invalid until DHSCFT-1140 is completed
-    test.skip('upload a file', async ({ uploadPage }) => {
+    test('sign in as admin and upload a file', async ({
+      uploadPage,
+      homePage,
+    }) => {
+      await test.step('Navigate to home page, sign in', async () => {
+        await homePage.navigateToHomePage();
+        await homePage.checkOnHomePage();
+
+        await homePage.signInIfRequired(signInAsUserToCheckUnpublishedData);
+      });
+
       await test.step('Navigate to upload page and upload a file', async () => {
         await uploadPage.navigateToUploadPage();
         await uploadPage.checkOnUploadPage();
