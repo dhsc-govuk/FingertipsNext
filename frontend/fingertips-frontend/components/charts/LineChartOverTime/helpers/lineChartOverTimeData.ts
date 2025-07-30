@@ -1,4 +1,7 @@
-import { determineBenchmarkToUse } from '@/lib/chartHelpers/chartHelpers';
+import {
+  determineBenchmarkToUse,
+  getLatestPeriod,
+} from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import {
@@ -12,6 +15,7 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { reportingPeriodLabelOrder } from '@/lib/healthDataHelpers/segmentValues';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
@@ -39,6 +43,14 @@ export const lineChartOverTimeData = (
     withoutEngland,
     selectedGroupCode
   );
+
+  const latestPeriodNumber = getLatestPeriod(englandData?.healthData ?? []);
+  const latestHealthDataPoint = englandData?.healthData?.find(
+    (point) => convertDateToNumber(point.datePeriod?.to) === latestPeriodNumber
+  );
+  const latestDataPeriod = latestHealthDataPoint?.datePeriod;
+
+  if (!latestDataPeriod) return null;
 
   const shouldLineChartBeShownForOneArea =
     withoutEnglandOrGroup[0]?.healthData.length > 1 ||
@@ -85,6 +97,7 @@ export const lineChartOverTimeData = (
     periodType,
     frequency,
     reportingPeriodFlag,
+    latestDataPeriod,
     {
       indicatorName: name,
       englandData: englandData,
@@ -109,5 +122,6 @@ export const lineChartOverTimeData = (
     periodType,
     frequency,
     reportingPeriodFlag,
+    latestDataPeriod,
   };
 };

@@ -3,6 +3,7 @@ import {
   BenchmarkComparisonMethod,
   PeriodType,
   Frequency,
+  DatePeriod,
 } from '@/generated-sources/ft-api-client';
 import {
   sortHealthDataForAreasByDate,
@@ -86,6 +87,7 @@ export function generateStandardLineChartOptions(
   periodType: PeriodType,
   frequency: Frequency,
   reportingPeriodFlag: boolean,
+  latestDataPeriod: DatePeriod,
   optionalParams?: {
     indicatorName?: string;
     englandData?: HealthDataForArea;
@@ -98,26 +100,39 @@ export function generateStandardLineChartOptions(
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   }
 ): Highcharts.Options {
+  // console.log('healthindicator data',healthIndicatorData)
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
 
+  // console.log('sortedHealthIndicatorData',sortedHealthIndicatorData)
+
   const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
   const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
+  // console.log('firstDateAsNumber', firstDateAsNumber);
+  // console.log('lastDateAsNumber', lastDateAsNumber);
 
+  // Sorts form earliest to latest data periods
   const sortedEnglandData = optionalParams?.englandData
     ? sortHealthDataForAreaByDate(optionalParams?.englandData)
     : undefined;
 
+  // console.log('sortedEnglandData', sortedEnglandData);
+
+  // Filters out data points that are not within the specified period
   const filteredSortedEnglandData = filterHealthDataByPeriod(
     sortedEnglandData,
     firstDateAsNumber,
     lastDateAsNumber
   );
 
+  // console.log('filteredSortedEnglandData', filteredSortedEnglandData);
+
+  // Sorts form earliest to latest data periods
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;
 
+  // Filters out data points that are not within the specified period
   const filteredSortedGroupData = filterHealthDataByPeriod(
     sortedGroupData,
     firstDateAsNumber,

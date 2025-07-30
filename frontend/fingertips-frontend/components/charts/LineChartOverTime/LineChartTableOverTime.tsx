@@ -16,6 +16,7 @@ export function LineChartTableOverTime() {
     benchmarkToUse,
     frequency,
     reportingPeriodFlag,
+    latestDataPeriod,
   } = lineChartOverTimeData;
 
   return (
@@ -30,6 +31,7 @@ export function LineChartTableOverTime() {
       benchmarkToUse={benchmarkToUse}
       frequency={frequency}
       reportingPeriodFlag={reportingPeriodFlag}
+      latestDataPeriod={latestDataPeriod}
     />
   );
 }
