@@ -86,7 +86,6 @@ type BaseChartComponentProps = {
   hasSVGExport?: boolean;
   hasCSVExport?: boolean;
   hasTooltipHovers?: boolean;
-  canShowUnpublishedData?: boolean;
 };
 
 export interface ComponentInteractionConfig {

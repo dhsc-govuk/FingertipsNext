@@ -205,9 +205,11 @@ export default class BasePage {
 
   async waitForSignOutToFinish() {
     await this.page.waitForLoadState();
+
     await expect(
       this.page.getByText('Hang on a moment while we sign you out.')
     ).toHaveCount(0);
+
     await expect(
       this.page.getByText('You signed out of your account')
     ).toBeVisible();

@@ -239,9 +239,7 @@ export default class ChartPage extends AreaFilter {
           await this.toggleConfidenceInterval(chartComponentLocator),
       },
       {
-        condition:
-          chartComponentProps.canShowUnpublishedData &&
-          this.hasUnpublishedDataYear(selectedIndicators),
+        condition: this.hasUnpublishedDataYear(selectedIndicators),
         action: async () =>
           await this.verifyUnpublishedDataDisplayed(
             chartComponentLocator,

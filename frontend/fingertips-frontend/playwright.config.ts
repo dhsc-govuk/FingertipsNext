@@ -1,9 +1,7 @@
 import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 import dotenv from 'dotenv';
 
-// Load environment variables from .env file
 dotenv.config();
-
 const isCI = !!process.env.CI;
 const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
 console.log(`The target URL for this test execution is ${url}`); // allows to see where tests are executed
@@ -65,7 +63,7 @@ const config: PlaywrightTestConfig = {
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'], ignoreHTTPSErrors: true },
+      use: { ...devices['Desktop Safari'] },
     },
   ],
 };

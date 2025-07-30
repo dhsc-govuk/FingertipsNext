@@ -39,15 +39,15 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: "Alzheimer's", // tests with common special character in subject search term
+    subjectSearchTerm: 'alcohol-specific', // tests with common special character in subject search term
     indicatorsToSelect: [
       {
-        indicatorID: '383',
+        indicatorID: '92904',
         knownTrend: 'No significant change',
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'nhs-regions',
+      areaType: 'districts-and-unitary-authorities',
       groupType: 'england',
       group: 'england',
     },
@@ -73,16 +73,16 @@ export const coreTestJourneys: TestParameters[] = [
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'emergency',
+    subjectSearchTerm: 'smokers',
     indicatorsToSelect: [
       {
-        indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
-        knownTrend: 'No recent trend data available',
-        unpublishedDataYear: 2024,
+        indicatorID: '90453', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
+        knownTrend: 'No recent trend data available', // 2023 has the trend 'No significant change' but 2024 has no trend data
+        unpublishedDataYear: 2025,
       },
     ],
     areaFiltersToSelect: {
-      areaType: 'regions',
+      areaType: 'nhs-regions',
       groupType: 'england',
       group: 'england',
     },
