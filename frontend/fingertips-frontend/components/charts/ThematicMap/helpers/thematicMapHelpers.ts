@@ -5,6 +5,7 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  DatePeriod,
   Frequency,
   HealthDataForArea,
   IndicatorPolarity,
@@ -20,7 +21,6 @@ import {
   formatDatePointLabel,
   getPeriodLabel,
 } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
-import { getLatestPeriodWithBenchmarks } from '../../CompareAreasTable/helpers/getLatestPeriodWithBenchmarks';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -397,7 +397,8 @@ export function thematicMapTitle(
   groupData: HealthDataForArea | undefined,
   healthIndicatorData: HealthDataForArea[],
   periodType: PeriodType,
-  frequency: Frequency
+  frequency: Frequency,
+  latestDataPeriod: DatePeriod | undefined
 ): string {
   const areaType = allAreaTypes.find(
     (areaType) => areaType.key === selectedAreaType
@@ -407,12 +408,14 @@ export function thematicMapTitle(
   const areaTitle = groupData?.areaName ?? 'England';
   const periodLabelText = getPeriodLabel(periodType, frequency) ?? '';
 
-  // TODO: work out where to get the datePeriod from
-  // TODO: work out where to get the correct reportingPeriod from
-  // const datePointLabel = formatDatePointLabel(, frequency, 1);
+  const datePointLabel = formatDatePointLabel(
+    latestDataPeriod,
+    frequency,
+    true
+  );
 
   const latestYear = getLatestYearForAreas(healthIndicatorData);
   if (!latestYear) return '';
 
-  return `${indicatorName} for ${areaType.name} in ${areaTitle}, ${periodLabelText} ${latestYear}`;
+  return `${indicatorName} for ${areaType.name} in ${areaTitle}, ${periodLabelText} ${datePointLabel}`;
 }

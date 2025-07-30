@@ -26,7 +26,11 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
-import { Frequency, PeriodType } from '@/generated-sources/ft-api-client';
+import {
+  DatePeriod,
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 
 interface ThematicMapProps {
   name?: string;
@@ -37,6 +41,7 @@ interface ThematicMapProps {
   polarity: IndicatorPolarity;
   periodType: PeriodType;
   frequency: Frequency;
+  latestDataPeriod?: DatePeriod;
   englandData?: HealthDataForArea;
   groupData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
@@ -52,6 +57,7 @@ export function ThematicMap({
   polarity,
   periodType,
   frequency,
+  latestDataPeriod,
   englandData,
   groupData,
   indicatorMetadata,
@@ -100,7 +106,8 @@ export function ThematicMap({
     groupData,
     healthIndicatorData,
     periodType,
-    frequency
+    frequency,
+    latestDataPeriod
   );
 
   const legendsToShow = getMethodsAndOutcomes([

@@ -28,6 +28,7 @@ export function ThematicMapWrapper() {
     healthIndicatorData,
     periodType,
     frequency,
+    latestDataPeriod,
   } = data;
 
   const {
@@ -54,6 +55,7 @@ export function ThematicMapWrapper() {
         polarity={polarity ?? IndicatorPolarity.Unknown}
         periodType={periodType}
         frequency={frequency}
+        latestDataPeriod={latestDataPeriod}
         indicatorMetadata={indicatorMetaData}
         groupData={groupData}
         englandData={englandData}

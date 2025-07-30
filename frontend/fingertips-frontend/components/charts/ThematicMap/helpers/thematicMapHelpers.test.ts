@@ -7,6 +7,7 @@ import {
 import { mockMapRegionBoundaries } from '@/mock/data/mapGroupBoundaries';
 import {
   BenchmarkOutcome,
+  DatePeriod,
   Frequency,
   HealthDataForArea,
   HealthDataPointTrendEnum,
@@ -18,7 +19,10 @@ import {
   mockHealthDataForArea,
   mockHealthDataForArea_Group,
 } from '@/mock/data/mockHealthDataForArea';
-import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
+import {
+  formatDatePointLabel,
+  getPeriodLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 describe('getMapGeographyData', () => {
   it('should return an object with the expected mapGroupBoundary', () => {
@@ -197,13 +201,24 @@ describe('prepareThematicMapSeriesData', () => {
 });
 
 describe('thematicMapTitle', () => {
+  const periodType = PeriodType.Calendar;
+  const frequency = Frequency.Annually;
+  const mockDatePeriod: DatePeriod = {
+    type: PeriodType.Financial,
+    from: new Date('2008-01-01'),
+    to: new Date('2008-12-31'),
+  };
+  const expectedDatePointLabel = formatDatePointLabel(
+    mockDatePeriod,
+    frequency,
+    true
+  );
+  const expectedPeriodLabelText = getPeriodLabel(periodType, frequency) ?? '';
   it('should return the title for regions in the North West', () => {
     const indicatorName = 'Indicator';
     const selectedAreaType = 'regions';
     const groupData = mockHealthDataForArea_Group();
     const healthIndicatorData = mockHealthDataForArea();
-    const periodType = PeriodType.Calendar;
-    const frequency = Frequency.Annually;
 
     const result = thematicMapTitle(
       indicatorName,
@@ -211,10 +226,11 @@ describe('thematicMapTitle', () => {
       groupData,
       [healthIndicatorData],
       periodType,
-      frequency
+      frequency,
+      mockDatePeriod
     );
     expect(result).toEqual(
-      `${indicatorName} for Regions in ${groupData.areaName}, ${frequency} ${healthIndicatorData.healthData[0].year}`
+      `${indicatorName} for Regions in ${groupData.areaName}, ${expectedPeriodLabelText} ${expectedDatePointLabel}`
     );
   });
 
@@ -227,32 +243,13 @@ describe('thematicMapTitle', () => {
       indicatorName,
       selectedAreaType,
       groupData,
-      [healthIndicatorData]
+      [healthIndicatorData],
+      periodType,
+      frequency,
+      mockDatePeriod
     );
     expect(result).toEqual(
-      `${indicatorName} for Regions in England, ${healthIndicatorData.healthData[0].year}`
-    );
-  });
-
-  it('should return the title for the latest year data', () => {
-    const indicatorName = 'Heart attacks';
-    const selectedAreaType = 'counties-and-unitary-authorities';
-    const groupData = undefined;
-    const healthIndicatorData = mockHealthDataForArea({
-      healthData: [
-        mockHealthDataPoint({ year: 2020 }),
-        mockHealthDataPoint({ year: 2022 }),
-        mockHealthDataPoint({ year: 2021 }),
-      ],
-    });
-    const result = thematicMapTitle(
-      indicatorName,
-      selectedAreaType,
-      groupData,
-      [healthIndicatorData]
-    );
-    expect(result).toEqual(
-      `${indicatorName} for Counties and Unitary Authorities in England, 2022`
+      `${indicatorName} for Regions in England, ${expectedPeriodLabelText} ${expectedDatePointLabel}`
     );
   });
 
@@ -265,7 +262,10 @@ describe('thematicMapTitle', () => {
       indicatorName,
       selectedAreaType,
       groupData,
-      [healthIndicatorData]
+      [healthIndicatorData],
+      periodType,
+      frequency,
+      mockDatePeriod
     );
     expect(result).toEqual('');
   });
@@ -279,7 +279,10 @@ describe('thematicMapTitle', () => {
       indicatorName,
       selectedAreaType,
       groupData,
-      [healthIndicatorData]
+      [healthIndicatorData],
+      periodType,
+      frequency,
+      mockDatePeriod
     );
     expect(result).toEqual('');
   });

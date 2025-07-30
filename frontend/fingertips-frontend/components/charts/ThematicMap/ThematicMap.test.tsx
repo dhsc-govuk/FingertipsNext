@@ -14,7 +14,11 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
-import { Frequency, PeriodType } from '@/generated-sources/ft-api-client';
+import {
+  DatePeriod,
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 
 mockHighChartsWrapperSetup();
 
@@ -36,6 +40,11 @@ const testRender = (name?: string) => {
   };
 
   mockSearchState = searchState;
+  const mockDatePeriod: DatePeriod = {
+    type: PeriodType.Financial,
+    from: new Date('2008-01-01'),
+    to: new Date('2008-12-31'),
+  };
   render(
     <QueryClientProvider client={reactQueryClient}>
       <ThematicMap
@@ -50,6 +59,7 @@ const testRender = (name?: string) => {
         indicatorMetadata={mockIndicatorDocument({ indicatorID: '92420' })}
         periodType={PeriodType.Calendar}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
       />
     </QueryClientProvider>
   );
@@ -81,12 +91,11 @@ describe('ThematicMap', () => {
     );
   });
 
-  // TODO: DHSCFT-1074 update this test for new requirements
   it('should render the correct chart title', async () => {
     testRender();
     const titles = await screen.findAllByRole('heading', { level: 4 });
     expect(titles[0]).toHaveTextContent(
-      'Emergency readmissions within 30 days of discharge from hospital for Regions in North West, Calendar 2023'
+      'Emergency readmissions within 30 days of discharge from hospital for Regions in North West, 2008'
     );
   });
 
@@ -152,7 +161,7 @@ describe('ThematicMap', () => {
     testRender('Override');
     const titles = await screen.findAllByRole('heading', { level: 4 });
     expect(titles[0]).toHaveTextContent(
-      'Override for Regions in North West, 2023'
+      'Override for Regions in North West, 2008/09'
     );
   });
 });
