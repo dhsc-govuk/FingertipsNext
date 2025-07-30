@@ -29,6 +29,7 @@ export enum TestTag {
 export interface IndicatorInfo {
   indicatorID: string;
   knownTrend?: string;
+  unpublishedDataYear?: number;
 }
 
 export interface SimpleIndicatorDocument {
@@ -37,12 +38,19 @@ export interface SimpleIndicatorDocument {
   associatedAreaCodes: string[];
   dataSource: string;
   knownTrend?: string;
+  unpublishedDataYear?: number;
 }
 
 export interface AreaFilters {
   areaType: string;
   groupType: string;
   group: string;
+}
+
+export enum SignInAs {
+  administrator = 'administrator',
+  userWithIndicatorPermissions = 'userWithIndicatorPermissions',
+  userWithoutIndicatorPermissions = 'userWithoutIndicatorPermissions',
 }
 
 export interface TestParameters {
@@ -54,6 +62,7 @@ export interface TestParameters {
   areaFiltersToSelect?: AreaFilters;
   checkExports?: boolean;
   typeOfInequalityToSelect?: InequalitiesTypes;
+  signInAsUserToCheckUnpublishedData?: SignInAs;
 }
 
 export enum PersistentCsvHeaders {
@@ -78,6 +87,17 @@ type BaseChartComponentProps = {
   hasCSVExport?: boolean;
   hasTooltipHovers?: boolean;
 };
+
+export interface ComponentInteractionConfig {
+  component: ChartComponentDefinition;
+  selectedIndicators: SimpleIndicatorDocument[];
+  areaMode: AreaMode;
+  indicatorMode: IndicatorMode;
+  selectedAreaFilters: AreaFilters;
+  checkExports: boolean;
+  typeOfInequalityToSelect: InequalitiesTypes;
+  signInAsUserToCheckUnpublishedData: SignInAs;
+}
 
 export type ChartComponentDefinition = {
   chartComponentLocator: string;

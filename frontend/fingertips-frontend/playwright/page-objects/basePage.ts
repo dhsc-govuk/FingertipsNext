@@ -1,14 +1,16 @@
 import type { Locator, Page as PlaywrightPage } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
-import { SearchMode } from '../testHelpers/genericTestUtilities';
+import { SearchMode, SignInAs } from '../testHelpers/genericTestUtilities';
 import { spaceSeparatedPattern } from '@/lib/constants';
+import { password } from '@/playwright.config';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
   readonly headerHomeLinkId = 'header-home-nav';
   readonly signInButton = 'sign-in-button';
   readonly signOutButton = 'sign-out-button';
+  readonly email = 'fallback@example.com';
 
   constructor(public readonly page: PlaywrightPage) {}
 
@@ -148,7 +150,7 @@ export default class BasePage {
     const maxRetries = 3;
     let pageNavigation;
 
-    //Retry logic for page navigation
+    // Retry logic for page navigation
     while (retryAttempt < maxRetries) {
       try {
         pageNavigation = await this.page.goto(page);
@@ -200,15 +202,16 @@ export default class BasePage {
     );
   }
 
-  async signInToMock(password: string) {
-    await this.fillAndAwaitLoadingComplete(
-      this.page.getByRole('textbox', { name: 'Password' }),
-      password
-    );
+  async waitForSignOutToFinish() {
+    await this.page.waitForLoadState();
 
-    await this.clickAndAwaitLoadingComplete(
-      this.page.getByRole('button', { name: 'Sign in with password' })
-    );
+    await expect(
+      this.page.getByText('Hang on a moment while we sign you out.')
+    ).toHaveCount(0);
+
+    await expect(
+      this.page.getByText('You signed out of your account')
+    ).toBeVisible();
   }
 
   async checkSignInDisplayed() {
@@ -217,5 +220,59 @@ export default class BasePage {
 
   async checkSignOutDisplayed() {
     await expect(this.page.getByTestId(this.signOutButton)).toBeVisible();
+  }
+
+  public determineCredentials(signInRequired: SignInAs): {
+    email: string;
+    password: string;
+  } {
+    console.log(
+      `Determining credentials for: ${JSON.stringify(signInRequired)}`
+    );
+    if (signInRequired === SignInAs.administrator) {
+      return {
+        email:
+          process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN ||
+          this.email,
+        password: password,
+      };
+    } else if (signInRequired === SignInAs.userWithIndicatorPermissions) {
+      return {
+        email:
+          process.env
+            .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS ||
+          this.email,
+        password: password,
+      };
+    } else if (signInRequired === SignInAs.userWithoutIndicatorPermissions) {
+      return {
+        email:
+          process.env
+            .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS ||
+          this.email,
+        password: password,
+      };
+    } else {
+      return {
+        // this should never be used, but is a fallback that will correctly cause the test to fail if no sign in credentials are found
+        email: this.email,
+        password: password,
+      };
+    }
+  }
+
+  async signOutIfRequired(signOutRequired: SignInAs) {
+    if (signOutRequired) {
+      const { email } = this.determineCredentials(signOutRequired);
+      await this.clickSignOut();
+
+      await this.clickAndAwaitLoadingComplete(
+        this.page.locator(`[data-test-id="${email}"]`)
+      );
+
+      await this.waitForSignOutToFinish();
+
+      await this.checkSignInDisplayed();
+    }
   }
 }

@@ -24,7 +24,7 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.TWO_AREAS}`]: [
-    // ChartPage.spineChartTableComponent, // test will fail due to issue with indicator 383
+    ChartPage.spineChartTableComponent,
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.barChartEmbeddedTableComponent,
