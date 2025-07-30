@@ -47,7 +47,8 @@ describe('singleIndicatorBasicTableData', () => {
     const result = singleIndicatorBasicTableData(
       testArea,
       testIndicator,
-      Frequency.Annually
+      Frequency.Annually,
+      true
     );
 
     const baseExpectedRow = {
@@ -84,7 +85,8 @@ describe('singleIndicatorBasicTableData', () => {
     const result = singleIndicatorBasicTableData(
       area,
       mockIndicatorDocument(),
-      Frequency.Annually
+      Frequency.Annually,
+      true
     );
 
     expect(result).toEqual([]);
