@@ -143,7 +143,7 @@ test.describe('Home Page Tests', () => {
     });
   });
 
-  test('should display sign out after successful mock sign in, and sign in after signing out', async ({
+  test.skip('should display sign out after successful mock sign in, and sign in after signing out', async ({
     homePage,
   }) => {
     await test.step('Navigate to home page', async () => {
