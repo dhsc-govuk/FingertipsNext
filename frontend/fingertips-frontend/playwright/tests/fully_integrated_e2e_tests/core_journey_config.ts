@@ -4,6 +4,7 @@ import {
   AreaMode,
   IndicatorMode,
   SearchMode,
+  SignInAs,
   TestParameters,
 } from '@/playwright/testHelpers/genericTestUtilities';
 
@@ -33,7 +34,7 @@ export const coreTestJourneys: TestParameters[] = [
     ],
     checkExports: true,
     typeOfInequalityToSelect: InequalitiesTypes.Sex,
-    signInAsUserToCheckUnpublishedData: { administrator: true }, // this journey will check we show the unpublished data as we are signed in as an administrator
+    signInAsUserToCheckUnpublishedData: SignInAs.administrator, // this journey will check we show the unpublished data as we are signed in as an administrator
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -86,7 +87,7 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'england',
       group: 'england',
     },
-    signInAsUserToCheckUnpublishedData: { userWithIndicatorPermissions: true }, // this journey will check we show the unpublished data as we are signed in as a user with indicator permissions
+    signInAsUserToCheckUnpublishedData: SignInAs.userWithIndicatorPermissions, // this journey will check we show the unpublished data as we are signed in as a user with indicator permissions
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -257,9 +258,8 @@ export const coreTestJourneys: TestParameters[] = [
       group: 'england',
     },
     checkExports: true,
-    signInAsUserToCheckUnpublishedData: {
-      userWithoutIndicatorPermissions: true,
-    }, // this journey will check we do not show the unpublished data as we are signed in as a user without indicator permissions
+    signInAsUserToCheckUnpublishedData:
+      SignInAs.userWithoutIndicatorPermissions, // this journey will check we do not show the unpublished data as we are signed in as a user without indicator permissions
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
@@ -312,7 +312,7 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'england',
       group: 'england',
     },
-    signInAsUserToCheckUnpublishedData: { administrator: true }, // this journey will check we show the unpublished data as we are signed in as an administrator
+    signInAsUserToCheckUnpublishedData: SignInAs.administrator, // this journey will check we show the unpublished data as we are signed in as an administrator
   },
   {
     indicatorMode: IndicatorMode.THREE_PLUS_INDICATORS,
@@ -330,7 +330,7 @@ export const coreTestJourneys: TestParameters[] = [
       },
       {
         indicatorID: '90453', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
-        knownTrend: 'No recent trend data available', // 2023 has the trend 'No significant change' but 2024 has no trend data
+        knownTrend: 'No recent trend data available', // 2024 has the trend 'No significant change' but 2025 has no trend data so shows as 'No recent trend data available'
         unpublishedDataYear: 2025,
       },
     ],
@@ -339,6 +339,6 @@ export const coreTestJourneys: TestParameters[] = [
       groupType: 'england',
       group: 'england',
     },
-    signInAsUserToCheckUnpublishedData: { userWithIndicatorPermissions: true }, // this journey will check we show the unpublished data as we are signed in as a user with indicator permissions
+    signInAsUserToCheckUnpublishedData: SignInAs.userWithIndicatorPermissions, // this journey will check we show the unpublished data as we are signed in as a user with indicator permissions
   },
 ];

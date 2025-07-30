@@ -47,11 +47,11 @@ export interface AreaFilters {
   group: string;
 }
 
-export type SignInAs = {
-  administrator?: boolean;
-  userWithIndicatorPermissions?: boolean;
-  userWithoutIndicatorPermissions?: boolean;
-};
+export enum SignInAs {
+  administrator = 'administrator',
+  userWithIndicatorPermissions = 'userWithIndicatorPermissions',
+  userWithoutIndicatorPermissions = 'userWithoutIndicatorPermissions',
+}
 
 export interface TestParameters {
   indicatorMode: IndicatorMode;

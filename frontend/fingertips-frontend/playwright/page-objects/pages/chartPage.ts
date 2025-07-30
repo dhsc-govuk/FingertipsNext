@@ -872,8 +872,9 @@ export default class ChartPage extends AreaFilter {
 
     const shouldShowUnpublishedData =
       signInAsUserToCheckUnpublishedData != undefined &&
-      (signInAsUserToCheckUnpublishedData.administrator ||
-        signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions);
+      (signInAsUserToCheckUnpublishedData === SignInAs.administrator ||
+        signInAsUserToCheckUnpublishedData ===
+          SignInAs.userWithIndicatorPermissions);
 
     // If the chart component is inequalities bar chart table, we need to check the combobox options for the unpublished data year
     if (

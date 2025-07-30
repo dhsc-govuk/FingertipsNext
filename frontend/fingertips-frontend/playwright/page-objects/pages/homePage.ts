@@ -7,6 +7,7 @@ import AreaFilter from '../components/areaFilter';
 import { expect } from '../pageFactory';
 import { siteTitle } from '@/lib/constants';
 import EntraPage from './entraPage';
+import { password } from '@/playwright.config';
 
 export default class HomePage extends AreaFilter {
   private readonly entraPage: EntraPage;
@@ -182,7 +183,7 @@ export default class HomePage extends AreaFilter {
   async signInToMock() {
     await this.fillAndAwaitLoadingComplete(
       this.page.getByRole('textbox', { name: 'Password' }),
-      this.password
+      password
     );
 
     await this.clickAndAwaitLoadingComplete(

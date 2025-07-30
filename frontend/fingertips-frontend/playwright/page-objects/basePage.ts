@@ -3,15 +3,14 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect } from './pageFactory';
 import { SearchMode, SignInAs } from '../testHelpers/genericTestUtilities';
 import { spaceSeparatedPattern } from '@/lib/constants';
+import { password } from '@/playwright.config';
 
 export default class BasePage {
   readonly errorPageTitleHeaderId = 'error-page-title';
   readonly headerHomeLinkId = 'header-home-nav';
   readonly signInButton = 'sign-in-button';
   readonly signOutButton = 'sign-out-button';
-  readonly email = 'fallback@email.com';
-  readonly password =
-    process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD || 'password';
+  readonly email = 'fallback@example.com';
 
   constructor(public readonly page: PlaywrightPage) {}
 
@@ -230,34 +229,34 @@ export default class BasePage {
     console.log(
       `Determining credentials for: ${JSON.stringify(signInRequired)}`
     );
-    if (signInRequired.administrator) {
+    if (signInRequired === SignInAs.administrator) {
       return {
         email:
           process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN ||
           this.email,
-        password: this.password,
+        password: password,
       };
-    } else if (signInRequired.userWithIndicatorPermissions) {
+    } else if (signInRequired === SignInAs.userWithIndicatorPermissions) {
       return {
         email:
           process.env
             .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS ||
           this.email,
-        password: this.password,
+        password: password,
       };
-    } else if (signInRequired.userWithoutIndicatorPermissions) {
+    } else if (signInRequired === SignInAs.userWithoutIndicatorPermissions) {
       return {
         email:
           process.env
             .DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS ||
           this.email,
-        password: this.password,
+        password: password,
       };
     } else {
       return {
         // this should never be used, but is a fallback that will correctly cause the test to fail if no sign in credentials are found
         email: this.email,
-        password: this.password,
+        password: password,
       };
     }
   }

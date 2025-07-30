@@ -155,16 +155,16 @@ test.describe('Home Page Tests', () => {
       await homePage.clickSignInOnHomePage();
     });
 
-    await test.step('Enter password for mock sign in and click to sign in, in the mock then check sign out is now displayed', async () => {
+    await test.step('Sign in via the mock then check sign out is now displayed', async () => {
       await homePage.signInToMock();
 
-      await test.step('Click sign out button', async () => {
-        await homePage.clickSignOut();
-      });
+      await homePage.checkSignOutDisplayed();
+    });
 
-      await test.step('verify sign in button displayed', async () => {
-        await homePage.checkSignOutDisplayed();
-      });
+    await test.step('Sign out and check sign in now displayed', async () => {
+      await homePage.clickSignOut();
+
+      await homePage.checkSignInDisplayed();
     });
   });
 

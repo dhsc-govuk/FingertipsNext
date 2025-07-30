@@ -10,6 +10,8 @@ const runCommand =
   process.env.MOCK_SERVER === 'false'
     ? 'npm run build && npm run start'
     : 'npm run build && npm run start-local-mocks';
+export const password =
+  process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD || 'password';
 
 // Create the base config
 const config: PlaywrightTestConfig = {
