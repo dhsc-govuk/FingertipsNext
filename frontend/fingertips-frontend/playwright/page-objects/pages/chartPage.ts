@@ -857,7 +857,6 @@ export default class ChartPage extends AreaFilter {
     signInAsUserToCheckUnpublishedData: SignInAs,
     selectedIndicators: SimpleIndicatorDocument[]
   ): Promise<void> {
-    // get the unpublished data year from the selected indicators for the current journey - future improvement to handle multiple indicators with unpublished data years
     const unpublishedDataYear = selectedIndicators.find(
       (indicator) => indicator.unpublishedDataYear
     )?.unpublishedDataYear;
@@ -876,8 +875,6 @@ export default class ChartPage extends AreaFilter {
       (signInAsUserToCheckUnpublishedData.administrator ||
         signInAsUserToCheckUnpublishedData.userWithIndicatorPermissions);
 
-    const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
-
     // If the chart component is inequalities bar chart table, we need to check the combobox options for the unpublished data year
     if (
       chartComponentLocator === ChartPage.inequalitiesBarChartTableComponent
@@ -885,57 +882,47 @@ export default class ChartPage extends AreaFilter {
       const combobox = this.page
         .getByTestId(this.timePeriodDropDownComponent)
         .getByRole('combobox');
-
       const options = await this.getSelectOptions(combobox);
+      const expectedOption = {
+        value: String(unpublishedDataYear),
+        text: String(unpublishedDataYear),
+      };
+
       if (shouldShowUnpublishedData) {
-        expect(options).toContainEqual({
-          value: String(unpublishedDataYear),
-          text: String(unpublishedDataYear),
-        });
+        expect(options).toContainEqual(expectedOption);
       } else {
-        expect(options).not.toContainEqual({
-          value: String(unpublishedDataYear),
-          text: String(unpublishedDataYear),
-        });
-      }
-    } else {
-      // For all other components first try to find the calendar year format at least once somewhere on the chart
-      try {
-        const count = await this.page
-          .getByTestId(chartComponentLocator)
-          .getByText(String(unpublishedDataYear))
-          .count();
-
-        if (shouldShowUnpublishedData) {
-          expect(count).toBeGreaterThanOrEqual(1);
-        } else {
-          expect(count).toEqual(0);
-        }
-        return;
-      } catch {
-        // Do nothing, as will try the fiscal year format next
-      }
-
-      // Then try the financial year format at least once somewhere on the chart
-      try {
-        const count = await this.page
-          .getByTestId(chartComponentLocator)
-          .getByText(`${String(unpublishedDataYear)}/${nextYearShort}`)
-          .count();
-
-        if (shouldShowUnpublishedData) {
-          expect(count).toBeGreaterThanOrEqual(1);
-        } else {
-          expect(count).toEqual(0);
-        }
-        return;
-      } catch {
-        // Failed to assert the correct presence or absence of either date format so throw error and fail test
-        throw new Error(
-          `Incorrectly ${shouldShowUnpublishedData ? 'found' : 'did not find'} the unpublished data year in the chart.`
-        );
+        expect(options).not.toContainEqual(expectedOption);
       }
     }
+
+    // For other components, check both calendar and fiscal year formats
+    const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
+    const dateFormats = [
+      String(unpublishedDataYear), // Calendar year
+      `${String(unpublishedDataYear)}/${nextYearShort}`, // Fiscal year
+    ];
+
+    for (const dateFormat of dateFormats) {
+      try {
+        const count = await this.page
+          .getByTestId(chartComponentLocator)
+          .getByText(dateFormat)
+          .count();
+
+        if (shouldShowUnpublishedData) {
+          expect(count).toBeGreaterThanOrEqual(1);
+        } else {
+          expect(count).toEqual(0);
+        }
+        return; // Successfully verified, exit early
+      } catch {
+        // Continue to next format without throwing an error
+      }
+    }
+
+    throw new Error(
+      `Incorrectly ${shouldShowUnpublishedData ? 'found' : 'did not find'} the unpublished data year in the chart.`
+    );
   }
 
   private hasUnpublishedDataYear(
