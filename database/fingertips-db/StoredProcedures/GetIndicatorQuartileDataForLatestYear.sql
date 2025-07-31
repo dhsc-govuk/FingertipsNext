@@ -109,7 +109,6 @@ EnglandValuePerSegment AS (
 --- This finds ALL data points in England of the same areaType which are aggregated (not inequalities) data points
 HealthData AS (
   SELECT hm.IndicatorKey,
-    hm.Year,
     hm.SexKey,
     hm.IsSexAggregatedOrSingle,
     hm.AgeKey,
@@ -148,7 +147,6 @@ QuartileData AS (
     hd.IsAgeAggregatedOrSingle,
     hd.SexKey,
     hd.IsSexAggregatedOrSingle,
-    hd.Year,
     hd.FromDate,
     hd.ToDate,
     hd.ReportingPeriodKey,
@@ -178,8 +176,7 @@ QuartileData AS (
     hd.IsSexAggregatedOrSingle,
     hd.FromDate,
     hd.ToDate,
-    hd.ReportingPeriodKey,
-    hd.Year
+    hd.ReportingPeriodKey
 ) --- Now combine data to return
 SELECT rii.IndicatorId AS IndicatorId,
   ri.Polarity AS Polarity,
@@ -188,7 +185,6 @@ SELECT rii.IndicatorId AS IndicatorId,
   sexDim.Name AS SexName,
   indSeg.IsSexAggregatedOrSingle,
   reportingPeriodDim.Period AS ReportingPeriod,
-  qd.Year AS Year,
   ri.PeriodType,
   ri.CollectionFrequency,
   qd.FromDate,
