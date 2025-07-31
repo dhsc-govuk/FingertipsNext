@@ -22,7 +22,8 @@ on:
       - terraform/**
       - search-setup/**
       - trend-analysis/**
-
+      - .github/workflows/**
+      
 jobs:
   check-changes:
     runs-on: ubuntu-latest
@@ -354,7 +355,23 @@ jobs:
     environment: development
     runs-on: dev
     if: >
-      false
+      always() &&
+      contains(needs.*.result, 'success') &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      github.event_name != 'pull_request' &&
+      (
+        (
+          github.event_name == 'push' &&
+          github.ref_name == 'main' &&
+          (
+            needs.check-changes.outputs.db_changed == 'true' ||
+            needs.check-changes.outputs.trend_analysis_changed == 'true' ||
+            needs.check-changes.outputs.search_changed == 'true'
+          )
+        ) ||
+        github.event_name == 'workflow_dispatch'
+      )
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
