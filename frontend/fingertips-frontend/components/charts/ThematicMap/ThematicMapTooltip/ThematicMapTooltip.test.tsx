@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { ThematicMapTooltip } from './index';
+import { ThematicMapTooltip, ThematicMapTooltipProps } from './index';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
@@ -55,23 +55,38 @@ const expectedDatePointLabel = formatDatePointLabel(
   true
 );
 
+const testRender = (overides?: Partial<ThematicMapTooltipProps>) => {
+  const indicatorData = overides?.indicatorData ?? stubAreaData;
+  const benchmarkComparisonMethod =
+    overides?.benchmarkComparisonMethod ??
+    BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
+  const measurementUnit = overides?.measurementUnit ?? '%';
+  const frequency = overides?.frequency ?? mockFrequency;
+  const latestDataPeriod = overides?.latestDataPeriod ?? mockDatePeriod;
+  const englandData = overides?.englandData ?? undefined;
+  const groupData = overides?.groupData ?? undefined;
+  const polarity = overides?.polarity ?? IndicatorPolarity.Unknown;
+  const benchmarkToUse = overides?.benchmarkToUse ?? areaCodeForEngland;
+  const year = overides?.year ?? 2023;
+  render(
+    <ThematicMapTooltip
+      indicatorData={indicatorData}
+      benchmarkComparisonMethod={benchmarkComparisonMethod}
+      measurementUnit={measurementUnit}
+      frequency={frequency}
+      latestDataPeriod={latestDataPeriod}
+      englandData={englandData}
+      groupData={groupData}
+      polarity={polarity}
+      benchmarkToUse={benchmarkToUse}
+      year={year}
+    />
+  );
+};
+
 describe('ThematicMapTooltip', () => {
   it('should render the expected RAG tooltip content for an area', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={stubAreaData}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse="England"
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
-
+    testRender();
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(1);
     expect(screen.queryByText(`${stubAreaData.areaName}`)).toBeInTheDocument();
     expect(screen.queryByText(expectedDatePointLabel)).toBeInTheDocument();
@@ -86,21 +101,7 @@ describe('ThematicMapTooltip', () => {
   });
 
   it('should render the expected RAG tooltip content for an area and group', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={stubAreaData}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        groupData={stubGroupData}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse={areaCodeForEngland}
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
+    testRender({ groupData: stubGroupData });
 
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
     expect(
@@ -126,21 +127,7 @@ describe('ThematicMapTooltip', () => {
   });
 
   it('should render the expected RAG tooltip content for an area and benchmark of England', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={stubAreaData}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        englandData={stubEnglandData}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse={areaCodeForEngland}
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
+    testRender({ englandData: stubEnglandData });
 
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
     expect(
@@ -167,21 +154,10 @@ describe('ThematicMapTooltip', () => {
   });
 
   it('should render the expected RAG tooltip content for an area and benchmark of group', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={stubAreaData}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        groupData={stubGroupData}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse={stubGroupData.areaCode}
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
+    testRender({
+      groupData: stubGroupData,
+      benchmarkToUse: stubGroupData.areaCode,
+    });
 
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(2);
     expect(
@@ -208,22 +184,7 @@ describe('ThematicMapTooltip', () => {
   });
 
   it('should render the expected RAG tooltip sections for an area, group and benchmark', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={stubAreaData}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        groupData={stubGroupData}
-        englandData={stubEnglandData}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse={areaCodeForEngland}
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
+    testRender({ groupData: stubGroupData, englandData: stubEnglandData });
 
     expect(screen.getAllByTestId('benchmark-tooltip-area')).toHaveLength(3);
     expect(
@@ -245,21 +206,10 @@ describe('ThematicMapTooltip', () => {
   });
 
   it('should render the expected RAG tooltip when Healthdata for the area is missing', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={{ ...stubAreaData, healthData: [] }}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        groupData={stubGroupData}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse={areaCodeForEngland}
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
+    testRender({
+      indicatorData: { ...stubAreaData, healthData: [] },
+      groupData: stubGroupData,
+    });
 
     expect(
       screen.queryByText(`Group: ${stubGroupData.areaName}`)
@@ -273,21 +223,7 @@ describe('ThematicMapTooltip', () => {
   });
 
   it('should render the expected RAG tooltip when Healthdata for the comparator area is missing', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={stubAreaData}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        groupData={{ ...stubGroupData, healthData: [] }}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse={areaCodeForEngland}
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
+    testRender({ groupData: { ...stubGroupData, healthData: [] } });
 
     expect(screen.getAllByText('No data available')).toHaveLength(1);
     expect(
@@ -331,24 +267,13 @@ describe('ThematicMapTooltip', () => {
   });
 
   it('should have a pink circle for the comparator if the comparator is England', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={stubAreaData}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        groupData={{
-          ...stubEnglandData,
-          areaCode: areaCodeForEngland,
-        }}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse={areaCodeForEngland}
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
+    testRender({
+      groupData: {
+        ...stubEnglandData,
+        areaCode: areaCodeForEngland,
+      },
+      benchmarkToUse: areaCodeForEngland,
+    });
 
     expect(screen.getAllByText(SymbolsEnum.Circle)[0]).toHaveStyle({
       color: GovukColours.Pink,
@@ -356,25 +281,14 @@ describe('ThematicMapTooltip', () => {
   });
 
   it('should have a pink x for the compartor if the comparator is England but has no data', () => {
-    render(
-      <ThematicMapTooltip
-        indicatorData={stubAreaData}
-        benchmarkComparisonMethod={
-          BenchmarkComparisonMethod.CIOverlappingReferenceValue95
-        }
-        measurementUnit={'%'}
-        groupData={{
-          ...stubEnglandData,
-          areaCode: areaCodeForEngland,
-          healthData: [],
-        }}
-        polarity={IndicatorPolarity.Unknown}
-        benchmarkToUse={areaCodeForEngland}
-        frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
-      />
-    );
+    testRender({
+      groupData: {
+        ...stubEnglandData,
+        areaCode: areaCodeForEngland,
+        healthData: [],
+      },
+      benchmarkToUse: areaCodeForEngland,
+    });
 
     expect(screen.getAllByText(SymbolsEnum.MultiplicationX)[0]).toHaveStyle({
       color: GovukColours.Pink,

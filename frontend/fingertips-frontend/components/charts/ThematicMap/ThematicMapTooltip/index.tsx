@@ -19,7 +19,7 @@ import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
-interface BenchmarkTooltipProps {
+export interface ThematicMapTooltipProps {
   indicatorData: HealthDataForArea;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   measurementUnit: string | undefined;
@@ -43,7 +43,7 @@ export function ThematicMapTooltip({
   polarity,
   benchmarkToUse,
   year,
-}: Readonly<BenchmarkTooltipProps>) {
+}: Readonly<ThematicMapTooltipProps>) {
   const BenchmarkData =
     benchmarkToUse === areaCodeForEngland ? englandData : groupData;
   const nonBenchmarkData =
