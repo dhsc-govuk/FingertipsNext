@@ -201,7 +201,6 @@ jobs:
           files: |
             **/*.trx
 
-
   frontend-build-and-test:
     needs: [check-changes, determine-version]
     if: >
