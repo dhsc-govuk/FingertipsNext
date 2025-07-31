@@ -1,3 +1,4 @@
+import { BatchStatusEnum } from '@/generated-sources/ft-api-client/models/Batch';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
@@ -90,12 +91,19 @@ export default class UploadPage extends BasePage {
       this.page.getByTestId(this.batchListTableTestId)
     ).toBeVisible();
     await expect(
-      this.page
-        .getByRole('button', { name: this.deleteSubmissionButtonText })
-        .first()
+      this.page.getByTestId(`batch-table-row-${fileName}`)
     ).toHaveCount(1);
+  }
+
+  async deleteBatchFromTable(fileName: string) {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(`batch-table-delete-${fileName}`)
+    );
+  }
+
+  async checkDeletedBatchIsMarkedAsDeleted(fileName: string) {
     await expect(
-      this.page.getByRole('cell', { name: fileName }).first()
-    ).toHaveCount(1);
+      this.page.getByTestId(`batch-table-row-${fileName}`).locator('td').nth(8)
+    ).toHaveText(BatchStatusEnum.Deleted);
   }
 }
