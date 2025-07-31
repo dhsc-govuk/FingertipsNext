@@ -1,9 +1,22 @@
-import { SearchMode } from '@/playwright/testHelpers/genericTestUtilities';
+import {
+  SearchMode,
+  SignInAs,
+} from '@/playwright/testHelpers/genericTestUtilities';
+import type { Page as PlaywrightPage } from '@playwright/test';
 import AreaFilter from '../components/areaFilter';
 import { expect } from '../pageFactory';
 import { siteTitle } from '@/lib/constants';
+import EntraPage from './entraPage';
+import { password } from '@/playwright.config';
 
 export default class HomePage extends AreaFilter {
+  private readonly entraPage: EntraPage;
+
+  constructor(page: PlaywrightPage) {
+    super(page);
+    this.entraPage = new EntraPage(page);
+  }
+
   readonly subjectSearchField = 'indicator-search-form-input';
   readonly searchButton = 'search-form-button-submit';
   readonly validationSummary = 'search-form-error-summary';
@@ -144,6 +157,37 @@ export default class HomePage extends AreaFilter {
   async clickSubjectSearchField() {
     await this.clickAndAwaitLoadingComplete(
       this.page.getByTestId(this.subjectSearchField)
+    );
+  }
+
+  async clickSignInOnHomePage() {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(this.signInButton)
+    );
+  }
+
+  async signInIfRequired(signInRequired: SignInAs) {
+    if (signInRequired) {
+      const { email, password } = this.determineCredentials(signInRequired);
+
+      await this.clickSignInOnHomePage();
+
+      await this.entraPage.checkOnEntraSignInPage();
+
+      await this.entraPage.enterEmailAndPassword(email, password);
+
+      await this.checkSignOutDisplayed();
+    }
+  }
+
+  async signInToMock() {
+    await this.fillAndAwaitLoadingComplete(
+      this.page.getByRole('textbox', { name: 'Password' }),
+      password
+    );
+
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByRole('button', { name: 'Sign in with password' })
     );
   }
 }
