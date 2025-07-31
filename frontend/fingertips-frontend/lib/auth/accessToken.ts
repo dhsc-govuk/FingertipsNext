@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
+import { usingSecureCookies } from '@/lib/auth/config';
 import { getJWT } from '@/lib/auth/getJWT';
 
 export const getAuthHeader = async () => {
@@ -17,7 +18,7 @@ export const getAccessToken = async () => {
     return undefined;
   }
 
-  const jwt = await getJWT();
+  const jwt = await getJWT(usingSecureCookies());
 
   return jwt?.accessToken;
 };
