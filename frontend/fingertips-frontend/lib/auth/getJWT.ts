@@ -1,7 +1,8 @@
+import { usingSecureCookies } from '@/lib/auth/config';
 import { getToken } from 'next-auth/jwt';
 import { cookies, headers } from 'next/headers';
 
-export const getJWT = async (secure: boolean) => {
+export const getJWT = async () => {
   const req = {
     headers: Object.fromEntries(await headers()),
     cookies: Object.fromEntries(
@@ -12,7 +13,7 @@ export const getJWT = async (secure: boolean) => {
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
-    secureCookie: secure, // this recognises NEXTAUTH_URL but doesn't recognise AUTH_URL
+    secureCookie: usingSecureCookies(), // this recognises NEXTAUTH_URL but doesn't recognise AUTH_URL
   });
 
   return token;
