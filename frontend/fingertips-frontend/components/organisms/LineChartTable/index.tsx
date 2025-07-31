@@ -68,7 +68,7 @@ export interface LineChartTableProps {
   benchmarkToUse?: string;
   frequency: Frequency;
   reportingPeriodFlag: boolean;
-  latestDataPeriod: DatePeriod;
+  latestDataPeriod?: DatePeriod;
 }
 
 export interface LineChartTableRowData {

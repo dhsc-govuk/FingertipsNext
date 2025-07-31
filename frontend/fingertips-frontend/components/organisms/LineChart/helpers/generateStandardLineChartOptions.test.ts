@@ -9,6 +9,12 @@ import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { generateStandardLineChartOptions } from './generateStandardLineChartOptions';
 import { mockIndicatorData, mockEnglandData, mockParentData } from '../mocks';
 
+const mockDatePeriod = {
+  type: PeriodType.Calendar,
+  from: new Date('2008-01-01'),
+  to: new Date('2008-12-31'),
+};
+
 describe('generateStandardLineChartOptions', () => {
   it('should generate standard line chart options', () => {
     const generatedOptions = generateStandardLineChartOptions(
@@ -18,6 +24,8 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       true,
+      mockDatePeriod,
+
       {
         englandData: mockEnglandData,
         groupIndicatorData: undefined,
@@ -42,6 +50,7 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       true,
+      mockDatePeriod,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
@@ -83,6 +92,7 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       true,
+      mockDatePeriod,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockBenchmarkAreaWithEarlyYear,
@@ -105,6 +115,7 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       true,
+      mockDatePeriod,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,

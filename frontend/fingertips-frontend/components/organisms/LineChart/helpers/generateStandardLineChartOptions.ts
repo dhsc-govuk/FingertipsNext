@@ -10,7 +10,6 @@ import {
   sortHealthDataForAreaByDate,
   AXIS_LABEL_FONT_SIZE,
   getFirstPeriodForAreas,
-  getLatestPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { generateYAxis } from './generateYAxis';
 import { generateXAxis } from './generateXAxis';
@@ -87,7 +86,7 @@ export function generateStandardLineChartOptions(
   periodType: PeriodType,
   frequency: Frequency,
   reportingPeriodFlag: boolean,
-  latestDataPeriod: DatePeriod,
+  latestDataPeriod?: DatePeriod,
   optionalParams?: {
     indicatorName?: string;
     englandData?: HealthDataForArea;
@@ -100,23 +99,16 @@ export function generateStandardLineChartOptions(
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
   }
 ): Highcharts.Options {
-  // console.log('healthindicator data',healthIndicatorData)
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
 
-  // console.log('sortedHealthIndicatorData',sortedHealthIndicatorData)
-
   const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
-  const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
-  // console.log('firstDateAsNumber', firstDateAsNumber);
-  // console.log('lastDateAsNumber', lastDateAsNumber);
+  const lastDateAsNumber = convertDateToNumber(latestDataPeriod?.to);
 
-  // Sorts form earliest to latest data periods
+  // Sorts from earliest to latest data periods
   const sortedEnglandData = optionalParams?.englandData
     ? sortHealthDataForAreaByDate(optionalParams?.englandData)
     : undefined;
-
-  // console.log('sortedEnglandData', sortedEnglandData);
 
   // Filters out data points that are not within the specified period
   const filteredSortedEnglandData = filterHealthDataByPeriod(
@@ -125,9 +117,7 @@ export function generateStandardLineChartOptions(
     lastDateAsNumber
   );
 
-  // console.log('filteredSortedEnglandData', filteredSortedEnglandData);
-
-  // Sorts form earliest to latest data periods
+  // Sorts from earliest to latest data periods
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;

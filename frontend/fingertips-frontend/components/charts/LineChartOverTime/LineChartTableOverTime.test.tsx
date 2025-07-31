@@ -30,6 +30,12 @@ const mockUseLineChartOverTimeData = useLineChartOverTimeData as MockedFunction<
   typeof useLineChartOverTimeData
 >;
 
+const mockDatePeriod = {
+  type: PeriodType.Calendar,
+  from: new Date('2008-01-01'),
+  to: new Date('2008-12-31'),
+};
+
 describe('LineChartTableOverTime', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -54,6 +60,7 @@ describe('LineChartTableOverTime', () => {
       periodType: PeriodType.Calendar,
       frequency: Frequency.Annually,
       reportingPeriodFlag: true,
+      latestDataPeriod: mockDatePeriod,
     });
 
     render(<LineChartTableOverTime />);
@@ -79,6 +86,7 @@ describe('LineChartTableOverTime', () => {
       periodType: PeriodType.Calendar,
       frequency: Frequency.Annually,
       reportingPeriodFlag: true,
+      latestDataPeriod: mockDatePeriod,
     });
 
     render(<LineChartTableOverTime />);

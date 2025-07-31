@@ -50,8 +50,6 @@ export const lineChartOverTimeData = (
   );
   const latestDataPeriod = latestHealthDataPoint?.datePeriod;
 
-  if (!latestDataPeriod) return null;
-
   const shouldLineChartBeShownForOneArea =
     withoutEnglandOrGroup[0]?.healthData.length > 1 ||
     (englandData && englandData.healthData.length > 1);
