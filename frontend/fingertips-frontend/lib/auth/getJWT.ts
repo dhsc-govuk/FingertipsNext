@@ -13,7 +13,7 @@ export const getJWT = async () => {
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
-    secureCookie: usingSecureCookies(), // this recognises NEXTAUTH_URL but doesn't recognise AUTH_URL
+    secureCookie: usingSecureCookies(), // getToken recognises NEXTAUTH_URL but doesn't recognise AUTH_URL so we need to do our own check
   });
 
   return token;
