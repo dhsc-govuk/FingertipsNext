@@ -49,24 +49,13 @@ test.describe(
 
         await uploadPage.clickUploadButton();
       });
-      await test.step('Check API response is displayed', async () => {
-        // This should be checking for an HTTP 202 response status,
-        // but will display a permissions error until DHSCFT-1140 is completed
-        // and these tests are able to sign in.
-        await uploadPage.checkApiResponsePanelContains('401');
+      await test.step('Check API success response is displayed', async () => {
+        await uploadPage.checkApiResponsePanelContains('202');
       });
 
-      // This step skipped until DHSCFT-1140 is completed and these tests are
-      // able to sign in.
-      // eslint-disable-next-line playwright/no-skipped-test
-      await test.step.skip(
-        'Check that the batch list table is displayed',
-        async () => {
-          await uploadPage.checkUploadedBatchListContainerIsVisible(
-            csvFileName
-          );
-        }
-      );
+      await test.step('Check that the batch list table is displayed', async () => {
+        await uploadPage.checkUploadedBatchListContainerIsVisible(csvFileName);
+      });
     });
   }
 );
