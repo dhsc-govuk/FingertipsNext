@@ -23,7 +23,6 @@ on:
       - search-setup/**
       - trend-analysis/**
       - .github/workflows/**
-      
 jobs:
   check-changes:
     runs-on: ubuntu-latest
@@ -161,12 +160,12 @@ jobs:
       - name: Run Unit Tests
         run: dotnet test --logger trx --filter FullyQualifiedName\!~IntegrationTests
 
-      - name: Publish Test Report
-        uses: ctrf-io/github-test-reporter@v1
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: (!cancelled())
         with:
-          report-path: './ctrf/*.json'
-          github-report: true
-        if: always()
+          files: |
+            **/*.trx
 
   trend-analysis-app-test:
     needs: [check-changes, determine-version]
@@ -195,12 +194,12 @@ jobs:
       - name: Run Unit Tests
         run: dotnet test --logger trx
 
-      - name: Publish Test Report
-        uses: ctrf-io/github-test-reporter@v1
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: (!cancelled())
         with:
-          report-path: './ctrf/*.json'
-          github-report: true
-        if: always()
+          files: |
+            **/*.trx
 
 
   frontend-build-and-test:
