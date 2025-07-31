@@ -1,20 +1,27 @@
 import path from 'path';
 import { test } from '../../page-objects/pageFactory';
-import { TestTag } from '../../testHelpers/genericTestUtilities';
+import {
+  buildRandomisedCSVFileName,
+  SignInAs,
+  TestTag,
+} from '../../testHelpers/genericTestUtilities';
 
 const indicatorId = '41101';
-
-const csvFileName = 'playwright_indicator_data.csv';
+const baseCsvFileName = 'playwright_indicator_data.csv';
 const pathToExampleCsv = path.join(
   __dirname,
   '..',
   '..',
   'resources',
-  csvFileName
+  baseCsvFileName
 );
+let pathToRandomisedCsv: string;
+let randomisedCSVFileName: string;
+
+const signInAsUserToCheckUnpublishedData = SignInAs.administrator;
 
 /**
- * This tests the indicator data upload journey.
+ * This tests the indicator data upload then delete journey.
  */
 test.describe(
   `Indicator data upload`,
@@ -22,9 +29,22 @@ test.describe(
     tag: [TestTag.CI, TestTag.CD],
   },
   () => {
-    // The upload page requires authentication to view
-    // so this test is invalid until DHSCFT-1140 is completed
-    test.skip('upload a file', async ({ uploadPage }) => {
+    test.beforeAll(async () => {
+      ({ pathToRandomisedCsv, randomisedCSVFileName } =
+        await buildRandomisedCSVFileName(pathToExampleCsv));
+    });
+
+    test('sign in as admin and upload a file, check it appears in the batch table, then delete it and check it is marked as deleted in the batch table', async ({
+      uploadPage,
+      homePage,
+    }) => {
+      await test.step('Navigate to home page, sign in', async () => {
+        await homePage.navigateToHomePage();
+        await homePage.checkOnHomePage();
+
+        await homePage.signInIfRequired(signInAsUserToCheckUnpublishedData);
+      });
+
       await test.step('Navigate to upload page and upload a file', async () => {
         await uploadPage.navigateToUploadPage();
         await uploadPage.checkOnUploadPage();
@@ -35,29 +55,29 @@ test.describe(
           publishedAtDay: '7',
           publishedAtMonth: '3',
           publishedAtYear: String(currentYear + 10),
-          pathToCsv: pathToExampleCsv,
+          pathToCsv: pathToRandomisedCsv,
         });
 
         await uploadPage.clickUploadButton();
       });
-      await test.step('Check API response is displayed', async () => {
-        // This should be checking for an HTTP 202 response status,
-        // but will display a permissions error until DHSCFT-1140 is completed
-        // and these tests are able to log in.
-        await uploadPage.checkApiResponsePanelContains('401');
+
+      await test.step('Check API success response is displayed', async () => {
+        await uploadPage.checkApiResponsePanelContains('202');
       });
 
-      // This step skipped until DHSCFT-1140 is completed and these tests are
-      // able to log in.
-      // eslint-disable-next-line playwright/no-skipped-test
-      await test.step.skip(
-        'Check that the batch list table is displayed',
-        async () => {
-          await uploadPage.checkUploadedBatchListContainerIsVisible(
-            csvFileName
-          );
-        }
-      );
+      await test.step('Check that the batch list table is displayed and contains our upload', async () => {
+        await uploadPage.checkUploadedBatchListContainerIsVisible(
+          randomisedCSVFileName
+        );
+      });
+
+      await test.step('Delete the batch from the table and check its status is now Deleted', async () => {
+        await uploadPage.deleteBatchFromTable(randomisedCSVFileName);
+
+        await uploadPage.checkDeletedBatchIsMarkedAsDeleted(
+          randomisedCSVFileName
+        );
+      });
     });
   }
 );

@@ -26,6 +26,12 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  DatePeriod,
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
+import { getLatestYearForAreas } from '@/lib/chartHelpers/chartHelpers';
 
 interface ThematicMapProps {
   name?: string;
@@ -34,6 +40,9 @@ interface ThematicMapProps {
   areaCodes: string[];
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
+  periodType: PeriodType;
+  frequency: Frequency;
+  latestDataPeriod?: DatePeriod;
   englandData?: HealthDataForArea;
   groupData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
@@ -47,6 +56,9 @@ export function ThematicMap({
   areaCodes,
   benchmarkComparisonMethod,
   polarity,
+  periodType,
+  frequency,
+  latestDataPeriod,
   englandData,
   groupData,
   indicatorMetadata,
@@ -93,12 +105,18 @@ export function ThematicMap({
     indicatorName,
     selectedAreaType,
     groupData,
-    healthIndicatorData
+    healthIndicatorData,
+    periodType,
+    frequency,
+    latestDataPeriod
   );
 
   const legendsToShow = getMethodsAndOutcomes([
     { benchmarkComparisonMethod, polarity },
   ]);
+
+  const mostReccentYear = getLatestYearForAreas(healthIndicatorData);
+  if (!mostReccentYear) return;
 
   return (
     <>
@@ -118,10 +136,13 @@ export function ThematicMap({
                 indicatorData={indicatorDataForArea}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 measurementUnit={indicatorMetadata?.unitLabel}
+                frequency={frequency}
+                latestDataPeriod={latestDataPeriod}
                 englandData={englandData}
                 groupData={groupData}
                 polarity={polarity}
                 benchmarkToUse={benchmarkToUse}
+                year={mostReccentYear}
               />
             </div>
           ))}
