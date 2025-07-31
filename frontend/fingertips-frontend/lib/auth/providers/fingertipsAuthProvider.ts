@@ -34,7 +34,6 @@ export const FingertipsAuthProvider = ({
   clientSecret,
   issuer,
 }: FTAProviderConfig): OIDCConfig<FingertipsProfile> => ({
-  // checks: ['none'], - uncomment this if auth breaks
   id: FTA_PROVIDER_ID,
   name: 'FTA',
   type: 'oidc',
