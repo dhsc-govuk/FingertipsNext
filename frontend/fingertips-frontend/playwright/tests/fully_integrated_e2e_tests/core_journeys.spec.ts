@@ -13,7 +13,16 @@ import indicators from '../../../../../search-setup/assets/indicators.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
 import { areaSearchTerm, coreTestJourneys } from './core_journey_config';
 
-//@ts-expect-error don't type check this json file
+// Address in tech debt ticket - DHSCFT-1194
+test.use({
+  allowMessages: [
+    'Failed to load resource: the server responded with a status of 404 (Not Found)', // relates to favicon which is behind a CDN and wont load in CI so we ignore the error
+    `Failed to execute 'postMessage' on 'Window': The provided value cannot be converted to a sequence.`, // sometimes happens on sign out but has no functional impact
+    `Failed to load resource: the server responded with a status of 403 ()`, // sometimes happens on sign out but has no functional impact
+  ],
+});
+
+// @ts-expect-error don't type check this json file
 const indicatorData = indicators as RawIndicatorDocument[];
 
 const typedIndicatorData = indicatorData.map(
@@ -46,6 +55,7 @@ test.describe(
         areaFiltersToSelect,
         checkExports,
         typeOfInequalityToSelect,
+        signInAsUserToCheckUnpublishedData,
       }) => {
         test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
           homePage,
@@ -60,9 +70,13 @@ test.describe(
                   subjectSearchTerm!
                 );
 
-          await test.step('Navigate to home page and search for indicators', async () => {
+          await test.step('Navigate to home page, sign in if required and then search for indicators', async () => {
             await homePage.navigateToHomePage();
             await homePage.checkOnHomePage();
+
+            await homePage.signInIfRequired(
+              signInAsUserToCheckUnpublishedData!
+            );
 
             await homePage.searchForIndicators(
               searchMode,
@@ -113,11 +127,11 @@ test.describe(
               typedIndicatorData
             );
 
+            await chartPage.checkOnChartPage();
+
             await chartPage.checkSelectedIndicatorPillsText(
               selectedIndicatorsData
             );
-
-            await chartPage.checkOnChartPage();
 
             await chartPage.checkCharts(
               indicatorMode,
@@ -125,7 +139,14 @@ test.describe(
               selectedIndicatorsData,
               areaFiltersToSelect!,
               checkExports!,
-              typeOfInequalityToSelect!
+              typeOfInequalityToSelect!,
+              signInAsUserToCheckUnpublishedData!
+            );
+          });
+
+          await test.step(`sign out if required and verify sign in now displayed`, async () => {
+            await chartPage.signOutIfRequired(
+              signInAsUserToCheckUnpublishedData!
             );
           });
         });
@@ -134,7 +155,7 @@ test.describe(
   }
 );
 
-// Log out current url when a test fails
+// Capture and write out the URL on test failure
 test.afterEach(async ({ page }, testInfo) => {
   if (testInfo.status !== testInfo.expectedStatus) {
     // Test failed - capture the URL

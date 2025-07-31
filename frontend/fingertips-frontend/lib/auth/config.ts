@@ -3,6 +3,10 @@ import { tryReadEnvVar } from '@/lib/envUtils';
 import { NextAuthConfig } from 'next-auth';
 import 'next-auth/jwt';
 
+export const usingSecureCookies = () => {
+  return tryReadEnvVar('AUTH_URL')?.startsWith('https') ?? false;
+};
+
 export class AuthConfigFactory {
   private static config: NextAuthConfig | null;
 
@@ -23,7 +27,6 @@ export class AuthConfigFactory {
 
   private static buildConfig() {
     const config: NextAuthConfig = {
-      useSecureCookies: false, // REQUIRED FOR SELF-CERT
       providers: AuthProvidersFactory.getProviders(),
       callbacks: {
         jwt: async ({ token, user, account }) => {
