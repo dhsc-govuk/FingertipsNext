@@ -14,3 +14,8 @@ jobs:
       update_screenshots: true
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
+      fingertips_e2e_automation_password: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD }}
+      fingertips_e2e_automation_email_address_admin: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN }}
+      fingertips_e2e_automation_email_address_assigned_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS }}
+      fingertips_e2e_automation_email_address_no_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS }}
+      auth_client_secret: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}

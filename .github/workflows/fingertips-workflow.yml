@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "**"
+      - '**'
     paths:
       - api/**
       - database/fingertips-db/**
@@ -88,7 +88,7 @@ jobs:
     uses: ./.github/workflows/determine-semver.yml
     with:
       fetch-depth: 0
-      gitversion-version: "6.0.x"
+      gitversion-version: '6.0.x'
 
   database-build:
     needs: check-changes
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       dotnet-version: 9.0.x
-      dotnet-configuration: "Release"
+      dotnet-configuration: 'Release'
       database-directory: ./database/fingertips-db
     defaults:
       run:
@@ -135,7 +135,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: ["9.0.x"]
+        dotnet-version: ['9.0.x']
     defaults:
       run:
         working-directory: ./api
@@ -171,7 +171,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: ["9.0.x"]
+        dotnet-version: ['9.0.x']
     defaults:
       run:
         working-directory: ./trend-analysis
@@ -196,9 +196,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ["22.x"]
+        node-version: ['22.x']
     env:
-      NEXT_TELEMETRY_DISABLED: "true"
+      NEXT_TELEMETRY_DISABLED: 'true'
       frontend-directory: ./frontend/fingertips-frontend
     defaults:
       run:
@@ -278,6 +278,11 @@ jobs:
       playwright-mode: docker
     secrets:
       fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
+      fingertips_e2e_automation_password: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD }}
+      fingertips_e2e_automation_email_address_admin: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN }}
+      fingertips_e2e_automation_email_address_assigned_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS }}
+      fingertips_e2e_automation_email_address_no_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS }}
+      auth_client_secret: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
 
   push-container-api:
     uses: ./.github/workflows/build-container.yml
@@ -429,7 +434,7 @@ jobs:
       ACTIONS_RUNNER_DEBUG: true
     strategy:
       matrix:
-        dotnet-version: ["9.0.x"]
+        dotnet-version: ['9.0.x']
     defaults:
       run:
         working-directory: ./trend-analysis/TrendAnalysisApp
@@ -493,7 +498,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: "Get secrets"
+      - name: 'Get secrets'
         id: azure-keyvault-secrets
         run: |
           secrets_get=(fingertips-ai-search-url fingertips-ai-search-api-key)
@@ -509,7 +514,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
           cache-dependency-path: ./search-setup/package-lock.json
 
       # Install dependencies
@@ -564,8 +569,8 @@ jobs:
       tf_state_file_name: fingertips.api.tfstate
       tf_environment: dev
       source_trigger: ${{ github.event_name }}
-      container_image_tag: "dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}"
-      container_name: "fingertips-api"
+      container_image_tag: 'dhsc.fingertipsnext.api:${{ needs.determine-version.outputs.sem-ver }}'
+      container_name: 'fingertips-api'
       revision_suffix: ${{ github.run_number }}
       container_port: 8080
       environment_variables: |
@@ -690,8 +695,8 @@ jobs:
       tf_state_file_name: fingertips.frontend.tfstate
       tf_environment: dev
       source_trigger: ${{ github.event_name }}
-      container_image_tag: "dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}"
-      container_name: "fingertips-frontend"
+      container_image_tag: 'dhsc.fingertipsnext.frontend:${{ needs.determine-version.outputs.sem-ver }}'
+      container_name: 'fingertips-frontend'
       revision_suffix: ${{ github.run_number }}
       container_port: 3000
       environment_variables: |
@@ -825,3 +830,9 @@ jobs:
       playwright-mode: azure
     secrets:
       slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      fingertips_e2e_db_password: ${{ secrets.FINGERTIPS_E2E_DB_PASSWORD }}
+      fingertips_e2e_automation_password: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD }}
+      fingertips_e2e_automation_email_address_admin: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN }}
+      fingertips_e2e_automation_email_address_assigned_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS }}
+      fingertips_e2e_automation_email_address_no_indicators: ${{ secrets.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS }}
+      auth_client_secret: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
