@@ -190,6 +190,7 @@ public class DataManagementService : IDataManagementService
     {
         var logObject = new BatchUploadLog
         {
+            Operation = "UploadFile",
             BatchId = batchId,
             Timestamp = valueLastModified,
             IndicatorId = indicatorId,
@@ -206,6 +207,7 @@ public class DataManagementService : IDataManagementService
     {
         var logObject = new BatchDeleteLog
         {
+            Operation = "BatchDelete",
             BatchId = deletedBatch.BatchId,
             Timestamp = timestamp,
             UserId = deletedBatch.DeletedUserId,
