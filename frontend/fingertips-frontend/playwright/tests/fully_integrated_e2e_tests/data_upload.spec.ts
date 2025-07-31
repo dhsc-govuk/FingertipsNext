@@ -1,10 +1,14 @@
 import path from 'path';
 import { test } from '../../page-objects/pageFactory';
-import { SignInAs, TestTag } from '../../testHelpers/genericTestUtilities';
+import {
+  randomString,
+  SignInAs,
+  TestTag,
+} from '../../testHelpers/genericTestUtilities';
 
 const indicatorId = '41101';
-
-const csvFileName = 'playwright_indicator_data.csv';
+const randomVal = randomString(5);
+const csvFileName = `playwright_indicator_data_${randomVal}.csv`;
 const pathToExampleCsv = path.join(
   __dirname,
   '..',
@@ -15,7 +19,7 @@ const pathToExampleCsv = path.join(
 const signInAsUserToCheckUnpublishedData = SignInAs.administrator;
 
 /**
- * This tests the indicator data upload journey.
+ * This tests the indicator data upload then delete journey.
  */
 test.describe(
   `Indicator data upload`,
@@ -23,7 +27,7 @@ test.describe(
     tag: [TestTag.CI, TestTag.CD],
   },
   () => {
-    test('sign in as admin and upload a file', async ({
+    test('sign in as admin and upload a file, check it appears in the batch table, then delete it and check it is marked as deleted in the batch table', async ({
       uploadPage,
       homePage,
     }) => {
@@ -49,12 +53,20 @@ test.describe(
 
         await uploadPage.clickUploadButton();
       });
+
       await test.step('Check API success response is displayed', async () => {
         await uploadPage.checkApiResponsePanelContains('202');
       });
 
-      await test.step('Check that the batch list table is displayed', async () => {
-        await uploadPage.checkUploadedBatchListContainerIsVisible(csvFileName);
+      await test.step('Check that the batch list table is displayed and contains our upload', async () => {
+        await uploadPage.checkUploadedBatchListContainerIsVisible(
+          csvFileName,
+          indicatorId
+        );
+      });
+
+      await test.step('Delete the batch from the table and check its status is now Deleted', async () => {
+        await uploadPage.deleteBatchFromTable(csvFileName);
       });
     });
   }

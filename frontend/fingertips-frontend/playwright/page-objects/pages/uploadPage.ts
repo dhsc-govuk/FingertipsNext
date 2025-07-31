@@ -1,3 +1,4 @@
+import { BatchStatusEnum } from '@/generated-sources/ft-api-client/models/Batch';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 
@@ -80,7 +81,10 @@ export default class UploadPage extends BasePage {
     ).toBeVisible();
   }
 
-  async checkUploadedBatchListContainerIsVisible(fileName: string) {
+  async checkUploadedBatchListContainerIsVisible(
+    fileName: string,
+    indicatorId: string
+  ) {
     await expect(
       this.page.getByRole('heading', {
         name: this.batchListContainerHeadingText,
@@ -90,12 +94,25 @@ export default class UploadPage extends BasePage {
       this.page.getByTestId(this.batchListTableTestId)
     ).toBeVisible();
     await expect(
-      this.page
-        .getByRole('button', { name: this.deleteSubmissionButtonText })
-        .first()
+      this.page.getByTestId(`batch-table-row-${fileName}`).locator('td').nth(4)
+    ).toHaveText(indicatorId);
+    await expect(
+      this.page.getByTestId(`batch-table-row-${fileName}`).locator('td').nth(9)
     ).toHaveCount(1);
     await expect(
-      this.page.getByRole('cell', { name: fileName }).first()
+      this.page.getByTestId(`batch-table-row-${fileName}`)
     ).toHaveCount(1);
+  }
+
+  async deleteBatchFromTable(fileName: string) {
+    await this.clickAndAwaitLoadingComplete(
+      this.page.getByTestId(`batch-table-delete-${fileName}`)
+    );
+  }
+
+  async checkDeletedBatchIsMarkedAsDeleted(fileName: string) {
+    await expect(
+      this.page.getByTestId(`batch-table-row-${fileName}`).locator('td').nth(8)
+    ).toHaveText(BatchStatusEnum.Deleted);
   }
 }

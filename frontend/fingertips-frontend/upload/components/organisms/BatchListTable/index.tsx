@@ -40,7 +40,10 @@ export const BatchListTable = ({
           <Table.CellHeader></Table.CellHeader>
         </Table.Row>
         {batches.map((batch) => (
-          <Table.Row key={batch.batchId}>
+          <Table.Row
+            key={batch.batchId}
+            data-testid={`batch-table-row-${batch.originalFilename}`}
+          >
             <Table.Cell>{batch.originalFilename}</Table.Cell>
             <Table.Cell>{batch.createdAt.toISOString()}</Table.Cell>
             <Table.Cell>{batch.userId}</Table.Cell>
@@ -52,6 +55,7 @@ export const BatchListTable = ({
             <Table.Cell>{batch.status}</Table.Cell>
             <Table.Cell>
               <Button
+                data-testid={`batch-table-delete-${batch.originalFilename}`}
                 onClick={async () => {
                   if (setDeleteResponse) {
                     setDeleteResponse(await deleteBatch(batch.batchId));
