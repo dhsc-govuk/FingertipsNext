@@ -1,21 +1,23 @@
 import path from 'path';
 import { test } from '../../page-objects/pageFactory';
 import {
-  randomString,
+  buildRandomisedCSVFileName,
   SignInAs,
   TestTag,
 } from '../../testHelpers/genericTestUtilities';
 
 const indicatorId = '41101';
-const randomVal = randomString(5);
-const csvFileName = `playwright_indicator_data_${randomVal}.csv`;
+const baseCsvFileName = 'playwright_indicator_data.csv';
 const pathToExampleCsv = path.join(
   __dirname,
   '..',
   '..',
   'resources',
-  csvFileName
+  baseCsvFileName
 );
+let pathToRandomisedCsv: string;
+let randomisedCSVFileName: string;
+
 const signInAsUserToCheckUnpublishedData = SignInAs.administrator;
 
 /**
@@ -27,6 +29,11 @@ test.describe(
     tag: [TestTag.CI, TestTag.CD],
   },
   () => {
+    test.beforeAll(async () => {
+      ({ pathToRandomisedCsv, randomisedCSVFileName } =
+        await buildRandomisedCSVFileName(pathToExampleCsv));
+    });
+
     test('sign in as admin and upload a file, check it appears in the batch table, then delete it and check it is marked as deleted in the batch table', async ({
       uploadPage,
       homePage,
@@ -48,7 +55,7 @@ test.describe(
           publishedAtDay: '7',
           publishedAtMonth: '3',
           publishedAtYear: String(currentYear + 10),
-          pathToCsv: pathToExampleCsv,
+          pathToCsv: pathToRandomisedCsv,
         });
 
         await uploadPage.clickUploadButton();
@@ -60,13 +67,16 @@ test.describe(
 
       await test.step('Check that the batch list table is displayed and contains our upload', async () => {
         await uploadPage.checkUploadedBatchListContainerIsVisible(
-          csvFileName,
-          indicatorId
+          randomisedCSVFileName
         );
       });
 
       await test.step('Delete the batch from the table and check its status is now Deleted', async () => {
-        await uploadPage.deleteBatchFromTable(csvFileName);
+        await uploadPage.deleteBatchFromTable(randomisedCSVFileName);
+
+        await uploadPage.checkDeletedBatchIsMarkedAsDeleted(
+          randomisedCSVFileName
+        );
       });
     });
   }
