@@ -85,6 +85,20 @@ namespace DataCreator
             return areasWeWant;
         }
 
+        public async Task EnrichPocIndicatorsWithPeriodType(List<SimpleIndicator> pocIndicators)
+        {
+            var indicators = (await _pholioDataFetcher.FetchIndicatorsAsync(pocIndicators)).ToList();
+            foreach (var indicator in indicators)
+            {
+                var pocIndicator = pocIndicators.FirstOrDefault(pocIndicator => pocIndicator.IndicatorID == indicator.IndicatorID);
+                if (pocIndicator == null)
+                {
+                    continue;
+                }
+                pocIndicator.PeriodType = indicator.PeriodType;
+            }
+        }
+
         public async Task CreateIndicatorDataAsync(List<IndicatorWithAreasAndLatestUpdate> indicatorWithAreasAndLatestUpdates, List<SimpleIndicator> pocIndicators)
         {
             //get the indicator data from the PHOLIO database
@@ -123,8 +137,6 @@ namespace DataCreator
                 indicator.BenchmarkComparisonMethod = indicatorUsedInPoc.BenchmarkComparisonMethod;
                 indicator.Polarity = indicatorUsedInPoc.Polarity;
                 indicator.RequiresGeoAggregation = indicatorUsedInPoc.RequiresGeoAggregation;
-
-                indicatorUsedInPoc.PeriodType = indicator.PeriodType;
             }
             AddLastUpdatedDate(indicators);
 
@@ -157,6 +169,8 @@ namespace DataCreator
                 healthMeasures.AddRange(healthDataForIndicator);
             }
             var usedAges = AddAgeIds(healthMeasures, allAges);
+            // add period data to health data
+            HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(pocIndicators, healthMeasures);
 
             CreateCategoryData(healthMeasures);
 
@@ -166,8 +180,8 @@ namespace DataCreator
                 {
                     IndicatorID = group.Key,
                     AssociatedAreaCodes = group.Select(healthMeasureEntity => healthMeasureEntity.AreaCode).Distinct().ToList(),
-                    LatestDataPeriod = group.OrderByDescending(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
-                    EarliestDataPeriod = group.OrderBy(healthMeasureEntity => healthMeasureEntity.Year).First().Year,
+                    LatestDataPeriod = group.OrderByDescending(healthMeasureEntity => healthMeasureEntity.FromDate).First().FromDate,
+                    EarliestDataPeriod = group.OrderBy(healthMeasureEntity => healthMeasureEntity.FromDate).First().FromDate,
                     HasInequalities = group.Any(healthMeasureEntity => healthMeasureEntity.Sex != PERSONS || !string.IsNullOrEmpty(healthMeasureEntity.CategoryType)), //if an indicator has any data that is sex specific or has deciles it is said to have inequality data
                     HasMultipleSexes = group.Select(healthMeasureEntity => healthMeasureEntity.Sex).Distinct().Count() > 1,
                     HasMultipleAges = group.Select(healthMeasureEntity => healthMeasureEntity.Age).Distinct().Count() > 1,
