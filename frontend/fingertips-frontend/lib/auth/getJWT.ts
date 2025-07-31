@@ -9,7 +9,11 @@ export const getJWT = async () => {
     ),
   };
 
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  const token = await getToken({
+    req,
+    secret: process.env.AUTH_SECRET,
+    secureCookie: true,
+  });
 
   return token;
 };

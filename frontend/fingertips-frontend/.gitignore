@@ -44,3 +44,5 @@ next-env.d.ts
 /ctrf/
 /blob-report/
 /playwright/.cache/
+
+certificates

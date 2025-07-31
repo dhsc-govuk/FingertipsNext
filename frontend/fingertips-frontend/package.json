@@ -7,6 +7,7 @@
     "dev:local-api": "concurrently \"npm run api:start\" \"npm run dev-no-mocks\" && npm run api:stop",
     "dev": "cross-env MOCK_SERVER=true npm run dev-no-mocks",
     "dev-no-mocks": "cross-env NODE_OPTIONS='--max-http-header-size=32768' next dev",
+    "dev-no-mocks-https": "cross-env NODE_OPTIONS='--max-http-header-size=32768' next dev --experimental-https",
     "bundle-swagger": "npx redocly bundle ./../../api/definition/swagger.yaml -o ./../../api/definition/fingertipsAPI.yaml",
     "generate:api-client": "npm run bundle-swagger && openapi-generator-cli generate",
     "generate:ft-mocks": "npm run bundle-swagger && npx msw-auto-mock ./../../api/definition/fingertipsAPI.yaml -o ./mock/server",
