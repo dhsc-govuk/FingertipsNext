@@ -14,6 +14,7 @@ import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockQuartileData } from '@/mock/data/mockQuartileData';
 import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 import { Frequency } from '@/generated-sources/ft-api-client';
+import { SearchParams } from '@/lib/searchStateManager';
 
 const testArea = mockHealthDataForArea({ healthData: [] });
 const testGroup = mockHealthDataForArea_Group({ healthData: [] });
@@ -34,7 +35,7 @@ const selectedGroupCode: string = testGroup.areaCode;
 
 describe('buildSpineChartIndicatorData', () => {
   it('should return empty array when no data supplied', () => {
-    const result = buildSpineChartIndicatorData([], [], [], [], '');
+    const result = buildSpineChartIndicatorData([], [], [], [], {});
     expect(result).toEqual([]);
   });
 
@@ -44,7 +45,7 @@ describe('buildSpineChartIndicatorData', () => {
       [testMeta],
       [testQuartile],
       areasSelected,
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
 
     const [row1] = result;
@@ -89,7 +90,7 @@ describe('buildSpineChartIndicatorData', () => {
       [testMeta],
       [testQuartile],
       areasSelected,
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
     const [row1] = result;
     expect(row1.groupData).toBeUndefined();
@@ -101,7 +102,7 @@ describe('buildSpineChartIndicatorData', () => {
       [],
       [testQuartile],
       areasSelected,
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
 
     const [row1] = result;
@@ -114,7 +115,7 @@ describe('buildSpineChartIndicatorData', () => {
       [testMeta],
       [testQuartile],
       areasSelected,
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
     expect(result).toEqual([]);
   });
@@ -125,7 +126,7 @@ describe('buildSpineChartIndicatorData', () => {
       [mockSpineIndicatorDocument],
       [mockSpineQuartileData],
       ['abc'],
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
     expect(result).toEqual([]);
   });
@@ -136,7 +137,7 @@ describe('buildSpineChartIndicatorData', () => {
       [testMeta],
       [],
       areasSelected,
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
     expect(result).toEqual([]);
   });
@@ -147,7 +148,7 @@ describe('buildSpineChartIndicatorData', () => {
       [testMeta],
       [testQuartile],
       areasSelected,
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
     expect(result).toEqual([]);
   });
@@ -158,7 +159,7 @@ describe('buildSpineChartIndicatorData', () => {
       [testMeta],
       [testQuartile],
       areasSelected,
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
     expect(result).toEqual([]);
   });
@@ -169,7 +170,7 @@ describe('buildSpineChartIndicatorData', () => {
       [testMeta],
       [{ ...testQuartile, datePeriod: mockDatePeriod(1999) }],
       areasSelected,
-      selectedGroupCode
+      { [SearchParams.GroupSelected]: selectedGroupCode }
     );
 
     const row = result[0];

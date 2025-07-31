@@ -43,7 +43,7 @@ export const useSpineChartData = (
     indicatorMetaData,
     quartileData,
     areaCodes,
-    selectedGroupCode
+    searchState
   );
 
   if (!spineChartData.length) return;

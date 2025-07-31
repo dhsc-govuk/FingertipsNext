@@ -54,6 +54,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
     groupData,
     englandData,
     quartileData,
+    isSmallestReportingPeriod,
   } = indicatorData;
   const { best, worst } = orderStatistics(quartileData);
 
@@ -86,7 +87,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   const formattedPeriod = formatDatePointLabel(
     latestDataPeriod,
     quartileData.frequency ?? Frequency.Annually,
-    true
+    isSmallestReportingPeriod
   );
 
   return (
