@@ -161,12 +161,12 @@ jobs:
       - name: Run Unit Tests
         run: dotnet test --logger trx --filter FullyQualifiedName\!~IntegrationTests
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: (!cancelled())
+      - name: Publish Test Report
+        uses: ctrf-io/github-test-reporter@v1
         with:
-          files: |
-            **/*.trx
+          report-path: './ctrf/*.json'
+          github-report: true
+        if: always()
 
   trend-analysis-app-test:
     needs: [check-changes, determine-version]
@@ -195,12 +195,12 @@ jobs:
       - name: Run Unit Tests
         run: dotnet test --logger trx
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: (!cancelled())
+      - name: Publish Test Report
+        uses: ctrf-io/github-test-reporter@v1
         with:
-          files: |
-            **/*.trx
+          report-path: './ctrf/*.json'
+          github-report: true
+        if: always()
 
 
   frontend-build-and-test:
