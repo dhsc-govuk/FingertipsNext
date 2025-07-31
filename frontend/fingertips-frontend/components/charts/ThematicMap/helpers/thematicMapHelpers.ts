@@ -398,7 +398,8 @@ export function thematicMapTitle(
   healthIndicatorData: HealthDataForArea[],
   periodType: PeriodType,
   frequency: Frequency,
-  latestDataPeriod: DatePeriod | undefined
+  latestDataPeriod: DatePeriod | undefined,
+  isSmallestReportingPeriod: boolean
 ): string {
   const areaType = allAreaTypes.find(
     (areaType) => areaType.key === selectedAreaType
@@ -411,7 +412,7 @@ export function thematicMapTitle(
   const datePointLabel = formatDatePointLabel(
     latestDataPeriod,
     frequency,
-    true
+    isSmallestReportingPeriod
   );
 
   const latestYear = getLatestYearForAreas(healthIndicatorData);
