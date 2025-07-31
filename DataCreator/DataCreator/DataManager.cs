@@ -123,9 +123,9 @@ namespace DataCreator
                 if (indicatorUsedInPoc == null)
                 {
                     continue;
-                }   
+                }
                 indicator.UsedInPoc = true;
-                
+
                 if (!string.IsNullOrEmpty(indicatorUsedInPoc.IndicatorName))
                 {
                     indicator.IndicatorName = indicatorUsedInPoc.IndicatorName;
@@ -198,7 +198,7 @@ namespace DataCreator
         {
             foreach (var healthDataPoint in healthDataForIndicator)
             {
-                if(containsCumulativePeriodData && healthDataPoint.Period == "3m")
+                if (containsCumulativePeriodData && healthDataPoint.Period == "3m")
                 {
                     healthDataPoint.Period = PeriodConstants.CumulativeQuarterly;
                     continue;
