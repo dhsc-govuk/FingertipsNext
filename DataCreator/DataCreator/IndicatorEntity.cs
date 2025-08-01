@@ -51,8 +51,8 @@ namespace DataCreator
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
 
-        public int LatestDataPeriod { get; set; } = 1999;
-        public int EarliestDataPeriod { get; set; } = 1999;
+        public string LatestDataPeriod { get; set; } = "1999-01-01";
+        public string EarliestDataPeriod { get; set; } = "1999-01-01";
 
         public string LastUpdatedDate { get; set; }
 
@@ -103,9 +103,9 @@ namespace DataCreator
     {
         public int IndicatorID { get; set; }
 
-        public int LatestDataPeriod { get; set; }
+        public string LatestDataPeriod { get; set; }
 
-        public int EarliestDataPeriod { get; set; }
+        public string EarliestDataPeriod { get; set; }
 
         public List<string> AssociatedAreaCodes { get; set; } = [];
 

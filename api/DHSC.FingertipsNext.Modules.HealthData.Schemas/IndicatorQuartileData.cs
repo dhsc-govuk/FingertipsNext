@@ -23,9 +23,6 @@ public class IndicatorQuartileData : IndicatorBase
     [JsonPropertyName("isAggregate")]
     public bool? IsAggregate { get; init; }
 
-    [JsonPropertyName("year")]
-    public short? Year { get; init; }
-
     /// <summary>
     ///     The date period that the Quartile data is for
     /// </summary>

@@ -30,7 +30,6 @@ internal static class HealthDataForAreaBuilder
                 double value = vals[i];
                 healthDataPoints.Add(new HealthDataPoint
                 {
-                    Year = year,
                     DatePeriod = new DatePeriod
                     {
                         From = new DateOnly(year, 1, 1),
@@ -41,7 +40,6 @@ internal static class HealthDataForAreaBuilder
                     Value = value,
                     LowerConfidenceInterval = value - spread,
                     UpperConfidenceInterval = value + spread,
-                    AgeBand = new Age { Value = "0-4", IsAggregate = true },
                     Deprivation = new Deprivation
                     {
                         Value = "Most deprived",
@@ -49,8 +47,6 @@ internal static class HealthDataForAreaBuilder
                         Sequence = 1,
                         IsAggregate = true
                     },
-                    Sex = sex,
-                    ReportingPeriod = ReportingPeriod.Yearly,
                     Trend = "No change",
                     IsAggregate = sexValue == "Persons"
                 });
@@ -71,7 +67,6 @@ internal static class HealthDataForAreaBuilder
             AreaCode = areaCode,
             AreaName = "Mock Area",
             IndicatorSegments = indicatorSegments,
-            HealthData = new List<HealthDataPoint>()
         };
     }
 }

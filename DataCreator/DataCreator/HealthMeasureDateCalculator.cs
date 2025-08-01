@@ -52,7 +52,7 @@ public static class HealthMeasureDateCalculator
     {
         var toDate = DateTime.Parse(healthMeasure.FromDate, new CultureInfo("en-GB"));
 
-        if(healthMeasure.Period == PeriodConstants.CumulativeQuarterly)
+        if (healthMeasure.Period == PeriodConstants.CumulativeQuarterly)
         {
             var incrementMultiplier = int.Parse(healthMeasure.TimePeriodSortable.Trim().Substring(4, 2));
             toDate = toDate.AddMonths(incrementMultiplier * 3);
@@ -64,7 +64,7 @@ public static class HealthMeasureDateCalculator
                 toDate.AddYears(yearIncrement).AddMonths(monthIncrement)
                     .AddDays(-1) : toDate.AddYears(yearIncrement - 1);
         }
-            
+
 
         healthMeasure.ToDate = toDate.ToShortDateString();
     }
@@ -78,17 +78,17 @@ public static class HealthMeasureDateCalculator
         switch (healthMeasure.Period)
         {
             case "quarterly":
-            {
-                var quarterSegment = int.Parse(healthMeasure.TimePeriodSortable.Trim()[5].ToString());
-                fromDate = fromDate.AddMonths((quarterSegment - 1) * 3);
-                break;
-            }
+                {
+                    var quarterSegment = int.Parse(healthMeasure.TimePeriodSortable.Trim()[5].ToString());
+                    fromDate = fromDate.AddMonths((quarterSegment - 1) * 3);
+                    break;
+                }
             case "monthly":
-            {
-                var monthSegment = int.Parse(healthMeasure.TimePeriodSortable.Trim()[^2..]);
-                fromDate = fromDate.AddMonths(monthSegment - 1);
-                break;
-            }
+                {
+                    var monthSegment = int.Parse(healthMeasure.TimePeriodSortable.Trim()[^2..]);
+                    fromDate = fromDate.AddMonths(monthSegment - 1);
+                    break;
+                }
         }
 
         healthMeasure.FromDate = fromDate.ToShortDateString();

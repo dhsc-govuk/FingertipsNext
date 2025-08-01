@@ -67,7 +67,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
                 .ToList()[2]
                 .IndicatorSegments.First()
                 .HealthData;
-        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.Year).Distinct().ToList();
+        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.DatePeriod.From.Year).Distinct().ToList();
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -101,7 +101,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
             .ToList()[0]
             .IndicatorSegments.First()
             .HealthData;
-        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.Year).Distinct().ToList();
+        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.DatePeriod.From.Year).Distinct().ToList();
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -188,7 +188,6 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
 
         response.ShouldNotBeNull();
         quartileData.ShouldNotBeNull();
-        quartileData.Year.ShouldBe((short)2025);
         quartileData.DatePeriod.From.ToString("MM/dd/yyyy").ShouldBe("01/01/2025");
         quartileData.DatePeriod.To.ToString("MM/dd/yyyy").ShouldBe("12/31/2025");
         quartileData.IndicatorId.ShouldBe(indicatorId);

@@ -12,7 +12,6 @@ CREATE TABLE [dbo].[HealthMeasure](
 	[Value] [float] NULL,                             --The value of the data e.g. how many people per 100 000. This is the key piece of data for this row
 	[LowerCI] [float] NULL,                           --The lower confidence interval value - a statistically calculated value using methodology described in the indicator metadata
 	[UpperCI] [float] NULL,                           --The upper confidence interval value - a statistically calculated value using methodology described in the indicator metadata
-	[Year] [smallint] NOT NULL,                       --A junk dimension of the year that this row is for e.g. 2022, will be deprecated
 	[IsSexAggregatedOrSingle] bit NULL,
 	[IsAgeAggregatedOrSingle] bit NULL,
 	[IsDeprivationAggregatedOrSingle] bit NULL,
@@ -126,12 +125,6 @@ CREATE NONCLUSTERED INDEX [TrendIndex] ON [dbo].[HealthMeasure]
 )
 GO
 
-CREATE NONCLUSTERED INDEX [YearIndex] ON [dbo].[HealthMeasure]
-(
-	[Year] ASC
-)
-GO
-
 CREATE NONCLUSTERED INDEX [FromDateIndex] ON [dbo].[HealthMeasure]
 (
 	[FromDateKey] ASC
@@ -194,7 +187,6 @@ ON [dbo].[HealthMeasure] (
 INCLUDE (
     [AreaKey],
     [Value],
-    [Year],
     [ToDateKey],
     [PublishedAt]
 );

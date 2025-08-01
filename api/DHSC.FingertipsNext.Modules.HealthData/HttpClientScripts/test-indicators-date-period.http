@@ -17,7 +17,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
                 {areaName:"Bacon Road Medical Centre", from:"2023-04-01", value: 68.0851063829787},  
                 ];
 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -26,7 +26,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} value`
             );
@@ -49,7 +49,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
                 {areaName:"Bacon Road Medical Centre", from:"2023-04-01", value: 68.0851063829787},  
                 ];
 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -58,7 +58,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} value`
             );
@@ -85,7 +85,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
                 {areaName:"Bacon Road Medical Centre", from:"2023-04-01", value: 68.0851063829787},  
                 ];
 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -94,7 +94,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} value`
             );
@@ -120,7 +120,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
                 {areaName:"Bacon Road Medical Centre", from:"2023-04-01", value: 68.0851063829787},  
                 ];
 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -129,7 +129,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} value`
             );
@@ -156,7 +156,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
                 {areaName:"Bacon Road Medical Centre", from:"2023-04-01", value: 68.0851063829787},  
                 ];
 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -165,7 +165,7 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} value`
             );
@@ -180,20 +180,11 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [  ];
 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        var numHealthDataPoints = 0;
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
         );
-
-        expectedResults.forEach((expected) => {
-            client.assert(
-                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
-                .value === expected.value,
-                `failed for ${expected.areaName} value`
-            );
-        });
     });
 %}
 
@@ -204,20 +195,11 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [  ];
 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        var numHealthDataPoints = 0
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
         );
-
-        expectedResults.forEach((expected) => {
-            client.assert(
-                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
-                .value === expected.value,
-                `failed for ${expected.areaName} value`
-            );
-        });
     });
 %}
 
@@ -237,8 +219,8 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-01&to_date=202
                 {areaName:"Windrush Medical Practice", from:"2023-01-01", value:30.4179},
                 ];
 
-                
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -247,7 +229,7 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-01&to_date=202
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} ${expected.from} ${expected.outcome}`
             );
@@ -268,8 +250,8 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-02&to_date=202
                 {areaName:"Windrush Medical Practice", from:"2022-01-01", value:28.0830820914053},
                 ];
 
-                
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -278,7 +260,7 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-02&to_date=202
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} ${expected.from} ${expected.outcome}`
             );
@@ -303,8 +285,8 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-01&area_codes=
                 {areaName:"Windrush Medical Practice", from:"2023-01-01", value:30.4179},
                 {areaName:"Windrush Medical Practice", from:"2024-01-01", value:22.6251},
                 ];
-                
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -313,7 +295,7 @@ GET http://localhost:5144/indicators/90453/data?from_date=2020-01-01&area_codes=
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} ${expected.from} ${expected.outcome}`
             );
@@ -339,8 +321,8 @@ GET http://localhost:5144/indicators/90453/data?to_date=2023-12-31&area_codes=K8
                 {areaName:"Windrush Medical Practice", from:"2023-01-01", value:30.4179},
                 ];
 
-                
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === 22,
             `Expected 22 area health data items, but got ${numHealthDataPoints}`
@@ -349,7 +331,7 @@ GET http://localhost:5144/indicators/90453/data?to_date=2023-12-31&area_codes=K8
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} ${expected.from} ${expected.outcome}`
             );

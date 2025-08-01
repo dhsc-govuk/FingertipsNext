@@ -6,7 +6,6 @@ public interface IHealthDataRepository
 {
     Task<IEnumerable<HealthMeasureModel>> GetIndicatorDataAsync(int indicatorId,
         string[] areaCodes,
-        int[] years,
         string[] inequalities,
         DateOnly? fromDate = null,
         DateOnly? toDate = null,
@@ -15,7 +14,6 @@ public interface IHealthDataRepository
     Task<IEnumerable<DenormalisedHealthMeasureModel>> GetIndicatorDataWithQuintileBenchmarkComparisonAsync(
         int indicatorId,
         string[] areaCodes,
-        int[] years,
         string areaTypeKey,
         string benchmarkAreaCode,
         DateOnly? fromDate = null,

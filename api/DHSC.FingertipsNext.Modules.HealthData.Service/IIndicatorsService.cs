@@ -17,7 +17,6 @@ public interface IIndicatorsService
     /// <param name="areaType">The area type which the codes are taken from.</param>
     /// <param name="ancestorCode">The area group which the code should be benchmarked against.</param>
     /// <param name="benchmarkRefType">The benchmark reference type to be used.</param>
-    /// <param name="years">A list of years.</param>
     /// <param name="inequalities">A list of desired inequalities.</param>
     /// <param name="includeUnpublished">Get unpublished and published data</param>
     /// <returns>
@@ -29,7 +28,6 @@ public interface IIndicatorsService
         string areaType,
         string ancestorCode,
         BenchmarkReferenceType benchmarkRefType,
-        IEnumerable<int> years,
         IEnumerable<string> inequalities,
         bool latestOnly = false,
         DateOnly? fromDate = null,

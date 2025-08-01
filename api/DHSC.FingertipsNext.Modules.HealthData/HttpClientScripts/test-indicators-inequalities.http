@@ -6,7 +6,7 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&from_date=2
     client.test("Expected health data returned with deprivation inequalities breakdown", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(response.body.areaHealthData.length == 1, "HealthData doesn't contain a single area");
-        client.assert(response.body.areaHealthData[0].healthData.length == 21, "HealthData doesn't contain twenty-one records");
+        client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData.length == 21, "HealthData doesn't contain twenty-one records");
 
         const expectedResults = [
             { sequence: 10, value: "Most deprived decile",
@@ -56,7 +56,7 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&from_date=2
 
         expectedResults.forEach((expected) => {
              client.assert(
-                response.body.areaHealthData[0]
+                response.body.areaHealthData[0].indicatorSegments.find(segment => segment.isAggregate === expected.isAggregate)     
                 .healthData.find(dataPoint => dataPoint.deprivation.sequence === expected.sequence
                                               && dataPoint.deprivation.value === expected.value
                                               && dataPoint.deprivation.type === expected.type
@@ -76,7 +76,9 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalitie
     client.test("Expected health data returned with sex inequalities breakdown", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(response.body.areaHealthData.length == 1, "HealthData doesn't contain a single area");
-        client.assert(response.body.areaHealthData[0].healthData.length == 3, "HealthData doesn't contain three records");
+
+        areaHealthData = response.body.areaHealthData[0];
+        client.assert(areaHealthData.indicatorSegments.length == 3, "HealthData doesn't contain three records");
 
         const expectedResults = [
             {value: "Persons", isAggregate: true},
@@ -86,8 +88,8 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalitie
 
         expectedResults.forEach((expected) => {
              client.assert(
-                response.body.areaHealthData[0]
-                .healthData.find(dataPoint => dataPoint.sex.value === expected.value && dataPoint.sex.isAggregate === expected.isAggregate),
+                areaHealthData.indicatorSegments.find(segment => segment.sex.value === expected.value && segment.isAggregate === expected.isAggregate)
+                .healthData.length == 1,
                 `HealthData doesn't contain a sex with value ${expected.value} and isAggregate ${expected.isAggregate}`
             );
         });
@@ -101,7 +103,8 @@ GET http://localhost:5144/indicators/92708/data?area_codes=E92000001&inequalitie
     client.test("Expected health data returned with age inequalities breakdown", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
         client.assert(response.body.areaHealthData.length == 1, "HealthData doesn't contain a single area");
-        client.assert(response.body.areaHealthData[0].healthData.length == 20, "HealthData doesn't contain twenty records");
+        areaHealthData = response.body.areaHealthData[0];
+        client.assert(areaHealthData.indicatorSegments.length == 60, `Expected 60 segments, found ${areaHealthData.indicatorSegments.length}`);
 
         const expectedResults = [
             {value: "All ages", ageIsAggregate: true, isAggregate: true},
@@ -128,11 +131,8 @@ GET http://localhost:5144/indicators/92708/data?area_codes=E92000001&inequalitie
 
         expectedResults.forEach((expected) => {
              client.assert(
-                response.body.areaHealthData[0]
-                .healthData.find(dataPoint => dataPoint.ageBand.value === expected.value
-                                              && dataPoint.ageBand.isAggregate === expected.ageIsAggregate
-                                              && dataPoint.isAggregate === expected.isAggregate
-                                ),
+                areaHealthData.indicatorSegments.find(segment => segment.age.value === expected.value && segment.isAggregate === expected.isAggregate)
+                ?.healthData.length == 1,
                 `HealthData doesn't contain an age.value ${expected.value}, age.isAggregate ${expected.ageIsAggregate} and isAggregate ${expected.isAggregate}`
             );
         });
