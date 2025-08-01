@@ -5,8 +5,10 @@ import {
   BenchmarkComparisonMethod,
   Frequency,
   IndicatorPolarity,
+  ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
 import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap/HeatMap';
+import { SearchParams } from '@/lib/searchStateManager';
 
 describe('extractHeatmapIndicatorData', () => {
   const populatedIndicatorData = mockIndicatorWithHealthDataForArea();
@@ -25,12 +27,15 @@ describe('extractHeatmapIndicatorData', () => {
       polarity: populatedIndicatorData.polarity ?? IndicatorPolarity.Unknown,
       segmentInfo: { sex: 'persons', age: '', reportingPeriod: '' },
       frequency: Frequency.Annually,
+      isSmallestReportingPeriod: true,
     };
 
     const heatmapData = extractHeatmapIndicatorData(
       populatedIndicatorData,
       populatedIndicatorMetadata,
-      { sex: 'persons', age: '', reportingPeriod: '' }
+      { sex: 'persons', age: '', reportingPeriod: '' },
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
+      []
     );
 
     expect(heatmapData).toEqual(expectedHeatmapIndicatorData);
@@ -40,7 +45,9 @@ describe('extractHeatmapIndicatorData', () => {
     const heatmapData = extractHeatmapIndicatorData(
       { ...populatedIndicatorData, areaHealthData: undefined },
       populatedIndicatorMetadata,
-      { sex: 'persons', age: '', reportingPeriod: '' }
+      { sex: 'persons', age: '', reportingPeriod: '' },
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
+      []
     );
 
     expect(heatmapData).toBe(undefined);
@@ -57,6 +64,7 @@ describe('extractHeatmapIndicatorData', () => {
       polarity: IndicatorPolarity.Unknown,
       segmentInfo: { sex: 'persons', age: '', reportingPeriod: '' },
       frequency: Frequency.Annually,
+      isSmallestReportingPeriod: true,
     };
 
     const heatmapData = extractHeatmapIndicatorData(
@@ -66,7 +74,9 @@ describe('extractHeatmapIndicatorData', () => {
         polarity: undefined,
       },
       populatedIndicatorMetadata,
-      { sex: 'persons', age: '', reportingPeriod: '' }
+      { sex: 'persons', age: '', reportingPeriod: '' },
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
+      []
     );
 
     expect(heatmapData).toEqual(expectedHeatmapIndicatorData);

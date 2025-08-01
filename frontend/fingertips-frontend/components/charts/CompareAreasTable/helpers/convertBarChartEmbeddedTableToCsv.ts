@@ -12,6 +12,7 @@ import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabel
 export const convertBarChartEmbeddedTableToCsv = (
   tableRows: BarChartEmbeddedTableRow[],
   frequency: Frequency,
+  isSmallestReportingPeriod: boolean,
   period?: DatePeriod,
   indicatorMetaData?: IndicatorDocument,
   benchmarkData?: HealthDataForArea,
@@ -84,7 +85,7 @@ export const convertBarChartEmbeddedTableToCsv = (
     csvData.push([
       indicatorID,
       indicatorName,
-      formatDatePointLabel(period, frequency, true),
+      formatDatePointLabel(period, frequency, isSmallestReportingPeriod),
       area,
       areaCode,
       benchmarkComparison?.benchmarkAreaCode,

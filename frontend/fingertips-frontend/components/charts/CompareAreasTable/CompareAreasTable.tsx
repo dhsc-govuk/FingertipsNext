@@ -22,6 +22,7 @@ export function CompareAreasTable() {
     periodType,
     frequency,
     latestDataPeriod,
+    isSmallestReportingPeriod,
     name = '',
   } = data;
 
@@ -44,6 +45,7 @@ export function CompareAreasTable() {
         periodType={periodType}
         frequency={frequency}
         latestDataPeriod={latestDataPeriod}
+        isSmallestReportingPeriod={isSmallestReportingPeriod}
       />
     </StyleChartWrapper>
   );

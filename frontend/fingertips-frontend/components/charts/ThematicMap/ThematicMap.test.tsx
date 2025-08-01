@@ -60,6 +60,7 @@ const testRender = (name?: string) => {
         periodType={PeriodType.Calendar}
         frequency={Frequency.Annually}
         latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     </QueryClientProvider>
   );
@@ -123,6 +124,7 @@ describe('ThematicMap', () => {
           indicatorMetadata={mockIndicatorDocument({ indicatorID: '92420' })}
           periodType={PeriodType.Calendar}
           frequency={Frequency.Annually}
+          isSmallestReportingPeriod={true}
         />
       </QueryClientProvider>
     );

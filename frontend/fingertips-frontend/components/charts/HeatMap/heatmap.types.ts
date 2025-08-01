@@ -18,6 +18,7 @@ export interface HeatmapIndicatorData {
   polarity: IndicatorPolarity;
   segmentInfo: SegmentInfo;
   frequency: Frequency;
+  isSmallestReportingPeriod: boolean;
 }
 
 export interface Area {

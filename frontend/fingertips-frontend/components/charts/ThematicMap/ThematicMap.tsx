@@ -47,6 +47,7 @@ interface ThematicMapProps {
   groupData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
   benchmarkToUse?: string;
+  isSmallestReportingPeriod: boolean;
 }
 
 export function ThematicMap({
@@ -63,6 +64,7 @@ export function ThematicMap({
   groupData,
   indicatorMetadata,
   benchmarkToUse,
+  isSmallestReportingPeriod,
 }: Readonly<ThematicMapProps>) {
   const { isLoading, error, mapGeographyData } = useMapGeographyData(
     areaCodes,
@@ -108,7 +110,8 @@ export function ThematicMap({
     healthIndicatorData,
     periodType,
     frequency,
-    latestDataPeriod
+    latestDataPeriod,
+    isSmallestReportingPeriod
   );
 
   const legendsToShow = getMethodsAndOutcomes([
@@ -143,6 +146,7 @@ export function ThematicMap({
                 polarity={polarity}
                 benchmarkToUse={benchmarkToUse}
                 year={mostReccentYear}
+                isSmallestReportingPeriod={isSmallestReportingPeriod}
               />
             </div>
           ))}
