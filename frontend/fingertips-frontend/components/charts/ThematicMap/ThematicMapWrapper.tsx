@@ -29,6 +29,7 @@ export function ThematicMapWrapper() {
     periodType,
     frequency,
     latestDataPeriod,
+    isSmallestReportingPeriod,
   } = data;
 
   const {
@@ -61,6 +62,7 @@ export function ThematicMapWrapper() {
         englandData={englandData}
         areaCodes={areaCodes ?? []}
         benchmarkToUse={benchmarkToUse}
+        isSmallestReportingPeriod={isSmallestReportingPeriod}
       />
     </StyleChartWrapper>
   );

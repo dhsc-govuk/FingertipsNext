@@ -53,7 +53,11 @@ export function HeatMapWrapper({
       <H3>{title}</H3>
       <HeatMap
         title={subTitle}
-        indicatorData={buildHeatmapIndicatorData(healthData, indicatorMetaData)}
+        indicatorData={buildHeatmapIndicatorData(
+          healthData,
+          indicatorMetaData,
+          searchState
+        )}
         groupAreaCode={selectedGroupCode ?? ''}
         benchmarkAreaCode={benchmarkToUse}
         benchmarkAreaName={

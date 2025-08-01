@@ -85,7 +85,7 @@ export function generateStandardLineChartOptions(
   benchmarkToUse: string,
   periodType: PeriodType,
   frequency: Frequency,
-  reportingPeriodFlag: boolean,
+  isSmallestReportingPeriod: boolean,
   optionalParams?: {
     indicatorName?: string;
     englandData?: HealthDataForArea;
@@ -130,7 +130,7 @@ export function generateStandardLineChartOptions(
       value: formatDatePointLabel(
         point.datePeriod,
         frequency,
-        reportingPeriodFlag
+        isSmallestReportingPeriod
       ),
     })) ?? [];
 

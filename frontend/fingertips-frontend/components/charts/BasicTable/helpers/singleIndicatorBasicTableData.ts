@@ -13,7 +13,8 @@ import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabel
 export const singleIndicatorBasicTableData = (
   area: HealthDataForArea,
   indicatorMetaData: IndicatorDocument,
-  frequency: Frequency
+  frequency: Frequency,
+  isSmallestReportingPeriod: boolean
 ): BasicTableData[] | null => {
   const { indicatorSegments = [] } = area;
   const sortedSegments = indicatorSegmentsSorted(indicatorSegments);
@@ -32,7 +33,11 @@ export const singleIndicatorBasicTableData = (
       const data: BasicTableData = {
         indicatorId: Number(indicatorMetaData.indicatorID),
         indicatorName: `${indicatorMetaData.indicatorName} (${segName})`,
-        period: formatDatePointLabel(datePeriod, frequency, true),
+        period: formatDatePointLabel(
+          datePeriod,
+          frequency,
+          isSmallestReportingPeriod
+        ),
         unitLabel: indicatorMetaData.unitLabel,
         areaName: area.areaName,
         areaCode: area.areaCode,
