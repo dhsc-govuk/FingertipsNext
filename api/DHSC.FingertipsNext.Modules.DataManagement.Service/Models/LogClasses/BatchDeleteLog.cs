@@ -4,6 +4,8 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.Service.Models.LogClasses;
 
 public class BatchDeleteLog
 {
+    [JsonPropertyName("Operation")] public required string Operation { get; init; }
+
     [JsonPropertyName("OriginalFileName")] public required string OriginalFileName { get; init; }
 
     [JsonPropertyName("Timestamp")] public required DateTime? Timestamp { get; init; }

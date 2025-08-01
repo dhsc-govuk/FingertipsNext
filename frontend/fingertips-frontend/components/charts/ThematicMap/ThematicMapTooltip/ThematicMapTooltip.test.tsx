@@ -80,6 +80,7 @@ const testRender = (overides?: Partial<ThematicMapTooltipProps>) => {
       polarity={polarity}
       benchmarkToUse={benchmarkToUse}
       year={year}
+      isSmallestReportingPeriod={true}
     />
   );
 };
@@ -251,6 +252,7 @@ describe('ThematicMapTooltip', () => {
         frequency={mockFrequency}
         latestDataPeriod={mockDatePeriod}
         year={2023}
+        isSmallestReportingPeriod={true}
       />
     );
 

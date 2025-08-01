@@ -9,6 +9,7 @@ import { mockDeep } from 'vitest-mock-extended';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
+  UNPUBLISHED_API_CACHE_CONFIG,
 } from '@/lib/apiClient/apiClientFactory';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
@@ -45,7 +46,7 @@ describe('getAuthorisedHealthDataForAnIndicator', () => {
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-    ).toHaveBeenCalledWith(apiRequestParams, API_CACHE_CONFIG);
+    ).toHaveBeenCalledWith(apiRequestParams, UNPUBLISHED_API_CACHE_CONFIG);
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicator
     ).not.toHaveBeenCalled();
@@ -78,7 +79,7 @@ describe('getAuthorisedHealthDataForAnIndicator', () => {
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-    ).toHaveBeenCalledWith(apiRequestParams, API_CACHE_CONFIG);
+    ).toHaveBeenCalledWith(apiRequestParams, UNPUBLISHED_API_CACHE_CONFIG);
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
       apiRequestParams,
       API_CACHE_CONFIG
@@ -97,7 +98,7 @@ describe('getAuthorisedHealthDataForAnIndicator', () => {
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-    ).toHaveBeenCalledWith(apiRequestParams, API_CACHE_CONFIG);
+    ).toHaveBeenCalledWith(apiRequestParams, UNPUBLISHED_API_CACHE_CONFIG);
     expect(mockIndicatorsApi.getHealthDataForAnIndicator).toHaveBeenCalledWith(
       apiRequestParams,
       API_CACHE_CONFIG
@@ -118,6 +119,6 @@ describe('getAuthorisedHealthDataForAnIndicator', () => {
 
     expect(
       mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData
-    ).toHaveBeenCalledWith(apiRequestParams, API_CACHE_CONFIG);
+    ).toHaveBeenCalledWith(apiRequestParams, UNPUBLISHED_API_CACHE_CONFIG);
   });
 });

@@ -10,6 +10,7 @@ import { mockDeep } from 'vitest-mock-extended';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
+  UNPUBLISHED_API_CACHE_CONFIG,
 } from '../apiClient/apiClientFactory';
 import { mockQuartileData } from '@/mock/data/mockQuartileData';
 
@@ -65,7 +66,7 @@ describe('getAuthorisedQuartilesDataForAnIndicator', () => {
     await waitFor(() => {
       expect(mockIndicatorsApi.indicatorsQuartilesAllGet).toHaveBeenCalledWith(
         apiRequestParams,
-        API_CACHE_CONFIG
+        UNPUBLISHED_API_CACHE_CONFIG
       );
     });
     expect(mockIndicatorsApi.indicatorsQuartilesGet).not.toHaveBeenCalled();
@@ -83,7 +84,7 @@ describe('getAuthorisedQuartilesDataForAnIndicator', () => {
 
     expect(mockIndicatorsApi.indicatorsQuartilesAllGet).toHaveBeenCalledWith(
       apiRequestParams,
-      API_CACHE_CONFIG
+      UNPUBLISHED_API_CACHE_CONFIG
     );
     expect(mockIndicatorsApi.indicatorsQuartilesGet).toHaveBeenCalledWith(
       apiRequestParams,
@@ -103,7 +104,7 @@ describe('getAuthorisedQuartilesDataForAnIndicator', () => {
 
     expect(mockIndicatorsApi.indicatorsQuartilesAllGet).toHaveBeenCalledWith(
       apiRequestParams,
-      API_CACHE_CONFIG
+      UNPUBLISHED_API_CACHE_CONFIG
     );
     expect(mockIndicatorsApi.indicatorsQuartilesGet).toHaveBeenCalledWith(
       apiRequestParams,
@@ -125,7 +126,7 @@ describe('getAuthorisedQuartilesDataForAnIndicator', () => {
 
     expect(mockIndicatorsApi.indicatorsQuartilesAllGet).toHaveBeenCalledWith(
       apiRequestParams,
-      API_CACHE_CONFIG
+      UNPUBLISHED_API_CACHE_CONFIG
     );
   });
 });

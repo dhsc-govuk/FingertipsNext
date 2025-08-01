@@ -6,13 +6,27 @@ import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
 import { withoutYears } from '@/lib/healthDataHelpers/withoutYears';
 import { Frequency } from '@/generated-sources/ft-api-client';
+import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
+import { isSmallestReportingPeriod } from '@/lib/healthDataHelpers/isSmallestReportingPeriod';
 
 export const useSingleIndicatorBasicTableData = () => {
   const searchState = useSearchStateParams();
-  const { [SearchParams.AreasSelected]: areasSelected } = searchState;
+  const {
+    [SearchParams.AreasSelected]: areasSelected,
+    [SearchParams.SegmentationReportingPeriod]: selectedReportingPeriod,
+  } = searchState;
   const { healthData, indicatorMetaData } = useOneIndicatorData();
+
   return useMemo(() => {
     if (!healthData || !indicatorMetaData) return null;
+
+    const frequency = healthData.frequency ?? Frequency.Annually;
+    const { reportingPeriod } = segmentValues(healthData);
+    const isSmallestReportingPeriodFlag = isSmallestReportingPeriod(
+      selectedReportingPeriod,
+      reportingPeriod,
+      frequency
+    );
 
     const cleanData = withoutYears(healthData);
     const areaCode = areasSelected?.at(0) ?? areaCodeForEngland;
@@ -25,7 +39,8 @@ export const useSingleIndicatorBasicTableData = () => {
     return singleIndicatorBasicTableData(
       area,
       indicatorMetaData,
-      healthData.frequency ?? Frequency.Annually
+      frequency,
+      isSmallestReportingPeriodFlag
     );
-  }, [areasSelected, healthData, indicatorMetaData]);
+  }, [areasSelected, healthData, indicatorMetaData, selectedReportingPeriod]);
 };

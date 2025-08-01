@@ -9,8 +9,10 @@ import {
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
+  ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
 import { expectAnyHealthDataForArea } from '@/mock/data/expectAnyHealthDataForArea';
+import { SearchParams } from '@/lib/searchStateManager';
 
 describe('compareAreasTableData', () => {
   it('extracts England and group data from health data', () => {
@@ -22,7 +24,15 @@ describe('compareAreasTableData', () => {
       ],
     });
 
-    const result = compareAreasTableData(input, 'E12000002', 'BENCHMARK_X');
+    const result = compareAreasTableData(
+      input,
+      {
+        [SearchParams.GroupSelected]: 'E12000002',
+        [SearchParams.BenchmarkAreaSelected]: 'BENCHMARK_X',
+        [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly,
+      },
+      []
+    );
 
     expect(result).toEqual({
       benchmarkComparisonMethod:
@@ -39,12 +49,17 @@ describe('compareAreasTableData', () => {
         from: new Date('2023-01-01'),
         type: 'Calendar',
       },
+      isSmallestReportingPeriod: true,
     });
   });
 
   it('handles missing group and benchmark selection gracefully', () => {
     const input = mockIndicatorWithHealthDataForArea();
-    const result = compareAreasTableData(input);
+    const result = compareAreasTableData(
+      input,
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
+      []
+    );
 
     expect(result).toEqual({
       benchmarkComparisonMethod:
@@ -56,6 +71,7 @@ describe('compareAreasTableData', () => {
       benchmarkToUse: areaCodeForEngland,
       periodType: 'Calendar',
       frequency: 'Annually',
+      isSmallestReportingPeriod: true,
     });
   });
 
@@ -85,7 +101,11 @@ describe('compareAreasTableData', () => {
       areaHealthData: [englandHealthData],
     });
 
-    const result = compareAreasTableData(input);
+    const result = compareAreasTableData(
+      input,
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
+      []
+    );
 
     expect(result.latestDataPeriod).toEqual({
       to: new Date('2023-12-31'),

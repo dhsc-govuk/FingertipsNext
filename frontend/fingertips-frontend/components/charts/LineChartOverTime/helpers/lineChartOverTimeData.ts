@@ -9,14 +9,12 @@ import {
   Frequency,
   IndicatorWithHealthDataForArea,
   PeriodType,
-  ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-import { reportingPeriodLabelOrder } from '@/lib/healthDataHelpers/segmentValues';
+import { isSmallestReportingPeriod } from '@/lib/healthDataHelpers/isSmallestReportingPeriod';
 import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
-
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
   healthData: IndicatorWithHealthDataForArea,
@@ -72,21 +70,11 @@ export const lineChartOverTimeData = (
     healthData.areaHealthData?.at(0)?.healthData?.at(0)?.datePeriod?.type ??
     PeriodType.Calendar;
   const frequency = healthData.frequency ?? Frequency.Annually;
-  const reportingPeriod =
-    selectedReportingPeriod ??
-    reportingPeriodOptions[0] ??
-    ReportingPeriod.Yearly;
-
-  const reportingPeriodFlag =
-    reportingPeriod.toLowerCase() === frequency.toLowerCase() ||
-    (reportingPeriod.toLowerCase() ===
-      reportingPeriodLabelOrder[ReportingPeriod.Yearly]?.label.toLowerCase() &&
-      frequency === Frequency.Annually) ||
-    (reportingPeriod.toLowerCase() ===
-      reportingPeriodLabelOrder[
-        ReportingPeriod.CumulativeQuarterly
-      ]?.label.toLowerCase() &&
-      frequency === Frequency.Quarterly);
+  const isSmallestReportingPeriodFlag = isSmallestReportingPeriod(
+    selectedReportingPeriod,
+    reportingPeriodOptions,
+    frequency
+  );
 
   const chartOptions = generateStandardLineChartOptions(
     withoutEnglandOrGroup,
@@ -94,7 +82,7 @@ export const lineChartOverTimeData = (
     benchmarkToUse,
     periodType,
     frequency,
-    reportingPeriodFlag,
+    isSmallestReportingPeriodFlag,
     {
       indicatorName: name,
       englandData: englandData,
@@ -119,7 +107,7 @@ export const lineChartOverTimeData = (
     benchmarkToUse,
     periodType,
     frequency,
-    reportingPeriodFlag,
+    isSmallestReportingPeriod: isSmallestReportingPeriodFlag,
     latestDataPeriod,
   };
 };
