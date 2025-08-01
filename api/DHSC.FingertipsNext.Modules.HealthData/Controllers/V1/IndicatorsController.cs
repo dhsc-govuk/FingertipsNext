@@ -307,7 +307,6 @@ public class IndicatorsController(IIndicatorsService indicatorsService) : Contro
             areaType,
             ancestorCode,
             benchmarkRefType,
-            years ?? [],
             inequalities ?? [],
             latestOnly,
             fromDate,

@@ -23,7 +23,6 @@ public class HealthDataMapperTests
     {
         return new HealthDataPoint
         {
-            Year = year,
             DatePeriod = new DatePeriod { From = new DateOnly(year, 1, 1), To = new DateOnly(year, 12, 31), PeriodType = DatePeriodType.Calendar },
             Count = count,
             Value = value,
@@ -154,7 +153,6 @@ public class HealthDataMapperTests
                 SexName = "Persons",
                 IsSexAggregatedOrSingle = true,
                 Polarity = "High is good",
-                Year = 2024,
                 FromDate = new DateTime(2024, 1, 1),
                 ToDate = new DateTime(2024, 12, 31),
                 PeriodType = "Calendar",
@@ -181,7 +179,6 @@ public class HealthDataMapperTests
                 Sex = new Sex { Value = "Persons", IsAggregate = true },
                 ReportingPeriod = ReportingPeriod.Yearly,
                 IsAggregate = true,
-                Year = 2024,
                 DatePeriod =  new DatePeriod { From = new DateOnly(2024, 1, 1), To = new DateOnly(2024, 12, 31), PeriodType = DatePeriodType.Calendar },
                 Q0Value = 10,
                 Q1Value = 20,

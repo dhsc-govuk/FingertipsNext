@@ -69,7 +69,6 @@ public class HealthDataMapper : IHealthDataMapper
         {
             Count = source.Count,
             Value = source.Value,
-            Year = source.Year,
             DatePeriod = Map(source.FromDate, source.ToDate, source.IndicatorDimension.PeriodType),
             BenchmarkComparison = Map(source.BenchmarkComparison),
             IsAggregate = source.IsAggregate,
@@ -90,7 +89,6 @@ public class HealthDataMapper : IHealthDataMapper
         {
             Count = source.Count,
             Value = source.Value,
-            Year = source.Year,
             DatePeriod = Map(source.FromDate, source.ToDate, source.PeriodType),
             BenchmarkComparison = Map(source.BenchmarkComparisonOutcome == null
             ? null
@@ -191,7 +189,6 @@ public class HealthDataMapper : IHealthDataMapper
         Age = (source.AgeName != null && source.IsAgeAggregatedOrSingle != null) ? new Age { Value = source.AgeName, IsAggregate = (bool)source.IsAgeAggregatedOrSingle } : null,
         ReportingPeriod = source.ReportingPeriod != null ? MapReportingPeriod(source.ReportingPeriod) : null,
         IsAggregate = source.IsAgeAggregatedOrSingle.HasValue && source.IsSexAggregatedOrSingle.HasValue ? source.IsAgeAggregatedOrSingle.Value && source.IsSexAggregatedOrSingle.Value : null,
-        Year = source.Year,
         DatePeriod = (source.FromDate.HasValue && source.ToDate.HasValue && source.PeriodType != null)
                 ? Map(source.FromDate.Value, source.ToDate.Value, source.PeriodType)
                 : null!,

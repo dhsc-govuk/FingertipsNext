@@ -34,7 +34,6 @@ public class DenormalisedHealthDataMapperTests
             Value = 5,
             LowerCi = 3,
             UpperCi = 6,
-            Year = 2024,
             FromDate = new DateTime(2024, 1, 1),
             ToDate = new DateTime(2024, 12, 31),
             PeriodType = "Calendar",
@@ -46,7 +45,6 @@ public class DenormalisedHealthDataMapperTests
 
         HealthDataPoint expectedHealthData = new()
         {
-            Year = 2024,
             DatePeriod = new DatePeriod
             {
                 From = new DateOnly(2024, 1, 1),
@@ -110,7 +108,6 @@ public class DenormalisedHealthDataMapperTests
             Value = 5,
             LowerCi = 3,
             UpperCi = 6,
-            Year = 2024,
             FromDate = new DateTime(2024, 1, 1),
             ToDate = new DateTime(2024, 12, 31),
             PeriodType = "Calendar",
@@ -122,7 +119,6 @@ public class DenormalisedHealthDataMapperTests
 
         HealthDataPoint expectedHealthData = new()
         {
-            Year = 2024,
             DatePeriod = new DatePeriod
             {
                 From = new DateOnly(2024, 1, 1),

@@ -19,7 +19,6 @@
           "isAggregate": false,
           "healthData": [
             {
-              "year": 2013,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2013-04-01",
@@ -54,7 +53,6 @@
               "isAggregate": false
             },
             {
-              "year": 2014,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2014-04-01",
@@ -89,7 +87,6 @@
               "isAggregate": false
             },
             {
-              "year": 2015,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2015-04-01",
@@ -124,7 +121,6 @@
               "isAggregate": false
             },
             {
-              "year": 2016,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2016-04-01",
@@ -159,7 +155,6 @@
               "isAggregate": false
             },
             {
-              "year": 2017,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2017-04-01",
@@ -194,7 +189,6 @@
               "isAggregate": false
             },
             {
-              "year": 2018,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2018-04-01",
@@ -229,7 +223,6 @@
               "isAggregate": false
             },
             {
-              "year": 2019,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2019-04-01",
@@ -264,7 +257,6 @@
               "isAggregate": false
             },
             {
-              "year": 2020,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2020-04-01",
@@ -299,7 +291,6 @@
               "isAggregate": false
             },
             {
-              "year": 2021,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2021-04-01",
@@ -334,7 +325,6 @@
               "isAggregate": false
             },
             {
-              "year": 2022,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2022-04-01",
@@ -369,7 +359,6 @@
               "isAggregate": false
             },
             {
-              "year": 2023,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2023-04-01",
@@ -394,7 +383,7 @@
                 "isAggregate": false
               },
               "reportingPeriod": "Yearly",
-              "trend": "Cannot be calculated",
+              "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
                 "benchmarkAreaCode": "E92000001",
@@ -418,7 +407,6 @@
           "isAggregate": false,
           "healthData": [
             {
-              "year": 2013,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2013-04-01",
@@ -453,7 +441,6 @@
               "isAggregate": false
             },
             {
-              "year": 2014,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2014-04-01",
@@ -488,7 +475,6 @@
               "isAggregate": false
             },
             {
-              "year": 2015,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2015-04-01",
@@ -523,7 +509,6 @@
               "isAggregate": false
             },
             {
-              "year": 2016,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2016-04-01",
@@ -558,7 +543,6 @@
               "isAggregate": false
             },
             {
-              "year": 2017,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2017-04-01",
@@ -593,7 +577,6 @@
               "isAggregate": false
             },
             {
-              "year": 2018,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2018-04-01",
@@ -628,7 +611,6 @@
               "isAggregate": false
             },
             {
-              "year": 2019,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2019-04-01",
@@ -663,7 +645,6 @@
               "isAggregate": false
             },
             {
-              "year": 2020,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2020-04-01",
@@ -698,7 +679,6 @@
               "isAggregate": false
             },
             {
-              "year": 2021,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2021-04-01",
@@ -733,7 +713,6 @@
               "isAggregate": false
             },
             {
-              "year": 2022,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2022-04-01",
@@ -768,7 +747,6 @@
               "isAggregate": false
             },
             {
-              "year": 2023,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2023-04-01",
@@ -793,7 +771,7 @@
                 "isAggregate": false
               },
               "reportingPeriod": "Yearly",
-              "trend": "Cannot be calculated",
+              "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
@@ -817,7 +795,6 @@
           "isAggregate": true,
           "healthData": [
             {
-              "year": 2013,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2013-04-01",
@@ -852,7 +829,6 @@
               "isAggregate": true
             },
             {
-              "year": 2014,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2014-04-01",
@@ -887,7 +863,6 @@
               "isAggregate": true
             },
             {
-              "year": 2015,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2015-04-01",
@@ -922,7 +897,6 @@
               "isAggregate": true
             },
             {
-              "year": 2016,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2016-04-01",
@@ -957,7 +931,6 @@
               "isAggregate": true
             },
             {
-              "year": 2017,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2017-04-01",
@@ -992,7 +965,6 @@
               "isAggregate": true
             },
             {
-              "year": 2018,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2018-04-01",
@@ -1027,7 +999,6 @@
               "isAggregate": true
             },
             {
-              "year": 2019,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2019-04-01",
@@ -1062,7 +1033,6 @@
               "isAggregate": true
             },
             {
-              "year": 2020,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2020-04-01",
@@ -1097,7 +1067,6 @@
               "isAggregate": true
             },
             {
-              "year": 2021,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2021-04-01",
@@ -1132,7 +1101,6 @@
               "isAggregate": true
             },
             {
-              "year": 2022,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2022-04-01",
@@ -1167,7 +1135,6 @@
               "isAggregate": true
             },
             {
-              "year": 2023,
               "datePeriod": {
                 "type": "Financial",
                 "from": "2023-04-01",
@@ -1192,7 +1159,7 @@
                 "isAggregate": true
               },
               "reportingPeriod": "Yearly",
-              "trend": "Cannot be calculated",
+              "trend": "Not yet calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
                 "benchmarkAreaCode": "E92000001",
@@ -1206,7 +1173,6 @@
       ],
       "healthData": [
         {
-          "year": 2013,
           "datePeriod": {
             "type": "Financial",
             "from": "2013-04-01",
@@ -1241,7 +1207,6 @@
           "isAggregate": true
         },
         {
-          "year": 2014,
           "datePeriod": {
             "type": "Financial",
             "from": "2014-04-01",
@@ -1276,7 +1241,6 @@
           "isAggregate": true
         },
         {
-          "year": 2015,
           "datePeriod": {
             "type": "Financial",
             "from": "2015-04-01",
@@ -1311,7 +1275,6 @@
           "isAggregate": true
         },
         {
-          "year": 2016,
           "datePeriod": {
             "type": "Financial",
             "from": "2016-04-01",
@@ -1346,7 +1309,6 @@
           "isAggregate": true
         },
         {
-          "year": 2017,
           "datePeriod": {
             "type": "Financial",
             "from": "2017-04-01",
@@ -1381,7 +1343,6 @@
           "isAggregate": true
         },
         {
-          "year": 2018,
           "datePeriod": {
             "type": "Financial",
             "from": "2018-04-01",
@@ -1416,7 +1377,6 @@
           "isAggregate": true
         },
         {
-          "year": 2019,
           "datePeriod": {
             "type": "Financial",
             "from": "2019-04-01",
@@ -1451,7 +1411,6 @@
           "isAggregate": true
         },
         {
-          "year": 2020,
           "datePeriod": {
             "type": "Financial",
             "from": "2020-04-01",
@@ -1486,7 +1445,6 @@
           "isAggregate": true
         },
         {
-          "year": 2021,
           "datePeriod": {
             "type": "Financial",
             "from": "2021-04-01",
@@ -1521,7 +1479,6 @@
           "isAggregate": true
         },
         {
-          "year": 2022,
           "datePeriod": {
             "type": "Financial",
             "from": "2022-04-01",
@@ -1556,7 +1513,6 @@
           "isAggregate": true
         },
         {
-          "year": 2023,
           "datePeriod": {
             "type": "Financial",
             "from": "2023-04-01",
@@ -1581,7 +1537,7 @@
             "isAggregate": true
           },
           "reportingPeriod": "Yearly",
-          "trend": "Cannot be calculated",
+          "trend": "Not yet calculated",
           "benchmarkComparison": {
             "outcome": "Similar",
             "benchmarkAreaCode": "E92000001",

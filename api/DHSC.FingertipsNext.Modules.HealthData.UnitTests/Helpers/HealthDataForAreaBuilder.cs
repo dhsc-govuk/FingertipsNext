@@ -30,7 +30,6 @@ internal static class HealthDataForAreaBuilder
                 double value = vals[i];
                 healthDataPoints.Add(new HealthDataPoint
                 {
-                    Year = year,
                     DatePeriod = new DatePeriod
                     {
                         From = new DateOnly(year, 1, 1),

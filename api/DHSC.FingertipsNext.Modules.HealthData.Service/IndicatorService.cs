@@ -64,7 +64,6 @@ public class IndicatorService(
         string areaType,
         string ancestorCode,
         BenchmarkReferenceType benchmarkRefType,
-        IEnumerable<int> years,
         IEnumerable<string> inequalities,
         bool latestOnly = false,
         DateOnly? fromDate = null,
@@ -81,7 +80,10 @@ public class IndicatorService(
         var polarity = healthDataMapper.MapIndicatorPolarity(indicator.Polarity);
 
         if (latestOnly)
-            years = [indicator.LatestYear];
+        {
+            toDate = indicator.LatestToDate;
+            fromDate = indicator.LatestFromDate;
+        }
 
         var areaHealthData = ((await GetIndicatorAreaDataAsync(
                 indicatorId,
@@ -89,7 +91,6 @@ public class IndicatorService(
                 areaType,
                 ancestorCode,
                 benchmarkRefType,
-                years,
                 inequalities,
                 method,
                 polarity,
@@ -138,7 +139,6 @@ public class IndicatorService(
         string areaType,
         string ancestorCode,
         BenchmarkReferenceType benchmarkRefType,
-        IEnumerable<int> years,
         IEnumerable<string> inequalities,
         BenchmarkComparisonMethod comparisonMethod,
         IndicatorPolarity polarity,
@@ -161,7 +161,6 @@ public class IndicatorService(
                 areaCodesForSearch,
                 areaType,
                 benchmarkAreaCode,
-                years,
                 fromDate,
                 toDate,
                 includeUnpublished
@@ -174,7 +173,6 @@ public class IndicatorService(
                 indicatorId,
                 areaCodesForSearch,
                 benchmarkAreaCode,
-                years,
                 inequalities,
                 comparisonMethod,
                 polarity,
@@ -192,7 +190,6 @@ public class IndicatorService(
         List<string> areaCodesForSearch,
         string areaType,
         string benchmarkAreaCode,
-        IEnumerable<int> years,
         DateOnly? fromDate = null,
         DateOnly? toDate = null,
         bool includeUnpublished = false
@@ -204,7 +201,6 @@ public class IndicatorService(
             (
                 indicatorId,
                 areaCodesForSearch.ToArray(),
-                years.Distinct().ToArray(),
                 areaType,
                 benchmarkAreaCode,
                 fromDate,
@@ -259,7 +255,6 @@ public class IndicatorService(
         int indicatorId,
         List<string> areaCodesForSearch,
         string benchmarkAreaCode,
-        IEnumerable<int> years,
         IEnumerable<string> inequalities,
         BenchmarkComparisonMethod comparisonMethod,
         IndicatorPolarity polarity,
@@ -291,7 +286,6 @@ public class IndicatorService(
         healthMeasureData = await healthDataRepository.GetIndicatorDataAsync(
             indicatorId,
             areaCodesForSearch.ToArray(),
-            years.Distinct().ToArray(),
             inequalitiesList.Distinct().ToArray(),
             fromDate,
             toDate,

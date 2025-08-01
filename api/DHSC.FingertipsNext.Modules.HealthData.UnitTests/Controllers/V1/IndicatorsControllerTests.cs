@@ -24,7 +24,6 @@ public class IndicatorControllerTests
                 [
                     new HealthDataPoint
                     {
-                        Year = 2023,
                         DatePeriod = new DatePeriod
                         {
                             PeriodType = DatePeriodType.Calendar,
@@ -71,7 +70,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorDataDelegatesToServiceWhenAllParametersSpecified()
     {
-        await _controller.GetPublishedIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", years: [1999, 2024], inequalities: ["age", "sex"]);
+        await _controller.GetPublishedIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", inequalities: ["age", "sex"]);
 
         // expect
         await _indicatorService
@@ -82,7 +81,6 @@ public class IndicatorControllerTests
                 "someAreaType",
                 "",
                 BenchmarkReferenceType.Unknown,
-                years: ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
                 inequalities: ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
             );
     }
@@ -93,14 +91,14 @@ public class IndicatorControllerTests
         await _controller.GetPublishedIndicatorDataAsync(2);
 
         // expect
-        await _indicatorService.Received().GetIndicatorDataAsync(2, [], "", "", BenchmarkReferenceType.Unknown, [], []);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], "", "", BenchmarkReferenceType.Unknown, []);
     }
 
     [Fact]
     public async Task GetIndicatorDataReturnsOkResponseIfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.Success)
             {
                 Content = SampleHealthData
@@ -117,7 +115,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorDataReturnsSuccessResponseIfServiceReturnsEmptyArray()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.NoDataForIndicator));
 
         var response = await _controller.GetPublishedIndicatorDataAsync(3) as ObjectResult;
@@ -130,7 +128,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorDataReturnsNotFoundResponseIfIndicatorDoesNotExist()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist));
 
         var response = await _controller.GetPublishedIndicatorDataAsync(3) as ObjectResult;

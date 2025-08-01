@@ -29,8 +29,8 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalitie
             client.assert(area.healthData.length === responseArea.healthData.length, `Area ${area.areaCode} expected to have ${area.healthData.length} but has ${responseArea.healthData.length}`);
             client.assert(responseArea, `Could not find matching response Area ${area.areaCode}`);
             area.healthData.forEach((dataPoint)=> {
-                const responseDataPoint = responseArea.healthData.find((rspData) => ((rspData.year === dataPoint.year) && (rspData.sex.value === dataPoint.sex.value)));
-                client.assert(responseDataPoint, `Could not find matching data point ${area.areaCode} : ${dataPoint.year} : ${dataPoint.sex}`);
+                const responseDataPoint = responseArea.healthData.find((rspData) => ((rspData.datePeriod.from === dataPoint.datePeriod.from) && (rspData.sex.value === dataPoint.sex.value)));
+                client.assert(responseDataPoint, `Could not find matching data point ${area.areaCode} : ${dataPoint.datePeriod.from} : ${dataPoint.sex.value}`);
                 client.assert(JSON.stringify(dataPoint) === JSON.stringify(responseDataPoint), `${JSON.stringify(dataPoint)} ${JSON.stringify(responseDataPoint)}`);
             })
         })
@@ -46,31 +46,31 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=
     client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
-                {areaName:"West Wirral Group Practice", year:2022, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:74.4345081536034},  
-                {areaName:"West Wirral Group Practice", year:2023, outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:76.4550264550265}                 ];
+                {areaName:"West Wirral Group Practice", year:'2022-04-01', outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:74.4345081536034},  
+                {areaName:"West Wirral Group Practice", year:'2023-04-01', outcome:"Similar", benchmarkArea:"U79121", benchmarkAreaName:"Healthier West Wirral PCN", benchmarkValue:76.4550264550265}                 ];
 
             expectedResults.forEach((expected) => {
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
                     `failed for ${expected.areaName}`
                 );           
@@ -88,41 +88,41 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
     client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
             const expectedResults = [ 
-                {areaName:"Trinity & Bowthorpe Medical Practice", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
-                {areaName:"Trinity & Bowthorpe Medical Practice", year:2023, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
-                {areaName:"Roundwell Medical Centre", year:2022, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
-                {areaName:"Roundwell Medical Centre", year:2023, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
-                {areaName:"Taverham Surgery", year:2022, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
-                {areaName:"Taverham Surgery", year:2023, outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
-                {areaName:"Wensum Valley Medical Practice", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
-                {areaName:"Wensum Valley Medical Practice", year:2023, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
-                {areaName:"Bacon Road Medical Centre", year:2022, outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
-                {areaName:"Bacon Road Medical Centre", year:2023, outcome:"Similar", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Trinity & Bowthorpe Medical Practice", year:'2022-04-01', outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Trinity & Bowthorpe Medical Practice", year:'2023-04-01', outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Roundwell Medical Centre", year:'2022-04-01', outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Roundwell Medical Centre", year:'2023-04-01', outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Taverham Surgery", year:'2022-04-01', outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Taverham Surgery", year:'2023-04-01', outcome:"Higher", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Wensum Valley Medical Practice", year:'2022-04-01', outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Wensum Valley Medical Practice", year:'2023-04-01', outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
+                {areaName:"Bacon Road Medical Centre", year:'2022-04-01', outcome:"Lower", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.010752688172},  
+                {areaName:"Bacon Road Medical Centre", year:'2023-04-01', outcome:"Similar", benchmarkArea:"U00000", benchmarkAreaName:"West Norwich PCN", benchmarkValue:68.904593639576},  
                 ];
 
             expectedResults.forEach((expected) => {
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
                     `failed for ${expected.areaName} outcome`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
                     `failed for ${expected.areaName} benchmarkArea`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
                     `failed for ${expected.areaName} benchmarkAreaName`
                 );
                 // TODO: DHSCFT-725 fix this
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
                     `failed for ${expected.areaName} benchmarkValue`
                 );           
@@ -136,32 +136,32 @@ GET http://localhost:5144/indicators/93085/data?area_codes=E54000008&area_codes=
 > {%
     client.test("Check Get Health Data response when benchmarking against areaGroup", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-            const expectedResults = [ 
-                {areaName:"NHS Cheshire and Merseyside Integrated Care Board - QYG", year:2022, outcome:"Worse", benchmarkArea:"E92000001", benchmarkAreaName:"England", benchmarkValue:8.8},  
-                {areaName:"NHS Greater Manchester Integrated Care Board - QOP", year:2023, outcome:"Similar", benchmarkArea:"E92000001", benchmarkAreaName:"England", benchmarkValue:7.4}                 ];
+            const expectedResults = [
+                {areaName:"NHS Cheshire and Merseyside Integrated Care Board - QYG", year:'2022-04-01', outcome:"Worse", benchmarkArea:"E92000001", benchmarkAreaName:"England", benchmarkValue:8.8},
+                {areaName:"NHS Greater Manchester Integrated Care Board - QOP", year:'2023-04-01', outcome:"Similar", benchmarkArea:"E92000001", benchmarkAreaName:"England", benchmarkValue:7.4}                 ];
 
             expectedResults.forEach((expected) => {
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.year === expected.year)
+                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
                     `failed for ${expected.areaName}`
                 );           

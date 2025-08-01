@@ -199,7 +199,6 @@ internal static class BenchmarkComparisonEngine
             // Create a copy with BenchmarkComparison set
             var newDataPoint = new HealthDataPoint
             {
-                Year = targetDataPoint.Year,
                 DatePeriod = targetDataPoint.DatePeriod,
                 Count = targetDataPoint.Count,
                 Value = targetDataPoint.Value,

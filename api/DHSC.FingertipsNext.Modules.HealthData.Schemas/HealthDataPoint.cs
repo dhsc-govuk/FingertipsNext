@@ -9,12 +9,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Schemas;
 public class HealthDataPoint
 {
     /// <summary>
-    ///     The year that the data point is for
-    /// </summary>
-    [JsonPropertyName("year")]
-    public int Year { get; init; }
-
-    /// <summary>
     ///     The date period that the data point is for
     /// </summary>
     [JsonPropertyName("datePeriod")]
