@@ -95,7 +95,6 @@ export const lineChartOverTimeData = (
     periodType,
     frequency,
     reportingPeriodFlag,
-    latestDataPeriod,
     {
       indicatorName: name,
       englandData: englandData,
@@ -105,6 +104,7 @@ export const lineChartOverTimeData = (
       xAxisTitle: 'Period',
       measurementUnit: indicatorMetaData?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
+      latestDataPeriod: latestDataPeriod,
     }
   );
 

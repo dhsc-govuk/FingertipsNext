@@ -24,8 +24,6 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       true,
-      mockDatePeriod,
-
       {
         englandData: mockEnglandData,
         groupIndicatorData: undefined,
@@ -33,6 +31,7 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
+        latestDataPeriod: mockDatePeriod,
       }
     );
 
@@ -50,7 +49,6 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       true,
-      mockDatePeriod,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
@@ -59,6 +57,7 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
+        latestDataPeriod: mockDatePeriod,
       }
     );
     expect(generatedOptions).toMatchSnapshot();
@@ -92,7 +91,6 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       true,
-      mockDatePeriod,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockBenchmarkAreaWithEarlyYear,
@@ -101,6 +99,7 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
+        latestDataPeriod: mockDatePeriod,
       }
     );
     expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
@@ -115,7 +114,6 @@ describe('generateStandardLineChartOptions', () => {
       PeriodType.Calendar,
       Frequency.Annually,
       true,
-      mockDatePeriod,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
@@ -124,6 +122,7 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
+        latestDataPeriod: mockDatePeriod,
       }
     );
 

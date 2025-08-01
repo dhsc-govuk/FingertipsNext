@@ -86,7 +86,6 @@ export function generateStandardLineChartOptions(
   periodType: PeriodType,
   frequency: Frequency,
   reportingPeriodFlag: boolean,
-  latestDataPeriod?: DatePeriod,
   optionalParams?: {
     indicatorName?: string;
     englandData?: HealthDataForArea;
@@ -97,13 +96,16 @@ export function generateStandardLineChartOptions(
     accessibilityLabel?: string;
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+    latestDataPeriod?: DatePeriod;
   }
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
 
   const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
-  const lastDateAsNumber = convertDateToNumber(latestDataPeriod?.to);
+  const lastDateAsNumber = convertDateToNumber(
+    optionalParams?.latestDataPeriod?.to
+  );
 
   // Sorts from earliest to latest data periods
   const sortedEnglandData = optionalParams?.englandData
