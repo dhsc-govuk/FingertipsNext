@@ -1,11 +1,15 @@
 'use client';
 
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  PeriodType,
+  ReportingPeriod,
+} from '@/generated-sources/ft-api-client';
 import { PopulationPyramidChart } from '@/components/charts/PopulationPyramid/PopulationPyramidChart/PopulationPyramidChart';
 import {
   createPyramidPopulationDataFrom,
   PopulationDataForArea,
-} from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
+} from './helpers/preparePopulationData';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { H3 } from 'govuk-react';
 import {
@@ -44,6 +48,17 @@ export const PopulationPyramid = ({
   indicatorId,
   indicatorName,
 }: Readonly<PyramidPopulationChartViewProps>) => {
+  if (
+    !healthDataForAreas ||
+    healthDataForAreas.length === 0 ||
+    healthDataForAreas[0].indicatorSegments?.[0]?.healthData?.length !== 1 ||
+    healthDataForAreas[0].indicatorSegments?.[0]?.reportingPeriod !==
+      ReportingPeriod.Yearly ||
+    healthDataForAreas[0].indicatorSegments?.[0]?.healthData[0]?.datePeriod
+      ?.type !== PeriodType.Calendar
+  )
+    return;
+
   const searchState = useSearchStateParams();
   const {
     [SearchParams.PopulationAreaSelected]: populationAreaSelected,
@@ -62,10 +77,13 @@ export const PopulationPyramid = ({
     populationAreaSelected
   );
 
-  const { areas, benchmark, group } = createPyramidPopulationDataFrom(
+  const popualtionData = createPyramidPopulationDataFrom(
     healthDataForAreas,
-    groupSelected ?? ''
+    groupSelected
   );
+  if (!popualtionData) return;
+  const { pyramidDataForAreas, pyramidDataForEngland, pyramidDataForGroup } =
+    popualtionData;
 
   const availableAreas: AreaWithoutAreaType[] = healthdataWithoutGroup
     .map((area) => {
@@ -79,9 +97,9 @@ export const PopulationPyramid = ({
     .filter((area) => area !== undefined);
 
   const areasForPopulationData: PopulationDataForArea[] = [];
-  areasForPopulationData.push(...areas);
-  if (benchmark) areasForPopulationData.push(benchmark);
-  if (group) areasForPopulationData.push(group);
+  areasForPopulationData.push(...pyramidDataForAreas);
+  if (pyramidDataForEngland) areasForPopulationData.push(pyramidDataForEngland);
+  if (pyramidDataForGroup) areasForPopulationData.push(pyramidDataForGroup);
 
   const populationDataForSelectedArea = determinePopulationDataForArea(
     areasForPopulationData,
@@ -93,17 +111,16 @@ export const PopulationPyramid = ({
 
   const benchmarkToUse =
     populationDataForSelectedArea.areaCode !== areaCodeForEngland
-      ? benchmark
+      ? pyramidDataForEngland
       : undefined;
 
   const groupToUse =
     populationDataForSelectedArea.areaCode !== areaCodeForEngland
-      ? group
+      ? pyramidDataForGroup
       : undefined;
 
-  const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
-
   // TODO: DHSCFT-1201 change to use Period
+  const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
   const title = determineHeaderTitle(
     healthDataForAreaSelected,
     areaTypeSelected,

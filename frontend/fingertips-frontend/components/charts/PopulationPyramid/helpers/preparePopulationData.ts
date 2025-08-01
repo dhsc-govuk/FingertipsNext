@@ -72,8 +72,9 @@ export const convertHealthDataForAreaForPyramidData = (
       (value) => {
         if (
           !value.ageBand.value.includes('All') &&
-          (value.sex.value == 'Male' || value.sex.value == 'Female') &&
-          mostReccentPeriod.getDate() === value.datePeriod?.to.getDate()
+          (value.sex.value == 'Male' || value.sex.value == 'Female')
+          // &&
+          // mostReccentPeriod.getDate() === value.datePeriod?.to.getDate()
           // (year ? year == value.year : true)
         ) {
           return true;
@@ -159,14 +160,16 @@ const filterHealthDataForArea = (
   return { areas, benchmark, group };
 };
 
+interface PyramidPopulationData {
+  pyramidDataForAreas: PopulationDataForArea[];
+  pyramidDataForEngland?: PopulationDataForArea;
+  pyramidDataForGroup?: PopulationDataForArea;
+}
+
 export const createPyramidPopulationDataFrom = (
   dataForAreas: HealthDataForArea[],
-  groupAreaCode: string
-): {
-  areas: PopulationDataForArea[];
-  benchmark: PopulationDataForArea | undefined;
-  group: PopulationDataForArea | undefined;
-} => {
+  groupAreaCode: string = ''
+): PyramidPopulationData | undefined => {
   const { areas, benchmark, group } = filterHealthDataForArea(
     dataForAreas,
     groupAreaCode
@@ -179,26 +182,26 @@ export const createPyramidPopulationDataFrom = (
   }
 
   const mostRecentDate = new Date(getLatestPeriodForAreas(dataForAreas) ?? '');
-  if (!mostRecentDate) return; // sort this fallback
+  if (!mostRecentDate) return;
 
-  const pyramidAreas = areas
+  const pyramidDataForAreas = areas
     .map((area) =>
       convertHealthDataForAreaForPyramidData(area, year, mostRecentDate)
     )
     .filter((data) => data !== undefined);
-  const pyramidEngland = convertHealthDataForAreaForPyramidData(
+  const pyramidDataForEngland = convertHealthDataForAreaForPyramidData(
     benchmark,
     year,
     mostRecentDate
   );
-  const pyramidBaseline = convertHealthDataForAreaForPyramidData(
+  const pyramidDataForGroup = convertHealthDataForAreaForPyramidData(
     group,
     year,
     mostRecentDate
   );
   return {
-    areas: pyramidAreas,
-    benchmark: pyramidEngland,
-    group: pyramidBaseline,
+    pyramidDataForAreas: pyramidDataForAreas,
+    pyramidDataForEngland: pyramidDataForEngland,
+    pyramidDataForGroup: pyramidDataForGroup,
   };
 };

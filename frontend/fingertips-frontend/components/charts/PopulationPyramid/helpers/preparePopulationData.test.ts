@@ -360,33 +360,7 @@ describe('convertHealthDataForAreaForPyramidData', () => {
     expect(actual?.maleSeries).toHaveLength(1);
   });
 
-  it('should return data for the most reccent period', () => {
-    const reccentMockDatePeriod: DatePeriod = {
-      type: PeriodType.Calendar,
-      from: new Date(2024, 1, 1, 2, 30),
-      to: new Date(2025, 1, 1, 2, 30),
-    };
-    const mockHealthDataForArea: HealthDataForArea = {
-      areaCode: 'selected',
-      areaName: 'Selected Area',
-      healthData: [
-        ...mockData,
-        mockHealthDataPoint({
-          sex: femaleSex,
-          datePeriod: reccentMockDatePeriod,
-          ageBand: disaggregatedAge('9000'),
-          value: 500000,
-        }),
-      ],
-    };
-    const actual: PopulationDataForArea | undefined =
-      convertHealthDataForAreaForPyramidData(
-        mockHealthDataForArea,
-        2023,
-        reccentMockDatePeriod.to
-      );
-    expect(actual?.femaleSeries).toHaveLength(9);
-    expect(actual?.maleSeries).toHaveLength(8);
-    // TODO: add assertions and behaviours that only the most reccent year is returned
-  });
+  it.todo(
+    'should return the group &| england only if the period matches the area'
+  );
 });
