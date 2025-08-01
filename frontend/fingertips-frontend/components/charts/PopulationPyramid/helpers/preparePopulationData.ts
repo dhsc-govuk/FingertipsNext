@@ -1,9 +1,13 @@
 import {
   HealthDataPoint,
   HealthDataForArea,
+  DatePeriod,
 } from '@/generated-sources/ft-api-client';
-import { areaCodeForEngland } from './constants';
-import { getLatestYear } from './chartHelpers';
+import { areaCodeForEngland } from '../../../../lib/chartHelpers/constants';
+import {
+  getLatestPeriodForAreas,
+  getLatestYear,
+} from '../../../../lib/chartHelpers/chartHelpers';
 
 export interface PopulationDataForArea {
   total: number;
@@ -52,7 +56,8 @@ export function computeDataPercentages(
 
 export const convertHealthDataForAreaForPyramidData = (
   healthDataForArea: HealthDataForArea | undefined,
-  year: number | undefined
+  year: number | undefined,
+  mostReccentPeriod: Date
 ): PopulationDataForArea | undefined => {
   if (!healthDataForArea) {
     return undefined;
@@ -68,7 +73,8 @@ export const convertHealthDataForAreaForPyramidData = (
         if (
           !value.ageBand.value.includes('All') &&
           (value.sex.value == 'Male' || value.sex.value == 'Female') &&
-          (year ? year == value.year : true)
+          mostReccentPeriod.getDate() === value.datePeriod?.to.getDate()
+          // (year ? year == value.year : true)
         ) {
           return true;
         }
@@ -166,19 +172,30 @@ export const createPyramidPopulationDataFrom = (
     groupAreaCode
   );
 
+  // #1201 - change to period
   let year = undefined;
   if (areas.length > 0) {
     year = getLatestYear(areas[0].healthData);
   }
 
+  const mostRecentDate = new Date(getLatestPeriodForAreas(dataForAreas) ?? '');
+  if (!mostRecentDate) return; // sort this fallback
+
   const pyramidAreas = areas
-    .map((area) => convertHealthDataForAreaForPyramidData(area, year))
+    .map((area) =>
+      convertHealthDataForAreaForPyramidData(area, year, mostRecentDate)
+    )
     .filter((data) => data !== undefined);
   const pyramidEngland = convertHealthDataForAreaForPyramidData(
     benchmark,
-    year
+    year,
+    mostRecentDate
   );
-  const pyramidBaseline = convertHealthDataForAreaForPyramidData(group, year);
+  const pyramidBaseline = convertHealthDataForAreaForPyramidData(
+    group,
+    year,
+    mostRecentDate
+  );
   return {
     areas: pyramidAreas,
     benchmark: pyramidEngland,

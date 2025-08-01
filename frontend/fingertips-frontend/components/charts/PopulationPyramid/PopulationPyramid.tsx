@@ -5,7 +5,7 @@ import { PopulationPyramidChart } from '@/components/charts/PopulationPyramid/Po
 import {
   createPyramidPopulationDataFrom,
   PopulationDataForArea,
-} from '@/lib/chartHelpers/preparePopulationData';
+} from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
 import { TabContainer } from '@/components/layouts/tabContainer';
 import { H3 } from 'govuk-react';
 import {
@@ -103,6 +103,7 @@ export const PopulationPyramid = ({
 
   const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
 
+  // TODO: DHSCFT-1201 change to use Period
   const title = determineHeaderTitle(
     healthDataForAreaSelected,
     areaTypeSelected,

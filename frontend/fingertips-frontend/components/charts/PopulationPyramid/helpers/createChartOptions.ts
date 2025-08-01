@@ -1,7 +1,7 @@
 import {
   computeDataPercentages,
   PopulationDataForArea,
-} from '@/lib/chartHelpers/preparePopulationData';
+} from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
 import Highcharts, {
   LegendItemClickEventObject,
   Series,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { PopulationPyramidTable } from './PopulationPyramidTable';
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { convertPopulationPyramidTableToCsvData } from '@/components/charts/PopulationPyramid/helpers/convertPopulationPyramidTableToCsvData';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';

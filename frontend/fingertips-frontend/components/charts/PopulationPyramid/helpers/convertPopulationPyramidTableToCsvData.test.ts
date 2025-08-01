@@ -1,4 +1,4 @@
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
 import { convertPopulationPyramidTableToCsvData } from './convertPopulationPyramidTableToCsvData';
 import { CsvField, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';

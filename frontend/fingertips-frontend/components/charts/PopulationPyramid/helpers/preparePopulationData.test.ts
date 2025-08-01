@@ -1,18 +1,36 @@
 import {
+  DatePeriod,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import {
   computeDataPercentages,
   convertHealthDataForAreaForPyramidData,
   PopulationDataForArea,
 } from './preparePopulationData';
-import { disaggregatedAge, femaleSex, maleSex, noDeprivation } from '../mocks';
+import {
+  disaggregatedAge,
+  femaleSex,
+  maleSex,
+  noDeprivation,
+} from '../../../../lib/mocks';
+import {
+  mockHealthDataPoint,
+  mockHealthDataPoints,
+} from '@/mock/data/mockHealthDataPoint';
+import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 
+const mockDatePeriod: DatePeriod = {
+  type: PeriodType.Calendar,
+  from: new Date(2020, 1, 1, 2, 30),
+  to: new Date(2021, 1, 1, 2, 30),
+};
 const mockData: HealthDataPoint[] = [
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1496012,
     value: 0,
     lowerCi: 0,
@@ -24,6 +42,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1635842,
     value: 0,
     lowerCi: 0,
@@ -35,6 +54,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1721746,
     value: 0,
     lowerCi: 0,
@@ -46,6 +66,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1652231,
     value: 0,
     lowerCi: 0,
@@ -57,6 +78,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1692751,
     value: 0,
     lowerCi: 0,
@@ -68,6 +90,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1936763,
     value: 0,
     lowerCi: 0,
@@ -79,6 +102,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 547342,
     value: 0,
     lowerCi: 0,
@@ -90,6 +114,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 347835,
     value: 0,
     lowerCi: 0,
@@ -101,6 +126,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1568625,
     value: 0,
     lowerCi: 0,
@@ -112,6 +138,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1712925,
     value: 0,
     lowerCi: 0,
@@ -123,6 +150,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1807194,
     value: 0,
     lowerCi: 0,
@@ -134,6 +162,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1752832,
     value: 0,
     lowerCi: 0,
@@ -145,6 +174,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1763621,
     value: 0,
     lowerCi: 0,
@@ -156,6 +186,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 1872253,
     value: 0,
     lowerCi: 0,
@@ -168,6 +199,7 @@ const mockData: HealthDataPoint[] = [
 
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 173456,
     value: 0,
     lowerCi: 0,
@@ -179,6 +211,7 @@ const mockData: HealthDataPoint[] = [
   },
   {
     year: 2023,
+    datePeriod: mockDatePeriod,
     count: 377979,
     value: 0,
     lowerCi: 0,
@@ -253,14 +286,22 @@ describe('convertHealthDataForAreaForPyramidData', () => {
     ].map((value) => value.replace('-', ' to '));
 
     const actual: PopulationDataForArea | undefined =
-      convertHealthDataForAreaForPyramidData(mockHealthDataForArea, 2023);
+      convertHealthDataForAreaForPyramidData(
+        mockHealthDataForArea,
+        2023,
+        mockDatePeriod.to
+      );
     expect(actual?.femaleSeries).toEqual(expectedFemaleSeries);
     expect(actual?.maleSeries).toEqual(expectedMaleSeries);
     expect(actual?.ageCategories).toEqual(mockAgeCategories);
   });
 
   it('should return undefined if the HealthDataForArea provided is undefined', () => {
-    const actual = convertHealthDataForAreaForPyramidData(undefined, undefined);
+    const actual = convertHealthDataForAreaForPyramidData(
+      undefined,
+      undefined,
+      mockDatePeriod.to
+    );
     expect(actual).toBeUndefined();
   });
 
@@ -268,6 +309,7 @@ describe('convertHealthDataForAreaForPyramidData', () => {
     const mockDataPoint: HealthDataPoint[] = [
       {
         year: 2023,
+        datePeriod: mockDatePeriod,
         count: 1496012,
         value: 0,
         lowerCi: 0,
@@ -279,6 +321,7 @@ describe('convertHealthDataForAreaForPyramidData', () => {
       },
       {
         year: 2023,
+        datePeriod: mockDatePeriod,
         count: 1635842,
         value: 0,
         lowerCi: 0,
@@ -290,6 +333,7 @@ describe('convertHealthDataForAreaForPyramidData', () => {
       },
       {
         year: 2023,
+        datePeriod: mockDatePeriod,
         count: 1721746,
         value: 0,
         lowerCi: 0,
@@ -307,8 +351,42 @@ describe('convertHealthDataForAreaForPyramidData', () => {
       healthData: mockDataPoint,
     };
     const actual: PopulationDataForArea | undefined =
-      convertHealthDataForAreaForPyramidData(mockDuplicateData, 2023);
+      convertHealthDataForAreaForPyramidData(
+        mockDuplicateData,
+        2023,
+        mockDatePeriod.to
+      );
     expect(actual?.femaleSeries).toHaveLength(1);
     expect(actual?.maleSeries).toHaveLength(1);
+  });
+
+  it('should return data for the most reccent period', () => {
+    const reccentMockDatePeriod: DatePeriod = {
+      type: PeriodType.Calendar,
+      from: new Date(2024, 1, 1, 2, 30),
+      to: new Date(2025, 1, 1, 2, 30),
+    };
+    const mockHealthDataForArea: HealthDataForArea = {
+      areaCode: 'selected',
+      areaName: 'Selected Area',
+      healthData: [
+        ...mockData,
+        mockHealthDataPoint({
+          sex: femaleSex,
+          datePeriod: reccentMockDatePeriod,
+          ageBand: disaggregatedAge('9000'),
+          value: 500000,
+        }),
+      ],
+    };
+    const actual: PopulationDataForArea | undefined =
+      convertHealthDataForAreaForPyramidData(
+        mockHealthDataForArea,
+        2023,
+        reccentMockDatePeriod.to
+      );
+    expect(actual?.femaleSeries).toHaveLength(9);
+    expect(actual?.maleSeries).toHaveLength(8);
+    // TODO: add assertions and behaviours that only the most reccent year is returned
   });
 });

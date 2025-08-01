@@ -3,7 +3,7 @@
 import {
   PopulationDataForArea,
   getLowerBandValue,
-} from '@/lib/chartHelpers/preparePopulationData';
+} from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
 import { Table } from 'govuk-react';
 import { typography } from '@govuk-react/lib';
 import { StyledAlignLeftHeader, StyledTableCell } from '@/lib/tableHelpers';

@@ -1,4 +1,4 @@
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
 import {
   determineHeaderTitle,
   determinePopulationDataForArea,
