@@ -17,7 +17,10 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
-import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import {
+  convertDateToNumber,
+  formatDatePointLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export interface ThematicMapTooltipProps {
   indicatorData: HealthDataForArea;
@@ -29,7 +32,6 @@ export interface ThematicMapTooltipProps {
   groupData?: HealthDataForArea;
   polarity: IndicatorPolarity;
   benchmarkToUse?: string;
-  year: number;
   isSmallestReportingPeriod: boolean;
 }
 
@@ -43,7 +45,6 @@ export function ThematicMapTooltip({
   groupData,
   polarity,
   benchmarkToUse,
-  year,
   isSmallestReportingPeriod,
 }: Readonly<ThematicMapTooltipProps>) {
   const BenchmarkData =
@@ -52,14 +53,23 @@ export function ThematicMapTooltip({
     benchmarkToUse === areaCodeForEngland ? groupData : englandData;
 
   const mostRecentDataPointForArea = indicatorData.healthData.filter(
-    (area) => area.year === year
+    (area) =>
+      convertDateToNumber(area.datePeriod?.to) ===
+      convertDateToNumber(latestDataPeriod?.to)
   )[0];
+
   const mostRecentDataForNonBenchmark =
-    nonBenchmarkData?.healthData.filter((area) => area.year === year)[0] ??
-    undefined;
+    nonBenchmarkData?.healthData.filter(
+      (area) =>
+        convertDateToNumber(area.datePeriod?.to) ===
+        convertDateToNumber(latestDataPeriod?.to)
+    )[0] ?? undefined;
   const mostRecentDataForBenchmark =
-    BenchmarkData?.healthData.filter((area) => area.year === year)[0] ??
-    undefined;
+    BenchmarkData?.healthData.filter(
+      (area) =>
+        convertDateToNumber(area.datePeriod?.to) ===
+        convertDateToNumber(latestDataPeriod?.to)
+    )[0] ?? undefined;
 
   const comparisonTextForArea = getComparisonString(
     mostRecentDataPointForArea?.benchmarkComparison?.outcome ?? undefined,
