@@ -3,6 +3,10 @@ import { tryReadEnvVar } from '@/lib/envUtils';
 import { NextAuthConfig } from 'next-auth';
 import 'next-auth/jwt';
 
+export const usingSecureCookies = () => {
+  return tryReadEnvVar('AUTH_URL')?.startsWith('https') ?? false;
+};
+
 export class AuthConfigFactory {
   private static config: NextAuthConfig | null;
 

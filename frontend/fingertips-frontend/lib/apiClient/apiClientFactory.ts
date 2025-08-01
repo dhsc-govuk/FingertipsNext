@@ -10,6 +10,7 @@ import { readEnvVar } from '../envUtils';
 import { getAuthHeader } from '@/lib/auth/accessToken';
 
 export const API_CACHE_CONFIG = { next: { revalidate: 600 } };
+export const UNPUBLISHED_API_CACHE_CONFIG = { next: { revalidate: 30 } };
 
 const buildConfig = (): Configuration => {
   const apiUrl = readEnvVar('FINGERTIPS_API_URL');

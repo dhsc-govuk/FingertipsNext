@@ -6,6 +6,7 @@ import {
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
+  UNPUBLISHED_API_CACHE_CONFIG,
 } from '@/lib/apiClient/apiClientFactory';
 import { auth } from '@/lib/auth';
 
@@ -28,7 +29,7 @@ export async function getAuthorisedHealthDataForAnIndicator(
       await ApiClientFactory.getAuthenticatedIndicatorsApiClient();
     return await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
       apiRequestParams,
-      API_CACHE_CONFIG
+      UNPUBLISHED_API_CACHE_CONFIG
     );
   } catch (error: unknown) {
     if (
