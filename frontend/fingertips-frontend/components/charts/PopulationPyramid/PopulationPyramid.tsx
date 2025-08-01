@@ -62,6 +62,8 @@ export const PopulationPyramid = ({
     populationAreaSelected
   );
 
+  if (!healthDataForAreaSelected?.healthData.length) return null;
+
   const { areas, benchmark, group } = createPyramidPopulationDataFrom(
     healthDataForAreas,
     groupSelected ?? ''
