@@ -105,6 +105,8 @@ export const PopulationPyramid = ({
 
   const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
 
+  if (!period) return null;
+
   const title = determineHeaderTitle(
     healthDataForAreaSelected,
     areaTypeSelected,

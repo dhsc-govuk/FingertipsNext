@@ -44,5 +44,5 @@ export const determinePopulationDataForArea = (
 };
 
 export const determineYear = (healthData: HealthDataPoint[]) => {
-  return sortHealthDataPointsByDescendingYear(healthData)[0].year;
+  return sortHealthDataPointsByDescendingYear(healthData)[0]?.year;
 };
