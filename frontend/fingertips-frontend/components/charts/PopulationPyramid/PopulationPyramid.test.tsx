@@ -145,6 +145,16 @@ describe('PopulationPyramidWithTable', () => {
     });
   });
 
+  it('should not render if there is no health data for the area selected', () => {
+    const mockHealthData: HealthDataForArea[] = [
+      { ...mockHealthDataForArea[0], healthData: [] },
+    ];
+
+    setupUI(mockHealthData);
+
+    expect(screen.queryByText('Show population data')).not.toBeInTheDocument();
+  });
+
   test('take a snapshot', () => {
     const container = render(
       <PopulationPyramid
