@@ -204,9 +204,14 @@ internal static class BenchmarkComparisonEngine
         };
     }
 
-    private static BenchmarkComparison CompareDataPoints(HealthDataPoint targetDataPoint, HealthDataPoint benchmarkDataPoint, IndicatorPolarity polarity, string benchmarkAreaCode, string benchmarkAreaName)
+    private static BenchmarkComparison? CompareDataPoints(HealthDataPoint targetDataPoint, HealthDataPoint benchmarkDataPoint, IndicatorPolarity polarity, string benchmarkAreaCode, string benchmarkAreaName)
     {
         var comparisonValue = 0;
+
+        if (targetDataPoint.UpperConfidenceInterval == null || targetDataPoint.LowerConfidenceInterval == null || benchmarkDataPoint.Value == null)
+        {
+            return null;
+        }
 
         if (targetDataPoint.UpperConfidenceInterval < benchmarkDataPoint.Value)
             comparisonValue = -1;

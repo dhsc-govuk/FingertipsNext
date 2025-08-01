@@ -20,21 +20,12 @@ public class IndicatorControllerTests
             new()
             {
                 AreaCode = "AreaCode1",
-                HealthData =
+                IndicatorSegments =     
                 [
-                    new HealthDataPoint
+                    new IndicatorSegment
                     {
-                        DatePeriod = new DatePeriod
-                        {
-                            PeriodType = DatePeriodType.Calendar,
-                            From = new DateOnly(2023, 1, 1),
-                            To = new DateOnly(2023, 12, 31)
-                        },
-                        Count = 1,
-                        Value = 1,
-                        LowerConfidenceInterval = 1.1111f,
-                        UpperConfidenceInterval = 2.2222f,
-                        AgeBand = new Age
+                        IsAggregate = true,
+                        Age = new Age
                         {
                             Value = "4-5",
                             IsAggregate = false
@@ -45,13 +36,29 @@ public class IndicatorControllerTests
                             IsAggregate = true
                         },
                         ReportingPeriod = ReportingPeriod.Yearly,
-                        Trend = "Sample Trend",
-                        Deprivation = new Deprivation
-                        {
-                            Sequence = 1,
-                            Value = "Most deprived decile",
-                            Type = "County & UA deprivation deciles in England",
-                        }
+                        HealthData =
+                        [
+                            new HealthDataPoint
+                            {
+                                DatePeriod = new DatePeriod
+                                {
+                                    PeriodType = DatePeriodType.Calendar,
+                                    From = new DateOnly(2023, 1, 1),
+                                    To = new DateOnly(2023, 12, 31)
+                                },
+                                Count = 1,
+                                Value = 1,
+                                LowerConfidenceInterval = 1.1111f,
+                                UpperConfidenceInterval = 2.2222f,
+                                Trend = "Sample Trend",
+                                Deprivation = new Deprivation
+                                {
+                                    Sequence = 1,
+                                    Value = "Most deprived decile",
+                                    Type = "County & UA deprivation deciles in England",
+                                }
+                            }
+                        ]
                     }
                 ]
             }
