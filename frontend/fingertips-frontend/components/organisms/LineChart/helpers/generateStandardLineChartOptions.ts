@@ -3,13 +3,13 @@ import {
   BenchmarkComparisonMethod,
   PeriodType,
   Frequency,
+  DatePeriod,
 } from '@/generated-sources/ft-api-client';
 import {
   sortHealthDataForAreasByDate,
   sortHealthDataForAreaByDate,
   AXIS_LABEL_FONT_SIZE,
   getFirstPeriodForAreas,
-  getLatestPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { generateYAxis } from './generateYAxis';
 import { generateXAxis } from './generateXAxis';
@@ -96,28 +96,35 @@ export function generateStandardLineChartOptions(
     accessibilityLabel?: string;
     xAxisLabelFormatter?: Highcharts.AxisLabelsFormatterCallbackFunction;
     benchmarkComparisonMethod?: BenchmarkComparisonMethod;
+    latestDataPeriod?: DatePeriod;
   }
 ): Highcharts.Options {
   const sortedHealthIndicatorData =
     sortHealthDataForAreasByDate(healthIndicatorData);
 
   const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
-  const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
+  const lastDateAsNumber = convertDateToNumber(
+    optionalParams?.latestDataPeriod?.to
+  );
 
+  // Sorts from earliest to latest data periods
   const sortedEnglandData = optionalParams?.englandData
     ? sortHealthDataForAreaByDate(optionalParams?.englandData)
     : undefined;
 
+  // Filters out data points that are not within the specified period
   const filteredSortedEnglandData = filterHealthDataByPeriod(
     sortedEnglandData,
     firstDateAsNumber,
     lastDateAsNumber
   );
 
+  // Sorts from earliest to latest data periods
   const sortedGroupData = optionalParams?.groupIndicatorData
     ? sortHealthDataForAreaByDate(optionalParams?.groupIndicatorData)
     : undefined;
 
+  // Filters out data points that are not within the specified period
   const filteredSortedGroupData = filterHealthDataByPeriod(
     sortedGroupData,
     firstDateAsNumber,
