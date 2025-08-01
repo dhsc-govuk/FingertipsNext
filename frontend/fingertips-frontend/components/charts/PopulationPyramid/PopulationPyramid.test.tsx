@@ -4,16 +4,8 @@ import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams'
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 //
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-  HealthDataPointTrendEnum,
-  PeriodType,
-  ReportingPeriod,
-} from '@/generated-sources/ft-api-client';
-import { mockHealthData } from '@/mock/data/healthdata';
+import { PeriodType, ReportingPeriod } from '@/generated-sources/ft-api-client';
 import { AreaDocument } from '@/lib/search/searchTypes';
-import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { PopulationPyramid } from '@/components/charts/PopulationPyramid/PopulationPyramid';
 import {
@@ -23,7 +15,6 @@ import {
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
-import { mock } from 'node:test';
 import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 const mockSearchState: SearchStateParams = {};

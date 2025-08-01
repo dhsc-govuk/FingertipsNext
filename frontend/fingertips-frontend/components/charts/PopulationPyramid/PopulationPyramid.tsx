@@ -48,6 +48,7 @@ export const PopulationPyramid = ({
   indicatorId,
   indicatorName,
 }: Readonly<PyramidPopulationChartViewProps>) => {
+  const searchState = useSearchStateParams();
   if (
     !healthDataForAreas ||
     healthDataForAreas.length === 0 ||
@@ -59,7 +60,6 @@ export const PopulationPyramid = ({
   )
     return;
 
-  const searchState = useSearchStateParams();
   const {
     [SearchParams.PopulationAreaSelected]: populationAreaSelected,
     [SearchParams.GroupSelected]: groupSelected,
