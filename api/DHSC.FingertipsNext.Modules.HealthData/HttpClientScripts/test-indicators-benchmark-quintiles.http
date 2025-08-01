@@ -6,10 +6,6 @@ GET http://localhost:5144/indicators/383/data?area_codes=A84022&area_type=gps&fr
 > {%
     client.test("Expected health data returned with rag comparison", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.areaHealthData[0].healthData.length ==2, "HealthData doesn't contain two records");
-        client.assert(response.body.areaHealthData[0].healthData[0].datePeriod.from == "2022-01-01", "HealthData doesn't contain two records");
-        client.assert(response.body.areaHealthData[0].healthData[1].datePeriod.from == "2023-01-01", "HealthData doesn't contain two records");
-
         client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData.length ==2, "HealthData doesn't contain two records");
         client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData[0].datePeriod.from == "2022-01-01", "HealthData doesn't contain two records");
         client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData[1].datePeriod.from == "2023-01-01", "HealthData doesn't contain two records");
@@ -67,15 +63,6 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=A84
             expectedResults.forEach((expected) => {
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
-                    .benchmarkComparison.outcome === expected.outcome,
-                    `failed for ${expected.areaName}`
-                );
-            });
-
-            expectedResults.forEach((expected) => {
-                client.assert(
-                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                     .indicatorSegments[0]
                     .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
@@ -99,15 +86,6 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E10000014&area_codes=
                 {areaName:"Lewisham", year:"2016-01-01", outcome:"Better"},
                 {areaName:"Lewisham", year:"2019-01-01", outcome:"Better"},
                 ];
-
-            expectedResults.forEach((expected) => {
-                client.assert(
-                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
-                    .benchmarkComparison.outcome === expected.outcome,
-                    `failed for ${expected.areaName}`
-                );
-            });
 
             expectedResults.forEach((expected) => {
                 client.assert(
@@ -142,14 +120,6 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
         expectedResults.forEach((expected) => {
              client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
-                .benchmarkComparison.outcome === expected.outcome,
-                `failed for ${expected.areaName}`
-            );
-        });
-        expectedResults.forEach((expected) => {
-             client.assert(
-                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                 .indicatorSegments[0]
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                 .benchmarkComparison.outcome === expected.outcome,
@@ -176,13 +146,6 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E06000052&area_codes=
             {areaName:"North Lincolnshire", year:"2019-01-01", outcome:"Worse"},
             ];
 
-        expectedResults.forEach((expected) => {
-             client.assert(
-                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
-                .benchmarkComparison.outcome === expected.outcome
-            );
-        });
         expectedResults.forEach((expected) => {
              client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
@@ -213,13 +176,6 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
         expectedResults.forEach((expected) => {
              client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
-                .benchmarkComparison.outcome === expected.outcome
-            );
-        });
-        expectedResults.forEach((expected) => {
-             client.assert(
-                response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                 .indicatorSegments[0]
                 .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                 .benchmarkComparison.outcome === expected.outcome
@@ -245,14 +201,6 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
                 {areaName:"Windrush Medical Practice", year:"2023-01-01", outcome:"High"},
                 ];
 
-            expectedResults.forEach((expected) => {
-                client.assert(
-                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
-                    .benchmarkComparison.outcome === expected.outcome,
-                    `failed for ${expected.areaName} ${expected.year} ${expected.outcome}`
-                );
-            });
 
             expectedResults.forEach((expected) => {
                 client.assert(
@@ -286,15 +234,6 @@ GET http://localhost:5144/indicators/90453/data?area_codes=D83060&area_codes=D83
             expectedResults.forEach((expected) => {
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
-                    .benchmarkComparison.outcome === expected.outcome,
-                    `failed for ${expected.areaName} ${expected.year} ${expected.outcome}`
-                );
-            });
-
-            expectedResults.forEach((expected) => {
-                client.assert(
-                    response.body.areaHealthData.find(area => area.areaName === expected.areaName)
                     .indicatorSegments[0]
                     .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
@@ -311,11 +250,7 @@ GET http://localhost:5144/indicators/94103/data?area_codes=E09000027&area_codes=
 > {%
     client.test("Expected empty healthdata arrays if area_codes not in ancestor_code", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        response.body.areaHealthData.forEach((areaResult) => {
-            areaResult.healthData.forEach((healthData) => {
-                client.assert(healthData.benchmarkComparison == null, "Benchmark comparison should be null for non-descendant areas");
-            });          
-        });        
+     
         
         response.body.areaHealthData.forEach((areaResult) => {
             areaResult.indicatorSegments[0].healthData.forEach((healthData) => {
@@ -332,19 +267,15 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
     client.test("Expected area codes and outcomes if ancestor code is provided", function (callbackfn, thisArg) {
        client.assert(response.status === 200, "Response status is not 200");
        client.assert(response.body.areaHealthData[0].areaCode =="E38000136", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        
        client.assert(response.body.areaHealthData[1].areaCode =="E92000001", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[1].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        client.assert(response.body.areaHealthData[1].indicatorSegments[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
 
        client.assert(response.body.areaHealthData[2].areaCode =="K84031", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[2].healthData[0].benchmarkComparison.outcome =="Middle", "Outcome not as expected");
        client.assert(response.body.areaHealthData[2].indicatorSegments[0].healthData[0].benchmarkComparison.outcome =="Middle", "Outcome not as expected");
         
        client.assert(response.body.areaHealthData[3].areaCode =="K84017", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[3].healthData[0].benchmarkComparison.outcome =="Low", "Outcome not as expected");
        client.assert(response.body.areaHealthData[3].indicatorSegments[0].healthData[0].benchmarkComparison.outcome =="Low", "Outcome not as expected");
        
        client.assert(response.body.areaHealthData.length == 4);
@@ -356,23 +287,18 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
     client.test("Expected area codes and outcomes if ancestor code and unrelated area code is provided", function (callbackfn, thisArg) {
        client.assert(response.status === 200, "Response status is not 200");
        client.assert(response.body.areaHealthData[0].areaCode =="E38000136", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        
        client.assert(response.body.areaHealthData[1].areaCode =="E92000001", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[1].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        client.assert(response.body.areaHealthData[1].indicatorSegments[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
 
        client.assert(response.body.areaHealthData[2].areaCode =="K84031", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[2].healthData[0].benchmarkComparison.outcome =="Middle", "Outcome not as expected");
        client.assert(response.body.areaHealthData[2].indicatorSegments[0].healthData[0].benchmarkComparison.outcome =="Middle", "Outcome not as expected");
 
        client.assert(response.body.areaHealthData[3].areaCode =="K84017", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[3].healthData[0].benchmarkComparison.outcome =="Low", "Outcome not as expected");
        client.assert(response.body.areaHealthData[3].indicatorSegments[0].healthData[0].benchmarkComparison.outcome =="Low", "Outcome not as expected");
 
        client.assert(response.body.areaHealthData[4].areaCode =="P81002", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[4].healthData == [], "Outcome not as expected");
        client.assert(response.body.areaHealthData[4].indicatorSegments[0].healthData == [], "Outcome not as expected");
 
        client.assert(response.body.areaHealthData.length == 5);
@@ -385,19 +311,15 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
     client.test("Expected area codes and outcomes if ancestor code is provided", function (callbackfn, thisArg) {
        client.assert(response.status === 200, "Response status is not 200");
        client.assert(response.body.areaHealthData[0].areaCode =="E38000136", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        client.assert(response.body.areaHealthData[0].indicatorSegments[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        
        client.assert(response.body.areaHealthData[1].areaCode =="E92000001", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[1].healthData[0].benchmarkComparison == null, "Outcome not as expected");
        client.assert(response.body.areaHealthData[1].indicatorSegments[0].healthData[0].benchmarkComparison == null, "Outcome not as expected");
 
        client.assert(response.body.areaHealthData[2].areaCode =="K84031", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[2].healthData[0].benchmarkComparison.outcome =="Middle", "Outcome not as expected");
        client.assert(response.body.areaHealthData[2].indicatorSegments[0].healthData[0].benchmarkComparison.outcome =="Middle", "Outcome not as expected");
         
        client.assert(response.body.areaHealthData[3].areaCode =="K84017", "AreaCode not as expected");
-       client.assert(response.body.areaHealthData[3].healthData[0].benchmarkComparison.outcome =="Middle", "Outcome not as expected");
        client.assert(response.body.areaHealthData[3].indicatorSegments[0].healthData[0].benchmarkComparison.outcome =="Middle", "Outcome not as expected");
        
        client.assert(response.body.areaHealthData.length == 4);

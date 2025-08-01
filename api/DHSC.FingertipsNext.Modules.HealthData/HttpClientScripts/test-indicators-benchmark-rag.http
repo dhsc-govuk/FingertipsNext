@@ -26,17 +26,19 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalitie
         // The ordering keeps changing so making it more stable by iterating through expected results
         expected.areaHealthData.forEach((area) => {
             const responseArea = response.body.areaHealthData.find((rspArea) => rspArea.areaCode === area.areaCode);
-            client.assert(area.healthData.length === responseArea.healthData.length, `Area ${area.areaCode} expected to have ${area.healthData.length} but has ${responseArea.healthData.length}`);
-            client.assert(responseArea, `Could not find matching response Area ${area.areaCode}`);
-            area.healthData.forEach((dataPoint)=> {
-                const responseDataPoint = responseArea.healthData.find((rspData) => ((rspData.datePeriod.from === dataPoint.datePeriod.from) && (rspData.sex.value === dataPoint.sex.value)));
-                client.assert(responseDataPoint, `Could not find matching data point ${area.areaCode} : ${dataPoint.datePeriod.from} : ${dataPoint.sex.value}`);
-                client.assert(JSON.stringify(dataPoint) === JSON.stringify(responseDataPoint), `${JSON.stringify(dataPoint)} ${JSON.stringify(responseDataPoint)}`);
-            })
-        })
+            client.assert(area.indicatorSegments.length === responseArea.indicatorSegments.length, `Area ${area.areaCode} expected to have ${area.indicatorSegments.length} but has ${responseArea.indicatorSegments.length}`);
+            area.indicatorSegments.forEach((segment) => {
+                const responseSegment = responseArea.indicatorSegments.find((rspSegment) => rspSegment.age.value === segment.age.value && rspSegment.sex.value === segment.sex.value && rspSegment.reportingPeriod === segment.reportingPeriod);
+                client.assert(segment.healthData.length === responseSegment.healthData.length, `Area ${area.areaCode} segment ${segment.indicatorCode} expected to have ${segment.healthData.length} but has ${responseSegment.healthData.length}`);
+                segment.healthData.forEach((dataPoint) => {
+                    const responseDataPoint = responseSegment.healthData.find((rspData) => ((rspData.datePeriod.from === dataPoint.datePeriod.from) && (rspData.sex.value === dataPoint.sex.value)));
+                    client.assert(responseDataPoint, `Could not find matching data point ${area.areaCode} : ${dataPoint.datePeriod.from} : ${dataPoint.sex.value}`);
+                    client.assert(JSON.stringify(dataPoint) === JSON.stringify(responseDataPoint), `${JSON.stringify(dataPoint)} ${JSON.stringify(responseDataPoint)}`);
+                });
+            });
+        });
     });
 %}
-
 
 
 ### check GET health data with rag comparison benchmarked against areaGroup
@@ -52,25 +54,25 @@ GET http://localhost:5144/indicators/94063/data?area_codes=N85008&ancestor_code=
             expectedResults.forEach((expected) => {
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
                     `failed for ${expected.areaName}`
                 );           
@@ -103,26 +105,26 @@ GET http://localhost:5144/indicators/94063/data?area_codes=D82017&area_codes=D82
             expectedResults.forEach((expected) => {
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
                     `failed for ${expected.areaName} outcome`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
                     `failed for ${expected.areaName} benchmarkArea`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
                     `failed for ${expected.areaName} benchmarkAreaName`
                 );
                 // TODO: DHSCFT-725 fix this
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
                     `failed for ${expected.areaName} benchmarkValue`
                 );           
@@ -143,25 +145,25 @@ GET http://localhost:5144/indicators/93085/data?area_codes=E54000008&area_codes=
             expectedResults.forEach((expected) => {
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.outcome === expected.outcome,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaCode === expected.benchmarkArea,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkAreaName === expected.benchmarkAreaName,
                     `failed for ${expected.areaName}`
                 );
                 client.assert(
                     response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                    .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
+                    .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.year)
                     .benchmarkComparison.benchmarkValue === expected.benchmarkValue,
                     `failed for ${expected.areaName}`
                 );           
@@ -216,7 +218,7 @@ GET http://localhost:5144/indicators/383/data?area_codes=E92000001&area_type=eng
                 ];
 
                 
-        var numHealthDataPoints = response.body.areaHealthData.map(area => area.healthData.length).reduce((partialSum, b) => partialSum + b, 0);
+        var numHealthDataPoints = response.body.areaHealthData.map(area => area.indicatorSegments[0].healthData.length).reduce((partialSum, b) => partialSum + b, 0);
         client.assert(
             numHealthDataPoints === expectedResults.length,
             `Expected ${expectedResults.length} area health data items, but got ${numHealthDataPoints}`
@@ -225,7 +227,7 @@ GET http://localhost:5144/indicators/383/data?area_codes=E92000001&area_type=eng
         expectedResults.forEach((expected) => {
             client.assert(
                 response.body.areaHealthData.find(area => area.areaName === expected.areaName)
-                .healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
+                .indicatorSegments[0].healthData.find(dataPoint => dataPoint.datePeriod.from === expected.from)
                 .value === expected.value,
                 `failed for ${expected.areaName} ${expected.from} ${expected.outcome}`
             );

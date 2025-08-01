@@ -218,10 +218,6 @@ public class IndicatorService(
             {
                 AreaCode = areaGroup.Key.code,
                 AreaName = areaGroup.Key.name,
-                HealthData = healthDataMapper.Map(areaGroup.ToList())
-                    .Where(dataPoint => dataPoint.IsAggregate && dataPoint.AgeBand.IsAggregate)
-                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
-                    .ToList(),
                 IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
                 {
                     ageName = healthMeasure.AgeDimensionName,
@@ -302,11 +298,6 @@ public class IndicatorService(
             {
                 AreaCode = areaGroup.Key.code,
                 AreaName = areaGroup.Key.name,
-                HealthData = healthDataMapper.Map(areaGroup.ToList())
-                    .Where(hdp => hdp.Sex.IsAggregate || inequalitiesList.Contains("sex"))
-                    .Where(hdp => hdp.AgeBand.IsAggregate || inequalitiesList.Contains("age"))
-                    .OrderBy(dataPoint => dataPoint.DatePeriod.From)
-                    .ToList(),
                 IndicatorSegments = areaGroup.GroupBy(healthMeasure => new
                 {
                     ageName = healthMeasure.AgeDimension.Name,
