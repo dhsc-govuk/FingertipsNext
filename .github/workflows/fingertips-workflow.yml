@@ -23,6 +23,7 @@ on:
       - search-setup/**
       - trend-analysis/**
       - .github/workflows/**
+      
 jobs:
   check-changes:
     runs-on: ubuntu-latest
