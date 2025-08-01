@@ -219,7 +219,8 @@ describe('thematicMapTitle', () => {
       [healthIndicatorData],
       periodType,
       frequency,
-      mockDatePeriod
+      mockDatePeriod,
+      true
     );
     expect(result).toEqual(
       `${indicatorName} for Regions in ${groupData.areaName}, ${expectedPeriodLabelText} ${expectedDatePointLabel}`
@@ -238,7 +239,8 @@ describe('thematicMapTitle', () => {
       [healthIndicatorData],
       periodType,
       frequency,
-      mockDatePeriod
+      mockDatePeriod,
+      true
     );
     expect(result).toEqual(
       `${indicatorName} for Regions in England, ${expectedPeriodLabelText} ${expectedDatePointLabel}`
@@ -257,7 +259,8 @@ describe('thematicMapTitle', () => {
       [healthIndicatorData],
       periodType,
       frequency,
-      mockDatePeriod
+      mockDatePeriod,
+      true
     );
     expect(result).toEqual('');
   });
@@ -274,7 +277,8 @@ describe('thematicMapTitle', () => {
       [healthIndicatorData],
       periodType,
       frequency,
-      mockDatePeriod
+      mockDatePeriod,
+      true
     );
     expect(result).toEqual('');
   });

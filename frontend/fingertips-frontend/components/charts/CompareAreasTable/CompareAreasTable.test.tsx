@@ -59,6 +59,7 @@ describe('CompareAreasTable', () => {
         from: new Date('2023-01-01'),
         to: new Date('2023-12-31'),
       },
+      isSmallestReportingPeriod: true,
     });
 
     render(<CompareAreasTable />);

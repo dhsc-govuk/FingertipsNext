@@ -45,6 +45,15 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
         }),
       ],
     }),
+    mockHealthDataForArea({
+      areaCode: areaCodeForEngland,
+      healthData: [],
+      indicatorSegments: [
+        mockIndicatorSegment({
+          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+        }),
+      ],
+    }),
   ],
 });
 

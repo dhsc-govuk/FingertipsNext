@@ -99,6 +99,7 @@ export const mockSpineIndicatorData: SpineChartIndicatorData = {
   groupData: mockSpineGroupData,
   englandData: mockSpineEnglandData,
   quartileData: mockSpineQuartileData,
+  isSmallestReportingPeriod: true,
 };
 
 export const mockSpineIndicatorWithHealthData: IndicatorWithHealthDataForArea =

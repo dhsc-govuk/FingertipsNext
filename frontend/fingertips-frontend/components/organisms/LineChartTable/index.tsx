@@ -3,6 +3,7 @@
 import { Table } from 'govuk-react';
 import {
   BenchmarkComparisonMethod,
+  DatePeriod,
   Frequency,
   HealthDataForArea,
   HealthDataPoint,
@@ -27,7 +28,6 @@ import { TrendTag } from '@/components/molecules/TrendTag';
 import {
   getConfidenceLimitNumber,
   getFirstPeriodForAreas,
-  getLatestPeriodForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
@@ -67,7 +67,8 @@ export interface LineChartTableProps {
   polarity?: IndicatorPolarity;
   benchmarkToUse?: string;
   frequency: Frequency;
-  reportingPeriodFlag: boolean;
+  latestDataPeriod?: DatePeriod;
+  isSmallestReportingPeriod: boolean;
 }
 
 export interface LineChartTableRowData {
@@ -222,7 +223,8 @@ export function LineChartTable({
   polarity = IndicatorPolarity.Unknown,
   benchmarkToUse,
   frequency,
-  reportingPeriodFlag,
+  latestDataPeriod,
+  isSmallestReportingPeriod,
 }: Readonly<LineChartTableProps>) {
   const englandColumnPrefix =
     benchmarkToUse !== areaCodeForEngland ? '' : 'Benchmark: ';
@@ -253,7 +255,8 @@ export function LineChartTable({
   ].map(({ datePeriod }) => convertDateToNumber(datePeriod?.to));
 
   const firstDateAsNumber = getFirstPeriodForAreas(healthIndicatorData);
-  const lastDateAsNumber = getLatestPeriodForAreas(healthIndicatorData);
+  const lastDateAsNumber = convertDateToNumber(latestDataPeriod?.to);
+
   if (!firstDateAsNumber || !lastDateAsNumber) {
     return null;
   }
@@ -277,7 +280,7 @@ export function LineChartTable({
       const formattedPeriod = formatDatePointLabel(
         datePeriod,
         frequency,
-        reportingPeriodFlag
+        isSmallestReportingPeriod
       );
 
       const row: AreaDataMatchedByYear = {

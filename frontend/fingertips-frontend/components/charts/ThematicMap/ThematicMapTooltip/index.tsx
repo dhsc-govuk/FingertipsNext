@@ -30,6 +30,7 @@ export interface ThematicMapTooltipProps {
   polarity: IndicatorPolarity;
   benchmarkToUse?: string;
   year: number;
+  isSmallestReportingPeriod: boolean;
 }
 
 export function ThematicMapTooltip({
@@ -43,6 +44,7 @@ export function ThematicMapTooltip({
   polarity,
   benchmarkToUse,
   year,
+  isSmallestReportingPeriod,
 }: Readonly<ThematicMapTooltipProps>) {
   const BenchmarkData =
     benchmarkToUse === areaCodeForEngland ? englandData : groupData;
@@ -128,7 +130,7 @@ export function ThematicMapTooltip({
   const datePointLabel = formatDatePointLabel(
     latestDataPeriod,
     frequency,
-    true
+    isSmallestReportingPeriod
   );
 
   return (

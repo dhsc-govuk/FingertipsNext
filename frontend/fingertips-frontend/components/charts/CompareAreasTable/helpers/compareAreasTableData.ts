@@ -7,14 +7,22 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { getLatestPeriod } from '@/lib/chartHelpers/chartHelpers';
 import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { isSmallestReportingPeriod } from '@/lib/healthDataHelpers/isSmallestReportingPeriod';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 export const compareAreasTableData = (
   healthData: IndicatorWithHealthDataForArea,
-  selectedGroupCode?: string,
-  benchmarkAreaSelected?: string
+  searchState: SearchStateParams,
+  reportingPeriodOptions: string[]
 ) => {
   const benchmarkComparisonMethod = healthData?.benchmarkMethod;
   const polarity = healthData?.polarity;
+
+  const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
+    [SearchParams.SegmentationReportingPeriod]: selectedReportingPeriod,
+  } = searchState;
 
   const [withoutEngland, englandData] = findAndRemoveByAreaCode(
     healthData?.areaHealthData ?? [],
@@ -40,6 +48,12 @@ export const compareAreasTableData = (
   );
   const latestDataPeriod = latestHealthDataPoint?.datePeriod;
 
+  const isSmallestReportingPeriodFlag = isSmallestReportingPeriod(
+    selectedReportingPeriod,
+    reportingPeriodOptions,
+    frequency
+  );
+
   return {
     benchmarkComparisonMethod,
     polarity,
@@ -50,5 +64,6 @@ export const compareAreasTableData = (
     periodType,
     frequency,
     latestDataPeriod,
+    isSmallestReportingPeriod: isSmallestReportingPeriodFlag,
   };
 };

@@ -19,6 +19,8 @@ import { findHealthDataForAreas } from '@/lib/healthDataHelpers/findHealthDataFo
 import { findQuartileBySegmentation } from '@/lib/healthDataHelpers/findQuartileBySegmentation';
 import { indicatorsSorted } from '@/lib/healthDataHelpers/indicatorsSorted';
 import { DatePeriodWithFrequency } from '@/lib/timePeriodHelpers/timePeriod.types';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { isSmallestReportingPeriod } from '@/lib/healthDataHelpers/isSmallestReportingPeriod';
 
 export const spineChartIndicatorTitleColumnMinWidth = 240;
 
@@ -33,6 +35,7 @@ export interface SpineChartIndicatorData {
   groupData?: HealthDataForArea;
   englandData?: HealthDataForArea;
   quartileData: QuartileData;
+  isSmallestReportingPeriod: boolean;
 }
 
 const onlyMatchingDataPoints = (
@@ -54,8 +57,15 @@ export const buildSpineChartIndicatorData = (
   allIndicatorMetadata: IndicatorDocument[],
   quartileData: QuartileData[],
   areasSelected: string[],
-  selectedGroupCode: string
+  searchState: SearchStateParams
 ): SpineChartIndicatorData[] => {
+  const {
+    [SearchParams.GroupSelected]: selectedGroupCode,
+    [SearchParams.SegmentationReportingPeriod]: selectedReportingPeriod,
+  } = searchState;
+
+  if (!selectedGroupCode) return [];
+
   // indicators with names and ids
   const indicators = allIndicatorData.filter(
     (indicator) => indicator.indicatorId && indicator.name
@@ -79,6 +89,15 @@ export const buildSpineChartIndicatorData = (
     return combinations.map((segmentInfo) => {
       const search = searchFromSegmentInfo(segmentInfo);
       const extractedSegment = flattenSegment(indicator, search);
+      const { reportingPeriod } = segmentValues(indicator);
+      const frequency = indicator.frequency ?? Frequency.Annually;
+
+      const isSmallestReportingPeriodFlag = isSmallestReportingPeriod(
+        selectedReportingPeriod,
+        reportingPeriod,
+        frequency
+      );
+
       const segmentId = segmentIdFromInfo(indicatorId, segmentInfo);
 
       const matchedQuartileData = findQuartileBySegmentation(
@@ -125,6 +144,7 @@ export const buildSpineChartIndicatorData = (
         groupData,
         englandData,
         quartileData: matchedQuartileData,
+        isSmallestReportingPeriod: isSmallestReportingPeriodFlag,
       };
       return result;
     });
