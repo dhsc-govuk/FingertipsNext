@@ -1,16 +1,9 @@
-import {
-  HealthDataPoint,
-  HealthDataForArea,
-  DatePeriod,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '../../../../lib/chartHelpers/constants';
-import {
-  getLatestPeriodForAreas,
-  getLatestYear,
-} from '../../../../lib/chartHelpers/chartHelpers';
+import { getLatestPeriodForAreas } from '../../../../lib/chartHelpers/chartHelpers';
 
 export interface PopulationDataForArea {
-  total: number;
+  totalPopulation: number;
   areaName?: string;
   areaCode?: string;
   ageCategories: Array<string>;
@@ -18,29 +11,9 @@ export interface PopulationDataForArea {
   maleSeries: Array<number>;
 }
 
-const removeDuplicateDataPointByAgeBand = (dataPoints: HealthDataPoint[]) => {
-  const seenPoints = new Set<string>();
-  return dataPoints.filter((value) => {
-    if (!seenPoints.has(value.ageBand.value)) {
-      seenPoints.add(value.ageBand.value);
-      return true;
-    }
-    return false;
-  });
-};
-
 export const getLowerBandValue = (range: string) => {
   if (range.includes('+')) return parseInt(range.split('-')[0]);
   return parseInt(range.split('-')[0]);
-};
-
-const sortHealthDataByAgeBand = (data: HealthDataPoint[]) => {
-  return data.sort((a, b) => {
-    return getLowerBandValue(a.ageBand.value) >
-      getLowerBandValue(b.ageBand.value)
-      ? -1
-      : 1;
-  });
 };
 
 export function computeDataPercentages(
@@ -55,110 +28,80 @@ export function computeDataPercentages(
 }
 
 export const convertHealthDataForAreaForPyramidData = (
-  healthDataForArea: HealthDataForArea | undefined,
-  year: number | undefined,
-  mostReccentPeriod: Date
+  healthDataForArea: HealthDataForArea | undefined
 ): PopulationDataForArea | undefined => {
-  if (!healthDataForArea) {
+  if (
+    !healthDataForArea ||
+    !healthDataForArea.indicatorSegments ||
+    !healthDataForArea.indicatorSegments[0] ||
+    healthDataForArea.indicatorSegments[0]?.healthData?.length !== 1
+  ) {
     return undefined;
   }
-  let ageCategories: string[] = [];
-  let femaleSeries: number[] = [];
-  let maleSeries: number[] = [];
-  let totalPopulation = 0;
 
-  if (healthDataForArea) {
-    const maleFemaleDataPoints = healthDataForArea.healthData.filter(
-      (value) => {
-        if (
-          !value.ageBand.value.includes('All') &&
-          (value.sex.value == 'Male' || value.sex.value == 'Female')
-          // &&
-          // mostReccentPeriod.getDate() === value.datePeriod?.to.getDate()
-          // (year ? year == value.year : true)
-        ) {
-          return true;
-        }
-        return false;
-      }
-    );
-    const maleDataPoints = sortHealthDataByAgeBand(
-      removeDuplicateDataPointByAgeBand(
-        maleFemaleDataPoints.filter((value) => {
-          return value.sex.value == 'Male';
-        })
-      )
-    );
-    const femaleDataPoints = sortHealthDataByAgeBand(
-      removeDuplicateDataPointByAgeBand(
-        maleFemaleDataPoints.filter((value) => {
-          return value.sex.value == 'Female';
-        })
-      )
-    );
-
-    ageCategories = femaleDataPoints.map((point) =>
-      point.ageBand.value.replace('yrs', '').replace('-', ' to ')
-    );
-
-    totalPopulation = femaleDataPoints.reduce((prev, { count }) => {
-      return prev + (count ?? 0);
-    }, 0);
-    totalPopulation = maleDataPoints.reduce((prev, { count }) => {
-      return prev + (count ?? 0);
-    }, totalPopulation);
-    femaleSeries = femaleDataPoints.map((data) => {
-      return data.count ?? 0;
-    });
-    maleSeries = maleDataPoints.map((data) => {
-      return data.count ?? 0;
-    });
-  }
+  const {
+    ageCategories,
+    maleCounts,
+    femaleCounts,
+    totalCount: totalPopulation,
+  } = getCountsByAgeSex(healthDataForArea);
 
   return {
-    total: totalPopulation,
+    totalPopulation: totalPopulation ?? 0,
     areaName: healthDataForArea.areaName,
     areaCode: healthDataForArea.areaCode,
     ageCategories: ageCategories,
-    femaleSeries: femaleSeries,
-    maleSeries: maleSeries,
+    femaleSeries: femaleCounts,
+    maleSeries: maleCounts,
   };
 };
 
-const filterHealthDataForArea = (
+function filterHealthDataForArea(
   dataForAreas: HealthDataForArea[],
   selectedGroupAreaCode: string | undefined
-) => {
-  if (dataForAreas.length == 1) {
-    return { areas: dataForAreas, england: undefined, baseline: undefined };
+): {
+  areasData: HealthDataForArea[];
+  benchmarkData: HealthDataForArea | undefined;
+  groupData: HealthDataForArea | undefined;
+} {
+  if (dataForAreas.length === 1) {
+    return {
+      areasData: dataForAreas,
+      benchmarkData: undefined,
+      groupData: undefined,
+    };
   }
 
-  const areas = dataForAreas.filter((area: HealthDataForArea, _: number) => {
-    return (
-      selectedGroupAreaCode != area.areaCode &&
-      area.areaCode != areaCodeForEngland
-    );
-  });
+  const areasData = dataForAreas.filter(
+    (area: HealthDataForArea, _: number) => {
+      return (
+        selectedGroupAreaCode != area.areaCode &&
+        area.areaCode != areaCodeForEngland
+      );
+    }
+  );
 
-  const benchmark = dataForAreas.find((area: HealthDataForArea, _: number) => {
-    const isEnglandAddedAlready =
-      areas.find((search_area) => {
-        return search_area.areaCode == area.areaCode;
-      }) != undefined;
-    return area.areaCode == areaCodeForEngland && !isEnglandAddedAlready;
-  });
+  const benchmarkData = dataForAreas.find(
+    (area: HealthDataForArea, _: number) => {
+      const isEnglandAddedAlready =
+        areasData.find((search_area) => {
+          return search_area.areaCode == area.areaCode;
+        }) != undefined;
+      return area.areaCode == areaCodeForEngland && !isEnglandAddedAlready;
+    }
+  );
 
-  let group: HealthDataForArea | undefined = undefined;
-  if (benchmark && selectedGroupAreaCode) {
-    group = dataForAreas.find((area: HealthDataForArea, _: number) => {
+  let groupData: HealthDataForArea | undefined = undefined;
+  if (benchmarkData && selectedGroupAreaCode) {
+    groupData = dataForAreas.find((area: HealthDataForArea, _: number) => {
       return (
         selectedGroupAreaCode == area.areaCode &&
-        benchmark.areaCode != area.areaCode
+        benchmarkData.areaCode != area.areaCode
       );
     });
   }
-  return { areas, benchmark, group };
-};
+  return { areasData, benchmarkData, groupData };
+}
 
 interface PyramidPopulationData {
   pyramidDataForAreas: PopulationDataForArea[];
@@ -166,42 +109,91 @@ interface PyramidPopulationData {
   pyramidDataForGroup?: PopulationDataForArea;
 }
 
-export const createPyramidPopulationDataFrom = (
+export const createPyramidPopulationData = (
   dataForAreas: HealthDataForArea[],
   groupAreaCode: string = ''
 ): PyramidPopulationData | undefined => {
-  const { areas, benchmark, group } = filterHealthDataForArea(
+  const { areasData, benchmarkData, groupData } = filterHealthDataForArea(
     dataForAreas,
     groupAreaCode
   );
 
-  // #1201 - change to period
-  let year = undefined;
-  if (areas.length > 0) {
-    year = getLatestYear(areas[0].healthData);
-  }
-
   const mostRecentDate = new Date(getLatestPeriodForAreas(dataForAreas) ?? '');
   if (!mostRecentDate) return;
 
-  const pyramidDataForAreas = areas
-    .map((area) =>
-      convertHealthDataForAreaForPyramidData(area, year, mostRecentDate)
-    )
+  const pyramidDataForAreas = areasData
+    .map((area) => convertHealthDataForAreaForPyramidData(area))
     .filter((data) => data !== undefined);
-  const pyramidDataForEngland = convertHealthDataForAreaForPyramidData(
-    benchmark,
-    year,
-    mostRecentDate
-  );
-  const pyramidDataForGroup = convertHealthDataForAreaForPyramidData(
-    group,
-    year,
-    mostRecentDate
-  );
+  const pyramidDataForEngland =
+    convertHealthDataForAreaForPyramidData(benchmarkData);
+  const pyramidDataForGroup = convertHealthDataForAreaForPyramidData(groupData);
   return {
     pyramidDataForAreas: pyramidDataForAreas,
     pyramidDataForEngland: pyramidDataForEngland,
     pyramidDataForGroup: pyramidDataForGroup,
   };
 };
+
+function getCountsByAgeSex(healthDataForArea: HealthDataForArea): {
+  ageCategories: string[];
+  maleCounts: number[];
+  femaleCounts: number[];
+  totalCount: number;
+} {
+  if (!healthDataForArea.indicatorSegments)
+    return {
+      ageCategories: [],
+      maleCounts: [],
+      femaleCounts: [],
+      totalCount: 0,
+    };
+  const { sexCountByAge, totalCount } =
+    healthDataForArea.indicatorSegments.reduce(
+      (acc, segment) => {
+        const age = segment.age.value.replace('yrs', '').replace('-', ' to ');
+        const sex = segment.sex.value;
+
+        if (!age.includes('All') && (sex === 'Male' || sex === 'Female')) {
+          const count = segment.healthData?.[0]?.count ?? undefined;
+
+          if (!acc.sexCountByAge[age]) {
+            acc.sexCountByAge[age] = { male: undefined, female: undefined };
+          }
+
+          acc.sexCountByAge[age][sex.toLowerCase() as 'male' | 'female'] =
+            count;
+          if (typeof count === 'number') {
+            acc.totalCount += count;
+          }
+        }
+
+        return acc;
+      },
+      {
+        sexCountByAge: {} as Record<
+          string,
+          { male?: number | undefined; female?: number | undefined }
+        >,
+        totalCount: 0,
+      }
+    );
+
+  const sortedAgeCategories = Object.keys(sexCountByAge).sort((a, b) => {
+    const parseStart = (label: string) =>
+      parseInt(label.replace('+', '').split(' ')[0], 10); // "90+" or "75 to 79"
+    return parseStart(b) - parseStart(a); // descending
+  });
+
+  const maleCountsAlignedToAgeCategories = sortedAgeCategories.map(
+    (age) => sexCountByAge[age].male ?? 0
+  );
+  const femaleCountsAlignedToAgeCategories = sortedAgeCategories.map(
+    (age) => sexCountByAge[age].female ?? 0
+  );
+  return {
+    ageCategories: sortedAgeCategories,
+    maleCounts: maleCountsAlignedToAgeCategories,
+    femaleCounts: femaleCountsAlignedToAgeCategories,
+    totalCount,
+  };
+}

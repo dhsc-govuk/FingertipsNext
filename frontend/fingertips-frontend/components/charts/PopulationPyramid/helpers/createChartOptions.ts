@@ -34,11 +34,11 @@ const createPopPyramidSeriesOptions = (
 ): Highcharts.Options => {
   const femaleSeries = computeDataPercentages(
     dataForArea.femaleSeries,
-    dataForArea.total
+    dataForArea.totalPopulation
   );
   const maleSeries = computeDataPercentages(
     dataForArea.maleSeries,
-    dataForArea.total
+    dataForArea.totalPopulation
   );
   const maxTick = Math.abs(Math.max(...femaleSeries, ...maleSeries));
   return {
@@ -317,11 +317,11 @@ const createAdditionalChartSeries = (
   if (dataForGroup) {
     const femaleGroupSeries = computeDataPercentages(
       dataForGroup.femaleSeries,
-      dataForGroup.total
+      dataForGroup.totalPopulation
     );
     const maleGroupSeries = computeDataPercentages(
       dataForGroup.maleSeries,
-      dataForGroup.total
+      dataForGroup.totalPopulation
     );
 
     series.push(
@@ -354,11 +354,11 @@ const createAdditionalChartSeries = (
   if (dataForBenchmark) {
     const femaleBenchmarkSeries = computeDataPercentages(
       dataForBenchmark.femaleSeries,
-      dataForBenchmark.total
+      dataForBenchmark.totalPopulation
     );
     const maleBenchmarkSeries = computeDataPercentages(
       dataForBenchmark.maleSeries,
-      dataForBenchmark.total
+      dataForBenchmark.totalPopulation
     );
     series.push(
       {

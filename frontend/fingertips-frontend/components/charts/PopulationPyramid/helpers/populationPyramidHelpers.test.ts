@@ -17,7 +17,7 @@ const generatePopulationDataForArea = (
   ageCategories: [],
   femaleSeries: [],
   maleSeries: [],
-  total: 100,
+  totalPopulation: 100,
 });
 
 const generateHealthDataForArea = (

@@ -1,13 +1,9 @@
 'use client';
 
-import {
-  HealthDataForArea,
-  PeriodType,
-  ReportingPeriod,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramidChart } from '@/components/charts/PopulationPyramid/PopulationPyramidChart/PopulationPyramidChart';
 import {
-  createPyramidPopulationDataFrom,
+  createPyramidPopulationData,
   PopulationDataForArea,
 } from './helpers/preparePopulationData';
 import { TabContainer } from '@/components/layouts/tabContainer';
@@ -51,12 +47,12 @@ export const PopulationPyramid = ({
   const searchState = useSearchStateParams();
   if (
     !healthDataForAreas ||
-    healthDataForAreas.length === 0 ||
-    healthDataForAreas[0].indicatorSegments?.[0]?.healthData?.length !== 1 ||
-    healthDataForAreas[0].indicatorSegments?.[0]?.reportingPeriod !==
-      ReportingPeriod.Yearly ||
-    healthDataForAreas[0].indicatorSegments?.[0]?.healthData[0]?.datePeriod
-      ?.type !== PeriodType.Calendar
+    healthDataForAreas.length === 0
+    // ||healthDataForAreas[0].indicatorSegments?.[0]?.healthData?.length !== 1 ||// should always show for England
+    // healthDataForAreas[0].indicatorSegments?.[0]?.reportingPeriod !==
+    //   ReportingPeriod.Yearly ||// should always show for England
+    // healthDataForAreas[0].indicatorSegments?.[0]?.healthData[0]?.datePeriod
+    // ?.type !== PeriodType.Calendar// should always show for England
   )
     return;
 
@@ -77,7 +73,7 @@ export const PopulationPyramid = ({
     populationAreaSelected
   );
 
-  const popualtionData = createPyramidPopulationDataFrom(
+  const popualtionData = createPyramidPopulationData(
     healthDataForAreas,
     groupSelected
   );

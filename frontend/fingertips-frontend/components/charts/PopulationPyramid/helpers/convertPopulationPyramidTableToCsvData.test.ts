@@ -11,7 +11,7 @@ describe('PopulationPyramidTableToCsv', () => {
   const stubPopulationDataForSelectedArea: PopulationDataForArea = {
     areaCode: 'A001',
     areaName: 'area one',
-    total: 0,
+    totalPopulation: 0,
     ageCategories: [
       'oldest',
       'upper middle',
@@ -26,7 +26,7 @@ describe('PopulationPyramidTableToCsv', () => {
   const stubBenchmarkToUse: PopulationDataForArea = {
     areaCode: 'A002',
     areaName: 'benchmark area',
-    total: 0,
+    totalPopulation: 0,
     ageCategories: stubPopulationDataForSelectedArea.ageCategories,
     femaleSeries: stubPopulationDataForSelectedArea.femaleSeries.map(
       (x) => x * 100
@@ -39,7 +39,7 @@ describe('PopulationPyramidTableToCsv', () => {
   const stubGroupToUse: PopulationDataForArea = {
     areaCode: 'A003',
     areaName: 'group area',
-    total: 0,
+    totalPopulation: 0,
     ageCategories: stubPopulationDataForSelectedArea.ageCategories,
     femaleSeries: stubPopulationDataForSelectedArea.femaleSeries.map(
       (x) => x * 10

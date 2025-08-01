@@ -171,4 +171,5 @@ describe('PopulationPyramidWithTable', () => {
       screen.queryByTestId('populationPyramidWithTable-component')
     ).not.toBeInTheDocument();
   });
+  it.todo('should show data for England (and group?) if no data for any area');
 });
