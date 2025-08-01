@@ -39,29 +39,10 @@ public class HealthDataPoint
     public double? UpperConfidenceInterval { get; init; }
 
     /// <summary>
-    ///     Age band which the data are for.
-    /// </summary>
-    [JsonPropertyName("ageBand")]
-    public required Age AgeBand { get; init; }
-
-    /// <summary>
     ///     Deprivation category which the data are for.
     /// </summary>
     [JsonPropertyName("deprivation")]
     public required Deprivation Deprivation { get; init; }
-
-    /// <summary>
-    ///     Sex which the data are for.
-    /// </summary>
-    [JsonPropertyName("sex")]
-    public required Sex Sex { get; init; }
-
-    /// <summary>
-    ///     ReportingPeriod associated with the data point.
-    /// </summary>
-    [JsonPropertyName("reportingPeriod")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required ReportingPeriod ReportingPeriod { get; init; }
 
     /// <summary>
     ///     The statistical trend that applies to the data point, given the preceding data.

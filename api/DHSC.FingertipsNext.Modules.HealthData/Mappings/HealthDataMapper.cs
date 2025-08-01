@@ -74,15 +74,12 @@ public class HealthDataMapper : IHealthDataMapper
             IsAggregate = source.IsAggregate,
             LowerConfidenceInterval = source.LowerCi,
             UpperConfidenceInterval = source.UpperCi,
-            AgeBand = Map(source.AgeDimension),
-            Sex = Map(source.SexDimension),
-            ReportingPeriod = MapReportingPeriod(source.PeriodDimension.Period),
             Trend = source.TrendDimension?.Name ?? string.Empty,
             Deprivation = Map(source.DeprivationDimension),
         };
     }
 
-    public HealthDataPoint Map(DenormalisedHealthMeasureModel source)
+    public static HealthDataPoint Map(DenormalisedHealthMeasureModel source)
     {
         ArgumentNullException.ThrowIfNull(source);
         return new HealthDataPoint
@@ -101,14 +98,7 @@ public class HealthDataMapper : IHealthDataMapper
             IsAggregate = source.AgeDimensionIsAggregate && source.SexDimensionIsAggregate && source.DeprivationDimensionIsAggregate,
             LowerConfidenceInterval = source.LowerCi,
             UpperConfidenceInterval = source.UpperCi,
-            AgeBand = Map(new AgeDimensionModel()
-            {
-                Name = source.AgeDimensionName,
-                HasValue = source.AgeDimensionHasValue,
-                IsAggregate = source.AgeDimensionIsAggregate,
-            }),
-            Sex = new Sex { Value = source.SexDimensionName, IsAggregate = source.SexDimensionIsAggregate },
-            ReportingPeriod = MapReportingPeriod(source.ReportingPeriod),
+
             Trend = source.TrendDimensionName ?? string.Empty,
             Deprivation = Map(new DeprivationDimensionModel()
             {

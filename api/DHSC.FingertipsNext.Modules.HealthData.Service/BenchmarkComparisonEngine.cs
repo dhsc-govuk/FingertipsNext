@@ -185,10 +185,7 @@ internal static class BenchmarkComparisonEngine
                 Value = targetDataPoint.Value,
                 LowerConfidenceInterval = targetDataPoint.LowerConfidenceInterval,
                 UpperConfidenceInterval = targetDataPoint.UpperConfidenceInterval,
-                AgeBand = targetDataPoint.AgeBand,
                 Deprivation = targetDataPoint.Deprivation,
-                Sex = targetDataPoint.Sex,
-                ReportingPeriod = targetDataPoint.ReportingPeriod,
                 Trend = targetDataPoint.Trend,
                 IsAggregate = targetDataPoint.IsAggregate,
                 BenchmarkComparison = CompareDataPoints(targetDataPoint, benchmarkDataPoint, polarity, benchmarkAreaCode, benchmarkAreaName)

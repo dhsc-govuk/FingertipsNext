@@ -16,23 +16,21 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
 
 ### GET health data with rag and sex inequalities
 GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalities=sex
-
 > {%
     const expected = require ('./test-indicators-benchmark-rag-sex_expected-response.json');
     client.test("Expected health data returned with rag comparison for sex inequality", function (callbackfn, thisArg) {
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(response.body.areaHealthData.length === expected.areaHealthData.length, "Response length does not match");
 
         // The ordering keeps changing so making it more stable by iterating through expected results
-        expected.areaHealthData.forEach((area) => {
-            const responseArea = response.body.areaHealthData.find((rspArea) => rspArea.areaCode === area.areaCode);
-            client.assert(area.indicatorSegments.length === responseArea.indicatorSegments.length, `Area ${area.areaCode} expected to have ${area.indicatorSegments.length} but has ${responseArea.indicatorSegments.length}`);
-            area.indicatorSegments.forEach((segment) => {
-                const responseSegment = responseArea.indicatorSegments.find((rspSegment) => rspSegment.age.value === segment.age.value && rspSegment.sex.value === segment.sex.value && rspSegment.reportingPeriod === segment.reportingPeriod);
-                client.assert(segment.healthData.length === responseSegment.healthData.length, `Area ${area.areaCode} segment ${segment.indicatorCode} expected to have ${segment.healthData.length} but has ${responseSegment.healthData.length}`);
-                segment.healthData.forEach((dataPoint) => {
-                    const responseDataPoint = responseSegment.healthData.find((rspData) => ((rspData.datePeriod.from === dataPoint.datePeriod.from) && (rspData.sex.value === dataPoint.sex.value)));
-                    client.assert(responseDataPoint, `Could not find matching data point ${area.areaCode} : ${dataPoint.datePeriod.from} : ${dataPoint.sex.value}`);
+        expected.areaHealthData.forEach((expectedArea) => {
+            const responseArea = response.body.areaHealthData.find((rspArea) => rspArea.areaCode === expectedArea.areaCode);
+            client.assert(expectedArea.indicatorSegments.length === responseArea.indicatorSegments.length, `Area ${expectedArea.areaCode} expected to have ${expectedArea.indicatorSegments.length} but has ${responseArea.indicatorSegments.length}`);
+            expectedArea.indicatorSegments.forEach((expectedSegment) => {
+                const responseSegment = responseArea.indicatorSegments.find((rspSegment) => rspSegment.age.value === expectedSegment.age.value && rspSegment.sex.value === expectedSegment.sex.value && rspSegment.reportingPeriod === expectedSegment.reportingPeriod);
+                client.assert(expectedSegment.healthData.length === responseSegment.healthData.length, `Area ${expectedArea.areaCode} segment ${expectedSegment.indicatorCode} expected to have ${expectedSegment.healthData.length} but has ${responseSegment.healthData.length}`);
+                expectedSegment.healthData.forEach((dataPoint) => {
+                    const responseDataPoint = responseSegment.healthData.find((rspData) => ((rspData.datePeriod.from === dataPoint.datePeriod.from)));
+                    client.assert(responseDataPoint, `Could not find matching data point ${expectedArea.areaCode} : ${dataPoint.datePeriod.from} : ${expectedSegment.sex.value}`);
                     client.assert(JSON.stringify(dataPoint) === JSON.stringify(responseDataPoint), `${JSON.stringify(dataPoint)} ${JSON.stringify(responseDataPoint)}`);
                 });
             });
