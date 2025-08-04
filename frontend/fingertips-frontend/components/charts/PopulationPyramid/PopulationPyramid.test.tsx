@@ -4,7 +4,6 @@ import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams'
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 //
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import { PeriodType, ReportingPeriod } from '@/generated-sources/ft-api-client';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { PopulationPyramid } from '@/components/charts/PopulationPyramid/PopulationPyramid';
@@ -14,8 +13,6 @@ import {
 } from '@/lib/ChartTitles/chartTitleEnums';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
-import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
-import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 const mockSearchState: SearchStateParams = {};
 

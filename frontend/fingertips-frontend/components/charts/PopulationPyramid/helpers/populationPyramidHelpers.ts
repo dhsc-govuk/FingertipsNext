@@ -1,7 +1,4 @@
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   allAreaTypes,
   HierarchyNameTypes,
