@@ -16,7 +16,7 @@ import {
 
 export interface PopulationPyramidTableProps {
   title: string;
-  populationDataForArea?: PopulationDataForArea;
+  populationDataForArea: PopulationDataForArea;
   populationDataForBenchmark?: PopulationDataForArea;
   populationDataForGroup?: PopulationDataForArea;
   indicatorId?: string;
