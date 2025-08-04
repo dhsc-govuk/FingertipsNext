@@ -11,6 +11,7 @@ import {
   englandAreaType,
   nhsIntegratedCareBoardsAreaType,
   nhsRegionsAreaType,
+  regionsAreaType,
 } from '@/lib/areaFilterHelpers/areaType';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import userEvent from '@testing-library/user-event';
@@ -18,6 +19,7 @@ import { Area, AreaType } from '@/generated-sources/ft-api-client';
 import {
   allNhsRegions,
   eastEnglandNHSRegion,
+  northWestNHSRegion,
 } from '@/mock/data/areas/nhsRegionsAreas';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { LoaderContext } from '@/context/LoaderContext';
@@ -1076,6 +1078,44 @@ describe('SelectAreasFilterPanel', () => {
           areaFilterData={{
             availableAreaTypes: allAreaTypes,
             availableAreas: availableAreas,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: selectAllAreasCheckboxLabel })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
+
+    it('should default the groupSelected to the first available groups when the groupSelected is in default state', async () => {
+      mockSearchState = {
+        [SearchParams.AreaTypeSelected]: nhsRegionsAreaType.key,
+        [SearchParams.GroupTypeSelected]: regionsAreaType.key,
+        [SearchParams.GroupSelected]: areaCodeForEngland,
+      };
+
+      const availableGroups = [eastEnglandNHSRegion, northWestNHSRegion];
+
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupTypeSelected}=${regionsAreaType.key}`,
+        `&${SearchParams.GroupSelected}=${availableGroups[0].code}`,
+        `&${SearchParams.GroupAreaSelected}=ALL`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+            availableGroups: availableGroups,
           }}
         />
       );
