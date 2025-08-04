@@ -21,7 +21,6 @@ import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChart
 import {
   determineHeaderTitle,
   determinePopulationDataForArea,
-  determineYear,
 } from './helpers/populationPyramidHelpers';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
@@ -110,6 +109,8 @@ export const PopulationPyramid = ({
   );
   // TODO: DHSCFT-1201 change to use Period
   // const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
+  // import { getLatestPeriodForAreas } from '../../../../lib/chartHelpers/chartHelpers';
+  //
   const period =
     healthDataForAreaSelected?.indicatorSegments?.[0]?.healthData?.[0]?.year;
 

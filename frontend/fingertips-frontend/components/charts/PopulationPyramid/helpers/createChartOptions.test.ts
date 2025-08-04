@@ -1,24 +1,25 @@
 import { createChartPyramidOptions } from './createChartOptions';
+import { PopulationDataForArea } from './preparePopulationData';
 
 describe('createChartPyramidOptions', () => {
-  const mockPopulationData = {
-    total: 860,
+  const mockPopulationData: PopulationDataForArea = {
+    totalPopulation: 860,
     areaName: 'Test Area',
     ageCategories: ['0-4', '5-9', '10-14'],
     femaleSeries: [100, 200, 150],
     maleSeries: [90, 180, 140],
   };
 
-  const benchmarkData = {
-    total: 920,
+  const benchmarkData: PopulationDataForArea = {
+    totalPopulation: 920,
     areaName: 'Benchmark Area',
     ageCategories: ['0-4', '5-9', '10-14'],
     femaleSeries: [110, 210, 160],
     maleSeries: [100, 190, 150],
   };
 
-  const groupData = {
-    total: 920,
+  const groupData: PopulationDataForArea = {
+    totalPopulation: 920,
     areaName: 'Group Name',
     ageCategories: ['0-4', '5-9', '10-14'],
     femaleSeries: [110, 210, 160],
@@ -30,7 +31,9 @@ describe('createChartPyramidOptions', () => {
       'Age',
       'Population (%)',
       'Accessibility Label',
-      mockPopulationData
+      mockPopulationData,
+      undefined,
+      undefined
     );
     expect(options).toBeDefined();
     expect(options.chart?.type).toBe('bar');
@@ -44,7 +47,8 @@ describe('createChartPyramidOptions', () => {
       'Population (%)',
       'Accessibility Label',
       mockPopulationData,
-      benchmarkData
+      benchmarkData,
+      undefined
     );
     expect(options?.series).toHaveLength(4);
     expect(options?.series ? options?.series[2].name : undefined).toContain(

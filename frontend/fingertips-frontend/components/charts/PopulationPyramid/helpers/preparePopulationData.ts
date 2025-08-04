@@ -4,7 +4,6 @@ import {
   ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '../../../../lib/chartHelpers/constants';
-import { getLatestPeriodForAreas } from '../../../../lib/chartHelpers/chartHelpers';
 
 export interface PopulationDataForArea {
   totalPopulation: number;

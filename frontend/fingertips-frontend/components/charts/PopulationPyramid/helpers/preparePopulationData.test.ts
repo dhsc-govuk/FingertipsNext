@@ -20,7 +20,6 @@ import {
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { a } from 'vitest/dist/chunks/suite.d.FvehnV49.js';
 
 const mockFemaleSegements: IndicatorSegment[] = [
   mockIndicatorSegment({
