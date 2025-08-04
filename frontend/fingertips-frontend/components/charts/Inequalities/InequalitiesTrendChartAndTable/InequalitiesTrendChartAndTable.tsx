@@ -18,8 +18,10 @@ import {
 
 export function InequalitiesTrendChartAndTable() {
   const data = useInequalitiesData(ChartType.Trend);
-  const { indicatorMetaData } = useIndicatorMetaData();
-  if (!data || !indicatorMetaData) return null;
+  if (!data) return null;
+
+  const { chartData, indicatorMetaData } = data;
+  if (!chartData || !indicatorMetaData) return null;
 
   const { dataSource } = indicatorMetaData;
 
@@ -30,7 +32,7 @@ export function InequalitiesTrendChartAndTable() {
     lineChartData,
     inequalitiesLineChartOptions,
     orderedDynamicKeys,
-  } = data;
+  } = chartData;
 
   if (!inequalitiesLineChartOptions || !lineChartData) return null;
 

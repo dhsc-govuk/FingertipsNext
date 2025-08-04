@@ -5,21 +5,36 @@ import { useMemo } from 'react';
 import { useIndicatorMetaData } from '@/components/charts/hooks/useIndicatorMetaData';
 import { ChartType } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { inequalitiesData } from '@/components/charts/Inequalities/helpers/inequalitiesData';
+import { withoutYears } from '@/lib/healthDataHelpers/withoutYears';
 
-export const useInequalitiesData = (chartType = ChartType.SingleTimePeriod) => {
+export const useInequalitiesData = (
+  chartType = ChartType.SingleTimePeriod,
+  clean = false
+) => {
   const searchState = useSearchStateParams();
   const { indicatorMetaData } = useIndicatorMetaData();
   const requestParams = useInequalitiesRequestParams();
   const { healthData } = useApiGetHealthDataForAnIndicator(requestParams);
 
   return useMemo(() => {
+    if (!healthData || !indicatorMetaData) return null;
+    const cleanData = withoutYears(healthData, {
+      removeSex: true,
+      removeAge: true,
+    });
+
     const data = inequalitiesData(
       searchState,
       indicatorMetaData,
-      healthData,
+      clean ? cleanData : healthData,
       chartType
     );
-    if (!data || !healthData || !indicatorMetaData) return null;
-    return data;
-  }, [chartType, healthData, indicatorMetaData, searchState]);
+
+    console.log({ healthData, cleanData, clean, data });
+    return {
+      healthData: clean ? cleanData : healthData,
+      indicatorMetaData,
+      chartData: data,
+    };
+  }, [chartType, clean, healthData, indicatorMetaData, searchState]);
 };

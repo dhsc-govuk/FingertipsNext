@@ -550,6 +550,7 @@ const getInequalityDeprivationCategories = (
     disaggregatedDeprivationData,
     (data) => data.deprivation.type
   );
+  console.log({ groupedByDeprivationType });
 
   if (chartType === ChartType.Trend) {
     const validCategories = Object.entries(groupedByDeprivationType)

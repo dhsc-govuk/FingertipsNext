@@ -8,9 +8,7 @@ import { ChartSelectArea } from '../../../molecules/ChartSelectArea';
 import { InequalitiesTypesDropDown } from '../InequalitiesTypesDropDown';
 import { DataSource } from '@/components/atoms/DataSource/DataSource';
 import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChartWrapper';
-
 import { useInequalitiesData } from '@/components/charts/Inequalities/hooks/useInequalitiesData';
-import { useIndicatorMetaData } from '@/components/charts/hooks/useIndicatorMetaData';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
@@ -18,8 +16,10 @@ import {
 
 export function InequalitiesBarChartAndTable() {
   const data = useInequalitiesData();
-  const { indicatorMetaData } = useIndicatorMetaData();
-  if (!data || !indicatorMetaData) return null;
+  if (!data) return null;
+
+  const { chartData, indicatorMetaData } = data;
+  if (!chartData || !indicatorMetaData) return null;
 
   const { dataSource } = indicatorMetaData;
 
@@ -33,7 +33,7 @@ export function InequalitiesBarChartAndTable() {
     inequalityType,
     benchmarkMethod,
     polarity,
-  } = data;
+  } = chartData;
 
   return (
     <StyleChartWrapper data-testid="inequalitiesComparisonForOneTimePeriod-component">

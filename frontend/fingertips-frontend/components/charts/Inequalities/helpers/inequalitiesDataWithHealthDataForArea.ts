@@ -34,6 +34,8 @@ export const inequalitiesDataWithHealthDataForArea = (
     chartType
   );
 
+  console.log({ inequalityCategories });
+
   if (!inequalityCategories.length) return;
 
   const type = getInequalitiesType(

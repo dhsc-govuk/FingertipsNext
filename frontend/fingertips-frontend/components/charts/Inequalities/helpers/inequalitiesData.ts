@@ -22,9 +22,15 @@ export const inequalitiesData = (
     indicatorMetaData
   );
 
+  console.log({ basicInfo });
+
   const withAreaData = inequalitiesDataWithAreas(basicInfo);
 
+  console.log({ withAreaData });
+
   const withHealthData = inequalitiesDataWithHealthDataForArea(withAreaData);
+
+  console.log({ withHealthData });
 
   const withYears = inequalitiesDataWithYears(withHealthData);
 
