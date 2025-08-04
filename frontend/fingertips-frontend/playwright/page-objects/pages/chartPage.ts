@@ -961,7 +961,7 @@ export default class ChartPage extends AreaFilter {
     const shouldShowSegmentationDropDown =
       this.hasSegmentationData(selectedIndicators);
 
-    // checks that the segmentation options dropdowns are visible or hidden in each journey
+    // checks that the segmentation options dropdowns are visible or hidden - depending on the current journey
     await expect(this.page.getByTestId(this.segmentationOptions)).toBeVisible({
       visible: shouldShowSegmentationDropDown,
     });
