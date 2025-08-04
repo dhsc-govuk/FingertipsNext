@@ -57,8 +57,7 @@ export function OneIndicatorOneAreaViewPlots({
 
   if (showInequalities) {
     availableChartLinks.push(
-      ChartTitleKeysEnum.InequalitiesBarChart,
-      ChartTitleKeysEnum.InequalitiesLineChart
+      ChartTitleKeysEnum.InequalitiesCharts,
     );
   }
 
