@@ -96,13 +96,6 @@ export const PopulationPyramid = ({
       ? pyramidDataForGroup
       : undefined;
 
-  if (
-    !populationDataForSelectedArea &&
-    !populationDataForGroupToUse &&
-    populationDataForGroupToUse
-  )
-    return null;
-
   const healthDataForAreaSelected = determineHealthDataForArea(
     healthdataWithoutGroup,
     populationAreaSelected

@@ -1,4 +1,4 @@
-import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
+import { PopulationDataForArea } from './preparePopulationData';
 import { convertPopulationPyramidTableToCsvData } from './convertPopulationPyramidTableToCsvData';
 import { CsvField, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
@@ -11,7 +11,7 @@ describe('PopulationPyramidTableToCsv', () => {
   const stubPopulationDataForSelectedArea: PopulationDataForArea = {
     areaCode: 'A001',
     areaName: 'area one',
-    totalPopulation: 0,
+    total: 0,
     ageCategories: [
       'oldest',
       'upper middle',
@@ -26,7 +26,7 @@ describe('PopulationPyramidTableToCsv', () => {
   const stubBenchmarkToUse: PopulationDataForArea = {
     areaCode: 'A002',
     areaName: 'benchmark area',
-    totalPopulation: 0,
+    total: 0,
     ageCategories: stubPopulationDataForSelectedArea.ageCategories,
     femaleSeries: stubPopulationDataForSelectedArea.femaleSeries.map(
       (x) => x * 100
@@ -39,7 +39,7 @@ describe('PopulationPyramidTableToCsv', () => {
   const stubGroupToUse: PopulationDataForArea = {
     areaCode: 'A003',
     areaName: 'group area',
-    totalPopulation: 0,
+    total: 0,
     ageCategories: stubPopulationDataForSelectedArea.ageCategories,
     femaleSeries: stubPopulationDataForSelectedArea.femaleSeries.map(
       (x) => x * 10

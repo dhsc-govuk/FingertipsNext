@@ -12,8 +12,8 @@ import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 interface PopulationPyramidChartProps {
   title: string;
   dataForSelectedArea: PopulationDataForArea | undefined;
-  dataForBenchmark?: PopulationDataForArea | undefined;
-  dataForGroup?: PopulationDataForArea | undefined;
+  dataForBenchmark?: PopulationDataForArea;
+  dataForGroup?: PopulationDataForArea;
   xAxisTitle: string;
   yAxisTitle: string;
   accessibilityLabel?: string;

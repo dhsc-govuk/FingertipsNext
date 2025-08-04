@@ -63,9 +63,7 @@ export function OneIndicatorOneAreaViewPlots({
     );
   }
 
-  const showPopulationPyramid = usePopulationPyramidData();
-  if (showPopulationPyramid)
-    availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
+  availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
 
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">

@@ -1,10 +1,10 @@
 import { CsvHeader } from '@/components/molecules/Export/export.types';
-import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
+import { PopulationDataForArea } from './preparePopulationData';
 import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 
 export function convertPopulationPyramidTableToCsvData(
   period: number,
-  populationDataForArea?: PopulationDataForArea,
+  populationDataForArea: PopulationDataForArea,
   indicatorId?: string,
   indicatorName?: string,
   populationDataForBenchmark?: PopulationDataForArea,
@@ -27,16 +27,14 @@ export function convertPopulationPyramidTableToCsvData(
 
   const rows: CsvData = [];
 
-  if (populationDataForArea) {
-    rows.push(
-      ...convertPopulationPyramidTableAreaToCsvRow(
-        indicatorId,
-        indicatorName,
-        period,
-        populationDataForArea
-      )
-    );
-  }
+  rows.push(
+    ...convertPopulationPyramidTableAreaToCsvRow(
+      indicatorId,
+      indicatorName,
+      period,
+      populationDataForArea
+    )
+  );
   if (populationDataForGroup) {
     const groupRows = convertPopulationPyramidTableAreaToCsvRow(
       indicatorId,

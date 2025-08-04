@@ -7,7 +7,7 @@ import {
   HierarchyNameTypes,
 } from '@/lib/areaFilterHelpers/areaType';
 import { sortHealthDataPointsByDescendingYear } from '@/lib/chartHelpers/chartHelpers';
-import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
+import { PopulationDataForArea } from './preparePopulationData';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 
 export const determineHeaderTitle = (

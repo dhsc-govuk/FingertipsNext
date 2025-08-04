@@ -7,7 +7,7 @@ const mockPopulaitonDataForArea: PopulationDataForArea = {
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
   femaleSeries: [1000, 1200, 1100, 1300],
   maleSeries: [900, 1100, 1050, 1250],
-  totalPopulation: 0,
+  total: 0,
 };
 
 const mockBenchmarkData: PopulationDataForArea = {
@@ -15,7 +15,7 @@ const mockBenchmarkData: PopulationDataForArea = {
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
   femaleSeries: [1100, 1300, 1200, 1400],
   maleSeries: [1100, 1200, 1150, 1350],
-  totalPopulation: 0,
+  total: 0,
 };
 
 const mockGroupData: PopulationDataForArea = {
@@ -23,7 +23,7 @@ const mockGroupData: PopulationDataForArea = {
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
   femaleSeries: [1100, 1300, 1200, 1400],
   maleSeries: [100, 10, 1150, 150],
-  totalPopulation: 0,
+  total: 0,
 };
 
 describe('PopulationPyramidChartTable', () => {

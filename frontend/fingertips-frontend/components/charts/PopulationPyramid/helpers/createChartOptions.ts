@@ -1,7 +1,7 @@
 import {
   computeDataPercentages,
   PopulationDataForArea,
-} from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
+} from './preparePopulationData';
 import Highcharts, {
   LegendItemClickEventObject,
   Series,
@@ -34,11 +34,11 @@ const createPopPyramidSeriesOptions = (
 ): Highcharts.Options => {
   const femaleSeries = computeDataPercentages(
     dataForArea.femaleSeries,
-    dataForArea.totalPopulation
+    dataForArea.total
   );
   const maleSeries = computeDataPercentages(
     dataForArea.maleSeries,
-    dataForArea.totalPopulation
+    dataForArea.total
   );
   const maxTick = Math.abs(Math.max(...femaleSeries, ...maleSeries));
   return {
@@ -317,11 +317,11 @@ const createAdditionalChartSeries = (
   if (dataForGroup) {
     const femaleGroupSeries = computeDataPercentages(
       dataForGroup.femaleSeries,
-      dataForGroup.totalPopulation
+      dataForGroup.total
     );
     const maleGroupSeries = computeDataPercentages(
       dataForGroup.maleSeries,
-      dataForGroup.totalPopulation
+      dataForGroup.total
     );
 
     series.push(
@@ -354,11 +354,11 @@ const createAdditionalChartSeries = (
   if (dataForBenchmark) {
     const femaleBenchmarkSeries = computeDataPercentages(
       dataForBenchmark.femaleSeries,
-      dataForBenchmark.totalPopulation
+      dataForBenchmark.total
     );
     const maleBenchmarkSeries = computeDataPercentages(
       dataForBenchmark.maleSeries,
-      dataForBenchmark.totalPopulation
+      dataForBenchmark.total
     );
     series.push(
       {
@@ -391,13 +391,10 @@ export const createChartPyramidOptions = (
   xAxisTitle: string,
   yAxisTitle: string,
   accessibilityLabel: string,
-  dataForSelectedArea: PopulationDataForArea | undefined,
-  dataForBenchmark: PopulationDataForArea | undefined,
-  dataForSelectedGroup: PopulationDataForArea | undefined
+  dataForSelectedArea: PopulationDataForArea,
+  dataForBenchmark?: PopulationDataForArea,
+  dataForSelectedGroup?: PopulationDataForArea
 ): Highcharts.Options => {
-  if (!dataForSelectedArea) {
-    return {};
-  }
   const populationPyramidOptions: Highcharts.Options =
     createPopPyramidSeriesOptions(
       xAxisTitle,

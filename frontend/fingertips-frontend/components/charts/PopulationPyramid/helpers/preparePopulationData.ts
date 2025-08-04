@@ -6,7 +6,7 @@ import {
 import { areaCodeForEngland } from '../../../../lib/chartHelpers/constants';
 
 export interface PopulationDataForArea {
-  totalPopulation: number;
+  total: number;
   areaName?: string;
   areaCode?: string;
   ageCategories: Array<string>;
@@ -54,7 +54,7 @@ export const convertHealthDataForAreaForPyramidData = (
   } = getCountsByAgeSex(healthDataForArea);
 
   return {
-    totalPopulation: totalPopulation ?? 0,
+    total: totalPopulation ?? 0,
     areaName: healthDataForArea.areaName,
     areaCode: healthDataForArea.areaCode,
     ageCategories: ageCategories,

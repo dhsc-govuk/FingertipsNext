@@ -1,4 +1,4 @@
-import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
+import { PopulationDataForArea } from './preparePopulationData';
 import {
   determineHeaderTitle,
   determinePopulationDataForArea,
@@ -17,7 +17,7 @@ const generatePopulationDataForArea = (
   ageCategories: [],
   femaleSeries: [],
   maleSeries: [],
-  totalPopulation: 100,
+  total: 100,
 });
 
 const generateHealthDataForArea = (
