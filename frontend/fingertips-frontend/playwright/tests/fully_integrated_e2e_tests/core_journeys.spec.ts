@@ -57,7 +57,7 @@ test.describe(
         typeOfInequalityToSelect,
         signInAsUserToCheckUnpublishedData,
       }) => {
-        test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page. Indicator(s) to be selected ${indicatorsToSelect.map((indicator) => indicator.indicatorID).join(', ')}.`, async ({
+        test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page.`, async ({
           homePage,
           resultsPage,
           chartPage,

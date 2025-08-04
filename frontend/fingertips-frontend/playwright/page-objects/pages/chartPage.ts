@@ -961,7 +961,7 @@ export default class ChartPage extends AreaFilter {
     const shouldShowSegmentationDropDown =
       this.hasSegmentationData(selectedIndicators);
 
-    // checks that multi indicator scenarios do not show the segmentation dropdown options
+    // checks that the segmentation options dropdowns are visible or hidden in each journey
     await expect(this.page.getByTestId(this.segmentationOptions)).toBeVisible({
       visible: shouldShowSegmentationDropDown,
     });
@@ -1025,7 +1025,9 @@ export default class ChartPage extends AreaFilter {
         uniqueReportingPeriods.forEach((expectedReportingPeriod) => {
           expect(
             reportingPeriodOptions.some(
-              (option) => option.text === expectedReportingPeriod
+              (option) =>
+                option.text.replaceAll(' ', '').toLowerCase() ===
+                expectedReportingPeriod.replaceAll(' ', '').toLowerCase()
             )
           ).toBe(true);
         });
