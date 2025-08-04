@@ -73,7 +73,6 @@ FROM [dbo].[DeprivationDimension])
         , 50.0
         , 45.0
         , 55.0
-        , 2025
         , 1
         , 1
         , 1
@@ -133,7 +132,6 @@ FROM [dbo].[DeprivationDimension])
         , 50.0
         , 45.0
         , 55.0
-        , 2025
         , 1
         , 1
         , 1
@@ -193,7 +191,6 @@ FROM [dbo].[DeprivationDimension])
         , 50.0
         , 45.0
         , 55.0
-        , 2025
         , 1
         , 1
         , 1
