@@ -7,14 +7,26 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
 {
     private readonly HealthMeasureDbContext _dbContext = dbCtx ?? throw new ArgumentNullException(nameof(dbCtx));
 
-    public async Task<IEnumerable<HealthMeasureModel>> GetByIndicator(int indicatorKey) {
+    public async Task<IEnumerable<HealthMeasureModel>> GetByIndicator(int indicatorKey)
+    {
         return await _dbContext.HealthMeasure
             .Where(hm => hm.IndicatorDimension == null || hm.IndicatorDimension.IndicatorKey == indicatorKey)
             .Include(hm => hm.IndicatorDimension)
             .Include(hm => hm.TrendDimension)
             .Select(x => new HealthMeasureModel()
             {
-                Year = x.Year,
+                FromDateDimension = new DateDimensionModel()
+                {
+                    Date = x.FromDateDimension.Date
+                },
+                ToDateDimension = new DateDimensionModel()
+                {
+                    Date = x.ToDateDimension.Date
+                },
+                PeriodDimension = new PeriodDimensionModel()
+                {
+                    Period = x.PeriodDimension.Period,
+                },
                 Value = x.Value,
                 Count = x.Count,
                 Denominator = x.Denominator,
@@ -44,15 +56,18 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
             .ToListAsync();
     }
 
-    public void UpdateTrendKey(HealthMeasureModel healthMeasure, byte newTrendKey) {
+    public void UpdateTrendKey(HealthMeasureModel healthMeasure, byte newTrendKey)
+    {
         // Avoids registering an update in unlikely scenario where trend analysis is being rerun
-        if (healthMeasure.TrendKey != newTrendKey) {
+        if (healthMeasure.TrendKey != newTrendKey)
+        {
             healthMeasure.TrendKey = newTrendKey;
             _dbContext.Entry(healthMeasure).State = EntityState.Modified;
         }
     }
 
-    public async Task SaveChanges() {
+    public async Task SaveChanges()
+    {
         _dbContext.ChangeTracker.DetectChanges();
         await _dbContext.SaveChangesAsync();
         _dbContext.ChangeTracker.Clear();

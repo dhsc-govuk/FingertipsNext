@@ -128,7 +128,7 @@ namespace TrendAnalysisApp.Calculator.Legacy
             var unsortedData = Data.ToList();
             if (unsortedData.Any())
             {
-                var orderedData = unsortedData.OrderByDescending(x => x.Year);
+                var orderedData = unsortedData.OrderByDescending(x => x.FromDate.Date);
                 foreach (var data in orderedData)
                 {
                     // Check data is valid. Years don't need to be consecutive.

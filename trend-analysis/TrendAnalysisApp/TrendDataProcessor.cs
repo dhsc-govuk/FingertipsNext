@@ -41,7 +41,8 @@ public class TrendDataProcessor(
         var healthMeasures = await healthMeasureRepository.GetByIndicator(indicator.IndicatorKey);
         var groupedHealthMeasures = healthMeasures
             .Where(hm => hm.PublishedAt <= DateTime.UtcNow)
-            .GroupBy(hm => new {
+            .GroupBy(hm => new
+            {
                 hm.AgeKey,
                 hm.AreaKey,
                 hm.DeprivationKey,
@@ -52,20 +53,22 @@ public class TrendDataProcessor(
             IndicatorId = indicator.IndicatorId
         };
 
-        foreach (var hmGroup in groupedHealthMeasures) {
+        foreach (var hmGroup in groupedHealthMeasures)
+        {
             var mostRecentDataPoints = hmGroup
-                .OrderByDescending(hm => hm.Year)
+                .OrderByDescending(hm => hm.FromDateDimension.Date)
                 .Take(TrendCalculator.RequiredNumberOfDataPoints);
 
             var trend = trendCalculator.CalculateTrend(indicator, mostRecentDataPoints);
-            healthMeasureRepository.UpdateTrendKey(mostRecentDataPoints.First(), (byte) trend);
+            healthMeasureRepository.UpdateTrendKey(mostRecentDataPoints.First(), (byte)trend);
 
             var latestDataPoint = mostRecentDataPoints.First();
             if (
                 latestDataPoint.IsAgeAggregatedOrSingle &&
                 latestDataPoint.IsDeprivationAggregatedOrSingle &&
                 latestDataPoint.IsSexAggregatedOrSingle
-            ) {
+            )
+            {
                 trendDataForSearch.AreaToTrendList.Add(
                     new AreaWithTrendData(
                         latestDataPoint.AreaDimension.Code,
@@ -89,7 +92,7 @@ public class TrendDataProcessor(
         var indicators = await _indicatorRepo.GetAll();
         var tasks = indicators
         .Where(indicator => !Constants.Indicator.IdsToSkip.Contains(indicator.IndicatorId))
-        .Select(indicator => 
+        .Select(indicator =>
         {
             return Task.Run(async () =>
             {
@@ -109,14 +112,18 @@ public class TrendDataProcessor(
         UpdateIndicatorSearchData(indicatorTrendDataForSearch);
     }
 
-    public void UpdateIndicatorSearchData(IEnumerable<IndicatorTrendDataForSearch> perIndicatorTrendData) {
+    public void UpdateIndicatorSearchData(IEnumerable<IndicatorTrendDataForSearch> perIndicatorTrendData)
+    {
         JArray jsonIndicatorList = _fileHelper.Read(_jsonIndicatorFilePath);
 
-        foreach (var trendData in perIndicatorTrendData) {
-            foreach (var jsonIndicator in jsonIndicatorList) {
+        foreach (var trendData in perIndicatorTrendData)
+        {
+            foreach (var jsonIndicator in jsonIndicatorList)
+            {
                 var jsonIndicatorKey = jsonIndicator.Value<int>("indicatorID");
- 
-                if (jsonIndicatorKey == trendData.IndicatorId) {
+
+                if (jsonIndicatorKey == trendData.IndicatorId)
+                {
                     jsonIndicator["trendsByArea"] = JArray.FromObject(trendData.AreaToTrendList);
                     break;
                 }

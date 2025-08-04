@@ -24,7 +24,7 @@ namespace TrendAnalysisApp.Calculator.Legacy
             var trendMarker = trendRequest.ValidData.Count() >= PointsToUse ? TrendMarker.NoChange : TrendMarker.CannotBeCalculated;
 
             // Check whether trend request is valid
-            
+
             var validationResult = trendRequest.IsValid();
             if (!validationResult.IsValid)
             {
@@ -171,10 +171,10 @@ namespace TrendAnalysisApp.Calculator.Legacy
         {
             var filtereCoreDataSets = dataList
                 .Where(x => x.LowerCI95 != null && x.UpperCI95 != null && x.IsValueValid)
-                .OrderByDescending(t => t.Year)
+                .OrderByDescending(t => t.FromDate.Date)
                 .Take(PointsToUse);
 
-            return filtereCoreDataSets.OrderBy(t => t.Year);
+            return filtereCoreDataSets.OrderBy(t => t.FromDate.Date);
         }
     }
 }

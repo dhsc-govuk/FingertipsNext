@@ -9,7 +9,8 @@ public class IndicatorJsonFileHelper : IIndicatorJsonFileHelper
         return JArray.Parse(File.ReadAllText(filePath));
     }
 
-    public void Write(string filePath, JArray json) {
+    public void Write(string filePath, JArray json)
+    {
         File.WriteAllText(filePath, json.ToString());
     }
 }
