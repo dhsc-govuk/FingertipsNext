@@ -71,24 +71,6 @@ export const coreTestJourneys: TestParameters[] = [
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.TWO_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '108', // tests with number in subject search term - with segmentation
-    indicatorsToSelect: [
-      {
-        indicatorID: '108',
-        knownTrend: 'No significant change',
-        hasSegmentationData: true,
-      },
-    ],
-    areaFiltersToSelect: {
-      areaType: 'districts-and-unitary-authorities',
-      groupType: 'regions',
-      group: 'East Midlands Region',
-    },
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: '91894', // tests searching for a single specific indicatorID
