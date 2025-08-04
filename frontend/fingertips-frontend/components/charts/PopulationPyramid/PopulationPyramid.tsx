@@ -10,6 +10,7 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { H3, Paragraph } from 'govuk-react';
 import {
   determineHealthDataForArea,
+  getLatestPeriodForAreas,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -100,17 +101,16 @@ export const PopulationPyramid = ({
     healthdataWithoutGroup,
     populationAreaSelected
   );
-  // TODO: DHSCFT-1201 change to use Period
-  // const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
-  // import { getLatestPeriodForAreas } from '../../../../lib/chartHelpers/chartHelpers';
-  //
-  const period =
-    healthDataForAreaSelected?.indicatorSegments?.[0]?.healthData?.[0]?.year;
+
+  const latestPeriodAsNumber = getLatestPeriodForAreas(healthDataForAreas);
+  const year = latestPeriodAsNumber
+    ? new Date(latestPeriodAsNumber).getFullYear()
+    : undefined;
 
   const title = determineHeaderTitle(
     healthDataForAreaSelected,
     areaTypeSelected,
-    period
+    year
   );
 
   return (
@@ -162,7 +162,7 @@ export const PopulationPyramid = ({
                         populationDataForGroup={populationDataForGroupToUse}
                         indicatorId={indicatorId}
                         indicatorName={indicatorName}
-                        period={period ?? 2050}
+                        period={latestPeriodAsNumber ?? 2050}
                       />
                     ),
                   },

@@ -6,7 +6,6 @@ import {
   allAreaTypes,
   HierarchyNameTypes,
 } from '@/lib/areaFilterHelpers/areaType';
-import { sortHealthDataPointsByDescendingYear } from '@/lib/chartHelpers/chartHelpers';
 import { PopulationDataForArea } from './preparePopulationData';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 
@@ -41,8 +40,4 @@ export const determinePopulationDataForArea = (
   }
 
   return populationDataForAllAreas.find((data) => data.areaCode === areaToFind);
-};
-
-export const determineYear = (healthData: HealthDataPoint[]) => {
-  return sortHealthDataPointsByDescendingYear(healthData)[0].year;
 };

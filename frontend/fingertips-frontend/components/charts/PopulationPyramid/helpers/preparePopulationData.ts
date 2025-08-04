@@ -39,9 +39,9 @@ export const convertHealthDataForAreaForPyramidData = (
     !healthDataForArea.indicatorSegments[0] ||
     healthDataForArea.indicatorSegments[0]?.healthData?.length !== 1 ||
     healthDataForArea.indicatorSegments[0]?.reportingPeriod !==
-      ReportingPeriod.Yearly || // should always show for England
+      ReportingPeriod.Yearly ||
     healthDataForArea.indicatorSegments?.[0]?.healthData[0]?.datePeriod
-      ?.type !== PeriodType.Calendar // should always show for England
+      ?.type !== PeriodType.Calendar
   ) {
     return undefined;
   }

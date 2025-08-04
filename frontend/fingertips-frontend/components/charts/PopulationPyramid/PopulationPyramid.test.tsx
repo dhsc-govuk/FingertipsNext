@@ -124,55 +124,6 @@ describe('PopulationPyramidWithTable', () => {
     ).not.toBeInTheDocument();
   });
 
-  it.skip('should not render if reporting period is not yearly', () => {
-    const mockHealthDataForAreaWithNonYearlyReporting = [
-      mockHealthDataForArea({
-        indicatorSegments: [
-          mockIndicatorSegment({ reportingPeriod: ReportingPeriod.Monthly }),
-        ],
-      }),
-    ];
-    testRender(mockHealthDataForAreaWithNonYearlyReporting);
-    expect(
-      screen.queryByTestId('populationPyramidWithTable-component')
-    ).not.toBeInTheDocument();
-  });
-
-  it.skip('should not render if date period type is not calendar', () => {
-    const mockHealthDataForAreaWithNonYearlyReporting = [
-      mockHealthDataForArea({
-        indicatorSegments: [
-          mockIndicatorSegment({
-            healthData: [
-              mockHealthDataPoint({
-                datePeriod: mockDatePeriod({ type: PeriodType.Financial }),
-              }),
-            ],
-          }),
-        ],
-      }),
-    ];
-    testRender(mockHealthDataForAreaWithNonYearlyReporting);
-    expect(
-      screen.queryByTestId('populationPyramidWithTable-component')
-    ).not.toBeInTheDocument();
-  });
-
-  it.skip('should not render if more that one health data point is provided for an area', () => {
-    const mockHealthDataForAreaWithNonYearlyReporting = [
-      mockHealthDataForArea({
-        indicatorSegments: [
-          mockIndicatorSegment({
-            healthData: [mockHealthDataPoint(), mockHealthDataPoint()],
-          }),
-        ],
-      }),
-    ];
-    testRender(mockHealthDataForAreaWithNonYearlyReporting);
-    expect(
-      screen.queryByTestId('populationPyramidWithTable-component')
-    ).not.toBeInTheDocument();
-  });
   it('should show No "data" message if no data for the area', () => {
     const mockHealthDataForWithNoDatafForArea = [
       mockHealthDataForArea({
