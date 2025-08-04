@@ -17,6 +17,7 @@ import { useInequalitiesData } from '@/components/charts/Inequalities/hooks/useI
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
 import { SingleIndicatorSpineChart } from '@/components/charts/SpineChart/SingleIndicatorSpineChart';
 import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
+import { usePopulationPyramidData } from '@/components/charts/PopulationPyramid/hooks/usePopulationPyramidData';
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -62,7 +63,9 @@ export function OneIndicatorOneAreaViewPlots({
     );
   }
 
-  availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
+  const showPopulationPyramid = usePopulationPyramidData();
+  if (showPopulationPyramid)
+    availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
 
   return (
     <section data-testid="oneIndicatorOneAreaViewPlot-component">

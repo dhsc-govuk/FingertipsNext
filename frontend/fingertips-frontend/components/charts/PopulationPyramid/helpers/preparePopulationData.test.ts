@@ -1,129 +1,234 @@
 import {
   HealthDataForArea,
-  HealthDataPoint,
-  HealthDataPointTrendEnum,
+  IndicatorSegment,
 } from '@/generated-sources/ft-api-client';
 import {
   computeDataPercentages,
   convertHealthDataForAreaForPyramidData,
-  PopulationDataForArea,
+  createPyramidPopulationData,
 } from './preparePopulationData';
-import {
-  disaggregatedAge,
-  femaleSex,
-  maleSex,
-  noDeprivation,
-} from '../../../../lib/mocks';
+import { disaggregatedAge, femaleSex, maleSex } from '../../../../lib/mocks';
 import {
   mockHealthDataPoint,
   mockHealthDataPoints,
 } from '@/mock/data/mockHealthDataPoint';
 import {
-  mockHealthDataForArea as localMockHealthDataForArea,
   mockHealthDataForArea,
+  mockHealthDataForArea_England,
+  mockHealthDataForArea_Group,
 } from '@/mock/data/mockHealthDataForArea';
-import { mock } from 'node:test';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import { a } from 'vitest/dist/chunks/suite.d.FvehnV49.js';
 
-const mockData: HealthDataPoint[] = [
-  mockHealthDataPoint({
-    count: 1496012,
-    ageBand: disaggregatedAge('0-4'),
+const mockFemaleSegements: IndicatorSegment[] = [
+  mockIndicatorSegment({
     sex: femaleSex,
+    age: disaggregatedAge('0-4'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1496012,
+      }),
+    ],
   }),
-  mockHealthDataPoint({
-    count: 1635842,
-    ageBand: disaggregatedAge('5-9'),
+  mockIndicatorSegment({
     sex: femaleSex,
+    age: disaggregatedAge('5-9'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1635842,
+      }),
+    ],
   }),
-  mockHealthDataPoint({
-    count: 1721746,
-    ageBand: disaggregatedAge('10-14'),
+  mockIndicatorSegment({
     sex: femaleSex,
+    age: disaggregatedAge('10-14'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1721746,
+      }),
+    ],
   }),
-  mockHealthDataPoint({
-    count: 1652231,
-    ageBand: disaggregatedAge('15-19'),
+  mockIndicatorSegment({
     sex: femaleSex,
-    trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
+    age: disaggregatedAge('15-19'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1652231,
+      }),
+    ],
   }),
-  mockHealthDataPoint({
-    count: 1692751,
-    ageBand: disaggregatedAge('20-24'),
+  mockIndicatorSegment({
     sex: femaleSex,
+    age: disaggregatedAge('20-24'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1692751,
+      }),
+    ],
   }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 1936763,
-    ageBand: disaggregatedAge('50-54'),
+  mockIndicatorSegment({
     sex: femaleSex,
+    age: disaggregatedAge('50-54'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1936763,
+      }),
+    ],
   }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 547342,
-    ageBand: disaggregatedAge('85-89'),
+
+  mockIndicatorSegment({
     sex: femaleSex,
+    age: disaggregatedAge('85-89'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 547342,
+      }),
+    ],
   }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 347835,
-    ageBand: disaggregatedAge('90+'),
+
+  mockIndicatorSegment({
     sex: femaleSex,
-  }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 1568625,
-    ageBand: disaggregatedAge('0-4'),
-    sex: maleSex,
-  }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 1712925,
-    ageBand: disaggregatedAge('5-9'),
-    sex: maleSex,
-  }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 1807194,
-    ageBand: disaggregatedAge('10-14'),
-    sex: maleSex,
-  }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 1752832,
-    ageBand: disaggregatedAge('15-19'),
-    sex: maleSex,
-  }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 1763621,
-    ageBand: disaggregatedAge('20-24'),
-    sex: maleSex,
-  }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 1872253,
-    ageBand: disaggregatedAge('50-54'),
-    sex: maleSex,
-  }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 173456,
-    ageBand: disaggregatedAge('90+'),
-    sex: maleSex,
-  }),
-  mockHealthDataPoint({
-    year: 2023,
-    count: 377979,
-    ageBand: disaggregatedAge('85-89'),
-    sex: maleSex,
+    age: disaggregatedAge('90+'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 347835,
+      }),
+    ],
   }),
 ];
+
+const mockMaleSegements: IndicatorSegment[] = [
+  mockIndicatorSegment({
+    sex: maleSex,
+    age: disaggregatedAge('0-4'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1568625,
+      }),
+    ],
+  }),
+  mockIndicatorSegment({
+    sex: maleSex,
+    age: disaggregatedAge('5-9'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1712925,
+      }),
+    ],
+  }),
+  mockIndicatorSegment({
+    sex: maleSex,
+    age: disaggregatedAge('10-14'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1807194,
+      }),
+    ],
+  }),
+  mockIndicatorSegment({
+    sex: maleSex,
+    age: disaggregatedAge('15-19'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1752832,
+      }),
+    ],
+  }),
+  mockIndicatorSegment({
+    sex: maleSex,
+    age: disaggregatedAge('20-24'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1763621,
+      }),
+    ],
+  }),
+  mockIndicatorSegment({
+    sex: maleSex,
+    age: disaggregatedAge('50-54'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 1872253,
+      }),
+    ],
+  }),
+
+  mockIndicatorSegment({
+    sex: maleSex,
+    age: disaggregatedAge('85-89'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 377979,
+      }),
+    ],
+  }),
+
+  mockIndicatorSegment({
+    sex: maleSex,
+    age: disaggregatedAge('90+'),
+    healthData: [
+      mockHealthDataPoint({
+        datePeriod: mockDatePeriod({
+          type: 'Calendar',
+        }),
+        count: 173456,
+      }),
+    ],
+  }),
+];
+
 const localMockHealthDataForArea: HealthDataForArea = {
   areaCode: 'selected',
   areaName: 'Selected Area',
-  healthData: mockData,
+  healthData: [],
+  indicatorSegments: [...mockFemaleSegements, ...mockMaleSegements],
 };
 
 describe('computeDataPercentages', () => {
@@ -216,7 +321,46 @@ describe('convertHealthDataForAreaForPyramidData', () => {
     );
     expect(actual).toBeUndefined();
   });
-  it.todo(
-    'should return the group &| england only if the period matches the area'
-  );
+});
+
+describe('createPyramidPopulationData', () => {
+  const mockGroupAreaCode = 'E12000002';
+  const areasData = [mockHealthDataForArea(), mockHealthDataForArea()];
+  it('should return the correct data for areas only', () => {
+    const result = createPyramidPopulationData(areasData);
+
+    expect(result?.pyramidDataForAreas).toHaveLength(2);
+    expect(result?.pyramidDataForEngland).toBeUndefined();
+    expect(result?.pyramidDataForGroup).toBeUndefined();
+  });
+
+  it('should return the correct data for england only', () => {
+    const areasData = [mockHealthDataForArea_England()];
+
+    const result = createPyramidPopulationData(areasData);
+
+    expect(result?.pyramidDataForAreas).toHaveLength(0);
+    expect(result?.pyramidDataForEngland?.areaCode).toBe(areaCodeForEngland);
+    expect(result?.pyramidDataForGroup?.areaCode).toBeUndefined();
+  });
+
+  it('should return the correct data for group only', () => {
+    const areasData = [mockHealthDataForArea_Group()];
+
+    const result = createPyramidPopulationData(areasData, mockGroupAreaCode);
+
+    expect(result?.pyramidDataForAreas).toHaveLength(0);
+    expect(result?.pyramidDataForEngland).toBeUndefined();
+    expect(result?.pyramidDataForGroup?.areaCode).toBe(mockGroupAreaCode);
+  });
+
+  it('should return only benchmark data if the group is england', () => {
+    const areasData = [mockHealthDataForArea_England()];
+
+    const result = createPyramidPopulationData(areasData, areaCodeForEngland);
+
+    expect(result?.pyramidDataForAreas).toHaveLength(0);
+    expect(result?.pyramidDataForEngland?.areaCode).toBe(areaCodeForEngland);
+    expect(result?.pyramidDataForGroup).toBeUndefined();
+  });
 });

@@ -1,4 +1,8 @@
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  HealthDataForArea,
+  PeriodType,
+  ReportingPeriod,
+} from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '../../../../lib/chartHelpers/constants';
 import { getLatestPeriodForAreas } from '../../../../lib/chartHelpers/chartHelpers';
 
@@ -34,7 +38,11 @@ export const convertHealthDataForAreaForPyramidData = (
     !healthDataForArea ||
     !healthDataForArea.indicatorSegments ||
     !healthDataForArea.indicatorSegments[0] ||
-    healthDataForArea.indicatorSegments[0]?.healthData?.length !== 1
+    healthDataForArea.indicatorSegments[0]?.healthData?.length !== 1 ||
+    healthDataForArea.indicatorSegments[0]?.reportingPeriod !==
+      ReportingPeriod.Yearly || // should always show for England
+    healthDataForArea.indicatorSegments?.[0]?.healthData[0]?.datePeriod
+      ?.type !== PeriodType.Calendar // should always show for England
   ) {
     return undefined;
   }
@@ -60,43 +68,30 @@ function filterHealthDataForArea(
   dataForAreas: HealthDataForArea[],
   selectedGroupAreaCode: string | undefined
 ): {
-  areasData: HealthDataForArea[];
+  areasData: HealthDataForArea[] | undefined;
   benchmarkData: HealthDataForArea | undefined;
   groupData: HealthDataForArea | undefined;
 } {
-  if (dataForAreas.length === 1) {
-    return {
-      areasData: dataForAreas,
-      benchmarkData: undefined,
-      groupData: undefined,
-    };
-  }
-
   const areasData = dataForAreas.filter(
-    (area: HealthDataForArea, _: number) => {
-      return (
-        selectedGroupAreaCode != area.areaCode &&
-        area.areaCode != areaCodeForEngland
-      );
-    }
+    (area) =>
+      area.areaCode !== selectedGroupAreaCode &&
+      area.areaCode !== areaCodeForEngland
   );
 
-  const benchmarkData = dataForAreas.find(
-    (area: HealthDataForArea, _: number) => {
-      const isEnglandAddedAlready =
-        areasData.find((search_area) => {
-          return search_area.areaCode == area.areaCode;
-        }) != undefined;
-      return area.areaCode == areaCodeForEngland && !isEnglandAddedAlready;
-    }
-  );
+  const benchmarkData = dataForAreas.find((area) => {
+    const isEnglandAddedAlready =
+      areasData.find((search_area) => {
+        return search_area.areaCode == area.areaCode;
+      }) != undefined;
+    return area.areaCode == areaCodeForEngland && !isEnglandAddedAlready;
+  });
 
   let groupData: HealthDataForArea | undefined = undefined;
-  if (benchmarkData && selectedGroupAreaCode) {
-    groupData = dataForAreas.find((area: HealthDataForArea, _: number) => {
+  if (selectedGroupAreaCode) {
+    groupData = dataForAreas.find((area) => {
       return (
-        selectedGroupAreaCode == area.areaCode &&
-        benchmarkData.areaCode != area.areaCode
+        area.areaCode === selectedGroupAreaCode &&
+        area.areaCode !== areaCodeForEngland
       );
     });
   }
@@ -104,7 +99,7 @@ function filterHealthDataForArea(
 }
 
 interface PyramidPopulationData {
-  pyramidDataForAreas: PopulationDataForArea[];
+  pyramidDataForAreas: PopulationDataForArea[] | undefined;
   pyramidDataForEngland?: PopulationDataForArea;
   pyramidDataForGroup?: PopulationDataForArea;
 }
@@ -112,25 +107,25 @@ interface PyramidPopulationData {
 export const createPyramidPopulationData = (
   dataForAreas: HealthDataForArea[],
   groupAreaCode: string = ''
-): PyramidPopulationData | undefined => {
+): PyramidPopulationData => {
   const { areasData, benchmarkData, groupData } = filterHealthDataForArea(
     dataForAreas,
     groupAreaCode
   );
 
-  const mostRecentDate = new Date(getLatestPeriodForAreas(dataForAreas) ?? '');
-  if (!mostRecentDate) return;
-
-  const pyramidDataForAreas = areasData
-    .map((area) => convertHealthDataForAreaForPyramidData(area))
-    .filter((data) => data !== undefined);
+  let pyramidDataForAreas;
+  if (areasData) {
+    pyramidDataForAreas = areasData
+      .map((area) => convertHealthDataForAreaForPyramidData(area))
+      .filter((data) => data !== undefined);
+  }
   const pyramidDataForEngland =
     convertHealthDataForAreaForPyramidData(benchmarkData);
   const pyramidDataForGroup = convertHealthDataForAreaForPyramidData(groupData);
   return {
-    pyramidDataForAreas: pyramidDataForAreas,
-    pyramidDataForEngland: pyramidDataForEngland,
-    pyramidDataForGroup: pyramidDataForGroup,
+    pyramidDataForAreas,
+    pyramidDataForEngland,
+    pyramidDataForGroup,
   };
 };
 

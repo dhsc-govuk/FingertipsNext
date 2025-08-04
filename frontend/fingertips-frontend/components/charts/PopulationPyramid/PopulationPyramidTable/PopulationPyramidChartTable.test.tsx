@@ -1,28 +1,29 @@
 import { render, screen } from '@testing-library/react';
 import { PopulationPyramidChartTable } from './PopulationPyramidTableGroup';
+import { PopulationDataForArea } from '../helpers/preparePopulationData';
 
-const mockHealthDataForArea = {
+const mockPopulaitonDataForArea: PopulationDataForArea = {
   areaName: 'Test Area',
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
   femaleSeries: [1000, 1200, 1100, 1300],
   maleSeries: [900, 1100, 1050, 1250],
-  total: 0,
+  totalPopulation: 0,
 };
 
-const mockBenchmarkData = {
+const mockBenchmarkData: PopulationDataForArea = {
   areaName: 'Benchmark Area',
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
   femaleSeries: [1100, 1300, 1200, 1400],
   maleSeries: [1100, 1200, 1150, 1350],
-  total: 0,
+  totalPopulation: 0,
 };
 
-const mockGroupData = {
+const mockGroupData: PopulationDataForArea = {
   areaName: 'Group Area',
   ageCategories: ['0-4', '5-9', '10-14', '15+'],
   femaleSeries: [1100, 1300, 1200, 1400],
   maleSeries: [100, 10, 1150, 150],
-  total: 0,
+  totalPopulation: 0,
 };
 
 describe('PopulationPyramidChartTable', () => {
@@ -39,9 +40,9 @@ describe('PopulationPyramidChartTable', () => {
     render(
       <PopulationPyramidChartTable
         title={'Area resident population, 2023'}
-        healthDataForArea={mockHealthDataForArea}
-        groupData={mockGroupData}
-        benchmarkData={mockBenchmarkData}
+        populationDataForArea={mockPopulaitonDataForArea}
+        populationDataForGroup={mockGroupData}
+        populationDataForBenchmark={mockBenchmarkData}
         indicatorId={'1'}
         indicatorName={'Indicator'}
         period={2003}
@@ -63,9 +64,9 @@ describe('PopulationPyramidChartTable', () => {
     render(
       <PopulationPyramidChartTable
         title={'Area resident population, 2023'}
-        healthDataForArea={mockHealthDataForArea}
-        benchmarkData={undefined}
-        groupData={mockGroupData}
+        populationDataForArea={mockPopulaitonDataForArea}
+        populationDataForBenchmark={undefined}
+        populationDataForGroup={mockGroupData}
         indicatorId={'1'}
         indicatorName={'Indicator'}
         period={2003}
@@ -82,9 +83,9 @@ describe('PopulationPyramidChartTable', () => {
     const { asFragment } = render(
       <PopulationPyramidChartTable
         title={'Area resident population, 2023'}
-        healthDataForArea={mockHealthDataForArea}
-        benchmarkData={mockBenchmarkData}
-        groupData={mockGroupData}
+        populationDataForArea={mockPopulaitonDataForArea}
+        populationDataForBenchmark={mockBenchmarkData}
+        populationDataForGroup={mockGroupData}
         indicatorId={'1'}
         indicatorName={'Indicator'}
         period={2003}
@@ -100,9 +101,9 @@ describe('PopulationPyramidChartTable', () => {
     render(
       <PopulationPyramidChartTable
         title={'Area resident population, 2023'}
-        healthDataForArea={mockHealthDataForArea}
-        benchmarkData={mockBenchmarkData}
-        groupData={mockGroupData}
+        populationDataForArea={mockPopulaitonDataForArea}
+        populationDataForBenchmark={mockBenchmarkData}
+        populationDataForGroup={mockGroupData}
         indicatorId={'1'}
         indicatorName={'Indicator'}
         period={2003}

@@ -391,10 +391,13 @@ export const createChartPyramidOptions = (
   xAxisTitle: string,
   yAxisTitle: string,
   accessibilityLabel: string,
-  dataForSelectedArea: PopulationDataForArea,
-  dataForBenchmark?: PopulationDataForArea,
-  dataForSelectedGroup?: PopulationDataForArea
+  dataForSelectedArea: PopulationDataForArea | undefined,
+  dataForBenchmark: PopulationDataForArea | undefined,
+  dataForSelectedGroup: PopulationDataForArea | undefined
 ): Highcharts.Options => {
+  if (!dataForSelectedArea) {
+    return {};
+  }
   const populationPyramidOptions: Highcharts.Options =
     createPopPyramidSeriesOptions(
       xAxisTitle,
