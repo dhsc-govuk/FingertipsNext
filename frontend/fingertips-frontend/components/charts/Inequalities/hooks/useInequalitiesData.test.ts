@@ -11,6 +11,8 @@ import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { SearchParams } from '@/lib/searchStateManager';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { Mock, MockedFunction } from 'vitest';
+import { withoutYears } from '@/lib/healthDataHelpers/withoutYears';
+import { indicatorWithHealthDataForAreaWithoutSegmentation } from '@/lib/healthDataHelpers/indicatorWithHealthDataForAreaWithoutSegmentation';
 
 vi.mock('@/components/charts/hooks/useIndicatorMetaData');
 vi.mock('@/components/charts/Inequalities/hooks/useInequalitiesRequestParams');
@@ -55,11 +57,15 @@ describe('useInequalitiesData', () => {
   it.each(Object.values(ChartType))(
     'calls inequalitiesData() when all inputs are present for %s',
     (chartType) => {
+      const cleanAndWithoutSegments =
+        indicatorWithHealthDataForAreaWithoutSegmentation(
+          withoutYears(mockIndicatorWithHealthDataForArea())
+        );
       renderHook(() => useInequalitiesData(chartType));
       expect(mockInequalitiesData).toHaveBeenCalledWith(
         mockSearchState,
         mockIndicatorDocument(),
-        mockIndicatorWithHealthDataForArea(),
+        cleanAndWithoutSegments,
         chartType
       );
     }
