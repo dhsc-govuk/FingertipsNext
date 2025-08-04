@@ -131,7 +131,7 @@ export const PopulationPyramid = ({
               availableAreas={availableAreas}
               chartAreaSelectedKey={SearchParams.PopulationAreaSelected}
             />
-            {populationDataForSelectedArea ? (
+            {populationDataForSelectedArea && year ? (
               <TabContainer
                 id="pyramidChartAndTableView"
                 items={[
@@ -162,7 +162,7 @@ export const PopulationPyramid = ({
                         populationDataForGroup={populationDataForGroupToUse}
                         indicatorId={indicatorId}
                         indicatorName={indicatorName}
-                        period={latestPeriodAsNumber ?? 2050}
+                        period={year}
                       />
                     ),
                   },
