@@ -56,9 +56,7 @@ export function OneIndicatorOneAreaViewPlots({
   }
 
   if (showInequalities) {
-    availableChartLinks.push(
-      ChartTitleKeysEnum.InequalitiesCharts,
-    );
+    availableChartLinks.push(ChartTitleKeysEnum.InequalitiesCharts);
   }
 
   availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
