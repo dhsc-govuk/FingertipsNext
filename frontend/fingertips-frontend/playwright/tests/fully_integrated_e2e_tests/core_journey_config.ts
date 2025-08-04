@@ -1,4 +1,5 @@
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import { ReportingPeriod } from '@/generated-sources/ft-api-client/models/ReportingPeriod';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import {
   AreaMode,
@@ -31,26 +32,28 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
+        segmentationData: [
+          {
+            sex: 'Male',
+            age: 'All ages',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+          {
+            sex: 'Female',
+            age: 'All ages',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+          {
+            sex: 'Persons',
+            age: 'All ages',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+        ],
       },
     ],
     checkExports: true,
     typeOfInequalityToSelect: InequalitiesTypes.Sex,
     signInAsUserToCheckUnpublishedData: SignInAs.administrator, // this journey will check we show the unpublished data as we are signed in as an administrator
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ONE_AREA,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
-    subjectSearchTerm: 'hospital',
-    indicatorsToSelect: [
-      {
-        indicatorID: '92904',
-        knownTrend: 'Decreasing and getting better',
-        hasSegmentationData: true,
-      },
-    ],
-    checkExports: true,
-    typeOfInequalityToSelect: InequalitiesTypes.Sex,
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
@@ -61,6 +64,23 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '92904',
         knownTrend: 'No significant change',
+        segmentationData: [
+          {
+            sex: 'Male',
+            age: '<18 yrs',
+            reportingPeriod: ReportingPeriod.ThreeYearly,
+          },
+          {
+            sex: 'Female',
+            age: '<18 yrs',
+            reportingPeriod: ReportingPeriod.ThreeYearly,
+          },
+          {
+            sex: 'Persons',
+            age: '<18 yrs',
+            reportingPeriod: ReportingPeriod.ThreeYearly,
+          },
+        ],
       },
     ],
     areaFiltersToSelect: {
@@ -78,30 +98,19 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '91894',
         knownTrend: 'No significant change',
+        segmentationData: [
+          {
+            sex: 'Persons',
+            age: '65+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+        ],
       },
     ],
     areaFiltersToSelect: {
       areaType: 'counties-and-unitary-authorities',
       groupType: 'combined-authorities',
       group: 'Greater Manchester Combined Authority',
-    },
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.THREE_PLUS_AREAS,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '108',
-    indicatorsToSelect: [
-      {
-        indicatorID: '108',
-        knownTrend: 'Decreasing and getting better',
-        hasSegmentationData: true,
-      },
-    ],
-    areaFiltersToSelect: {
-      areaType: 'districts-and-unitary-authorities',
-      groupType: 'regions',
-      group: 'East Midlands Region',
     },
   },
   {
@@ -114,6 +123,13 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '90453', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available', // 2023 has the trend 'No significant change' but 2024 has no trend data
         unpublishedDataYear: 2025,
+        segmentationData: [
+          {
+            sex: 'Persons',
+            age: '16+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+        ],
       },
     ],
     areaFiltersToSelect: {
@@ -125,24 +141,6 @@ export const coreTestJourneys: TestParameters[] = [
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: 'check',
-    indicatorsToSelect: [
-      {
-        indicatorID: '91112',
-        knownTrend: 'No recent trend data available',
-        hasSegmentationData: true,
-      },
-    ],
-    areaFiltersToSelect: {
-      areaType: 'regions',
-      groupType: 'england',
-      group: 'england',
-    },
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: '22401', // tests searching for a single specific indicatorID
@@ -150,25 +148,23 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '22401',
         knownTrend: 'Decreasing and getting better',
-      },
-    ],
-    areaFiltersToSelect: {
-      areaType: 'england',
-      groupType: 'england',
-      group: 'england',
-    },
-    typeOfInequalityToSelect: InequalitiesTypes.Deprivation,
-  },
-  {
-    indicatorMode: IndicatorMode.ONE_INDICATOR,
-    areaMode: AreaMode.ENGLAND_AREA,
-    searchMode: SearchMode.ONLY_SUBJECT,
-    subjectSearchTerm: '92904', // tests searching for a single specific indicatorID
-    indicatorsToSelect: [
-      {
-        indicatorID: '92904',
-        knownTrend: 'Decreasing and getting better',
-        hasSegmentationData: true,
+        segmentationData: [
+          {
+            sex: 'Male',
+            age: '65+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+          {
+            sex: 'Female',
+            age: '65+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+          {
+            sex: 'Persons',
+            age: '65+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+        ],
       },
     ],
     areaFiltersToSelect: {

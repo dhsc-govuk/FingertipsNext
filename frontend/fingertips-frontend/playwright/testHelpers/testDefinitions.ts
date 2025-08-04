@@ -1,4 +1,5 @@
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import { ReportingPeriod } from '@/generated-sources/ft-api-client/models/ReportingPeriod';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -26,11 +27,17 @@ export enum TestTag {
   CD = '@cd',
 }
 
+export interface SegmentationData {
+  sex: string;
+  age: string;
+  reportingPeriod: ReportingPeriod;
+}
+
 export interface IndicatorInfo {
   indicatorID: string;
   knownTrend?: string;
   unpublishedDataYear?: number;
-  hasSegmentationData?: boolean;
+  segmentationData?: SegmentationData[];
 }
 
 export interface SimpleIndicatorDocument {
@@ -40,7 +47,7 @@ export interface SimpleIndicatorDocument {
   dataSource: string;
   knownTrend?: string;
   unpublishedDataYear?: number;
-  hasSegmentationData?: boolean;
+  segmentationData?: SegmentationData[];
 }
 
 export interface AreaFilters {
