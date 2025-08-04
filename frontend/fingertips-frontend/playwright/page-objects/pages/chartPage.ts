@@ -399,13 +399,12 @@ export default class ChartPage extends AreaFilter {
     const dataSourceLocator = this.page.getByTestId('data-source');
 
     const isMultiIndicatorWithSpecificAreaMode =
-      (indicatorMode !== IndicatorMode.ONE_INDICATOR &&
-        (areaMode === AreaMode.ENGLAND_AREA ||
-          areaMode === AreaMode.ONE_AREA)) ||
-      indicatorMode === IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION; //segmentation view charts currently don't show the data source
+      indicatorMode !== IndicatorMode.ONE_INDICATOR &&
+      (areaMode === AreaMode.ENGLAND_AREA || areaMode === AreaMode.ONE_AREA);
 
     const shouldShowDataSource =
-      indicatorMode === IndicatorMode.ONE_INDICATOR ||
+      (indicatorMode === IndicatorMode.ONE_INDICATOR &&
+        selectedIndicators[0].hasSegmentationData != true) ||
       isMultiIndicatorWithSpecificAreaMode;
 
     if (shouldShowDataSource) {

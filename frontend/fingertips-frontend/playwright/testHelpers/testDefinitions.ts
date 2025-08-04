@@ -8,7 +8,6 @@ export enum SearchMode {
 
 export enum IndicatorMode {
   ONE_INDICATOR = 'ONE_INDICATOR',
-  ONE_INDICATOR_WITH_SEGMENTATION = 'ONE_INDICATOR_WITH_SEGMENTATION',
   TWO_INDICATORS = 'TWO_INDICATORS',
   THREE_PLUS_INDICATORS = 'THREE_PLUS_INDICATORS',
 }
@@ -31,6 +30,7 @@ export interface IndicatorInfo {
   indicatorID: string;
   knownTrend?: string;
   unpublishedDataYear?: number;
+  hasSegmentationData?: boolean;
 }
 
 export interface SimpleIndicatorDocument {
@@ -40,6 +40,7 @@ export interface SimpleIndicatorDocument {
   dataSource: string;
   knownTrend?: string;
   unpublishedDataYear?: number;
+  hasSegmentationData?: boolean;
 }
 
 export interface AreaFilters {

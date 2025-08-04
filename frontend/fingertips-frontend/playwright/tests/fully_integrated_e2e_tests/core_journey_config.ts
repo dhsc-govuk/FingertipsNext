@@ -38,7 +38,7 @@ export const coreTestJourneys: TestParameters[] = [
     signInAsUserToCheckUnpublishedData: SignInAs.administrator, // this journey will check we show the unpublished data as we are signed in as an administrator
   },
   {
-    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
     searchMode: SearchMode.BOTH_SUBJECT_AND_AREA,
     subjectSearchTerm: 'hospital',
@@ -46,6 +46,7 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '92904',
         knownTrend: 'Decreasing and getting better',
+        hasSegmentationData: true,
       },
     ],
     checkExports: true,
@@ -69,7 +70,7 @@ export const coreTestJourneys: TestParameters[] = [
     },
   },
   {
-    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.TWO_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: '17', // tests with number in subject search term - with segmentation
@@ -77,6 +78,7 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '92904',
         knownTrend: 'No significant change',
+        hasSegmentationData: true,
       },
     ],
     areaFiltersToSelect: {
@@ -103,7 +105,7 @@ export const coreTestJourneys: TestParameters[] = [
     },
   },
   {
-    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: '108',
@@ -111,6 +113,7 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '108',
         knownTrend: 'Decreasing and getting better',
+        hasSegmentationData: true,
       },
     ],
     areaFiltersToSelect: {
@@ -139,7 +142,7 @@ export const coreTestJourneys: TestParameters[] = [
     signInAsUserToCheckUnpublishedData: SignInAs.userWithIndicatorPermissions, // this journey will check we show the unpublished data as we are signed in as a user with indicator permissions
   },
   {
-    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ALL_AREAS_IN_A_GROUP,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: 'check',
@@ -147,6 +150,7 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '91112',
         knownTrend: 'No recent trend data available',
+        hasSegmentationData: true,
       },
     ],
     areaFiltersToSelect: {
@@ -174,7 +178,7 @@ export const coreTestJourneys: TestParameters[] = [
     typeOfInequalityToSelect: InequalitiesTypes.Deprivation,
   },
   {
-    indicatorMode: IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION,
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ENGLAND_AREA,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: '92904', // tests searching for a single specific indicatorID
@@ -182,6 +186,7 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '92904',
         knownTrend: 'Decreasing and getting better',
+        hasSegmentationData: true,
       },
     ],
     areaFiltersToSelect: {

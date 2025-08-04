@@ -23,28 +23,7 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
-  [`${IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION}-${AreaMode.ONE_AREA}`]: [
-    ChartPage.spineChartTableComponent,
-    ChartPage.lineChartComponent,
-    ChartPage.lineChartTableComponent,
-    ChartPage.inequalitiesBarChartComponent,
-    ChartPage.inequalitiesLineChartComponent,
-    ChartPage.inequalitiesBarChartTableComponent,
-    ChartPage.inequalitiesLineChartTableComponent,
-    ChartPage.inequalitiesForSingleTimePeriodComponent,
-    ChartPage.inequalitiesTrendComponent,
-    ChartPage.populationPyramidChartComponent,
-    ChartPage.populationPyramidTableComponent,
-  ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.TWO_AREAS}`]: [
-    ChartPage.spineChartTableComponent,
-    ChartPage.lineChartComponent,
-    ChartPage.lineChartTableComponent,
-    ChartPage.barChartEmbeddedTableComponent,
-    ChartPage.populationPyramidChartComponent,
-    ChartPage.populationPyramidTableComponent,
-  ],
-  [`${IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION}-${AreaMode.TWO_AREAS}`]: [
     ChartPage.spineChartTableComponent,
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
@@ -58,13 +37,6 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidTableComponent,
     ChartPage.heatMapComponent,
   ],
-  [`${IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION}-${AreaMode.THREE_PLUS_AREAS}`]:
-    [
-      ChartPage.barChartEmbeddedTableComponent,
-      ChartPage.populationPyramidChartComponent,
-      ChartPage.populationPyramidTableComponent,
-      ChartPage.heatMapComponent,
-    ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]: [
     ChartPage.thematicMapComponent,
     ChartPage.barChartEmbeddedTableComponent,
@@ -72,14 +44,6 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidTableComponent,
     ChartPage.heatMapComponent,
   ],
-  [`${IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION}-${AreaMode.ALL_AREAS_IN_A_GROUP}`]:
-    [
-      ChartPage.thematicMapComponent,
-      ChartPage.barChartEmbeddedTableComponent,
-      ChartPage.populationPyramidChartComponent,
-      ChartPage.populationPyramidTableComponent,
-      ChartPage.heatMapComponent,
-    ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
     ChartPage.basicTableComponent,
     ChartPage.lineChartComponent,
@@ -93,20 +57,6 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
-  [`${IndicatorMode.ONE_INDICATOR_WITH_SEGMENTATION}-${AreaMode.ENGLAND_AREA}`]:
-    [
-      ChartPage.basicTableComponent,
-      ChartPage.lineChartComponent,
-      ChartPage.lineChartTableComponent,
-      ChartPage.inequalitiesLineChartComponent,
-      ChartPage.inequalitiesBarChartComponent,
-      ChartPage.inequalitiesLineChartTableComponent,
-      ChartPage.inequalitiesBarChartTableComponent,
-      ChartPage.inequalitiesForSingleTimePeriodComponent,
-      ChartPage.inequalitiesTrendComponent,
-      ChartPage.populationPyramidChartComponent,
-      ChartPage.populationPyramidTableComponent,
-    ],
   [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.ONE_AREA}`]: [
     ChartPage.spineChartTableComponent,
     ChartPage.populationPyramidChartComponent,
