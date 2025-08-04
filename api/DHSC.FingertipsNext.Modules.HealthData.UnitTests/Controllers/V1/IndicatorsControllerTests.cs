@@ -20,7 +20,7 @@ public class IndicatorControllerTests
             new()
             {
                 AreaCode = "AreaCode1",
-                IndicatorSegments =     
+                IndicatorSegments =
                 [
                     new IndicatorSegment
                     {
@@ -124,7 +124,6 @@ public class IndicatorControllerTests
         _indicatorService
             .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.NoDataForIndicator));
-
         var response = await _controller.GetPublishedIndicatorDataAsync(3) as ObjectResult;
 
         // expect

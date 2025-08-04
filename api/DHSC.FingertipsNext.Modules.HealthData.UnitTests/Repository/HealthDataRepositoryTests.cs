@@ -326,7 +326,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(expectedHealthMeasure4);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, ["Code1"], [], new DateOnly(2021, 01,01));
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, ["Code1"], [], new DateOnly(2021, 01, 01));
 
         // assert
         result.ShouldNotBeEmpty();

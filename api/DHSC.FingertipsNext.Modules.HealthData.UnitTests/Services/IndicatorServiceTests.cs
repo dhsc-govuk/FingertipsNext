@@ -446,7 +446,7 @@ public class IndicatorServiceTests
         areaResults.IndicatorSegments.ToList()[0].HealthData.Count().ShouldBe(2);
 
         var personsResult2022 = areaResults.IndicatorSegments
-            .FirstOrDefault(seg => seg.Sex?.Value == "Persons")?.HealthData.FirstOrDefault(h => h.DatePeriod.From.Year == 2022 ); 
+            .FirstOrDefault(seg => seg.Sex?.Value == "Persons")?.HealthData.FirstOrDefault(h => h.DatePeriod.From.Year == 2022);
         personsResult2022.BenchmarkComparison.ShouldBeEquivalentTo(null);
 
         var maleResult2022 = areaResults.IndicatorSegments
@@ -478,7 +478,7 @@ public class IndicatorServiceTests
         personsResult2023.BenchmarkComparison.ShouldBeEquivalentTo(null);
 
         var maleResult2023 = areaResults.IndicatorSegments
-            .FirstOrDefault(seg => seg.Sex?.Value == "Male")?.HealthData.FirstOrDefault(h => h.DatePeriod.From.Year == 2023); 
+            .FirstOrDefault(seg => seg.Sex?.Value == "Male")?.HealthData.FirstOrDefault(h => h.DatePeriod.From.Year == 2023);
         maleResult2023.BenchmarkComparison.ShouldBeEquivalentTo(
             new BenchmarkComparison
             {
@@ -1016,7 +1016,7 @@ public class IndicatorServiceTests
             .GetIndicatorDimensionAsync(1, Arg.Any<string[]>(), false)
             .Returns(testIndicator);
         _healthDataRepository
-            .GetIndicatorDataAsync(1, Arg.Any<string[]>(),[])
+            .GetIndicatorDataAsync(1, Arg.Any<string[]>(), [])
             .Returns([healthMeasure0, healthMeasure1, healthMeasure2, healthMeasure3]);
         _healthDataRepository.GetAreasAsync(Arg.Any<string[]>()).Returns([]);
 
