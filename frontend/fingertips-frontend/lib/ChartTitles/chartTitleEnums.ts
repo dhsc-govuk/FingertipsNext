@@ -5,6 +5,7 @@ export enum ChartTitleKeysEnum {
   Heatmap = 'heatmap-chart',
   SingleIndicatorSpineChart = 'single-indicator-spine-chart',
   SpineChart = 'spine-chart',
+  InequalitiesCharts = 'inequalities-charts',
   InequalitiesBarChart = 'inequalities-bar-chart',
   InequalitiesLineChart = 'inequalities-line-chart',
   ThematicMap = 'thematic-map-chart',
@@ -47,6 +48,10 @@ export const chartTitleConfig: ChartTitleConfigType = {
   [ChartTitleKeysEnum.SpineChart]: {
     title: 'Area profile by indicators',
     href: '#spine-chart',
+  },
+  [ChartTitleKeysEnum.InequalitiesCharts]: {
+    title: 'Related inequalities data',
+    href: '#inequalities-charts',
   },
   [ChartTitleKeysEnum.InequalitiesBarChart]: {
     title: 'Inequalities comparison for one time period',
