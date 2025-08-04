@@ -123,7 +123,7 @@ export function mergeIndicatorData(
       selectedIndicator.indicatorID
     );
 
-    // Add the knownTrend, unpublished data year and hasSegmentation boolean to all returned selected indicators
+    // Add the knownTrend, unpublished data year and segmentation data to all returned selected indicators
     const enhancedIndicatorData = indicatorDataArray.map((indicator) => ({
       ...indicator,
       knownTrend: selectedIndicator.knownTrend,

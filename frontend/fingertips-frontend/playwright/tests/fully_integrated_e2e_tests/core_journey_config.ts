@@ -17,9 +17,8 @@ export const areaSearchTerm: AreaDocument = {
 };
 
 /**
- * These include the original 15 journeys from https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448117/Area+Indicator+journeys
- * as well as additional journeys to cover segmentation.
- * The mapping to which charts should be visible for each journey is defined in scenarioMapper.ts
+ * These 15 journeys come from https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448117/Area+Indicator+journeys
+ * the mapping to which charts should be visible for each journey is defined in scenarioMapper.ts
  */
 export const coreTestJourneys: TestParameters[] = [
   {
