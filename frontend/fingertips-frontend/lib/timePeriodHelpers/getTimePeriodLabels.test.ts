@@ -131,7 +131,7 @@ describe('getAdditionalPeriodLabel', () => {
 });
 
 describe('formatDatePointLabel', () => {
-  describe('when reportingPeriod is 1', () => {
+  describe('when reportingPeriod matches frequency and represents a single data point', () => {
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
         {
@@ -140,7 +140,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2023-01-01'),
         },
         Frequency.Annually,
-        1
+        true
       );
       expect(datePointLabel).toEqual('2023');
     });
@@ -153,7 +153,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2023-03-31'),
         },
         Frequency.Quarterly,
-        1
+        true
       );
       expect(datePointLabel).toEqual('Jan - Mar 2023');
     });
@@ -166,7 +166,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2023-04-30'),
         },
         Frequency.Monthly,
-        1
+        true
       );
       expect(datePointLabel).toEqual('Apr 2023');
     });
@@ -179,7 +179,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2024-02-29'),
         },
         Frequency.Monthly,
-        1
+        true
       );
       expect(datePointLabel).toEqual('Feb 2024');
     });
@@ -192,7 +192,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2023-09-01'),
         },
         Frequency.Annually,
-        1
+        true
       );
       expect(datePointLabel).toEqual('2023/24');
     });
@@ -205,7 +205,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2024-10-31'),
         },
         Frequency.Annually,
-        1
+        true
       );
       expect(datePointLabel).toEqual('2023/24');
     });
@@ -218,7 +218,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2023-04-01'),
         },
         Frequency.Annually,
-        1
+        true
       );
       expect(datePointLabel).toEqual('2023/24');
     });
@@ -231,7 +231,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2022-06-30'),
         },
         Frequency.Quarterly,
-        1
+        true
       );
       expect(datePointLabel).toEqual('Apr to Jun 2022');
     });
@@ -244,7 +244,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2023-04-30'),
         },
         Frequency.Monthly,
-        1
+        true
       );
       expect(datePointLabel).toEqual('Apr 2023');
     });
@@ -257,7 +257,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2023-03-31'),
         },
         Frequency.Annually,
-        1
+        true
       );
       expect(datePointLabel).toEqual('31 Mar 2022/23');
     });
@@ -270,7 +270,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2022-06-30'),
         },
         Frequency.Quarterly,
-        1
+        true
       );
       expect(datePointLabel).toEqual('Apr 2022 to Jun 2022');
     });
@@ -283,13 +283,13 @@ describe('formatDatePointLabel', () => {
           to: new Date('2022-06-30'),
         },
         Frequency.Annually,
-        1
+        true
       );
       expect(datePointLabel).toEqual('X');
     });
   });
 
-  describe('when reportingPeriod is 3', () => {
+  describe('when reportingPeriod does not match the frequency and reporting period represents multiple data points collated', () => {
     it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Annually', () => {
       const datePointLabel = formatDatePointLabel(
         {
@@ -298,7 +298,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2025-01-01'),
         },
         Frequency.Annually,
-        3
+        false
       );
       expect(datePointLabel).toEqual('2023 to 2025');
     });
@@ -311,7 +311,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2024-12-01'),
         },
         Frequency.Quarterly,
-        3
+        false
       );
       expect(datePointLabel).toEqual('Jan 2023 - Dec 2024');
     });
@@ -324,7 +324,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2025-03-01'),
         },
         Frequency.Monthly,
-        3
+        false
       );
       expect(datePointLabel).toEqual('Apr 2023 to Mar 2025');
     });
@@ -337,7 +337,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2026-01-01'),
         },
         Frequency.Monthly,
-        3
+        false
       );
       expect(datePointLabel).toEqual('Feb 2024 to Jan 2026');
     });
@@ -350,9 +350,9 @@ describe('formatDatePointLabel', () => {
           to: new Date('2025-09-01'),
         },
         Frequency.Annually,
-        3
+        false
       );
-      expect(datePointLabel).toEqual('2023/24 to 2025/26');
+      expect(datePointLabel).toEqual('2023/24 to 2024/25');
     });
 
     it('should return the correct datePointLabel when periodType is Yearly and collectionFrequency is Annually', () => {
@@ -363,9 +363,9 @@ describe('formatDatePointLabel', () => {
           to: new Date('2025-10-31'),
         },
         Frequency.Annually,
-        3
+        false
       );
-      expect(datePointLabel).toEqual('2023/24 to 2025/26');
+      expect(datePointLabel).toEqual('2023/24 to 2024/25');
     });
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Annually', () => {
@@ -376,9 +376,9 @@ describe('formatDatePointLabel', () => {
           to: new Date('2025-04-01'),
         },
         Frequency.Annually,
-        3
+        false
       );
-      expect(datePointLabel).toEqual('2023/24 to 2025/26');
+      expect(datePointLabel).toEqual('2023/24 to 2024/25');
     });
 
     it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Quarterly', () => {
@@ -389,7 +389,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2024-03-01'),
         },
         Frequency.Quarterly,
-        3
+        false
       );
       expect(datePointLabel).toEqual('Apr 2022 to Mar 2024');
     });
@@ -402,7 +402,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2025-03-01'),
         },
         Frequency.Monthly,
-        3
+        false
       );
       expect(datePointLabel).toEqual('Apr 2023 to Mar 2025');
     });
@@ -415,7 +415,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2025-03-31'),
         },
         Frequency.Annually,
-        3
+        false
       );
       expect(datePointLabel).toEqual('31 Mar 2022/23 to 31 Mar 2024/25');
     });
@@ -428,7 +428,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2024-06-30'),
         },
         Frequency.Quarterly,
-        3
+        false
       );
       expect(datePointLabel).toEqual('');
     });
@@ -441,165 +441,7 @@ describe('formatDatePointLabel', () => {
           to: new Date('2024-06-30'),
         },
         Frequency.Annually,
-        3
-      );
-      expect(datePointLabel).toEqual('X');
-    });
-  });
-
-  describe('when reportingPeriod is 5', () => {
-    it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Annually', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Calendar,
-          from: new Date('2023-01-01'),
-          to: new Date('2027-01-01'),
-        },
-        Frequency.Annually,
-        5
-      );
-      expect(datePointLabel).toEqual('2023 to 2027');
-    });
-
-    it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Quarterly', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Calendar,
-          from: new Date('2023-01-01'),
-          to: new Date('2026-12-01'),
-        },
-        Frequency.Quarterly,
-        5
-      );
-      expect(datePointLabel).toEqual('Jan 2023 - Dec 2026');
-    });
-
-    it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Calendar,
-          from: new Date('2023-04-01'),
-          to: new Date('2027-03-01'),
-        },
-        Frequency.Monthly,
-        5
-      );
-      expect(datePointLabel).toEqual('Apr 2023 to Mar 2027');
-    });
-
-    it('should return the correct datePointLabel when periodType is Calendar and collectionFrequency is Monthly (Leap year)', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Calendar,
-          from: new Date('2024-02-01'),
-          to: new Date('2028-01-01'),
-        },
-        Frequency.Monthly,
-        5
-      );
-      expect(datePointLabel).toEqual('Feb 2024 to Jan 2028');
-    });
-
-    it('should return the correct datePointLabel when periodType is Academic and collectionFrequency is Annually', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Academic,
-          from: new Date('2023-09-01'),
-          to: new Date('2027-09-01'),
-        },
-        Frequency.Annually,
-        5
-      );
-      expect(datePointLabel).toEqual('2023/24 to 2027/28');
-    });
-
-    it('should return the correct datePointLabel when periodType is Yearly and collectionFrequency is Annually', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Yearly,
-          from: new Date('2023-11-01'),
-          to: new Date('2027-10-31'),
-        },
-        Frequency.Annually,
-        5
-      );
-      expect(datePointLabel).toEqual('2023/24 to 2027/28');
-    });
-
-    it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Annually', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Financial,
-          from: new Date('2023-04-01'),
-          to: new Date('2027-04-01'),
-        },
-        Frequency.Annually,
-        5
-      );
-      expect(datePointLabel).toEqual('2023/24 to 2027/28');
-    });
-
-    it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Quarterly', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Financial,
-          from: new Date('2022-04-01'),
-          to: new Date('2026-03-01'),
-        },
-        Frequency.Quarterly,
-        5
-      );
-      expect(datePointLabel).toEqual('Apr 2022 to Mar 2026');
-    });
-
-    it('should return the correct datePointLabel when periodType is Financial and collectionFrequency is Monthly', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.Financial,
-          from: new Date('2023-04-01'),
-          to: new Date('2027-03-01'),
-        },
-        Frequency.Monthly,
-        5
-      );
-      expect(datePointLabel).toEqual('Apr 2023 to Mar 2027');
-    });
-
-    it('should return the correct datePointLabel when periodType is FinancialYearEndPoint and collectionFrequency is Annually', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.FinancialYearEndPoint,
-          from: new Date('2023-03-31'),
-          to: new Date('2027-03-31'),
-        },
-        Frequency.Annually,
-        5
-      );
-      expect(datePointLabel).toEqual('31 Mar 2022/23 to 31 Mar 2026/27');
-    });
-
-    it('should return the correct datePointLabel when periodType is FinancialMultiYear and collectionFrequency is Cumulative quarters', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.FinancialMultiYear,
-          from: new Date('2022-04-01'),
-          to: new Date('2026-06-30'),
-        },
-        Frequency.Quarterly,
-        5
-      );
-      expect(datePointLabel).toEqual('');
-    });
-
-    it('should return "X" when periodType and collectionFrequency combination is not mapped', () => {
-      const datePointLabel = formatDatePointLabel(
-        {
-          type: PeriodType.FinancialMultiYear,
-          from: new Date('2022-04-01'),
-          to: new Date('2026-06-30'),
-        },
-        Frequency.Annually,
-        5
+        false
       );
       expect(datePointLabel).toEqual('X');
     });

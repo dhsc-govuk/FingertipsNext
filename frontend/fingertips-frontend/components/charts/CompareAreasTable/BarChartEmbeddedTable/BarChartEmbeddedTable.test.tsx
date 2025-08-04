@@ -249,6 +249,8 @@ describe('BarChartEmbeddedTable', () => {
         }
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -271,6 +273,8 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -289,6 +293,8 @@ describe('BarChartEmbeddedTable', () => {
         groupIndicatorData={mockGroupData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -308,6 +314,8 @@ describe('BarChartEmbeddedTable', () => {
           groupIndicatorData={undefined}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
     });
@@ -325,6 +333,8 @@ describe('BarChartEmbeddedTable', () => {
           englandData={mockBenchmarkData}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
     });
@@ -351,6 +361,8 @@ describe('BarChartEmbeddedTable', () => {
           healthIndicatorData={mockHealthIndicatorData}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       )
     );
@@ -386,6 +398,8 @@ describe('BarChartEmbeddedTable', () => {
           healthIndicatorData={mockData}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       )
     );
@@ -412,6 +426,8 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -434,6 +450,8 @@ describe('BarChartEmbeddedTable', () => {
         benchmarkToUse={areaCodeForEngland}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -454,6 +472,8 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -469,6 +489,8 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -488,6 +510,8 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
     const checkbox = await screen.findByRole('checkbox');
@@ -504,6 +528,8 @@ describe('BarChartEmbeddedTable', () => {
           englandData={mockBenchmarkData}
           periodType={PeriodType.Financial}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       )
     );
@@ -532,6 +558,8 @@ describe('BarChartEmbeddedTable', () => {
         }
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -548,6 +576,8 @@ describe('BarChartEmbeddedTable', () => {
         englandData={mockBenchmarkData}
         periodType={PeriodType.Financial}
         frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 

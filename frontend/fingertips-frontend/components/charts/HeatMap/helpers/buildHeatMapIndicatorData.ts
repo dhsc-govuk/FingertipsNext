@@ -7,10 +7,12 @@ import { segmentCombinations } from '@/lib/healthDataHelpers/segmentCombinations
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
 import { indicatorsSorted } from '@/lib/healthDataHelpers/indicatorsSorted';
 import { searchFromSegmentInfo } from '@/lib/healthDataHelpers/searchFromSegmentInfo';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 export const buildHeatmapIndicatorData = (
   allIndicatorData: IndicatorWithHealthDataForArea[],
-  indicatorMetadata: IndicatorDocument[]
+  indicatorMetadata: IndicatorDocument[],
+  searchState: SearchStateParams
 ): HeatmapIndicatorData[] => {
   const heatmapIndicatorData: HeatmapIndicatorData[] = [];
 
@@ -28,11 +30,14 @@ export const buildHeatmapIndicatorData = (
     combinations.forEach((segmentInfo) => {
       const search = searchFromSegmentInfo(segmentInfo);
       const extractedSegment = flattenSegment(indicator, search);
+      const { reportingPeriod } = segmentValues(indicator);
 
       const extractedData = extractHeatmapIndicatorData(
         extractedSegment,
         metadata,
-        segmentInfo
+        segmentInfo,
+        searchState,
+        reportingPeriod
       );
 
       if (!extractedData) return;

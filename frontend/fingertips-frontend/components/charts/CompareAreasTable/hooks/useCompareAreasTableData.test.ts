@@ -13,6 +13,7 @@ import {
   BenchmarkComparisonMethod,
   GetHealthDataForAnIndicatorRequest,
   IndicatorPolarity,
+  ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
 import {
   mockHealthDataForArea,
@@ -89,6 +90,12 @@ describe('useCompareAreasTableData', () => {
       polarity: IndicatorPolarity.HighIsGood,
       periodType: 'Calendar',
       frequency: 'Annually',
+      latestDataPeriod: {
+        type: 'Calendar',
+        from: new Date('2023-01-01'),
+        to: new Date('2023-12-31'),
+      },
+      isSmallestReportingPeriod: true,
     };
 
     mockUseSearchStateParams.mockReturnValue(mockSearchState);
@@ -110,7 +117,7 @@ describe('useCompareAreasTableData', () => {
     expect(result.current).toEqual({
       indicatorMetaData: mockMetaData,
       ...mockProcessedData,
-      name: `${mockHealthData.name} (Persons, All ages)`,
+      name: `${mockHealthData.name} (Persons, All ages, Yearly)`,
     });
 
     const lastCall = mockCompareAreasTableData.mock.lastCall;
@@ -122,9 +129,12 @@ describe('useCompareAreasTableData', () => {
           indicatorSegments: undefined,
         },
       ],
-      name: `${mockHealthData.name} (Persons, All ages)`,
+      name: `${mockHealthData.name} (Persons, All ages, Yearly)`,
     });
-    expect(lastCall?.at(1)).toEqual('G123');
-    expect(lastCall?.at(2)).toEqual(areaCodeForEngland);
+    expect(lastCall?.at(1)).toEqual({
+      [SearchParams.GroupSelected]: 'G123',
+      [SearchParams.BenchmarkAreaSelected]: areaCodeForEngland,
+    });
+    expect(lastCall?.at(2)).toEqual([ReportingPeriod.Yearly]);
   });
 });

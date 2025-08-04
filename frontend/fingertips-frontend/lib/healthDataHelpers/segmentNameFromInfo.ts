@@ -11,8 +11,8 @@ export const segmentNameFromInfo = (info: SegmentInfo) => {
     name.push(info.age);
   }
 
-  if (info.frequency) {
-    name.push(info.frequency);
+  if (info.reportingPeriod) {
+    name.push(info.reportingPeriod);
   }
 
   return name.join(', ');

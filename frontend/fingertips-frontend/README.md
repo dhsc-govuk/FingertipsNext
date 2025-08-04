@@ -49,13 +49,31 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can then start editing the application and your browser will auto-update as you edit the files.
 
-### Running the NextJS application against MSW
+### Running the NextJS application against a mock API (MSW)
 
 To run the Next development server against the MSW (Mock Service Worker) rather than the real api, run the following command:
 
 ```bash
 npm run dev
 ```
+
+### Running the NextJS application against local services
+
+To run the Next development server against local instances of services (ie running locally on docker), run the following command:
+
+```bash
+npm run dev-no-mocks
+```
+
+### Running the NextJS application against local services with https
+
+To run the Next development server against local instances of services (ie running locally on docker) on a secure server run the following command:
+
+```bash
+npm run dev-no-mocks-https
+```
+
+This uses an experimental Next feature to run the dev server with a locally signed secure certificate. No setting up is required - it just works. This should only be used for debugging https-specific behaviour such as authentication behaviour.
 
 ### Authentication
 
@@ -92,6 +110,11 @@ AUTH_CLIENT_SECRET="example-client-secret"
 AUTH_ISSUER="https://example-tenant-id.ciamlogin.com/example-tenant-id/v2.0"
 AUTH_LOGOUT="https://example-tenant-id.ciamlogin.com/example-tenant-id/oauth2/v2.0/logout"
 ```
+
+Finally, `FINGERTIPS_FRONTEND_URL` will need to be set for the signout redirect to work on deployed environments. This will default to http://localhost:3000 if not set.
+```
+FINGERTIPS_FRONTEND_URL="https://some-deployed-env.example.com"
+``` 
 
 ## Building
 

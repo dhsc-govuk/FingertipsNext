@@ -36,6 +36,7 @@ export const convertSpineChartTableToCsv = (
       quartileData,
       groupData,
       englandData,
+      isSmallestReportingPeriod,
     } = indicator;
 
     const { best, worst } = orderStatistics(quartileData);
@@ -43,7 +44,7 @@ export const convertSpineChartTableToCsv = (
       ? formatDatePointLabel(
           latestDataPeriod,
           quartileData.frequency ?? Frequency.Annually,
-          1
+          isSmallestReportingPeriod
         )
       : '';
 

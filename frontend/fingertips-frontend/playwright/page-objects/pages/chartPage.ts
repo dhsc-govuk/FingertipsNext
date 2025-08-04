@@ -8,7 +8,11 @@ import {
   PersistentCsvHeaders,
   SimpleIndicatorDocument,
 } from '@/playwright/testHelpers/genericTestUtilities';
-import { ChartComponentDefinition } from '../../testHelpers/testDefinitions';
+import {
+  ChartComponentDefinition,
+  ComponentInteractionConfig,
+  SignInAs,
+} from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -91,7 +95,8 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[],
     selectedAreaFilters: AreaFilters,
     checkExports: boolean,
-    typeOfInequalityToSelect: InequalitiesTypes
+    typeOfInequalityToSelect: InequalitiesTypes,
+    signInAsUserToCheckUnpublishedData: SignInAs
   ) {
     const testInfo = test.info();
     const testName = testInfo.title;
@@ -119,15 +124,17 @@ export default class ChartPage extends AreaFilter {
     );
 
     for (const visibleComponent of visibleComponents) {
-      await this.handleComponentInteractions(
-        visibleComponent,
+      const config: ComponentInteractionConfig = {
+        component: visibleComponent,
         selectedIndicators,
         areaMode,
         indicatorMode,
         selectedAreaFilters,
         checkExports,
-        typeOfInequalityToSelect
-      );
+        typeOfInequalityToSelect,
+        signInAsUserToCheckUnpublishedData,
+      };
+      await this.handleComponentInteractions(config);
       await this.verifyComponentVisibleAndScreenshotMatch(
         visibleComponent,
         testName
@@ -140,14 +147,19 @@ export default class ChartPage extends AreaFilter {
   }
 
   private async handleComponentInteractions(
-    component: ChartComponentDefinition,
-    selectedIndicators: SimpleIndicatorDocument[],
-    areaMode: AreaMode,
-    indicatorMode: IndicatorMode,
-    selectedAreaFilters: AreaFilters,
-    checkExports: boolean,
-    typeOfInequalityToSelect: InequalitiesTypes
+    config: ComponentInteractionConfig
   ) {
+    const {
+      component,
+      selectedIndicators,
+      areaMode,
+      indicatorMode,
+      selectedAreaFilters,
+      checkExports,
+      typeOfInequalityToSelect,
+      signInAsUserToCheckUnpublishedData,
+    } = config;
+
     const { chartComponentLocator, chartComponentProps } = component;
 
     const interactions = [
@@ -225,6 +237,15 @@ export default class ChartPage extends AreaFilter {
         condition: chartComponentProps.hasConfidenceIntervals,
         action: async () =>
           await this.toggleConfidenceInterval(chartComponentLocator),
+      },
+      {
+        condition: this.hasUnpublishedDataYear(selectedIndicators),
+        action: async () =>
+          await this.verifyUnpublishedDataDisplayed(
+            chartComponentLocator,
+            signInAsUserToCheckUnpublishedData,
+            selectedIndicators
+          ),
       },
     ];
 
@@ -831,5 +852,99 @@ export default class ChartPage extends AreaFilter {
     replaceWith: string = ''
   ): string {
     return inputString.replaceAll('-component', replaceWith);
+  }
+
+  async verifyUnpublishedDataDisplayed(
+    chartComponentLocator: string,
+    signInAsUserToCheckUnpublishedData: SignInAs,
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    const unpublishedDataYear = selectedIndicators.find(
+      (indicator) => indicator.unpublishedDataYear
+    )?.unpublishedDataYear;
+
+    if (!unpublishedDataYear) {
+      const indicatorIds = selectedIndicators
+        .map((indicator) => indicator.indicatorID)
+        .join(', ');
+      throw new Error(
+        `None of the selected indicators [${indicatorIds}] have an unpublished data year stored in core_journey_config.ts.`
+      );
+    }
+
+    const shouldShowUnpublishedData =
+      signInAsUserToCheckUnpublishedData != undefined &&
+      (signInAsUserToCheckUnpublishedData === SignInAs.administrator ||
+        signInAsUserToCheckUnpublishedData ===
+          SignInAs.userWithIndicatorPermissions);
+
+    // If the chart component is inequalities bar chart table, we need to check the combobox options for the unpublished data year
+    if (
+      chartComponentLocator === ChartPage.inequalitiesBarChartTableComponent
+    ) {
+      const combobox = this.page
+        .getByTestId(this.timePeriodDropDownComponent)
+        .getByRole('combobox');
+      const options = await this.getSelectOptions(combobox);
+      const expectedOption = {
+        value: String(unpublishedDataYear),
+        text: String(unpublishedDataYear),
+      };
+
+      if (shouldShowUnpublishedData) {
+        expect(options).toContainEqual(expectedOption);
+
+        // select the unpublished data year option if it exists so that the chart updates showing unpublished data for subsequent checks
+        const unpublishedDataYearOption = options.find(
+          (option) =>
+            option.value === expectedOption.value &&
+            option.text === expectedOption.text
+        );
+
+        await this.selectOptionAndAwaitLoadingComplete(
+          combobox,
+          unpublishedDataYearOption!.value
+        );
+      } else {
+        expect(options).not.toContainEqual(expectedOption);
+      }
+    }
+
+    // For other components, check both calendar and fiscal year formats
+    const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
+    const dateFormats = [
+      String(unpublishedDataYear), // Calendar year
+      `${String(unpublishedDataYear)}/${nextYearShort}`, // Fiscal year
+    ];
+
+    for (const dateFormat of dateFormats) {
+      try {
+        const count = await this.page
+          .getByTestId(chartComponentLocator)
+          .getByText(dateFormat)
+          .count();
+
+        if (shouldShowUnpublishedData) {
+          expect(count).toBeGreaterThanOrEqual(1);
+        } else {
+          expect(count).toEqual(0);
+        }
+        return; // Successfully verified, exit early
+      } catch {
+        // Continue to next format without throwing an error
+      }
+    }
+
+    throw new Error(
+      `Incorrectly ${shouldShowUnpublishedData ? 'did not find' : 'found'} the unpublished data year in the ${chartComponentLocator} chart.`
+    );
+  }
+
+  private hasUnpublishedDataYear(
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): boolean {
+    return selectedIndicators.some(
+      (indicator) => indicator.unpublishedDataYear
+    );
   }
 }

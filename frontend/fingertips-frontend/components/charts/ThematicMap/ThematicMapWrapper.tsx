@@ -26,6 +26,10 @@ export function ThematicMapWrapper() {
     benchmarkToUse,
     polarity,
     healthIndicatorData,
+    periodType,
+    frequency,
+    latestDataPeriod,
+    isSmallestReportingPeriod,
   } = data;
 
   const {
@@ -50,11 +54,15 @@ export function ThematicMapWrapper() {
           benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown
         }
         polarity={polarity ?? IndicatorPolarity.Unknown}
+        periodType={periodType}
+        frequency={frequency}
+        latestDataPeriod={latestDataPeriod}
         indicatorMetadata={indicatorMetaData}
         groupData={groupData}
         englandData={englandData}
         areaCodes={areaCodes ?? []}
         benchmarkToUse={benchmarkToUse}
+        isSmallestReportingPeriod={isSmallestReportingPeriod}
       />
     </StyleChartWrapper>
   );

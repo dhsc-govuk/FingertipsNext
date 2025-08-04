@@ -156,8 +156,9 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     benchmarkComparisonMethod: indicator1.benchmarkMethod,
     polarity: indicator1.polarity,
     rowId: `${indicator1.id}-sex:persons`,
-    segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    segmentInfo: { sex: 'Persons', age: '', reportingPeriod: '' },
     frequency: Frequency.Annually,
+    isSmallestReportingPeriod: true,
   },
   {
     indicatorId: indicator2.id,
@@ -188,8 +189,9 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     benchmarkComparisonMethod: indicator2.benchmarkMethod,
     polarity: indicator2.polarity,
     rowId: `${indicator2.id}-sex:persons`,
-    segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    segmentInfo: { sex: 'Persons', age: '', reportingPeriod: '' },
     frequency: Frequency.Annually,
+    isSmallestReportingPeriod: true,
   },
   {
     indicatorId: indicator3.id,
@@ -220,8 +222,9 @@ export const placeholderHeatmapIndicatorData: HeatmapIndicatorData[] = [
     benchmarkComparisonMethod: indicator3.benchmarkMethod,
     polarity: indicator3.polarity,
     rowId: `${indicator3.id}-sex:persons`,
-    segmentInfo: { sex: 'Persons', age: '', frequency: '' },
+    segmentInfo: { sex: 'Persons', age: '', reportingPeriod: '' },
     frequency: Frequency.Annually,
+    isSmallestReportingPeriod: true,
   },
 ];
 

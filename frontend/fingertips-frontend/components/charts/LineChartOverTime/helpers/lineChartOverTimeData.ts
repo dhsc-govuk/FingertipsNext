@@ -1,4 +1,7 @@
-import { determineBenchmarkToUse } from '@/lib/chartHelpers/chartHelpers';
+import {
+  determineBenchmarkToUse,
+  getLatestPeriod,
+} from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { generateStandardLineChartOptions } from '@/components/organisms/LineChart/helpers/generateStandardLineChartOptions';
 import {
@@ -10,16 +13,19 @@ import {
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { findAndRemoveByAreaCode } from '@/lib/healthDataHelpers/findAndRemoveByAreaCode';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
-
+import { isSmallestReportingPeriod } from '@/lib/healthDataHelpers/isSmallestReportingPeriod';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 export const lineChartOverTimeData = (
   indicatorMetaData: IndicatorDocument,
   healthData: IndicatorWithHealthDataForArea,
-  searchState: SearchStateParams
+  searchState: SearchStateParams,
+  reportingPeriodOptions: string[]
 ) => {
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
     [SearchParams.AreasSelected]: areasSelected = [],
+    [SearchParams.SegmentationReportingPeriod]: selectedReportingPeriod,
   } = searchState;
 
   const benchmarkComparisonMethod = healthData?.benchmarkMethod;
@@ -35,6 +41,12 @@ export const lineChartOverTimeData = (
     withoutEngland,
     selectedGroupCode
   );
+
+  const latestPeriodNumber = getLatestPeriod(englandData?.healthData ?? []);
+  const latestHealthDataPoint = englandData?.healthData?.find(
+    (point) => convertDateToNumber(point.datePeriod?.to) === latestPeriodNumber
+  );
+  const latestDataPeriod = latestHealthDataPoint?.datePeriod;
 
   const shouldLineChartBeShownForOneArea =
     withoutEnglandOrGroup[0]?.healthData.length > 1 ||
@@ -58,6 +70,11 @@ export const lineChartOverTimeData = (
     healthData.areaHealthData?.at(0)?.healthData?.at(0)?.datePeriod?.type ??
     PeriodType.Calendar;
   const frequency = healthData.frequency ?? Frequency.Annually;
+  const isSmallestReportingPeriodFlag = isSmallestReportingPeriod(
+    selectedReportingPeriod,
+    reportingPeriodOptions,
+    frequency
+  );
 
   const chartOptions = generateStandardLineChartOptions(
     withoutEnglandOrGroup,
@@ -65,6 +82,7 @@ export const lineChartOverTimeData = (
     benchmarkToUse,
     periodType,
     frequency,
+    isSmallestReportingPeriodFlag,
     {
       indicatorName: name,
       englandData: englandData,
@@ -74,6 +92,7 @@ export const lineChartOverTimeData = (
       xAxisTitle: 'Period',
       measurementUnit: indicatorMetaData?.unitLabel,
       accessibilityLabel: 'A line chart showing healthcare data',
+      latestDataPeriod: latestDataPeriod,
     }
   );
 
@@ -88,5 +107,7 @@ export const lineChartOverTimeData = (
     benchmarkToUse,
     periodType,
     frequency,
+    isSmallestReportingPeriod: isSmallestReportingPeriodFlag,
+    latestDataPeriod,
   };
 };

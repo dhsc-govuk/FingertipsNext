@@ -110,6 +110,7 @@ describe('Spine chart table suite', () => {
       quartileData: mockBenchmarkStatistics[0],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      isSmallestReportingPeriod: true,
     },
     {
       rowId: '2',
@@ -123,6 +124,7 @@ describe('Spine chart table suite', () => {
       quartileData: mockBenchmarkStatistics[1],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      isSmallestReportingPeriod: true,
     },
   ];
 
@@ -174,6 +176,7 @@ describe('Spine chart table suite', () => {
         quartileData: mockBenchmarkStatistics[0],
         benchmarkComparisonMethod:
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        isSmallestReportingPeriod: true,
       },
       {
         rowId: '2-persons',
@@ -189,6 +192,7 @@ describe('Spine chart table suite', () => {
         quartileData: mockBenchmarkStatistics[1],
         benchmarkComparisonMethod:
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        isSmallestReportingPeriod: true,
       },
     ];
 

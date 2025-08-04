@@ -50,7 +50,7 @@ describe('findQuartileBySegmentation', () => {
     const segment: SegmentInfo = {
       sex: 'Male',
       age: 'Middle aged',
-      frequency: '',
+      reportingPeriod: '',
     };
     expect(
       findQuartileBySegmentation(testQuartiles, 2, segment)

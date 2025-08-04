@@ -5,8 +5,11 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   IndicatorPolarity,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import {
   getBenchmarkColour,
@@ -14,6 +17,10 @@ import {
   getLatestYearForAreas,
 } from '@/lib/chartHelpers/chartHelpers';
 import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
+import {
+  formatDatePointLabel,
+  getPeriodLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -388,7 +395,11 @@ export function thematicMapTitle(
   indicatorName: string,
   selectedAreaType: string,
   groupData: HealthDataForArea | undefined,
-  healthIndicatorData: HealthDataForArea[]
+  healthIndicatorData: HealthDataForArea[],
+  periodType: PeriodType,
+  frequency: Frequency,
+  latestDataPeriod: DatePeriod | undefined,
+  isSmallestReportingPeriod: boolean
 ): string {
   const areaType = allAreaTypes.find(
     (areaType) => areaType.key === selectedAreaType
@@ -396,8 +407,16 @@ export function thematicMapTitle(
   if (!areaType) return '';
 
   const areaTitle = groupData?.areaName ?? 'England';
+  const periodLabelText = getPeriodLabel(periodType, frequency) ?? '';
+
+  const datePointLabel = formatDatePointLabel(
+    latestDataPeriod,
+    frequency,
+    isSmallestReportingPeriod
+  );
+
   const latestYear = getLatestYearForAreas(healthIndicatorData);
   if (!latestYear) return '';
 
-  return `${indicatorName} for ${areaType.name} in ${areaTitle}, ${latestYear}`;
+  return `${indicatorName} for ${areaType.name} in ${areaTitle}, ${periodLabelText} ${datePointLabel}`;
 }

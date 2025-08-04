@@ -47,7 +47,8 @@ describe('singleIndicatorBasicTableData', () => {
     const result = singleIndicatorBasicTableData(
       testArea,
       testIndicator,
-      Frequency.Annually
+      Frequency.Annually,
+      true
     );
 
     const baseExpectedRow = {
@@ -65,15 +66,15 @@ describe('singleIndicatorBasicTableData', () => {
     expect(result).toEqual([
       {
         ...baseExpectedRow,
-        indicatorName: `${indicatorName} (Persons, All ages)`,
+        indicatorName: `${indicatorName} (Persons, All ages, Yearly)`,
       },
       {
         ...baseExpectedRow,
-        indicatorName: `${indicatorName} (Male, All ages)`,
+        indicatorName: `${indicatorName} (Male, All ages, Yearly)`,
       },
       {
         ...baseExpectedRow,
-        indicatorName: `${indicatorName} (Female, All ages)`,
+        indicatorName: `${indicatorName} (Female, All ages, Yearly)`,
       },
     ]);
   });
@@ -84,7 +85,8 @@ describe('singleIndicatorBasicTableData', () => {
     const result = singleIndicatorBasicTableData(
       area,
       mockIndicatorDocument(),
-      Frequency.Annually
+      Frequency.Annually,
+      true
     );
 
     expect(result).toEqual([]);

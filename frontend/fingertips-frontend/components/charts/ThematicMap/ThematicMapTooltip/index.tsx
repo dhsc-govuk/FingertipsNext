@@ -2,13 +2,12 @@ import { BenchmarkTooltipArea } from '@/components/atoms/BenchmarkTooltipArea';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
-import {
-  getBenchmarkColour,
-  sortHealthDataPointsByDescendingYear,
-} from '@/lib/chartHelpers/chartHelpers';
+import { getBenchmarkColour } from '@/lib/chartHelpers/chartHelpers';
 import {
   getAreaTitle,
   getBenchmarkSymbol,
@@ -18,42 +17,49 @@ import {
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
-interface BenchmarkTooltipProps {
+export interface ThematicMapTooltipProps {
   indicatorData: HealthDataForArea;
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   measurementUnit: string | undefined;
+  frequency: Frequency;
+  latestDataPeriod?: DatePeriod;
   englandData?: HealthDataForArea;
   groupData?: HealthDataForArea;
   polarity: IndicatorPolarity;
   benchmarkToUse?: string;
+  year: number;
+  isSmallestReportingPeriod: boolean;
 }
 
 export function ThematicMapTooltip({
   indicatorData,
   benchmarkComparisonMethod,
   measurementUnit,
+  frequency,
+  latestDataPeriod,
   englandData,
   groupData,
   polarity,
   benchmarkToUse,
-}: Readonly<BenchmarkTooltipProps>) {
+  year,
+  isSmallestReportingPeriod,
+}: Readonly<ThematicMapTooltipProps>) {
   const BenchmarkData =
     benchmarkToUse === areaCodeForEngland ? englandData : groupData;
   const nonBenchmarkData =
     benchmarkToUse === areaCodeForEngland ? groupData : englandData;
 
-  const mostRecentDataPointForArea = sortHealthDataPointsByDescendingYear(
-    indicatorData.healthData
+  const mostRecentDataPointForArea = indicatorData.healthData.filter(
+    (area) => area.year === year
   )[0];
   const mostRecentDataForNonBenchmark =
-    nonBenchmarkData?.healthData.filter(
-      (area) => area.year === mostRecentDataPointForArea?.year
-    )[0] ?? undefined;
+    nonBenchmarkData?.healthData.filter((area) => area.year === year)[0] ??
+    undefined;
   const mostRecentDataForBenchmark =
-    BenchmarkData?.healthData.filter(
-      (area) => area.year === mostRecentDataPointForArea?.year
-    )[0] ?? undefined;
+    BenchmarkData?.healthData.filter((area) => area.year === year)[0] ??
+    undefined;
 
   const comparisonTextForArea = getComparisonString(
     mostRecentDataPointForArea?.benchmarkComparison?.outcome ?? undefined,
@@ -121,13 +127,18 @@ export function ThematicMapTooltip({
   const titleForNonBenchMark =
     nonBenchmarkData && getAreaTitle(nonBenchmarkData.areaName, 'nonBenchmark');
   const titleForArea = getAreaTitle(indicatorData.areaName, 'area');
+  const datePointLabel = formatDatePointLabel(
+    latestDataPeriod,
+    frequency,
+    isSmallestReportingPeriod
+  );
 
   return (
     <div>
       {BenchmarkData && titleForBenchmark ? (
         <BenchmarkTooltipArea
           titleText={titleForBenchmark}
-          year={mostRecentDataForBenchmark?.year}
+          periodLabel={datePointLabel}
           valueText={valueStringForBenchmark}
           symbol={symbolForBenchmark}
           symbolColour={GovukColours.Black}
@@ -136,7 +147,7 @@ export function ThematicMapTooltip({
       {nonBenchmarkData && titleForNonBenchMark ? (
         <BenchmarkTooltipArea
           titleText={titleForNonBenchMark}
-          year={mostRecentDataPointForArea?.year}
+          periodLabel={datePointLabel}
           valueText={valueStringForNonBenchmark}
           comparisonText={comparisonTextForNonBenchmark}
           symbol={symbolForNonBenchmark}
@@ -146,7 +157,7 @@ export function ThematicMapTooltip({
 
       <BenchmarkTooltipArea
         titleText={titleForArea}
-        year={mostRecentDataPointForArea?.year}
+        periodLabel={datePointLabel}
         valueText={valueStringForArea}
         comparisonText={comparisonTextForArea}
         symbol={symbolForArea}

@@ -2,6 +2,7 @@
 
 import {
   BenchmarkComparisonMethod,
+  DatePeriod,
   Frequency,
   HealthDataForArea,
   IndicatorPolarity,
@@ -41,7 +42,6 @@ import { ContainerWithScrolling } from '@/components/atoms/ContainerWithScrollin
 import { ConfidenceLimitsHeader } from '@/components/atoms/ConfidenceLimitsHeader/ConfidenceLimitsHeader';
 import { sortByValueAndAreaName } from '@/lib/healthDataHelpers/sortByValueAndAreaName';
 import { getMaxValue } from '@/lib/healthDataHelpers/getMaxValue';
-import { getLatestPeriodWithBenchmarks } from '@/components/charts/CompareAreasTable/helpers/getLatestPeriodWithBenchmarks';
 import {
   convertDateToNumber,
   formatDatePointLabel,
@@ -59,6 +59,8 @@ interface BarChartEmbeddedTableProps {
   indicatorMetadata?: IndicatorDocument;
   periodType: PeriodType;
   frequency: Frequency;
+  latestDataPeriod?: DatePeriod;
+  isSmallestReportingPeriod: boolean;
 }
 
 export function BarChartEmbeddedTable({
@@ -72,31 +74,26 @@ export function BarChartEmbeddedTable({
   indicatorMetadata,
   periodType,
   frequency,
+  latestDataPeriod,
+  isSmallestReportingPeriod,
 }: Readonly<BarChartEmbeddedTableProps>) {
   const { unitLabel: measurementUnit, dataSource } = indicatorMetadata ?? {};
 
   const maxValue = getMaxValue(healthIndicatorData);
-
-  const fullPeriod = getLatestPeriodWithBenchmarks(
-    healthIndicatorData,
-    englandData,
-    groupIndicatorData,
-    benchmarkToUse
-  );
 
   const tableRows: BarChartEmbeddedTableRow[] = healthIndicatorData.map(
     (areaData) => {
       const point = areaData?.healthData.find(
         (point) =>
           convertDateToNumber(point.datePeriod?.to) ===
-          convertDateToNumber(fullPeriod?.to)
+          convertDateToNumber(latestDataPeriod?.to)
       );
 
       if (!point) {
         return {
           area: areaData.areaName,
           areaCode: areaData.areaCode,
-          datePeriod: fullPeriod,
+          datePeriod: latestDataPeriod,
         } as BarChartEmbeddedTableRow;
       }
 
@@ -115,12 +112,12 @@ export function BarChartEmbeddedTable({
   const englandDataPoint = englandData?.healthData.find(
     (point) =>
       convertDateToNumber(point.datePeriod?.to) ===
-      convertDateToNumber(fullPeriod?.to)
+      convertDateToNumber(latestDataPeriod?.to)
   );
   const groupDataPoint = groupIndicatorData?.healthData.find(
     (point) =>
       convertDateToNumber(point.datePeriod?.to) ===
-      convertDateToNumber(fullPeriod?.to)
+      convertDateToNumber(latestDataPeriod?.to)
   );
 
   const [showConfidenceIntervalsData, setShowConfidenceIntervalsData] =
@@ -154,7 +151,8 @@ export function BarChartEmbeddedTable({
       convertBarChartEmbeddedTableToCsv(
         sortedTableRows,
         frequency,
-        fullPeriod,
+        isSmallestReportingPeriod,
+        latestDataPeriod,
         indicatorMetadata,
         englandData,
         groupIndicatorData,
@@ -162,7 +160,8 @@ export function BarChartEmbeddedTable({
       ),
     [
       frequency,
-      fullPeriod,
+      isSmallestReportingPeriod,
+      latestDataPeriod,
       sortedTableRows,
       indicatorMetadata,
       englandData,
@@ -173,7 +172,11 @@ export function BarChartEmbeddedTable({
 
   const periodLabelText = getPeriodLabel(periodType, frequency) ?? '';
 
-  const datePointLabel = formatDatePointLabel(fullPeriod, frequency, 1);
+  const datePointLabel = formatDatePointLabel(
+    latestDataPeriod,
+    frequency,
+    isSmallestReportingPeriod
+  );
 
   const title = `${name ?? indicatorMetadata?.indicatorName}, ${periodLabelText} ${datePointLabel}`;
 

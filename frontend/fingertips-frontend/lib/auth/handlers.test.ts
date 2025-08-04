@@ -41,7 +41,7 @@ describe('sign in handler', () => {
 describe('sign out handler', () => {
   mockAuth.mockResolvedValue(mockSession({ provider: MOCK_PROVIDER_ID }));
   it('should call sign out with no redirect if session provider is not set to fta provider', async () => {
-    await signOutHandler('some redirect');
+    await signOutHandler();
 
     expect(mockSignOut).toHaveBeenCalled();
   });
@@ -52,10 +52,10 @@ describe('sign out handler', () => {
 
     vi.stubEnv('AUTH_LOGOUT', expectedEndSession);
 
-    await signOutHandler('some redirect');
+    await signOutHandler();
 
     expect(mockSignOut).toHaveBeenCalledWith({
-      redirectTo: '/auth/signout/some%20redirect',
+      redirectTo: '/auth/signout',
     });
   });
 });

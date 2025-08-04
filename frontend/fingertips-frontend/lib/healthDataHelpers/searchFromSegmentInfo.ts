@@ -5,6 +5,6 @@ export const searchFromSegmentInfo = (info: SegmentInfo): SearchStateParams => {
   return {
     [SearchParams.SegmentationSex]: info.sex,
     [SearchParams.SegmentationAge]: info.age,
-    [SearchParams.SegmentationFrequency]: info.frequency,
+    [SearchParams.SegmentationReportingPeriod]: info.reportingPeriod,
   };
 };

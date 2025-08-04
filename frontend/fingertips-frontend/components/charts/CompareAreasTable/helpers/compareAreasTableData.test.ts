@@ -9,8 +9,10 @@ import {
 import {
   BenchmarkComparisonMethod,
   IndicatorPolarity,
+  ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
 import { expectAnyHealthDataForArea } from '@/mock/data/expectAnyHealthDataForArea';
+import { SearchParams } from '@/lib/searchStateManager';
 
 describe('compareAreasTableData', () => {
   it('extracts England and group data from health data', () => {
@@ -22,7 +24,15 @@ describe('compareAreasTableData', () => {
       ],
     });
 
-    const result = compareAreasTableData(input, 'E12000002', 'BENCHMARK_X');
+    const result = compareAreasTableData(
+      input,
+      {
+        [SearchParams.GroupSelected]: 'E12000002',
+        [SearchParams.BenchmarkAreaSelected]: 'BENCHMARK_X',
+        [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly,
+      },
+      []
+    );
 
     expect(result).toEqual({
       benchmarkComparisonMethod:
@@ -34,12 +44,22 @@ describe('compareAreasTableData', () => {
       benchmarkToUse: 'BENCHMARK_X',
       periodType: 'Calendar',
       frequency: 'Annually',
+      latestDataPeriod: {
+        to: new Date('2023-12-31'),
+        from: new Date('2023-01-01'),
+        type: 'Calendar',
+      },
+      isSmallestReportingPeriod: true,
     });
   });
 
   it('handles missing group and benchmark selection gracefully', () => {
     const input = mockIndicatorWithHealthDataForArea();
-    const result = compareAreasTableData(input);
+    const result = compareAreasTableData(
+      input,
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
+      []
+    );
 
     expect(result).toEqual({
       benchmarkComparisonMethod:
@@ -51,6 +71,46 @@ describe('compareAreasTableData', () => {
       benchmarkToUse: areaCodeForEngland,
       periodType: 'Calendar',
       frequency: 'Annually',
+      isSmallestReportingPeriod: true,
+    });
+  });
+
+  it('should extract the latest England data period', () => {
+    const englandHealthData = mockHealthDataForArea_England({
+      healthData: [
+        {
+          ...mockHealthDataForArea_England().healthData[0],
+          datePeriod: {
+            to: new Date('2022-12-31'),
+            from: new Date('2022-01-01'),
+            type: 'Unknown',
+          },
+        },
+        {
+          ...mockHealthDataForArea_England().healthData[0],
+          datePeriod: {
+            to: new Date('2023-12-31'),
+            from: new Date('2023-01-01'),
+            type: 'Unknown',
+          },
+        },
+      ],
+    });
+
+    const input = mockIndicatorWithHealthDataForArea({
+      areaHealthData: [englandHealthData],
+    });
+
+    const result = compareAreasTableData(
+      input,
+      { [SearchParams.SegmentationReportingPeriod]: ReportingPeriod.Yearly },
+      []
+    );
+
+    expect(result.latestDataPeriod).toEqual({
+      to: new Date('2023-12-31'),
+      from: new Date('2023-01-01'),
+      type: 'Unknown',
     });
   });
 });

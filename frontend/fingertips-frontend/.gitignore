@@ -13,6 +13,7 @@
 # testing
 /coverage
 .test/spec/exports/**
+/playwright/resources/playwright_indicator_data_*.csv
 
 # next.js
 /.next/
@@ -44,3 +45,5 @@ next-env.d.ts
 /ctrf/
 /blob-report/
 /playwright/.cache/
+
+certificates
