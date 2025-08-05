@@ -256,6 +256,11 @@ export default class ChartPage extends AreaFilter {
         action: async () =>
           await this.verifySegmentationDropDowns(selectedIndicators),
       },
+      {
+        condition: chartComponentProps.hasTimePeriodInTitle,
+        action: async () =>
+          await this.verifyTimePeriodInTitle(selectedIndicators),
+      },
     ];
 
     for (const { condition, action } of interactions) {
@@ -1039,5 +1044,17 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[]
   ): boolean {
     return selectedIndicators.some((indicator) => indicator.segmentationData);
+  }
+
+  async verifyTimePeriodInTitle(
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    const { type, from, to } = selectedIndicators[0].timePeriodData ?? {};
+
+    if (!type || !from || !to) {
+      throw new Error(
+        `Selected indicator ${selectedIndicators[0].indicatorID} does not have the required time period data defined in core_journey_config.ts.`
+      );
+    }
   }
 }

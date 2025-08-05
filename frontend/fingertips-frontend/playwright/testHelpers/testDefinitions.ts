@@ -1,4 +1,5 @@
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import { DatePeriod } from '@/generated-sources/ft-api-client/models';
 import { ReportingPeriod } from '@/generated-sources/ft-api-client/models/ReportingPeriod';
 
 export enum SearchMode {
@@ -38,6 +39,7 @@ export interface IndicatorInfo {
   knownTrend?: string;
   unpublishedDataYear?: number;
   segmentationData?: SegmentationData[];
+  timePeriodData?: DatePeriod;
 }
 
 export interface SimpleIndicatorDocument {
@@ -48,6 +50,7 @@ export interface SimpleIndicatorDocument {
   knownTrend?: string;
   unpublishedDataYear?: number;
   segmentationData?: SegmentationData[];
+  timePeriodData?: DatePeriod;
 }
 
 export interface AreaFilters {
@@ -95,6 +98,7 @@ type BaseChartComponentProps = {
   hasSVGExport?: boolean;
   hasCSVExport?: boolean;
   hasTooltipHovers?: boolean;
+  hasTimePeriodInTitle?: boolean;
 };
 
 export interface ComponentInteractionConfig {
