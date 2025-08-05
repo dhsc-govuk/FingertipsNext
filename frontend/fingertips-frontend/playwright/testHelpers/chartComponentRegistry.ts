@@ -113,6 +113,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
       hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -125,6 +126,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasTooltipHovers: true,
       hasConfidenceIntervals: true,
       hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {

@@ -1093,21 +1093,18 @@ export default class ChartPage extends AreaFilter {
     const chartElement = this.page.getByTestId(chartComponentLocator);
 
     if (uniqueTimePeriods.length === 0) {
-      const indicatorIds = selectedIndicators
-        .map((indicator) => indicator.indicatorID)
-        .join(', ');
       throw new Error(
-        `None of the selected indicators [${indicatorIds}] have time period data defined in core_journey_config.ts.`
+        `Selected indicator ${selectedIndicators[0].indicatorID} does not have the required time period data defined in core_journey_config.ts.`
       );
     }
 
     // Check for each unique time period type found
-    for (const periodType of uniqueTimePeriods) {
-      if (periodType === PeriodType.Financial) {
+    for (const timePeriod of uniqueTimePeriods) {
+      if (timePeriod === PeriodType.Financial) {
         // Look for financial year format: YY/YY (e.g., "20/21", "22/23")
         const financialYearRegex = /\d{2}\/\d{2}/;
         await expect(chartElement).toContainText(financialYearRegex);
-      } else if (periodType === PeriodType.Calendar) {
+      } else if (timePeriod === PeriodType.Calendar) {
         // Look for calendar year format: YYYY (e.g., "2020", "2022")
         const calendarYearRegex = /\b\d{4}\b/;
         await expect(chartElement).toContainText(calendarYearRegex);
