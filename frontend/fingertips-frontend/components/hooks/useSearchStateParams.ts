@@ -26,6 +26,10 @@ export const useSearchStateParams = (): SearchStateParams => {
     searchStateParams[SearchParams.AreaTypeSelected] ??= englandAreaType.key;
     searchStateParams[SearchParams.GroupTypeSelected] ??= englandAreaType.key;
     searchStateParams[SearchParams.GroupSelected] ??= areaCodeForEngland;
+    searchStateParams[SearchParams.InequalityBarChartAreaSelected] ??=
+      areaCodeForEngland;
+    searchStateParams[SearchParams.InequalityLineChartAreaSelected] ??=
+      areaCodeForEngland;
 
     return searchStateParams;
   }, [search]);
