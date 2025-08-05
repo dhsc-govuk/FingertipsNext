@@ -63,8 +63,7 @@ public class LegacyMapper
             Value = healthMeasure.Value,
             // Legacy Calculator expects this value as a double, so we set this to 0 if null
             Denominator = healthMeasure.Denominator ?? 0,
-            FromDate = healthMeasure.FromDateDimension.Date,
-            ToDate = healthMeasure.FromDateDimension.Date,
+            ToDate = healthMeasure.ToDateDimension.Date,
             LowerCI95 = healthMeasure.LowerCI,
             UpperCI95 = healthMeasure.UpperCI
         };

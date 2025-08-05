@@ -57,7 +57,7 @@ public class TrendDataProcessor(
         foreach (var hmGroup in groupedHealthMeasures)
         {
             var mostRecentDataPoints = hmGroup
-                .OrderByDescending(hm => hm.FromDateDimension.Date)
+                .OrderByDescending(hm => hm.ToDateDimension.Date)
                 .Take(TrendCalculator.RequiredNumberOfDataPoints);
 
             var trend = trendCalculator.CalculateTrend(indicator, mostRecentDataPoints);
