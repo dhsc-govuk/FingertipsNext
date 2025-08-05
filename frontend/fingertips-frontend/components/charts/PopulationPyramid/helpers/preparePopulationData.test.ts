@@ -238,7 +238,7 @@ describe('computeDataPercentages', () => {
     0.79, 1.71, 8.49, 7.99, 7.95, 8.19, 7.77, 7.11,
   ];
 
-  it('check compute percentage matches series expected values ', () => {
+  it('check compute percentage matches series expected values', () => {
     const expectedFemaleSeries = [
       347835, 547342, 1936763, 1692751, 1652231, 1721746, 1635842, 1496012,
     ];
@@ -268,7 +268,7 @@ describe('computeDataPercentages', () => {
   });
 
   it('check for empty list data returns an empty list', () => {
-    expect(computeDataPercentages([], 0)).toHaveLength(0);
+    expect(computeDataPercentages([], 0)).toEqual([]);
   });
 });
 
