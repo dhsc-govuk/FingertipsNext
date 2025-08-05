@@ -4,26 +4,24 @@ import {
   HealthDataPointTrendEnum,
 } from '@/generated-sources/ft-api-client';
 import {
-  generateInequalitiesLineChartSeriesData,
   getAggregatePointInfo,
   getDynamicKeys,
   reorderItemsArraysToEnd,
-  getYearDataGroupedByInequalities,
-  groupHealthDataByYear,
+  getHealthDataGroupedByPeriodAndInequalities,
+  groupHealthDataByPeriod,
   InequalitiesTableRowData,
   InequalitiesTypes,
   mapToInequalitiesTableData,
   RowDataFields,
   shouldDisplayInequalities,
-  generateInequalitiesLineChartOptions,
   getAllDataWithoutInequalities,
   groupHealthDataByInequality,
   filterHealthData,
-  YearlyHealthDataGroupedByInequalities,
+  HealthDataGroupedByPeriodAndInequalities,
   valueSelectorForInequality,
   sequenceSelectorForInequality,
   healthDataFilterFunctionGeneratorForInequality,
-  getYearsWithInequalityData,
+  getPeriodsWithInequalityData,
   getAreasWithInequalitiesData,
   isSexTypePresent,
   getInequalityCategories,
@@ -45,8 +43,8 @@ import {
   personsSex,
 } from '@/lib/mocks';
 import {
-  mockIndicatorData,
   mockEnglandData,
+  mockIndicatorData,
   mockParentData,
 } from '../../../organisms/LineChart/mocks';
 import {
@@ -54,6 +52,13 @@ import {
   generateMockHealthDataForArea,
 } from '@/lib/chartHelpers/testHelpers';
 import { lineChartDefaultOptions } from '../../../organisms/LineChart/helpers/generateStandardLineChartOptions';
+import { generateInequalitiesLineChartSeriesData } from '@/components/charts/Inequalities/helpers/generateInequalitiesLineChartSeriesData';
+import { generateInequalitiesLineChartOptions } from '@/components/charts/Inequalities/helpers/generateInequalitiesLineChartOptions';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
+
+const period2008 = mockDatePeriod(2008);
+const period2006 = mockDatePeriod(2006);
+const period2004 = mockDatePeriod(2004);
 
 const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
   areaCode: 'A1425',
@@ -64,62 +69,72 @@ const MOCK_INEQUALITIES_DATA: HealthDataForArea = {
       lowerCi: 441.69151,
       upperCi: 578.32766,
       value: 278.29134,
-      year: 2006,
       sex: personsSex,
       ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
+      datePeriod: period2006,
+      periodLabel: '2006',
+      year: 2006,
     },
     {
       count: 400,
       lowerCi: 443.453,
       upperCi: 470.45543,
       value: 450.5343,
-      year: 2006,
       sex: maleSex,
       ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
+      datePeriod: period2006,
+      periodLabel: '2006',
+      year: 2006,
     },
     {
       count: 267,
       lowerCi: 441.69151,
       upperCi: 578.32766,
       value: 703.420759,
-      year: 2004,
       sex: personsSex,
       ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
+      datePeriod: period2004,
+      periodLabel: '2004',
+      year: 2004,
     },
     {
       count: 300,
       lowerCi: 345.4543,
       upperCi: 400.34234,
       value: 370.34334,
-      year: 2004,
       sex: femaleSex,
       ageBand: allAgesAge,
       trend: HealthDataPointTrendEnum.NotYetCalculated,
       deprivation: noDeprivation,
+      datePeriod: period2004,
+      periodLabel: '2004',
+      year: 2004,
     },
   ],
 };
 
-const yearlyHealthDataGroupedBySex: YearlyHealthDataGroupedByInequalities = {
-  2004: {
-    Persons: [MOCK_INEQUALITIES_DATA.healthData[2]],
-    Female: [MOCK_INEQUALITIES_DATA.healthData[3]],
-  },
-  2006: {
-    Persons: [MOCK_INEQUALITIES_DATA.healthData[0]],
-    Male: [MOCK_INEQUALITIES_DATA.healthData[1]],
-  },
-};
+const healthDataGroupedByPeriodAndSex: HealthDataGroupedByPeriodAndInequalities =
+  {
+    '2004': {
+      Persons: [MOCK_INEQUALITIES_DATA.healthData[2]],
+      Female: [MOCK_INEQUALITIES_DATA.healthData[3]],
+    },
+    '2006': {
+      Persons: [MOCK_INEQUALITIES_DATA.healthData[0]],
+      Male: [MOCK_INEQUALITIES_DATA.healthData[1]],
+    },
+  };
 
 const mockInequalitiesRowData: InequalitiesTableRowData[] = [
   {
-    period: 2004,
+    period: '2004',
+    datePeriod: period2004,
     inequalities: {
       Male: {
         value: 703.420759,
@@ -129,6 +144,7 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         sequence: 1,
         isAggregate: false,
         benchmarkComparison: undefined,
+        datePeriod: period2004,
       },
       Female: {
         value: 703.420759,
@@ -138,11 +154,13 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         sequence: 1,
         isAggregate: false,
         benchmarkComparison: undefined,
+        datePeriod: period2004,
       },
     },
   },
   {
-    period: 2008,
+    period: '2008',
+    datePeriod: period2008,
     inequalities: {
       Persons: {
         value: 135.149304,
@@ -152,6 +170,7 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         sequence: 1,
         isAggregate: true,
         benchmarkComparison: undefined,
+        datePeriod: period2008,
       },
       Male: {
         value: 890.328253,
@@ -161,6 +180,7 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         sequence: 1,
         isAggregate: false,
         benchmarkComparison: undefined,
+        datePeriod: period2008,
       },
       Female: {
         value: 890.328253,
@@ -170,6 +190,7 @@ const mockInequalitiesRowData: InequalitiesTableRowData[] = [
         sequence: 1,
         isAggregate: false,
         benchmarkComparison: undefined,
+        datePeriod: period2008,
       },
     },
   },
@@ -336,20 +357,20 @@ describe('should display inequalities', () => {
   });
 });
 
-describe('groupHealthDataByYear', () => {
-  it('should group health data by year', () => {
+describe('groupHealthDataByPeriod', () => {
+  it('should group health data by period', () => {
     const healthDataGroupedByYear = {
-      2004: [
+      '2004': [
         MOCK_INEQUALITIES_DATA.healthData[2],
         MOCK_INEQUALITIES_DATA.healthData[3],
       ],
-      2006: [
+      '2006': [
         MOCK_INEQUALITIES_DATA.healthData[0],
         MOCK_INEQUALITIES_DATA.healthData[1],
       ],
     };
 
-    expect(groupHealthDataByYear(MOCK_INEQUALITIES_DATA.healthData)).toEqual(
+    expect(groupHealthDataByPeriod(MOCK_INEQUALITIES_DATA.healthData)).toEqual(
       healthDataGroupedByYear
     );
   });
@@ -375,19 +396,19 @@ describe('groupHealthDataByInequality', () => {
   });
 });
 
-describe('getYearDataGroupedByInequalities', () => {
+describe('getHealthDataGroupedByPeriodAndInequalities', () => {
   it('should group year data by the specified value', () => {
     expect(
-      getYearDataGroupedByInequalities(
-        groupHealthDataByYear(MOCK_INEQUALITIES_DATA.healthData),
+      getHealthDataGroupedByPeriodAndInequalities(
+        groupHealthDataByPeriod(MOCK_INEQUALITIES_DATA.healthData),
         (data) => data.sex.value
       )
-    ).toEqual(yearlyHealthDataGroupedBySex);
+    ).toEqual(healthDataGroupedByPeriodAndSex);
   });
 });
 
 describe('getDynamicKeys', () => {
-  const yearlyHealthDataGroupedBySexWithSequences: YearlyHealthDataGroupedByInequalities =
+  const yearlyHealthDataGroupedBySexWithSequences: HealthDataGroupedByPeriodAndInequalities =
     {
       2004: {
         Persons: [
@@ -492,8 +513,8 @@ describe('generateLineChartSeriesData', () => {
     type: 'line',
     name: 'Persons',
     data: [
-      [2004, undefined],
-      [2008, 135.149304],
+      ['2004', undefined],
+      ['2008', 135.149304],
     ],
     marker: {
       symbol: 'square',
@@ -508,8 +529,8 @@ describe('generateLineChartSeriesData', () => {
       type: 'line',
       name: 'Male',
       data: [
-        [2004, 703.420759],
-        [2008, 890.328253],
+        ['2004', 703.420759],
+        ['2008', 890.328253],
       ],
       marker: {
         symbol: 'triangle',
@@ -521,8 +542,8 @@ describe('generateLineChartSeriesData', () => {
       type: 'line',
       name: 'Female',
       data: [
-        [2004, 703.420759],
-        [2008, 890.328253],
+        ['2004', 703.420759],
+        ['2008', 890.328253],
       ],
       marker: {
         symbol: 'triangle-down',
@@ -539,7 +560,7 @@ describe('generateLineChartSeriesData', () => {
       generateInequalitiesLineChartSeriesData(
         sexKeys,
         InequalitiesTypes.Sex,
-        mockChartData,
+        mockChartData.rowData,
         areasSelected,
         false
       )
@@ -552,7 +573,7 @@ describe('generateLineChartSeriesData', () => {
       generateInequalitiesLineChartSeriesData(
         sexKeys,
         InequalitiesTypes.Sex,
-        mockChartData,
+        mockChartData.rowData,
         areas,
         false
       )
@@ -578,7 +599,7 @@ describe('generateLineChartSeriesData', () => {
       generateInequalitiesLineChartSeriesData(
         sexKeys,
         InequalitiesTypes.Sex,
-        mockChartData,
+        mockChartData.rowData,
         areasSelected,
         false
       )
@@ -604,7 +625,7 @@ describe('generateLineChartSeriesData', () => {
       generateInequalitiesLineChartSeriesData(
         sexKeys,
         InequalitiesTypes.Sex,
-        mockChartData,
+        mockChartData.rowData,
         areasSelected,
         false,
         areaCodeForEngland
@@ -618,7 +639,7 @@ describe('generateLineChartSeriesData', () => {
       generateInequalitiesLineChartSeriesData(
         [],
         InequalitiesTypes.Sex,
-        mockChartData,
+        mockChartData.rowData,
         areasSelected
       )
     ).toEqual([]);
@@ -630,7 +651,7 @@ describe('generateLineChartSeriesData', () => {
       areaName: 'North FooBar',
       rowData: [
         {
-          period: 2004,
+          period: '2004',
           inequalities: {
             ['England']: {
               value: 703.420759,
@@ -708,7 +729,7 @@ describe('generateLineChartSeriesData', () => {
           'Least deprived decile',
         ],
         InequalitiesTypes.Deprivation,
-        mockChartData,
+        mockChartData.rowData,
         ['E92000001'],
         false
       )
@@ -827,99 +848,6 @@ describe('generateLineChartSeriesData', () => {
       ])
     );
   });
-
-  it('should only include years for which the selected areas have data', () => {
-    const areasSelected = ['A1'];
-    const mockChartDataWithExtraYears: InequalitiesChartData = {
-      areaCode: 'A1425',
-      areaName: 'A1',
-      rowData: [
-        ...mockInequalitiesRowData,
-        {
-          period: 2003,
-          inequalities: {
-            Persons: {
-              value: 333,
-              upper: 334,
-              lower: 332,
-              isAggregate: true,
-            },
-          },
-        },
-        {
-          period: 2009,
-          inequalities: {
-            Persons: {
-              value: 333,
-              upper: 334,
-              lower: 332,
-              isAggregate: true,
-            },
-          },
-        },
-      ],
-    };
-
-    const actual = generateInequalitiesLineChartSeriesData(
-      sexKeys,
-      InequalitiesTypes.Sex,
-      mockChartDataWithExtraYears,
-      areasSelected,
-      false
-    );
-    expect(actual).toEqual(seriesData);
-  });
-
-  it('should include CIs for aggregate series only for years for which the selected areas have data', () => {
-    const areasSelected = ['A1'];
-    const mockChartDataWithExtraYears: InequalitiesChartData = {
-      areaCode: 'A1425',
-      areaName: 'A1',
-      rowData: [
-        ...mockInequalitiesRowData,
-        {
-          period: 2003,
-          inequalities: {
-            Persons: {
-              value: 333,
-              upper: 334,
-              lower: 332,
-              isAggregate: true,
-            },
-          },
-        },
-        {
-          period: 2009,
-          inequalities: {
-            Persons: {
-              value: 333,
-              upper: 334,
-              lower: 332,
-              isAggregate: true,
-            },
-          },
-        },
-      ],
-    };
-    const expected = [
-      [2004, undefined, undefined],
-      [2008, 441.69151, 578.32766],
-    ];
-
-    const actual = generateInequalitiesLineChartSeriesData(
-      sexKeys,
-      InequalitiesTypes.Sex,
-      mockChartDataWithExtraYears,
-      areasSelected,
-      true
-    );
-
-    const actualPersonsErrorbars = actual.filter(
-      (series) => series.type === 'errorbar' && series.name === 'Persons'
-    )[0];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect((actualPersonsErrorbars as any).data).toEqual(expected);
-  });
 });
 
 describe('getAggregatePointInfo', () => {
@@ -992,7 +920,7 @@ describe('generateInequalitiesLineChartOptions', () => {
       series: generateInequalitiesLineChartSeriesData(
         sexKeys,
         InequalitiesTypes.Sex,
-        mockChartData,
+        mockChartData.rowData,
         ['A1'],
         false
       ),
@@ -1068,13 +996,15 @@ describe('getAllDataWithoutInequalities', () => {
     {
       ...mockIndicatorData[0],
       healthData: [
-        ...mockIndicatorData[0].healthData,
+        { ...mockIndicatorData[0].healthData[0], periodLabel: '2006' },
+        { ...mockIndicatorData[0].healthData[0], periodLabel: '2004' },
         {
           count: 389,
           lowerCi: 440,
           upperCi: 580,
           value: 530,
           year: 2006,
+          periodLabel: '2006',
           sex: maleSex,
           ageBand: allAgesAge,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -1087,6 +1017,7 @@ describe('getAllDataWithoutInequalities', () => {
           upperCi: 578.32766,
           value: 703.420759,
           year: 2004,
+          periodLabel: '2004',
           sex: femaleSex,
           ageBand: allAgesAge,
           trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -1100,13 +1031,15 @@ describe('getAllDataWithoutInequalities', () => {
   const benchmarkData: HealthDataForArea = {
     ...mockEnglandData,
     healthData: [
-      ...mockEnglandData.healthData,
+      { ...mockIndicatorData[0].healthData[0], periodLabel: '2006' },
+      { ...mockIndicatorData[0].healthData[0], periodLabel: '2004' },
       {
         count: 389,
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 278.29134,
         year: 2006,
+        periodLabel: '2006',
         sex: maleSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -1119,6 +1052,7 @@ describe('getAllDataWithoutInequalities', () => {
         upperCi: 450,
         value: 420,
         year: 2004,
+        periodLabel: '2004',
         sex: femaleSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -1131,13 +1065,15 @@ describe('getAllDataWithoutInequalities', () => {
   const groupData: HealthDataForArea = {
     ...mockParentData,
     healthData: [
-      ...mockParentData.healthData,
+      { ...mockIndicatorData[0].healthData[0], periodLabel: '2006' },
+      { ...mockIndicatorData[0].healthData[0], periodLabel: '2004' },
       {
         count: 100,
         lowerCi: 300,
         upperCi: 400,
         value: 350,
         year: 2006,
+        periodLabel: '2006',
         sex: maleSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -1150,6 +1086,7 @@ describe('getAllDataWithoutInequalities', () => {
         upperCi: 500,
         value: 450,
         year: 2004,
+        periodLabel: '2004',
         sex: femaleSex,
         ageBand: allAgesAge,
         trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -1328,29 +1265,29 @@ describe('filterHealthData', () => {
     const healthData = MOCK_INEQUALITIES_DATA.healthData;
     const filteredHealthData = filterHealthData(
       healthData,
-      (data) => data.year === 2006
+      (data) => data.sex.value === 'Persons'
     );
 
-    expect(filteredHealthData).toEqual([healthData[0], healthData[1]]);
+    expect(filteredHealthData).toEqual([healthData[0], healthData[2]]);
   });
 });
 
 describe('getYearsWithInequalityData', () => {
   it('should return the years that contain inequalities data', () => {
-    const expectedYears = [2004, 2008];
+    const expectedYears = ['2004', '2008'];
 
-    expect(getYearsWithInequalityData(mockInequalitiesRowData)).toEqual(
+    expect(getPeriodsWithInequalityData(mockInequalitiesRowData)).toEqual(
       expectedYears
     );
   });
 
   it('should filter out the years without inequalities data', () => {
-    const expectedYears = [2004, 2008];
+    const expectedYears = ['2004', '2008'];
 
     const mockRowData = [
       ...mockInequalitiesRowData,
       {
-        period: 2010,
+        period: '2010',
         inequalities: {
           Persons: {
             value: 703.420759,
@@ -1364,7 +1301,7 @@ describe('getYearsWithInequalityData', () => {
       },
     ];
 
-    expect(getYearsWithInequalityData(mockRowData)).toEqual(expectedYears);
+    expect(getPeriodsWithInequalityData(mockRowData)).toEqual(expectedYears);
   });
 });
 
@@ -1388,11 +1325,13 @@ describe('isSexTypePresent', () => {
         },
       ],
     };
-    expect(isSexTypePresent(healthIndicatorData.healthData, 2020)).toBe(false);
+    expect(isSexTypePresent(healthIndicatorData.healthData, '2020')).toBe(
+      false
+    );
   });
 
   it('should return true if sex type is present for year provided', () => {
-    expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData, 2006)).toBe(
+    expect(isSexTypePresent(MOCK_INEQUALITIES_DATA.healthData, '2006')).toBe(
       true
     );
   });
@@ -1463,7 +1402,7 @@ describe('getInequalityCategories', () => {
       healthData: [...MOCK_INEQUALITIES_DATA.healthData, mockDeprivationData],
     };
 
-    expect(getInequalityCategories(mockHealthData, 2006)).toEqual(['Sex']);
+    expect(getInequalityCategories(mockHealthData, '2006')).toEqual(['Sex']);
   });
 
   it('should exclude categories with health data for only one year when chartType is trend', () => {
@@ -1473,7 +1412,7 @@ describe('getInequalityCategories', () => {
       healthData: [
         {
           ...mockDeprivationData,
-          year: 2020,
+          periodLabel: '2020',
           deprivation: {
             ...mockDeprivationData.deprivation,
             type: 'Category 1',
@@ -1481,7 +1420,7 @@ describe('getInequalityCategories', () => {
         },
         {
           ...mockDeprivationData,
-          year: 2020,
+          periodLabel: '2020',
           deprivation: {
             ...mockDeprivationData.deprivation,
             type: 'Category 2',
@@ -1489,7 +1428,7 @@ describe('getInequalityCategories', () => {
         },
         {
           ...mockDeprivationData,
-          year: 2021,
+          periodLabel: '2021',
           deprivation: {
             ...mockDeprivationData.deprivation,
             type: 'Category 2',

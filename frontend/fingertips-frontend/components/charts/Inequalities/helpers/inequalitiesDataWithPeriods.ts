@@ -1,36 +1,38 @@
 import { InequalitiesDataWithHealthDataForArea } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithHealthDataForArea';
 import {
-  filterHealthData,
-  getYearDataGroupedByInequalities,
-  getYearsWithInequalityData,
-  groupHealthDataByYear,
+  getHealthDataGroupedByPeriodAndInequalities,
+  getPeriodsWithInequalityData,
+  groupHealthDataByPeriod,
   healthDataFilterFunctionGeneratorForInequality,
   InequalitiesTableRowData,
   InequalitySequenceSelector,
   mapToInequalitiesTableData,
   sequenceSelectorForInequality,
   valueSelectorForInequality,
-  YearlyHealthDataGroupedByInequalities,
+  HealthDataGroupedByPeriodAndInequalities,
+  filterHealthData,
 } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 
 export interface InequalitiesDataWithHealthData
   extends InequalitiesDataWithHealthDataForArea {
-  dataPeriod: number;
+  dataPeriod: string;
   allData: InequalitiesTableRowData[];
-  yearsDesc: number[];
+  periodsDesc: string[];
   sequenceSelector: InequalitySequenceSelector;
-  yearlyHealthDataGroupedByInequalities: YearlyHealthDataGroupedByInequalities;
+  healthDataGroupedByPeriodAndInequality: HealthDataGroupedByPeriodAndInequalities;
 }
 
-export const inequalitiesDataWithYears = (
+export const inequalitiesDataWithPeriods = (
   inequalitiesDataWithHealthDataForArea?: InequalitiesDataWithHealthDataForArea
 ): InequalitiesDataWithHealthData | undefined => {
   if (!inequalitiesDataWithHealthDataForArea) return;
-  const { healthDataForArea, type, inequalityType, activeYear } =
+
+  const { healthDataForArea, type, inequalityType, activePeriod } =
     inequalitiesDataWithHealthDataForArea;
 
   const filterFunctionGenerator =
     healthDataFilterFunctionGeneratorForInequality[type];
+
   const healthIndicatorDataWithoutOtherInequalities = {
     ...healthDataForArea,
     healthData: filterHealthData(
@@ -39,34 +41,34 @@ export const inequalitiesDataWithYears = (
     ),
   };
 
-  const yearlyHealthdata = groupHealthDataByYear(
+  const healthDataByPeriod = groupHealthDataByPeriod(
     healthIndicatorDataWithoutOtherInequalities.healthData
   );
 
-  const yearlyHealthDataGroupedByInequalities =
-    getYearDataGroupedByInequalities(
-      yearlyHealthdata,
+  const healthDataByPeriodAndInequalities =
+    getHealthDataGroupedByPeriodAndInequalities(
+      healthDataByPeriod,
       valueSelectorForInequality[type]
     );
 
   const sequenceSelector = sequenceSelectorForInequality[type];
 
   const allData = mapToInequalitiesTableData(
-    yearlyHealthDataGroupedByInequalities,
+    healthDataByPeriodAndInequalities,
     sequenceSelector
   );
 
-  const yearsDesc = getYearsWithInequalityData(allData).reverse();
+  const periodsDesc = getPeriodsWithInequalityData(allData).reverse();
 
-  if (!yearsDesc.length) return;
+  if (!periodsDesc.length) return;
 
-  const dataPeriod = Number(activeYear ?? yearsDesc[0]);
+  const dataPeriod = activePeriod ?? periodsDesc[0];
   return {
     ...inequalitiesDataWithHealthDataForArea,
     dataPeriod,
     allData,
-    yearsDesc,
+    periodsDesc,
     sequenceSelector,
-    yearlyHealthDataGroupedByInequalities,
+    healthDataGroupedByPeriodAndInequality: healthDataByPeriodAndInequalities,
   };
 };

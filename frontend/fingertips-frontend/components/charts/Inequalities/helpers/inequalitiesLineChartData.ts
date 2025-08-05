@@ -6,10 +6,9 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export const inequalitiesLineChartData = (
   healthDataForArea: HealthDataForArea,
-  allData: InequalitiesTableRowData[],
-  years: number[]
+  allData: InequalitiesTableRowData[]
 ): InequalitiesChartData | null => {
-  if (!years.length || allData.length < 2) return null;
+  if (allData.length < 2) return null;
 
   return {
     areaCode: healthDataForArea.areaCode,

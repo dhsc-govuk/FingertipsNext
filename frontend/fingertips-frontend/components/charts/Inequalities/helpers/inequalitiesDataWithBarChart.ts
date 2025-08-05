@@ -1,4 +1,4 @@
-import { InequalitiesDataWithHealthData } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithYears';
+import { InequalitiesDataWithHealthData } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithPeriods';
 import {
   ChartType,
   InequalitiesBarChartData,
@@ -20,8 +20,8 @@ export const inequalitiesDataWithBarChart = (
     chartType,
     healthDataForArea,
     allData,
-    yearsDesc,
-    selectedYear,
+    periodsDesc,
+    selectedPeriod,
     dataPeriod,
     indicatorMetaData,
   } = inequalitiesDataWithYears;
@@ -31,8 +31,8 @@ export const inequalitiesDataWithBarChart = (
       ? inequalitiesBarChartData(
           healthDataForArea,
           allData,
-          yearsDesc,
-          selectedYear
+          periodsDesc,
+          selectedPeriod
         )
       : null;
 

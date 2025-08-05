@@ -1,13 +1,13 @@
 import { InequalitiesDataWithBarChart } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithBarChart';
 import {
   ChartType,
-  generateInequalitiesLineChartOptions,
   getDynamicKeys,
   reorderItemsArraysToEnd,
 } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { inequalitiesLineChartData } from '@/components/charts/Inequalities/helpers/inequalitiesLineChartData';
 import { inequalitiesLineChartTooltipForPoint } from '@/components/charts/Inequalities/helpers/inequalitiesLineChartTooltipForPoint';
 import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
+import { generateInequalitiesLineChartOptions } from '@/components/charts/Inequalities/helpers/generateInequalitiesLineChartOptions';
 
 export const inequalitiesDataWithLineChart = (
   inequalitiesDataWithBarChart?: InequalitiesDataWithBarChart
@@ -18,9 +18,8 @@ export const inequalitiesDataWithLineChart = (
     chartType,
     healthDataForArea,
     allData,
-    yearsDesc,
     type,
-    yearlyHealthDataGroupedByInequalities,
+    healthDataGroupedByPeriodAndInequality,
     sequenceSelector,
     benchmarkMethod,
     indicatorMetaData,
@@ -30,11 +29,11 @@ export const inequalitiesDataWithLineChart = (
 
   const lineChartData =
     chartType == ChartType.Trend
-      ? inequalitiesLineChartData(healthDataForArea, allData, yearsDesc)
+      ? inequalitiesLineChartData(healthDataForArea, allData)
       : null;
 
   const dynamicKeys = getDynamicKeys(
-    yearlyHealthDataGroupedByInequalities,
+    healthDataGroupedByPeriodAndInequality,
     sequenceSelector
   );
 

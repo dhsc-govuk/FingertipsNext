@@ -1393,7 +1393,7 @@ describe('getTooltipHtml', () => {
       createTooltipHTML(
         {
           areaName: 'North',
-          period: 2004,
+          period: '2004',
           fieldName: 'Male',
           benchmarkComparisonSymbol: 'symbolLine',
           shouldHideComparison: false,
@@ -1427,7 +1427,7 @@ describe('getTooltipHtml', () => {
       createTooltipHTML(
         {
           areaName: 'North',
-          period: 2004,
+          period: '2004',
           fieldName: 'Male',
           benchmarkComparisonSymbol: 'symbolLine',
           shouldHideComparison: true,
