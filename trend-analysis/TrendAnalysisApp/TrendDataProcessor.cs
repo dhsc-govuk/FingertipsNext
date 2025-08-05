@@ -46,7 +46,8 @@ public class TrendDataProcessor(
                 hm.AgeKey,
                 hm.AreaKey,
                 hm.DeprivationKey,
-                hm.SexKey
+                hm.SexKey,
+                hm.PeriodKey
             });
         var trendDataForSearch = new IndicatorTrendDataForSearch
         {

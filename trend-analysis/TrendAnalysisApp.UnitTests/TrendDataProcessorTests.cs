@@ -352,6 +352,7 @@ public class TrendDataProcessorTests
         short entityIndicatorKey,
         int indicatorId,
         int areaEntityKey = FirstAreaEntityKey,
+        byte periodKey = 1,
         int startKey = MockHealthMeasureStartKey,
         bool isAggregate = true,
         int startYear = 2024,
@@ -386,7 +387,7 @@ public class TrendDataProcessorTests
                 UpperCI = 7,
                 FromDateDimension = new DateDimensionModel { DateKey = (startKey + i) * 2, Date = new DateTime(startYear - i, 01, 01) },
                 ToDateDimension = new DateDimensionModel { DateKey = (startKey + i) * 2 + 1, Date = new DateTime(startYear - i, 12, 31) },
-                PeriodDimension = new PeriodDimensionModel { PeriodKey = (Byte)(startKey + i), Period = "yearly" },
+                PeriodKey = periodKey,
                 PublishedAt = publishedAt,
                 BatchId = $"{indicatorId}_{DateTime.UtcNow:yyyy-MM-ddTHH:mm:ss.fff}"
             });

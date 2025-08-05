@@ -13,7 +13,7 @@ public class HealthMeasureModel
     public required DateDimensionModel ToDateDimension { get; set; }
     [ForeignKey("ToDateDimension")]
     public int ToDateKey { get; set; }
-    public required PeriodDimensionModel PeriodDimension { get; set; }
+    public PeriodDimensionModel? PeriodDimension { get; set; }
     [ForeignKey("PeriodDimension")]
     public byte PeriodKey { get; set; }
     public AgeDimensionModel? AgeDimension { get; set; }
