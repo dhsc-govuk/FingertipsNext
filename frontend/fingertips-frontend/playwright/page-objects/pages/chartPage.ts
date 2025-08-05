@@ -1069,17 +1069,20 @@ export default class ChartPage extends AreaFilter {
       .first();
 
     if (uniqueTimePeriods.length === 0) {
+      const indicatorIds = selectedIndicators
+        .map((indicator) => indicator.indicatorID)
+        .join(', ');
       throw new Error(
-        `Selected indicator ${selectedIndicators[0].indicatorID} does not have the required time period data defined in core_journey_config.ts.`
+        `None of the selected indicators [${indicatorIds}] have time period data defined in core_journey_config.ts.`
       );
     }
 
-    for (const timePeriod in uniqueTimePeriods) {
-      // for calendar we dont change the title so assert this
+    for (const timePeriod of uniqueTimePeriods) {
       if (timePeriod === PeriodType.Calendar) {
+        // For calendar we don't change the title
         await expect(chartElement).not.toContainText(timePeriod);
       } else {
-        // for other Period Types check we have changed the title
+        // For other Period Types check we have changed the title
         await expect(chartElement).toContainText(timePeriod);
       }
     }
@@ -1093,19 +1096,22 @@ export default class ChartPage extends AreaFilter {
     const chartElement = this.page.getByTestId(chartComponentLocator);
 
     if (uniqueTimePeriods.length === 0) {
+      const indicatorIds = selectedIndicators
+        .map((indicator) => indicator.indicatorID)
+        .join(', ');
       throw new Error(
-        `Selected indicator ${selectedIndicators[0].indicatorID} does not have the required time period data defined in core_journey_config.ts.`
+        `None of the selected indicators [${indicatorIds}] have time period data defined in core_journey_config.ts.`
       );
     }
 
     // Check for each unique time period type found
     for (const timePeriod of uniqueTimePeriods) {
       if (timePeriod === PeriodType.Financial) {
-        // Look for financial year format: YY/YY (e.g., "20/21", "22/23")
+        // Look for financial year format: YY/YY
         const financialYearRegex = /\d{2}\/\d{2}/;
         await expect(chartElement).toContainText(financialYearRegex);
       } else if (timePeriod === PeriodType.Calendar) {
-        // Look for calendar year format: YYYY (e.g., "2020", "2022")
+        // Look for calendar year format: YYYY
         const calendarYearRegex = /\b\d{4}\b/;
         await expect(chartElement).toContainText(calendarYearRegex);
       }
@@ -1115,10 +1121,9 @@ export default class ChartPage extends AreaFilter {
   private getUniqueTimePeriods(
     selectedIndicators: SimpleIndicatorDocument[]
   ): PeriodType[] {
-    // Get all unique time periods from all indicators in journey and return them
     const timePeriods = selectedIndicators
       .map((indicator) => indicator.timePeriod)
-      .filter((period) => period !== undefined);
+      .filter((period): period is PeriodType => period !== undefined);
 
     return [...new Set(timePeriods)];
   }
