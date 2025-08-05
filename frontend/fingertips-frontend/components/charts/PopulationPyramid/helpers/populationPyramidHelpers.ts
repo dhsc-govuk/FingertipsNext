@@ -1,13 +1,9 @@
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-} from '@/generated-sources/ft-api-client';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import {
   allAreaTypes,
   HierarchyNameTypes,
 } from '@/lib/areaFilterHelpers/areaType';
-import { sortHealthDataPointsByDescendingYear } from '@/lib/chartHelpers/chartHelpers';
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from './preparePopulationData';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 
 export const determineHeaderTitle = (
@@ -41,8 +37,4 @@ export const determinePopulationDataForArea = (
   }
 
   return populationDataForAllAreas.find((data) => data.areaCode === areaToFind);
-};
-
-export const determineYear = (healthData: HealthDataPoint[]) => {
-  return sortHealthDataPointsByDescendingYear(healthData)[0].year;
 };

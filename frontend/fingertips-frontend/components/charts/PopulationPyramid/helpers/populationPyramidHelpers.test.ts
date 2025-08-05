@@ -1,4 +1,4 @@
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from './preparePopulationData';
 import {
   determineHeaderTitle,
   determinePopulationDataForArea,
