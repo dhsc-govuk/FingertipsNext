@@ -283,7 +283,7 @@ export default class ChartPage extends AreaFilter {
 
     await this.selectOptionAndAwaitLoadingComplete(combobox, lastOption);
     await this.waitAfterDropDownInteraction();
-    await this.waitForURLToContain(lastOption);
+    await this.waitForURLToContain(encodeURIComponent(lastOption));
 
     await expect(
       this.page
