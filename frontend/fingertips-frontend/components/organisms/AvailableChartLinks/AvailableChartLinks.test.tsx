@@ -11,7 +11,7 @@ import {
 
 const mockAvailableCharts = [
   ChartTitleKeysEnum.LineChart,
-  ChartTitleKeysEnum.InequalitiesLineChart,
+  ChartTitleKeysEnum.InequalitiesCharts,
 ];
 
 const mockChartLinks = {
@@ -19,9 +19,9 @@ const mockChartLinks = {
     title: chartTitleConfig[ChartTitleKeysEnum.ThematicMap].title,
     href: '#population-pyramid-chart',
   },
-  [ChartTitleKeysEnum.InequalitiesLineChart]: {
-    title: chartTitleConfig[ChartTitleKeysEnum.InequalitiesLineChart].title,
-    href: '#inequalities-line-chart',
+  [ChartTitleKeysEnum.InequalitiesCharts]: {
+    title: chartTitleConfig[ChartTitleKeysEnum.InequalitiesCharts].title,
+    href: '#inequalities-charts',
   },
   [ChartTitleKeysEnum.LineChart]: {
     title: chartTitleConfig[ChartTitleKeysEnum.LineChart].title,
@@ -58,7 +58,7 @@ describe('filterChartLinks', () => {
     expect(filteredLinks).toHaveLength(2);
     expect(filteredLinks[0]).toBe(mockChartLinks[ChartTitleKeysEnum.LineChart]);
     expect(filteredLinks[1]).toBe(
-      mockChartLinks[ChartTitleKeysEnum.InequalitiesLineChart]
+      mockChartLinks[ChartTitleKeysEnum.InequalitiesCharts]
     );
   });
 
@@ -67,7 +67,7 @@ describe('filterChartLinks', () => {
 
     expect(filteredLinks[0]).toBe(mockChartLinks[ChartTitleKeysEnum.LineChart]);
     expect(filteredLinks[1]).toBe(
-      mockChartLinks[ChartTitleKeysEnum.InequalitiesLineChart]
+      mockChartLinks[ChartTitleKeysEnum.InequalitiesCharts]
     );
   });
 

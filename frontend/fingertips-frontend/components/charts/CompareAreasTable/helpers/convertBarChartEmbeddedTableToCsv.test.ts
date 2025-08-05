@@ -102,6 +102,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       csv = convertBarChartEmbeddedTableToCsv(
         tableRows,
         Frequency.Annually,
+        true,
         mockDatePeriod,
         indicatorMetaData,
         benchmarkData,
@@ -187,6 +188,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
       Frequency.Annually,
+      true,
       mockDatePeriod,
       indicatorMetaData
     );
@@ -239,6 +241,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
       Frequency.Annually,
+      true,
       mockDatePeriod,
       indicatorMetaData,
       modifiedBenchmarkData,
@@ -264,6 +267,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
       Frequency.Annually,
+      true,
       mockDatePeriod,
       indicatorMetaData,
       benchmarkData,
@@ -279,6 +283,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
       [],
       Frequency.Annually,
+      true,
       mockDatePeriod,
       indicatorMetaData
     );
@@ -289,6 +294,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
       Frequency.Annually,
+      true,
       undefined,
       indicatorMetaData,
       benchmarkData,

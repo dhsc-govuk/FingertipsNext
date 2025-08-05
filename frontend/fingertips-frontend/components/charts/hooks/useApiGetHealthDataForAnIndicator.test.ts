@@ -13,6 +13,7 @@ import { IndicatorsApi } from '@/generated-sources/ft-api-client';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
+  UNPUBLISHED_API_CACHE_CONFIG,
 } from '@/lib/apiClient/apiClientFactory';
 import { mockDeep } from 'vitest-mock-extended';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
@@ -102,7 +103,7 @@ describe('useApiGetHealthDataForAnIndicator', () => {
           benchmarkRefType: 'England',
           indicatorId: 123,
         },
-        API_CACHE_CONFIG
+        UNPUBLISHED_API_CACHE_CONFIG
       );
     });
 

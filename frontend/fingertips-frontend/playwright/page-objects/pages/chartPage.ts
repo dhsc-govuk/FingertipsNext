@@ -68,6 +68,10 @@ export default class ChartPage extends AreaFilter {
   readonly exportDomContainer = 'domContainer';
   readonly trendTagContainer = 'trendTag-container';
   static readonly inequalitiesContainer = 'inequalities-component';
+  readonly segmentationOptions = 'segmentation-options';
+  readonly segmentationSexOptions = 'seg-segs';
+  readonly segmentationAgeOptions = 'seg-sega';
+  readonly segmentationReportingPeriodOptions = 'seg-segp';
 
   async checkOnChartPage() {
     await expect(this.page.getByText(this.chartPageTitle)).toBeVisible();
@@ -246,6 +250,11 @@ export default class ChartPage extends AreaFilter {
             signInAsUserToCheckUnpublishedData,
             selectedIndicators
           ),
+      },
+      {
+        condition: true,
+        action: async () =>
+          await this.verifySegmentationDropDowns(selectedIndicators),
       },
     ];
 
@@ -944,5 +953,91 @@ export default class ChartPage extends AreaFilter {
     return selectedIndicators.some(
       (indicator) => indicator.unpublishedDataYear
     );
+  }
+
+  async verifySegmentationDropDowns(
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): Promise<void> {
+    const shouldShowSegmentationDropDown =
+      this.hasSegmentationData(selectedIndicators);
+
+    // checks that the segmentation options dropdowns are visible or hidden - depending on the current journey
+    await expect(this.page.getByTestId(this.segmentationOptions)).toBeVisible({
+      visible: shouldShowSegmentationDropDown,
+    });
+
+    if (shouldShowSegmentationDropDown) {
+      const sexDropdownLocator = this.page
+        .getByTestId(this.segmentationOptions)
+        .getByTestId(this.segmentationSexOptions)
+        .getByRole('combobox');
+      const sexOptions = await this.getSelectOptions(sexDropdownLocator);
+
+      const ageDropdownLocator = this.page
+        .getByTestId(this.segmentationOptions)
+        .getByTestId(this.segmentationAgeOptions)
+        .getByRole('combobox');
+      const ageOptions = await this.getSelectOptions(ageDropdownLocator);
+
+      const reportingDropdownLocator = this.page
+        .getByTestId(this.segmentationOptions)
+        .getByTestId(this.segmentationReportingPeriodOptions)
+        .getByRole('combobox');
+      const reportingPeriodOptions = await this.getSelectOptions(
+        reportingDropdownLocator
+      );
+
+      // Get the expected values from the known segmentation data defined in core_journey_config.ts
+      const segmentationData = selectedIndicators[0].segmentationData;
+
+      if (segmentationData?.length) {
+        // Get unique values for each segmentation type to determine expected counts
+        const uniqueSexValues = [
+          ...new Set(segmentationData.map((seg) => seg.sex)),
+        ];
+        const uniqueAgeValues = [
+          ...new Set(segmentationData.map((seg) => seg.age)),
+        ];
+        const uniqueReportingPeriods = [
+          ...new Set(segmentationData.map((seg) => seg.reportingPeriod)),
+        ];
+
+        // Check that dropdowns have the expected number of options
+        expect(sexOptions.length).toBe(uniqueSexValues.length);
+        expect(ageOptions.length).toBe(uniqueAgeValues.length);
+        expect(reportingPeriodOptions.length).toBe(
+          uniqueReportingPeriods.length
+        );
+
+        // Check that each dropdown contains the expected values
+        uniqueSexValues.forEach((expectedSex) => {
+          expect(sexOptions.some((option) => option.text === expectedSex)).toBe(
+            true
+          );
+        });
+
+        uniqueAgeValues.forEach((expectedAge) => {
+          expect(ageOptions.some((option) => option.text === expectedAge)).toBe(
+            true
+          );
+        });
+
+        uniqueReportingPeriods.forEach((expectedReportingPeriod) => {
+          expect(
+            reportingPeriodOptions.some(
+              (option) =>
+                option.text.replaceAll(' ', '').toLowerCase() ===
+                expectedReportingPeriod.replaceAll(' ', '').toLowerCase()
+            )
+          ).toBe(true);
+        });
+      }
+    }
+  }
+
+  private hasSegmentationData(
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): boolean {
+    return selectedIndicators.some((indicator) => indicator.segmentationData);
   }
 }

@@ -31,7 +31,6 @@ import {
   Frequency,
   PeriodType,
 } from '@/generated-sources/ft-api-client';
-import { getLatestYearForAreas } from '@/lib/chartHelpers/chartHelpers';
 
 interface ThematicMapProps {
   name?: string;
@@ -47,6 +46,7 @@ interface ThematicMapProps {
   groupData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
   benchmarkToUse?: string;
+  isSmallestReportingPeriod: boolean;
 }
 
 export function ThematicMap({
@@ -63,6 +63,7 @@ export function ThematicMap({
   groupData,
   indicatorMetadata,
   benchmarkToUse,
+  isSmallestReportingPeriod,
 }: Readonly<ThematicMapProps>) {
   const { isLoading, error, mapGeographyData } = useMapGeographyData(
     areaCodes,
@@ -108,15 +109,13 @@ export function ThematicMap({
     healthIndicatorData,
     periodType,
     frequency,
-    latestDataPeriod
+    latestDataPeriod,
+    isSmallestReportingPeriod
   );
 
   const legendsToShow = getMethodsAndOutcomes([
     { benchmarkComparisonMethod, polarity },
   ]);
-
-  const mostReccentYear = getLatestYearForAreas(healthIndicatorData);
-  if (!mostReccentYear) return;
 
   return (
     <>
@@ -142,7 +141,7 @@ export function ThematicMap({
                 groupData={groupData}
                 polarity={polarity}
                 benchmarkToUse={benchmarkToUse}
-                year={mostReccentYear}
+                isSmallestReportingPeriod={isSmallestReportingPeriod}
               />
             </div>
           ))}

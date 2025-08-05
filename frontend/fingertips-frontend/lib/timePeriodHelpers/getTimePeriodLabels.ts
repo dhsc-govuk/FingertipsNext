@@ -17,7 +17,7 @@ const labelFormatters: {
       periodLabelText: string;
       datePointLabel: (
         datePeriod: DatePeriod,
-        reportingPeriodFlag: boolean
+        isSmallestReportingPeriod: boolean
       ) => string;
     };
   };
@@ -25,8 +25,8 @@ const labelFormatters: {
   [PeriodType.Calendar]: {
     [Frequency.Annually]: {
       periodLabelText: '',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (reportingPeriodFlag) {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (isSmallestReportingPeriod) {
           return format(datePeriod.from, 'yyyy');
         }
         const fromYear = format(datePeriod.from, 'yyyy');
@@ -36,8 +36,8 @@ const labelFormatters: {
     },
     [Frequency.Quarterly]: {
       periodLabelText: 'Quarterly',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (reportingPeriodFlag) {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (isSmallestReportingPeriod) {
           const fromMonth = format(datePeriod.from, 'MMM');
           const toLabel = format(datePeriod.to, 'MMM yyyy');
           return `${fromMonth} - ${toLabel}`;
@@ -49,8 +49,8 @@ const labelFormatters: {
     },
     [Frequency.Monthly]: {
       periodLabelText: 'Monthly',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (reportingPeriodFlag) {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (isSmallestReportingPeriod) {
           return format(datePeriod.from, 'MMM yyyy');
         }
         const fromLabel = format(datePeriod.from, 'MMM yyyy');
@@ -62,8 +62,8 @@ const labelFormatters: {
   [PeriodType.Academic]: {
     [Frequency.Annually]: {
       periodLabelText: 'Academic year',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (reportingPeriodFlag) {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (isSmallestReportingPeriod) {
           return getRollingYears(datePeriod.from);
         }
         const fromLabel = getRollingYears(datePeriod.from);
@@ -75,8 +75,8 @@ const labelFormatters: {
   [PeriodType.Yearly]: {
     [Frequency.Annually]: {
       periodLabelText: 'Yearly',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (reportingPeriodFlag) {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (isSmallestReportingPeriod) {
           const fromYear = format(datePeriod.from, 'yyyy');
           const toYearShort = format(datePeriod.to, 'yy');
           return `${fromYear}/${toYearShort}`;
@@ -89,8 +89,8 @@ const labelFormatters: {
   [PeriodType.Financial]: {
     [Frequency.Annually]: {
       periodLabelText: 'Financial year',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (reportingPeriodFlag) {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (isSmallestReportingPeriod) {
           return getRollingYears(datePeriod.from);
         }
         const fromLabel = getRollingYears(datePeriod.from);
@@ -100,8 +100,8 @@ const labelFormatters: {
     },
     [Frequency.Quarterly]: {
       periodLabelText: 'Financial year, Quarterly',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (reportingPeriodFlag) {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (isSmallestReportingPeriod) {
           const fromMonth = format(datePeriod.from, 'MMM');
           const toDateLabel = format(datePeriod.to, 'MMM yyyy');
           return `${fromMonth} to ${toDateLabel}`;
@@ -114,8 +114,8 @@ const labelFormatters: {
     },
     [Frequency.Monthly]: {
       periodLabelText: 'Monthly',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (reportingPeriodFlag) {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (isSmallestReportingPeriod) {
           return format(datePeriod.from, 'MMM yyyy');
         }
 
@@ -128,11 +128,11 @@ const labelFormatters: {
   [PeriodType.FinancialYearEndPoint]: {
     [Frequency.Annually]: {
       periodLabelText: 'Financial year end point',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
         const fromDate = subYears(new Date(datePeriod.from), 1);
         const dayMonth = format(datePeriod.from, 'dd MMM');
 
-        if (reportingPeriodFlag) {
+        if (isSmallestReportingPeriod) {
           return `${dayMonth} ${getRollingYears(fromDate)}`;
         }
 
@@ -145,8 +145,8 @@ const labelFormatters: {
   [PeriodType.FinancialMultiYear]: {
     [Frequency.Quarterly]: {
       periodLabelText: 'Financial multi-year, cumulative quarters',
-      datePointLabel: (datePeriod, reportingPeriodFlag) => {
-        if (!reportingPeriodFlag) return '';
+      datePointLabel: (datePeriod, isSmallestReportingPeriod) => {
+        if (!isSmallestReportingPeriod) return '';
 
         const fromMonthYear = format(datePeriod.from, 'MMM yyyy');
         const toMonthYear = format(datePeriod.to, 'MMM yyyy');
@@ -159,7 +159,7 @@ const labelFormatters: {
 export const formatDatePointLabel = (
   datePeriod: DatePeriod | undefined,
   frequency: Frequency,
-  reportingPeriodFlag: boolean
+  isSmallestReportingPeriod: boolean
 ): string => {
   if (!datePeriod) return 'X';
 
@@ -167,7 +167,7 @@ export const formatDatePointLabel = (
 
   if (!formatter) return 'X';
 
-  return formatter.datePointLabel(datePeriod, reportingPeriodFlag);
+  return formatter.datePointLabel(datePeriod, isSmallestReportingPeriod);
 };
 
 export const getPeriodLabel = (

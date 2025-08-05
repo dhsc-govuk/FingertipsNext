@@ -13,8 +13,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import {
   getBenchmarkColour,
-  getIndicatorDataForAreasForMostRecentYearOnly,
-  getLatestYearForAreas,
+  getIndicatorDataForAreasForMostRecentPeriodOnly,
 } from '@/lib/chartHelpers/chartHelpers';
 import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
 import {
@@ -278,7 +277,7 @@ function getBenchmarkColourScale(
 }
 
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
-  const recentData = getIndicatorDataForAreasForMostRecentYearOnly(data);
+  const recentData = getIndicatorDataForAreasForMostRecentPeriodOnly(data);
   if (!recentData) {
     return;
   }
@@ -289,7 +288,7 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
       areaName: areaData.areaName,
       areaCode: areaData.areaCode,
       value: mostRecentDataPoint?.value ?? undefined,
-      year: mostRecentDataPoint?.year ?? undefined,
+      year: mostRecentDataPoint?.datePeriod?.to ?? undefined,
       benchmarkComparisonOutcome:
         mostRecentDataPoint?.benchmarkComparison?.outcome ??
         BenchmarkOutcome.NotCompared,
@@ -398,12 +397,14 @@ export function thematicMapTitle(
   healthIndicatorData: HealthDataForArea[],
   periodType: PeriodType,
   frequency: Frequency,
-  latestDataPeriod: DatePeriod | undefined
+  latestDataPeriod: DatePeriod | undefined,
+  isSmallestReportingPeriod: boolean
 ): string {
   const areaType = allAreaTypes.find(
     (areaType) => areaType.key === selectedAreaType
   );
-  if (!areaType) return '';
+  if (!areaType || healthIndicatorData.at(0)?.healthData.length === 0)
+    return '';
 
   const areaTitle = groupData?.areaName ?? 'England';
   const periodLabelText = getPeriodLabel(periodType, frequency) ?? '';
@@ -411,11 +412,8 @@ export function thematicMapTitle(
   const datePointLabel = formatDatePointLabel(
     latestDataPeriod,
     frequency,
-    true
+    isSmallestReportingPeriod
   );
-
-  const latestYear = getLatestYearForAreas(healthIndicatorData);
-  if (!latestYear) return '';
 
   return `${indicatorName} for ${areaType.name} in ${areaTitle}, ${periodLabelText} ${datePointLabel}`;
 }

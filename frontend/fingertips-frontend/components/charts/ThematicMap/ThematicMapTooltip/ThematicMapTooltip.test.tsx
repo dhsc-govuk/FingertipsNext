@@ -3,11 +3,9 @@ import { ThematicMapTooltip, ThematicMapTooltipProps } from './index';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
-  DatePeriod,
   Frequency,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
-  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
@@ -20,11 +18,13 @@ import {
   mockHealthDataForArea_England,
   mockHealthDataForArea_Group,
 } from '@/mock/data/mockHealthDataForArea';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 const stubAreaData = mockHealthDataForArea({
   healthData: [
     {
-      year: 2023,
+      year: 0,
+      datePeriod: mockDatePeriod(2023),
       value: 1,
       ageBand: allAgesAge,
       sex: personsSex,
@@ -44,13 +44,8 @@ const stubGroupData = mockHealthDataForArea_Group();
 
 const stubEnglandData = mockHealthDataForArea_England();
 const mockFrequency = Frequency.Annually;
-const mockDatePeriod: DatePeriod = {
-  type: PeriodType.Financial,
-  from: new Date('2008-01-01'),
-  to: new Date('2008-12-31'),
-};
 const expectedDatePointLabel = formatDatePointLabel(
-  mockDatePeriod,
+  mockDatePeriod(2023),
   mockFrequency,
   true
 );
@@ -62,12 +57,11 @@ const testRender = (overides?: Partial<ThematicMapTooltipProps>) => {
     BenchmarkComparisonMethod.CIOverlappingReferenceValue95;
   const measurementUnit = overides?.measurementUnit ?? '%';
   const frequency = overides?.frequency ?? mockFrequency;
-  const latestDataPeriod = overides?.latestDataPeriod ?? mockDatePeriod;
+  const latestDataPeriod = overides?.latestDataPeriod ?? mockDatePeriod(2023);
   const englandData = overides?.englandData ?? undefined;
   const groupData = overides?.groupData ?? undefined;
   const polarity = overides?.polarity ?? IndicatorPolarity.Unknown;
   const benchmarkToUse = overides?.benchmarkToUse ?? areaCodeForEngland;
-  const year = overides?.year ?? 2023;
   render(
     <ThematicMapTooltip
       indicatorData={indicatorData}
@@ -79,7 +73,7 @@ const testRender = (overides?: Partial<ThematicMapTooltipProps>) => {
       groupData={groupData}
       polarity={polarity}
       benchmarkToUse={benchmarkToUse}
-      year={year}
+      isSmallestReportingPeriod={true}
     />
   );
 };
@@ -249,8 +243,8 @@ describe('ThematicMapTooltip', () => {
         polarity={IndicatorPolarity.Unknown}
         benchmarkToUse={areaCodeForEngland}
         frequency={mockFrequency}
-        latestDataPeriod={mockDatePeriod}
-        year={2023}
+        latestDataPeriod={mockDatePeriod(2023)}
+        isSmallestReportingPeriod={true}
       />
     );
 
