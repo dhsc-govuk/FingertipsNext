@@ -54,7 +54,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
             new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
         // Specific Uri used in order to replace http test
         const string targetUri = "/indicators/90453/data/all?area_codes=E38000101&area_type=gps&from_date=2020-01-01&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational";
-        var expectedYears = new List<int> {2020, 2021, 2022, 2023, 2024, 2025 };
+        var expectedYears = new List<int> { 2020, 2021, 2022, 2023, 2024, 2025 };
 
         // Act
         using var req = new HttpRequestMessage(HttpMethod.Get, new Uri(targetUri, UriKind.Relative));
