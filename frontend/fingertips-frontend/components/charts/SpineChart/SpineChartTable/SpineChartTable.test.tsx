@@ -13,6 +13,8 @@ import {
   areaCodeForEngland,
   englandAreaString,
 } from '@/lib/chartHelpers/constants';
+import { SpineChartIndicatorData } from '@/components/charts/SpineChart/helpers/buildSpineChartIndicatorData';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 describe('Spine chart table suite', () => {
   // Greater Manchester ICB - 00T
@@ -95,11 +97,12 @@ describe('Spine chart table suite', () => {
     },
   ];
 
-  const mockIndicatorData = [
+  const mockIndicatorData: SpineChartIndicatorData[] = [
     {
-      indicatorId: '1',
+      rowId: '1',
+      indicatorId: 1,
       indicatorName: 'testIndicator1',
-      latestDataPeriod: 2023,
+      latestDataPeriod: mockDatePeriod(),
       valueUnit: '%',
       areasHealthData: getMockHealthData(),
       groupData: mockGroup,
@@ -107,11 +110,13 @@ describe('Spine chart table suite', () => {
       quartileData: mockBenchmarkStatistics[0],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      isSmallestReportingPeriod: true,
     },
     {
-      indicatorId: '2',
+      rowId: '2',
+      indicatorId: 2,
       indicatorName: 'testIndicator2',
-      latestDataPeriod: 2023,
+      latestDataPeriod: mockDatePeriod(),
       valueUnit: 'per 100,000',
       areasHealthData: getMockHealthData(),
       groupData: mockGroup,
@@ -119,6 +124,7 @@ describe('Spine chart table suite', () => {
       quartileData: mockBenchmarkStatistics[1],
       benchmarkComparisonMethod:
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+      isSmallestReportingPeriod: true,
     },
   ];
 
@@ -155,11 +161,12 @@ describe('Spine chart table suite', () => {
   });
 
   describe('Spine Chart with 2 areas', () => {
-    const mockTwoAreasIndicatorData = [
+    const mockTwoAreasIndicatorData: SpineChartIndicatorData[] = [
       {
-        indicatorId: '1',
+        rowId: '1-persons',
+        indicatorId: 1,
         indicatorName: 'testIndicator1',
-        latestDataPeriod: 2023,
+        latestDataPeriod: mockDatePeriod(),
         valueUnit: '%',
         areasHealthData: getMockHealthData().concat(
           getMockHealthData(selectedAreaTwo)
@@ -169,11 +176,13 @@ describe('Spine chart table suite', () => {
         quartileData: mockBenchmarkStatistics[0],
         benchmarkComparisonMethod:
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        isSmallestReportingPeriod: true,
       },
       {
-        indicatorId: '2',
+        rowId: '2-persons',
+        indicatorId: 2,
         indicatorName: 'testIndicator1',
-        latestDataPeriod: 2023,
+        latestDataPeriod: mockDatePeriod(),
         valueUnit: 'per 100,000',
         areasHealthData: getMockHealthData().concat(
           getMockHealthData(selectedAreaTwo)
@@ -183,6 +192,7 @@ describe('Spine chart table suite', () => {
         quartileData: mockBenchmarkStatistics[1],
         benchmarkComparisonMethod:
           BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
+        isSmallestReportingPeriod: true,
       },
     ];
 

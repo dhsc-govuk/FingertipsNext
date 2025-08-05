@@ -2,9 +2,6 @@ import OneIndicatorOneAreaView from './OneIndicatorOneAreaView';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import OneIndicatorTwoOrMoreAreasView from './OneIndicatorTwoOrMoreAreasView';
 import TwoOrMoreIndicatorsAreasView from './TwoOrMoreIndicatorsAreasView';
-import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import TwoOrMoreIndicatorsEnglandView from './TwoOrMoreIndicatorsEnglandView';
-import { JSX } from 'react';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { Area } from '@/generated-sources/ft-api-client';
 
@@ -16,13 +13,13 @@ interface ViewsSelectorProps {
   availableAreas?: Area[];
 }
 
-export const ViewsSelector = ({
+export function ViewsSelector({
   areaCodes,
   indicators,
   searchState,
   selectedIndicatorsData,
   availableAreas,
-}: ViewsSelectorProps): JSX.Element => {
+}: Readonly<ViewsSelectorProps>) {
   if (indicators.length === 1 && areaCodes.length === 1) {
     return (
       <OneIndicatorOneAreaView
@@ -42,19 +39,6 @@ export const ViewsSelector = ({
     );
   }
 
-  if (
-    indicators.length >= 2 &&
-    areaCodes.length === 1 &&
-    areaCodes[0] === areaCodeForEngland
-  ) {
-    return (
-      <TwoOrMoreIndicatorsEnglandView
-        searchState={searchState}
-        selectedIndicatorsData={selectedIndicatorsData}
-      />
-    );
-  }
-
   if (indicators.length >= 2 && areaCodes.length >= 1) {
     return (
       <TwoOrMoreIndicatorsAreasView
@@ -66,4 +50,4 @@ export const ViewsSelector = ({
   }
 
   throw new Error('Parameters do not match any known view');
-};
+}

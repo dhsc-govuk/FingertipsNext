@@ -14,6 +14,7 @@ import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { MockedFunction } from 'vitest';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
 import { useOneIndicatorRequestParams } from '@/components/charts/hooks/useOneIndicatorRequestParams';
+import { ReportingPeriod } from '@/generated-sources/ft-api-client';
 
 vi.mock('@/components/charts/hooks/useOneIndicatorRequestParams');
 vi.mock('@/components/charts/hooks/useApiGetIndicatorMetaData');
@@ -114,6 +115,7 @@ describe('useLineChartOverTimeData', () => {
     );
 
     const withChosenSegmentOnly = mockIndicatorWithHealthDataForArea({
+      name: `${mockHealthQuery.healthData?.name} (Persons, All ages, Yearly)`,
       areaHealthData: [mockHealthDataForArea({ indicatorSegments: undefined })],
     });
 
@@ -122,7 +124,8 @@ describe('useLineChartOverTimeData', () => {
     expect(mockLineChartOverTimeData).toHaveBeenCalledWith(
       mockMetaQuery.indicatorMetaData,
       withChosenSegmentOnly,
-      mockSearchState
+      mockSearchState,
+      [ReportingPeriod.Yearly]
     );
   });
 });

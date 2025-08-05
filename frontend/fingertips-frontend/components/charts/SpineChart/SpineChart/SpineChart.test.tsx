@@ -14,7 +14,7 @@ describe('Spine chart', () => {
   const mockIndicator = 'mock indicator';
   const mockValue = 690.305692;
   const mockUnits = '%';
-  const mockPeriod = 2001;
+  const mockPeriod = '2001';
   const mockQuartileData: QuartileData = {
     polarity: IndicatorPolarity.HighIsGood,
     q0Value: 1666,

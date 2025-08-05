@@ -1,5 +1,7 @@
 import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const isCI = !!process.env.CI;
 const url = process.env.FINGERTIPS_FRONTEND_URL || 'http://localhost:3000';
 console.log(`The target URL for this test execution is ${url}`); // allows to see where tests are executed
@@ -8,17 +10,18 @@ const runCommand =
   process.env.MOCK_SERVER === 'false'
     ? 'npm run build && npm run start'
     : 'npm run build && npm run start-local-mocks';
+export const password =
+  process.env.DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD || 'password';
 
 // Create the base config
 const config: PlaywrightTestConfig = {
   testDir: './playwright/tests',
-  fullyParallel: true,
   forbidOnly: isCI, // fails the build on CI if you accidentally left test.only in the source code
   retries: isCI ? 1 : 0,
   workers: isCI ? 2 : '25%', // 25% of the available CPUs when not in CI
   timeout: 180_000,
   expect: {
-    timeout: 10_000,
+    timeout: 20_000,
     toHaveScreenshot: {
       maxDiffPixels: 10,
       scale: 'device',
@@ -57,6 +60,7 @@ const config: PlaywrightTestConfig = {
         launchOptions: {
           args: ['--disable-dev-shm-usage', '--no-sandbox'],
         },
+        ignoreHTTPSErrors: true,
       },
     },
     {

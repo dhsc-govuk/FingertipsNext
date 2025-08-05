@@ -1,9 +1,11 @@
 import {
   IndicatorSegment,
   IndicatorWithHealthDataForArea,
+  ReportingPeriod,
   SexData,
 } from '@/generated-sources/ft-api-client';
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
+
+import { SegmentationId } from '@/lib/common-types';
 
 interface OptionInfo {
   default: string;
@@ -23,15 +25,14 @@ export const segmentValues = (
     SegmentationId.Age
   );
 
-  const freqOptions = segmentDropDownValuesForSegmentation(
-    indicatorWithHealthDataForArea,
-    SegmentationId.Frequency
+  const reportingPeriodOptions = segmentDropDownValuesForReportingPeriod(
+    indicatorWithHealthDataForArea
   );
 
   return {
     [SegmentationId.Sex]: sexOptions,
     [SegmentationId.Age]: ageOptions,
-    [SegmentationId.Frequency]: freqOptions,
+    [SegmentationId.ReportingPeriod]: reportingPeriodOptions,
   };
 };
 
@@ -69,4 +70,53 @@ const segmentDropDownValuesForSegmentation = (
     alphabetical.reverse();
   }
   return [optionsInfo.default, ...alphabetical].filter((i) => !!i);
+};
+
+export const reportingPeriodLabelOrder: {
+  [key in ReportingPeriod]?: { label: string; order: number };
+} = {
+  [ReportingPeriod.Monthly]: { label: 'Monthly', order: 1 },
+  [ReportingPeriod.Quarterly]: { label: 'Quarterly', order: 2 },
+  [ReportingPeriod.CumulativeQuarterly]: {
+    label: 'Cumulative quarterly',
+    order: 3,
+  },
+  [ReportingPeriod.Yearly]: { label: 'Yearly', order: 3 },
+  [ReportingPeriod.TwoYearly]: { label: 'Two yearly', order: 5 },
+  [ReportingPeriod.ThreeYearly]: { label: 'Three yearly', order: 6 },
+  [ReportingPeriod.FiveYearly]: { label: 'Five yearly', order: 7 },
+};
+
+function getReportingPeriodLabels(
+  periods: (ReportingPeriod | undefined)[]
+): string[] {
+  const labels = periods
+    .filter((p): p is ReportingPeriod => p !== undefined)
+    .map((p) => reportingPeriodLabelOrder[p]?.label)
+    .filter((label): label is string => !!label);
+
+  const uniqueLabels = Array.from(new Set(labels));
+  return uniqueLabels.sort(
+    (a, b) =>
+      (Object.values(reportingPeriodLabelOrder).find((v) => v?.label === a)
+        ?.order ?? 0) -
+      (Object.values(reportingPeriodLabelOrder).find((v) => v?.label === b)
+        ?.order ?? 0)
+  );
+}
+
+export const segmentDropDownValuesForReportingPeriod = (
+  indicatorWithHealthDataForArea: IndicatorWithHealthDataForArea
+): string[] => {
+  const periods: (ReportingPeriod | undefined)[] = [];
+
+  indicatorWithHealthDataForArea.areaHealthData?.forEach(
+    ({ indicatorSegments }) => {
+      indicatorSegments?.forEach((segment) => {
+        periods.push(segment.reportingPeriod);
+      });
+    }
+  );
+
+  return getReportingPeriodLabels(periods);
 };

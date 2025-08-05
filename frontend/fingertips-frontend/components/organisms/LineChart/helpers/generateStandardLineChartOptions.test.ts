@@ -9,6 +9,12 @@ import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
 import { generateStandardLineChartOptions } from './generateStandardLineChartOptions';
 import { mockIndicatorData, mockEnglandData, mockParentData } from '../mocks';
 
+const mockDatePeriod = {
+  type: PeriodType.Calendar,
+  from: new Date('2008-01-01'),
+  to: new Date('2008-12-31'),
+};
+
 describe('generateStandardLineChartOptions', () => {
   it('should generate standard line chart options', () => {
     const generatedOptions = generateStandardLineChartOptions(
@@ -17,6 +23,7 @@ describe('generateStandardLineChartOptions', () => {
       areaCodeForEngland,
       PeriodType.Calendar,
       Frequency.Annually,
+      true,
       {
         englandData: mockEnglandData,
         groupIndicatorData: undefined,
@@ -24,6 +31,7 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
+        latestDataPeriod: mockDatePeriod,
       }
     );
 
@@ -40,6 +48,7 @@ describe('generateStandardLineChartOptions', () => {
       areaCodeForEngland,
       PeriodType.Calendar,
       Frequency.Annually,
+      true,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
@@ -48,6 +57,7 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
+        latestDataPeriod: mockDatePeriod,
       }
     );
     expect(generatedOptions).toMatchSnapshot();
@@ -80,6 +90,7 @@ describe('generateStandardLineChartOptions', () => {
       areaCodeForEngland,
       PeriodType.Calendar,
       Frequency.Annually,
+      true,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockBenchmarkAreaWithEarlyYear,
@@ -88,6 +99,7 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
+        latestDataPeriod: mockDatePeriod,
       }
     );
     expect((generatedOptions.series?.[0] as any).data).toHaveLength(2);
@@ -101,6 +113,7 @@ describe('generateStandardLineChartOptions', () => {
       areaCodeForEngland,
       PeriodType.Calendar,
       Frequency.Annually,
+      true,
       {
         indicatorName: 'Hospital admissions',
         englandData: mockEnglandData,
@@ -109,6 +122,7 @@ describe('generateStandardLineChartOptions', () => {
         xAxisTitle: 'xAxis',
         measurementUnit: '%',
         accessibilityLabel: 'accessibility',
+        latestDataPeriod: mockDatePeriod,
       }
     );
 

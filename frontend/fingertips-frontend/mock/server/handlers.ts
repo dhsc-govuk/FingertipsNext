@@ -174,7 +174,29 @@ export const handlers = [
   }),
 
   http.get(`${baseURL}/healthcheck`, async () => {
+    console.log('HEALTHCHECK');
     const resultArray = [[getGetHealthcheck200Response(), { status: 200 }]];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+
+  //
+
+  http.get(`${baseURL}/indicators/quartiles`, async () => {
+    const resultArray = [
+      [getGetIndicatorsQuartiles200Response(), { status: 200 }],
+      [getGetIndicatorsQuartiles400Response(), { status: 400 }],
+      [getGetIndicatorsQuartiles500Response(), { status: 500 }],
+    ];
+
+    return HttpResponse.json(...resultArray[next() % resultArray.length]);
+  }),
+  http.get(`${baseURL}/indicators/quartiles/all`, async () => {
+    const resultArray = [
+      [getGetIndicatorsQuartilesAll200Response(), { status: 200 }],
+      [getGetIndicatorsQuartilesAll400Response(), { status: 400 }],
+      [getGetIndicatorsQuartilesAll500Response(), { status: 500 }],
+    ];
 
     return HttpResponse.json(...resultArray[next() % resultArray.length]);
   }),
@@ -328,4 +350,104 @@ function getMockSelectedAreaData(areaCodes: string[]) {
   return mockDataForAreas.filter(
     (mockArea) => !mockArea.code.toLowerCase().includes('error')
   );
+}
+
+export function getGetIndicatorsQuartiles200Response() {
+  return [
+    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+  ].map((_) => ({
+    indicatorId: 21404,
+    age: {
+      value: '0-4',
+      isAggregate: faker.datatype.boolean(),
+    },
+    sex: {
+      value: 'Female',
+      isAggregate: faker.datatype.boolean(),
+    },
+    isAggregate: faker.datatype.boolean(),
+    year: 2023,
+    datePeriod: {
+      type: 'Calendar',
+      from: '2023-12-31',
+      to: '2023-12-31',
+    },
+    polarity: faker.helpers.arrayElement([
+      'Unknown',
+      'NoJudgement',
+      'LowIsGood',
+      'HighIsGood',
+    ]),
+    frequency: 'Annually',
+    q0Value: faker.number.int(),
+    q1Value: faker.number.int(),
+    q2Value: faker.number.int(),
+    q3Value: faker.number.int(),
+    q4Value: faker.number.int(),
+    areaValue: faker.number.int(),
+    ancestorValue: faker.number.int(),
+    englandValue: faker.number.int(),
+  }));
+}
+
+export function getGetIndicatorsQuartiles400Response() {
+  return {
+    message: faker.lorem.words(),
+  };
+}
+
+export function getGetIndicatorsQuartiles500Response() {
+  return {
+    message: faker.lorem.words(),
+  };
+}
+
+export function getGetIndicatorsQuartilesAll200Response() {
+  return [
+    ...new Array(faker.number.int({ min: 1, max: MAX_ARRAY_LENGTH })).keys(),
+  ].map((_) => ({
+    indicatorId: 21404,
+    age: {
+      value: '0-4',
+      isAggregate: faker.datatype.boolean(),
+    },
+    sex: {
+      value: 'Female',
+      isAggregate: faker.datatype.boolean(),
+    },
+    isAggregate: faker.datatype.boolean(),
+    year: 2023,
+    datePeriod: {
+      type: 'Calendar',
+      from: '2023-12-31',
+      to: '2023-12-31',
+    },
+    polarity: faker.helpers.arrayElement([
+      'Unknown',
+      'NoJudgement',
+      'LowIsGood',
+      'HighIsGood',
+    ]),
+    frequency: 'Annually',
+    q0Value: faker.number.int(),
+    q1Value: faker.number.int(),
+    q2Value: faker.number.int(),
+    q3Value: faker.number.int(),
+    q4Value: faker.number.int(),
+    areaValue: faker.number.int(),
+    ancestorValue: faker.number.int(),
+    englandValue: faker.number.int(),
+  }));
+}
+
+export function getGetIndicatorsQuartilesAll400Response() {
+  return {
+    message: faker.lorem.words(),
+  };
+}
+
+export function getGetIndicatorsQuartilesAll500Response() {
+  return {
+    message: faker.lorem.words(),
+  };
 }

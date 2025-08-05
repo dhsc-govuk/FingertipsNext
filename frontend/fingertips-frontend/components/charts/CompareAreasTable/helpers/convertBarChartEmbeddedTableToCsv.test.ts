@@ -4,6 +4,8 @@ import { BarChartEmbeddedTableRow } from '@/components/charts/CompareAreasTable/
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import {
   BenchmarkOutcome,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointTrendEnum,
@@ -16,13 +18,19 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     indicatorName: 'Life Expectancy',
     unitLabel: '$',
   } as IndicatorDocument;
-  const mockYear = 2023;
+  const mockDatePeriod: DatePeriod = {
+    type: 'Calendar',
+    from: new Date('2023-01-01'),
+    to: new Date('2023-12-31'),
+  };
+
+  const mockPeriod = mockDatePeriod.from.getFullYear().toString();
 
   const tableRows: BarChartEmbeddedTableRow[] = [
     {
       area: 'London',
       areaCode: 'L1',
-      year: mockYear,
+      datePeriod: mockDatePeriod,
       benchmarkComparison: {
         benchmarkAreaCode: 'B1',
         outcome: BenchmarkOutcome.Better,
@@ -37,7 +45,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     {
       area: 'Area 1',
       areaCode: 'A1',
-      year: mockYear,
+      datePeriod: mockDatePeriod,
       benchmarkComparison: {
         benchmarkAreaCode: 'B1',
         outcome: BenchmarkOutcome.Better,
@@ -55,7 +63,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     areaCode: 'B1',
     healthData: [
       {
-        year: mockYear,
+        datePeriod: mockDatePeriod,
         benchmarkComparison: {
           benchmarkAreaCode: 'NAT',
           outcome: BenchmarkOutcome.Similar,
@@ -74,7 +82,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     areaCode: 'G1',
     healthData: [
       {
-        year: mockYear,
+        datePeriod: mockDatePeriod,
         benchmarkComparison: {
           benchmarkAreaCode: 'NAT',
           outcome: BenchmarkOutcome.Better,
@@ -93,7 +101,9 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     beforeEach(() => {
       csv = convertBarChartEmbeddedTableToCsv(
         tableRows,
-        mockYear,
+        Frequency.Annually,
+        true,
+        mockDatePeriod,
         indicatorMetaData,
         benchmarkData,
         groupData,
@@ -123,7 +133,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       expect(csv[1]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
-        mockYear,
+        mockPeriod,
         tableRows[1].area,
         tableRows[1].areaCode,
         tableRows[1]?.benchmarkComparison?.benchmarkAreaCode,
@@ -141,7 +151,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       expect(csv[3]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
-        mockYear,
+        mockPeriod,
         `Group: ${groupData.areaName}`,
         groupData.areaCode,
         groupData.healthData[0]?.benchmarkComparison?.benchmarkAreaCode,
@@ -159,7 +169,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
       expect(csv[4]).toEqual([
         indicatorMetaData.indicatorID,
         indicatorMetaData.indicatorName,
-        mockYear,
+        mockPeriod,
         benchmarkData.areaName,
         benchmarkData.areaCode,
         benchmarkData.healthData[0]?.benchmarkComparison?.benchmarkAreaCode,
@@ -177,7 +187,9 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
   it('returns CSV with only main table rows alphabetically when no benchmark or group data is provided', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
-      2023,
+      Frequency.Annually,
+      true,
+      mockDatePeriod,
       indicatorMetaData
     );
 
@@ -185,7 +197,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     expect(csv[1]).toEqual([
       indicatorMetaData.indicatorID,
       indicatorMetaData.indicatorName,
-      mockYear,
+      mockPeriod,
       tableRows[1].area,
       tableRows[1].areaCode,
       tableRows[1]?.benchmarkComparison?.benchmarkAreaCode,
@@ -201,7 +213,7 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     expect(csv[2]).toEqual([
       indicatorMetaData.indicatorID,
       indicatorMetaData.indicatorName,
-      mockYear,
+      mockPeriod,
       tableRows[0].area,
       tableRows[0].areaCode,
       tableRows[0]?.benchmarkComparison?.benchmarkAreaCode,
@@ -228,13 +240,15 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
 
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
-      2023,
+      Frequency.Annually,
+      true,
+      mockDatePeriod,
       indicatorMetaData,
       modifiedBenchmarkData,
       groupData
     );
 
-    expect(csv).toHaveLength(4);
+    expect(csv).toHaveLength(5);
     expect(csv[2][3]).toBe(tableRows[0].area);
     expect(csv[3][3]).toBe(`Group: ${groupData.areaName}`);
   });
@@ -252,32 +266,43 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
 
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
-      2023,
+      Frequency.Annually,
+      true,
+      mockDatePeriod,
       indicatorMetaData,
       benchmarkData,
       modifiedGroupData
     );
 
-    expect(csv).toHaveLength(4);
+    expect(csv).toHaveLength(5);
     expect(csv[2][3]).toBe(tableRows[0].area);
-    expect(csv[3][3]).toBe(benchmarkData.areaName);
+    expect(csv[4][3]).toBe(benchmarkData.areaName);
   });
 
   it('returns only header row when tableRows is empty and no benchmark/group match', () => {
-    const csv = convertBarChartEmbeddedTableToCsv([], 2023, indicatorMetaData);
+    const csv = convertBarChartEmbeddedTableToCsv(
+      [],
+      Frequency.Annually,
+      true,
+      mockDatePeriod,
+      indicatorMetaData
+    );
     expect(csv).toHaveLength(1);
   });
 
   it('omits period if not supplied', () => {
     const csv = convertBarChartEmbeddedTableToCsv(
       tableRows,
+      Frequency.Annually,
+      true,
       undefined,
       indicatorMetaData,
       benchmarkData,
       groupData,
       95
     );
+
     expect(csv).toHaveLength(3);
-    expect(csv[2][2]).toBeUndefined();
+    expect(csv[2][2]).toBe('X'); // 'X' indicates no period provided
   });
 });

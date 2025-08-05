@@ -138,6 +138,8 @@ indicators_by_indicator_id_all_data:
     - $ref: "./parameters.yaml#/inequalities"
     - $ref: "./parameters.yaml#/latest_only"
   get:
+    security:
+      - bearerAuth: [ ]
     tags:
       - indicators
     summary: Get published and unpublished health data for an indicator
@@ -161,6 +163,10 @@ indicators_by_indicator_id_all_data:
               $ref: "./schemas.yaml#/IndicatorWithHealthDataForArea"
       "400":
         $ref: "../responses.yaml#/BadRequest"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "403":
+        $ref: "../responses.yaml#/Forbidden"
       "500":
         $ref: "../responses.yaml#/InternalServerError"
     operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
@@ -178,42 +184,11 @@ quartiles:
       more than one time period type then the API will return data for each
       data period type separately. The /all endpoint can return unpublished data, otherwise the data is published. 
     parameters:
-      - name: ancestor_code
-        in: query
-        style: simple
-        schema:
-          type: string
-          example: E12000001
-        explode: false
-        description: The area code of an ancestor area
-      - name: area_code
-        in: query
-        style: simple
-        schema:
-          type: string
-          example: G82109
-        explode: false
-        description: The area code of the area/ geography
-      - name: area_type
-        in: query
-        description: The area type which the areas belong to
-        schema:
-          type: string
-      - name: indicator_ids
-        in: query
-        description: A list of indicator_ids, up to 10 can be requested
-        style: form
-        schema:
-          type: array
-          items:
-            type: integer
-            example: 1234
-          maxItems: 10
-      - name: benchmark_ref_type
-        in: query
-        description: The benchmark reference type
-        schema:
-          $ref: "./schemas.yaml#/BenchmarkReferenceType"
+      - $ref: "./parameters.yaml#/ancestor_code"
+      - $ref: "./parameters.yaml#/area_code"
+      - $ref: "./parameters.yaml#/area_type"
+      - $ref: "./parameters.yaml#/indicator_ids"
+      - $ref: "./parameters.yaml#/benchmark_ref_type"
     responses:
       "200":
         description: search results matching criteria
@@ -227,3 +202,35 @@ quartiles:
         $ref: "../responses.yaml#/BadRequest"
       "500":
         $ref: "../responses.yaml#/InternalServerError"
+quartiles_all:
+  get:
+    tags:
+      - indicators
+    summary: Get published and unpublished quartile values for indicators
+    description:
+      Get published and unpublished quartile information for many indicators
+      for one area. Requires user to be authorised to view unpublished quartile
+      data for selected indicators.
+    parameters:
+      - $ref: "./parameters.yaml#/ancestor_code"
+      - $ref: "./parameters.yaml#/area_code"
+      - $ref: "./parameters.yaml#/area_type"
+      - $ref: "./parameters.yaml#/indicator_ids"
+      - $ref: "./parameters.yaml#/benchmark_ref_type"
+    responses:
+      "200":
+        description: search results matching criteria
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./schemas.yaml#/QuartileData"
+      "400":
+        $ref: "../responses.yaml#/BadRequest"
+      "500":
+        $ref: "../responses.yaml#/InternalServerError"
+      "401":
+        $ref: "../responses.yaml#/Unauthorized"
+      "403":
+        $ref: "../responses.yaml#/Forbidden"

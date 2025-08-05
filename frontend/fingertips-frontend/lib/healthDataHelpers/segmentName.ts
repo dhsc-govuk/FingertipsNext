@@ -1,12 +1,14 @@
 import { IndicatorSegment } from '@/generated-sources/ft-api-client';
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
+import { SegmentationId, SegmentInfo } from '@/lib/common-types';
+import { reportingPeriodLabelOrder } from './segmentValues';
 
 export const segmentName = (segment: IndicatorSegment) => {
-  const info = {
-    [SegmentationId.Sex]: segment.sex.value,
-    [SegmentationId.Age]: '', // segment.age.value,
-    [SegmentationId.Frequency]: '', // segment.frequency.value,
+  const info: SegmentInfo = {
+    [SegmentationId.Sex]: segment.sex?.value ?? '',
+    [SegmentationId.Age]: segment.age?.value ?? '',
+    [SegmentationId.ReportingPeriod]:
+      reportingPeriodLabelOrder[segment.reportingPeriod]?.label ?? '',
   };
 
   return segmentNameFromInfo(info);

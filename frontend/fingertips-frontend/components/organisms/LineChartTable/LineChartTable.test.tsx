@@ -103,6 +103,12 @@ describe('Line chart table suite', () => {
     },
   ];
 
+  const mockDatePeriod = {
+    type: PeriodType.Calendar,
+    from: new Date('2008-01-01'),
+    to: new Date('2008-12-31'),
+  };
+
   describe('1 Indicator, 1 Area', () => {
     const CELLS_PER_ROW = 7;
 
@@ -117,6 +123,8 @@ describe('Line chart table suite', () => {
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
           frequency={Frequency.Annually}
+          isSmallestReportingPeriod={true}
+          latestDataPeriod={mockDatePeriod}
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -130,6 +138,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
       const lineChart = screen.getByTestId('lineChartTable-component');
@@ -148,6 +158,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
       const lineChart = screen.queryByTestId('lineChartTable-component');
@@ -165,6 +177,8 @@ describe('Line chart table suite', () => {
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -206,6 +220,8 @@ describe('Line chart table suite', () => {
             BenchmarkComparisonMethod.CIOverlappingReferenceValue99_8
           }
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -227,6 +243,8 @@ describe('Line chart table suite', () => {
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_HEALTH_DATA[0].areaCode}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -245,6 +263,8 @@ describe('Line chart table suite', () => {
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_ENGLAND_DATA.areaCode}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -261,6 +281,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -275,6 +297,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -297,6 +321,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -320,6 +346,8 @@ describe('Line chart table suite', () => {
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
       expect(container.asFragment()).toMatchSnapshot();
@@ -336,6 +364,8 @@ describe('Line chart table suite', () => {
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -373,6 +403,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
       expect(
@@ -391,6 +423,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -405,6 +439,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={undefined}
           indicatorMetadata={{ unitLabel: 'per 100,000' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -434,6 +470,8 @@ describe('Line chart table suite', () => {
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkToUse={MOCK_ENGLAND_DATA.areaCode}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -454,6 +492,8 @@ describe('Line chart table suite', () => {
           englandIndicatorData={MOCK_ENGLAND_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
       expect(screen.getAllByRole('columnheader')[6]).toHaveTextContent(
@@ -470,6 +510,8 @@ describe('Line chart table suite', () => {
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          isSmallestReportingPeriod={true}
+          latestDataPeriod={mockDatePeriod}
         />
       );
       expect(screen.getAllByRole('cell')).toHaveLength(
@@ -485,6 +527,8 @@ describe('Line chart table suite', () => {
           groupIndicatorData={MOCK_PARENT_DATA}
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -558,6 +602,8 @@ describe('Line chart table suite', () => {
           indicatorMetadata={{ unitLabel: '%' } as IndicatorDocument}
           benchmarkComparisonMethod={BenchmarkComparisonMethod.Quintiles}
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -604,6 +650,8 @@ describe('Line chart table suite', () => {
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 
@@ -655,6 +703,8 @@ describe('Line chart table suite', () => {
             BenchmarkComparisonMethod.CIOverlappingReferenceValue95
           }
           frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
 

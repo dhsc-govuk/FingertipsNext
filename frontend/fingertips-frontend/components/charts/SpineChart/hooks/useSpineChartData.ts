@@ -5,9 +5,14 @@ import { determineAreaCodes } from '@/lib/chartHelpers/chartHelpers';
 import { indicatorWithHealthDataForAreaCombined } from '@/lib/healthDataHelpers/indicatorWithHealthDataForAreaCombined';
 import { buildSpineChartIndicatorData } from '@/components/charts/SpineChart/helpers/buildSpineChartIndicatorData';
 import { SearchParams } from '@/lib/searchStateManager';
-import { useMultipleIndicatorData } from '@/components/charts/hooks/useMultipleIndicatorData';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { withoutYears } from '@/lib/healthDataHelpers/withoutYears';
 
-export const useSpineChartData = () => {
+export const useSpineChartData = (
+  healthData: IndicatorWithHealthDataForArea[],
+  indicatorMetaData: IndicatorDocument[]
+) => {
   const searchState = useSearchStateParams();
   const {
     [SearchParams.GroupSelected]: selectedGroupCode,
@@ -17,9 +22,8 @@ export const useSpineChartData = () => {
   const quartileParams = useQuartilesRequestParams();
   const { quartileData } = useApiGetQuartiles(quartileParams);
 
-  const { healthData, indicatorMetaData } = useMultipleIndicatorData();
-
   const areaCodes = determineAreaCodes(areasSelected, groupAreaSelected);
+
   if (
     !quartileData ||
     !areaCodes.length ||
@@ -30,13 +34,18 @@ export const useSpineChartData = () => {
     return;
   }
 
-  const combinedHealthData = indicatorWithHealthDataForAreaCombined(healthData);
+  const cleanedHealthData = healthData.map(withoutYears);
+  const combinedHealthData =
+    indicatorWithHealthDataForAreaCombined(cleanedHealthData);
 
-  return buildSpineChartIndicatorData(
+  const spineChartData = buildSpineChartIndicatorData(
     combinedHealthData,
     indicatorMetaData,
     quartileData,
     areaCodes,
-    selectedGroupCode
+    searchState
   );
+
+  if (!spineChartData.length) return;
+  return spineChartData;
 };

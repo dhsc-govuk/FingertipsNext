@@ -8,6 +8,8 @@ namespace DHSC.FingertipsNext.Modules.DataManagement.UnitTests.Repository;
 
 public class DataManagementRepositoryTests : IDisposable
 {
+    private const string UserId = "88011af4-fda1-4ae0-bbeb-c6f6cd8179ae";
+
     private readonly BatchModel _batchFor22401 = BatchExamples.BatchModel with
     {
         BatchId = "22401_2017-06-30T14:22:37.123Z",
@@ -30,25 +32,6 @@ public class DataManagementRepositoryTests : IDisposable
         CreatedAt = new DateTime(2028, 2, 29, 12, 00, 00),
         PublishedAt = new DateTime(2028, 2, 29, 12, 00, 00)
     };
-
-    private readonly BatchModel _publishedBatchFor41101 = BatchExamples.BatchModel with
-    {
-        BatchId = "41101_2025-01-01T11:00:00.000",
-        IndicatorId = 41101,
-        CreatedAt = new DateTime(2025, 1, 1, 11, 00, 00),
-        PublishedAt = new DateTime(2025, 1, 1, 12, 00, 00)
-    };
-
-    private readonly BatchModel _deletedBatchFor41101 = BatchExamples.BatchModel with
-    {
-        BatchId = "41101_2025-02-01T11:00:00.000",
-        IndicatorId = 41101,
-        CreatedAt = new DateTime(2025, 2, 1, 11, 00, 00),
-        PublishedAt = DateTime.UtcNow.AddYears(1),
-        DeletedAt = DateTime.UtcNow,
-        Status = BatchStatus.Deleted
-    };
-
 
     private readonly DataManagementRepository _dataManagementRepository;
 
@@ -73,7 +56,10 @@ public class DataManagementRepositoryTests : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing) _dbContext.Dispose();
+        if (disposing)
+        {
+            _dbContext.Dispose();
+        }
     }
 
     [Fact]
@@ -156,7 +142,7 @@ public class DataManagementRepositoryTests : IDisposable
         await _dbContext.SaveChangesAsync();
 
         // Act
-        var success = await _dataManagementRepository.DeleteBatchAsync(_batchFor383.BatchId, Guid.Empty);
+        var success = await _dataManagementRepository.DeleteBatchAsync(_batchFor383, UserId);
 
         // Assert
         success.ShouldNotBeNull();
@@ -167,7 +153,7 @@ public class DataManagementRepositoryTests : IDisposable
         var batchModels = batches.ToList();
         var batch383 = batchModels.FirstOrDefault(b => b.IndicatorId == 383);
         batch383.DeletedAt.ShouldNotBe(null);
-        batch383.DeletedUserId.ShouldBe(Guid.Empty);
+        batch383.DeletedUserId.ShouldBe(UserId);
         batch383.Status.ShouldBe(BatchStatus.Deleted);
 
         // Ensure the 41101 batch still exists
@@ -178,43 +164,9 @@ public class DataManagementRepositoryTests : IDisposable
     }
 
     [Fact]
-    public async Task EnsureNonExistentBatchIsNotSoftDeleted()
+    public async Task DeleteBatchAsyncShouldThrowAnExceptionIfANullModelIsSpecified()
     {
-        // Act
-        var exception = await Should.ThrowAsync<ArgumentException>(() =>
-            _dataManagementRepository.DeleteBatchAsync("123", Guid.Empty));
-
-        // Assert
-        exception.Message.ShouldBe("BatchNotFound");
-    }
-
-    [Fact]
-    public async Task EnsurePublishedBatchIsNotSoftDeleted()
-    {
-        // Arrange
-        await _dbContext.Batch.AddAsync(_publishedBatchFor41101);
-        await _dbContext.SaveChangesAsync();
-
-        // Act
-        var exception = await Should.ThrowAsync<ArgumentException>(() =>
-            _dataManagementRepository.DeleteBatchAsync(_publishedBatchFor41101.BatchId, Guid.Empty));
-
-        // Assert
-        exception.Message.ShouldBe("BatchPublished");
-    }
-
-    [Fact]
-    public async Task EnsureDeletedBatchIsNotSoftDeleted()
-    {
-        // Arrange
-        await _dbContext.AddAsync(_deletedBatchFor41101);
-        await _dbContext.SaveChangesAsync();
-
-        // Act
-        var exception = await Should.ThrowAsync<ArgumentException>(() =>
-            _dataManagementRepository.DeleteBatchAsync(_deletedBatchFor41101.BatchId, Guid.Empty));
-
-        // Assert
-        exception.Message.ShouldBe("BatchDeleted");
+        await _dataManagementRepository.DeleteBatchAsync(null!, UserId)
+            .ShouldThrowAsync(typeof(ArgumentNullException));
     }
 }

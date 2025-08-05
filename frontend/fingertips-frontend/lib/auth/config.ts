@@ -3,6 +3,10 @@ import { tryReadEnvVar } from '@/lib/envUtils';
 import { NextAuthConfig } from 'next-auth';
 import 'next-auth/jwt';
 
+export const usingSecureCookies = () => {
+  return tryReadEnvVar('AUTH_URL')?.startsWith('https') ?? false;
+};
+
 export class AuthConfigFactory {
   private static config: NextAuthConfig | null;
 
@@ -37,12 +41,21 @@ export class AuthConfigFactory {
             const { validateUser } = await import('@/lib/auth/validation');
 
             if (await validateUser(account.access_token)) {
-              return { ...token, accessToken: account.access_token };
+              return {
+                ...token,
+                accessToken: account.access_token,
+                provider: account.provider,
+              };
             } else {
               console.log(`failed to validate user ${user.id}`);
             }
           }
-          return token;
+          return { ...token, provider: account.provider };
+        },
+
+        session({ session, token }) {
+          session.provider = token.provider;
+          return session;
         },
       },
     };
@@ -54,5 +67,12 @@ export class AuthConfigFactory {
 declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string;
+    provider: string;
+  }
+}
+
+declare module 'next-auth' {
+  interface Session {
+    provider: string;
   }
 }

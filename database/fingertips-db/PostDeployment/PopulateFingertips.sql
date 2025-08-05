@@ -337,7 +337,8 @@ CREATE TABLE #TempIndicatorData
     ValueType NVARCHAR(255),
     IndicatorName NVARCHAR(255),
     PeriodType NVARCHAR(255),
-    CollectionFrequency NVARCHAR(255)
+    CollectionFrequency NVARCHAR(255),
+    RequiresGeoAggregation NVARCHAR(10),
 );
 DECLARE @sqlInd NVARCHAR(4000), @filePathInd NVARCHAR(500);
 IF @UseAzureBlob = '1'
@@ -361,7 +362,8 @@ INSERT INTO [dbo].[IndicatorDimension]
     StartDate,
     EndDate,
     PeriodType,
-    CollectionFrequency
+    CollectionFrequency,
+    RequiresGeoAggregation
 )
 SELECT 
     REPLACE(REPLACE(IndicatorName, '"', ''), char(13),''),
@@ -372,7 +374,12 @@ SELECT
     DATEADD(YEAR, -10, GETDATE()),
     DATEADD(YEAR, 10, GETDATE()),
     PeriodType,
-    CollectionFrequency
+    CollectionFrequency,
+    CASE
+        WHEN RequiresGeoAggregation = 'True' THEN 1 
+        WHEN RequiresGeoAggregation = 'False' THEN 0
+        ELSE 0 
+    END
 FROM 
     #TempIndicatorData;
 
@@ -778,6 +785,136 @@ WHERE
     temp.Value IS NOT NULL
     AND temp.Year = 2023
     AND temp.IndicatorId = 41101;
+
+INSERT INTO [dbo].[HealthMeasure]
+(
+    AreaKey,
+    IndicatorKey,
+    SexKey,
+    AgeKey,
+    DeprivationKey,
+    Count,
+    Denominator,
+    Value,
+    LowerCI,
+    UpperCI,
+    Year,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle,
+    FromDateKey,
+    ToDateKey,
+    PeriodKey,
+    PublishedAt,
+    BatchId
+)
+SELECT
+    areadim.AreaKey,
+    inddim.[IndicatorKey],
+    sexdim.[SexKey],
+    agedim.[AgeKey],
+    depdim.[DeprivationKey],
+    10,
+    Denominator,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    2025,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle,
+    datedim_from.DateKey,
+    datedim_to.DateKey,
+    perioddim.PeriodKey,
+    DATEADD(year, 1, GETUTCDATE()),
+    CONCAT(temp.IndicatorId, '_', CONVERT(VARCHAR, GETUTCDATE(),126))
+FROM 
+	#TempHealthData temp
+JOIN
+	[dbo].[AreaDimension] areadim ON LTRIM(RTRIM(temp.AreaCode))=areadim.[Code]
+JOIN
+	[dbo].[IndicatorDimension] inddim ON inddim.IndicatorId = temp.IndicatorId
+JOIN
+	[dbo].[SexDimension] sexdim ON sexdim.[Name] = LTRIM(RTRIM(temp.Sex))
+JOIN
+	[dbo].[AgeDimension] agedim ON agedim.[AgeID] = temp.AgeID
+JOIN
+	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
+JOIN
+	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = DATEADD(year, 1, (CONVERT(DATETIME, temp.FromDate, 103)))
+JOIN
+    [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = DATEADD(year, 1, (CONVERT(DATETIME, temp.ToDate, 103)))
+JOIN   
+    [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
+WHERE 
+    temp.Value IS NOT NULL
+    AND temp.Year = 2024
+    AND temp.IndicatorId = 337;
+
+INSERT INTO [dbo].[HealthMeasure]
+(
+    AreaKey,
+    IndicatorKey,
+    SexKey,
+    AgeKey,
+    DeprivationKey,
+    Count,
+    Denominator,
+    Value,
+    LowerCI,
+    UpperCI,
+    Year,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle,
+    FromDateKey,
+    ToDateKey,
+    PeriodKey,
+    PublishedAt,
+    BatchId
+)
+SELECT
+    areadim.AreaKey,
+    inddim.[IndicatorKey],
+    sexdim.[SexKey],
+    agedim.[AgeKey],
+    depdim.[DeprivationKey],
+    20,
+    Denominator,
+    Value,
+    Lower95CI,
+    Upper95CI,
+    2024,
+    IsSexAggregatedOrSingle,
+    IsAgeAggregatedOrSingle,
+    IsDeprivationAggregatedOrSingle,
+    datedim_from.DateKey,
+    datedim_to.DateKey,
+    perioddim.PeriodKey,
+    DATEADD(year, 1, GETUTCDATE()),
+    CONCAT(temp.IndicatorId, '_', CONVERT(VARCHAR, GETUTCDATE(),126))
+FROM 
+	#TempHealthData temp
+JOIN
+	[dbo].[AreaDimension] areadim ON LTRIM(RTRIM(temp.AreaCode))=areadim.[Code]
+JOIN
+	[dbo].[IndicatorDimension] inddim ON inddim.IndicatorId = temp.IndicatorId
+JOIN
+	[dbo].[SexDimension] sexdim ON sexdim.[Name] = LTRIM(RTRIM(temp.Sex))
+JOIN
+	[dbo].[AgeDimension] agedim ON agedim.[AgeID] = temp.AgeID
+JOIN
+	[dbo].[DeprivationDimension] depdim  ON depdim.[Name] = LTRIM(RTRIM(temp.Category)) AND depdim.[Type]=LTRIM(RTRIM(temp.CategoryType))
+JOIN
+	[dbo].[DateDimension] datedim_from ON datedim_from.[Date] = DATEADD(year, 1, (CONVERT(DATETIME, temp.FromDate, 103)))
+JOIN
+    [dbo].[DateDimension] datedim_to ON datedim_to.[Date] = DATEADD(year, 1, (CONVERT(DATETIME, temp.ToDate, 103)))
+JOIN   
+    [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
+WHERE 
+    temp.Value IS NOT NULL
+    AND temp.Year = 2023
+    AND temp.IndicatorId = 92708;
 -- END
 
 ALTER TABLE [dbo].[HealthMeasure] CHECK CONSTRAINT ALL

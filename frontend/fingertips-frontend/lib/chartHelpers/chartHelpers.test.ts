@@ -7,16 +7,12 @@ import {
   sortHealthDataByYearDescending,
   sortHealthDataForAreasByDate,
   sortHealthDataPointsByDescendingYear,
-  getIndicatorDataForAreasForMostRecentYearOnly,
   seriesDataWithoutGroup,
   determineHealthDataForArea,
   AreaTypeLabelEnum,
   getTooltipContent,
   createTooltipHTML,
   getLatestYear,
-  getFirstYear,
-  getLatestYearForAreas,
-  getFirstYearForAreas,
   getFormattedLabel,
   determineAreasForBenchmarking,
   determineBenchmarkToUse,
@@ -24,6 +20,7 @@ import {
   getFirstPeriod,
   getLatestPeriodForAreas,
   getFirstPeriodForAreas,
+  getIndicatorDataForAreasForMostRecentPeriodOnly,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -49,6 +46,7 @@ import {
 } from './testHelpers';
 import { ALL_AREAS_SELECTED } from '../areaFilterHelpers/constants';
 import { convertDateToNumber } from '../timePeriodHelpers/getTimePeriodLabels';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 const mockData: HealthDataForArea[] = [
   {
@@ -709,14 +707,15 @@ describe('getHealthDataWithoutInequalities', () => {
   });
 });
 
-describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
+describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
   const mockHealthData: HealthDataForArea[] = [
     {
       areaCode: 'A1425',
       areaName: 'Greater Manchester ICB - 00T',
       healthData: [
         {
-          year: 2008,
+          year: 0,
+          datePeriod: mockDatePeriod(2008),
           count: 222,
           value: 890.305692,
           lowerCi: 821.987617,
@@ -727,7 +726,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          year: 0,
+          datePeriod: mockDatePeriod(2004),
           count: 267,
           value: 703.420759,
           lowerCi: 635.102684,
@@ -738,7 +738,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          year: 0,
+          datePeriod: mockDatePeriod(2004),
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -749,7 +750,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          year: 0,
+          datePeriod: mockDatePeriod(2012),
           count: 300,
           value: 602.820845,
           lowerCi: 534.50277,
@@ -760,7 +762,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          year: 0,
+          datePeriod: mockDatePeriod(2006),
           count: 389,
           value: 278.29134,
           lowerCi: 209.973265,
@@ -771,7 +774,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          year: 0,
+          datePeriod: mockDatePeriod(2020),
           count: 200,
           value: 971.435418,
           lowerCi: 903.117343,
@@ -788,7 +792,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
       areaName: 'England',
       healthData: [
         {
-          year: 2004,
+          year: 0,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 904.874,
           lowerCi: 0,
@@ -799,7 +804,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          year: 0,
+          datePeriod: mockDatePeriod(2006),
           count: 179,
           value: 709.7645,
           lowerCi: 0,
@@ -810,7 +816,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          year: 0,
+          datePeriod: mockDatePeriod(2008),
           count: 500,
           value: 965.9843,
           lowerCi: 0,
@@ -821,7 +828,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          year: 0,
+          datePeriod: mockDatePeriod(2012),
           count: 400,
           value: 908.8475,
           lowerCi: 0,
@@ -838,7 +846,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
       areaName: 'South FooBar',
       healthData: [
         {
-          year: 2006,
+          year: 0,
+          datePeriod: mockDatePeriod(2006),
           count: 157,
           value: 723.090354,
           lowerCi: 612.272279,
@@ -849,7 +858,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          year: 0,
+          datePeriod: mockDatePeriod(2020),
           count: 256,
           value: 905.145997,
           lowerCi: 833.327922,
@@ -860,7 +870,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          year: 0,
+          datePeriod: mockDatePeriod(2004),
           count: 222,
           value: 135.149304,
           lowerCi: 85.331229,
@@ -871,7 +882,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          year: 0,
+          datePeriod: mockDatePeriod(2008),
           count: 131,
           value: 890.328253,
           lowerCi: 829.010178,
@@ -882,7 +894,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          year: 0,
+          datePeriod: mockDatePeriod(2012),
           count: 452,
           value: 478.996862,
           lowerCi: 404.178787,
@@ -899,7 +912,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
       areaName: 'Area 1427',
       healthData: [
         {
-          year: 2020,
+          year: 0,
+          datePeriod: mockDatePeriod(2020),
           count: 411,
           value: 579.848756,
           lowerCi: 515.030681,
@@ -910,7 +924,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          year: 0,
+          datePeriod: mockDatePeriod(2008),
           count: 367,
           value: 383.964067,
           lowerCi: 334.145992,
@@ -921,7 +936,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          year: 0,
+          datePeriod: mockDatePeriod(2012),
           count: 289,
           value: 851.163104,
           lowerCi: 777.34503,
@@ -932,7 +948,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          year: 0,
+          datePeriod: mockDatePeriod(2004),
           count: 356,
           value: 775.129883,
           lowerCi: 725.311808,
@@ -943,7 +960,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          year: 0,
+          datePeriod: mockDatePeriod(2006),
           count: 489,
           value: 290.465304,
           lowerCi: 190.647229,
@@ -960,7 +978,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
       areaName: 'Area 1428',
       healthData: [
         {
-          year: 2020,
+          year: 0,
+          datePeriod: mockDatePeriod(2020),
           count: 311,
           value: 400.848756,
           lowerCi: 312.030681,
@@ -971,7 +990,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          year: 0,
+          datePeriod: mockDatePeriod(2004),
           count: 469,
           value: 320.964067,
           lowerCi: 271.145992,
@@ -982,7 +1002,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          year: 0,
+          datePeriod: mockDatePeriod(2006),
           count: 120,
           value: 600.163104,
           lowerCi: 550.34503,
@@ -993,7 +1014,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          year: 0,
+          datePeriod: mockDatePeriod(2012),
           count: 250,
           value: 650.129883,
           lowerCi: 561.311808,
@@ -1004,7 +1026,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          year: 0,
+          datePeriod: mockDatePeriod(2008),
           count: 344,
           value: 500.650389,
           lowerCi: 440.832314,
@@ -1021,7 +1044,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
       areaName: 'Area 1429',
       healthData: [
         {
-          year: 2006,
+          year: 0,
+          datePeriod: mockDatePeriod(2006),
           count: 322,
           value: 472.650389,
           lowerCi: 404.332314,
@@ -1032,7 +1056,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          year: 0,
+          datePeriod: mockDatePeriod(2012),
           count: 234,
           value: 472.7613425,
           lowerCi: 404.443268,
@@ -1043,7 +1068,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          year: 0,
+          datePeriod: mockDatePeriod(2008),
           count: 299,
           value: 582.306765,
           lowerCi: 513.98869,
@@ -1054,7 +1080,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          year: 0,
+          datePeriod: mockDatePeriod(2020),
           count: 435,
           value: 563.4002,
           lowerCi: 495.082125,
@@ -1065,7 +1092,8 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          year: 0,
+          datePeriod: mockDatePeriod(2004),
           count: 277,
           value: 627.899536,
           lowerCi: 559.581462,
@@ -1127,12 +1155,12 @@ describe('getIndicatorDataForAreasForMostRecentYearOnly', () => {
   ];
   it('should return healthdata for all areas, only for the most reccent year', () => {
     const actual =
-      getIndicatorDataForAreasForMostRecentYearOnly(mockHealthData);
+      getIndicatorDataForAreasForMostRecentPeriodOnly(mockHealthData);
     expect(actual).toEqual(expected);
   });
 
   it('should return undefined if there are no areas with data', () => {
-    const actual = getIndicatorDataForAreasForMostRecentYearOnly([
+    const actual = getIndicatorDataForAreasForMostRecentPeriodOnly([
       {
         areaCode: 'missingCode',
         areaName: 'missing Area',
@@ -1419,16 +1447,10 @@ describe('getLatestYear', () => {
   });
 });
 
-describe('getFirstYear', () => {
-  it('should return the first year for an area', () => {
-    expect(getFirstYear(mockData[0].healthData)).toBe(2004);
-  });
-});
-
 describe('getLatestPeriod', () => {
   it('should return the latest period as an number for an area', () => {
     expect(getLatestPeriod(mockData[0].healthData)).toBe(
-      convertDateToNumber('2006-01-01')
+      convertDateToNumber('2006-12-31')
     );
   });
 });
@@ -1436,37 +1458,15 @@ describe('getLatestPeriod', () => {
 describe('getFirstPeriod', () => {
   it('should return the first year as an number for an area', () => {
     expect(getFirstPeriod(mockData[0].healthData)).toBe(
-      convertDateToNumber('2004-01-01')
+      convertDateToNumber('2004-12-31')
     );
-  });
-});
-
-describe('getLatestYearForAreas', () => {
-  it('should return the latest year for a group of areas', () => {
-    expect(getLatestYearForAreas(mockData)).toBe(2006);
-  });
-
-  it('should return undefined when the data provided is an empty list', () => {
-    expect(getLatestYearForAreas([])).toBeUndefined();
-  });
-});
-
-describe('getFirstYearForAreas', () => {
-  it('should return the latest year for a group of areas', () => {
-    expect(getFirstYearForAreas(mockData)).toBe(2004);
-  });
-
-  // This can occur when no area is selected. When undefined is returned, the chart min/max
-  // simply use those of the default benchmark i.e. England
-  it('should return undefined when the data provided is an empty list', () => {
-    expect(getFirstYearForAreas([])).toBeUndefined();
   });
 });
 
 describe('getLatestPeriodForAreas', () => {
   it('should return the latest period as an number for a group of areas', () => {
     expect(getLatestPeriodForAreas(mockData)).toBe(
-      convertDateToNumber('2006-01-01')
+      convertDateToNumber('2006-12-31')
     );
   });
 
@@ -1478,7 +1478,7 @@ describe('getLatestPeriodForAreas', () => {
 describe('getFirstPeriodForAreas', () => {
   it('should return the latest year for a group of areas', () => {
     expect(getFirstPeriodForAreas(mockData)).toBe(
-      convertDateToNumber('2004-01-01')
+      convertDateToNumber('2004-12-31')
     );
   });
 

@@ -61,18 +61,27 @@ internal static class BenchmarkComparisonEngine
                     polarity);
 
             // Perform Inequality benchmarking against aggregate segment
-            var aggregateSegment = areaHealthData.IndicatorSegments.First(segment => segment.IsAggregate);
+            var aggregateSegment = areaHealthData.IndicatorSegments.FirstOrDefault(segment => segment.IsAggregate);
             var newIndicatorSegments = new List<IndicatorSegment>();
-            foreach (var targetSegment in areaHealthData.IndicatorSegments)
+
+            // There may not be an aggregateSegment available - check for this and just return the original segments without benchmarking
+            if (aggregateSegment != null)
             {
-                var newSegment = ProcessBenchmarkComparisonsForAreaSegment(
-                    targetSegment,
-                    aggregateSegment,
-                    areaHealthData.AreaCode,
-                    areaHealthData.AreaName,
-                    polarity
-                );
-                newIndicatorSegments.Add(newSegment);
+                foreach (var targetSegment in areaHealthData.IndicatorSegments)
+                {
+                    var newSegment = ProcessBenchmarkComparisonsForAreaSegment(
+                        targetSegment,
+                        aggregateSegment,
+                        areaHealthData.AreaCode,
+                        areaHealthData.AreaName,
+                        polarity
+                    );
+                    newIndicatorSegments.Add(newSegment);
+                }
+            }
+            else
+            {
+                newIndicatorSegments.AddRange(areaHealthData.IndicatorSegments);
             }
 
             var newAreaHealthData = new HealthDataForArea
@@ -152,7 +161,9 @@ internal static class BenchmarkComparisonEngine
             return null;
 
         return benchmarkSegments.FirstOrDefault(
-            segment => segment.Sex.Value == targetSegment.Sex.Value && segment.Age.Value == targetSegment.Age.Value
+            segment => segment.Sex.Value == targetSegment.Sex.Value &&
+            segment.Age.Value == targetSegment.Age.Value &&
+            segment.ReportingPeriod == targetSegment.ReportingPeriod
         );
     }
 
@@ -197,6 +208,7 @@ internal static class BenchmarkComparisonEngine
                 AgeBand = targetDataPoint.AgeBand,
                 Deprivation = targetDataPoint.Deprivation,
                 Sex = targetDataPoint.Sex,
+                ReportingPeriod = targetDataPoint.ReportingPeriod,
                 Trend = targetDataPoint.Trend,
                 IsAggregate = targetDataPoint.IsAggregate,
                 BenchmarkComparison = CompareDataPoints(targetDataPoint, benchmarkDataPoint, polarity, benchmarkAreaCode, benchmarkAreaName)
@@ -209,6 +221,7 @@ internal static class BenchmarkComparisonEngine
         {
             Age = targetSegment.Age,
             Sex = targetSegment.Sex,
+            ReportingPeriod = targetSegment.ReportingPeriod,
             IsAggregate = targetSegment.IsAggregate,
             HealthData = newHealthDataPoints
         };

@@ -26,29 +26,44 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  DatePeriod,
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 
 interface ThematicMapProps {
+  name?: string;
   healthIndicatorData: HealthDataForArea[];
   selectedAreaType?: string;
   areaCodes: string[];
   benchmarkComparisonMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
+  periodType: PeriodType;
+  frequency: Frequency;
+  latestDataPeriod?: DatePeriod;
   englandData?: HealthDataForArea;
   groupData?: HealthDataForArea;
   indicatorMetadata?: IndicatorDocument;
   benchmarkToUse?: string;
+  isSmallestReportingPeriod: boolean;
 }
 
 export function ThematicMap({
+  name,
   healthIndicatorData,
   selectedAreaType,
   areaCodes,
   benchmarkComparisonMethod,
   polarity,
+  periodType,
+  frequency,
+  latestDataPeriod,
   englandData,
   groupData,
   indicatorMetadata,
   benchmarkToUse,
+  isSmallestReportingPeriod,
 }: Readonly<ThematicMapProps>) {
   const { isLoading, error, mapGeographyData } = useMapGeographyData(
     areaCodes,
@@ -86,11 +101,16 @@ export function ThematicMap({
     return null;
   }
 
+  const indicatorName = name ?? indicatorMetadata.indicatorName;
   const title = thematicMapTitle(
-    indicatorMetadata,
+    indicatorName,
     selectedAreaType,
     groupData,
-    healthIndicatorData
+    healthIndicatorData,
+    periodType,
+    frequency,
+    latestDataPeriod,
+    isSmallestReportingPeriod
   );
 
   const legendsToShow = getMethodsAndOutcomes([
@@ -115,16 +135,19 @@ export function ThematicMap({
                 indicatorData={indicatorDataForArea}
                 benchmarkComparisonMethod={benchmarkComparisonMethod}
                 measurementUnit={indicatorMetadata?.unitLabel}
+                frequency={frequency}
+                latestDataPeriod={latestDataPeriod}
                 englandData={englandData}
                 groupData={groupData}
                 polarity={polarity}
                 benchmarkToUse={benchmarkToUse}
+                isSmallestReportingPeriod={isSmallestReportingPeriod}
               />
             </div>
           ))}
           <BenchmarkLegends
             legendsToShow={legendsToShow}
-            title={`Compared to ${healthIndicatorData[0].healthData[0].benchmarkComparison?.benchmarkAreaName}`}
+            title={`Compared to ${healthIndicatorData.at(0)?.healthData.at(0)?.benchmarkComparison?.benchmarkAreaName}`}
             svg
           />
           <HighChartsWrapper

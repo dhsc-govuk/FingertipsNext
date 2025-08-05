@@ -18,6 +18,7 @@ export function ThematicMapWrapper() {
   if (!data) return null;
 
   const {
+    name,
     englandData,
     groupData,
     indicatorMetaData,
@@ -25,6 +26,10 @@ export function ThematicMapWrapper() {
     benchmarkToUse,
     polarity,
     healthIndicatorData,
+    periodType,
+    frequency,
+    latestDataPeriod,
+    isSmallestReportingPeriod,
   } = data;
 
   const {
@@ -42,17 +47,22 @@ export function ThematicMapWrapper() {
   return (
     <StyleChartWrapper>
       <ThematicMap
+        name={name}
         selectedAreaType={selectedAreaType}
         healthIndicatorData={healthIndicatorData}
         benchmarkComparisonMethod={
           benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown
         }
         polarity={polarity ?? IndicatorPolarity.Unknown}
+        periodType={periodType}
+        frequency={frequency}
+        latestDataPeriod={latestDataPeriod}
         indicatorMetadata={indicatorMetaData}
         groupData={groupData}
         englandData={englandData}
         areaCodes={areaCodes ?? []}
         benchmarkToUse={benchmarkToUse}
+        isSmallestReportingPeriod={isSmallestReportingPeriod}
       />
     </StyleChartWrapper>
   );

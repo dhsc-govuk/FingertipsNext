@@ -3,14 +3,16 @@ import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
 import { extractHeatmapIndicatorData } from '@/components/charts/HeatMap/HeatMap';
 import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
-import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { segmentCombinations } from '@/lib/healthDataHelpers/segmentCombinations';
 import { flattenSegment } from '@/lib/healthDataHelpers/flattenSegment';
 import { indicatorsSorted } from '@/lib/healthDataHelpers/indicatorsSorted';
+import { searchFromSegmentInfo } from '@/lib/healthDataHelpers/searchFromSegmentInfo';
+import { SearchStateParams } from '@/lib/searchStateManager';
 
 export const buildHeatmapIndicatorData = (
   allIndicatorData: IndicatorWithHealthDataForArea[],
-  indicatorMetadata: IndicatorDocument[]
+  indicatorMetadata: IndicatorDocument[],
+  searchState: SearchStateParams
 ): HeatmapIndicatorData[] => {
   const heatmapIndicatorData: HeatmapIndicatorData[] = [];
 
@@ -25,18 +27,17 @@ export const buildHeatmapIndicatorData = (
 
     const segValues = segmentValues(indicator);
     const combinations = segmentCombinations(segValues);
-    combinations.forEach((combination) => {
-      const search: SearchStateParams = {
-        [SearchParams.SegmentationSex]: combination.sex,
-        [SearchParams.SegmentationAge]: combination.age,
-        [SearchParams.SegmentationFrequency]: combination.frequency,
-      };
+    combinations.forEach((segmentInfo) => {
+      const search = searchFromSegmentInfo(segmentInfo);
       const extractedSegment = flattenSegment(indicator, search);
+      const { reportingPeriod } = segmentValues(indicator);
 
       const extractedData = extractHeatmapIndicatorData(
         extractedSegment,
         metadata,
-        combination
+        segmentInfo,
+        searchState,
+        reportingPeriod
       );
 
       if (!extractedData) return;

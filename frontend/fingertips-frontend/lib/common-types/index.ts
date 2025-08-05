@@ -20,3 +20,11 @@ export enum Direction {
 }
 
 export type AreaWithoutAreaType = Pick<Area, 'code' | 'name'>;
+
+export enum SegmentationId {
+  Sex = 'sex',
+  Age = 'age',
+  ReportingPeriod = 'reportingPeriod',
+}
+
+export type SegmentInfo = Record<SegmentationId, string>;

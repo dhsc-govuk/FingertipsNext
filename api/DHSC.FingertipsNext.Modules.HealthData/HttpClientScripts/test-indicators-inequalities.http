@@ -1,6 +1,6 @@
 ﻿
 ### GET health data with deprivation inequality
-GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&years=2016&inequalities=deprivation
+GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&from_date=2016-04-01&to_date=2017-03-31&inequalities=deprivation
 
 > {%
     client.test("Expected health data returned with deprivation inequalities breakdown", function (callbackfn, thisArg) {
@@ -70,7 +70,7 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&years=2016&
 %}
 
 ### GET health data with sex inequality
-GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalities=sex&years=2016
+GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalities=sex&from_date=2016-04-01&to_date=2017-03-31
 
 > {%
     client.test("Expected health data returned with sex inequalities breakdown", function (callbackfn, thisArg) {
@@ -95,7 +95,7 @@ GET http://localhost:5144/indicators/22401/data?area_codes=E92000001&inequalitie
 %}
 
 ### GET health data with age inequality
-GET http://localhost:5144/indicators/92708/data?area_codes=E92000001&inequalities=age&years=2016
+GET http://localhost:5144/indicators/92708/data?area_codes=E92000001&inequalities=age&from_date=2016-01-01&to_date=2016-12-31
 
 > {%
     client.test("Expected health data returned with age inequalities breakdown", function (callbackfn, thisArg) {
@@ -134,6 +134,23 @@ GET http://localhost:5144/indicators/92708/data?area_codes=E92000001&inequalitie
                                               && dataPoint.isAggregate === expected.isAggregate
                                 ),
                 `HealthData doesn't contain an age.value ${expected.value}, age.isAggregate ${expected.ageIsAggregate} and isAggregate ${expected.isAggregate}`
+            );
+        });
+    });
+%}
+
+
+
+### GET inequality for when there is no 'aggregate' data available - check benchmarkComparison is null
+GET http://localhost:5144/indicators/90362/data?area_codes=E92000001&area_type=england&inequalities=sex&inequalities=deprivation 
+> {%
+    client.test("Expected health data returned with sex inequalities breakdown", function (callbackfn, thisArg) {
+        client.assert(response.status === 200, "Response status is not 200");
+
+        response.body.areaHealthData[0].indicatorSegments[0].healthData.forEach((dataPoint) => {
+             client.assert(
+               dataPoint.benchmarkComparison === null,
+                `HealthData expected to have null benchmarkComparison, but found ${dataPoint.benchmarkComparison}`
             );
         });
     });

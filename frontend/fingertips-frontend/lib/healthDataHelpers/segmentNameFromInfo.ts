@@ -1,6 +1,6 @@
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
+import { SegmentInfo } from '@/lib/common-types';
 
-export const segmentNameFromInfo = (info: Record<SegmentationId, string>) => {
+export const segmentNameFromInfo = (info: SegmentInfo) => {
   const name: string[] = [];
 
   if (info.sex) {
@@ -11,8 +11,8 @@ export const segmentNameFromInfo = (info: Record<SegmentationId, string>) => {
     name.push(info.age);
   }
 
-  if (info.frequency) {
-    name.push(info.frequency);
+  if (info.reportingPeriod) {
+    name.push(info.reportingPeriod);
   }
 
   return name.join(', ');

@@ -2,10 +2,12 @@ import { SpineChartIndicatorData } from '@/components/charts/SpineChart/helpers/
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  Frequency,
   HealthDataForArea,
   HealthDataPointTrendEnum,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
+  PeriodType,
   QuartileData,
 } from '@/generated-sources/ft-api-client';
 import {
@@ -14,6 +16,7 @@ import {
 } from '@/lib/chartHelpers/constants';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 export const mockSpineHealthDataForArea: HealthDataForArea = {
   areaCode: 'A1425',
@@ -77,12 +80,18 @@ export const mockSpineQuartileData: QuartileData = {
   q3Value: 500,
   q4Value: 345,
   areaValue: 550,
+  frequency: Frequency.Annually,
 };
 
 export const mockSpineIndicatorData: SpineChartIndicatorData = {
-  indicatorId: '1',
+  rowId: '1-persons',
+  indicatorId: 1,
   indicatorName: 'indicator',
-  latestDataPeriod: 2025,
+  latestDataPeriod: mockDatePeriod({
+    type: PeriodType.Financial,
+    from: new Date('2023-04-06'),
+    to: new Date('2024-04-05'),
+  }),
   valueUnit: '%',
   benchmarkComparisonMethod:
     BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
@@ -90,6 +99,7 @@ export const mockSpineIndicatorData: SpineChartIndicatorData = {
   groupData: mockSpineGroupData,
   englandData: mockSpineEnglandData,
   quartileData: mockSpineQuartileData,
+  isSmallestReportingPeriod: true,
 };
 
 export const mockSpineIndicatorWithHealthData: IndicatorWithHealthDataForArea =

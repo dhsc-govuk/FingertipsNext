@@ -15,7 +15,10 @@ import {
 } from './SpineChartTable.Styles';
 import { SpineChart } from '../SpineChart/SpineChart';
 import { formatNumber, formatWholeNumber } from '@/lib/numberFormatter';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
+import {
+  Frequency,
+  HealthDataPointTrendEnum,
+} from '@/generated-sources/ft-api-client';
 import { TrendTag } from '@/components/molecules/TrendTag';
 import { orderStatistics } from '../helpers/orderStatistics';
 import { SpineChartIndicatorData } from '../helpers/buildSpineChartIndicatorData';
@@ -26,6 +29,7 @@ import {
 import { StyledAlignRightTableCellPaddingRight } from '@/lib/tableHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export interface SpineChartTableRowProps {
   indicatorData: SpineChartIndicatorData;
@@ -50,6 +54,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
     groupData,
     englandData,
     quartileData,
+    isSmallestReportingPeriod,
   } = indicatorData;
   const { best, worst } = orderStatistics(quartileData);
 
@@ -79,13 +84,19 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
   const shouldShowAlternativeBenchmark =
     selectedGroupCode !== areaCodeForEngland;
 
+  const formattedPeriod = formatDatePointLabel(
+    latestDataPeriod,
+    quartileData.frequency ?? Frequency.Annually,
+    isSmallestReportingPeriod
+  );
+
   return (
     <Table.Row>
       <StyledIndicatorTitleStickyLeftCell data-testid={`indicator-cell`}>
         {indicatorName}
       </StyledIndicatorTitleStickyLeftCell>
       <StyledAlignRightTableCellPaddingRight data-testid={`period-cell`}>
-        {latestDataPeriod}
+        {formattedPeriod}
       </StyledAlignRightTableCellPaddingRight>
       <StyledAlignLeftTableCellPaddingLeft data-testid={`unit-cell`}>
         {valueUnit}
@@ -153,7 +164,7 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
           key={`spineChart-${benchmarkToUse}`}
           name={indicatorName}
           units={valueUnit}
-          period={latestDataPeriod}
+          period={formattedPeriod}
           benchmarkName={benchmarkData?.areaName ?? englandAreaString}
           benchmarkValue={benchmarkQuartileValue ?? 0}
           quartileData={quartileData}

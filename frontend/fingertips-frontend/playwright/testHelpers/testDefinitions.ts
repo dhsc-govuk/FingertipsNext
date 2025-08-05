@@ -1,4 +1,5 @@
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import { ReportingPeriod } from '@/generated-sources/ft-api-client/models/ReportingPeriod';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',
@@ -26,9 +27,17 @@ export enum TestTag {
   CD = '@cd',
 }
 
+export interface SegmentationData {
+  sex: string;
+  age: string;
+  reportingPeriod: ReportingPeriod;
+}
+
 export interface IndicatorInfo {
   indicatorID: string;
   knownTrend?: string;
+  unpublishedDataYear?: number;
+  segmentationData?: SegmentationData[];
 }
 
 export interface SimpleIndicatorDocument {
@@ -37,12 +46,20 @@ export interface SimpleIndicatorDocument {
   associatedAreaCodes: string[];
   dataSource: string;
   knownTrend?: string;
+  unpublishedDataYear?: number;
+  segmentationData?: SegmentationData[];
 }
 
 export interface AreaFilters {
   areaType: string;
   groupType: string;
   group: string;
+}
+
+export enum SignInAs {
+  administrator = 'administrator',
+  userWithIndicatorPermissions = 'userWithIndicatorPermissions',
+  userWithoutIndicatorPermissions = 'userWithoutIndicatorPermissions',
 }
 
 export interface TestParameters {
@@ -54,6 +71,7 @@ export interface TestParameters {
   areaFiltersToSelect?: AreaFilters;
   checkExports?: boolean;
   typeOfInequalityToSelect?: InequalitiesTypes;
+  signInAsUserToCheckUnpublishedData?: SignInAs;
 }
 
 export enum PersistentCsvHeaders {
@@ -78,6 +96,17 @@ type BaseChartComponentProps = {
   hasCSVExport?: boolean;
   hasTooltipHovers?: boolean;
 };
+
+export interface ComponentInteractionConfig {
+  component: ChartComponentDefinition;
+  selectedIndicators: SimpleIndicatorDocument[];
+  areaMode: AreaMode;
+  indicatorMode: IndicatorMode;
+  selectedAreaFilters: AreaFilters;
+  checkExports: boolean;
+  typeOfInequalityToSelect: InequalitiesTypes;
+  signInAsUserToCheckUnpublishedData: SignInAs;
+}
 
 export type ChartComponentDefinition = {
   chartComponentLocator: string;

@@ -1,30 +1,40 @@
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
 import { segmentNameFromInfo } from '@/lib/healthDataHelpers/segmentNameFromInfo';
+import { segmentIdFromInfo } from '@/lib/healthDataHelpers/segmentIdFromInfo';
+import { SegmentInfo } from '@/lib/common-types';
+import { isSmallestReportingPeriod } from '@/lib/healthDataHelpers/isSmallestReportingPeriod';
+import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 
 export function extractHeatmapIndicatorData(
   indicatorData: IndicatorWithHealthDataForArea,
   metadata: IndicatorDocument,
-  segmentInfo: Record<SegmentationId, string>
+  segmentInfo: SegmentInfo,
+  searchState: SearchStateParams,
+  reportingPeriodOptions: string[]
 ): HeatmapIndicatorData | undefined {
   if (!indicatorData.areaHealthData) {
     return undefined;
   }
 
-  const segmentId = Object.entries(segmentInfo).map(
-    ([key, value]) => `${key}:${value}`
-  );
-
+  const segmentId = segmentIdFromInfo(metadata.indicatorID, segmentInfo);
   const segmentName = segmentNameFromInfo(segmentInfo);
 
+  const frequency = indicatorData.frequency ?? Frequency.Annually;
+  const isSmallestReportingPeriodFlag = isSmallestReportingPeriod(
+    searchState?.[SearchParams.SegmentationReportingPeriod],
+    reportingPeriodOptions,
+    frequency
+  );
+
   return {
-    rowId: `${metadata.indicatorID}-${segmentId}`,
+    rowId: segmentId,
     indicatorId: metadata.indicatorID,
     indicatorName: `${metadata.indicatorName} (${segmentName})`,
     healthDataForAreas: indicatorData.areaHealthData,
@@ -33,5 +43,7 @@ export function extractHeatmapIndicatorData(
       indicatorData.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
     polarity: indicatorData.polarity ?? IndicatorPolarity.Unknown,
     segmentInfo,
+    frequency,
+    isSmallestReportingPeriod: isSmallestReportingPeriodFlag,
   };
 }

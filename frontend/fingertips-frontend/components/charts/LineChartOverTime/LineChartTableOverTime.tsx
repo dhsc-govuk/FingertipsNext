@@ -15,7 +15,10 @@ export function LineChartTableOverTime() {
     benchmarkComparisonMethod,
     benchmarkToUse,
     frequency,
+    latestDataPeriod,
+    isSmallestReportingPeriod,
   } = lineChartOverTimeData;
+
   return (
     <LineChartTable
       title={chartOptions.title?.text ?? ''}
@@ -27,6 +30,8 @@ export function LineChartTableOverTime() {
       polarity={polarity}
       benchmarkToUse={benchmarkToUse}
       frequency={frequency}
+      latestDataPeriod={latestDataPeriod}
+      isSmallestReportingPeriod={isSmallestReportingPeriod}
     />
   );
 }

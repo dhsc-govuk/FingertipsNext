@@ -5,6 +5,8 @@ import { render, screen } from '@testing-library/react';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { HeatMapWrapper } from '@/components/charts/HeatMap/HeatMapWrapper';
+import { mockHealthDataForArea_England } from '@/mock/data/mockHealthDataForArea';
+import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 
 describe('HeatMapWrapper', () => {
   beforeEach(() => {
@@ -37,10 +39,17 @@ describe('HeatMapWrapper', () => {
     render(
       <HeatMapWrapper
         indicatorMetaData={[mockIndicatorDocument()]}
-        healthData={[mockIndicatorWithHealthDataForArea()]}
+        healthData={[
+          mockIndicatorWithHealthDataForArea({
+            areaHealthData: [mockHealthDataForArea_England()],
+          }),
+          mockIndicatorWithHealthDataForArea(),
+        ]}
       />
     );
 
-    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
+    expect(
+      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
+    ).toBeInTheDocument();
   });
 });

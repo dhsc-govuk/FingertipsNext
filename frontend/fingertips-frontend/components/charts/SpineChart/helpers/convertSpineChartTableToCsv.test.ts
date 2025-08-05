@@ -40,7 +40,7 @@ describe('convertSpineChartTableToCsv', () => {
 
     expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
     expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
-    expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
+    expect(row[2]).toEqual('2023/24');
     expect(row[3]).toEqual(mockSpineHealthDataForArea.areaName);
     expect(row[4]).toEqual(mockSpineHealthDataForArea.areaCode);
     expect(row[5]).toEqual(areaBenchmark?.benchmarkAreaCode);
@@ -63,7 +63,7 @@ describe('convertSpineChartTableToCsv', () => {
 
     expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
     expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
-    expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
+    expect(row[2]).toEqual('2023/24');
     expect(row[3]).toEqual(`Group: ${mockSpineGroupData.areaName}`);
     expect(row[4]).toEqual(mockSpineGroupData.areaCode);
     expect(row[5]).toEqual(groupBenchmark?.benchmarkAreaCode);
@@ -84,7 +84,7 @@ describe('convertSpineChartTableToCsv', () => {
 
     expect(row[0]).toEqual(mockSpineIndicatorData.indicatorId);
     expect(row[1]).toEqual(mockSpineIndicatorData.indicatorName);
-    expect(row[2]).toEqual(mockSpineIndicatorData.latestDataPeriod);
+    expect(row[2]).toEqual('2023/24');
     expect(row[3]).toEqual(mockSpineEnglandData.areaName);
     expect(row[4]).toEqual(mockSpineEnglandData.areaCode);
     expect(row[5]).toEqual(
@@ -103,7 +103,7 @@ describe('convertSpineChartTableToCsv', () => {
 
   it('should convert correctly without group data', () => {
     const result = convertSpineChartTableToCsv([
-      { ...mockSpineIndicatorData, groupData: null },
+      { ...mockSpineIndicatorData, groupData: undefined },
     ]);
     expect(result).toHaveLength(3);
 
@@ -114,7 +114,7 @@ describe('convertSpineChartTableToCsv', () => {
   it('should convert correctly when group data is missing', () => {
     const testData = {
       ...mockSpineIndicatorData,
-      groupData: null,
+      groupData: undefined,
     };
 
     const result = convertSpineChartTableToCsv([testData]);
@@ -127,7 +127,7 @@ describe('convertSpineChartTableToCsv', () => {
   it('should convert correctly when england data is missing', () => {
     const testData = {
       ...mockSpineIndicatorData,
-      englandData: null,
+      englandData: undefined,
     };
 
     const result = convertSpineChartTableToCsv([testData]);

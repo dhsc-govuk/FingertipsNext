@@ -204,9 +204,9 @@ export interface IndicatorsApiInterface {
     indicatorsIndicatorIdDataPost(requestParameters: IndicatorsIndicatorIdDataPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Batch>;
 
     /**
-     * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
-     * @summary Get quartile values for indicators
-     * @param {string} [ancestorCode] The area code of an ancestor area
+     * Get published and unpublished quartile information for many indicators for one area. Requires user to be authorised to view unpublished quartile data for selected indicators.
+     * @summary Get published and unpublished quartile values for indicators
+     * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
      * @param {string} [areaCode] The area code of the area/ geography
      * @param {string} [areaType] The area type which the areas belong to
      * @param {Array<number>} [indicatorIds] A list of indicator_ids, up to 10 can be requested
@@ -218,15 +218,15 @@ export interface IndicatorsApiInterface {
     indicatorsQuartilesAllGetRaw(requestParameters: IndicatorsQuartilesAllGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>>;
 
     /**
-     * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
-     * Get quartile values for indicators
+     * Get published and unpublished quartile information for many indicators for one area. Requires user to be authorised to view unpublished quartile data for selected indicators.
+     * Get published and unpublished quartile values for indicators
      */
     indicatorsQuartilesAllGet(requestParameters: IndicatorsQuartilesAllGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>>;
 
     /**
      * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
      * @summary Get quartile values for indicators
-     * @param {string} [ancestorCode] The area code of an ancestor area
+     * @param {string} [ancestorCode] An ancestor area which the area_codes belong to
      * @param {string} [areaCode] The area code of the area/ geography
      * @param {string} [areaType] The area type which the areas belong to
      * @param {Array<number>} [indicatorIds] A list of indicator_ids, up to 10 can be requested
@@ -405,6 +405,14 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
         const response = await this.request({
             path: `/indicators/{indicator_id}/data/all`.replace(`{${"indicator_id"}}`, encodeURIComponent(String(requestParameters['indicatorId']))),
             method: 'GET',
@@ -542,8 +550,8 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
-     * Get quartile values for indicators
+     * Get published and unpublished quartile information for many indicators for one area. Requires user to be authorised to view unpublished quartile data for selected indicators.
+     * Get published and unpublished quartile values for indicators
      */
     async indicatorsQuartilesAllGetRaw(requestParameters: IndicatorsQuartilesAllGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<QuartileData>>> {
         const queryParameters: any = {};
@@ -581,8 +589,8 @@ export class IndicatorsApi extends runtime.BaseAPI implements IndicatorsApiInter
     }
 
     /**
-     * Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
-     * Get quartile values for indicators
+     * Get published and unpublished quartile information for many indicators for one area. Requires user to be authorised to view unpublished quartile data for selected indicators.
+     * Get published and unpublished quartile values for indicators
      */
     async indicatorsQuartilesAllGet(requestParameters: IndicatorsQuartilesAllGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<QuartileData>> {
         const response = await this.indicatorsQuartilesAllGetRaw(requestParameters, initOverrides);

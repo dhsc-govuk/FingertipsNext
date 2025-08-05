@@ -20,7 +20,7 @@ const getBenchmarkForPeriod = (
   return chartData
     .find((healthData) => healthData.areaCode === areaCode)
     ?.healthData.find(
-      (point) => convertDateToNumber(point.datePeriod?.from) === dateAsNumber
+      (point) => convertDateToNumber(point.datePeriod?.to) === dateAsNumber
     )?.benchmarkComparison;
 };
 

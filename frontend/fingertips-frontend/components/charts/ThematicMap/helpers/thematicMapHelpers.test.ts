@@ -7,17 +7,19 @@ import {
 import { mockMapRegionBoundaries } from '@/mock/data/mapGroupBoundaries';
 import {
   BenchmarkOutcome,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
-import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import {
   mockHealthDataForArea,
   mockHealthDataForArea_Group,
 } from '@/mock/data/mockHealthDataForArea';
-import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 describe('getMapGeographyData', () => {
   it('should return an object with the expected mapGroupBoundary', () => {
@@ -36,7 +38,8 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: 'England',
         healthData: [
           {
-            year: 2004,
+            year: 0,
+            datePeriod: mockDatePeriod(2004),
             value: 978.34,
             ageBand: allAgesAge,
             sex: personsSex,
@@ -45,7 +48,8 @@ describe('prepareThematicMapSeriesData', () => {
             deprivation: noDeprivation,
           },
           {
-            year: 2008,
+            year: 0,
+            datePeriod: mockDatePeriod(2008),
             value: 800.232,
             ageBand: allAgesAge,
             sex: personsSex,
@@ -60,7 +64,8 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: 'North East region (statistical)',
         healthData: [
           {
-            year: 2004,
+            year: 0,
+            datePeriod: mockDatePeriod(2004),
             value: 856.344,
             ageBand: allAgesAge,
             sex: personsSex,
@@ -69,7 +74,8 @@ describe('prepareThematicMapSeriesData', () => {
             deprivation: noDeprivation,
           },
           {
-            year: 2008,
+            year: 0,
+            datePeriod: mockDatePeriod(2008),
             value: 767.343,
             ageBand: allAgesAge,
             sex: personsSex,
@@ -84,7 +90,8 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: 'Yorkshire and the Humber region (statistical)',
         healthData: [
           {
-            year: 2004,
+            year: 0,
+            datePeriod: mockDatePeriod(2004),
             value: 674.434,
             ageBand: allAgesAge,
             sex: personsSex,
@@ -93,7 +100,8 @@ describe('prepareThematicMapSeriesData', () => {
             deprivation: noDeprivation,
           },
           {
-            year: 2008,
+            year: 0,
+            datePeriod: mockDatePeriod(2008),
             value: 643.434,
             ageBand: allAgesAge,
             sex: personsSex,
@@ -110,7 +118,7 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: mockHealthData[0].areaName,
         areaCode: mockHealthData[0].areaCode,
         value: mockHealthData[0].healthData[1].value,
-        year: mockHealthData[0].healthData[1].year,
+        year: mockHealthData[0].healthData[1].datePeriod?.to,
         benchmarkComparisonOutcome:
           mockHealthData[0].healthData[1].benchmarkComparison?.outcome,
         benchmarkColourCode: 55,
@@ -119,7 +127,7 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: mockHealthData[1].areaName,
         areaCode: mockHealthData[1].areaCode,
         value: mockHealthData[1].healthData[1].value,
-        year: mockHealthData[1].healthData[1].year,
+        year: mockHealthData[1].healthData[1].datePeriod?.to,
         benchmarkComparisonOutcome:
           mockHealthData[1].healthData[1].benchmarkComparison?.outcome,
         benchmarkColourCode: 5,
@@ -128,7 +136,7 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: mockHealthData[2].areaName,
         areaCode: mockHealthData[2].areaCode,
         value: mockHealthData[2].healthData[1].value,
-        year: mockHealthData[2].healthData[1].year,
+        year: mockHealthData[2].healthData[1].datePeriod?.to,
         benchmarkComparisonOutcome:
           mockHealthData[2].healthData[1].benchmarkComparison?.outcome,
         benchmarkColourCode: 35,
@@ -146,7 +154,8 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: 'North East region (statistical)',
         healthData: [
           {
-            year: 2004,
+            year: 0,
+            datePeriod: mockDatePeriod(2004),
             value: 856.344,
             ageBand: allAgesAge,
             sex: personsSex,
@@ -155,7 +164,8 @@ describe('prepareThematicMapSeriesData', () => {
             deprivation: noDeprivation,
           },
           {
-            year: 2018,
+            year: 0,
+            datePeriod: mockDatePeriod(2018),
             value: 767.343,
             ageBand: allAgesAge,
             sex: personsSex,
@@ -177,7 +187,7 @@ describe('prepareThematicMapSeriesData', () => {
         areaCode: 'E12000001',
         areaName: 'North East region (statistical)',
         value: 767.343,
-        year: 2018,
+        year: mockDatePeriod(2018).to,
         benchmarkComparisonOutcome: BenchmarkOutcome.Lower,
         benchmarkColourCode: 45,
       },
@@ -196,86 +206,88 @@ describe('prepareThematicMapSeriesData', () => {
 });
 
 describe('thematicMapTitle', () => {
+  const periodType = PeriodType.Financial;
+  const frequency = Frequency.Annually;
+  const mockDatePeriod: DatePeriod = {
+    type: PeriodType.Financial,
+    from: new Date('2008-01-01'),
+    to: new Date('2008-12-31'),
+  };
+  const expectedDatePointLabel = '2008/09';
+  const expectedPeriodLabelText = 'Financial year';
   it('should return the title for regions in the North West', () => {
-    const indicatorMetaData = mockIndicatorDocument();
+    const indicatorName = 'Indicator';
     const selectedAreaType = 'regions';
     const groupData = mockHealthDataForArea_Group();
     const healthIndicatorData = mockHealthDataForArea();
+
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
-      [healthIndicatorData]
+      [healthIndicatorData],
+      periodType,
+      frequency,
+      mockDatePeriod,
+      true
     );
     expect(result).toEqual(
-      `${indicatorMetaData.indicatorName} for Regions in ${groupData.areaName}, ${healthIndicatorData.healthData[0].year}`
+      `${indicatorName} for Regions in ${groupData.areaName}, ${expectedPeriodLabelText} ${expectedDatePointLabel}`
     );
   });
 
   it('should return the title for regions if there is no group', () => {
-    const indicatorMetaData = mockIndicatorDocument();
+    const indicatorName = 'Indicator';
     const selectedAreaType = 'regions';
     const groupData = undefined;
     const healthIndicatorData = mockHealthDataForArea();
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
-      [healthIndicatorData]
+      [healthIndicatorData],
+      periodType,
+      frequency,
+      mockDatePeriod,
+      true
     );
     expect(result).toEqual(
-      `${indicatorMetaData.indicatorName} for Regions in England, ${healthIndicatorData.healthData[0].year}`
-    );
-  });
-
-  it('should return the title for the latest year data', () => {
-    const indicatorMetaData = mockIndicatorDocument({
-      indicatorName: 'Heart attacks',
-    });
-    const selectedAreaType = 'counties-and-unitary-authorities';
-    const groupData = undefined;
-    const healthIndicatorData = mockHealthDataForArea({
-      healthData: [
-        mockHealthDataPoint({ year: 2020 }),
-        mockHealthDataPoint({ year: 2022 }),
-        mockHealthDataPoint({ year: 2021 }),
-      ],
-    });
-    const result = thematicMapTitle(
-      indicatorMetaData,
-      selectedAreaType,
-      groupData,
-      [healthIndicatorData]
-    );
-    expect(result).toEqual(
-      `${indicatorMetaData.indicatorName} for Counties and Unitary Authorities in England, 2022`
+      `${indicatorName} for Regions in England, ${expectedPeriodLabelText} ${expectedDatePointLabel}`
     );
   });
 
   it('should return empty string if there is no areaType', () => {
-    const indicatorMetaData = mockIndicatorDocument();
+    const indicatorName = 'Indicator';
     const selectedAreaType = 'mountains';
     const groupData = undefined;
     const healthIndicatorData = mockHealthDataForArea();
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
-      [healthIndicatorData]
+      [healthIndicatorData],
+      periodType,
+      frequency,
+      mockDatePeriod,
+      true
     );
     expect(result).toEqual('');
   });
 
   it('should return empty string if there is no health data points', () => {
-    const indicatorMetaData = mockIndicatorDocument();
+    const indicatorName = 'indicator';
     const selectedAreaType = 'counties-and-unitary-authorities';
     const groupData = undefined;
     const healthIndicatorData = mockHealthDataForArea({ healthData: [] });
     const result = thematicMapTitle(
-      indicatorMetaData,
+      indicatorName,
       selectedAreaType,
       groupData,
-      [healthIndicatorData]
+      [healthIndicatorData],
+      periodType,
+      frequency,
+      mockDatePeriod,
+      true
     );
     expect(result).toEqual('');
   });

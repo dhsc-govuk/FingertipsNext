@@ -1,8 +1,11 @@
 export enum ChartTitleKeysEnum {
   LineChart = 'line-chart',
   BarChartEmbeddedTable = 'bar-chart-embedded-table-chart',
+  SingleIndicatorHeatmap = 'single-indicator-heatmap-chart',
   Heatmap = 'heatmap-chart',
+  SingleIndicatorSpineChart = 'single-indicator-spine-chart',
   SpineChart = 'spine-chart',
+  InequalitiesCharts = 'inequalities-charts',
   InequalitiesBarChart = 'inequalities-bar-chart',
   InequalitiesLineChart = 'inequalities-line-chart',
   ThematicMap = 'thematic-map-chart',
@@ -10,12 +13,14 @@ export enum ChartTitleKeysEnum {
   BasicTableChart = 'basic-table-chart',
 }
 
-export type ChartTitleConfigType = {
-  [key in ChartTitleKeysEnum]: {
+export type ChartTitleConfigType = Record<
+  ChartTitleKeysEnum,
+  {
     title: string;
+    subTitle?: string;
     href: string;
-  };
-};
+  }
+>;
 
 export const chartTitleConfig: ChartTitleConfigType = {
   [ChartTitleKeysEnum.LineChart]: {
@@ -26,13 +31,27 @@ export const chartTitleConfig: ChartTitleConfigType = {
     title: 'Compare areas for one time period',
     href: '#bar-chart-embedded-table-chart',
   },
+  [ChartTitleKeysEnum.SingleIndicatorHeatmap]: {
+    title: 'Indicator segmentations overview',
+    subTitle: 'Segmentation overview of selected indicator',
+    href: '#heatmap-chart',
+  },
   [ChartTitleKeysEnum.Heatmap]: {
     title: 'Overview of indicators and areas',
+    subTitle: 'Overview of selected indicators',
     href: '#heatmap-chart',
+  },
+  [ChartTitleKeysEnum.SingleIndicatorSpineChart]: {
+    title: 'Indicator segmentations overview',
+    href: '#spine-chart',
   },
   [ChartTitleKeysEnum.SpineChart]: {
     title: 'Area profile by indicators',
     href: '#spine-chart',
+  },
+  [ChartTitleKeysEnum.InequalitiesCharts]: {
+    title: 'Related inequalities data',
+    href: '#inequalities-charts',
   },
   [ChartTitleKeysEnum.InequalitiesBarChart]: {
     title: 'Inequalities comparison for one time period',
@@ -52,6 +71,7 @@ export const chartTitleConfig: ChartTitleConfigType = {
   },
   [ChartTitleKeysEnum.BasicTableChart]: {
     title: 'Compare indicators for an area',
-    href: '#basic-table-chart',
+    href: '#basic-table',
+    subTitle: 'Overview of selected indicators',
   },
 };

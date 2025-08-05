@@ -12,7 +12,10 @@ import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
 import { ContainerWithOutline } from '@/components/atoms/ContainerWithOutline/ContainerWithOutline';
 import { ChartTitle } from '@/components/atoms/ChartTitle/ChartTitle';
 import { BenchmarkLegends } from '@/components/organisms/BenchmarkLegend/BenchmarkLegends';
-import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 export interface HeatMapProps {
   indicatorData: HeatmapIndicatorData[];
@@ -27,7 +30,7 @@ export const HeatMap: FC<HeatMapProps> = ({
   groupAreaCode,
   benchmarkAreaCode,
   benchmarkAreaName,
-  title = heatMapText.multipleIndicator.subTitle,
+  title = chartTitleConfig[ChartTitleKeysEnum.Heatmap].subTitle,
 }) => {
   const { headers, rows, legendsToShow, csvData } = useHeatmapTableData(
     indicatorData,
@@ -37,11 +40,11 @@ export const HeatMap: FC<HeatMapProps> = ({
 
   const { hover, left, top, handleMouseOverCell } = useHeatmapHover();
 
-  const id = 'heatmapChart';
+  const id = ChartTitleKeysEnum.Heatmap;
 
   return (
     <ContainerWithOutline>
-      <div id={id} data-testid={`${id}-component`}>
+      <div id={id} data-testid={`heatmap-chart-component`}>
         <ChartTitle>{title}</ChartTitle>
         <BenchmarkLegends
           title={`Compared to ${benchmarkAreaName}`}

@@ -43,32 +43,26 @@ public class DataManagementRepository(DataManagementDbContext dataManagementDbCo
             .ToListAsync();
     }
 
-    public async Task<BatchModel?> DeleteBatchAsync(string batchId, Guid userId)
+    /// <summary>
+    ///     Delete the specified batch.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="userId">The ID of the user deleting the batch.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public async Task<BatchModel> DeleteBatchAsync(BatchModel model, string userId)
     {
-        ArgumentException.ThrowIfNullOrEmpty(batchId);
-
-        // Batch must be unpublished
-        var model = await _dbContext.Batch.Where(b => b.BatchId == batchId).FirstOrDefaultAsync();
-
-        if (model == null)
-        {
-            throw new ArgumentException($"BatchNotFound");
-        }
-
-        if (model.DeletedAt != null && model.Status == BatchStatus.Deleted)
-        {
-            throw new ArgumentException($"BatchDeleted");
-        }
-
-        if (model.PublishedAt <= DateTime.UtcNow)
-        {
-            throw new ArgumentException($"BatchPublished");
-        }
+        ArgumentNullException.ThrowIfNull(model);
 
         model.DeletedAt = DateTime.UtcNow;
         model.DeletedUserId = userId;
         model.Status = BatchStatus.Deleted;
         await _dbContext.SaveChangesAsync();
         return model;
+    }
+
+    public async Task<BatchModel?> GetBatchByIdAsync(string batchId)
+    {
+        return await _dbContext.Batch.Where(b => b.BatchId == batchId).FirstOrDefaultAsync();
     }
 }

@@ -49,7 +49,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can then start editing the application and your browser will auto-update as you edit the files.
 
-### Running the NextJS application against MSW
+### Running the NextJS application against a mock API (MSW)
 
 To run the Next development server against the MSW (Mock Service Worker) rather than the real api, run the following command:
 
@@ -57,11 +57,29 @@ To run the Next development server against the MSW (Mock Service Worker) rather 
 npm run dev
 ```
 
+### Running the NextJS application against local services
+
+To run the Next development server against local instances of services (ie running locally on docker), run the following command:
+
+```bash
+npm run dev-no-mocks
+```
+
+### Running the NextJS application against local services with https
+
+To run the Next development server against local instances of services (ie running locally on docker) on a secure server run the following command:
+
+```bash
+npm run dev-no-mocks-https
+```
+
+This uses an experimental Next feature to run the dev server with a locally signed secure certificate. No setting up is required - it just works. This should only be used for debugging https-specific behaviour such as authentication behaviour.
+
 ### Authentication
 
 The fingertips frontend uses a library called [Auth.js](https://authjs.dev) to provide auth integration. This section discusses both [Auth.js environment variables for deployment](https://authjs.dev/getting-started/deployment) and custom environment variables for integrating with the fingertips authentication provider. 
 
-The fingertips frontend requires at bare minimum a local secret set through the environment variable `AUTH_SECRET`. This can either be set manually or by running `npx auth generate` to populate `.env.local` with this variable. For running the development server locally an insecure default is provided in `.env.development`.
+The fingertips frontend requires at bare minimum a local secret set through the environment variable `AUTH_SECRET`. This can either be set manually or by running `npx auth secret` to populate `.env.local` with this variable. For running the development server locally an insecure default is provided in `.env.development`.
 
 For deployed environments this should be a cryptographically secure secret as outlined in the Auth.js docs. For local development any string will suffice.
 ```
@@ -84,14 +102,19 @@ When the application is running behind a reverse proxy - or in a docker containe
 AUTH_TRUST_HOST: true
 ```
 
-The OIDC client ID, client secret, issuer, and OIDC configuration endpoint (well-known endpoint) are required to integrate with an external authentication provider.
+The OIDC client ID, client secret, issuer, and logout endpoint are required to integrate with an external authentication provider.
 
 ```
 AUTH_CLIENT_ID="example-client-id"
 AUTH_CLIENT_SECRET="example-client-secret"
 AUTH_ISSUER="https://example-tenant-id.ciamlogin.com/example-tenant-id/v2.0"
-AUTH_WELLKNOWN="https://login.microsoftonline.com/example-tenant-id/v2.0/.well-known/openid-configuration"
+AUTH_LOGOUT="https://example-tenant-id.ciamlogin.com/example-tenant-id/oauth2/v2.0/logout"
 ```
+
+Finally, `FINGERTIPS_FRONTEND_URL` will need to be set for the signout redirect to work on deployed environments. This will default to http://localhost:3000 if not set.
+```
+FINGERTIPS_FRONTEND_URL="https://some-deployed-env.example.com"
+``` 
 
 ## Building
 

@@ -2,10 +2,6 @@ import { TwoOrMoreIndicatorsAreasViewPlot } from '@/components/viewPlots/TwoOrMo
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { connection } from 'next/server';
 import { ViewProps } from '../ViewsContext';
-import {
-  API_CACHE_CONFIG,
-  ApiClientFactory,
-} from '@/lib/apiClient/apiClientFactory';
 import { ViewsWrapper } from '@/components/organisms/ViewsWrapper';
 import {
   determineBenchmarkRefType,
@@ -17,12 +13,6 @@ import { healthDataRequestAreas } from '@/components/charts/SpineChart/helpers/h
 import { SeedDataPromises } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
 import { SeedQueryCache } from '@/components/atoms/SeedQueryCache/SeedQueryCache';
 import { seedDataFromPromises } from '@/components/atoms/SeedQueryCache/seedDataFromPromises';
-import { quartilesQueryParams } from '@/components/charts/SpineChart/helpers/quartilesQueryParams';
-import {
-  EndPoints,
-  queryKeyFromRequestParams,
-} from '@/components/charts/helpers/queryKeyFromRequestParams';
-import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 
 export default async function TwoOrMoreIndicatorsAreasView({
   searchState,
@@ -33,7 +23,6 @@ export default async function TwoOrMoreIndicatorsAreasView({
   const {
     [SearchParams.IndicatorsSelected]: indicatorsSelected,
     [SearchParams.AreasSelected]: areasSelected,
-    [SearchParams.AreaTypeSelected]: selectedAreaType,
     [SearchParams.GroupSelected]: selectedGroupCode,
     [SearchParams.GroupAreaSelected]: groupAreaSelected,
     [SearchParams.BenchmarkAreaSelected]: benchmarkAreaSelected,
@@ -46,22 +35,18 @@ export default async function TwoOrMoreIndicatorsAreasView({
   );
 
   if (!indicatorsSelected || indicatorsSelected.length < 2) {
-    throw new Error('invalid indicators selected passed to view');
+    throw new Error('Invalid indicators selected passed to view');
   }
 
   if (!areaCodes || areaCodes.length < 1) {
-    throw new Error('invalid areas selected passed to view');
-  }
-
-  if (!selectedAreaType) {
-    throw new Error('selected area type required for view');
+    throw new Error('Invalid areas selected passed to view');
   }
 
   if (
     !selectedIndicatorsData ||
     selectedIndicatorsData.length !== indicatorsSelected.length
   ) {
-    throw new Error('invalid indicator metadata passed to view');
+    throw new Error('Invalid indicator metadata passed to view');
   }
 
   const areasToRequest = healthDataRequestAreas(searchState, availableAreas);
@@ -76,11 +61,9 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const seedPromises: SeedDataPromises = {};
 
-  const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
   const combinedIndicatorData = await Promise.all(
     indicatorsSelected.map((indicator) => {
       return getHealthDataForIndicator(
-        indicatorApi,
         indicator,
         areasToRequest,
         benchmarkRefType,
@@ -93,38 +76,13 @@ export default async function TwoOrMoreIndicatorsAreasView({
 
   const seedData = await seedDataFromPromises(seedPromises);
 
-  // load quartiles data and seed if we don't have it already
-  const quartilesParams = quartilesQueryParams(searchState);
-  const quartilesKey = queryKeyFromRequestParams(
-    EndPoints.Quartiles,
-    quartilesParams
-  );
-  if (
-    spineChartIsRequired(searchState) &&
-    !Object.keys(seedData).includes(quartilesKey)
-  ) {
-    try {
-      seedData[quartilesKey] = (
-        await indicatorApi.indicatorsQuartilesGet(
-          quartilesParams,
-          API_CACHE_CONFIG
-        )
-      ).filter((q) => q.isAggregate === true);
-    } catch (e) {
-      console.error('error getting quartile data', e);
-    }
-  }
-
   return (
     <ViewsWrapper
       areaCodes={areaCodes}
       indicatorsDataForAreas={combinedIndicatorData}
     >
       <SeedQueryCache seedData={seedData} />
-      <TwoOrMoreIndicatorsAreasViewPlot
-        indicatorData={combinedIndicatorData}
-        availableAreas={availableAreas}
-      />
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={combinedIndicatorData} />
     </ViewsWrapper>
   );
 }

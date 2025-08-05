@@ -43,6 +43,7 @@ describe('CompareAreasTable', () => {
 
   it('renders the table when data is returned from hook', () => {
     mockUseCompareAreasTableData.mockReturnValue({
+      name: 'Indicator',
       benchmarkToUse: 'national',
       healthIndicatorData: [mockHealthDataForArea()],
       groupData: mockHealthDataForArea({ areaCode: 'g1', areaName: 'G' }),
@@ -51,6 +52,14 @@ describe('CompareAreasTable', () => {
         BenchmarkComparisonMethod.CIOverlappingReferenceValue95,
       polarity: IndicatorPolarity.HighIsGood,
       indicatorMetaData: mockIndicatorDocument(),
+      periodType: 'Calendar',
+      frequency: 'Annually',
+      latestDataPeriod: {
+        type: 'Calendar',
+        from: new Date('2023-01-01'),
+        to: new Date('2023-12-31'),
+      },
+      isSmallestReportingPeriod: true,
     });
 
     render(<CompareAreasTable />);

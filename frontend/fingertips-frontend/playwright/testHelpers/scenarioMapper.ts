@@ -11,6 +11,7 @@ type ScenarioConfig = {
 // as defined in https://ukhsa.atlassian.net/wiki/spaces/FTN/pages/171448117/Area+Indicator+journeys
 const visibleComponentMap: Record<string, string[]> = {
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ONE_AREA}`]: [
+    ChartPage.spineChartTableComponent,
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.inequalitiesBarChartComponent,
@@ -23,12 +24,12 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.TWO_AREAS}`]: [
+    ChartPage.spineChartTableComponent,
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.barChartEmbeddedTableComponent,
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
-    ChartPage.heatMapComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.THREE_PLUS_AREAS}`]: [
     ChartPage.barChartEmbeddedTableComponent,
@@ -44,6 +45,7 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.heatMapComponent,
   ],
   [`${IndicatorMode.ONE_INDICATOR}-${AreaMode.ENGLAND_AREA}`]: [
+    ChartPage.basicTableComponent,
     ChartPage.lineChartComponent,
     ChartPage.lineChartTableComponent,
     ChartPage.inequalitiesLineChartComponent,
@@ -62,7 +64,6 @@ const visibleComponentMap: Record<string, string[]> = {
   ],
   [`${IndicatorMode.TWO_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
     ChartPage.spineChartTableComponent,
-    ChartPage.heatMapComponent,
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,
   ],
@@ -87,7 +88,7 @@ const visibleComponentMap: Record<string, string[]> = {
     ChartPage.populationPyramidTableComponent,
   ],
   [`${IndicatorMode.THREE_PLUS_INDICATORS}-${AreaMode.TWO_AREAS}`]: [
-    ChartPage.heatMapComponent,
+    ChartPage.spineChartTableComponent,
     ChartPage.spineChartTableComponent,
     ChartPage.populationPyramidChartComponent,
     ChartPage.populationPyramidTableComponent,

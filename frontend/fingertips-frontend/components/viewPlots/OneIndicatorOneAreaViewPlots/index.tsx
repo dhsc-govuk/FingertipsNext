@@ -15,6 +15,8 @@ import { AvailableChartLinks } from '@/components/organisms/AvailableChartLinks'
 import { ChartTitleKeysEnum } from '@/lib/ChartTitles/chartTitleEnums';
 import { useInequalitiesData } from '@/components/charts/Inequalities/hooks/useInequalitiesData';
 import { useLineChartOverTimeData } from '@/components/charts/LineChartOverTime/hooks/useLineChartOverTimeData';
+import { SingleIndicatorSpineChart } from '@/components/charts/SpineChart/SingleIndicatorSpineChart';
+import { spineChartIsRequired } from '@/components/charts/SpineChart/helpers/spineChartIsRequired';
 
 export function OneIndicatorOneAreaViewPlots({
   indicatorData,
@@ -37,15 +39,25 @@ export function OneIndicatorOneAreaViewPlots({
   const showBasicTable = singleIndicatorBasicTableIsRequired(searchState);
   const showInequalities = useInequalitiesData();
   const showLineChartLink = useLineChartOverTimeData();
+  const showSpine = spineChartIsRequired(searchState);
 
   const availableChartLinks: ChartTitleKeysEnum[] = [];
 
-  if (showLineChartLink) availableChartLinks.push(ChartTitleKeysEnum.LineChart);
-  if (showInequalities)
-    availableChartLinks.push(
-      ChartTitleKeysEnum.InequalitiesBarChart,
-      ChartTitleKeysEnum.InequalitiesLineChart
-    );
+  if (showBasicTable) {
+    availableChartLinks.push(ChartTitleKeysEnum.BasicTableChart);
+  }
+
+  if (showSpine) {
+    availableChartLinks.push(ChartTitleKeysEnum.SingleIndicatorSpineChart);
+  }
+
+  if (showLineChartLink) {
+    availableChartLinks.push(ChartTitleKeysEnum.LineChart);
+  }
+
+  if (showInequalities) {
+    availableChartLinks.push(ChartTitleKeysEnum.InequalitiesCharts);
+  }
 
   availableChartLinks.push(ChartTitleKeysEnum.PopulationPyramid);
 
@@ -55,6 +67,7 @@ export function OneIndicatorOneAreaViewPlots({
         availableCharts={availableChartLinks}
       ></AvailableChartLinks>
       <BenchmarkSelectArea availableAreas={availableAreasForBenchmarking} />
+      {showSpine ? <SingleIndicatorSpineChart /> : null}
       {showBasicTable ? <SingleIndicatorBasicTable /> : null}
       {showLineChartOverTime ? (
         <>
@@ -62,7 +75,6 @@ export function OneIndicatorOneAreaViewPlots({
           <LineChartAndTableOverTime />
         </>
       ) : null}
-
       <Inequalities />
     </section>
   );

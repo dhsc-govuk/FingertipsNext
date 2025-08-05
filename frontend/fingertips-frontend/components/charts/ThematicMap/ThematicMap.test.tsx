@@ -14,6 +14,11 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import {
+  DatePeriod,
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 
 mockHighChartsWrapperSetup();
 
@@ -23,7 +28,7 @@ vi.mock('@/components/hooks/useSearchStateParams', () => ({
   useSearchStateParams: () => mockSearchState,
 }));
 
-const testRender = () => {
+const testRender = (name?: string) => {
   (fetch as Mock).mockResolvedValueOnce({
     ok: true,
     json: async () => regionsMap,
@@ -35,9 +40,15 @@ const testRender = () => {
   };
 
   mockSearchState = searchState;
+  const mockDatePeriod: DatePeriod = {
+    type: PeriodType.Financial,
+    from: new Date('2008-01-01'),
+    to: new Date('2008-12-31'),
+  };
   render(
     <QueryClientProvider client={reactQueryClient}>
       <ThematicMap
+        name={name}
         healthIndicatorData={mockHealthData['92420']}
         benchmarkComparisonMethod={'Unknown'}
         polarity={'Unknown'}
@@ -46,6 +57,10 @@ const testRender = () => {
         englandData={mockHealthData['92420'][0]}
         groupData={mockHealthData['92420'][1]}
         indicatorMetadata={mockIndicatorDocument({ indicatorID: '92420' })}
+        periodType={PeriodType.Calendar}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     </QueryClientProvider>
   );
@@ -81,7 +96,7 @@ describe('ThematicMap', () => {
     testRender();
     const titles = await screen.findAllByRole('heading', { level: 4 });
     expect(titles[0]).toHaveTextContent(
-      'Emergency readmissions within 30 days of discharge from hospital for Regions in North West, 2023'
+      'Emergency readmissions within 30 days of discharge from hospital for Regions in North West, 2008'
     );
   });
 
@@ -107,6 +122,9 @@ describe('ThematicMap', () => {
           areaCodes={mockAreaCodes}
           selectedAreaType={'regions'}
           indicatorMetadata={mockIndicatorDocument({ indicatorID: '92420' })}
+          periodType={PeriodType.Calendar}
+          frequency={Frequency.Annually}
+          isSmallestReportingPeriod={true}
         />
       </QueryClientProvider>
     );
@@ -139,5 +157,13 @@ describe('ThematicMap', () => {
     testRender();
     const btn = await screen.findByRole('button', { name: 'Export options' });
     expect(btn).toBeInTheDocument();
+  });
+
+  it('should render the overridden chart title', async () => {
+    testRender('Override');
+    const titles = await screen.findAllByRole('heading', { level: 4 });
+    expect(titles[0]).toHaveTextContent(
+      'Override for Regions in North West, 2008/09'
+    );
   });
 });

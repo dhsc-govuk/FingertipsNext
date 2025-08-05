@@ -1,8 +1,11 @@
 // FingertipsAuthProvider is a generic OIDC provider
 // with the aud and scope embedding stage added to the auth flow
 
+import { FTA_PROVIDER_ID } from '@/lib/auth/providers';
 import { tryReadEnvVar } from '@/lib/envUtils';
 import { OIDCConfig } from 'next-auth/providers';
+
+export const FTA_SIGNOUT_REDIRECT_PARAM = 'post_logout_redirect_uri';
 
 export interface FingertipsProfile {
   aud: string;
@@ -12,17 +15,17 @@ interface FTAProviderConfig {
   clientId: string;
   clientSecret: string;
   issuer: string;
-  wellKnown: string;
+  logout: string;
 }
 
 export function getFTAProviderConfig(): FTAProviderConfig | undefined {
   const clientId = tryReadEnvVar('AUTH_CLIENT_ID');
   const clientSecret = tryReadEnvVar('AUTH_CLIENT_SECRET');
   const issuer = tryReadEnvVar('AUTH_ISSUER');
-  const wellKnown = tryReadEnvVar('AUTH_WELLKNOWN');
+  const logout = tryReadEnvVar('AUTH_LOGOUT');
 
-  return clientId && clientSecret && issuer && wellKnown
-    ? { clientId, clientSecret, issuer, wellKnown }
+  return clientId && clientSecret && issuer && logout
+    ? { clientId, clientSecret, issuer, logout }
     : undefined;
 }
 
@@ -30,18 +33,30 @@ export const FingertipsAuthProvider = ({
   clientId,
   clientSecret,
   issuer,
-  wellKnown,
 }: FTAProviderConfig): OIDCConfig<FingertipsProfile> => ({
-  id: 'fta',
+  id: FTA_PROVIDER_ID,
   name: 'FTA',
   type: 'oidc',
   issuer: issuer,
   clientId: clientId,
   clientSecret: clientSecret,
-  wellKnown: wellKnown,
   authorization: {
     params: {
       scope: `api://${clientId}/.default openid`,
     },
   },
 });
+
+export function getLogoutEndpoint() {
+  return getFTAProviderConfig()?.logout;
+}
+
+export function buildLogoutURLWithRedirect(
+  endpoint: string,
+  redirect: string
+): string {
+  const logoutURL = new URL(endpoint);
+  logoutURL.searchParams.append(FTA_SIGNOUT_REDIRECT_PARAM, redirect);
+
+  return decodeURIComponent(logoutURL.toString());
+}

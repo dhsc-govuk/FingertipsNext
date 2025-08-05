@@ -6,8 +6,8 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
     class="sc-fhzFiK cKjcgg"
   >
     <div
-      data-testid="heatmapChart-component"
-      id="heatmapChart"
+      data-testid="heatmap-chart-component"
+      id="heatmap-chart"
     >
       <h4
         class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
@@ -246,7 +246,7 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
                 <div
                   class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
                 >
-                  2004
+                  2001
                 </div>
               </td>
               <td
@@ -260,13 +260,13 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
                 </div>
               </td>
               <td
-                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo kanshG highcharts-point"
                 data-testid="heatmap-cell-data"
               >
                 <div
                   class="sc-bXCLTC enPqre"
                 >
-                  X
+                  11.0
                 </div>
               </td>
               <td
@@ -280,13 +280,13 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
                 </div>
               </td>
               <td
-                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo cgMjml highcharts-point"
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
                 data-testid="heatmap-cell-data"
               >
                 <div
                   class="sc-bXCLTC enPqre"
                 >
-                  41.0
+                  X
                 </div>
               </td>
               <td
@@ -466,7 +466,7 @@ exports[`heatmap > snapshot test - england benchmark 1`] = `
     </div>
     <button
       class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-dCFHLb jjJOzN"
-      data-testid="heatmapChart-export-button"
+      data-testid="heatmap-chart-export-button"
     >
       Export options
     </button>
@@ -480,8 +480,8 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
     class="sc-fhzFiK cKjcgg"
   >
     <div
-      data-testid="heatmapChart-component"
-      id="heatmapChart"
+      data-testid="heatmap-chart-component"
+      id="heatmap-chart"
     >
       <h4
         class="heading__StyledHeading-sc-1dsobun-0 EoZyU sc-jxOSlx bLSbGR"
@@ -720,7 +720,7 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
                 <div
                   class="sc-feUZmu sc-hzhJZQ iGNgio gqKiSz"
                 >
-                  2004
+                  2001
                 </div>
               </td>
               <td
@@ -734,13 +734,13 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
                 </div>
               </td>
               <td
-                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo hUcaLh highcharts-point"
                 data-testid="heatmap-cell-data"
               >
                 <div
                   class="sc-bXCLTC enPqre"
                 >
-                  X
+                  11.0
                 </div>
               </td>
               <td
@@ -754,13 +754,13 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
                 </div>
               </td>
               <td
-                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo cgMjml highcharts-point"
+                class="Cell-sc-msv0l6-0 sc-fHjqPf sc-hmdomO gaSlHc jFRiQo jNpENX highcharts-point"
                 data-testid="heatmap-cell-data"
               >
                 <div
                   class="sc-bXCLTC enPqre"
                 >
-                  41.0
+                  X
                 </div>
               </td>
               <td
@@ -940,7 +940,7 @@ exports[`heatmap > snapshot test - group area benchmark 1`] = `
     </div>
     <button
       class="src__StyledButton-sc-19ocyxv-0 eEShVH sc-dCFHLb jjJOzN"
-      data-testid="heatmapChart-export-button"
+      data-testid="heatmap-chart-export-button"
     >
       Export options
     </button>

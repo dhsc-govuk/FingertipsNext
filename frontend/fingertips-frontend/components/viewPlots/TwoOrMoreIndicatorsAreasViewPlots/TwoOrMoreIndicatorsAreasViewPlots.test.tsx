@@ -25,8 +25,10 @@ import {
 mockUsePathname.mockReturnValue('some-mock-pathname');
 mockSetIsLoading(false);
 
-vi.mock('@/components/charts/SpineChart/SpineChartWrapper', () => ({
-  SpineChartWrapper: () => <div data-testid="spineChartTable-component" />,
+vi.mock('@/components/charts/SpineChart/MultipleIndicatorSpineChart', () => ({
+  MultipleIndicatorSpineChart: () => (
+    <div data-testid="spineChartTable-component" />
+  ),
 }));
 
 const indicatorIds = ['123', '321'];
@@ -73,8 +75,14 @@ const mockIndicatorData: IndicatorWithHealthDataForArea[] = [
   },
 ];
 
-const mockMeta1 = mockIndicatorDocument({ indicatorID: indicatorIds[0] });
-const mockMeta2 = mockIndicatorDocument({ indicatorID: indicatorIds[1] });
+const mockMeta1 = mockIndicatorDocument({
+  indicatorID: indicatorIds[0],
+  indicatorName: 'one',
+});
+const mockMeta2 = mockIndicatorDocument({
+  indicatorID: indicatorIds[1],
+  indicatorName: 'two',
+});
 const mockMetaData = [mockMeta1, mockMeta2];
 
 mockUseApiGetHealthDataForMultipleIndicatorsSetup(mockIndicatorData);
@@ -119,7 +127,6 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
-    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
     expect(screen.getByTestId('spineChartTable-component')).toBeInTheDocument();
   });
 
@@ -131,7 +138,9 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
-    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
+    expect(
+      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
+    ).toBeInTheDocument();
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
@@ -145,7 +154,9 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
-    const heatmapTable = screen.getByTestId('heatmapChart-component');
+    const heatmapTable = screen.getByTestId(
+      `${ChartTitleKeysEnum.Heatmap}-component`
+    );
     expect(within(heatmapTable).getByText('Area1')).toBeInTheDocument();
     expect(within(heatmapTable).getByText('Area2')).toBeInTheDocument();
     expect(within(heatmapTable).getByText('Area3')).toBeInTheDocument();
@@ -159,7 +170,9 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
       <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
     );
 
-    expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
+    expect(
+      screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
+    ).toBeInTheDocument();
     expect(
       screen.queryByTestId('spineChartTable-component')
     ).not.toBeInTheDocument();
@@ -195,5 +208,27 @@ describe('TwoOrMoreIndicatorsAreasViewPlots', () => {
     expect(chartLinks[1]).toHaveTextContent(
       chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
     );
+  });
+
+  it('should render the basic table', async () => {
+    mockSearchParams[SearchParams.AreasSelected] = [];
+    mockSearchParams[SearchParams.AreaTypeSelected] = 'england';
+
+    render(
+      <TwoOrMoreIndicatorsAreasViewPlot indicatorData={mockIndicatorData} />
+    );
+
+    expect(
+      screen.getByRole('link', {
+        name: chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title,
+      })
+    ).toHaveAttribute(
+      'href',
+      chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].href
+    );
+
+    expect(
+      await screen.findByTestId('basic-table-component')
+    ).toBeInTheDocument();
   });
 });

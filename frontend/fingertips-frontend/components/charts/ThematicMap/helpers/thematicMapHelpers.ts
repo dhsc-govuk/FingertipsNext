@@ -5,16 +5,21 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   BenchmarkComparisonMethod,
   BenchmarkOutcome,
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   IndicatorPolarity,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import {
   getBenchmarkColour,
-  getIndicatorDataForAreasForMostRecentYearOnly,
-  getLatestYearForAreas,
+  getIndicatorDataForAreasForMostRecentPeriodOnly,
 } from '@/lib/chartHelpers/chartHelpers';
 import { allAreaTypes } from '@/lib/areaFilterHelpers/areaType';
-import { IndicatorDocument } from '@/lib/search/searchTypes';
+import {
+  formatDatePointLabel,
+  getPeriodLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export type MapGeographyData = {
   mapFile: GeoJSON;
@@ -272,7 +277,7 @@ function getBenchmarkColourScale(
 }
 
 export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
-  const recentData = getIndicatorDataForAreasForMostRecentYearOnly(data);
+  const recentData = getIndicatorDataForAreasForMostRecentPeriodOnly(data);
   if (!recentData) {
     return;
   }
@@ -283,7 +288,7 @@ export function prepareThematicMapSeriesData(data: HealthDataForArea[]) {
       areaName: areaData.areaName,
       areaCode: areaData.areaCode,
       value: mostRecentDataPoint?.value ?? undefined,
-      year: mostRecentDataPoint?.year ?? undefined,
+      year: mostRecentDataPoint?.datePeriod?.to ?? undefined,
       benchmarkComparisonOutcome:
         mostRecentDataPoint?.benchmarkComparison?.outcome ??
         BenchmarkOutcome.NotCompared,
@@ -386,19 +391,29 @@ function thematicMapTooltips(point: Highcharts.Point & { areaCode: string }) {
 }
 
 export function thematicMapTitle(
-  indicatorMetadata: IndicatorDocument,
+  indicatorName: string,
   selectedAreaType: string,
   groupData: HealthDataForArea | undefined,
-  healthIndicatorData: HealthDataForArea[]
+  healthIndicatorData: HealthDataForArea[],
+  periodType: PeriodType,
+  frequency: Frequency,
+  latestDataPeriod: DatePeriod | undefined,
+  isSmallestReportingPeriod: boolean
 ): string {
   const areaType = allAreaTypes.find(
     (areaType) => areaType.key === selectedAreaType
   );
-  if (!areaType) return '';
+  if (!areaType || healthIndicatorData.at(0)?.healthData.length === 0)
+    return '';
 
   const areaTitle = groupData?.areaName ?? 'England';
-  const latestYear = getLatestYearForAreas(healthIndicatorData);
-  if (!latestYear) return '';
+  const periodLabelText = getPeriodLabel(periodType, frequency) ?? '';
 
-  return `${indicatorMetadata.indicatorName} for ${areaType.name} in ${areaTitle}, ${latestYear}`;
+  const datePointLabel = formatDatePointLabel(
+    latestDataPeriod,
+    frequency,
+    isSmallestReportingPeriod
+  );
+
+  return `${indicatorName} for ${areaType.name} in ${areaTitle}, ${periodLabelText} ${datePointLabel}`;
 }

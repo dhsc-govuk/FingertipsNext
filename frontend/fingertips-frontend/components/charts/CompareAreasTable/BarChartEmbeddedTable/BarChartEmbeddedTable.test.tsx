@@ -1,9 +1,12 @@
 import { act, render, screen, within } from '@testing-library/react';
 import { BarChartEmbeddedTable } from '@/components/charts/CompareAreasTable/BarChartEmbeddedTable/BarChartEmbeddedTable';
 import {
+  DatePeriod,
+  Frequency,
   HealthDataForArea,
   HealthDataPoint,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import {
   allAgesAge,
@@ -14,6 +17,7 @@ import {
 import { formatNumber } from '@/lib/numberFormatter';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { convertDateToNumber } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 function cloneDeep<T>(input: T) {
   return JSON.parse(JSON.stringify(input)) as T;
@@ -26,7 +30,12 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'Greater Manchester ICB - 00T',
       healthData: [
         {
-          year: 2008,
+          year: 0,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2008-01-01'),
+            to: new Date('2008-12-31'),
+          },
           count: 222,
           value: 890.305692,
           lowerCi: 441.69151,
@@ -38,7 +47,12 @@ describe('BarChartEmbeddedTable', () => {
           benchmarkComparison: { benchmarkAreaName: 'England' },
         },
         {
-          year: 2004,
+          year: 0,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -55,7 +69,12 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'NHS North West Region',
       healthData: [
         {
-          year: 2008,
+          year: 0,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2008-01-01'),
+            to: new Date('2008-12-31'),
+          },
           count: 777,
           value: 1000,
           lowerCi: 500,
@@ -67,7 +86,12 @@ describe('BarChartEmbeddedTable', () => {
           benchmarkComparison: { benchmarkAreaName: 'England' },
         },
         {
-          year: 2004,
+          year: 0,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 777,
           value: 1000,
           lowerCi: 500,
@@ -84,7 +108,12 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'Area 2',
       healthData: [
         {
-          year: 2004,
+          year: 0,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2004-01-01'),
+            to: new Date('2004-12-31'),
+          },
           count: 157,
           value: 723.090354,
           lowerCi: 441.69151,
@@ -95,7 +124,12 @@ describe('BarChartEmbeddedTable', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          year: 0,
+          datePeriod: {
+            type: PeriodType.Financial,
+            from: new Date('2008-01-01'),
+            to: new Date('2008-12-31'),
+          },
           count: 256,
           value: 905.145997,
           lowerCi: 441.69151,
@@ -110,11 +144,21 @@ describe('BarChartEmbeddedTable', () => {
     },
   ];
 
+  const mockDatePeriod: DatePeriod = {
+    type: PeriodType.Financial,
+    from: new Date('2008-01-01'),
+    to: new Date('2008-12-31'),
+  };
+
   function getPointForYear(
     healthData: HealthDataForArea,
-    year: number = 2008
+    datePeriod: DatePeriod
   ): HealthDataPoint | undefined {
-    return healthData.healthData.find((hdp) => hdp.year === year);
+    return healthData.healthData.find(
+      (hdp) =>
+        convertDateToNumber(hdp.datePeriod?.to) ===
+        convertDateToNumber(datePeriod?.to)
+    );
   }
 
   const mockBenchmarkData: HealthDataForArea = {
@@ -122,7 +166,12 @@ describe('BarChartEmbeddedTable', () => {
     areaName: 'England',
     healthData: [
       {
-        year: 2004,
+        year: 0,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         count: 200,
         value: 904.874,
         lowerCi: undefined,
@@ -133,7 +182,12 @@ describe('BarChartEmbeddedTable', () => {
         deprivation: noDeprivation,
       },
       {
-        year: 2008,
+        year: 0,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
         count: 500,
         value: 965.9843,
         lowerCi: undefined,
@@ -151,7 +205,12 @@ describe('BarChartEmbeddedTable', () => {
     areaName: 'NHS North West Region',
     healthData: [
       {
-        year: 2008,
+        year: 0,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2008-01-01'),
+          to: new Date('2008-12-31'),
+        },
         count: 777,
         value: 1000,
         lowerCi: 500,
@@ -162,7 +221,12 @@ describe('BarChartEmbeddedTable', () => {
         deprivation: noDeprivation,
       },
       {
-        year: 2004,
+        year: 0,
+        datePeriod: {
+          type: PeriodType.Calendar,
+          from: new Date('2004-01-01'),
+          to: new Date('2004-12-31'),
+        },
         count: 777,
         value: 1000,
         lowerCi: 500,
@@ -183,12 +247,18 @@ describe('BarChartEmbeddedTable', () => {
         indicatorMetadata={
           { indicatorName: 'Falls in over 65s' } as IndicatorDocument
         }
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
     expect(await screen.findByRole('table')).toBeInTheDocument();
     const headings = screen.getAllByRole('heading');
-    expect(headings[0]).toHaveTextContent('Falls in over 65s, 2008');
+    expect(headings[0]).toHaveTextContent(
+      'Falls in over 65s, Financial year 2008/09'
+    );
     expect(headings[1]).toHaveTextContent('Compared to England');
     expect(
       await screen.findByTestId('barChartEmbeddedTable-component')
@@ -201,6 +271,10 @@ describe('BarChartEmbeddedTable', () => {
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkToUse={areaCodeForEngland}
         englandData={mockBenchmarkData}
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -217,6 +291,10 @@ describe('BarChartEmbeddedTable', () => {
         benchmarkToUse={areaCodeForEngland}
         englandData={mockBenchmarkData}
         groupIndicatorData={mockGroupData}
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -234,6 +312,10 @@ describe('BarChartEmbeddedTable', () => {
           benchmarkToUse={areaCodeForEngland}
           englandData={undefined}
           groupIndicatorData={undefined}
+          periodType={PeriodType.Financial}
+          frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
     });
@@ -249,6 +331,10 @@ describe('BarChartEmbeddedTable', () => {
           healthIndicatorData={mockHealthIndicatorData}
           benchmarkToUse={areaCodeForEngland}
           englandData={mockBenchmarkData}
+          periodType={PeriodType.Financial}
+          frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       );
     });
@@ -264,7 +350,7 @@ describe('BarChartEmbeddedTable', () => {
 
   it('should order the data displayed by largest value', async () => {
     const expectedValues = mockHealthIndicatorData
-      .map((mdp) => getPointForYear(mdp)!.value)
+      .map((mdp) => getPointForYear(mdp, mockDatePeriod)?.value)
       .sort((a, b) => b! - a!)
       .map((ev) => formatNumber(ev));
 
@@ -273,6 +359,10 @@ describe('BarChartEmbeddedTable', () => {
         <BarChartEmbeddedTable
           benchmarkToUse={areaCodeForEngland}
           healthIndicatorData={mockHealthIndicatorData}
+          periodType={PeriodType.Financial}
+          frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       )
     );
@@ -306,6 +396,10 @@ describe('BarChartEmbeddedTable', () => {
         <BarChartEmbeddedTable
           benchmarkToUse={areaCodeForEngland}
           healthIndicatorData={mockData}
+          periodType={PeriodType.Financial}
+          frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       )
     );
@@ -330,6 +424,10 @@ describe('BarChartEmbeddedTable', () => {
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkToUse={areaCodeForEngland}
         englandData={mockBenchmarkData}
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -350,6 +448,10 @@ describe('BarChartEmbeddedTable', () => {
       <BarChartEmbeddedTable
         healthIndicatorData={emptyRowData}
         benchmarkToUse={areaCodeForEngland}
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -368,6 +470,10 @@ describe('BarChartEmbeddedTable', () => {
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkToUse={areaCodeForEngland}
         englandData={mockBenchmarkData}
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -381,6 +487,10 @@ describe('BarChartEmbeddedTable', () => {
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkToUse={areaCodeForEngland}
         englandData={mockBenchmarkData}
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -398,6 +508,10 @@ describe('BarChartEmbeddedTable', () => {
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkToUse={areaCodeForEngland}
         englandData={mockBenchmarkData}
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
     const checkbox = await screen.findByRole('checkbox');
@@ -412,6 +526,10 @@ describe('BarChartEmbeddedTable', () => {
           healthIndicatorData={mockHealthIndicatorData}
           benchmarkToUse={areaCodeForEngland}
           englandData={mockBenchmarkData}
+          periodType={PeriodType.Financial}
+          frequency={Frequency.Annually}
+          latestDataPeriod={mockDatePeriod}
+          isSmallestReportingPeriod={true}
         />
       )
     );
@@ -438,6 +556,10 @@ describe('BarChartEmbeddedTable', () => {
             dataSource: 'bar chart data source',
           } as IndicatorDocument
         }
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 
@@ -452,6 +574,10 @@ describe('BarChartEmbeddedTable', () => {
         healthIndicatorData={mockHealthIndicatorData}
         benchmarkToUse={areaCodeForEngland}
         englandData={mockBenchmarkData}
+        periodType={PeriodType.Financial}
+        frequency={Frequency.Annually}
+        latestDataPeriod={mockDatePeriod}
+        isSmallestReportingPeriod={true}
       />
     );
 

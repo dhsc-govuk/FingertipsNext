@@ -45,6 +45,15 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
         }),
       ],
     }),
+    mockHealthDataForArea({
+      areaCode: areaCodeForEngland,
+      healthData: [],
+      indicatorSegments: [
+        mockIndicatorSegment({
+          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+        }),
+      ],
+    }),
   ],
 });
 
@@ -253,15 +262,24 @@ describe('OneIndicatorOneAreaViewPlots', () => {
     );
 
     expect(
-      await screen.findByTestId('singleIndicatorBasicTable-component')
+      await screen.findByTestId('basic-table-component')
     ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('link', {
+        name: chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].title,
+      })
+    ).toHaveAttribute(
+      'href',
+      chartTitleConfig[ChartTitleKeysEnum.BasicTableChart].href
+    );
   });
 
   it('should not render the single indicator basic table component when there is only one segment', async () => {
     await testRender(mockSearchState, testHealthData, testMetaData);
 
     expect(
-      await screen.queryByTestId('singleIndicatorBasicTable-component')
+      await screen.queryByTestId('basic-table-component')
     ).not.toBeInTheDocument();
   });
 

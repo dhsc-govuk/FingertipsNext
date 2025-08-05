@@ -1,6 +1,9 @@
 import {
+  buildLogoutURLWithRedirect,
   FingertipsAuthProvider,
+  FTA_SIGNOUT_REDIRECT_PARAM,
   getFTAProviderConfig,
+  getLogoutEndpoint,
 } from '@/lib/auth/providers/fingertipsAuthProvider';
 
 describe('get fingertips auth config', () => {
@@ -8,7 +11,7 @@ describe('get fingertips auth config', () => {
     vi.stubEnv('AUTH_CLIENT_ID', undefined);
     vi.stubEnv('AUTH_CLIENT_SECRET', 'there');
     vi.stubEnv('AUTH_ISSUER', 'there');
-    vi.stubEnv('AUTH_WELLKNOWN', 'there');
+    vi.stubEnv('AUTH_LOGOUT', 'there');
 
     expect(getFTAProviderConfig()).toBeUndefined();
   });
@@ -17,7 +20,7 @@ describe('get fingertips auth config', () => {
     vi.stubEnv('AUTH_CLIENT_ID', 'there');
     vi.stubEnv('AUTH_CLIENT_SECRET', undefined);
     vi.stubEnv('AUTH_ISSUER', 'there');
-    vi.stubEnv('AUTH_WELLKNOWN', 'there');
+    vi.stubEnv('AUTH_LOGOUT', 'there');
 
     expect(getFTAProviderConfig()).toBeUndefined();
   });
@@ -26,16 +29,16 @@ describe('get fingertips auth config', () => {
     vi.stubEnv('AUTH_CLIENT_ID', 'there');
     vi.stubEnv('AUTH_CLIENT_SECRET', 'there');
     vi.stubEnv('AUTH_ISSUER', undefined);
-    vi.stubEnv('AUTH_WELLKNOWN', 'there');
+    vi.stubEnv('AUTH_LOGOUT', 'there');
 
     expect(getFTAProviderConfig()).toBeUndefined();
   });
 
-  it('should return undefined if wellknown is missing', () => {
+  it('should return undefined if logout is missing', () => {
     vi.stubEnv('AUTH_CLIENT_ID', 'there');
     vi.stubEnv('AUTH_CLIENT_SECRET', 'there');
     vi.stubEnv('AUTH_ISSUER', 'there');
-    vi.stubEnv('AUTH_WELLKNOWN', undefined);
+    vi.stubEnv('AUTH_LOGOUT', undefined);
 
     expect(getFTAProviderConfig()).toBeUndefined();
   });
@@ -44,7 +47,7 @@ describe('get fingertips auth config', () => {
     vi.stubEnv('AUTH_CLIENT_ID', 'clientid');
     vi.stubEnv('AUTH_CLIENT_SECRET', 'secret');
     vi.stubEnv('AUTH_ISSUER', 'issuer');
-    vi.stubEnv('AUTH_WELLKNOWN', 'wellknown');
+    vi.stubEnv('AUTH_LOGOUT', 'logout');
 
     const config = getFTAProviderConfig();
     expect(config).not.toBeUndefined();
@@ -52,7 +55,7 @@ describe('get fingertips auth config', () => {
       clientId: 'clientid',
       clientSecret: 'secret',
       issuer: 'issuer',
-      wellKnown: 'wellknown',
+      logout: 'logout',
     });
   });
 });
@@ -62,13 +65,36 @@ describe('build fingertips auth provider', () => {
     vi.stubEnv('AUTH_CLIENT_ID', 'id');
     vi.stubEnv('AUTH_CLIENT_SECRET', 'secret');
     vi.stubEnv('AUTH_ISSUER', 'issuer');
-    vi.stubEnv('AUTH_WELLKNOWN', 'wellknown');
+    vi.stubEnv('AUTH_LOGOUT', 'logout');
 
     const provider = FingertipsAuthProvider(getFTAProviderConfig()!);
 
     expect(provider.clientId).toEqual('id');
     expect(provider.clientSecret).toEqual('secret');
     expect(provider.issuer).toEqual('issuer');
-    expect(provider.wellKnown).toEqual(`wellknown`);
+  });
+});
+
+describe('get auth logout endpoint', () => {
+  it('should return the logout endpoint if all auth env vars present', () => {
+    vi.stubEnv('AUTH_CLIENT_ID', 'id');
+    vi.stubEnv('AUTH_CLIENT_SECRET', 'secret');
+    vi.stubEnv('AUTH_ISSUER', 'issuer');
+    vi.stubEnv('AUTH_LOGOUT', 'logout');
+
+    expect(getLogoutEndpoint()).toEqual('logout');
+  });
+});
+
+describe('build logout URL', () => {
+  it('should return URL with redirect without formatting', () => {
+    const endpoint = 'https://someurl.example.com/logout/';
+    const redirect = 'https://some-url.place.app.cloudprovider.com';
+
+    const expectedURLString = `${endpoint}?${FTA_SIGNOUT_REDIRECT_PARAM}=${redirect}`;
+
+    expect(buildLogoutURLWithRedirect(endpoint, redirect)).toEqual(
+      expectedURLString
+    );
   });
 });

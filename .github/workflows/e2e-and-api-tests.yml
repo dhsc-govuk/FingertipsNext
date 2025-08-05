@@ -11,25 +11,41 @@ on:
   workflow_call:
     inputs:
       environment:
-        description: "Deployment environment"
+        description: 'Deployment environment'
         required: true
         type: string
       playwright-mode:
-        description: "Mode from which tests are run - either run inside docker or against the azure stack"
+        description: 'Mode from which tests are run - either run inside docker or against the azure stack'
         required: true
         type: string
       update_screenshots:
-        description: "Whether to update baseline screenshots"
+        description: 'Whether to update baseline screenshots'
         required: false
         default: false
         type: boolean
     secrets:
       slack-webhook-url:
-        description: "URL of the slack webhook"
+        description: 'URL of the slack webhook'
         required: false
       fingertips_e2e_db_password:
-        description: "Password for the database"
+        description: 'Password for the database'
         required: false
+      fingertips_e2e_automation_password:
+        description: 'Password for all three of the fingertips e2e automation user accounts'
+        required: true
+      fingertips_e2e_automation_email_address_admin:
+        description: 'email address for the fingertips e2e automation user account with admin permissions'
+        required: true
+      fingertips_e2e_automation_email_address_assigned_indicators:
+        description: 'email address for the fingertips e2e automation user account with assigned indicators permissions'
+        required: true
+      fingertips_e2e_automation_email_address_no_indicators:
+        description: 'email address for the fingertips e2e automation user account with no indicators permissions'
+        required: true
+      auth_client_secret:
+        description: 'Client secret for the authentication service'
+        required: true
+
 jobs:
   execute-e2e-tests-docker:
     name: Execute e2e tests - Docker
@@ -42,10 +58,12 @@ jobs:
       DB_USER: sa
       DB_PASSWORD: ${{ secrets.fingertips_e2e_db_password }}
       UPLOAD_STORAGE_CONTAINER_NAME: fingertips-upload-container
-      AUTH_SECRET: "random-string-for-testing-123"
-      AUTH_CLIENT_SECRET: ${{ secrets.DEVELOPMENT_ENTRA_CLIENT_SECRET }}
+      AUTH_SECRET: 'insecure-secret-for-e2e-tests'
+      AUTH_TRUST_HOST: true
       AUTH_CLIENT_ID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
-      AUTH_TENANT_ID: ${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}
+      AUTH_CLIENT_SECRET: ${{ secrets.auth_client_secret }}
+      AUTH_ISSUER: 'https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/v2.0'
+      AUTH_LOGOUT: 'https://${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}.ciamlogin.com/${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}/oauth2/v2.0/logout'
       AZUREAD__INSTANCE: ${{ vars.DEVELOPMENT_ENTRA_INSTANCE_URI }}
       AZUREAD__TENANTID: ${{ vars.DEVELOPMENT_ENTRA_TENANT_ID }}
       AZUREAD__CLIENTID: ${{ vars.DEVELOPMENT_ENTRA_CLIENT_ID }}
@@ -63,7 +81,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Cache playwright dependencies - for CI test execution
@@ -127,10 +145,20 @@ jobs:
       - name: Run Playwright tests in CI
         if: ${{ !inputs.update_screenshots }}
         run: npm run test-e2e-ci
+        env:
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD: ${{ secrets.fingertips_e2e_automation_password }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN: ${{ secrets.fingertips_e2e_automation_email_address_admin }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS: ${{ secrets.fingertips_e2e_automation_email_address_assigned_indicators }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS: ${{ secrets.fingertips_e2e_automation_email_address_no_indicators }}
 
       - name: Run Playwright tests and update baseline screenshot
         if: ${{ inputs.update_screenshots }}
         run: npm run test-e2e-ci -- --update-snapshots
+        env:
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD: ${{ secrets.fingertips_e2e_automation_password }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN: ${{ secrets.fingertips_e2e_automation_email_address_admin }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS: ${{ secrets.fingertips_e2e_automation_email_address_assigned_indicators }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS: ${{ secrets.fingertips_e2e_automation_email_address_no_indicators }}
 
       - name: Commit updated baseline screenshots to branch for review
         if: ${{ inputs.update_screenshots }}
@@ -190,14 +218,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
+          cache: 'npm'
           cache-dependency-path: ${{ env.frontend-directory }}/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
       - name: Install playwright dependencies
-        run: npx playwright install chromium webkit
+        run: npx playwright install chromium
 
       - name: Set Job URL for slack message - for CD test execution
         run: |
@@ -207,7 +235,10 @@ jobs:
         run: npm run test-e2e-cd
         env:
           FINGERTIPS_FRONTEND_URL: ${{ vars.FINGERTIPS_FRONTEND_URL }}
-
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_PASSWORD: ${{ secrets.fingertips_e2e_automation_password }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ADMIN: ${{ secrets.fingertips_e2e_automation_email_address_admin }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_ASSIGNED_INDICATORS: ${{ secrets.fingertips_e2e_automation_email_address_assigned_indicators }}
+          DEVELOPMENT_FINGERTIPS_E2E_AUTOMATION_USERNAME_NO_INDICATORS: ${{ secrets.fingertips_e2e_automation_email_address_no_indicators }}
       - name: Set dynamic artifact name
         if: always()
         id: set-artifact-name

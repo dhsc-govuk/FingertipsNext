@@ -15,7 +15,10 @@ import regionsMap from '@/components/charts/ThematicMap/regions.json';
 import { ALL_AREAS_SELECTED } from '@/lib/areaFilterHelpers/constants';
 import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
-import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
+import {
+  mockHealthDataForArea,
+  mockHealthDataForArea_England,
+} from '@/mock/data/mockHealthDataForArea';
 import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { oneIndicatorRequestParams } from '@/components/charts/helpers/oneIndicatorRequestParams';
@@ -26,11 +29,11 @@ import {
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 import { testRenderQueryClient } from '@/mock/utils/testRenderQueryClient';
 import { SeedData } from '@/components/atoms/SeedQueryCache/seedQueryCache.types';
-import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 mockHighChartsWrapperSetup();
 
@@ -94,13 +97,12 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
         }),
       ],
     }),
+    mockHealthDataForArea_England(),
   ],
 });
 
 const mockSearch = 'test';
-const mockAreas = testHealthData?.areaHealthData?.map(
-  (area) => area.areaCode ?? []
-);
+const mockAreas = ['E12000004', 'E12000006'];
 const mockSearchState = {
   [SearchParams.SearchedIndicator]: mockSearch,
   [SearchParams.IndicatorsSelected]: [testMetaData.indicatorID],
@@ -191,7 +193,12 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     it('should not display LineChart components when there are less than 2 time periods per area selected', async () => {
       await testRender(
         mockSearchState,
-        mockIndicatorWithHealthDataForArea(),
+        mockIndicatorWithHealthDataForArea({
+          areaHealthData: [
+            mockHealthDataForArea(),
+            mockHealthDataForArea({ areaCode: areaCodeForEngland }),
+          ],
+        }),
         testMetaData
       );
 
@@ -276,13 +283,20 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
 
     it('should render the SingleIndicatorHeatMap with title', async () => {
       await testRender(mockSearchStateAllAreas, testHealthData, testMetaData);
-      expect(screen.getByTestId('heatmapChart-component')).toBeInTheDocument();
+      expect(
+        screen.getByTestId(`${ChartTitleKeysEnum.Heatmap}-component`)
+      ).toBeInTheDocument();
 
       expect(
-        screen.getByText(heatMapText.singleIndicator.title)
+        screen.getByText(
+          chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap].title
+        )
       ).toBeInTheDocument();
       expect(
-        screen.getByText(heatMapText.singleIndicator.subTitle)
+        screen.getByText(
+          chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap]
+            .subTitle ?? ''
+        )
       ).toBeInTheDocument();
     });
   });
@@ -298,12 +312,15 @@ describe('OneIndicatorTwoOrMoreAreasViewPlots', () => {
     const links = within(availableChartLinks).getAllByRole('link');
 
     expect(links[0]).toHaveTextContent(
-      chartTitleConfig[ChartTitleKeysEnum.LineChart].title
+      chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap].title
     );
     expect(links[1]).toHaveTextContent(
-      chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title
+      chartTitleConfig[ChartTitleKeysEnum.LineChart].title
     );
     expect(links[2]).toHaveTextContent(
+      chartTitleConfig[ChartTitleKeysEnum.BarChartEmbeddedTable].title
+    );
+    expect(links[3]).toHaveTextContent(
       chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
     );
   });

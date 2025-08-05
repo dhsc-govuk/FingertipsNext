@@ -1,12 +1,16 @@
 import { HeatMapWrapper } from '@/components/charts/HeatMap/HeatMapWrapper';
 import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
-import { heatMapText } from '@/components/charts/HeatMap/heatmapConstants';
+import {
+  chartTitleConfig,
+  ChartTitleKeysEnum,
+} from '@/lib/ChartTitles/chartTitleEnums';
 
 export function SingleIndicatorHeatMap() {
   const { indicatorMetaData, healthData } = useOneIndicatorData();
   if (!indicatorMetaData || !healthData) return null;
 
-  const { title, subTitle } = heatMapText.singleIndicator;
+  const { title, subTitle } =
+    chartTitleConfig[ChartTitleKeysEnum.SingleIndicatorHeatmap];
 
   return (
     <HeatMapWrapper

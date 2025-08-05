@@ -305,6 +305,8 @@ paths:
       - $ref: '#/components/parameters/inequalities'
       - $ref: '#/components/parameters/latest_only'
     get:
+      security:
+        - bearerAuth: []
       tags:
         - indicators
       summary: Get published and unpublished health data for an indicator
@@ -321,6 +323,10 @@ paths:
                 $ref: '#/components/schemas/IndicatorWithHealthDataForArea'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
       operationId: getHealthDataForAnIndicatorIncludingUnpublishedData
@@ -331,42 +337,11 @@ paths:
       summary: Get quartile values for indicators
       description: Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
       parameters:
-        - name: ancestor_code
-          in: query
-          style: simple
-          schema:
-            type: string
-            example: E12000001
-          explode: false
-          description: The area code of an ancestor area
-        - name: area_code
-          in: query
-          style: simple
-          schema:
-            type: string
-            example: G82109
-          explode: false
-          description: The area code of the area/ geography
-        - name: area_type
-          in: query
-          description: The area type which the areas belong to
-          schema:
-            type: string
-        - name: indicator_ids
-          in: query
-          description: A list of indicator_ids, up to 10 can be requested
-          style: form
-          schema:
-            type: array
-            items:
-              type: integer
-              example: 1234
-            maxItems: 10
-        - name: benchmark_ref_type
-          in: query
-          description: The benchmark reference type
-          schema:
-            $ref: '#/components/schemas/BenchmarkReferenceType'
+        - $ref: '#/components/parameters/ancestor_code'
+        - $ref: '#/components/parameters/parameters_area_code'
+        - $ref: '#/components/parameters/area_type'
+        - $ref: '#/components/parameters/indicator_ids'
+        - $ref: '#/components/parameters/benchmark_ref_type'
       responses:
         '200':
           description: search results matching criteria
@@ -384,45 +359,14 @@ paths:
     get:
       tags:
         - indicators
-      summary: Get quartile values for indicators
-      description: Get quartile information for many indicators for one area. This will calculate the quartile based on all areas of the specified type within either England or a sub-national area, depending on the benchmark_ref_type parameter. It will use the latest data available for the area group requested. If the indicator has data for more than one time period type then the API will return data for each data period type separately. The /all endpoint can return unpublished data, otherwise the data is published.
+      summary: Get published and unpublished quartile values for indicators
+      description: Get published and unpublished quartile information for many indicators for one area. Requires user to be authorised to view unpublished quartile data for selected indicators.
       parameters:
-        - name: ancestor_code
-          in: query
-          style: simple
-          schema:
-            type: string
-            example: E12000001
-          explode: false
-          description: The area code of an ancestor area
-        - name: area_code
-          in: query
-          style: simple
-          schema:
-            type: string
-            example: G82109
-          explode: false
-          description: The area code of the area/ geography
-        - name: area_type
-          in: query
-          description: The area type which the areas belong to
-          schema:
-            type: string
-        - name: indicator_ids
-          in: query
-          description: A list of indicator_ids, up to 10 can be requested
-          style: form
-          schema:
-            type: array
-            items:
-              type: integer
-              example: 1234
-            maxItems: 10
-        - name: benchmark_ref_type
-          in: query
-          description: The benchmark reference type
-          schema:
-            $ref: '#/components/schemas/BenchmarkReferenceType'
+        - $ref: '#/components/parameters/ancestor_code'
+        - $ref: '#/components/parameters/parameters_area_code'
+        - $ref: '#/components/parameters/area_type'
+        - $ref: '#/components/parameters/indicator_ids'
+        - $ref: '#/components/parameters/benchmark_ref_type'
       responses:
         '200':
           description: search results matching criteria
@@ -434,10 +378,16 @@ paths:
                   $ref: '#/components/schemas/QuartileData'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /batches:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - batches
       summary: Get all batches
@@ -453,9 +403,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Batch'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /batches/{batch_id}:
     delete:
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: '#/components/parameters/batch_id'
       tags:
@@ -471,6 +428,10 @@ paths:
                 $ref: '#/components/schemas/Batch'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -720,6 +681,15 @@ components:
       description: Set to true to get data for the latest date period only, default is false. This overrides the years parameter if set to true.
       schema:
         type: boolean
+    parameters_area_code:
+      in: query
+      name: area_code
+      style: simple
+      schema:
+        type: string
+        example: G82109
+      explode: false
+      description: The area code of the area/ geography
     batch_id:
       in: path
       name: batch_id
@@ -958,6 +928,28 @@ components:
           type: boolean
           example: false
           description: Indicates if the datapoint is an aggregated value for the sex dimension.
+    ReportingPeriod:
+      type: string
+      example: yearly
+      description: The time period that a single data point represents.
+      enum:
+        - Monthly
+        - Quarterly
+        - CumulativeQuarterly
+        - Yearly
+        - TwoYearly
+        - ThreeYearly
+        - FiveYearly
+        - Unknown
+      x-enum-varnames:
+        - Monthly
+        - Quarterly
+        - CumulativeQuarterly
+        - Yearly
+        - TwoYearly
+        - ThreeYearly
+        - FiveYearly
+        - Unknown
     Date:
       type: string
       format: date
@@ -1124,11 +1116,14 @@ components:
       required:
         - age
         - sex
+        - reportingPeriod
       properties:
         age:
           $ref: '#/components/schemas/AgeData'
         sex:
           $ref: '#/components/schemas/SexData'
+        reportingPeriod:
+          $ref: '#/components/schemas/ReportingPeriod'
         isAggregate:
           type: boolean
           description: Indicates if the segment is the aggregate.

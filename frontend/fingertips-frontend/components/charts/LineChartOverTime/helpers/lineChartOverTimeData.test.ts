@@ -57,16 +57,22 @@ describe('lineChartOverTimeData', () => {
     const result = lineChartOverTimeData(
       indicatorMetaData,
       mockIndicatorWithHealthDataForArea(),
-      { [SearchParams.AreasSelected]: ['A'] }
+      { [SearchParams.AreasSelected]: ['A'] },
+      []
     );
 
     expect(result).toBeNull();
   });
 
   it('returns chart data when one area has more than 1 time point', () => {
-    const result = lineChartOverTimeData(indicatorMetaData, healthData, {
-      [SearchParams.AreasSelected]: ['A'],
-    });
+    const result = lineChartOverTimeData(
+      indicatorMetaData,
+      healthData,
+      {
+        [SearchParams.AreasSelected]: ['A'],
+      },
+      []
+    );
 
     expect(result).toMatchObject({
       chartOptions: { chart: 'options' },
@@ -82,7 +88,8 @@ describe('lineChartOverTimeData', () => {
     const result = lineChartOverTimeData(
       indicatorMetaData,
       healthDataForTwoAreas,
-      { [SearchParams.AreasSelected]: ['A', 'B'] }
+      { [SearchParams.AreasSelected]: ['A', 'B'] },
+      []
     );
 
     expect(result).toMatchObject({
@@ -100,16 +107,22 @@ describe('lineChartOverTimeData', () => {
       mockIndicatorWithHealthDataForArea({
         areaHealthData: [mockHealthDataForArea({ healthData: [] })],
       }),
-      { [SearchParams.AreasSelected]: ['A'] }
+      { [SearchParams.AreasSelected]: ['A'] },
+      []
     );
 
     expect(result).toBeNull();
   });
 
   it('handles optional group and benchmark inputs gracefully', () => {
-    const result = lineChartOverTimeData(indicatorMetaData, healthData, {
-      [SearchParams.AreasSelected]: ['A'],
-    });
+    const result = lineChartOverTimeData(
+      indicatorMetaData,
+      healthData,
+      {
+        [SearchParams.AreasSelected]: ['A'],
+      },
+      []
+    );
 
     expect(result?.chartOptions).toEqual({ chart: 'options' });
     expect(result?.benchmarkToUse).toEqual('E92000001');

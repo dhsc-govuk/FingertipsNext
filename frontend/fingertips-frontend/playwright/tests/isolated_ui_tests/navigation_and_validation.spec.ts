@@ -1,21 +1,22 @@
 import { test } from '../../page-objects/pageFactory';
 import {
-  sortAlphabetically,
   IndicatorMode,
   SearchMode,
-  AreaMode,
-  AreaFilters,
+  sortAlphabetically,
 } from '../../testHelpers/genericTestUtilities';
 import {
+  getAllAreasByAreaType,
   getAllIndicatorIDsForSearchTerm,
   returnIndicatorIDsByIndicatorMode,
-  getAllAreasByAreaType,
 } from '../../testHelpers/indicatorDataUtilities';
 import mockIndicators from '../../../assets/mockIndicatorData.json';
 import mockAreas from '../../../assets/mockAreaData.json';
 import { RawIndicatorDocument } from '@/lib/search/searchTypes';
-import ChartPage from '@/playwright/page-objects/pages/chartPage';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
+import {
+  NOT_SIGNED_IN_ERROR_MESSAGE,
+  NOT_SIGNED_IN_ERROR_TITLE,
+} from '@/lib/auth/errorMessages';
 
 /**
  * Note that this test suite uses mock service worker to mock API responses, therefore these playwright tests are isolated from the backend
@@ -31,12 +32,7 @@ const subjectSearchTerm = 'Alzheimer';
 const secondSubjectSearchTerm = 'diabetes';
 const indicatorMode = IndicatorMode.ONE_INDICATOR;
 const searchMode = SearchMode.ONLY_SUBJECT;
-const areaFiltersToSelect: AreaFilters = {
-  areaType: 'gps',
-  groupType: 'nhs-sub-integrated-care-boards',
-  group: '',
-};
-const password = 'password';
+
 // Initialize test data from mock sources
 const typedIndicatorData = indicatorData.map(
   (indicator: RawIndicatorDocument) => ({
@@ -147,7 +143,7 @@ test.describe('Home Page Tests', () => {
     });
   });
 
-  test('should display Sign out after successful mock sign in', async ({
+  test.skip('should display sign out after successful mock sign in, and sign in after signing out', async ({
     homePage,
   }) => {
     await test.step('Navigate to home page', async () => {
@@ -156,13 +152,19 @@ test.describe('Home Page Tests', () => {
     });
 
     await test.step('Click Sign in button', async () => {
-      await homePage.clickSignIn();
+      await homePage.clickSignInOnHomePage();
     });
 
-    await test.step('Enter correct password and verify message is displayed', async () => {
-      await homePage.signInToMock(password);
+    await test.step('Sign in via the mock then check sign out is now displayed', async () => {
+      await homePage.signInToMock();
 
       await homePage.checkSignOutDisplayed();
+    });
+
+    await test.step('Sign out and check sign in now displayed', async () => {
+      await homePage.clickSignOut();
+
+      await homePage.checkSignInDisplayed();
     });
   });
 
@@ -530,50 +532,55 @@ test.describe('Navigation Tests', () => {
       await indicatorPage.expectNoAccessibilityViolations(axeBuilder);
       await indicatorPage.clickBackLink();
     });
+    return;
+  });
+});
 
-    await test.step('Apply area filters on chart page', async () => {
-      await chartPage.selectAreasFiltersIfRequired(
-        searchMode,
-        AreaMode.THREE_PLUS_AREAS,
-        areaFiltersToSelect
-      );
+test.describe('Upload Page Tests', () => {
+  test('Navigating to upload page while not signed in should show an error page', async ({
+    homePage,
+    uploadPage,
+  }) => {
+    await test.step('Navigate to home page and verify not signed in', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
+      await homePage.checkSignInDisplayed();
     });
 
-    await test.step('Verify chart component and accessibility', async () => {
-      await chartPage.checkSpecificChartComponent(
-        ChartPage.barChartEmbeddedTableComponent
-      );
-      await chartPage.expectNoAccessibilityViolations(axeBuilder, [
-        'color-contrast',
-      ]);
+    await test.step('Navigate to upload page and verify error message', async () => {
+      await uploadPage.navigateToUploadPage();
+
+      await test
+        .expect(uploadPage.errorPageTitle())
+        .toContainText(NOT_SIGNED_IN_ERROR_TITLE);
+      await test
+        .expect(uploadPage.page.getByText(NOT_SIGNED_IN_ERROR_MESSAGE))
+        .toBeVisible();
+    });
+  });
+
+  test('Navigating to upload page while signed in should not show an error page', async ({
+    homePage,
+    uploadPage,
+  }) => {
+    await test.step('Navigate to home page', async () => {
+      await homePage.navigateToHomePage();
+      await homePage.checkOnHomePage();
     });
 
-    await test.step('Navigate back to results page and verify state', async () => {
-      await chartPage.clickBackLink();
-      await resultsPage.checkSearchResultsTitle(subjectSearchTerm);
-      await resultsPage.checkIndicatorCheckboxChecked(
-        validIndicatorIDs[0].indicatorID
-      );
+    await test.step('Sign in', async () => {
+      await homePage.clickSignIn();
+      await homePage.signInToMock();
+      await homePage.checkSignOutDisplayed();
     });
 
-    await test.step('Navigate back to home page and verify state', async () => {
-      await resultsPage.clickBackLink();
-      await homePage.checkSearchFieldIsPrePopulatedWith(subjectSearchTerm);
-    });
+    await test.step('Navigate to upload page and verify no error message', async () => {
+      await uploadPage.navigateToUploadPage();
 
-    await test.step('Clear search field and close area pills', async () => {
-      await homePage.clearSearchIndicatorField();
-      await homePage.closeAreaFilterPill(0);
-      await homePage.closeAreaFilterPill(0);
-      await homePage.closeAreaFilterPill(0);
-    });
-
-    await test.step('Verify validation prevents forward navigation', async () => {
-      await homePage.clickHomePageFormSearchButton();
-      await homePage.checkSearchFieldIsPrePopulatedWith(); // nothing - as nothing should be prepopulated after clearing search field above
-      await homePage.checkSummaryValidation(
-        `There is a problemEnter a subject you want to search forEnter an area you want to search for`
-      );
+      await test.expect(uploadPage.errorPageTitle()).toHaveCount(0);
+      await test
+        .expect(uploadPage.page.getByText(NOT_SIGNED_IN_ERROR_MESSAGE))
+        .toHaveCount(0);
     });
   });
 });

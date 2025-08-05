@@ -2,6 +2,8 @@ import { SpineChartIndicatorData } from '@/components/charts/SpineChart/helpers/
 import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { orderStatistics } from '@/components/charts/SpineChart/helpers/orderStatistics';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import { Frequency } from '@/generated-sources/ft-api-client';
 
 export const convertSpineChartTableToCsv = (
   indicatorData: SpineChartIndicatorData[]
@@ -34,9 +36,17 @@ export const convertSpineChartTableToCsv = (
       quartileData,
       groupData,
       englandData,
+      isSmallestReportingPeriod,
     } = indicator;
 
     const { best, worst } = orderStatistics(quartileData);
+    const period = latestDataPeriod
+      ? formatDatePointLabel(
+          latestDataPeriod,
+          quartileData.frequency ?? Frequency.Annually,
+          isSmallestReportingPeriod
+        )
+      : '';
 
     areasHealthData.forEach((areasHealth) => {
       if (!areasHealth) return;
@@ -47,7 +57,7 @@ export const convertSpineChartTableToCsv = (
       const newRow: CsvRow = [
         indicatorId,
         indicatorName,
-        latestDataPeriod,
+        period,
         areaName,
         areaCode,
         benchmarkComparison?.benchmarkAreaCode,
@@ -71,7 +81,7 @@ export const convertSpineChartTableToCsv = (
       const groupRow: CsvRow = [
         indicatorId,
         indicatorName,
-        latestDataPeriod,
+        period,
         `Group: ${areaName}`,
         areaCode,
         benchmarkComparison?.benchmarkAreaCode,
@@ -96,7 +106,7 @@ export const convertSpineChartTableToCsv = (
       const newRow: CsvRow = [
         indicatorId,
         indicatorName,
-        latestDataPeriod,
+        period,
         areaName,
         areaCode,
         benchmarkComparison?.benchmarkAreaCode,

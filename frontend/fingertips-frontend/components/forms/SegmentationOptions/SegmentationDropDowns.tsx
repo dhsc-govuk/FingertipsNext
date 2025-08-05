@@ -7,7 +7,7 @@ import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { SearchParams, SearchStateManager } from '@/lib/searchStateManager';
 import { valueOrDefault } from '@/components/forms/SegmentationOptions/helpers/valueOrDefault';
 import { usePathname } from 'next/navigation';
-import { SegmentationId } from '@/components/forms/SegmentationOptions/segmentationDropDown.types';
+import { SegmentationId } from '@/lib/common-types';
 
 interface SegmentationDropDownsProps {
   options: Record<SegmentationId, string[]>;
@@ -23,7 +23,7 @@ export function SegmentationDropDowns({
   const {
     [SearchParams.SegmentationSex]: selectedSegSex,
     [SearchParams.SegmentationAge]: selectedSegAge,
-    [SearchParams.SegmentationFrequency]: selectedSegFreq,
+    [SearchParams.SegmentationReportingPeriod]: selectedSegRepPeriod,
   } = searchState;
 
   const searchStateManager = SearchStateManager.initialise(searchState);
@@ -40,11 +40,15 @@ export function SegmentationDropDowns({
 
   const sexOptions = options[SegmentationId.Sex].map(toOption);
   const ageOptions = options[SegmentationId.Age].map(toOption);
-  const freqOptions = options[SegmentationId.Frequency].map(toOption);
+  const reportingPeriodOptions =
+    options[SegmentationId.ReportingPeriod].map(toOption);
 
   const sexValue = valueOrDefault(sexOptions, selectedSegSex);
   const ageValue = valueOrDefault(ageOptions, selectedSegAge);
-  const freqValue = valueOrDefault(freqOptions, selectedSegFreq);
+  const reportingPeriodValue = valueOrDefault(
+    reportingPeriodOptions,
+    selectedSegRepPeriod
+  );
 
   return (
     <div data-testid="segmentation-options">
@@ -67,11 +71,11 @@ export function SegmentationDropDowns({
           value={ageValue}
         />
         <SegmentationDropDown
-          label={'Options for segmentation by frequency'}
-          segmentId={SearchParams.SegmentationFrequency}
-          options={freqOptions}
-          onChange={onChange(SearchParams.SegmentationFrequency)}
-          value={freqValue}
+          label={'Options for segmentation by reporting period'}
+          segmentId={SearchParams.SegmentationReportingPeriod}
+          options={reportingPeriodOptions}
+          onChange={onChange(SearchParams.SegmentationReportingPeriod)}
+          value={reportingPeriodValue}
         />
       </InlineDropDownsContainer>
     </div>
