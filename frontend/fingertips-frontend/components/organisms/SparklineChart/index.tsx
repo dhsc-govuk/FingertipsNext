@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   generateConfidenceIntervalSeries,
-  getBenchmarkColour, getBenchmarkLabel,
+  getBenchmarkColour,
   getTooltipContent,
 } from '@/lib/chartHelpers/chartHelpers';
 import {
@@ -41,7 +41,7 @@ interface SparklineChartProps {
 export function benchmarkTextForBar(
   area: string | undefined,
   benchmarkOutcome: BenchmarkOutcome,
-  benchmarkComparisonMethod: BenchmarkComparisonMethod,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
 ): string {
   if (area === 'England') return '';
   if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
@@ -110,7 +110,7 @@ export function SparklineChart({
     showConfidenceIntervalsData,
     { color: GovukColours.MidGrey, whiskerLength: '50%', lineWidth: 2 }
   );
-  
+
   const sparklineOptions: Highcharts.Options = {
     exporting: { enabled: false },
     credits: {
@@ -148,7 +148,11 @@ export function SparklineChart({
         dataLabels: {
           enabled: true,
           formatter: function () {
-            return benchmarkTextForBar(area, benchmarkOutcome, benchmarkComparisonMethod);
+            return benchmarkTextForBar(
+              area,
+              benchmarkOutcome,
+              benchmarkComparisonMethod
+            );
           },
           style: {
             color: '#000',
@@ -157,7 +161,7 @@ export function SparklineChart({
             textOutline: 'none',
           },
           x: 30,
-        }
+        },
       },
       confidenceIntervalSeries,
     ],
