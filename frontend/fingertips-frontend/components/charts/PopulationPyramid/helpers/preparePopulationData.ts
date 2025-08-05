@@ -1,5 +1,7 @@
 import {
   HealthDataForArea,
+  Indicator,
+  IndicatorSegment,
   PeriodType,
   ReportingPeriod,
 } from '@/generated-sources/ft-api-client';
@@ -33,15 +35,11 @@ export function computeDataPercentages(
 export const convertHealthDataForAreaForPyramidData = (
   healthDataForArea: HealthDataForArea | undefined
 ): PopulationDataForArea | undefined => {
+  const segments = healthDataForArea?.indicatorSegments;
   if (
-    !healthDataForArea ||
-    !healthDataForArea.indicatorSegments ||
-    !healthDataForArea.indicatorSegments[0] ||
-    healthDataForArea.indicatorSegments[0]?.healthData?.length !== 1 ||
-    healthDataForArea.indicatorSegments[0]?.reportingPeriod !==
-      ReportingPeriod.Yearly ||
-    healthDataForArea.indicatorSegments?.[0]?.healthData[0]?.datePeriod
-      ?.type !== PeriodType.Calendar
+    segments?.[0]?.healthData?.length !== 1 ||
+    segments?.[0]?.reportingPeriod !== ReportingPeriod.Yearly ||
+    segments?.[0]?.healthData[0]?.datePeriod?.type !== PeriodType.Calendar
   ) {
     return undefined;
   }
@@ -51,12 +49,12 @@ export const convertHealthDataForAreaForPyramidData = (
     maleCounts,
     femaleCounts,
     totalCount: totalPopulation,
-  } = getCountsByAgeSex(healthDataForArea);
+  } = getCountsByAgeSex(segments);
 
   return {
     total: totalPopulation ?? 0,
-    areaName: healthDataForArea.areaName,
-    areaCode: healthDataForArea.areaCode,
+    areaName: healthDataForArea?.areaName,
+    areaCode: healthDataForArea?.areaCode,
     ageCategories: ageCategories,
     femaleSeries: femaleCounts,
     maleSeries: maleCounts,
@@ -128,49 +126,47 @@ export const createPyramidPopulationData = (
   };
 };
 
-function getCountsByAgeSex(healthDataForArea: HealthDataForArea): {
+function getCountsByAgeSex(segmentsForArea: IndicatorSegment[]): {
   ageCategories: string[];
   maleCounts: number[];
   femaleCounts: number[];
   totalCount: number;
 } {
-  if (!healthDataForArea.indicatorSegments)
+  if (!segmentsForArea || segmentsForArea.length === 0)
     return {
       ageCategories: [],
       maleCounts: [],
       femaleCounts: [],
       totalCount: 0,
     };
-  const { sexCountByAge, totalCount } =
-    healthDataForArea.indicatorSegments.reduce(
-      (acc, segment) => {
-        const age = segment.age.value.replace('yrs', '').replace('-', ' to ');
-        const sex = segment.sex.value;
+  const { sexCountByAge, totalCount } = segmentsForArea.reduce(
+    (acc, segment) => {
+      const age = segment.age.value.replace('yrs', '').replace('-', ' to ');
+      const sex = segment.sex.value;
 
-        if (!age.includes('All') && (sex === 'Male' || sex === 'Female')) {
-          const count = segment.healthData?.[0]?.count ?? undefined;
+      if (!age.includes('All') && (sex === 'Male' || sex === 'Female')) {
+        const count = segment.healthData?.[0]?.count ?? undefined;
 
-          if (!acc.sexCountByAge[age]) {
-            acc.sexCountByAge[age] = { male: undefined, female: undefined };
-          }
-
-          acc.sexCountByAge[age][sex.toLowerCase() as 'male' | 'female'] =
-            count;
-          if (typeof count === 'number') {
-            acc.totalCount += count;
-          }
+        if (!acc.sexCountByAge[age]) {
+          acc.sexCountByAge[age] = { male: undefined, female: undefined };
         }
 
-        return acc;
-      },
-      {
-        sexCountByAge: {} as Record<
-          string,
-          { male?: number | undefined; female?: number | undefined }
-        >,
-        totalCount: 0,
+        acc.sexCountByAge[age][sex.toLowerCase() as 'male' | 'female'] = count;
+        if (typeof count === 'number') {
+          acc.totalCount += count;
+        }
       }
-    );
+
+      return acc;
+    },
+    {
+      sexCountByAge: {} as Record<
+        string,
+        { male: number | undefined; female: number | undefined }
+      >,
+      totalCount: 0,
+    }
+  );
 
   const sortedAgeCategories = Object.keys(sexCountByAge).sort((a, b) => {
     const parseStart = (label: string) =>
