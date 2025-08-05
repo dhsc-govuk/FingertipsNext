@@ -28,6 +28,7 @@ test('should render the Highcharts react component within the PopulationPyramid 
       yAxisTitle="Population Percentage"
     />
   );
+
   const highcharts = await screen.findByTestId(
     'highcharts-react-component-populationPyramid'
   );
