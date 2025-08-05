@@ -129,7 +129,7 @@ export function mergeIndicatorData(
       knownTrend: selectedIndicator.knownTrend,
       unpublishedDataYear: selectedIndicator.unpublishedDataYear,
       segmentationData: selectedIndicator.segmentationData,
-      timePeriodData: selectedIndicator.timePeriodData,
+      timePeriod: selectedIndicator.timePeriod,
     }));
 
     selectedIndicatorsData = [

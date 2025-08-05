@@ -28,6 +28,7 @@ import {
 import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyright';
 import { format } from 'date-fns/format';
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import { PeriodType } from '@/generated-sources/ft-api-client/models/PeriodType';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
@@ -257,9 +258,20 @@ export default class ChartPage extends AreaFilter {
           await this.verifySegmentationDropDowns(selectedIndicators),
       },
       {
-        condition: chartComponentProps.hasTimePeriodInTitle,
+        condition: chartComponentProps.hasTimePeriodFrequencyInTitle,
         action: async () =>
-          await this.verifyTimePeriodInTitle(selectedIndicators),
+          await this.verifyTimePeriodInTitle(
+            selectedIndicators,
+            chartComponentLocator
+          ),
+      },
+      {
+        condition: chartComponentProps.hasTimePeriodDatePointInChart,
+        action: async () =>
+          await this.verifyTimePeriodDatePointInChart(
+            selectedIndicators,
+            chartComponentLocator
+          ),
       },
     ];
 
@@ -1047,14 +1059,70 @@ export default class ChartPage extends AreaFilter {
   }
 
   async verifyTimePeriodInTitle(
-    selectedIndicators: SimpleIndicatorDocument[]
+    selectedIndicators: SimpleIndicatorDocument[],
+    chartComponentLocator: string
   ): Promise<void> {
-    const { type, from, to } = selectedIndicators[0].timePeriodData ?? {};
+    const uniqueTimePeriods = this.getUniqueTimePeriods(selectedIndicators);
+    const chartElement = this.page
+      .getByTestId(chartComponentLocator)
+      .getByRole('heading')
+      .first();
 
-    if (!type || !from || !to) {
+    if (uniqueTimePeriods.length === 0) {
       throw new Error(
         `Selected indicator ${selectedIndicators[0].indicatorID} does not have the required time period data defined in core_journey_config.ts.`
       );
     }
+
+    for (const timePeriod in uniqueTimePeriods) {
+      // for calendar we dont change the title so assert this
+      if (timePeriod === PeriodType.Calendar) {
+        await expect(chartElement).not.toContainText(timePeriod);
+      } else {
+        // for other Period Types check we have changed the title
+        await expect(chartElement).toContainText(timePeriod);
+      }
+    }
+  }
+
+  async verifyTimePeriodDatePointInChart(
+    selectedIndicators: SimpleIndicatorDocument[],
+    chartComponentLocator: string
+  ): Promise<void> {
+    const uniqueTimePeriods = this.getUniqueTimePeriods(selectedIndicators);
+    const chartElement = this.page.getByTestId(chartComponentLocator);
+
+    if (uniqueTimePeriods.length === 0) {
+      const indicatorIds = selectedIndicators
+        .map((indicator) => indicator.indicatorID)
+        .join(', ');
+      throw new Error(
+        `None of the selected indicators [${indicatorIds}] have time period data defined in core_journey_config.ts.`
+      );
+    }
+
+    // Check for each unique time period type found
+    for (const periodType of uniqueTimePeriods) {
+      if (periodType === PeriodType.Financial) {
+        // Look for financial year format: YY/YY (e.g., "20/21", "22/23")
+        const financialYearRegex = /\d{2}\/\d{2}/;
+        await expect(chartElement).toContainText(financialYearRegex);
+      } else if (periodType === PeriodType.Calendar) {
+        // Look for calendar year format: YYYY (e.g., "2020", "2022")
+        const calendarYearRegex = /\b\d{4}\b/;
+        await expect(chartElement).toContainText(calendarYearRegex);
+      }
+    }
+  }
+
+  private getUniqueTimePeriods(
+    selectedIndicators: SimpleIndicatorDocument[]
+  ): PeriodType[] {
+    // Get all unique time periods from all indicators in journey and return them
+    const timePeriods = selectedIndicators
+      .map((indicator) => indicator.timePeriod)
+      .filter((period) => period !== undefined);
+
+    return [...new Set(timePeriods)];
   }
 }
