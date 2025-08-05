@@ -14,7 +14,6 @@ import {
   mapToInequalitiesTableData,
   RowDataFields,
   shouldDisplayInequalities,
-  getAllDataWithoutInequalities,
   groupHealthDataByInequality,
   filterHealthData,
   HealthDataGroupedByPeriodAndInequalities,
@@ -42,11 +41,7 @@ import {
   noDeprivation,
   personsSex,
 } from '@/lib/mocks';
-import {
-  mockEnglandData,
-  mockIndicatorData,
-  mockParentData,
-} from '../../../organisms/LineChart/mocks';
+import { mockIndicatorData } from '../../../organisms/LineChart/mocks';
 import {
   generateHealthDataPoint,
   generateMockHealthDataForArea,
@@ -991,164 +986,6 @@ describe('generateInequalitiesLineChartOptions', () => {
   });
 });
 
-describe('getAllDataWithoutInequalities', () => {
-  const mockHealthIndicatorData: HealthDataForArea[] = [
-    {
-      ...mockIndicatorData[0],
-      healthData: [
-        { ...mockIndicatorData[0].healthData[0], periodLabel: '2006' },
-        { ...mockIndicatorData[0].healthData[0], periodLabel: '2004' },
-        {
-          count: 389,
-          lowerCi: 440,
-          upperCi: 580,
-          value: 530,
-          year: 2006,
-          periodLabel: '2006',
-          sex: maleSex,
-          ageBand: allAgesAge,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-          isAggregate: false,
-        },
-        {
-          count: 267,
-          lowerCi: 441.69151,
-          upperCi: 578.32766,
-          value: 703.420759,
-          year: 2004,
-          periodLabel: '2004',
-          sex: femaleSex,
-          ageBand: allAgesAge,
-          trend: HealthDataPointTrendEnum.NotYetCalculated,
-          deprivation: noDeprivation,
-          isAggregate: false,
-        },
-      ],
-    },
-  ];
-
-  const benchmarkData: HealthDataForArea = {
-    ...mockEnglandData,
-    healthData: [
-      { ...mockIndicatorData[0].healthData[0], periodLabel: '2006' },
-      { ...mockIndicatorData[0].healthData[0], periodLabel: '2004' },
-      {
-        count: 389,
-        lowerCi: 441.69151,
-        upperCi: 578.32766,
-        value: 278.29134,
-        year: 2006,
-        periodLabel: '2006',
-        sex: maleSex,
-        ageBand: allAgesAge,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        isAggregate: false,
-      },
-      {
-        count: 267,
-        lowerCi: 410,
-        upperCi: 450,
-        value: 420,
-        year: 2004,
-        periodLabel: '2004',
-        sex: femaleSex,
-        ageBand: allAgesAge,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        isAggregate: false,
-      },
-    ],
-  };
-
-  const groupData: HealthDataForArea = {
-    ...mockParentData,
-    healthData: [
-      { ...mockIndicatorData[0].healthData[0], periodLabel: '2006' },
-      { ...mockIndicatorData[0].healthData[0], periodLabel: '2004' },
-      {
-        count: 100,
-        lowerCi: 300,
-        upperCi: 400,
-        value: 350,
-        year: 2006,
-        periodLabel: '2006',
-        sex: maleSex,
-        ageBand: allAgesAge,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        isAggregate: false,
-      },
-      {
-        count: 101,
-        lowerCi: 400,
-        upperCi: 500,
-        value: 450,
-        year: 2004,
-        periodLabel: '2004',
-        sex: femaleSex,
-        ageBand: allAgesAge,
-        trend: HealthDataPointTrendEnum.NotYetCalculated,
-        deprivation: noDeprivation,
-        isAggregate: false,
-      },
-    ],
-  };
-
-  it('should get required data without inequalities', () => {
-    const expectedHealthDataWithoutInequalities = [{ ...mockIndicatorData[0] }];
-    const expectedBenchmarkDataWithoutInequalities = { ...mockEnglandData };
-    const expectedGroupDataWithoutInequalities = { ...mockParentData };
-
-    const expected = {
-      areaDataWithoutInequalities: expectedHealthDataWithoutInequalities,
-      englandDataWithoutInequalities: expectedBenchmarkDataWithoutInequalities,
-      groupDataWithoutInequalities: expectedGroupDataWithoutInequalities,
-    };
-
-    expect(
-      getAllDataWithoutInequalities(
-        mockHealthIndicatorData,
-        { englandIndicatorData: benchmarkData, groupData },
-        ['A1425']
-      )
-    ).toEqual(expected);
-  });
-
-  it('should return undefined benchmark data and group data when both are not provided', () => {
-    const expected = {
-      areaDataWithoutInequalities: [{ ...mockIndicatorData[0] }],
-      englandDataWithoutInequalities: undefined,
-      groupDataWithoutInequalities: undefined,
-    };
-
-    expect(
-      getAllDataWithoutInequalities(
-        mockHealthIndicatorData,
-        { englandIndicatorData: undefined, groupData: undefined },
-        []
-      )
-    ).toEqual(expected);
-  });
-
-  it('should return empty areaDataWithoutInequalities if England is the selected area', () => {
-    const expected = {
-      areaDataWithoutInequalities: [],
-      englandDataWithoutInequalities: mockEnglandData,
-      groupDataWithoutInequalities: undefined,
-    };
-
-    expect(
-      getAllDataWithoutInequalities(
-        mockHealthIndicatorData,
-        { englandIndicatorData: benchmarkData },
-        [areaCodeForEngland]
-      )
-    ).toEqual(expected);
-  });
-});
-
 describe('getAreasWithInequalitiesData', () => {
   const mockHealthIndicatorData = [
     generateMockHealthDataForArea('A001', [
@@ -1183,8 +1020,8 @@ describe('getAreasWithInequalitiesData', () => {
     ]),
   ];
 
-  describe('for a particular year', () => {
-    it('should return all the areas that have sex inequality data for the year provided', () => {
+  describe('for a particular period', () => {
+    it('should return all the areas that have sex inequality data for the period provided', () => {
       const expectedAreaCodes = [areaCodeForEngland, 'A001', 'A004'];
 
       const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(
@@ -1200,7 +1037,7 @@ describe('getAreasWithInequalitiesData', () => {
       });
     });
 
-    it('should return all the areas that have deprivation inequality data for the year provided', () => {
+    it('should return all the areas that have deprivation inequality data for the period provided', () => {
       const expectedAreaCodes = [areaCodeForEngland, 'A001', 'A002', 'A003'];
 
       const areasWithSexInequalityDataForYear = getAreasWithInequalitiesData(

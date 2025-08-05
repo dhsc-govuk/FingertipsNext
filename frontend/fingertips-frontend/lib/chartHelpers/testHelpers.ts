@@ -12,6 +12,7 @@ export const generateHealthDataPoint = (
   return {
     ...healthDataPoint,
     year,
+    periodLabel: `${year}`,
     sex: {
       value: 'male',
       isAggregate: sexIsAggregate,

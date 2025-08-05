@@ -4,10 +4,6 @@ import {
   HealthDataPoint,
   HealthDataPointBenchmarkComparison,
 } from '@/generated-sources/ft-api-client';
-import {
-  getHealthDataWithoutInequalities,
-  isEnglandSoleSelectedArea,
-} from '@/lib/chartHelpers/chartHelpers';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 
@@ -59,12 +55,6 @@ export interface InequalitiesTableRowData {
   inequalities: {
     [key: string]: RowDataFields | undefined;
   };
-}
-
-interface DataWithoutInequalities {
-  areaDataWithoutInequalities: HealthDataForArea[];
-  englandDataWithoutInequalities?: HealthDataForArea;
-  groupDataWithoutInequalities?: HealthDataForArea;
 }
 
 export enum InequalitiesTypes {
@@ -246,46 +236,6 @@ export const getAggregatePointInfo = (
   };
 };
 
-export const getAllDataWithoutInequalities = (
-  dataWithoutEnglandOrGroup: HealthDataForArea[],
-  benchmark: {
-    englandIndicatorData?: HealthDataForArea;
-    groupData?: HealthDataForArea;
-  },
-  areasSelected?: string[]
-): DataWithoutInequalities => {
-  const areaDataWithoutInequalities = !isEnglandSoleSelectedArea(areasSelected)
-    ? dataWithoutEnglandOrGroup.map((data) => ({
-        ...data,
-        healthData: getHealthDataWithoutInequalities(data),
-      }))
-    : [];
-
-  const englandDataWithoutInequalities: HealthDataForArea | undefined =
-    benchmark.englandIndicatorData
-      ? {
-          ...benchmark.englandIndicatorData,
-          healthData: getHealthDataWithoutInequalities(
-            benchmark.englandIndicatorData
-          ),
-        }
-      : undefined;
-
-  const groupDataWithoutInequalities: HealthDataForArea | undefined =
-    benchmark.groupData
-      ? {
-          ...benchmark.groupData,
-          healthData: getHealthDataWithoutInequalities(benchmark.groupData),
-        }
-      : undefined;
-
-  return {
-    areaDataWithoutInequalities,
-    englandDataWithoutInequalities: englandDataWithoutInequalities,
-    groupDataWithoutInequalities,
-  };
-};
-
 function hasHealthDataForInequalities(
   healthDataForArea: HealthDataForArea,
   inequalityType: InequalitiesTypes,
@@ -308,6 +258,7 @@ function hasHealthDataForInequalities(
       ).length > 0
     );
   }
+
   const healthDataPointWithInequalities = healthDataForArea?.healthData?.filter(
     (data) =>
       inequalityType === InequalitiesTypes.Sex

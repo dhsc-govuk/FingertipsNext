@@ -1,5 +1,4 @@
 import {
-  getHealthDataWithoutInequalities,
   getMostRecentData,
   isEnglandSoleSelectedArea,
   seriesDataForIndicatorIndexAndArea,
@@ -696,14 +695,6 @@ describe('getMostRecentDataFromSorted', () => {
     const result = getMostRecentData([]);
 
     expect(result).toEqual(undefined);
-  });
-});
-
-describe('getHealthDataWithoutInequalities', () => {
-  it('should return health data without inequalities', () => {
-    expect(getHealthDataWithoutInequalities(mockData[0])).toEqual(
-      mockData[0].healthData.slice(0, 2)
-    );
   });
 });
 

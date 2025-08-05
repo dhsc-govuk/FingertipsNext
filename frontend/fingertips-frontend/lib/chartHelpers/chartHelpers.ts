@@ -141,12 +141,6 @@ export function determineHealthDataForArea<T extends { areaCode: string }>(
   return healthDataForAllAreas[0];
 }
 
-export function getHealthDataWithoutInequalities(
-  data: HealthDataForArea
-): HealthDataPoint[] {
-  return data?.healthData?.filter((data) => data.isAggregate);
-}
-
 export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
   const distinctAreas = [...new Set(areasSelected)];
   return distinctAreas.length === 1 && distinctAreas[0] === areaCodeForEngland;
