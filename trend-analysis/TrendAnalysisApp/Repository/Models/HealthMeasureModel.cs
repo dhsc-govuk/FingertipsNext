@@ -7,9 +7,6 @@ public class HealthMeasureModel
 {
     [Key]
     public int HealthMeasureKey { get; set; }
-    public required DateDimensionModel FromDateDimension { get; set; }
-    [ForeignKey("FromDateDimension")]
-    public int FromDateKey { get; set; }
     public required DateDimensionModel ToDateDimension { get; set; }
     [ForeignKey("ToDateDimension")]
     public int ToDateKey { get; set; }

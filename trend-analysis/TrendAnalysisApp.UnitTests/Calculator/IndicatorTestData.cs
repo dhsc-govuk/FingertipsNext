@@ -20,7 +20,6 @@ public class IndicatorTestData
             Count = 3938080,
             Value = 7.6554,
             Denominator = 51441896,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2024,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2024,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 7.6481,
@@ -31,7 +30,6 @@ public class IndicatorTestData
             Count = 3774801,
             Value = 7.4528,
             Denominator = 50649129,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2023,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2023,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 7.4456,
@@ -42,7 +40,6 @@ public class IndicatorTestData
             Count = 3625401,
             Value = 7.2571,
             Denominator = 49956777,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2022,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2022,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 7.2499,
@@ -53,7 +50,6 @@ public class IndicatorTestData
             Count = 3491868,
             Value = 7.1085,
             Denominator = 49122259,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2021,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2021,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 7.1013,
@@ -64,7 +60,6 @@ public class IndicatorTestData
             Count = 3455176,
             Value = 7.0826,
             Denominator = 48783947,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2020,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2020,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 7.0754,
@@ -88,7 +83,6 @@ public class IndicatorTestData
             Count = 11246440,
             Value = 17.7872,
             Denominator = 63227624,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2024,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2024,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
         },
@@ -97,28 +91,31 @@ public class IndicatorTestData
             Count = 11034431,
             Value = 17.6782,
             Denominator = 62418295,
-
-FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2023, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" }        },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2023, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" }        },
         new()
         {
             Count = 10851467,
             Value = 17.6087,
             Denominator = 61625745,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2022, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2022, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2022, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
         },
         new()
         {
             Count = 10547929,
             Value = 17.3646,
             Denominator = 60744002,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2021, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2021, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" }
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2021, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" }
         },
         new()
         {
             Count = 10588957,
             Value = 17.5144,
             Denominator = 60458658,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2020, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2020, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" }
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2020, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" }
         }
     ];
 
@@ -138,7 +135,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 53185,
             Value = 90.1013,
             Denominator = 59028,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2024, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2024, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2024, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 89.8578,
             UpperCI = 90.3396
         },
@@ -147,7 +145,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 51767,
             Value = 90.017,
             Denominator = 57508,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2023, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2023, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 89.7694,
             UpperCI = 90.2594
         },
@@ -156,7 +155,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 53681,
             Value = 90.8708,
             Denominator = 59074,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2022, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2022, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2022, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 90.6358,
             UpperCI = 91.1004
         },
@@ -165,7 +165,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 55865,
             Value = 92.3221,
             Denominator = 60511,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2021, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2021, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2021, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 92.1072,
             UpperCI = 92.5315
         },
@@ -174,7 +175,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 57274,
             Value = 92.6254,
             Denominator = 61834,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2020, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2020, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2020, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 92.4168,
             UpperCI = 92.8288
         }
@@ -196,7 +198,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 1502,
             Value = 3.0121,
             Denominator = 49866388,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2024, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2024, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2024, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 2.8616,
             UpperCI = 3.1683
         },
@@ -205,7 +208,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 1415,
             Value = 2.8701,
             Denominator = 49300918,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2023, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2023, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 2.7225,
             UpperCI = 3.0237
         },
@@ -214,7 +218,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 1344,
             Value = 2.7567,
             Denominator = 48753376,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2022, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2022, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2022, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 2.6113,
             UpperCI = 2.9082
         },
@@ -223,7 +228,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 935,
             Value = 1.93028,
             Denominator = 48440507,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2021, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2021, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2021, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 1.8085,
             UpperCI = 2.058
         },
@@ -232,7 +238,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 1416,
             Value = 2.935,
             Denominator = 48246126,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2020, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2020, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2020, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 2.7841,
             UpperCI = 3.0919
         }
@@ -254,7 +261,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 939199,
             Value = 14.8,
             Denominator = 6340538,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2024, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2024, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2024, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 14.8,
             UpperCI = 14.8
         },
@@ -263,7 +271,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 835533,
             Value = 14.2,
             Denominator = 5892913,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2023, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2023, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 14.1,
             UpperCI = 14.2
         },
@@ -272,7 +281,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 861406,
             Value = 14.3,
             Denominator = 6006520,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2022, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2022, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2022, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 14.3,
             UpperCI = 14.4
         },
@@ -281,7 +291,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 772357,
             Value = 15.4,
             Denominator = 5004131,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2021, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2021, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2021, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 15.4,
             UpperCI = 15.5
         },
@@ -290,7 +301,8 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 927525,
             Value = 14.3,
             Denominator = 6490048,
-            FromDateDimension = new DateDimensionModel { Date = new DateTime(2020, 01, 01) }, ToDateDimension = new DateDimensionModel { Date = new DateTime(2020, 12, 31) }, PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
+            ToDateDimension = new DateDimensionModel { Date = new DateTime(2020, 12, 31) },
+            PeriodDimension = new PeriodDimensionModel { Period = "yearly" },
             LowerCI = 14.3,
             UpperCI = 14.3
         }
@@ -312,7 +324,6 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 59423,
             Value = 120/7742,
             Denominator = 52380101,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2023,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2023,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 119.8035,
@@ -323,7 +334,6 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 60192,
             Value = 122.3782,
             Denominator = 51966274,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2022,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2022,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 121.4012,
@@ -334,7 +344,6 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 60202,
             Value = 121.5234,
             Denominator = 51653460,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2021,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2021,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 120.5533,
@@ -345,7 +354,6 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 61740,
             Value = 125.829,
             Denominator = 51530437,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2020,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2020,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 124.8371,
@@ -356,7 +364,6 @@ FromDateDimension = new DateDimensionModel { Date = new DateTime(2023, 01, 01) }
             Count = 61807,
             Value = 126.9341,
             Denominator = 51510878,
-            FromDateDimension = new DateDimensionModel{ Date =  new DateTime(2019,01,01) },
             ToDateDimension = new DateDimensionModel{ Date =  new DateTime(2019,12,31) },
             PeriodDimension = new PeriodDimensionModel{ Period = "yearly" },
             LowerCI = 125.9343,

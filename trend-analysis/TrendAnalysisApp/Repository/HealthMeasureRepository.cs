@@ -15,12 +15,6 @@ public class HealthMeasureRepository(HealthMeasureDbContext dbCtx)
             .Include(hm => hm.TrendDimension)
             .Select(x => new HealthMeasureModel()
             {
-                FromDateKey = x.FromDateKey,
-                FromDateDimension = new DateDimensionModel()
-                {
-                    DateKey = x.FromDateDimension.DateKey,
-                    Date = x.FromDateDimension.Date
-                },
                 ToDateKey = x.ToDateKey,
                 ToDateDimension = new DateDimensionModel()
                 {

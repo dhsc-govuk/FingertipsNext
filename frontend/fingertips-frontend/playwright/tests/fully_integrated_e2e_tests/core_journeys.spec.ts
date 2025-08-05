@@ -57,7 +57,7 @@ test.describe(
         typeOfInequalityToSelect,
         signInAsUserToCheckUnpublishedData,
       }) => {
-        test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page`, async ({
+        test(`${searchMode} then select ${indicatorMode} and ${areaMode} then check the charts page.`, async ({
           homePage,
           resultsPage,
           chartPage,
@@ -86,7 +86,7 @@ test.describe(
             await homePage.clickHomePageFormSearchButton();
           });
 
-          await test.step(`check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async () => {
+          await test.step(`then check results page based on search mode and then select ${areaMode} and ${indicatorMode}`, async () => {
             await resultsPage.waitForURLToContainBasedOnSearchMode(
               searchMode,
               subjectSearchTerm!,
@@ -121,7 +121,7 @@ test.describe(
             await resultsPage.clickViewChartsButton();
           });
 
-          await test.step(`check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
+          await test.step(`then check the results page and then view the chart page, checking that the displayed charts are correct`, async () => {
             const selectedIndicatorsData = mergeIndicatorData(
               indicatorsToSelect,
               typedIndicatorData
@@ -144,7 +144,7 @@ test.describe(
             );
           });
 
-          await test.step(`sign out if required and verify sign in now displayed`, async () => {
+          await test.step(`then sign out if required and verify sign in now displayed.`, async () => {
             await chartPage.signOutIfRequired(
               signInAsUserToCheckUnpublishedData!
             );

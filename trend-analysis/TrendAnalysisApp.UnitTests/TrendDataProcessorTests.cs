@@ -275,6 +275,75 @@ public class TrendDataProcessorTests
     }
 
     [Fact]
+    public async Task TestTrendDataProcessor_CalculatesTrendsHandlesDifferntReportingPeriods()
+    {
+        // arrange
+        const short mockIndicatorKey = 1;
+        const int secondGroupStartKey = 200;
+
+        _mockFileHelper.Read(ExpectedFilePath).Returns(
+            new JArray { { new JObject { ["indicatorID"] = mockIndicatorKey } } }
+        );
+        JArray expectedUpdatedFileContents = new()
+        {
+            {
+                new JObject
+                {
+                    ["indicatorID"] = mockIndicatorKey, ["trendsByArea"] = new JArray
+                    {
+                        new JObject
+                        {
+                            ["areaCode"] = "AreaCode1",
+                            ["trend"] = Constants.Trend.NoSignificantChange
+                        },
+                        new JObject
+                        {
+                            ["areaCode"] = "AreaCode1",
+                            ["trend"] = Constants.Trend.CannotBeCalculated
+                        },
+                    }
+                }
+            }
+        };
+
+        var mockIndicator = _dbContext.IndicatorDimension.Add(new IndicatorDimensionModel
+        {
+            IndicatorKey = mockIndicatorKey,
+            IndicatorId = 1,
+            Polarity = Polarity.NoJudgement,
+            ValueType = "Directly standardised rate"
+        });
+        _dbContext.SaveChanges();
+
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1, periodKey: 1);
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1, periodKey: 2, startKey: secondGroupStartKey, setTrendCannotBeCalculated: true);
+
+        // act
+        await _trendDataProcessor.Process(_serviceProvider);
+
+        // extract
+        var firstGroupResult = _dbContext.HealthMeasure.AsNoTracking()
+            .Include(hm => hm.TrendDimension)
+            .First(
+                hm => hm.HealthMeasureKey == MockHealthMeasureStartKey
+                );
+        var secondGroupResult = _dbContext.HealthMeasure.AsNoTracking()
+            .Include(hm => hm.TrendDimension)
+            .First(
+                hm => hm.HealthMeasureKey == secondGroupStartKey
+                );
+
+        // assert
+        firstGroupResult?.TrendDimension.Name.ShouldBe(Constants.Trend.NoSignificantChange);
+        secondGroupResult?.TrendDimension.Name.ShouldBe(Constants.Trend.CannotBeCalculated);
+        _mockFileHelper.Received().Read(ExpectedFilePath);
+        _mockFileHelper.Received().Write(
+            ExpectedFilePath,
+            Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
+        );
+    }
+
+    [Fact]
     public async Task TestTrendDataProcessor_AddsTrendOnlyToDbIfHealthDataIsNotAggregate()
     {
         // arrange
@@ -385,7 +454,6 @@ public class TrendDataProcessorTests
                 Value = 7,
                 LowerCI = 7,
                 UpperCI = 7,
-                FromDateDimension = new DateDimensionModel { DateKey = (startKey + i) * 2, Date = new DateTime(startYear - i, 01, 01) },
                 ToDateDimension = new DateDimensionModel { DateKey = (startKey + i) * 2 + 1, Date = new DateTime(startYear - i, 12, 31) },
                 PeriodKey = periodKey,
                 PublishedAt = publishedAt,

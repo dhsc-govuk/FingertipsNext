@@ -1,4 +1,5 @@
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
+import { ReportingPeriod } from '@/generated-sources/ft-api-client/models/ReportingPeriod';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import {
   AreaMode,
@@ -30,6 +31,23 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '41101', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
+        segmentationData: [
+          {
+            sex: 'Male',
+            age: 'All ages',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+          {
+            sex: 'Female',
+            age: 'All ages',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+          {
+            sex: 'Persons',
+            age: 'All ages',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+        ],
       },
     ],
     checkExports: true,
@@ -45,6 +63,23 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '92904',
         knownTrend: 'No significant change',
+        segmentationData: [
+          {
+            sex: 'Male',
+            age: '<18 yrs',
+            reportingPeriod: ReportingPeriod.ThreeYearly,
+          },
+          {
+            sex: 'Female',
+            age: '<18 yrs',
+            reportingPeriod: ReportingPeriod.ThreeYearly,
+          },
+          {
+            sex: 'Persons',
+            age: '<18 yrs',
+            reportingPeriod: ReportingPeriod.ThreeYearly,
+          },
+        ],
       },
     ],
     areaFiltersToSelect: {
@@ -62,6 +97,13 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '91894',
         knownTrend: 'No significant change',
+        segmentationData: [
+          {
+            sex: 'Persons',
+            age: '65+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+        ],
       },
     ],
     areaFiltersToSelect: {
@@ -80,6 +122,13 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '90453', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available', // 2023 has the trend 'No significant change' but 2024 has no trend data
         unpublishedDataYear: 2025,
+        segmentationData: [
+          {
+            sex: 'Persons',
+            age: '16+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+        ],
       },
     ],
     areaFiltersToSelect: {
@@ -98,6 +147,23 @@ export const coreTestJourneys: TestParameters[] = [
       {
         indicatorID: '22401',
         knownTrend: 'Decreasing and getting better',
+        segmentationData: [
+          {
+            sex: 'Male',
+            age: '65+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+          {
+            sex: 'Female',
+            age: '65+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+          {
+            sex: 'Persons',
+            age: '65+ yrs',
+            reportingPeriod: ReportingPeriod.Yearly,
+          },
+        ],
       },
     ],
     areaFiltersToSelect: {

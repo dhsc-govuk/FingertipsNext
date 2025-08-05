@@ -171,10 +171,10 @@ namespace TrendAnalysisApp.Calculator.Legacy
         {
             var filtereCoreDataSets = dataList
                 .Where(x => x.LowerCI95 != null && x.UpperCI95 != null && x.IsValueValid)
-                .OrderByDescending(t => t.FromDate.Date)
+                .OrderByDescending(t => t.ToDate.Date)
                 .Take(PointsToUse);
 
-            return filtereCoreDataSets.OrderBy(t => t.FromDate.Date);
+            return filtereCoreDataSets.OrderBy(t => t.ToDate.Date);
         }
     }
 }
