@@ -12,7 +12,7 @@ public class IndicatorTrendDataForSearch
     public int IndicatorId { get; set; }
     public List<AreaWithTrendData> AreaToTrendList = [];
 
-    public static readonly ReadOnlyDictionary<Trend, string> TrendToFullTrendStringMap= new(
+    public static readonly ReadOnlyDictionary<Trend, string> TrendToFullTrendStringMap = new(
         new Dictionary<Trend, string>
         {
             {Trend.NotYetCalculated, Constants.Trend.NotYetCalculated},
@@ -27,8 +27,10 @@ public class IndicatorTrendDataForSearch
         }
     );
 
-    public static string MapTrendEnumToDescriptiveString(Trend trend) {
-        if (!TrendToFullTrendStringMap.TryGetValue(trend, out string? descriptiveTrendString)) {
+    public static string MapTrendEnumToDescriptiveString(Trend trend)
+    {
+        if (!TrendToFullTrendStringMap.TryGetValue(trend, out string? descriptiveTrendString))
+        {
             return Constants.Trend.CannotBeCalculated;
         }
 

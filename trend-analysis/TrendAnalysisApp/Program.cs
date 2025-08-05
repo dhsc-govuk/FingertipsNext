@@ -27,7 +27,7 @@ internal static class Program
                 .AddEnvironmentVariables()
                 .Build();
         var connString = configuration.GetConnectionString(Constants.Database.FingertipsDbName);
-        
+
         return new ServiceCollection()
             .AddSingleton<IConfiguration>(configuration)
             .AddDbContext<HealthMeasureDbContext>(

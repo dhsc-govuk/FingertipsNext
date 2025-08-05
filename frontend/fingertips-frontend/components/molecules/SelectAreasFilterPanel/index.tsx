@@ -182,6 +182,13 @@ export function SelectAreasFilterPanel({
     searchStateManager.clearChartState();
 
     if (checked) {
+      if (searchState[SearchParams.GroupSelected] === areaCodeForEngland) {
+        searchStateManager.addParamValueToState(
+          SearchParams.GroupSelected,
+          areaFilterData?.availableGroups?.[0].code ?? areaCodeForEngland
+        );
+      }
+
       searchStateManager.removeAllParamFromState(SearchParams.AreasSelected);
       searchStateManager.addParamValueToState(
         SearchParams.GroupAreaSelected,
