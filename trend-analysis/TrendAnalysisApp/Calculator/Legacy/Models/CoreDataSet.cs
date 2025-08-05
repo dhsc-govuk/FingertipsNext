@@ -20,9 +20,6 @@ namespace TrendAnalysisApp.Calculator.Legacy.Models
         }
 
         [JsonProperty]
-        public DateTime FromDate { get; set; }
-
-        [JsonProperty]
         public DateTime ToDate { get; set; }
 
         public object Clone()
