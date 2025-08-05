@@ -119,7 +119,7 @@ export function SparklineChart({
     chart: {
       type: 'bar',
       height: 90,
-      width: 200,
+      width: 300,
       backgroundColor: 'transparent',
       animation: false,
     },
@@ -131,7 +131,7 @@ export function SparklineChart({
     yAxis: {
       visible: false,
       min: 0,
-      max: maxValue,
+      max: maxValue / 0.8,
       labels: {
         formatter: FormatValueAsNumber,
       },
@@ -160,7 +160,7 @@ export function SparklineChart({
             fontWeight: 'normal',
             textOutline: 'none',
           },
-          x: 30,
+          x: 20,
         },
       },
       confidenceIntervalSeries,
