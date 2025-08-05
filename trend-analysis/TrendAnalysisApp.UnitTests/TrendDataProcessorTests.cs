@@ -34,10 +34,10 @@ public class TrendDataProcessorTests
         _dbContext = new HealthMeasureDbContext(dbOptions.Options);
 
         var indicatorRepository = new IndicatorRepository(_dbContext);
-        
+
         _mockFileHelper = Substitute.For<IIndicatorJsonFileHelper>();
         _trendDataProcessor = new TrendDataProcessor(indicatorRepository, _mockFileHelper);
-        
+
         _serviceProvider = new ServiceCollection()
             .AddDbContext<
                 HealthMeasureDbContext>(options =>
@@ -98,10 +98,10 @@ public class TrendDataProcessorTests
         // arrange
         JArray mockFileContents = new()
         {
-            { new JObject { ["indicatorID"] = 1 } }, { new JObject { ["indicatorID"] = 6 } } 
+            { new JObject { ["indicatorID"] = 1 } }, { new JObject { ["indicatorID"] = 6 } }
         };
         _mockFileHelper.Read(ExpectedFilePath).Returns(mockFileContents);
-        
+
         const short gpRegIndicatorKey = 1;
         const short residentPopulationIndicatorKey = 6;
         var gpRegIndicator = _dbContext.IndicatorDimension.Add(new IndicatorDimensionModel
@@ -118,7 +118,7 @@ public class TrendDataProcessorTests
 
         PopulateMockHealthMeasureData(gpRegIndicator.Entity.IndicatorKey, Indicator.GpRegisteredPopulationId);
         PopulateMockHealthMeasureData(residentPopulationIndicator.Entity.IndicatorKey, Indicator.ResidentPopulationId, startKey: residentPopulationIndicatorKey);
-        
+
         // act
         await _trendDataProcessor.Process(_serviceProvider);
 
@@ -126,7 +126,7 @@ public class TrendDataProcessorTests
         var actualGpReg = _dbContext.HealthMeasure.AsNoTracking()
             .Include(hm => hm.TrendDimension)
             .First(hm => hm.HealthMeasureKey == gpRegIndicator.Entity.IndicatorKey);
-        
+
         var actualResPop = _dbContext.HealthMeasure.AsNoTracking()
             .Include(hm => hm.TrendDimension)
             .First(hm => hm.HealthMeasureKey == residentPopulationIndicator.Entity.IndicatorKey);
@@ -178,8 +178,8 @@ public class TrendDataProcessorTests
         _dbContext.SaveChanges();
 
         PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1);
-        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1,SecondAreaEntityKey, startKey:secondGroupsStartKey, setTrendCannotBeCalculated: true, isPublished: false);
-        
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1, SecondAreaEntityKey, startKey: secondGroupsStartKey, setTrendCannotBeCalculated: true, isPublished: false);
+
         // act
         await _trendDataProcessor.Process(_serviceProvider);
 
@@ -194,17 +194,17 @@ public class TrendDataProcessorTests
             .First(
                 hm => hm.HealthMeasureKey == secondGroupsStartKey
                 );
-       
+
         // assert
         firstAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.NoSignificantChange);
         secondAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.NotYetCalculated);
-       _mockFileHelper.Received().Read(ExpectedFilePath);
-       _mockFileHelper.Received().Write(
-           ExpectedFilePath,
-           Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
-       );
+        _mockFileHelper.Received().Read(ExpectedFilePath);
+        _mockFileHelper.Received().Write(
+            ExpectedFilePath,
+            Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
+        );
     }
-    
+
     [Fact]
     public async Task TestTrendDataProcessor_CalculatesTrendsForRelevantGroupedData()
     {
@@ -247,7 +247,7 @@ public class TrendDataProcessorTests
         _dbContext.SaveChanges();
 
         PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1);
-        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1,SecondAreaEntityKey, startKey:secondGroupsStartKey, setTrendCannotBeCalculated: true);
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1, SecondAreaEntityKey, startKey: secondGroupsStartKey, setTrendCannotBeCalculated: true);
 
         // act
         await _trendDataProcessor.Process(_serviceProvider);
@@ -263,19 +263,88 @@ public class TrendDataProcessorTests
             .First(
                 hm => hm.HealthMeasureKey == secondGroupsStartKey
                 );
-       
+
         // assert
         firstAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.NoSignificantChange);
         secondAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.CannotBeCalculated);
-       _mockFileHelper.Received().Read(ExpectedFilePath);
-       _mockFileHelper.Received().Write(
-           ExpectedFilePath,
-           Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
-       );
+        _mockFileHelper.Received().Read(ExpectedFilePath);
+        _mockFileHelper.Received().Write(
+            ExpectedFilePath,
+            Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
+        );
     }
-    
+
     [Fact]
-       public async Task TestTrendDataProcessor_AddsTrendOnlyToDbIfHealthDataIsNotAggregate()
+    public async Task TestTrendDataProcessor_CalculatesTrendsHandlesDifferntReportingPeriods()
+    {
+        // arrange
+        const short mockIndicatorKey = 1;
+        const int secondGroupStartKey = 200;
+
+        _mockFileHelper.Read(ExpectedFilePath).Returns(
+            new JArray { { new JObject { ["indicatorID"] = mockIndicatorKey } } }
+        );
+        JArray expectedUpdatedFileContents = new()
+        {
+            {
+                new JObject
+                {
+                    ["indicatorID"] = mockIndicatorKey, ["trendsByArea"] = new JArray
+                    {
+                        new JObject
+                        {
+                            ["areaCode"] = "AreaCode1",
+                            ["trend"] = Constants.Trend.NoSignificantChange
+                        },
+                        new JObject
+                        {
+                            ["areaCode"] = "AreaCode1",
+                            ["trend"] = Constants.Trend.CannotBeCalculated
+                        },
+                    }
+                }
+            }
+        };
+
+        var mockIndicator = _dbContext.IndicatorDimension.Add(new IndicatorDimensionModel
+        {
+            IndicatorKey = mockIndicatorKey,
+            IndicatorId = 1,
+            Polarity = Polarity.NoJudgement,
+            ValueType = "Directly standardised rate"
+        });
+        _dbContext.SaveChanges();
+
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1, periodKey: 1);
+        PopulateMockHealthMeasureData(mockIndicator.Entity.IndicatorKey, 1, periodKey: 2, startKey: secondGroupStartKey, setTrendCannotBeCalculated: true);
+
+        // act
+        await _trendDataProcessor.Process(_serviceProvider);
+
+        // extract
+        var firstGroupResult = _dbContext.HealthMeasure.AsNoTracking()
+            .Include(hm => hm.TrendDimension)
+            .First(
+                hm => hm.HealthMeasureKey == MockHealthMeasureStartKey
+                );
+        var secondGroupResult = _dbContext.HealthMeasure.AsNoTracking()
+            .Include(hm => hm.TrendDimension)
+            .First(
+                hm => hm.HealthMeasureKey == secondGroupStartKey
+                );
+
+        // assert
+        firstGroupResult?.TrendDimension.Name.ShouldBe(Constants.Trend.NoSignificantChange);
+        secondGroupResult?.TrendDimension.Name.ShouldBe(Constants.Trend.CannotBeCalculated);
+        _mockFileHelper.Received().Read(ExpectedFilePath);
+        _mockFileHelper.Received().Write(
+            ExpectedFilePath,
+            Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
+        );
+    }
+
+    [Fact]
+    public async Task TestTrendDataProcessor_AddsTrendOnlyToDbIfHealthDataIsNotAggregate()
     {
         // arrange
         const short mockIndicatorKey = 1;
@@ -311,7 +380,7 @@ public class TrendDataProcessorTests
         _dbContext.SaveChanges();
 
         PopulateMockHealthMeasureData(mockIndicatorKey, 1);
-        PopulateMockHealthMeasureData(mockIndicatorKey, 1, SecondAreaEntityKey, startKey: secondAreaStartKey, isAggregate: false, setTrendCannotBeCalculated:true);
+        PopulateMockHealthMeasureData(mockIndicatorKey, 1, SecondAreaEntityKey, startKey: secondAreaStartKey, isAggregate: false, setTrendCannotBeCalculated: true);
 
         // act
         await _trendDataProcessor.Process(_serviceProvider);
@@ -326,32 +395,33 @@ public class TrendDataProcessorTests
             .Include(hm => hm.TrendDimension)
             .First(
                 hm => hm.HealthMeasureKey == secondAreaStartKey);
-       
+
         // assert
         firstAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.NoSignificantChange);
         secondAreaResult?.TrendDimension.Name.ShouldBe(Constants.Trend.CannotBeCalculated);
-       _mockFileHelper.Received().Read(ExpectedFilePath);
-       _mockFileHelper.Received().Write(
-           ExpectedFilePath,
-           Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
-       );
+        _mockFileHelper.Received().Read(ExpectedFilePath);
+        _mockFileHelper.Received().Write(
+            ExpectedFilePath,
+            Arg.Is<JArray>(ja => JToken.DeepEquals(ja, expectedUpdatedFileContents))
+        );
     }
 
-       /// <summary>
-       /// Add enough HealthMeasure dimensions to InMemoryDb to allow trends to be calculated.
-       /// Defaults to provide aggregate data for an indicator with no significant change.
-       /// </summary>
-       /// <param name="entityIndicatorKey">Indicator Key</param>
-       /// <param name="areaEntityKey">Area Key</param>
-       /// <param name="startKey">Initial Key</param>
-       /// <param name="isAggregate">Defaults to true, will add non-aggregated data if false.</param>
-       /// <param name="startYear">Default start year of 2024</param>
-       /// <param name="setTrendCannotBeCalculated">Defaults to false, but will add data for which the trend cannot be calculated if true.</param>
-       /// <param name="indicatorId">Indicator ID.</param>
+    /// <summary>
+    /// Add enough HealthMeasure dimensions to InMemoryDb to allow trends to be calculated.
+    /// Defaults to provide aggregate data for an indicator with no significant change.
+    /// </summary>
+    /// <param name="entityIndicatorKey">Indicator Key</param>
+    /// <param name="areaEntityKey">Area Key</param>
+    /// <param name="startKey">Initial Key</param>
+    /// <param name="isAggregate">Defaults to true, will add non-aggregated data if false.</param>
+    /// <param name="startYear">Default start year of 2024</param>
+    /// <param name="setTrendCannotBeCalculated">Defaults to false, but will add data for which the trend cannot be calculated if true.</param>
+    /// <param name="indicatorId">Indicator ID.</param>
     private void PopulateMockHealthMeasureData(
         short entityIndicatorKey,
         int indicatorId,
         int areaEntityKey = FirstAreaEntityKey,
+        byte periodKey = 1,
         int startKey = MockHealthMeasureStartKey,
         bool isAggregate = true,
         int startYear = 2024,
@@ -369,7 +439,7 @@ public class TrendDataProcessorTests
         {
 
             var publishedAt = isPublished ? DateTime.UtcNow : DateTime.UtcNow.AddMonths(1);
-            
+
             _dbContext.Add(new HealthMeasureModel
             {
                 HealthMeasureKey = startKey + i,
@@ -384,7 +454,8 @@ public class TrendDataProcessorTests
                 Value = 7,
                 LowerCI = 7,
                 UpperCI = 7,
-                Year = (short)(startYear - i),
+                ToDateDimension = new DateDimensionModel { DateKey = (startKey + i) * 2 + 1, Date = new DateTime(startYear - i, 12, 31) },
+                PeriodKey = periodKey,
                 PublishedAt = publishedAt,
                 BatchId = $"{indicatorId}_{DateTime.UtcNow:yyyy-MM-ddTHH:mm:ss.fff}"
             });
@@ -393,40 +464,40 @@ public class TrendDataProcessorTests
         _dbContext.SaveChanges();
     }
 
-       /// <summary>
-       /// Add default Trend and Area dimensions to InMemoryDb that are needed for testing.
-       /// </summary>
-   private void SetupDimensions()
-     {
-         _dbContext.TrendDimension.Add(new TrendDimensionModel
-         {
-             TrendKey = DefaultTrendEntityKey,
-             Name = Constants.Trend.NotYetCalculated
-         });
-         _dbContext.TrendDimension.Add(new TrendDimensionModel
-         {
-             TrendKey = 2,
-             Name = Constants.Trend.CannotBeCalculated
-         });
+    /// <summary>
+    /// Add default Trend and Area dimensions to InMemoryDb that are needed for testing.
+    /// </summary>
+    private void SetupDimensions()
+    {
+        _dbContext.TrendDimension.Add(new TrendDimensionModel
+        {
+            TrendKey = DefaultTrendEntityKey,
+            Name = Constants.Trend.NotYetCalculated
+        });
+        _dbContext.TrendDimension.Add(new TrendDimensionModel
+        {
+            TrendKey = 2,
+            Name = Constants.Trend.CannotBeCalculated
+        });
 
-         _dbContext.TrendDimension.Add(new TrendDimensionModel
-         {
-             TrendKey = 5,
-             Name = Constants.Trend.NoSignificantChange
-         });
+        _dbContext.TrendDimension.Add(new TrendDimensionModel
+        {
+            TrendKey = 5,
+            Name = Constants.Trend.NoSignificantChange
+        });
 
-         _dbContext.AreaDimension.Add(new AreaDimensionModel
-         {
-             AreaKey = FirstAreaEntityKey,
-             Code = "AreaCode1"
-         });
-         
-         _dbContext.AreaDimension.Add(new AreaDimensionModel
-         {
-             AreaKey = SecondAreaEntityKey,
-             Code = "AreaCode2"
-         });
-         _dbContext.SaveChanges();
-     }
+        _dbContext.AreaDimension.Add(new AreaDimensionModel
+        {
+            AreaKey = FirstAreaEntityKey,
+            Code = "AreaCode1"
+        });
+
+        _dbContext.AreaDimension.Add(new AreaDimensionModel
+        {
+            AreaKey = SecondAreaEntityKey,
+            Code = "AreaCode2"
+        });
+        _dbContext.SaveChanges();
+    }
 }
 
