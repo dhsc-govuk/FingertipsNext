@@ -4,7 +4,7 @@ exports[`PopulationDataTable > take a snapshot 1`] = `
 <DocumentFragment>
   <section>
     <h3
-      class="sc-gFqAkR fPHWbj"
+      class="sc-fPXMVe jsbxCf"
     >
       Population Data
     </h3>
@@ -18,19 +18,19 @@ exports[`PopulationDataTable > take a snapshot 1`] = `
           class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
             style="white-space: nowrap;"
           >
             Age Band
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
             style="white-space: nowrap;"
           >
             Females
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
             style="white-space: nowrap;"
           >
             Males
@@ -44,19 +44,19 @@ exports[`PopulationDataTable > take a snapshot 1`] = `
           class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             0-4
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             900
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             1,000
@@ -66,19 +66,19 @@ exports[`PopulationDataTable > take a snapshot 1`] = `
           class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             5-9
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             1,100
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             1,200
@@ -88,19 +88,19 @@ exports[`PopulationDataTable > take a snapshot 1`] = `
           class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             10-14
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             1,050
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             1,100
@@ -110,19 +110,19 @@ exports[`PopulationDataTable > take a snapshot 1`] = `
           class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             15+
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             1,250
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
             style="white-space: nowrap;"
           >
             1,300
@@ -132,17 +132,17 @@ exports[`PopulationDataTable > take a snapshot 1`] = `
           class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
           >
             All ages
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
           >
             4,300
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
           >
             4,600
           </th>

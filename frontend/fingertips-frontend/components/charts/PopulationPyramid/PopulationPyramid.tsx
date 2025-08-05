@@ -3,13 +3,14 @@
 import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { PopulationPyramidChart } from '@/components/charts/PopulationPyramid/PopulationPyramidChart/PopulationPyramidChart';
 import {
-  createPyramidPopulationDataFrom,
+  createPyramidPopulationData,
   PopulationDataForArea,
-} from '@/lib/chartHelpers/preparePopulationData';
+} from './helpers/preparePopulationData';
 import { TabContainer } from '@/components/layouts/tabContainer';
-import { H3 } from 'govuk-react';
+import { H3, Paragraph } from 'govuk-react';
 import {
   determineHealthDataForArea,
+  getLatestPeriodForAreas,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -21,7 +22,6 @@ import { StyleChartWrapper } from '@/components/styles/viewPlotStyles/styleChart
 import {
   determineHeaderTitle,
   determinePopulationDataForArea,
-  determineYear,
 } from './helpers/populationPyramidHelpers';
 import { AreaWithoutAreaType } from '@/lib/common-types';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
@@ -45,28 +45,26 @@ export const PopulationPyramid = ({
   indicatorName,
 }: Readonly<PyramidPopulationChartViewProps>) => {
   const searchState = useSearchStateParams();
+  if (!healthDataForAreas || healthDataForAreas.length === 0) return;
   const {
     [SearchParams.PopulationAreaSelected]: populationAreaSelected,
     [SearchParams.GroupSelected]: groupSelected,
     [SearchParams.AreaTypeSelected]: areaTypeSelected,
   } = searchState;
 
+  const popualtionData = createPyramidPopulationData(
+    healthDataForAreas,
+    groupSelected
+  );
+  if (!popualtionData) return;
+  const { pyramidDataForAreas, pyramidDataForEngland, pyramidDataForGroup } =
+    popualtionData;
+
   const healthdataWithoutGroup = seriesDataWithoutGroup(
     healthDataForAreas,
     groupSelected,
     true
   );
-
-  const healthDataForAreaSelected = determineHealthDataForArea(
-    healthdataWithoutGroup,
-    populationAreaSelected
-  );
-
-  const { areas, benchmark, group } = createPyramidPopulationDataFrom(
-    healthDataForAreas,
-    groupSelected ?? ''
-  );
-
   const availableAreas: AreaWithoutAreaType[] = healthdataWithoutGroup
     .map((area) => {
       if (area.areaCode && area.areaName) {
@@ -79,9 +77,9 @@ export const PopulationPyramid = ({
     .filter((area) => area !== undefined);
 
   const areasForPopulationData: PopulationDataForArea[] = [];
-  areasForPopulationData.push(...areas);
-  if (benchmark) areasForPopulationData.push(benchmark);
-  if (group) areasForPopulationData.push(group);
+  if (pyramidDataForAreas) areasForPopulationData.push(...pyramidDataForAreas);
+  if (pyramidDataForEngland) areasForPopulationData.push(pyramidDataForEngland);
+  if (pyramidDataForGroup) areasForPopulationData.push(pyramidDataForGroup);
 
   const populationDataForSelectedArea = determinePopulationDataForArea(
     areasForPopulationData,
@@ -89,24 +87,30 @@ export const PopulationPyramid = ({
     populationAreaSelected
   );
 
-  if (!populationDataForSelectedArea) return null;
-
-  const benchmarkToUse =
-    populationDataForSelectedArea.areaCode !== areaCodeForEngland
-      ? benchmark
+  const populationDataForBenchmarkToUse =
+    populationDataForSelectedArea?.areaCode !== areaCodeForEngland
+      ? pyramidDataForEngland
       : undefined;
 
-  const groupToUse =
-    populationDataForSelectedArea.areaCode !== areaCodeForEngland
-      ? group
+  const populationDataForGroupToUse =
+    populationDataForSelectedArea?.areaCode !== areaCodeForEngland
+      ? pyramidDataForGroup
       : undefined;
 
-  const period = determineYear(healthDataForAreaSelected?.healthData ?? []);
+  const healthDataForAreaSelected = determineHealthDataForArea(
+    healthdataWithoutGroup,
+    populationAreaSelected
+  );
+
+  const latestPeriodAsNumber = getLatestPeriodForAreas(healthDataForAreas);
+  const year = latestPeriodAsNumber
+    ? new Date(latestPeriodAsNumber).getFullYear()
+    : undefined;
 
   const title = determineHeaderTitle(
     healthDataForAreaSelected,
     areaTypeSelected,
-    period
+    year
   );
 
   return (
@@ -127,40 +131,46 @@ export const PopulationPyramid = ({
               availableAreas={availableAreas}
               chartAreaSelectedKey={SearchParams.PopulationAreaSelected}
             />
-            <TabContainer
-              id="pyramidChartAndTableView"
-              items={[
-                {
-                  id: 'populationPyramidChart',
-                  title: 'Population pyramid',
-                  content: (
-                    <PopulationPyramidChart
-                      title={title}
-                      dataForSelectedArea={populationDataForSelectedArea}
-                      dataForGroup={groupToUse}
-                      dataForBenchmark={benchmarkToUse}
-                      xAxisTitle={xAxisTitle}
-                      yAxisTitle={yAxisTitle}
-                    />
-                  ),
-                },
-                {
-                  id: 'populationPyramidTable',
-                  title: 'Table',
-                  content: (
-                    <PopulationPyramidChartTable
-                      title={title}
-                      healthDataForArea={populationDataForSelectedArea}
-                      benchmarkData={benchmarkToUse}
-                      groupData={groupToUse}
-                      indicatorId={indicatorId}
-                      indicatorName={indicatorName}
-                      period={period}
-                    />
-                  ),
-                },
-              ]}
-            />
+            {populationDataForSelectedArea && year ? (
+              <TabContainer
+                id="pyramidChartAndTableView"
+                items={[
+                  {
+                    id: 'populationPyramidChart',
+                    title: 'Population pyramid',
+                    content: (
+                      <PopulationPyramidChart
+                        title={title}
+                        dataForSelectedArea={populationDataForSelectedArea}
+                        dataForGroup={populationDataForGroupToUse}
+                        dataForBenchmark={populationDataForBenchmarkToUse}
+                        xAxisTitle={xAxisTitle}
+                        yAxisTitle={yAxisTitle}
+                      />
+                    ),
+                  },
+                  {
+                    id: 'populationPyramidTable',
+                    title: 'Table',
+                    content: (
+                      <PopulationPyramidChartTable
+                        title={title}
+                        populationDataForArea={populationDataForSelectedArea}
+                        populationDataForBenchmark={
+                          populationDataForBenchmarkToUse
+                        }
+                        populationDataForGroup={populationDataForGroupToUse}
+                        indicatorId={indicatorId}
+                        indicatorName={indicatorName}
+                        period={year}
+                      />
+                    ),
+                  },
+                ]}
+              />
+            ) : (
+              <Paragraph>No population data for this area</Paragraph>
+            )}
           </div>
         </ArrowExpander>
       </StyleChartWrapper>

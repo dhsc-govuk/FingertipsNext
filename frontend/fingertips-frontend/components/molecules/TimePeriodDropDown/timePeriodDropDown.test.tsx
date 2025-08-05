@@ -38,6 +38,7 @@ describe('TimePeriodDropDown suite', () => {
       `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
       `&${SearchParams.InequalityYearSelected}=2022`,
+      `&${SearchParams.InequalityLineChartAreaSelected}=${areaCodeForEngland}`,
     ].join('');
 
     const user = userEvent.setup();
@@ -56,6 +57,7 @@ describe('TimePeriodDropDown suite', () => {
       `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
       `&${SearchParams.InequalityYearSelected}=2022`,
+      `&${SearchParams.InequalityLineChartAreaSelected}=${areaCodeForEngland}`,
     ].join('');
 
     const user = userEvent.setup();

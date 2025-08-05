@@ -57,5 +57,6 @@ export const populationPyramidRequestParams = (
       GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
       GetHealthDataForAnIndicatorInequalitiesEnum.Age,
     ],
+    latestOnly: true,
   };
 };

@@ -22,7 +22,7 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
         >
           <section>
             <h3
-              class="sc-gFqAkR fPHWbj"
+              class="sc-fPXMVe jsbxCf"
             >
               Test Area
             </h3>
@@ -36,19 +36,19 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                     style="white-space: nowrap;"
                   >
                     Age range
                   </th>
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                     style="white-space: nowrap;"
                   >
                     Male
                   </th>
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                     style="white-space: nowrap;"
                   >
                     Female
@@ -62,19 +62,19 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     0-4
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     900
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,000
@@ -84,19 +84,19 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     5-9
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,100
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,200
@@ -106,19 +106,19 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     10-14
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,050
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,100
@@ -128,19 +128,19 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     15+
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,250
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,300
@@ -150,17 +150,17 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                   >
                     All ages
                   </th>
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                   >
                     4,300
                   </th>
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                   >
                     4,600
                   </th>
@@ -174,7 +174,7 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
         >
           <section>
             <h3
-              class="sc-gFqAkR fPHWbj"
+              class="sc-fPXMVe jsbxCf"
             >
               Group Area
             </h3>
@@ -188,13 +188,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                     style="white-space: nowrap;"
                   >
                     Male
                   </th>
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                     style="white-space: nowrap;"
                   >
                     Female
@@ -208,13 +208,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     100
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,100
@@ -224,13 +224,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     10
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,300
@@ -240,13 +240,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,150
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,200
@@ -256,13 +256,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     150
                   </td>
                   <td
-                    class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                    class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                     style="white-space: nowrap;"
                   >
                     1,400
@@ -272,12 +272,12 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                   class="Row-sc-1y8eqfp-0"
                 >
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                   >
                     1,410
                   </th>
                   <th
-                    class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                    class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                   >
                     5,000
                   </th>
@@ -292,7 +292,7 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
       >
         <section>
           <h3
-            class="sc-gFqAkR fPHWbj"
+            class="sc-fPXMVe jsbxCf"
           >
             Benchmark Area
           </h3>
@@ -306,13 +306,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                 class="Row-sc-1y8eqfp-0"
               >
                 <th
-                  class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                  class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                   style="white-space: nowrap;"
                 >
                   Male
                 </th>
                 <th
-                  class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                  class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                   style="white-space: nowrap;"
                 >
                   Female
@@ -326,13 +326,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                 class="Row-sc-1y8eqfp-0"
               >
                 <td
-                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                  class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                   style="white-space: nowrap;"
                 >
                   1,100
                 </td>
                 <td
-                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                  class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                   style="white-space: nowrap;"
                 >
                   1,100
@@ -342,13 +342,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                 class="Row-sc-1y8eqfp-0"
               >
                 <td
-                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                  class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                   style="white-space: nowrap;"
                 >
                   1,200
                 </td>
                 <td
-                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                  class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                   style="white-space: nowrap;"
                 >
                   1,300
@@ -358,13 +358,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                 class="Row-sc-1y8eqfp-0"
               >
                 <td
-                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                  class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                   style="white-space: nowrap;"
                 >
                   1,150
                 </td>
                 <td
-                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                  class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                   style="white-space: nowrap;"
                 >
                   1,200
@@ -374,13 +374,13 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                 class="Row-sc-1y8eqfp-0"
               >
                 <td
-                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                  class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                   style="white-space: nowrap;"
                 >
                   1,350
                 </td>
                 <td
-                  class="Cell-sc-msv0l6-0 sc-iGgWBj gaSlHc eXbeNP"
+                  class="Cell-sc-msv0l6-0 sc-dcJsrY gaSlHc kcOQDY"
                   style="white-space: nowrap;"
                 >
                   1,400
@@ -390,12 +390,12 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
                 class="Row-sc-1y8eqfp-0"
               >
                 <th
-                  class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                  class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                 >
                   4,800
                 </th>
                 <th
-                  class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-ikkxIA hoeTcz dzKXJe kRdRSs"
+                  class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-gFqAkR cFENDr hucACB jbAoR"
                 >
                   5,000
                 </th>
@@ -410,7 +410,7 @@ exports[`PopulationPyramidChartTable > check that all 3 tables are rendered and 
       style="display: none;"
     >
       <div
-        class="sc-fUnMCh deztZs"
+        class="sc-feUZmu jtpzdf"
       >
         ©Crown copyright 2024. Office for Health Improvement & Disparities.
         <br />
