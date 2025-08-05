@@ -147,18 +147,26 @@ export function SparklineChart({
         animation: false,
         dataLabels: {
           enabled: true,
+          useHTML: true,
+          align: 'left',
           formatter: function () {
-            return benchmarkTextForBar(
+            const label = benchmarkTextForBar(
               area,
               benchmarkOutcome,
               benchmarkComparisonMethod
             );
+
+            if (label.includes('quintile')) {
+              return label.replace(' quintile', '<br/>quintile');
+            }
+            return label;
           },
           style: {
             color: '#000',
             fontSize: '17px',
             fontWeight: 'normal',
             textOutline: 'none',
+            whiteSpace: 'normal',
           },
           x: 20,
         },
