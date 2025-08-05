@@ -1,6 +1,5 @@
 import {
   HealthDataForArea,
-  Indicator,
   IndicatorSegment,
   PeriodType,
   ReportingPeriod,
