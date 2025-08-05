@@ -155,7 +155,7 @@ export function InequalitiesBarChart({
         enabled: true,
         formatter: function () {
           const point = this as InequalitiesPoint;
-          return `${this.y} - ${point.benchmarkOutcome}`;
+          return `${point.y} - ${point.benchmarkOutcome}`;
         },
         style: {
           color: '#000',
