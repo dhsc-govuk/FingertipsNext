@@ -40,6 +40,7 @@ export function PopulationPyramidChart({
       dataForGroup
     );
   const id = 'populationPyramidChart';
+
   return (
     <>
       <div id={id} data-testid={`${id}-component`}>
