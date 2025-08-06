@@ -364,7 +364,7 @@ describe('getIndicatorData', () => {
       areaCodes: [areaCodeForEngland],
       areaType: 'england',
       indicatorId: 1,
-      years: [2006],
+      latestOnly: true,
     });
     expect(
       mockedGetgetAuthorisedHealthDataForAnIndicator
@@ -372,7 +372,7 @@ describe('getIndicatorData', () => {
       areaCodes: ['ggg'],
       areaType: 'test_group_type',
       indicatorId: 1,
-      years: [2006],
+      latestOnly: true,
     });
   });
 
