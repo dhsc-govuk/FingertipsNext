@@ -80,6 +80,6 @@ describe('Inequalities InequalitiesBarChart suite', () => {
     const barChart = await screen.findByTestId(
       'highcharts-react-component-inequalitiesBarChart'
     );
-    expect(barChart).toHaveTextContent('890.328253 - NotCompared');
+    expect(barChart).toHaveTextContent('890.3 - NotCompared');
   });
 });
