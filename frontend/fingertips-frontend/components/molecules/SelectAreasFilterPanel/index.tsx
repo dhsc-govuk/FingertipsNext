@@ -126,6 +126,13 @@ export function SelectAreasFilterPanel({
     }
 
     if (checked) {
+      if (searchState[SearchParams.GroupSelected] === areaCodeForEngland) {
+        searchStateManager.addParamValueToState(
+          SearchParams.GroupSelected,
+          areaFilterData?.availableGroups?.[0].code ?? areaCodeForEngland
+        );
+      }
+
       searchStateManager.addParamValueToState(
         SearchParams.AreasSelected,
         areaCode
