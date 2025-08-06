@@ -65,7 +65,6 @@ export const BarChartEmbeddedRow: FC<BarChartEmbeddedRowProps> = ({
             polarity={polarity}
             label={AreaTypeLabelEnum.Area}
             area={item.area}
-            year={item.year}
             measurementUnit={measurementUnit}
             benchmarkArea={item.benchmarkComparison?.benchmarkAreaName}
             period={period}

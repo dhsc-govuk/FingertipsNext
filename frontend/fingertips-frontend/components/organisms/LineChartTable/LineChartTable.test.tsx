@@ -3,8 +3,6 @@ import { render, screen, within } from '@testing-library/react';
 import {
   LineChartTable,
   LineChartTableHeadingEnum,
-  LineChartTableRowData,
-  mapToLineChartTableData,
 } from '@/components/organisms/LineChartTable/index';
 import {
   MOCK_ENGLAND_DATA,
@@ -23,6 +21,10 @@ import {
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
+import {
+  convertDateToNumber,
+  formatDatePointLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 describe('Line chart table suite', () => {
   beforeAll(() => {
@@ -40,7 +42,7 @@ describe('Line chart table suite', () => {
       areaName: 'Greater Manchester ICB - 00T',
       healthData: [
         {
-          year: 2008,
+          year: 0,
           datePeriod: {
             type: PeriodType.Calendar,
             from: new Date('2008-01-01'),
@@ -59,7 +61,7 @@ describe('Line chart table suite', () => {
           },
         },
         {
-          year: 2004,
+          year: 0,
           datePeriod: {
             type: PeriodType.Calendar,
             from: new Date('2004-01-01'),
@@ -84,7 +86,7 @@ describe('Line chart table suite', () => {
       healthData: [
         ...MOCK_HEALTH_DATA[1].healthData.slice(0, -1),
         {
-          year: 2004,
+          year: 0,
           datePeriod: {
             type: PeriodType.Calendar,
             from: new Date('2004-01-01'),
@@ -538,56 +540,23 @@ describe('Line chart table suite', () => {
     });
   });
 
-  describe('mapToLineChartTableData', () => {
-    it('should map to linechart table row data', () => {
-      const expectedRowData: LineChartTableRowData[] = [
-        {
-          period: 2008,
-          value: 890.305692,
-          count: 222,
-          upper: 578.32766,
-          lower: 441.69151,
-        },
-        {
-          count: 267,
-          lower: 441.69151,
-          period: 2004,
-          upper: 578.32766,
-          value: 703.420759,
-        },
-        {
-          period: 2004,
-          count: 267,
-          value: 703.420759,
-          lower: 441.69151,
-          upper: 578.32766,
-        },
-        {
-          period: 2004,
-          count: 267,
-          value: 703.420759,
-          lower: 441.69151,
-          upper: 578.32766,
-        },
-      ];
-
-      expect(mapToLineChartTableData(MOCK_HEALTH_DATA[0])).toEqual(
-        expectedRowData
-      );
-    });
-  });
-
   const expectPeriodsToBeDisplayedInAscendingOrder = (cellsPerRow: number) => {
     const sortedHealthData = {
       ...mockHealthData[0],
       healthData: mockHealthData[0].healthData.toSorted(
-        (a, b) => a.year - b.year
+        (a, b) =>
+          convertDateToNumber(a.datePeriod?.to) -
+          convertDateToNumber(b.datePeriod?.to)
       ),
     };
 
     for (let i = 0; i < mockHealthData[0].healthData.length; i++) {
       expect(screen.getAllByRole('cell')[i * cellsPerRow]).toHaveTextContent(
-        String(sortedHealthData.healthData[i].year)
+        formatDatePointLabel(
+          sortedHealthData.healthData[i].datePeriod,
+          Frequency.Annually,
+          true
+        )
       );
     }
   };

@@ -7,12 +7,14 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import {
   HealthDataForArea,
   HealthDataPointTrendEnum,
+  PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { SpineChartIndicatorData } from '../helpers/buildSpineChartIndicatorData';
 import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { mockSpineIndicatorData } from '@/components/charts/SpineChart/SpineChartTable/spineChartMockTestData';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 const mockSearchState: SearchStateParams = {
   [SearchParams.SearchedIndicator]: 'some search',
@@ -104,7 +106,12 @@ describe('Spine chart table row', () => {
           areaName: 'Greater Manchester ICB - 01T',
           healthData: [
             {
-              year: 2025,
+              year: 0,
+              datePeriod: mockDatePeriod({
+                type: PeriodType.Financial,
+                from: new Date('2023-04-06'),
+                to: new Date('2024-04-05'),
+              }),
               count: 333,
               value: 800.305692,
               lowerCi: 341.69151,

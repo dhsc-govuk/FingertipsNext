@@ -12,7 +12,6 @@ import {
   AreaTypeLabelEnum,
   getTooltipContent,
   createTooltipHTML,
-  getLatestYear,
   getFormattedLabel,
   determineAreasForBenchmarking,
   determineBenchmarkToUse,
@@ -1438,12 +1437,6 @@ describe('getTooltipHtml', () => {
         '%'
       )
     ).toEqual(expected);
-  });
-});
-
-describe('getLatestYear', () => {
-  it('should return the latest year for an area', () => {
-    expect(getLatestYear(mockData[0].healthData)).toBe(2006);
   });
 });
 
