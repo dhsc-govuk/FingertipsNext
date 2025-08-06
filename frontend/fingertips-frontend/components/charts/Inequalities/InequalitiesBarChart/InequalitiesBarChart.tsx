@@ -164,7 +164,7 @@ export function InequalitiesBarChart({
           fontSize: '17px',
           textOutline: 'none',
         },
-        x: 20,
+        x: showConfidenceIntervalsData ? 60 : 50,
       },
     },
     generateConfidenceIntervalSeries(
