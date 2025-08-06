@@ -12,7 +12,7 @@ import {
   getTrendColour,
   getTrendConditionColours,
 } from '@/components/molecules/TrendTag/trendTagConfig';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 interface TagProps {
   trendFromResponse: HealthDataPointTrendEnum;

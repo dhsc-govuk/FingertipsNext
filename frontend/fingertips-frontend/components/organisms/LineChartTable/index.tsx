@@ -12,7 +12,6 @@ import {
 } from '@/generated-sources/ft-api-client';
 import styled from 'styled-components';
 import React, { FC } from 'react';
-
 import {
   StyledAlignCenterTableCellWidth,
   StyledAlignLeftHeader,
@@ -181,6 +180,20 @@ const BenchmarkCell: FC<BenchmarkCellProps> = ({
     </CellWrapper>
   );
 };
+
+export const mapToLineChartTableData = (
+  areaData: HealthDataForArea
+): LineChartTableRowData[] =>
+  areaData.healthData.map((healthPoint) => {
+    return {
+      period: healthPoint.periodLabel ?? 'X',
+      count: healthPoint.count,
+      value: healthPoint.value,
+      lower: healthPoint.lowerCi,
+      upper: healthPoint.upperCi,
+      benchmarkComparison: healthPoint.benchmarkComparison,
+    };
+  });
 
 const StyledTitleCell = styled(StyledAlignLeftHeader)({
   border: 'none',

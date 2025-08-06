@@ -8,6 +8,7 @@ import {
   HealthDataForArea,
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
+  IndicatorWithHealthDataForAreaAPI,
 } from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'vitest-mock-extended';
 import { ApiClientFactory } from '@/lib/apiClient/apiClientFactory';
@@ -70,8 +71,12 @@ describe('TwoOrMoreIndicatorsAreasView - England only', () => {
   describe('TwoOrMoreIndicatorsAreasView when the area code is england', () => {
     beforeEach(() => {
       mockIndicatorsApi.getHealthDataForAnIndicator
-        .mockResolvedValueOnce(mockIndicator)
-        .mockResolvedValueOnce(mockIndicatorWithHealthData);
+        .mockResolvedValueOnce(
+          mockIndicator as IndicatorWithHealthDataForAreaAPI
+        )
+        .mockResolvedValueOnce(
+          mockIndicatorWithHealthData as IndicatorWithHealthDataForAreaAPI
+        );
     });
 
     it('should throw an error when search state contains no selected indicators', async () => {

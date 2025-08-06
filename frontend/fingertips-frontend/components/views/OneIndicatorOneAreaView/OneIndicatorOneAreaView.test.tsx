@@ -8,6 +8,7 @@ import {
   GetHealthDataForAnIndicatorInequalitiesEnum,
   IndicatorPolarity,
   IndicatorsApi,
+  IndicatorWithHealthDataForAreaAPI,
 } from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'vitest-mock-extended';
 import OneIndicatorOneAreaView from '.';
@@ -147,7 +148,7 @@ describe('OneIndicatorOneAreaView', () => {
       areaHealthData: [mockHealthData['108'][1]],
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValueOnce(
-      mockIndicator
+      mockIndicator as IndicatorWithHealthDataForAreaAPI
     );
 
     const page = await OneIndicatorOneAreaView({ searchState: searchState });

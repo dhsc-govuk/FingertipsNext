@@ -66,7 +66,7 @@ export const valueSelectorForInequality: Record<
   InequalitiesTypes,
   InequalityValueSelector
 > = {
-  [InequalitiesTypes.Sex]: (dataPoint) => dataPoint.sex.value,
+  [InequalitiesTypes.Sex]: (dataPoint) => dataPoint.sex?.value ?? 'X',
   [InequalitiesTypes.Deprivation]: (dataPoint) => dataPoint.deprivation.value,
 };
 
@@ -84,10 +84,10 @@ export const healthDataFilterFunctionGeneratorForInequality: Record<
   (category: string) => HealthDataFilterFunction
 > = {
   [InequalitiesTypes.Sex]: () => (data: HealthDataPoint) =>
-    data.deprivation.isAggregate && data.ageBand.isAggregate,
+    data.deprivation.isAggregate && !!data.ageBand?.isAggregate,
   [InequalitiesTypes.Deprivation]: (category) => (data: HealthDataPoint) =>
-    data.sex.isAggregate &&
-    data.ageBand.isAggregate &&
+    !!data.sex?.isAggregate &&
+    !!data.ageBand?.isAggregate &&
     (data.deprivation.isAggregate || data.deprivation.type == category),
 };
 
@@ -253,7 +253,7 @@ function hasHealthDataForInequalities(
     return (
       healthDataPointsForPeriod?.filter((healthDataForYear) =>
         inequalityType === InequalitiesTypes.Sex
-          ? !healthDataForYear.sex.isAggregate
+          ? !healthDataForYear.sex?.isAggregate
           : !healthDataForYear.deprivation.isAggregate
       ).length > 0
     );
@@ -262,7 +262,7 @@ function hasHealthDataForInequalities(
   const healthDataPointWithInequalities = healthDataForArea?.healthData?.filter(
     (data) =>
       inequalityType === InequalitiesTypes.Sex
-        ? !data.sex.isAggregate
+        ? !data.sex?.isAggregate
         : !data.deprivation.isAggregate
   );
 
@@ -365,10 +365,10 @@ export const isSexTypePresent = (
 ): boolean => {
   if (selectedPeriod) {
     return dataPoints.some(
-      (point) => !point.sex.isAggregate && point.periodLabel === selectedPeriod
+      (point) => !point.sex?.isAggregate && point.periodLabel === selectedPeriod
     );
   }
-  return dataPoints.some((point) => !point.sex.isAggregate);
+  return dataPoints.some((point) => !point.sex?.isAggregate);
 };
 
 export const getInequalityCategories = (
