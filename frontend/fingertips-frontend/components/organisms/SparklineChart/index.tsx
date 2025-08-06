@@ -168,7 +168,7 @@ export function SparklineChart({
             textOutline: 'none',
             whiteSpace: 'normal',
           },
-          x: 20,
+          x: showConfidenceIntervalsData ? 50 : 20,
         },
       },
       confidenceIntervalSeries,
