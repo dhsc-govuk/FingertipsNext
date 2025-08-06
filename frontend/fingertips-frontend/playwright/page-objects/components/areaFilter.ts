@@ -348,7 +348,7 @@ export default class AreaFilter extends BasePage {
       await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(i));
       await this.page.waitForLoadState();
 
-      // Wait for URL to contain area type after first checkbox selection
+      // If area type has been passed, wait for URL to contain area type after first checkbox selection
       if (i === 1 && areaType) {
         await this.waitForURLToContain(areaType);
       }
