@@ -6,6 +6,8 @@ import {
   BenchmarkReferenceType,
   HealthDataForArea,
   IndicatorsApi,
+  IndicatorWithHealthDataForArea,
+  IndicatorWithHealthDataForAreaAPI,
 } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'vitest-mock-extended';
@@ -16,7 +18,6 @@ import {
   ApiClientFactory,
 } from '@/lib/apiClient/apiClientFactory';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { englandAreaType } from '@/lib/areaFilterHelpers/areaType';
 
 const mockIndicatorsApi = mockDeep<IndicatorsApi>();
@@ -80,7 +81,7 @@ describe('TwoOrMoreIndicatorsAreasView', () => {
   beforeEach(() => {
     mockIndicatorsApi.getHealthDataForAnIndicator.mockClear();
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
-      mockIndicator
+      mockIndicator as IndicatorWithHealthDataForAreaAPI
     );
     mockIndicatorsApi.indicatorsQuartilesGet.mockResolvedValue([]);
   });

@@ -7,7 +7,7 @@
       "v1.0": {
         "generatorName": "typescript-fetch",
         "inputSpec": "./../../api/definition/fingertipsAPI.yaml",
-        "output": "generated-sources/ft-api-client",
+        "output": "generated-sources-api/ft-api-client",
         "additionalProperties": {
           "supportsES6": true,
           "withInterfaces": true

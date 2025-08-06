@@ -1,14 +1,14 @@
 'use client';
 
-import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { useMemo } from 'react';
 import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
   thematicMapTitle,
 } from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
-import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
+import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client';
+import { IndicatorPolarity } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ThematicMapCredits } from './ThematicMapCredits';
 import { useMapGeographyData } from '@/components/charts/ThematicMap/hooks/useMapGeographyData';

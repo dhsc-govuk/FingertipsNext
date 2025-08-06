@@ -10,7 +10,6 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { H3, Paragraph } from 'govuk-react';
 import {
   determineHealthDataForArea,
-  getLatestPeriodForAreas,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
@@ -102,10 +101,8 @@ export const PopulationPyramid = ({
     populationAreaSelected
   );
 
-  const latestPeriodAsNumber = getLatestPeriodForAreas(healthDataForAreas);
-  const year = latestPeriodAsNumber
-    ? new Date(latestPeriodAsNumber).getFullYear()
-    : undefined;
+  const year =
+    healthDataForAreas[0]?.indicatorSegments?.[0]?.healthData?.[0]?.datePeriod?.to.getFullYear();
 
   const title = determineHeaderTitle(
     healthDataForAreaSelected,

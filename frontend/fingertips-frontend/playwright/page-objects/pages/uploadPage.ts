@@ -1,4 +1,4 @@
-import { BatchStatusEnum } from '@/generated-sources/ft-api-client/models/Batch';
+import { BatchStatusEnum } from '@/generated-sources/ft-api-client';
 import BasePage from '../basePage';
 import { expect } from '../pageFactory';
 

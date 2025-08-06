@@ -203,7 +203,7 @@ describe('valueSelectorForInequality', () => {
   it('should select the sex value for the Sex inequality type', () => {
     const valueSelector = valueSelectorForInequality[InequalitiesTypes.Sex];
 
-    expect(valueSelector(healthDataPoint)).toBe(healthDataPoint.sex.value);
+    expect(valueSelector(healthDataPoint)).toBe(healthDataPoint.sex?.value);
   });
 
   it('should select the deprivation value for the Deprivation inequality type', () => {
@@ -247,11 +247,11 @@ describe('healthDataFilterFunctionGeneratorForInequality', () => {
       },
       {
         ...healthDataPoint,
-        sex: { ...healthDataPoint.sex, isAggregate: false },
+        sex: { value: 'Persons', isAggregate: false },
       },
       {
         ...healthDataPoint,
-        ageBand: { ...healthDataPoint.ageBand, isAggregate: false },
+        ageBand: { value: 'All ages', isAggregate: false },
       },
       {
         ...healthDataPoint,
@@ -291,11 +291,11 @@ describe('healthDataFilterFunctionGeneratorForInequality', () => {
       },
       {
         ...healthDataPoint,
-        sex: { ...healthDataPoint.sex, isAggregate: false },
+        sex: { value: 'Persons', isAggregate: false },
       },
       {
         ...healthDataPoint,
-        ageBand: { ...healthDataPoint.ageBand, isAggregate: false },
+        ageBand: { value: 'All ages', isAggregate: false },
       },
       {
         ...healthDataPoint,
@@ -385,7 +385,7 @@ describe('groupHealthDataByInequality', () => {
     expect(
       groupHealthDataByInequality(
         MOCK_INEQUALITIES_DATA.healthData,
-        (data) => data.sex.value
+        (data) => data.sex?.value ?? 'X'
       )
     ).toEqual(healthDataGroupedBySex);
   });
@@ -396,7 +396,7 @@ describe('getHealthDataGroupedByPeriodAndInequalities', () => {
     expect(
       getHealthDataGroupedByPeriodAndInequalities(
         groupHealthDataByPeriod(MOCK_INEQUALITIES_DATA.healthData),
-        (data) => data.sex.value
+        (data) => data.sex?.value ?? 'X'
       )
     ).toEqual(healthDataGroupedByPeriodAndSex);
   });
@@ -1102,7 +1102,7 @@ describe('filterHealthData', () => {
     const healthData = MOCK_INEQUALITIES_DATA.healthData;
     const filteredHealthData = filterHealthData(
       healthData,
-      (data) => data.sex.value === 'Persons'
+      (data) => data.sex?.value === 'Persons'
     );
 
     expect(filteredHealthData).toEqual([healthData[0], healthData[2]]);

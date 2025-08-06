@@ -1,4 +1,4 @@
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument, RawIndicatorDocument } from './searchTypes';
 
 const currentDate = new Date();
