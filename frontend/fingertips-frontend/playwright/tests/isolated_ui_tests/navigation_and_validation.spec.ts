@@ -462,8 +462,8 @@ test.describe('Area Filter Tests', () => {
       const countiesAndUnitaryAuthoritiesAreaType =
         'counties-and-unitary-authorities';
       const groupType = 'combined-authorities';
-      const area = 'County Durham';
-      const areaCode = 'E06000047';
+      const area = 'Cambridgeshire';
+      const areaCode = 'E10000003';
 
       await resultsPage.selectAreaTypeAndAssertURLUpdated(
         countiesAndUnitaryAuthoritiesAreaType
