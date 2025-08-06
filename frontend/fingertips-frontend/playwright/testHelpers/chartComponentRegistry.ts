@@ -10,6 +10,8 @@ export const allComponents: ChartComponentDefinition[] = [
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
       hasConfidenceIntervals: true,
+      hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -20,6 +22,8 @@ export const allComponents: ChartComponentDefinition[] = [
       isTabTable: true,
       hasRecentTrend: true,
       hasBenchmarkComparisons: true,
+      hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -28,6 +32,8 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasSVGExport: true,
       hasConfidenceIntervals: true,
+      hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -36,6 +42,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasInequalitiesTimePeriodDropDown: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -43,6 +50,7 @@ export const allComponents: ChartComponentDefinition[] = [
     chartComponentProps: {
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -53,6 +61,8 @@ export const allComponents: ChartComponentDefinition[] = [
       hasInequalityTypeDropDown: true,
       isWideComponent: true,
       hasConfidenceIntervals: true,
+      hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -62,6 +72,8 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
+      hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -71,6 +83,8 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       isTabTable: true,
+      hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -96,6 +110,8 @@ export const allComponents: ChartComponentDefinition[] = [
       hasSVGExport: true,
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
+      hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -107,6 +123,8 @@ export const allComponents: ChartComponentDefinition[] = [
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
       hasConfidenceIntervals: true,
+      hasTimePeriodFrequencyInTitle: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -115,6 +133,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasPNGExport: true,
       hasCSVExport: true,
       hasRecentTrend: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -125,6 +144,7 @@ export const allComponents: ChartComponentDefinition[] = [
       isWideComponent: true,
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
   {
@@ -136,6 +156,7 @@ export const allComponents: ChartComponentDefinition[] = [
       hasRecentTrend: true,
       hasBenchmarkComparisons: true,
       hasTooltipHovers: true,
+      hasTimePeriodDatePointInChart: true,
     },
   },
 ];
