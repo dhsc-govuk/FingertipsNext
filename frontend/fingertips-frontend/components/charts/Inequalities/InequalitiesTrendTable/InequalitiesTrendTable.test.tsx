@@ -194,7 +194,7 @@ describe('Inequalities table suite', () => {
     expect(container.asFragment()).toMatchSnapshot();
   });
 
-  it.skip('should not render rows for aggregate (benchmark or group) years before or after the areas have data', () => {
+  it('should not render rows for aggregate (benchmark or group) years before or after the areas have data', () => {
     const tableDataWithExtraYears: InequalitiesChartData = {
       ...tableData,
       rowData: [

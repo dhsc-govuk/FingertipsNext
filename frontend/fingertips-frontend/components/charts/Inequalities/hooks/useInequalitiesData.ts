@@ -43,7 +43,7 @@ export const useInequalitiesData = (chartType = ChartType.SingleTimePeriod) => {
       chartType
     );
 
-    if (!data || !healthData || !indicatorMetaData) return null;
+    if (!data) return null;
     return data;
   }, [chartType, healthData, indicatorMetaData, searchState]);
 };
