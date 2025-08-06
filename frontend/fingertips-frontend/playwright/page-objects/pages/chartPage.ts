@@ -302,7 +302,7 @@ export default class ChartPage extends AreaFilter {
 
     await this.selectOptionAndAwaitLoadingComplete(combobox, lastOption);
     await this.waitAfterDropDownInteraction();
-    await this.waitForURLToContain(lastOption);
+    await this.waitForURLToContain(encodeURIComponent(lastOption));
 
     await expect(
       this.page
@@ -908,6 +908,14 @@ export default class ChartPage extends AreaFilter {
         signInAsUserToCheckUnpublishedData ===
           SignInAs.userWithIndicatorPermissions);
 
+    // For other components, check both calendar and fiscal year formats
+    const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
+    const nextFiscalYear = `${String(unpublishedDataYear)}/${nextYearShort}`;
+    const dateFormats = [
+      String(unpublishedDataYear), // Calendar year
+      nextFiscalYear, // Fiscal year
+    ];
+
     // If the chart component is inequalities bar chart table, we need to check the combobox options for the unpublished data year
     if (
       chartComponentLocator === ChartPage.inequalitiesBarChartTableComponent
@@ -917,8 +925,8 @@ export default class ChartPage extends AreaFilter {
         .getByRole('combobox');
       const options = await this.getSelectOptions(combobox);
       const expectedOption = {
-        value: String(unpublishedDataYear),
-        text: String(unpublishedDataYear),
+        value: nextFiscalYear,
+        text: nextFiscalYear,
       };
 
       if (shouldShowUnpublishedData) {
@@ -939,13 +947,6 @@ export default class ChartPage extends AreaFilter {
         expect(options).not.toContainEqual(expectedOption);
       }
     }
-
-    // For other components, check both calendar and fiscal year formats
-    const nextYearShort = String(unpublishedDataYear + 1).slice(-2);
-    const dateFormats = [
-      String(unpublishedDataYear), // Calendar year
-      `${String(unpublishedDataYear)}/${nextYearShort}`, // Fiscal year
-    ];
 
     for (const dateFormat of dateFormats) {
       try {

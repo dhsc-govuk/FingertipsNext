@@ -10,12 +10,12 @@ describe('inequalitiesBarChartData', () => {
 
   const mockAllData: InequalitiesTableRowData[] = [
     {
-      period: 2020,
+      period: '2020',
       value: 100,
       category: 'Male',
     },
     {
-      period: 2021,
+      period: '2021',
       value: 105,
       category: 'Female',
     },
@@ -30,7 +30,7 @@ describe('inequalitiesBarChartData', () => {
     const result = inequalitiesBarChartData(
       mockHealthData,
       mockAllData,
-      [2020, 2021],
+      ['2020', '2021'],
       '2019'
     );
     expect(result).toBeNull();
@@ -40,7 +40,7 @@ describe('inequalitiesBarChartData', () => {
     const result = inequalitiesBarChartData(
       mockHealthData,
       mockAllData,
-      [2020, 2021],
+      ['2020', '2021'],
       '2020'
     );
     expect(result).toEqual({
@@ -51,11 +51,10 @@ describe('inequalitiesBarChartData', () => {
   });
 
   it('falls back to the first year in years array when selectedYear is undefined', () => {
-    const result = inequalitiesBarChartData(
-      mockHealthData,
-      mockAllData,
-      [2021, 2020]
-    );
+    const result = inequalitiesBarChartData(mockHealthData, mockAllData, [
+      '2021',
+      '2020',
+    ]);
     expect(result).toEqual({
       areaCode: 'E123',
       areaName: 'Test Area',

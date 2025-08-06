@@ -19,7 +19,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
   const inequalityCategory = 'Sex';
   const sortedKeys = ['Persons', 'Male', 'Female'];
   const tableData: InequalitiesTableRowData = {
-    period: 2026,
+    period: '2026',
     inequalities: {
       Male: {
         isAggregate: false,
@@ -90,7 +90,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2026,
+      '2026',
       areaName,
       areaCode,
       inequalityCategory,
@@ -107,7 +107,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2026,
+      '2026',
       areaName,
       areaCode,
       inequalityCategory,
@@ -124,7 +124,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2026,
+      '2026',
       areaName,
       areaCode,
       inequalityCategory,
@@ -145,7 +145,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
         areaCode,
         areaName,
         data: {
-          period: 2025,
+          period: '2025',
           inequalities: {
             Male: undefined,
             Female: { value: undefined },
@@ -168,7 +168,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
     expect(csvData).toContainEqual([
       undefined, // Indicator ID
       undefined, // Indicator name
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -183,7 +183,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
     expect(csvData).toContainEqual([
       undefined, // Indicator ID
       undefined, // Indicator name
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -198,7 +198,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
     expect(csvData).toContainEqual([
       undefined, // Indicator ID
       undefined, // Indicator name
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -220,7 +220,7 @@ describe('convertInequalitiesOverTimeTableToCsvData', () => {
           areaCode,
           areaName,
           data: {
-            period: 2025,
+            period: '2025',
             inequalities: {},
           },
         },

@@ -14,6 +14,7 @@ import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 import { formatNumber } from '../numberFormatter';
 import { AreaWithoutAreaType } from '../common-types';
 import { convertDateToNumber } from '../timePeriodHelpers/getTimePeriodLabels';
+import Highcharts from 'highcharts';
 
 export const AXIS_TITLE_FONT_SIZE = 19;
 export const AXIS_LABEL_FONT_SIZE = 16;
@@ -129,8 +130,8 @@ export function seriesDataWithoutGroup(
   return sortedAreasWithoutGroup;
 }
 
-export function determineHealthDataForArea(
-  healthDataForAllAreas: HealthDataForArea[],
+export function determineHealthDataForArea<T extends { areaCode: string }>(
+  healthDataForAllAreas: T[],
   areaToFind?: string
 ) {
   if (areaToFind) {
@@ -138,12 +139,6 @@ export function determineHealthDataForArea(
   }
 
   return healthDataForAllAreas[0];
-}
-
-export function getHealthDataWithoutInequalities(
-  data: HealthDataForArea
-): HealthDataPoint[] {
-  return data?.healthData?.filter((data) => data.isAggregate);
 }
 
 export function isEnglandSoleSelectedArea(areasSelected?: string[]) {
@@ -169,7 +164,7 @@ export const getBenchmarkColour = (
 
 export function generateConfidenceIntervalSeries(
   areaName: string | undefined,
-  data: (number | undefined | null)[][],
+  data: (string | number | undefined | null)[][],
   showConfidenceIntervalsData?: boolean,
   optionalParams?: {
     color?: GovukColours;
@@ -395,7 +390,7 @@ export const getTooltipContent = (
 export function createTooltipHTML(
   params: {
     areaName: string;
-    period: number;
+    period: string;
     fieldName: string | number;
     benchmarkComparisonSymbol: string;
     shouldHideComparison: boolean;

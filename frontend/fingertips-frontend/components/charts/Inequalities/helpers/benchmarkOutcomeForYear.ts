@@ -2,12 +2,12 @@ import { InequalitiesChartData } from '@/components/charts/Inequalities/helpers/
 import { BenchmarkOutcome } from '@/generated-sources/ft-api-client';
 
 export const benchmarkOutcomeForYear = (
-  year: number,
+  period: string,
   inequality: string,
   chartData: InequalitiesChartData
 ) => {
   const matchingRow = chartData.rowData.find(
-    (point) => point.period === Number(year)
+    (point) => point.period === period
   );
   return (
     matchingRow?.inequalities[inequality]?.benchmarkComparison?.outcome ??
