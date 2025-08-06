@@ -8,7 +8,10 @@ import {
   SignInAs,
   TestParameters,
 } from '@/playwright/testHelpers/genericTestUtilities';
-import { PeriodType } from '@/generated-sources/ft-api-client/models';
+import {
+  Frequency,
+  PeriodType,
+} from '@/generated-sources/ft-api-client/models';
 
 // this is for journeys that have a searchMode of either SearchMode.BOTH_SUBJECT_AND_AREA or SearchMode.ONLY_AREA
 export const areaSearchTerm: AreaDocument = {
@@ -25,7 +28,7 @@ export const coreTestJourneys: TestParameters[] = [
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.ONE_AREA,
-    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA, // therefore no subject search term or areaFiltersToSelect required
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA, // therefore no areaFiltersToSelect required
     subjectSearchTerm: 'Emergency',
     indicatorsToSelect: [
       {
@@ -33,6 +36,7 @@ export const coreTestJourneys: TestParameters[] = [
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
         segmentationData: [
           {
             sex: 'Male',
@@ -66,6 +70,7 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '92904',
         knownTrend: 'No significant change',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
         segmentationData: [
           {
             sex: 'Male',
@@ -93,6 +98,27 @@ export const coreTestJourneys: TestParameters[] = [
   },
   {
     indicatorMode: IndicatorMode.ONE_INDICATOR,
+    areaMode: AreaMode.TWO_AREAS,
+    searchMode: SearchMode.BOTH_SUBJECT_AND_AREA, // therefore no areaFiltersToSelect required
+    subjectSearchTerm: '91040',
+    indicatorsToSelect: [
+      {
+        indicatorID: '91040',
+        knownTrend: 'No significant change',
+        timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Quarterly,
+        segmentationData: [
+          {
+            sex: 'Persons',
+            age: '40-74 yrs',
+            reportingPeriod: ReportingPeriod.Quarterly,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    indicatorMode: IndicatorMode.ONE_INDICATOR,
     areaMode: AreaMode.THREE_PLUS_AREAS,
     searchMode: SearchMode.ONLY_SUBJECT,
     subjectSearchTerm: '91894', // tests searching for a single specific indicatorID
@@ -101,6 +127,7 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '91894',
         knownTrend: 'No significant change',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
         segmentationData: [
           {
             sex: 'Persons',
@@ -127,6 +154,7 @@ export const coreTestJourneys: TestParameters[] = [
         knownTrend: 'No recent trend data available', // 2023 has the trend 'No significant change' but 2024 has no trend data
         unpublishedDataYear: 2025,
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
         segmentationData: [
           {
             sex: 'Persons',
@@ -153,6 +181,7 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '22401',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
         segmentationData: [
           {
             sex: 'Male',
@@ -189,11 +218,13 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '247',
         knownTrend: 'No significant change',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '241',
         knownTrend: 'Increasing',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {
@@ -212,11 +243,13 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '93763',
         knownTrend: 'No recent trend data available',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '93861',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {
@@ -234,11 +267,13 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '20401',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '241',
         knownTrend: 'Increasing',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
     ],
   },
@@ -252,11 +287,13 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '383',
         knownTrend: 'No recent trend data available',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '91894',
         knownTrend: 'No recent trend data available',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {
@@ -275,11 +312,13 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '93124',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '92266',
         knownTrend: 'Decreasing',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {
@@ -299,16 +338,19 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '93474',
         knownTrend: 'Decreasing',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '22401',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '91894',
         knownTrend: 'Decreasing',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {
@@ -328,16 +370,19 @@ export const coreTestJourneys: TestParameters[] = [
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '22401',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '91894',
         knownTrend: 'Decreasing',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {
@@ -360,16 +405,19 @@ export const coreTestJourneys: TestParameters[] = [
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024, // this journey will check we do not show this unpublished data year as we we do not sign in at the start (no signInAsUserToCheckUnpublishedData attribute)
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '22401',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '91894',
         knownTrend: 'Decreasing',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {
@@ -389,16 +437,19 @@ export const coreTestJourneys: TestParameters[] = [
         knownTrend: 'No recent trend data available',
         unpublishedDataYear: 2024,
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '22401',
         knownTrend: 'No recent trend data available',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '91894',
         knownTrend: 'No recent trend data available',
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {
@@ -418,17 +469,20 @@ export const coreTestJourneys: TestParameters[] = [
         indicatorID: '93085',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '22401',
         knownTrend: 'Decreasing and getting better',
         timePeriod: PeriodType.Financial,
+        collectionFrequency: Frequency.Annually,
       },
       {
         indicatorID: '90453', // this indicator has unpublished data which should only be returned to the chart page if signed in and has indicator permissions / is an administrator
         knownTrend: 'No recent trend data available', // 2024 has the trend 'No significant change' but 2025 has no trend data so shows as 'No recent trend data available'
         unpublishedDataYear: 2025,
         timePeriod: PeriodType.Calendar,
+        collectionFrequency: Frequency.Annually,
       },
     ],
     areaFiltersToSelect: {

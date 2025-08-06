@@ -232,6 +232,21 @@ export default class AreaFilter extends BasePage {
     } else if (
       (searchMode === SearchMode.ONLY_AREA ||
         searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) &&
+      areaMode === AreaMode.TWO_AREAS
+    ) {
+      // Need to select an additional checkbox for these scenarios, as one is already selected
+      const areaCheckboxList = this.page
+        .getByTestId(this.areaFilterContainer)
+        .getByRole('checkbox');
+
+      await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(1));
+
+      await expect(
+        this.page.getByTestId(this.areaFilterContainer)
+      ).toContainText('Selected areas (2)');
+    } else if (
+      (searchMode === SearchMode.ONLY_AREA ||
+        searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) &&
       areaMode === AreaMode.THREE_PLUS_AREAS
     ) {
       // Need to select an additional 2 checkboxes for these scenarios, as one is already selected

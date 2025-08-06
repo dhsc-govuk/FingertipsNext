@@ -12,6 +12,7 @@ import {
   ChartComponentDefinition,
   ComponentInteractionConfig,
   SignInAs,
+  TimePeriodWithFrequency,
 } from '../../testHelpers/testDefinitions';
 import { expect } from '../pageFactory';
 import AreaFilter from '../components/areaFilter';
@@ -29,6 +30,7 @@ import { copyrightDateFormat } from '@/components/molecules/Export/ExportCopyrig
 import { format } from 'date-fns/format';
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { PeriodType } from '@/generated-sources/ft-api-client/models/PeriodType';
+import { Frequency } from '@/generated-sources/ft-api-client/models/Frequency';
 
 export default class ChartPage extends AreaFilter {
   readonly backLink = 'chart-page-back-link';
@@ -491,7 +493,8 @@ export default class ChartPage extends AreaFilter {
     // determine expected values based on area filters
     const isEnglandGroup =
       selectedAreaFilters.group.toLowerCase() === 'england';
-    const isEnglandAreaType = selectedAreaFilters.areaType === 'england';
+    const isEnglandAreaType =
+      selectedAreaFilters.areaType.toLowerCase() === 'england';
     const isThematicMap =
       component.chartComponentLocator === ChartPage.thematicMapComponent;
 
@@ -594,8 +597,11 @@ export default class ChartPage extends AreaFilter {
       .locator('.highcharts-point')
       .nth(tooltipPointToAssert);
 
-    // we need to disable the actionability checks for hover and click for thematic map as it never reaches stable - https://playwright.dev/docs/actionability#stable
-    if (component.chartComponentLocator === ChartPage.thematicMapComponent) {
+    // we need to disable the actionability checks for hover and click for thematic map and line chart as it never reaches stable - https://playwright.dev/docs/actionability#stable
+    if (
+      component.chartComponentLocator === ChartPage.thematicMapComponent ||
+      component.chartComponentLocator === ChartPage.lineChartComponent
+    ) {
       chartPoint.focus();
       chartPoint.scrollIntoViewIfNeeded();
       await expect(chartPoint).toBeVisible();
@@ -1062,13 +1068,14 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[],
     chartComponentLocator: string
   ): Promise<void> {
-    const uniqueTimePeriods = this.getUniqueTimePeriods(selectedIndicators);
+    const uniqueTimePeriodsWithFrequency =
+      this.getUniqueTimePeriodsWithFrequency(selectedIndicators);
     const chartElement = this.page
       .getByTestId(chartComponentLocator)
       .getByRole('heading')
       .first();
 
-    if (uniqueTimePeriods.length === 0) {
+    if (uniqueTimePeriodsWithFrequency.length === 0) {
       const indicatorIds = selectedIndicators
         .map((indicator) => indicator.indicatorID)
         .join(', ');
@@ -1077,12 +1084,23 @@ export default class ChartPage extends AreaFilter {
       );
     }
 
-    for (const timePeriod of uniqueTimePeriods) {
+    for (const {
+      timePeriod,
+      collectionFrequency,
+    } of uniqueTimePeriodsWithFrequency) {
       if (timePeriod === PeriodType.Calendar) {
         // For calendar we don't change the title
         await expect(chartElement).not.toContainText(timePeriod);
-      } else {
-        // For other Period Types check we have changed the title
+        await expect(chartElement).not.toContainText(collectionFrequency!);
+      } else if (
+        timePeriod === PeriodType.Financial &&
+        collectionFrequency === Frequency.Quarterly
+      ) {
+        // For this combination check that title has timePeriod and collectionFrequency
+        await expect(chartElement).toContainText(timePeriod);
+        await expect(chartElement).toContainText(collectionFrequency);
+      } else if (timePeriod === PeriodType.Financial) {
+        // Just check title has timePeriod
         await expect(chartElement).toContainText(timePeriod);
       }
     }
@@ -1092,10 +1110,11 @@ export default class ChartPage extends AreaFilter {
     selectedIndicators: SimpleIndicatorDocument[],
     chartComponentLocator: string
   ): Promise<void> {
-    const uniqueTimePeriods = this.getUniqueTimePeriods(selectedIndicators);
+    const uniqueTimePeriodsWithFrequency =
+      this.getUniqueTimePeriodsWithFrequency(selectedIndicators);
     const chartElement = this.page.getByTestId(chartComponentLocator);
 
-    if (uniqueTimePeriods.length === 0) {
+    if (uniqueTimePeriodsWithFrequency.length === 0) {
       const indicatorIds = selectedIndicators
         .map((indicator) => indicator.indicatorID)
         .join(', ');
@@ -1104,9 +1123,20 @@ export default class ChartPage extends AreaFilter {
       );
     }
 
-    // Check for each unique time period type found
-    for (const timePeriod of uniqueTimePeriods) {
-      if (timePeriod === PeriodType.Financial) {
+    // Check for each unique time period and frequency combination
+    for (const {
+      timePeriod,
+      collectionFrequency,
+    } of uniqueTimePeriodsWithFrequency) {
+      if (
+        timePeriod === PeriodType.Financial &&
+        collectionFrequency === Frequency.Quarterly
+      ) {
+        // Look for quarterly financial format: "Apr to Jun 2013", "Jul to Sep 2013", etc.
+        const quarterlyFinancialRegex =
+          /[A-Z][a-z]{2}\s+to\s+[A-Z][a-z]{2}\s+\d{4}/;
+        await expect(chartElement).toContainText(quarterlyFinancialRegex);
+      } else if (timePeriod === PeriodType.Financial) {
         // Look for financial year format: YY/YY
         const financialYearRegex = /\d{2}\/\d{2}/;
         await expect(chartElement).toContainText(financialYearRegex);
@@ -1118,13 +1148,24 @@ export default class ChartPage extends AreaFilter {
     }
   }
 
-  private getUniqueTimePeriods(
+  private getUniqueTimePeriodsWithFrequency(
     selectedIndicators: SimpleIndicatorDocument[]
-  ): PeriodType[] {
-    const timePeriods = selectedIndicators
-      .map((indicator) => indicator.timePeriod)
-      .filter((period): period is PeriodType => period !== undefined);
+  ): TimePeriodWithFrequency[] {
+    const timePeriodsWithFrequency = selectedIndicators
+      .filter((indicator) => indicator.timePeriod !== undefined)
+      .map((indicator) => ({
+        timePeriod: indicator.timePeriod!,
+        collectionFrequency: indicator.collectionFrequency,
+      }));
 
-    return [...new Set(timePeriods)];
+    // Remove duplicates to create a unique list
+    const uniqueMap = new Map<string, TimePeriodWithFrequency>();
+
+    timePeriodsWithFrequency.forEach((item) => {
+      const key = `${item.timePeriod}-${item.collectionFrequency || 'undefined'}`;
+      uniqueMap.set(key, item);
+    });
+
+    return Array.from(uniqueMap.values());
   }
 }

@@ -130,6 +130,7 @@ export function mergeIndicatorData(
       unpublishedDataYear: selectedIndicator.unpublishedDataYear,
       segmentationData: selectedIndicator.segmentationData,
       timePeriod: selectedIndicator.timePeriod,
+      collectionFrequency: selectedIndicator.collectionFrequency,
     }));
 
     selectedIndicatorsData = [
