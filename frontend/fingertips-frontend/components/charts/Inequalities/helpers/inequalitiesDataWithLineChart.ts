@@ -25,6 +25,7 @@ export const inequalitiesDataWithLineChart = (
     indicatorMetaData,
     inequalityLineChartAreaSelected,
     areasSelected,
+    frequency,
   } = inequalitiesDataWithBarChart;
 
   const lineChartData =
@@ -57,6 +58,7 @@ export const inequalitiesDataWithLineChart = (
           inequalityLineChartAreaSelected,
           indicatorName: indicatorMetaData?.indicatorName,
           areaName: healthDataForArea.areaName,
+          frequency,
         }
       )
     : null;
