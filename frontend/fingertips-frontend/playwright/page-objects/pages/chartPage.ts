@@ -309,6 +309,7 @@ export default class ChartPage extends AreaFilter {
         .getByRole('heading')
         .getByText('inequalities for')
         .getByText(lastOption)
+        .first()
     ).toBeVisible();
     expect(await combobox.inputValue()).toBe(lastOption);
   }

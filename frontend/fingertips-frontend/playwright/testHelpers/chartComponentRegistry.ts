@@ -42,7 +42,6 @@ export const allComponents: ChartComponentDefinition[] = [
       hasInequalitiesTimePeriodDropDown: true,
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
-      hasTimePeriodFrequencyInTitle: true,
       hasTimePeriodDatePointInChart: true,
     },
   },
@@ -51,7 +50,6 @@ export const allComponents: ChartComponentDefinition[] = [
     chartComponentProps: {
       hasInequalityTypeDropDown: true,
       hasConfidenceIntervals: true,
-      hasTimePeriodFrequencyInTitle: true,
       hasTimePeriodDatePointInChart: true,
     },
   },
