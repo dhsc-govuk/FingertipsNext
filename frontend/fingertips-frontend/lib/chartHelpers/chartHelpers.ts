@@ -218,7 +218,7 @@ export function getLatestPeriodForAreas(
   }
 
   const latestPeriodForAreas = healthDataForAreas.map((area) => {
-    return getLatestPeriod(area?.indicatorSegments?.[0].healthData) ?? 0;
+    return getLatestPeriod(area.healthData) ?? 0;
   });
   const mostRecentYear = Math.max(...latestPeriodForAreas);
   return mostRecentYear === 0 ? undefined : mostRecentYear;
