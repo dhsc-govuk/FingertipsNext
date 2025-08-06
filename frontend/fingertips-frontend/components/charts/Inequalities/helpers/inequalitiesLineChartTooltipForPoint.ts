@@ -18,8 +18,9 @@ export const inequalitiesLineChartTooltipForPoint =
     unitLabel?: string
   ) =>
   (point: Highcharts.Point, symbol: string) => {
+    const period = point.options.name ?? '';
     const { benchmarkLabel, comparisonLabel } = getTooltipContent(
-      benchmarkOutcomeForYear(point.x, point.series.name, lineChartData),
+      benchmarkOutcomeForYear(period, point.series.name, lineChartData),
       AreaTypeLabelEnum.Area,
       benchmarkComparisonMethod ?? BenchmarkComparisonMethod.Unknown,
       inequalityType === InequalitiesTypes.Sex
@@ -35,7 +36,7 @@ export const inequalitiesLineChartTooltipForPoint =
     return createTooltipHTML(
       {
         areaName: lineChartData.areaName,
-        period: point.x,
+        period,
         fieldName: point.series.name,
         benchmarkComparisonSymbol,
         shouldHideComparison: shouldHideLines,

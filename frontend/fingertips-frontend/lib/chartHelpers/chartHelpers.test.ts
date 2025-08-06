@@ -1,5 +1,4 @@
 import {
-  getHealthDataWithoutInequalities,
   getMostRecentData,
   isEnglandSoleSelectedArea,
   seriesDataForIndicatorIndexAndArea,
@@ -699,14 +698,6 @@ describe('getMostRecentDataFromSorted', () => {
   });
 });
 
-describe('getHealthDataWithoutInequalities', () => {
-  it('should return health data without inequalities', () => {
-    expect(getHealthDataWithoutInequalities(mockData[0])).toEqual(
-      mockData[0].healthData.slice(0, 2)
-    );
-  });
-});
-
 describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
   const mockHealthData: HealthDataForArea[] = [
     {
@@ -1393,7 +1384,7 @@ describe('getTooltipHtml', () => {
       createTooltipHTML(
         {
           areaName: 'North',
-          period: 2004,
+          period: '2004',
           fieldName: 'Male',
           benchmarkComparisonSymbol: 'symbolLine',
           shouldHideComparison: false,
@@ -1427,7 +1418,7 @@ describe('getTooltipHtml', () => {
       createTooltipHTML(
         {
           areaName: 'North',
-          period: 2004,
+          period: '2004',
           fieldName: 'Male',
           benchmarkComparisonSymbol: 'symbolLine',
           shouldHideComparison: true,

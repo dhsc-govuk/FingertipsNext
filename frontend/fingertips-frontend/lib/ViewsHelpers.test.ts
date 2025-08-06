@@ -6,6 +6,7 @@ import {
 } from './ViewsHelpers';
 import {
   BenchmarkReferenceType,
+  HealthDataPoint,
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -31,7 +32,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea = {
     {
       areaCode: 'A001',
       areaName: 'North FooBar',
-      healthData: [healthDataPoint],
+      healthData: [healthDataPoint as unknown as HealthDataPoint],
     },
   ],
 };

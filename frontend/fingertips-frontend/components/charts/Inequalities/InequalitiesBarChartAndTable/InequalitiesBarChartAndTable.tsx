@@ -26,7 +26,7 @@ export function InequalitiesBarChartAndTable() {
   const {
     chartTitle,
     barChartData,
-    yearsDesc,
+    periodsDesc,
     inequalityCategories,
     availableAreasWithInequalities,
     type,
@@ -40,7 +40,7 @@ export function InequalitiesBarChartAndTable() {
       <H3 id={ChartTitleKeysEnum.InequalitiesBarChart}>
         {chartTitleConfig[ChartTitleKeysEnum.InequalitiesBarChart].title}
       </H3>
-      <TimePeriodDropDown years={yearsDesc} />
+      <TimePeriodDropDown periods={periodsDesc} />
       <InequalitiesTypesDropDown
         inequalitiesOptions={inequalityCategories}
         inequalityTypeSelectedSearchParam={

@@ -1,6 +1,6 @@
 import { determineHealthDataForArea } from '@/lib/chartHelpers/chartHelpers';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 import { InequalitiesDataBasicInfo } from '@/components/charts/Inequalities/helpers/inequalitiesDataBasicInfo';
+import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export interface InequalitiesDataWithAreas extends InequalitiesDataBasicInfo {
   healthDataForArea: HealthDataForArea;

@@ -17,7 +17,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
   const inequalityCategory = 'Sex';
   const tableRows = [
     {
-      period: 2025,
+      period: '2025',
       inequalities: {
         Male: { value: 27 },
         Female: { value: 42 },
@@ -25,7 +25,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
       },
     },
     {
-      period: 2026,
+      period: '2026',
       inequalities: {
         Male: { value: 29 },
         Female: { value: 47 },
@@ -69,7 +69,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -80,7 +80,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -91,7 +91,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -102,7 +102,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2026,
+      '2026',
       areaName,
       areaCode,
       inequalityCategory,
@@ -113,7 +113,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2026,
+      '2026',
       areaName,
       areaCode,
       inequalityCategory,
@@ -124,7 +124,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       indicatorId,
       indicatorName,
-      2026,
+      '2026',
       areaName,
       areaCode,
       inequalityCategory,
@@ -141,7 +141,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
       inequalityCategory,
       [
         {
-          period: 2025,
+          period: '2025',
           inequalities: {
             Male: undefined,
             Female: { value: undefined },
@@ -155,7 +155,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       undefined,
       undefined,
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -166,7 +166,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       undefined,
       undefined,
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -177,7 +177,7 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     expect(csvData).toContainEqual([
       undefined,
       undefined,
-      2025,
+      '2025',
       areaName,
       areaCode,
       inequalityCategory,
@@ -187,15 +187,15 @@ describe('convertInequalitiesTrendTableToCsvData', () => {
     ]);
   });
 
-  it('should throw an error if no data rows are provided', () => {
-    expect(() => {
+  it('should return header row if there is no data', () => {
+    expect(
       convertInequalitiesTrendTableToCsvData(
         areaCode,
         areaName,
         inequalityCategory,
         [],
         indicatorMetadata
-      );
-    }).toThrow();
+      )
+    ).toHaveLength(1);
   });
 });

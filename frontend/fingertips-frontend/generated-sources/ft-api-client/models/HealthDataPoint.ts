@@ -127,6 +127,8 @@ export interface HealthDataPoint {
      * @memberof HealthDataPoint
      */
     deprivation: DeprivationData;
+
+    periodLabel?: string;
 }
 
 

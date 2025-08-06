@@ -5,11 +5,11 @@ import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
 import { ChangeEvent } from 'react';
 
 interface TimePeriodDropDownProps {
-  years: (number | string)[];
+  periods: string[];
 }
 
 export function TimePeriodDropDown({
-  years,
+  periods,
 }: Readonly<TimePeriodDropDownProps>) {
   const pathname = usePathname();
 
@@ -49,7 +49,7 @@ export function TimePeriodDropDown({
         }}
         style={{ marginBottom: '1.5em' }}
       >
-        {years.map((key) => (
+        {periods.map((key) => (
           <option key={key}>{key}</option>
         ))}
       </StyledFilterSelect>

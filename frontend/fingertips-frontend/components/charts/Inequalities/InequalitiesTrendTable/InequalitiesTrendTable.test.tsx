@@ -22,7 +22,7 @@ describe('Inequalities table suite', () => {
     areaName: MOCK_HEALTH_DATA[1].areaName,
     rowData: [
       {
-        period: 2004,
+        period: '2004',
         inequalities: {
           Persons: { value: 890.3432 },
           Male: { value: 703.420759 },
@@ -30,7 +30,7 @@ describe('Inequalities table suite', () => {
         },
       },
       {
-        period: 2008,
+        period: '2008',
         inequalities: {
           Persons: { value: 135.149304 },
           Male: { value: 890.328253 },
@@ -96,7 +96,7 @@ describe('Inequalities table suite', () => {
       areaName: MOCK_HEALTH_DATA[1].areaName,
       rowData: [
         {
-          period: 2004,
+          period: '2004',
           inequalities: {
             Persons: { value: 890.3432 },
             Male: { value: 703.420759 },
@@ -104,8 +104,11 @@ describe('Inequalities table suite', () => {
           },
         },
         {
-          period: 2008,
-          inequalities: { Persons: { value: 135.149304 } },
+          period: '2008',
+          inequalities: {
+            Persons: { value: 135.149304 },
+            Male: { value: 703.420759 },
+          },
         },
       ],
     };
@@ -197,7 +200,7 @@ describe('Inequalities table suite', () => {
       rowData: [
         ...tableData.rowData,
         {
-          period: 2003,
+          period: '2003',
           inequalities: {
             Persons: {
               isAggregate: true,
@@ -205,7 +208,7 @@ describe('Inequalities table suite', () => {
           },
         },
         {
-          period: 2009,
+          period: '2009',
           inequalities: {
             Persons: {
               isAggregate: true,
