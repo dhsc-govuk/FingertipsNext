@@ -1,13 +1,13 @@
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { ChartType } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { inequalitiesDataBasicInfo } from '@/components/charts/Inequalities/helpers/inequalitiesDataBasicInfo';
 import { inequalitiesDataWithAreas } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithAreas';
 import { inequalitiesDataWithHealthDataForArea } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithHealthDataForArea';
-import { inequalitiesDataWithYears } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithYears';
+import { inequalitiesDataWithPeriods } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithPeriods';
 import { inequalitiesDataWithBarChart } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithBarChart';
 import { inequalitiesDataWithLineChart } from '@/components/charts/Inequalities/helpers/inequalitiesDataWithLineChart';
+import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 
 export const inequalitiesData = (
   searchState: SearchStateParams,
@@ -26,9 +26,9 @@ export const inequalitiesData = (
 
   const withHealthData = inequalitiesDataWithHealthDataForArea(withAreaData);
 
-  const withYears = inequalitiesDataWithYears(withHealthData);
+  const withPeriods = inequalitiesDataWithPeriods(withHealthData);
 
-  const withBarChart = inequalitiesDataWithBarChart(withYears);
+  const withBarChart = inequalitiesDataWithBarChart(withPeriods);
 
   const withLineChart = inequalitiesDataWithLineChart(withBarChart);
   if (!withLineChart) return;
@@ -39,7 +39,7 @@ export const inequalitiesData = (
     inequalitiesLineChartOptions,
     chartTitle,
     availableAreasWithInequalities,
-    yearsDesc,
+    periodsDesc,
     inequalityCategories,
     type,
     inequalityType,
@@ -54,7 +54,7 @@ export const inequalitiesData = (
     inequalitiesLineChartOptions,
     chartTitle,
     availableAreasWithInequalities,
-    yearsDesc,
+    periodsDesc,
     inequalityCategories,
     type,
     inequalityType,

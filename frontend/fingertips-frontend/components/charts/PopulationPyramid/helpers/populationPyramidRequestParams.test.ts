@@ -33,6 +33,7 @@ describe('populationPyramidRequestParams', () => {
       GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
       GetHealthDataForAnIndicatorInequalitiesEnum.Age,
     ]);
+    expect(result.latestOnly).toBe(true);
   });
 
   it('returns correct request for Administrative regions hierarchy', () => {
@@ -52,5 +53,6 @@ describe('populationPyramidRequestParams', () => {
       GetHealthDataForAnIndicatorInequalitiesEnum.Sex,
       GetHealthDataForAnIndicatorInequalitiesEnum.Age,
     ]);
+    expect(result.latestOnly).toBe(true);
   });
 });

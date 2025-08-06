@@ -6,7 +6,10 @@ import { mockHighChartsWrapperSetup } from '@/mock/utils/mockHighChartsWrapper';
 //
 import { act, render, screen, within } from '@testing-library/react';
 import { InequalitiesBarChartAndTable } from './InequalitiesBarChartAndTable';
-import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  DatePeriod,
+  IndicatorWithHealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { QueryClient } from '@tanstack/query-core';
@@ -19,13 +22,15 @@ import { mockIndicatorDocument } from '@/mock/data/mockIndicatorDocument';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { mockIndicatorWithHealthDataForArea } from '@/mock/data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
-import { mockHealthDataPoints } from '@/mock/data/mockHealthDataPoint';
+import { mockHealthDataPoint } from '@/mock/data/mockHealthDataPoint';
 import { mockDeprivationData } from '@/mock/data/mockDeprivationData';
 import { SessionProvider } from 'next-auth/react';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
@@ -61,26 +66,56 @@ const testRender = async (testHealthData: IndicatorWithHealthDataForArea) => {
 
 const male = { value: 'Male', isAggregate: false };
 const female = { value: 'Female', isAggregate: false };
-const testPointOverrides = [
-  { year: 2008 },
-  {
-    year: 2008,
-    sex: male,
-    isAggregate: false,
-    deprivation: mockDeprivationData({
-      type: 'Unitary deciles',
-      isAggregate: false,
-    }),
-  },
-  { year: 2008, sex: female, isAggregate: false },
-  { year: 2004 },
-  { year: 2004, sex: male, isAggregate: false },
-  { year: 2004, sex: female, isAggregate: false },
-];
+
+const year2008: DatePeriod = mockDatePeriod(2008);
+const year2004: DatePeriod = mockDatePeriod(2004);
+
 const testData = mockIndicatorWithHealthDataForArea({
   areaHealthData: [
     mockHealthDataForArea({
-      healthData: mockHealthDataPoints(testPointOverrides),
+      healthData: undefined,
+      indicatorSegments: [
+        mockIndicatorSegment({
+          healthData: [
+            mockHealthDataPoint({
+              datePeriod: year2008,
+            }),
+            mockHealthDataPoint({
+              datePeriod: year2004,
+            }),
+          ],
+        }),
+        mockIndicatorSegment({
+          sex: male,
+          healthData: [
+            mockHealthDataPoint({
+              datePeriod: year2008,
+              deprivation: mockDeprivationData({
+                type: 'Unitary deciles',
+                isAggregate: false,
+              }),
+            }),
+            mockHealthDataPoint({
+              datePeriod: year2004,
+            }),
+          ],
+        }),
+        mockIndicatorSegment({
+          sex: female,
+          healthData: [
+            mockHealthDataPoint({
+              datePeriod: year2004,
+              deprivation: mockDeprivationData({
+                type: 'Unitary deciles',
+                isAggregate: false,
+              }),
+            }),
+            mockHealthDataPoint({
+              datePeriod: year2008,
+            }),
+          ],
+        }),
+      ],
     }),
   ],
 });
@@ -129,7 +164,6 @@ describe('InequalitiesBarChartAndTable', () => {
     ).toBeInTheDocument();
 
     expect(timePeriodDropDown).toBeInTheDocument();
-    expect(timePeriodDropDown).toHaveLength(2);
     const yearsInOptions = yearOptions.map((option) => option.textContent);
     expect(yearsInOptions).toEqual(years);
 

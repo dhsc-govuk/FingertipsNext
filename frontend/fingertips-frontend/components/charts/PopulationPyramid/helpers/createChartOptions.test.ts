@@ -1,7 +1,8 @@
 import { createChartPyramidOptions } from './createChartOptions';
+import { PopulationDataForArea } from './preparePopulationData';
 
 describe('createChartPyramidOptions', () => {
-  const mockPopulationData = {
+  const mockPopulationData: PopulationDataForArea = {
     total: 860,
     areaName: 'Test Area',
     ageCategories: ['0-4', '5-9', '10-14'],
@@ -9,7 +10,7 @@ describe('createChartPyramidOptions', () => {
     maleSeries: [90, 180, 140],
   };
 
-  const benchmarkData = {
+  const benchmarkData: PopulationDataForArea = {
     total: 920,
     areaName: 'Benchmark Area',
     ageCategories: ['0-4', '5-9', '10-14'],
@@ -17,7 +18,7 @@ describe('createChartPyramidOptions', () => {
     maleSeries: [100, 190, 150],
   };
 
-  const groupData = {
+  const groupData: PopulationDataForArea = {
     total: 920,
     areaName: 'Group Name',
     ageCategories: ['0-4', '5-9', '10-14'],

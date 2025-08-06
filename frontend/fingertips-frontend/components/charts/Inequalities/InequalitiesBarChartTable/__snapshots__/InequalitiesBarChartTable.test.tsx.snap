@@ -21,11 +21,11 @@ exports[`Inequalities bar chart table suite > Sex inequality > snapshot test - s
           class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul hoeTcz dzKXJe"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU cFENDr hucACB"
             colspan="4"
           />
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul sc-esYiGF hoeTcz dzKXJe fPChvl"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU sc-esYiGF cFENDr hucACB fPChvl"
             colspan="2"
             style="text-align: center;"
           >
@@ -40,28 +40,28 @@ exports[`Inequalities bar chart table suite > Sex inequality > snapshot test - s
           class="Row-sc-1y8eqfp-0"
         >
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eDPEul hoeTcz dzKXJe"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-dLMFU cFENDr hucACB"
             data-testid="heading-Inequality type"
             style="width: 16%;"
           >
             Inequality type
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-cwHptR kxOGSV"
+            class="Cell-sc-msv0l6-0 iftjBc sc-jlZhew bYymuJ"
             data-testid="heading-Compared to persons"
             style="width: 16%;"
           >
             Compared to persons
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eqUAAy hoeTcz brMjvX"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="heading-Count"
             style="width: 16%;"
           >
             Count
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eqUAAy hoeTcz brMjvX"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="heading-Value"
             style="width: 16%;"
           >
@@ -74,14 +74,14 @@ exports[`Inequalities bar chart table suite > Sex inequality > snapshot test - s
             </span>
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eqUAAy hoeTcz brMjvX"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="heading-Lower"
             style="width: 16%;"
           >
             Lower
           </th>
           <th
-            class="Cell-sc-msv0l6-0 iftjBc sc-gEvEer sc-eqUAAy hoeTcz brMjvX"
+            class="Cell-sc-msv0l6-0 iftjBc sc-aXZVg sc-gEvEer cFENDr fDMEct"
             data-testid="heading-Upper"
             style="width: 16%; padding-right: 10px;"
           >
@@ -96,30 +96,30 @@ exports[`Inequalities bar chart table suite > Sex inequality > snapshot test - s
           class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="Cell-sc-msv0l6-0 sc-cPiKLX gaSlHc hKweSg"
+            class="Cell-sc-msv0l6-0 sc-jEACwC gaSlHc dPFHqA"
           >
             Persons
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-dAlyuH gaSlHc kRfgxG"
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc bmeULG"
           />
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             222
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             135.1
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-dLMFU gaSlHc eXbeNP jlNuyg"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-cPiKLX gaSlHc kcOQDY bHQHoT"
           >
             578.3
           </td>
@@ -128,30 +128,30 @@ exports[`Inequalities bar chart table suite > Sex inequality > snapshot test - s
           class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="Cell-sc-msv0l6-0 sc-cPiKLX gaSlHc hKweSg"
+            class="Cell-sc-msv0l6-0 sc-jEACwC gaSlHc dPFHqA"
           >
             Male
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-dAlyuH gaSlHc kRfgxG"
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc bmeULG"
           />
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             131
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             890.3
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-dLMFU gaSlHc eXbeNP jlNuyg"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-cPiKLX gaSlHc kcOQDY bHQHoT"
           >
             578.3
           </td>
@@ -160,30 +160,30 @@ exports[`Inequalities bar chart table suite > Sex inequality > snapshot test - s
           class="Row-sc-1y8eqfp-0"
         >
           <td
-            class="Cell-sc-msv0l6-0 sc-cPiKLX gaSlHc hKweSg"
+            class="Cell-sc-msv0l6-0 sc-jEACwC gaSlHc dPFHqA"
           >
             Female
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-dAlyuH gaSlHc kRfgxG"
+            class="Cell-sc-msv0l6-0 sc-kpDqfm gaSlHc bmeULG"
           />
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             131
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             890.3
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-gsFSXq gaSlHc eXbeNP dLcQtJ"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-iGgWBj gaSlHc kcOQDY imqpTn"
           >
             441.7
           </td>
           <td
-            class="Cell-sc-msv0l6-0 sc-iGgWBj sc-dLMFU gaSlHc eXbeNP jlNuyg"
+            class="Cell-sc-msv0l6-0 sc-dcJsrY sc-cPiKLX gaSlHc kcOQDY bHQHoT"
           >
             578.3
           </td>

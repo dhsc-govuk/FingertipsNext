@@ -4,7 +4,7 @@ export const getTestData = (): InequalitiesBarChartData => ({
   areaCode: 'A1425',
   areaName: 'South FooBar',
   data: {
-    period: 2008,
+    period: '2008',
     inequalities: {
       Male: {
         value: 890.328253,

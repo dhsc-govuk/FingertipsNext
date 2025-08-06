@@ -48,7 +48,11 @@ describe('useSearchStateParams', () => {
         key === SearchParams.GroupTypeSelected
       ) {
         expect(result.current[key]).toBe(englandAreaType.key);
-      } else if (key === SearchParams.GroupSelected) {
+      } else if (
+        key === SearchParams.GroupSelected ||
+        key === SearchParams.InequalityLineChartAreaSelected ||
+        key === SearchParams.InequalityBarChartAreaSelected
+      ) {
         expect(result.current[key]).toBe(areaCodeForEngland);
       } else if (
         key === SearchParams.IndicatorsSelected ||

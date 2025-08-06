@@ -28,6 +28,7 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 
 mockGetIsLoading.mockReturnValue(false);
 mockUsePathname.mockReturnValue('some-mock-path');
@@ -58,21 +59,31 @@ const testRender = async (testHealthData: IndicatorWithHealthDataForArea) => {
 
 const male = { value: 'Male', isAggregate: false };
 const female = { value: 'Female', isAggregate: false };
-const testPointOverrides = [
-  { year: 2022 },
-  { year: 2022, sex: male, isAggregate: false },
-  { year: 2022, sex: female, isAggregate: false },
-  { year: 2021 },
-  { year: 2021, sex: male, isAggregate: false },
-  { year: 2021, sex: female, isAggregate: false },
+const healthData = mockHealthDataPoints([2022, 2021]);
+
+const indicatorSegments = [
+  mockIndicatorSegment({
+    healthData,
+  }),
+  mockIndicatorSegment({
+    sex: male,
+    healthData,
+  }),
+  mockIndicatorSegment({
+    sex: female,
+    healthData,
+  }),
 ];
+
 const testData = mockIndicatorWithHealthDataForArea({
   areaHealthData: [
     mockHealthDataForArea_England({
-      healthData: mockHealthDataPoints(testPointOverrides),
+      healthData: undefined,
+      indicatorSegments,
     }),
     mockHealthDataForArea({
-      healthData: mockHealthDataPoints(testPointOverrides),
+      healthData: undefined,
+      indicatorSegments,
     }),
   ],
 });

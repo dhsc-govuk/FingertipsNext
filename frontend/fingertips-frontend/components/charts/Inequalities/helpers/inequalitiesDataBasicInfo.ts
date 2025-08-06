@@ -14,13 +14,13 @@ export interface InequalitiesDataBasicInfo {
   areaHealthData: HealthDataForArea[];
   inequalityTypeSelected?: string;
   inequalityAreaSelected?: string;
-  selectedYear?: string;
+  selectedPeriod?: string;
   selectedGroupCode?: string;
   inequalityLineChartAreaSelected?: string;
   benchmarkMethod: BenchmarkComparisonMethod;
   polarity: IndicatorPolarity;
   chartType: ChartType;
-  activeYear?: string;
+  activePeriod?: string;
   indicatorMetaData: IndicatorDocument;
   areasSelected: string[];
 }
@@ -50,7 +50,7 @@ export const inequalitiesDataBasicInfo = (
   const { inequalityTypeSelected, inequalityAreaSelected } =
     inequalitiesSelected(searchState, chartType);
 
-  const activeYear =
+  const activePeriod =
     chartType === ChartType.SingleTimePeriod ? selectedYear : undefined;
 
   return {
@@ -59,11 +59,11 @@ export const inequalitiesDataBasicInfo = (
     inequalityAreaSelected,
     inequalityLineChartAreaSelected,
     selectedGroupCode,
-    selectedYear,
+    selectedPeriod: selectedYear,
     benchmarkMethod,
     polarity,
     chartType,
-    activeYear,
+    activePeriod,
     indicatorMetaData,
     areasSelected: determineAreaCodes(areasSelected),
   };
