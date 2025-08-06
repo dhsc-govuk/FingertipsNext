@@ -46,8 +46,6 @@ public class HealthMeasureModel
 
     public double? UpperCi { get; set; }
 
-    public short Year { get; set; }
-
     public required DateDimensionModel FromDateDimension { get; set; }
 
     [ForeignKey("FromDateDimension")]

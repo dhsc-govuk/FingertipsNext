@@ -14,6 +14,8 @@
             // get the ids of the indicators chosen for PoC (about 30)
             var pocIndicators = DataFileReader.GetPocIndicators();
             Console.WriteLine($"Got {pocIndicators.Count} indicators");
+            // add period data to the indicators
+            _dataManager.EnrichPocIndicatorsWithPeriodType(pocIndicators);
             // get the age data - this is age range data
             var ageData = await _dataManager.GetAgeDataAsync();
             Console.WriteLine($"Got age data");
@@ -26,9 +28,6 @@
             // create the indicator data and write to csv
             await _dataManager.CreateIndicatorDataAsync(areasAndIndicators, pocIndicators);
             Console.WriteLine($"Created all indicator data");
-            // add period data to health data
-            HealthMeasureDateCalculator.CreateHealthMeasurePeriodDates(pocIndicators, healthMeasures);
-            Console.WriteLine($"Created period data for all health measures");
             // write the healthdata to file
             DataFileWriter.WriteHealthCsvData("healthdata", healthMeasures);
             Console.WriteLine($"Saved healthdata .csv and .json files");

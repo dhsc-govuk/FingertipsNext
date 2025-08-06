@@ -6,7 +6,7 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E38000101&area_type=g
 
         client.assert(response.body.benchmarkMethod =="CIOverlappingReferenceValue95", "benchmarkMethod not as expected");
 
-        healthData = response.body.areaHealthData[0].healthData;
+        healthData = response.body.areaHealthData[0].indicatorSegments.find(segment => segment.isAggregate).healthData;
         fromYearList = [];
         healthData.forEach(item => {
             fromYearList.push(item.datePeriod.from);

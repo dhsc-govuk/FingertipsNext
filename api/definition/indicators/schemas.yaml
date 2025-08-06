@@ -116,7 +116,7 @@ HealthDataForArea:
   required:
     - areaCode
     - areaName
-    - healthData
+    - indicatorSegments
   properties:
     areaCode:
       type: string
@@ -131,12 +131,6 @@ HealthDataForArea:
       items:
         $ref: "#/IndicatorSegment"
       description: An array of indicator segments.
-    healthData:
-      type: array
-      items:
-        $ref: "#/HealthDataPoint"
-      description: The health data points for the area and indicator.
-      deprecated: true
 IndicatorSegment:
   title: IndicatorSegment
   type: object
@@ -166,19 +160,11 @@ HealthDataPoint:
   description:
     Represents a health data point for a public health indicator with a
     count, value, upper confidence interval, lower confidence interval,
-    year, age band and sex.
   required:
-    - year
+    - value
     - trend
-    - sex
-    - ageBand
     - deprivation
   properties:
-    year:
-      type: integer
-      format: int32
-      example: 2023
-      description: The year that the data point is for
     datePeriod:
       $ref: "#/DatePeriod"
     count:
@@ -198,11 +184,6 @@ HealthDataPoint:
       format: float
       example: 578.32766
       description: The upper confidence interval
-    ageBand:
-      $ref: "#/AgeData"
-    sex:
-      $ref: "#/SexData"
-      deprecated: true
     trend:
       type: string
       example: Increasing

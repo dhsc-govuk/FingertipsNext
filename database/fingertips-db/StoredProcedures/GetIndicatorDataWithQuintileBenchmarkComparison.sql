@@ -113,7 +113,6 @@ HealthData AS (
 		Value,
 		LowerCi,
 		UpperCi,
-		hm.Year,
 		fromDate.Date AS FromDate,
 		toDate.Date AS ToDate,
 		reportingPeriod.Period AS ReportingPeriod
@@ -131,20 +130,6 @@ HealthData AS (
 		JOIN dbo.PeriodDimension AS reportingPeriod ON hm.PeriodKey = reportingPeriod.PeriodKey
 	WHERE 
 	    hm.IsDeprivationAggregatedOrSingle = 1
-		AND (
-			hm.Year IN (
-				SELECT
-					YearNum
-				FROM
-					@RequestedYears
-			)
-			OR NOT EXISTS (
-				SELECT
-					1
-				FROM
-					@RequestedYears
-			)
-		)
 		AND (
 			@RequestedFromDate IS NULL
 			OR fromDate.Date >= @RequestedFromDate
@@ -181,7 +166,6 @@ SELECT
 	hd.SexDimensionHasValue,
 	hd.SexDimensionIsAggregate,
 	hd.ReportingPeriod,
-	hd.Year,
 	hd.FromDate,
 	hd.ToDate,
 	hd.DeprivationDimensionName,

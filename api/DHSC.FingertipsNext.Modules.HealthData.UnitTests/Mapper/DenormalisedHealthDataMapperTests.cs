@@ -1,4 +1,5 @@
-﻿using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
+﻿using DHSC.FingertipsNext.Modules.HealthData.Mappings;
+using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Schemas;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
 using Shouldly;
@@ -7,8 +8,6 @@ namespace DHSC.FingertipsNext.Modules.HealthData.Tests.Mapper;
 
 public class DenormalisedHealthDataMapperTests
 {
-    private readonly Mappings.HealthDataMapper _healthDataMapper = new();
-
     [Fact]
     public void MapperShouldMapADenormalisedHealthMeasureToAHealthDataPoint()
     {
@@ -34,7 +33,6 @@ public class DenormalisedHealthDataMapperTests
             Value = 5,
             LowerCi = 3,
             UpperCi = 6,
-            Year = 2024,
             FromDate = new DateTime(2024, 1, 1),
             ToDate = new DateTime(2024, 12, 31),
             PeriodType = "Calendar",
@@ -46,7 +44,6 @@ public class DenormalisedHealthDataMapperTests
 
         HealthDataPoint expectedHealthData = new()
         {
-            Year = 2024,
             DatePeriod = new DatePeriod
             {
                 From = new DateOnly(2024, 1, 1),
@@ -57,11 +54,6 @@ public class DenormalisedHealthDataMapperTests
             Value = 5,
             LowerConfidenceInterval = 3,
             UpperConfidenceInterval = 6,
-            AgeBand = new Age
-            {
-                Value = "0-4",
-                IsAggregate = true
-            },
             Deprivation = new Deprivation
             {
                 Value = "Most deprived",
@@ -69,17 +61,11 @@ public class DenormalisedHealthDataMapperTests
                 Sequence = 1,
                 IsAggregate = true
             },
-            Sex = new Sex
-            {
-                Value = "Male",
-                IsAggregate = true
-            },
-            ReportingPeriod = ReportingPeriod.Yearly,
             Trend = "Trend",
             IsAggregate = true,
         };
 
-        var actual = _healthDataMapper.Map(denormalisedHealthMeasure);
+        var actual = HealthDataMapper.Map(denormalisedHealthMeasure);
 
         actual.ShouldBeEquivalentTo(expectedHealthData);
     }
@@ -110,7 +96,6 @@ public class DenormalisedHealthDataMapperTests
             Value = 5,
             LowerCi = 3,
             UpperCi = 6,
-            Year = 2024,
             FromDate = new DateTime(2024, 1, 1),
             ToDate = new DateTime(2024, 12, 31),
             PeriodType = "Calendar",
@@ -122,7 +107,6 @@ public class DenormalisedHealthDataMapperTests
 
         HealthDataPoint expectedHealthData = new()
         {
-            Year = 2024,
             DatePeriod = new DatePeriod
             {
                 From = new DateOnly(2024, 1, 1),
@@ -133,11 +117,6 @@ public class DenormalisedHealthDataMapperTests
             Value = 5,
             LowerConfidenceInterval = 3,
             UpperConfidenceInterval = 6,
-            AgeBand = new Age
-            {
-                Value = "0-4",
-                IsAggregate = true
-            },
             Deprivation = new Deprivation
             {
                 Value = "Most deprived",
@@ -145,17 +124,11 @@ public class DenormalisedHealthDataMapperTests
                 Sequence = 1,
                 IsAggregate = true
             },
-            Sex = new Sex
-            {
-                Value = "Male",
-                IsAggregate = false,
-            },
-            ReportingPeriod = ReportingPeriod.Yearly,
             Trend = "Trend",
             IsAggregate = false,
         };
 
-        var actual = _healthDataMapper.Map(denormalisedHealthMeasure);
+        var actual = HealthDataMapper.Map(denormalisedHealthMeasure);
 
         actual.ShouldBeEquivalentTo(expectedHealthData);
     }

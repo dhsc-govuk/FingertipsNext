@@ -53,7 +53,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
         // Specific Uri used in order to replace http test
-        const string targetUri = "/indicators/90453/data/all?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational";
+        const string targetUri = "/indicators/90453/data/all?area_codes=E38000101&area_type=gps&from_date=2020-01-01&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational";
         var expectedYears = new List<int> { 2020, 2021, 2022, 2023, 2024, 2025 };
 
         // Act
@@ -67,7 +67,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
                 .ToList()[2]
                 .IndicatorSegments.First()
                 .HealthData;
-        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.Year).Distinct().ToList();
+        List<int> healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.DatePeriod.From.Year).Distinct().ToList();
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -86,7 +86,7 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
         client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", _factory.GenerateTestToken([userRoleId]));
         // Specific Uri used in order to replace http test
-        const string targetUri = "/indicators/41101/data/all?area_codes=E38000101&area_type=gps&years=2025&years=2024&years=2023&years=2022&years=2021&years=2020&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational";
+        const string targetUri = "/indicators/41101/data/all?area_codes=E38000101&area_type=gps&from_date=2020-01-01&ancestor_code=E38000136&area_codes=E38000136&area_codes=E92000001&benchmark_ref_type=SubNational";
 
         var expectedYears = new List<int> { 2020, 2021, 2022, 2023, 2024 };
 
@@ -101,7 +101,8 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
             .ToList()[0]
             .IndicatorSegments.First()
             .HealthData;
-        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.Year).Distinct().ToList();
+
+        var healthDataYearList = healthDataItems.Select(healthDataPoint => healthDataPoint.DatePeriod.From.Year).Distinct().ToList();
 
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
@@ -188,7 +189,6 @@ public sealed class HealthDataIntegrationTests : IClassFixture<WebApplicationFac
 
         response.ShouldNotBeNull();
         quartileData.ShouldNotBeNull();
-        quartileData.Year.ShouldBe((short)2025);
         quartileData.DatePeriod.From.ToString("MM/dd/yyyy").ShouldBe("01/01/2025");
         quartileData.DatePeriod.To.ToString("MM/dd/yyyy").ShouldBe("12/31/2025");
         quartileData.IndicatorId.ShouldBe(indicatorId);

@@ -34,33 +34,13 @@ import {
     DatePeriodToJSON,
     DatePeriodToJSONTyped,
 } from './DatePeriod';
-import type { SexData } from './SexData';
-import {
-    SexDataFromJSON,
-    SexDataFromJSONTyped,
-    SexDataToJSON,
-    SexDataToJSONTyped,
-} from './SexData';
-import type { AgeData } from './AgeData';
-import {
-    AgeDataFromJSON,
-    AgeDataFromJSONTyped,
-    AgeDataToJSON,
-    AgeDataToJSONTyped,
-} from './AgeData';
 
 /**
- * Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval, year, age band and sex.
+ * Represents a health data point for a public health indicator with a count, value, upper confidence interval, lower confidence interval,
  * @export
  * @interface HealthDataPoint
  */
 export interface HealthDataPoint {
-    /**
-     * The year that the data point is for
-     * @type {number}
-     * @memberof HealthDataPoint
-     */
-    year: number;
     /**
      * 
      * @type {DatePeriod}
@@ -78,7 +58,7 @@ export interface HealthDataPoint {
      * @type {number}
      * @memberof HealthDataPoint
      */
-    value?: number;
+    value: number;
     /**
      * The lower confidence interval
      * @type {number}
@@ -91,18 +71,6 @@ export interface HealthDataPoint {
      * @memberof HealthDataPoint
      */
     upperCi?: number;
-    /**
-     * 
-     * @type {AgeData}
-     * @memberof HealthDataPoint
-     */
-    ageBand: AgeData;
-    /**
-     * 
-     * @type {SexData}
-     * @memberof HealthDataPoint
-     */
-    sex: SexData;
     /**
      * The statistical trend that applies to the data point, given the preceding data. Will only be calculated if there are at least 5 data points to use.
      * @type {string}
@@ -153,9 +121,7 @@ export type HealthDataPointTrendEnum = typeof HealthDataPointTrendEnum[keyof typ
  * Check if a given object implements the HealthDataPoint interface.
  */
 export function instanceOfHealthDataPoint(value: object): value is HealthDataPoint {
-    if (!('year' in value) || value['year'] === undefined) return false;
-    if (!('ageBand' in value) || value['ageBand'] === undefined) return false;
-    if (!('sex' in value) || value['sex'] === undefined) return false;
+    if (!('value' in value) || value['value'] === undefined) return false;
     if (!('trend' in value) || value['trend'] === undefined) return false;
     if (!('deprivation' in value) || value['deprivation'] === undefined) return false;
     return true;
@@ -171,14 +137,11 @@ export function HealthDataPointFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'year': json['year'],
         'datePeriod': json['datePeriod'] == null ? undefined : DatePeriodFromJSON(json['datePeriod']),
         'count': json['count'] == null ? undefined : json['count'],
-        'value': json['value'] == null ? undefined : json['value'],
+        'value': json['value'],
         'lowerCi': json['lowerCi'] == null ? undefined : json['lowerCi'],
         'upperCi': json['upperCi'] == null ? undefined : json['upperCi'],
-        'ageBand': AgeDataFromJSON(json['ageBand']),
-        'sex': SexDataFromJSON(json['sex']),
         'trend': json['trend'],
         'isAggregate': json['isAggregate'] == null ? undefined : json['isAggregate'],
         'benchmarkComparison': json['benchmarkComparison'] == null ? undefined : HealthDataPointBenchmarkComparisonFromJSON(json['benchmarkComparison']),
@@ -197,14 +160,11 @@ export function HealthDataPointToJSONTyped(value?: HealthDataPoint | null, ignor
 
     return {
         
-        'year': value['year'],
         'datePeriod': DatePeriodToJSON(value['datePeriod']),
         'count': value['count'],
         'value': value['value'],
         'lowerCi': value['lowerCi'],
         'upperCi': value['upperCi'],
-        'ageBand': AgeDataToJSON(value['ageBand']),
-        'sex': SexDataToJSON(value['sex']),
         'trend': value['trend'],
         'isAggregate': value['isAggregate'],
         'benchmarkComparison': HealthDataPointBenchmarkComparisonToJSON(value['benchmarkComparison']),

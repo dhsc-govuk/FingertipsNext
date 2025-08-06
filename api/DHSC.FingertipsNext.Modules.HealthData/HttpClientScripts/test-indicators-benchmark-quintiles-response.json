@@ -16,7 +16,6 @@
           "isAggregate": true,
           "healthData": [
             {
-              "year": 2012,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2012-01-01",
@@ -50,7 +49,6 @@
               "isAggregate": true
             },
             {
-              "year": 2013,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2013-01-01",
@@ -84,7 +82,6 @@
               "isAggregate": true
             },
             {
-              "year": 2014,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2014-01-01",
@@ -118,7 +115,6 @@
               "isAggregate": true
             },
             {
-              "year": 2015,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2015-01-01",
@@ -152,7 +148,6 @@
               "isAggregate": true
             },
             {
-              "year": 2016,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2016-01-01",
@@ -186,7 +181,6 @@
               "isAggregate": true
             },
             {
-              "year": 2017,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2017-01-01",
@@ -220,7 +214,6 @@
               "isAggregate": true
             },
             {
-              "year": 2018,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2018-01-01",
@@ -254,7 +247,6 @@
               "isAggregate": true
             },
             {
-              "year": 2019,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2019-01-01",
@@ -288,7 +280,6 @@
               "isAggregate": true
             },
             {
-              "year": 2020,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2020-01-01",
@@ -322,7 +313,6 @@
               "isAggregate": true
             },
             {
-              "year": 2021,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2021-01-01",
@@ -356,7 +346,6 @@
               "isAggregate": true
             },
             {
-              "year": 2022,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2022-01-01",
@@ -390,7 +379,6 @@
               "isAggregate": true
             },
             {
-              "year": 2023,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2023-01-01",
@@ -424,7 +412,6 @@
               "isAggregate": true
             },
             {
-              "year": 2024,
               "datePeriod": {
                 "type": "Calendar",
                 "from": "2024-01-01",
@@ -462,7 +449,6 @@
       ],
       "healthData": [
         {
-          "year": 2012,
           "datePeriod": {
             "type": "Calendar",
             "from": "2012-01-01",
@@ -496,7 +482,6 @@
           "isAggregate": true
         },
         {
-          "year": 2013,
           "datePeriod": {
             "type": "Calendar",
             "from": "2013-01-01",
@@ -530,7 +515,6 @@
           "isAggregate": true
         },
         {
-          "year": 2014,
           "datePeriod": {
             "type": "Calendar",
             "from": "2014-01-01",
@@ -564,7 +548,6 @@
           "isAggregate": true
         },
         {
-          "year": 2015,
           "datePeriod": {
             "type": "Calendar",
             "from": "2015-01-01",
@@ -598,7 +581,6 @@
           "isAggregate": true
         },
         {
-          "year": 2016,
           "datePeriod": {
             "type": "Calendar",
             "from": "2016-01-01",
@@ -632,7 +614,6 @@
           "isAggregate": true
         },
         {
-          "year": 2017,
           "datePeriod": {
             "type": "Calendar",
             "from": "2017-01-01",
@@ -666,7 +647,6 @@
           "isAggregate": true
         },
         {
-          "year": 2018,
           "datePeriod": {
             "type": "Calendar",
             "from": "2018-01-01",
@@ -700,7 +680,6 @@
           "isAggregate": true
         },
         {
-          "year": 2019,
           "datePeriod": {
             "type": "Calendar",
             "from": "2019-01-01",
@@ -734,7 +713,6 @@
           "isAggregate": true
         },
         {
-          "year": 2020,
           "datePeriod": {
             "type": "Calendar",
             "from": "2020-01-01",
@@ -768,7 +746,6 @@
           "isAggregate": true
         },
         {
-          "year": 2021,
           "datePeriod": {
             "type": "Calendar",
             "from": "2021-01-01",
@@ -802,7 +779,6 @@
           "isAggregate": true
         },
         {
-          "year": 2022,
           "datePeriod": {
             "type": "Calendar",
             "from": "2022-01-01",
@@ -836,7 +812,6 @@
           "isAggregate": true
         },
         {
-          "year": 2023,
           "datePeriod": {
             "type": "Calendar",
             "from": "2023-01-01",
@@ -870,7 +845,6 @@
           "isAggregate": true
         },
         {
-          "year": 2024,
           "datePeriod": {
             "type": "Calendar",
             "from": "2024-01-01",
