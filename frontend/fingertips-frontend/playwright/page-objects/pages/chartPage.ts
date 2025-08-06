@@ -305,10 +305,9 @@ export default class ChartPage extends AreaFilter {
     await this.waitForURLToContain(encodeURIComponent(lastOption));
 
     await expect(
-      this.page
-        .getByRole('heading')
-        .getByText(`, ${lastOption}`)
-        .getByText('inequalities for')
+      this.page.getByRole('heading', {
+        name: new RegExp(`inequalities for.*${lastOption}`),
+      })
     ).toBeVisible();
     expect(await combobox.inputValue()).toBe(lastOption);
   }
