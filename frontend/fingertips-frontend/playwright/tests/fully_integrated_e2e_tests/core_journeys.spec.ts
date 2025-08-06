@@ -97,8 +97,8 @@ test.describe(
               subjectSearchTerm!
             );
 
-            await resultsPage.selectAreasFiltersIfRequired(
-              searchMode, // Only selects area filters if search mode is ONLY_SUBJECT
+            await resultsPage.selectAreasFiltersAndAreas(
+              searchMode,
               areaMode,
               areaFiltersToSelect!
             );
