@@ -29,7 +29,10 @@ import {
 import { StyledAlignRightTableCellPaddingRight } from '@/lib/tableHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
 import { useSearchStateParams } from '@/components/hooks/useSearchStateParams';
-import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
+import {
+  convertDateToNumber,
+  formatDatePointLabel,
+} from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export interface SpineChartTableRowProps {
   indicatorData: SpineChartIndicatorData;
@@ -62,8 +65,12 @@ export const SpineChartTableRow: FC<SpineChartTableRowProps> = ({
 
   if (twoAreasRequested) {
     twoAreasLatestPeriodMatching =
-      areasHealthData[0]?.healthData.at(-1)?.year ===
-      areasHealthData[1]?.healthData.at(-1)?.year;
+      convertDateToNumber(
+        areasHealthData[0]?.healthData.at(-1)?.datePeriod?.to
+      ) ===
+      convertDateToNumber(
+        areasHealthData[1]?.healthData.at(-1)?.datePeriod?.to
+      );
   }
 
   const areaNames = areasHealthData.map(

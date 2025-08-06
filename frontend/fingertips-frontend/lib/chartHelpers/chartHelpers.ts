@@ -184,17 +184,6 @@ export function generateConfidenceIntervalSeries(
   };
 }
 
-export function getLatestYear(
-  points: HealthDataPoint[] | undefined
-): number | undefined {
-  if (!points || points.length < 1) return undefined;
-
-  const dateAsNumber = points.reduce((previous, point) => {
-    return Math.max(previous, point.year);
-  }, points[0].year);
-  return dateAsNumber;
-}
-
 export function getLatestPeriod(
   points: HealthDataPoint[] | undefined
 ): number | undefined {
