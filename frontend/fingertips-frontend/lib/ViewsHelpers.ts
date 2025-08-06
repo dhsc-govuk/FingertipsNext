@@ -82,49 +82,25 @@ export interface GetIndicatorDataParam {
 }
 
 /**
- * Retrieves the latest year from the area health data in the API response.
- * Note: this MUST only be used in the context of requests that use the latest_only parameter.
- * @param areaHealthDataList
- * @returns - the latest data for the year or undefined
- */
-function getLatestYearFromResponseData(
-  areaHealthDataList: HealthDataForArea[]
-): number | undefined {
-  return areaHealthDataList.find(
-    (areaHealthData) => areaHealthData.healthData.length
-  )?.healthData[0].year;
-}
-
-/**
  * Retrieves data for England and group - where applicable - that corresponds to the latest year
  * of the area data that has already been obtained.
  *
  * @param param0 - GetIndicatorDataParam
- * @param subAreaHealthData - the area health data for the requested area codes
  * @returns - a flattened array containing both the original area health data and health data for England
  * and the requested group, where applicable
  */
-async function getLatestYearDataForGroupAndEngland(
-  {
-    areasSelected,
-    indicatorSelected,
-    selectedGroupCode,
-    selectedGroupType,
-  }: GetIndicatorDataParam,
-  subAreaHealthData: HealthDataForArea[]
-): Promise<HealthDataForArea[]> {
-  const latestYear = getLatestYearFromResponseData(subAreaHealthData);
+async function getLatestYearDataForGroupAndEngland({
+  areasSelected,
+  indicatorSelected,
+  selectedGroupCode,
+  selectedGroupType,
+}: GetIndicatorDataParam): Promise<HealthDataForArea[]> {
   const indicatorRequestArray = [];
 
-  const defaultApiRequestParams = latestYear
-    ? {
-        indicatorId: Number(indicatorSelected[0]),
-        years: [latestYear],
-      }
-    : {
-        indicatorId: Number(indicatorSelected[0]),
-        latestOnly: true,
-      };
+  const defaultApiRequestParams = {
+    indicatorId: Number(indicatorSelected[0]),
+    latestOnly: true,
+  };
 
   if (!areasSelected.includes(areaCodeForEngland)) {
     indicatorRequestArray.push(
@@ -231,15 +207,12 @@ export async function getIndicatorData(
 
   if (latestOnly) {
     const latestDataForGroupAndEngland =
-      await getLatestYearDataForGroupAndEngland(
-        {
-          areasSelected,
-          indicatorSelected,
-          selectedGroupCode,
-          selectedGroupType,
-        },
-        indicatorDataAllAreas.areaHealthData
-      );
+      await getLatestYearDataForGroupAndEngland({
+        areasSelected,
+        indicatorSelected,
+        selectedGroupCode,
+        selectedGroupType,
+      });
     indicatorDataAllAreas.areaHealthData.push(...latestDataForGroupAndEngland);
   }
 

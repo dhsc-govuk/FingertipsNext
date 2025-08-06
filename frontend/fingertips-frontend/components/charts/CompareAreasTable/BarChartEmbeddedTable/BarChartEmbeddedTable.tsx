@@ -289,7 +289,6 @@ export function BarChartEmbeddedTable({
                     polarity={polarity}
                     label={englandLabel}
                     area={englandData?.areaName}
-                    year={englandDataPoint.year}
                     measurementUnit={measurementUnit}
                     barColor={GovukColours.DarkGrey}
                     showComparisonLabels={showComparisonLabels}
@@ -349,7 +348,6 @@ export function BarChartEmbeddedTable({
                     polarity={polarity}
                     label={groupLabel}
                     area={groupIndicatorData?.areaName}
-                    year={groupDataPoint.year}
                     measurementUnit={measurementUnit}
                     barColor={GovukColours.DarkGrey}
                     period={datePointLabel}
