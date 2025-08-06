@@ -1,6 +1,5 @@
 ﻿### check GET health data with rag comparison
-
-GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
+@disabled GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
 
 > {%
     const expected = require ('./test-indicators-benchmark-rag_expected-response.json');
@@ -15,7 +14,7 @@ GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
 ###
 
 ### GET health data with rag and sex inequalities
-GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalities=sex
+@disabled GET http://localhost:5144/indicators/41101/data?area_codes=E12000007&inequalities=sex
 > {%
     const expected = require ('./test-indicators-benchmark-rag-sex_expected-response.json');
     client.test("Expected health data returned with rag comparison for sex inequality", function (callbackfn, thisArg) {

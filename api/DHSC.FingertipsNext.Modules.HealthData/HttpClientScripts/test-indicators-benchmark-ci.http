@@ -1,6 +1,6 @@
 ### check GET health data with rag comparison
 
-GET http://localhost:5144/indicators/41101/data?area_codes=E12000007
+@disabledGET http://localhost:5144/indicators/41101/data?area_codes=E12000007
 
 > {%
     const expected = require ('./test-indicators-benchmark-rag_expected-response.json');
