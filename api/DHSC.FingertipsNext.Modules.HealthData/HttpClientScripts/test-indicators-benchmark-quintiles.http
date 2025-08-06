@@ -334,17 +334,17 @@ GET http://localhost:5144/indicators/90453/data?area_codes=K84031&area_codes=K84
         client.assert(response.body.areaHealthData[3].areaCode =="K84031", "AreaCode not as expected");
 
         healthData = response.body.areaHealthData[3].indicatorSegments[0].healthData;
-        yearList = [];
+        dateList = [];
         healthData.forEach(item => {
-            yearList.push(item.datePeriod.from);
+            dateList.push(item.datePeriod.from);
         });
 
-        expectedYears = ['2020-01-01', '2021-01-01', '2022-01-01', '2023-01-01', '2024-01-01'];
+        expectedDates = ['2020-01-01', '2021-01-01', '2022-01-01', '2023-01-01', '2024-01-01'];
 
-        containsAllExpectedYears = expectedYears.every(r => yearList.includes(r))
+        containsAllExpectedYears = expectedDates.every(r => dateList.includes(r))
         client.assert(containsAllExpectedYears == true)
-        client.assert(yearList.indexOf('2025-01-01') == -1)
-        client.assert(yearList.length == 5)
+        client.assert(dateList.indexOf('2025-01-01') == -1)
+        client.assert(dateList.length == 5)
     });
 %}
 
