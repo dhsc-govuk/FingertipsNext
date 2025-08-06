@@ -5,6 +5,7 @@
 import {
   BenchmarkReferenceType,
   IndicatorsApi,
+  IndicatorWithHealthDataForAreaAPI,
 } from '@/generated-sources/ft-api-client';
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import { mockDeep } from 'vitest-mock-extended';
@@ -61,7 +62,7 @@ describe('OneIndicatorTwoOrMoreAreasView', () => {
       areaHealthData: [mockHealthData['108'][1], mockHealthData['108'][2]],
     };
     mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
-      mockIndicatorData
+      mockIndicatorData as IndicatorWithHealthDataForAreaAPI
     );
 
     const page = await OneIndicatorTwoOrMoreAreasView({

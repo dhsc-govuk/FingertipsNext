@@ -2,9 +2,9 @@ import {
   AgeData,
   HealthDataForArea as HealthDataForAreaAPI,
   HealthDataPoint as HealthDataPointAPI,
-  SexData,
-  IndicatorWithHealthDataForArea as IndicatorWithHealthDataForAreaAPI,
   IndicatorSegment as IndicatorSegmentAPI,
+  IndicatorWithHealthDataForArea as IndicatorWithHealthDataForAreaAPI,
+  SexData,
 } from '../generated-sources/ft-api-client';
 
 // MUST EXPORT THE * FIRST FROM THE ORIGINAL SOURCES
