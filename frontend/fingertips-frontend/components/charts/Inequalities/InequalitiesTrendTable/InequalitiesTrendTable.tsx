@@ -10,7 +10,7 @@ import {
   StyledTableCellHeader,
 } from '@/lib/tableHelpers';
 import {
-  getYearsWithInequalityData,
+  getPeriodsWithInequalityData,
   InequalitiesChartData,
 } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { ReactNode } from 'react';
@@ -93,14 +93,15 @@ export function InequalitiesTrendTable({
     ...dynamicKeys,
   ];
 
-  const yearsWithInequalityData = getYearsWithInequalityData(tableData.rowData);
+  const yearsWithInequalityData = getPeriodsWithInequalityData(
+    tableData.rowData
+  );
   if (!yearsWithInequalityData.length) {
     return null;
   }
-  const firstYear = Math.min(...yearsWithInequalityData);
-  const lastYear = Math.max(...yearsWithInequalityData);
+
   const filteredRowData = tableData.rowData.filter(
-    (data) => data.period >= firstYear && data.period <= lastYear
+    (row) => Object.keys(row.inequalities).length > 1
   );
 
   const csvData = convertInequalitiesTrendTableToCsvData(

@@ -1,5 +1,4 @@
 import {
-  getHealthDataWithoutInequalities,
   getMostRecentData,
   isEnglandSoleSelectedArea,
   seriesDataForIndicatorIndexAndArea,
@@ -12,7 +11,6 @@ import {
   AreaTypeLabelEnum,
   getTooltipContent,
   createTooltipHTML,
-  getLatestYear,
   getFormattedLabel,
   determineAreasForBenchmarking,
   determineBenchmarkToUse,
@@ -696,14 +694,6 @@ describe('getMostRecentDataFromSorted', () => {
     const result = getMostRecentData([]);
 
     expect(result).toEqual(undefined);
-  });
-});
-
-describe('getHealthDataWithoutInequalities', () => {
-  it('should return health data without inequalities', () => {
-    expect(getHealthDataWithoutInequalities(mockData[0])).toEqual(
-      mockData[0].healthData.slice(0, 2)
-    );
   });
 });
 
@@ -1393,7 +1383,7 @@ describe('getTooltipHtml', () => {
       createTooltipHTML(
         {
           areaName: 'North',
-          period: 2004,
+          period: '2004',
           fieldName: 'Male',
           benchmarkComparisonSymbol: 'symbolLine',
           shouldHideComparison: false,
@@ -1427,7 +1417,7 @@ describe('getTooltipHtml', () => {
       createTooltipHTML(
         {
           areaName: 'North',
-          period: 2004,
+          period: '2004',
           fieldName: 'Male',
           benchmarkComparisonSymbol: 'symbolLine',
           shouldHideComparison: true,
@@ -1438,12 +1428,6 @@ describe('getTooltipHtml', () => {
         '%'
       )
     ).toEqual(expected);
-  });
-});
-
-describe('getLatestYear', () => {
-  it('should return the latest year for an area', () => {
-    expect(getLatestYear(mockData[0].healthData)).toBe(2006);
   });
 });
 

@@ -30,7 +30,6 @@ interface SparklineChartProps {
   polarity?: IndicatorPolarity;
   label: string;
   area: string | undefined;
-  year: number | undefined;
   measurementUnit: string | undefined;
   barColor?: string;
   benchmarkArea?: string;

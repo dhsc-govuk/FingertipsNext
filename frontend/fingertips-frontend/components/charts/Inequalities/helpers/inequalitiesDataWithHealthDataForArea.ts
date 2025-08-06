@@ -21,7 +21,7 @@ export const inequalitiesDataWithHealthDataForArea = (
   if (!inequalitiesDataWithAreas) return;
 
   const {
-    activeYear,
+    activePeriod,
     chartType,
     healthDataForArea,
     areaHealthData,
@@ -30,7 +30,7 @@ export const inequalitiesDataWithHealthDataForArea = (
 
   const inequalityCategories = getInequalityCategories(
     healthDataForArea,
-    Number(activeYear),
+    activePeriod,
     chartType
   );
 
@@ -44,7 +44,7 @@ export const inequalitiesDataWithHealthDataForArea = (
   const availableAreasWithInequalities = getAreasWithInequalitiesData(
     areaHealthData,
     type,
-    activeYear
+    activePeriod
   );
 
   // If the user has made no selection of inequality type to display yet, use

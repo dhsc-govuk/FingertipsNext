@@ -1,6 +1,7 @@
 namespace TrendAnalysisApp.Calculator;
 
-public enum Trend {
+public enum Trend
+{
     NotYetCalculated = 1,
     CannotBeCalculated = 2,
     Increasing = 3,

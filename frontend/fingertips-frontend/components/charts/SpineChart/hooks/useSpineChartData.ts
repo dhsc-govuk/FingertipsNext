@@ -34,7 +34,9 @@ export const useSpineChartData = (
     return;
   }
 
-  const cleanedHealthData = healthData.map(withoutYears);
+  const cleanedHealthData = healthData.map((dataForArea) =>
+    withoutYears(dataForArea)
+  );
   const combinedHealthData =
     indicatorWithHealthDataForAreaCombined(cleanedHealthData);
 

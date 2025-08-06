@@ -2,7 +2,7 @@
 
 namespace TrendAnalysisApp.Calculator.Legacy.Models
 {
-  public class CoreDataSet : ValueWithCIsData, ICloneable
+    public class CoreDataSet : ValueWithCIsData, ICloneable
     {
         [System.Text.Json.Serialization.JsonIgnore]
         public bool IsCountValid
@@ -20,8 +20,8 @@ namespace TrendAnalysisApp.Calculator.Legacy.Models
         }
 
         [JsonProperty]
-        public int Year { get; set; }
-        
+        public DateTime ToDate { get; set; }
+
         public object Clone()
         {
             return MemberwiseClone();

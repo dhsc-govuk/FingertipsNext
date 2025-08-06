@@ -8,7 +8,7 @@ describe('benchmarkOutcomeForYear', () => {
     areaName: 'Leeds',
     rowData: [
       {
-        period: 2020,
+        period: '2020',
         inequalities: {
           Male: {
             benchmarkComparison: {
@@ -23,7 +23,7 @@ describe('benchmarkOutcomeForYear', () => {
         },
       },
       {
-        period: 2021,
+        period: '2021',
         inequalities: {
           Male: {
             benchmarkComparison: {
@@ -36,17 +36,17 @@ describe('benchmarkOutcomeForYear', () => {
   };
 
   it('returns the correct outcome for existing year and inequality', () => {
-    const result = benchmarkOutcomeForYear(2020, 'Male', chartData);
+    const result = benchmarkOutcomeForYear('2020', 'Male', chartData);
     expect(result).toBe(BenchmarkOutcome.Better);
   });
 
   it('returns NotCompared if inequality key does not exist for that year', () => {
-    const result = benchmarkOutcomeForYear(2021, 'Female', chartData);
+    const result = benchmarkOutcomeForYear('2021', 'Female', chartData);
     expect(result).toBe(BenchmarkOutcome.NotCompared);
   });
 
   it('returns NotCompared if year is not present in the data', () => {
-    const result = benchmarkOutcomeForYear(2019, 'Male', chartData);
+    const result = benchmarkOutcomeForYear('2019', 'Male', chartData);
     expect(result).toBe(BenchmarkOutcome.NotCompared);
   });
 
@@ -55,7 +55,7 @@ describe('benchmarkOutcomeForYear', () => {
       ...chartData,
       rowData: [
         {
-          period: 2022,
+          period: '2022',
           inequalities: {
             Other: {},
           },
@@ -63,7 +63,7 @@ describe('benchmarkOutcomeForYear', () => {
       ],
     };
 
-    const result = benchmarkOutcomeForYear(2022, 'Other', modifiedChartData);
+    const result = benchmarkOutcomeForYear('2022', 'Other', modifiedChartData);
     expect(result).toBe(BenchmarkOutcome.NotCompared);
   });
 });

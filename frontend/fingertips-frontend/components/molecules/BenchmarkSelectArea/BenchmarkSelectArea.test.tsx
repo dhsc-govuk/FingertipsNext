@@ -84,6 +84,8 @@ describe('BenchmarkSelectArea', () => {
       `?${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.InequalityBarChartAreaSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.InequalityLineChartAreaSelected}=${areaCodeForEngland}`,
       `&${SearchParams.BenchmarkAreaSelected}=${mockAvailableAreas[2].code}`,
     ].join('');
 

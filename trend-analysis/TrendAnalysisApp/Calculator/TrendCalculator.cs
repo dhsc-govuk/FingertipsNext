@@ -14,8 +14,10 @@ public class TrendCalculator(TrendMarkerCalculator legacyCalculator, LegacyMappe
     /// <summary>
     /// Calculates the latest trend for a given indicator and its most recent health measure data points.
     /// </summary>
-    public Trend CalculateTrend(IndicatorDimensionModel indicator, IEnumerable<HealthMeasureModel> healthMeasures) {
-        if (indicator.ValueType == null || !legacyMapper.ValueTypeMap.TryGetValue(indicator.ValueType, out int mappedValueType)) {
+    public Trend CalculateTrend(IndicatorDimensionModel indicator, IEnumerable<HealthMeasureModel> healthMeasures)
+    {
+        if (indicator.ValueType == null || !legacyMapper.ValueTypeMap.TryGetValue(indicator.ValueType, out int mappedValueType))
+        {
             // For PoC simply return generic CannotBeCalculated flag without reason i.e. invalid value type for trends, in this case
             return Trend.CannotBeCalculated;
         }
@@ -26,19 +28,22 @@ public class TrendCalculator(TrendMarkerCalculator legacyCalculator, LegacyMappe
         return AdjustForPolarity(legacyMapper.TrendMarkerMap[legacyTrend.Marker], indicator.Polarity);
     }
 
-    public static Trend AdjustForPolarity(Trend trend, string polarity) {
+    public static Trend AdjustForPolarity(Trend trend, string polarity)
+    {
         var isIncreasing = trend == Trend.Increasing;
         var isDecreasing = trend == Trend.Decreasing;
 
         if (
             polarity == null ||
-            polarity == Polarity.NoJudgement || 
+            polarity == Polarity.NoJudgement ||
             (!isIncreasing && !isDecreasing)
-        ) {
+        )
+        {
             return trend;
         }
 
-        if (polarity == Polarity.HighIsGood) {
+        if (polarity == Polarity.HighIsGood)
+        {
             return isIncreasing ? Trend.IncreasingAndGettingBetter : Trend.DecreasingAndGettingWorse;
         }
 

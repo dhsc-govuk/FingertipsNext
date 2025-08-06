@@ -23,7 +23,7 @@ export const convertInequalitiesTrendTableToCsvData = (
   indicatorMetadata?: IndicatorDocument
 ): CsvData => {
   if (tableRows.length < 1) {
-    throw new Error('Invalid data provided.');
+    return [headers];
   }
 
   const convertedRows = tableRows.flatMap((tableRow) => {

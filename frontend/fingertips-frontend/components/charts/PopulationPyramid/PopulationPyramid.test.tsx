@@ -4,51 +4,21 @@ import { mockUseSearchStateParams } from '@/mock/utils/mockUseSearchStateParams'
 import { mockUsePathname } from '@/mock/utils/mockNextNavigation';
 //
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import {
-  HealthDataForArea,
-  HealthDataPoint,
-  HealthDataPointTrendEnum,
-} from '@/generated-sources/ft-api-client';
-import { mockHealthData } from '@/mock/data/healthdata';
 import { AreaDocument } from '@/lib/search/searchTypes';
-import { disaggregatedAge, femaleSex, noDeprivation } from '@/lib/mocks';
 import { SearchStateParams } from '@/lib/searchStateManager';
 import { PopulationPyramid } from '@/components/charts/PopulationPyramid/PopulationPyramid';
 import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
+import { mockHealthDataForArea } from '@/mock/data/mockHealthDataForArea';
+import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
 
 const mockSearchState: SearchStateParams = {};
 
 mockUsePathname.mockReturnValue('some-path-name');
 mockSetIsLoading.mockReturnValue(false);
 mockUseSearchStateParams.mockReturnValue(mockSearchState);
-
-const mockHealthDataPoint: HealthDataPoint[] = [
-  {
-    year: 2025,
-    count: 200,
-    value: 0,
-    lowerCi: 0,
-    upperCi: 0,
-    ageBand: disaggregatedAge('0-4'),
-    sex: femaleSex,
-    trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
-  },
-  {
-    year: 2023,
-    count: 200,
-    value: 0,
-    lowerCi: 0,
-    upperCi: 0,
-    ageBand: disaggregatedAge('5-9'),
-    sex: femaleSex,
-    trend: HealthDataPointTrendEnum.NotYetCalculated,
-    deprivation: noDeprivation,
-  },
-];
 
 // Mock dependencies
 vi.mock(
@@ -72,33 +42,32 @@ vi.mock('@/components/molecules/SelectInputField', () => ({
   ),
 }));
 
-describe('PopulationPyramidWithTable', () => {
-  const setupUI = (dataForArea: HealthDataForArea[]) => {
-    return render(
-      <PopulationPyramid
-        healthDataForAreas={dataForArea}
-        xAxisTitle="Age"
-        yAxisTitle="Percentage of population"
-        indicatorId={'1'}
-        indicatorName={'Indicator'}
-      />
-    );
-  };
-  const mockHealthDataForArea: HealthDataForArea[] = [
-    {
-      areaCode: '123',
-      areaName: 'Test Area 123',
-      healthData: mockHealthDataPoint,
-    },
-    {
-      areaCode: '124',
-      areaName: 'Test Area 124',
-      healthData: mockHealthDataPoint,
-    },
-  ];
+const localMockHealthDataForArea = [
+  mockHealthDataForArea({
+    areaCode: '123',
+    areaName: 'Test Area 123',
+  }),
+  mockHealthDataForArea({
+    areaCode: '124',
+    areaName: 'Test Area 124',
+  }),
+];
 
+function testRender(dataForArea = localMockHealthDataForArea) {
+  return render(
+    <PopulationPyramid
+      healthDataForAreas={dataForArea}
+      xAxisTitle="Age"
+      yAxisTitle="Percentage of population"
+      indicatorId={'1'}
+      indicatorName={'Indicator'}
+    />
+  );
+}
+
+describe('PopulationPyramidWithTable', () => {
   test('renders component with default title', () => {
-    setupUI(mockHealthDataForArea);
+    testRender();
     expect(
       screen.getByText(
         chartTitleConfig[ChartTitleKeysEnum.PopulationPyramid].title
@@ -107,15 +76,15 @@ describe('PopulationPyramidWithTable', () => {
   });
 
   test('renders tabs correctly', () => {
-    const container = setupUI(mockHealthDataForArea);
+    testRender();
     expect(screen.getByText('Show population data')).toBeInTheDocument();
 
-    fireEvent.click(container.getByText('Show population data'));
+    fireEvent.click(screen.getByText('Show population data'));
     expect(screen.getByText('Hide population data')).toBeInTheDocument();
   });
 
   it('test that we can clicked the expander', async () => {
-    setupUI(mockHealthDataForArea);
+    testRender();
     const populationPyramid = screen.getByTestId(
       'populationPyramidWithTable-component'
     );
@@ -127,9 +96,9 @@ describe('PopulationPyramidWithTable', () => {
   });
 
   it('should render the availableAreas as options in the Select an area dropdown', async () => {
-    const container = setupUI(mockHealthDataForArea);
+    testRender();
 
-    fireEvent.click(container.getByText('Show population data'));
+    fireEvent.click(screen.getByText('Show population data'));
 
     const populationAreasDropDown = screen.getByRole('combobox', {
       name: 'Select an area',
@@ -141,20 +110,36 @@ describe('PopulationPyramidWithTable', () => {
     expect(populationAreasDropDown).toBeInTheDocument();
     expect(populationAreasDropDownOptions).toHaveLength(2);
     populationAreasDropDownOptions.forEach((option, i) => {
-      expect(option.textContent).toBe(mockHealthDataForArea[i].areaName);
+      expect(option.textContent).toBe(localMockHealthDataForArea[i].areaName);
     });
   });
 
-  test('take a snapshot', () => {
-    const container = render(
-      <PopulationPyramid
-        healthDataForAreas={mockHealthData['337']}
-        xAxisTitle="Age"
-        yAxisTitle="Percentage of population"
-        indicatorId={'1'}
-        indicatorName={'Indicator'}
-      />
-    );
-    expect(container.asFragment()).toMatchSnapshot();
+  it('should not render if health data is empty', () => {
+    testRender([]);
+    expect(
+      screen.queryByTestId('populationPyramidWithTable-component')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should show No "data" message if no data for the area', () => {
+    const mockHealthDataForWithNoDatafForArea = [
+      mockHealthDataForArea({
+        indicatorSegments: [
+          mockIndicatorSegment({
+            healthData: [],
+          }),
+        ],
+      }),
+    ];
+
+    testRender(mockHealthDataForWithNoDatafForArea);
+    fireEvent.click(screen.getByText('Show population data'));
+
+    expect(
+      screen.queryByTestId('populationPyramidWithTable-component')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('No population data for this area')
+    ).toBeInTheDocument();
   });
 });

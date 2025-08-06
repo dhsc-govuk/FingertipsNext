@@ -72,7 +72,7 @@ export interface LineChartTableProps {
 }
 
 export interface LineChartTableRowData {
-  period: number;
+  period: string;
   count?: number;
   value?: number;
   lower?: number;
@@ -181,18 +181,6 @@ const BenchmarkCell: FC<BenchmarkCellProps> = ({
     </CellWrapper>
   );
 };
-
-export const mapToLineChartTableData = (
-  areaData: HealthDataForArea
-): LineChartTableRowData[] =>
-  areaData.healthData.map((healthPoint) => ({
-    period: healthPoint.year,
-    count: healthPoint.count,
-    value: healthPoint.value,
-    lower: healthPoint.lowerCi,
-    upper: healthPoint.upperCi,
-    benchmarkComparison: healthPoint.benchmarkComparison,
-  }));
 
 const StyledTitleCell = styled(StyledAlignLeftHeader)({
   border: 'none',

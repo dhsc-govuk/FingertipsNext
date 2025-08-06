@@ -7,12 +7,13 @@ import { HealthDataForArea } from '@/generated-sources/ft-api-client';
 export const inequalitiesBarChartData = (
   healthDataForArea: HealthDataForArea,
   allData: InequalitiesTableRowData[],
-  years: number[],
-  selectedYear?: string
+  periods: string[],
+  selectedPeriod?: string
 ): InequalitiesBarChartData | null => {
-  if (!years.length) return null;
+  if (!periods.length) return null;
 
-  const dataPeriod = Number(selectedYear ?? years[0]);
+  const dataPeriod = selectedPeriod ?? periods[0];
+
   const periodData = allData.find((data) => data.period === dataPeriod);
 
   if (!periodData) return null;

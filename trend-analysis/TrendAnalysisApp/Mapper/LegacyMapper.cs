@@ -6,7 +6,8 @@ using TrendAnalysisApp.Repository.Models;
 
 namespace TrendAnalysisApp.Mapper;
 
-public class LegacyMapper {
+public class LegacyMapper
+{
     // All indicators use this default range in the legacy calculator
     private readonly int DefaultYearRange = 1;
     // Maps value type names from model to the value type names in the legacy calculator
@@ -14,7 +15,8 @@ public class LegacyMapper {
     // Maps legacy TrendMarkers to the Trend enum in the new calculator
     public readonly ReadOnlyDictionary<TrendMarker, Trend> TrendMarkerMap;
 
-    public LegacyMapper() {
+    public LegacyMapper()
+    {
         var valueTypeDict = new Dictionary<string, int>
         {
             { "Directly standardised rate", ValueTypeIds.DirectlyStandardisedRate },
@@ -36,7 +38,8 @@ public class LegacyMapper {
     /// <summary>
     /// Maps indicator metadata and a list of health measures to a valid legacy calculation request.
     /// </summary>
-    public TrendRequest ToLegacy(int valueTypeId, IEnumerable<HealthMeasureModel> healthMeasures) {
+    public TrendRequest ToLegacy(int valueTypeId, IEnumerable<HealthMeasureModel> healthMeasures)
+    {
         var legacyTrendRequest = new TrendRequest
         {
             YearRange = DefaultYearRange,
@@ -47,18 +50,20 @@ public class LegacyMapper {
         return legacyTrendRequest;
     }
 
-    private static List<CoreDataSet> HealthMeasuresToLegacyDatasetList(IEnumerable<HealthMeasureModel> healthMeasures) {
+    private static List<CoreDataSet> HealthMeasuresToLegacyDatasetList(IEnumerable<HealthMeasureModel> healthMeasures)
+    {
         return [.. healthMeasures.Select(HealthMeasureToLegacyDataset)];
     }
 
-    private static CoreDataSet HealthMeasureToLegacyDataset(HealthMeasureModel healthMeasure) {
+    private static CoreDataSet HealthMeasureToLegacyDataset(HealthMeasureModel healthMeasure)
+    {
         return new CoreDataSet()
         {
             Count = healthMeasure.Count,
             Value = healthMeasure.Value,
             // Legacy Calculator expects this value as a double, so we set this to 0 if null
             Denominator = healthMeasure.Denominator ?? 0,
-            Year = healthMeasure.Year,
+            ToDate = healthMeasure.ToDateDimension.Date,
             LowerCI95 = healthMeasure.LowerCI,
             UpperCI95 = healthMeasure.UpperCI
         };

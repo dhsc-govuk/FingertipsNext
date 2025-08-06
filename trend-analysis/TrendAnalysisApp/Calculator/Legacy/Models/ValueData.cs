@@ -11,7 +11,7 @@ namespace TrendAnalysisApp.Calculator.Legacy.Models
 
         [JsonProperty(PropertyName = "Count")]
         public double? Count { get; set; }
-        
+
         [JsonIgnore]
         public bool IsValueValid
         {

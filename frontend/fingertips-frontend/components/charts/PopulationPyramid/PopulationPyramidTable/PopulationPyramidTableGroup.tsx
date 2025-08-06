@@ -1,6 +1,6 @@
 import React from 'react';
 import { PopulationPyramidTable } from './PopulationPyramidTable';
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
 import { convertPopulationPyramidTableToCsvData } from '@/components/charts/PopulationPyramid/helpers/convertPopulationPyramidTableToCsvData';
 import { ExportCopyright } from '@/components/molecules/Export/ExportCopyright';
@@ -16,9 +16,9 @@ import {
 
 export interface PopulationPyramidTableProps {
   title: string;
-  healthDataForArea: PopulationDataForArea;
-  benchmarkData?: PopulationDataForArea;
-  groupData?: PopulationDataForArea;
+  populationDataForArea: PopulationDataForArea;
+  populationDataForBenchmark?: PopulationDataForArea;
+  populationDataForGroup?: PopulationDataForArea;
   indicatorId?: string;
   indicatorName?: string;
   period: number;
@@ -26,20 +26,20 @@ export interface PopulationPyramidTableProps {
 
 export function PopulationPyramidChartTable({
   title,
-  healthDataForArea,
-  benchmarkData,
-  groupData,
+  populationDataForArea,
+  populationDataForBenchmark,
+  populationDataForGroup,
   indicatorId,
   indicatorName,
   period,
 }: Readonly<PopulationPyramidTableProps>) {
   const csvData = convertPopulationPyramidTableToCsvData(
     period,
-    healthDataForArea,
+    populationDataForArea,
     indicatorId,
     indicatorName,
-    benchmarkData,
-    groupData
+    populationDataForBenchmark,
+    populationDataForGroup
   );
 
   return (
@@ -54,19 +54,19 @@ export function PopulationPyramidChartTable({
             <StyleSelectedAreaTableContextDiv>
               <PopulationPyramidTable
                 headers={['Age range', 'Male', 'Female']}
-                title={`${healthDataForArea?.areaName}`}
-                healthDataForArea={healthDataForArea}
+                title={`${populationDataForArea?.areaName}`}
+                healthDataForArea={populationDataForArea}
                 filterValues={(row) => {
                   return [row.age, row.male, row.female];
                 }}
               />
             </StyleSelectedAreaTableContextDiv>
-            {groupData ? (
+            {populationDataForGroup ? (
               <StyleGroupTableContentDiv>
                 <PopulationPyramidTable
                   headers={['Male', 'Female']}
-                  title={`${groupData?.areaName}`}
-                  healthDataForArea={groupData}
+                  title={`${populationDataForGroup?.areaName}`}
+                  healthDataForArea={populationDataForGroup}
                   filterValues={(row) => {
                     return [row.male, row.female];
                   }}
@@ -74,12 +74,12 @@ export function PopulationPyramidChartTable({
               </StyleGroupTableContentDiv>
             ) : null}
           </StyleScrollableContentDiv>
-          {benchmarkData ? (
+          {populationDataForBenchmark ? (
             <StyleBenchmarkDataDiv>
               <PopulationPyramidTable
                 headers={['Male', 'Female']}
-                title={benchmarkData?.areaName ?? ''}
-                healthDataForArea={benchmarkData}
+                title={populationDataForBenchmark?.areaName ?? ''}
+                healthDataForArea={populationDataForBenchmark}
                 filterValues={(row) => {
                   return [row.male, row.female];
                 }}

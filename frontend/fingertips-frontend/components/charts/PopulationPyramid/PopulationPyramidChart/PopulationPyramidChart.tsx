@@ -1,7 +1,7 @@
 'use client';
 
 import Highcharts from 'highcharts';
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from '@/components/charts/PopulationPyramid/helpers/preparePopulationData';
 import { createChartPyramidOptions } from '../helpers/createChartOptions';
 import { HighChartsWrapper } from '@/components/molecules/HighChartsWrapper/HighChartsWrapper';
 import { ExportOptionsButton } from '@/components/molecules/Export/ExportOptionsButton';
@@ -40,6 +40,7 @@ export function PopulationPyramidChart({
       dataForGroup
     );
   const id = 'populationPyramidChart';
+
   return (
     <>
       <div id={id} data-testid={`${id}-component`}>

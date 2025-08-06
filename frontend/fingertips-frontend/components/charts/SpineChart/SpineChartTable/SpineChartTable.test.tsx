@@ -32,7 +32,10 @@ describe('Spine chart table suite', () => {
         areaName: areaName,
         healthData: [
           {
-            year: mismatchedYears ? 2022 : 2023,
+            year: 0,
+            datePeriod: mismatchedYears
+              ? mockDatePeriod(2022)
+              : mockDatePeriod(2023),
             count: 222,
             value: 690.305692,
             lowerCi: 341.69151,

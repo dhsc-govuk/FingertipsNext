@@ -1,8 +1,8 @@
+import { healthDataPoint } from '../mocks';
 import {
   HealthDataForArea,
   HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
-import { healthDataPoint } from '../mocks';
 
 export const generateHealthDataPoint = (
   year: number,
@@ -12,6 +12,7 @@ export const generateHealthDataPoint = (
   return {
     ...healthDataPoint,
     year,
+    periodLabel: `${year}`,
     sex: {
       value: 'male',
       isAggregate: sexIsAggregate,

@@ -7,6 +7,12 @@ public class HealthMeasureModel
 {
     [Key]
     public int HealthMeasureKey { get; set; }
+    public required DateDimensionModel ToDateDimension { get; set; }
+    [ForeignKey("ToDateDimension")]
+    public int ToDateKey { get; set; }
+    public PeriodDimensionModel? PeriodDimension { get; set; }
+    [ForeignKey("PeriodDimension")]
+    public byte PeriodKey { get; set; }
     public AgeDimensionModel? AgeDimension { get; set; }
     [ForeignKey("AgeDimension")]
     public short AgeKey { get; set; }
@@ -33,7 +39,6 @@ public class HealthMeasureModel
     public double Value { get; set; }
     public double? LowerCI { get; set; }
     public double? UpperCI { get; set; }
-    public required short Year { get; set; }
     public DateTime PublishedAt { get; set; }
     public string BatchId { get; set; }
 }

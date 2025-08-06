@@ -6,6 +6,7 @@ import {
 } from './ViewsHelpers';
 import {
   BenchmarkReferenceType,
+  HealthDataPoint,
   IndicatorsApi,
   IndicatorWithHealthDataForArea,
 } from '@/generated-sources/ft-api-client';
@@ -31,7 +32,7 @@ const mockIndicatorData: IndicatorWithHealthDataForArea = {
     {
       areaCode: 'A001',
       areaName: 'North FooBar',
-      healthData: [healthDataPoint],
+      healthData: [healthDataPoint as unknown as HealthDataPoint],
     },
   ],
 };
@@ -363,7 +364,7 @@ describe('getIndicatorData', () => {
       areaCodes: [areaCodeForEngland],
       areaType: 'england',
       indicatorId: 1,
-      years: [2006],
+      latestOnly: true,
     });
     expect(
       mockedGetgetAuthorisedHealthDataForAnIndicator
@@ -371,7 +372,7 @@ describe('getIndicatorData', () => {
       areaCodes: ['ggg'],
       areaType: 'test_group_type',
       indicatorId: 1,
-      years: [2006],
+      latestOnly: true,
     });
   });
 

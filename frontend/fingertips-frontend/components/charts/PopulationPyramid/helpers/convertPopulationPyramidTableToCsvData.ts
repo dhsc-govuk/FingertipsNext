@@ -1,5 +1,5 @@
 import { CsvHeader } from '@/components/molecules/Export/export.types';
-import { PopulationDataForArea } from '@/lib/chartHelpers/preparePopulationData';
+import { PopulationDataForArea } from './preparePopulationData';
 import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
 
 export function convertPopulationPyramidTableToCsvData(

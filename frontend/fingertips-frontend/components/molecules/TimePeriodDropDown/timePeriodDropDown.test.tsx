@@ -18,7 +18,7 @@ const years = ['2023', '2022', '2021', '2020'];
 
 describe('TimePeriodDropDown suite', () => {
   it('should display expected elements', () => {
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown periods={years} />);
     const dropDown = screen.getByRole('combobox');
     const yearOptions = within(dropDown).getAllByRole('option');
 
@@ -38,10 +38,11 @@ describe('TimePeriodDropDown suite', () => {
       `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
       `&${SearchParams.InequalityYearSelected}=2022`,
+      `&${SearchParams.InequalityLineChartAreaSelected}=${areaCodeForEngland}`,
     ].join('');
 
     const user = userEvent.setup();
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown periods={years} />);
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
 
@@ -56,10 +57,11 @@ describe('TimePeriodDropDown suite', () => {
       `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
       `&${SearchParams.InequalityYearSelected}=2022`,
+      `&${SearchParams.InequalityLineChartAreaSelected}=${areaCodeForEngland}`,
     ].join('');
 
     const user = userEvent.setup();
-    render(<TimePeriodDropDown years={years} />);
+    render(<TimePeriodDropDown periods={years} />);
 
     await user.selectOptions(screen.getByRole('combobox'), '2022');
 

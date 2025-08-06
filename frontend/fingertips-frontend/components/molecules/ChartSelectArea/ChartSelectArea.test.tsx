@@ -95,6 +95,7 @@ describe('ChartSelectArea', () => {
       `?${SearchParams.AreaTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupTypeSelected}=${englandAreaType.key}`,
       `&${SearchParams.GroupSelected}=${areaCodeForEngland}`,
+      `&${SearchParams.InequalityBarChartAreaSelected}=${areaCodeForEngland}`,
       `&${SearchParams.InequalityLineChartAreaSelected}=${mockAvailableAreas[2].code}`,
     ].join('');
 
@@ -114,31 +115,47 @@ describe('ChartSelectArea', () => {
     expect(spy).toHaveBeenCalledWith(null, '', expectedPath);
   });
 
-  it.each([
-    SearchParams.InequalityLineChartAreaSelected,
-    SearchParams.InequalityBarChartAreaSelected,
-  ])(
-    'should alter the browser history state when param type is %s',
-    async (chartAreaSelectedKey) => {
-      const spy = vi.spyOn(window.history, 'pushState');
+  it('should alter the browser history state when param type is InequalityLineChartAreaSelected', async () => {
+    const spy = vi.spyOn(window.history, 'pushState');
 
-      render(
-        <ChartSelectArea
-          availableAreas={mockAvailableAreas}
-          chartAreaSelectedKey={chartAreaSelectedKey}
-        />
-      );
+    render(
+      <ChartSelectArea
+        availableAreas={mockAvailableAreas}
+        chartAreaSelectedKey={SearchParams.InequalityLineChartAreaSelected}
+      />
+    );
 
-      await userEvent.selectOptions(
-        screen.getByRole('combobox', { name: areaDropDownLabel }),
-        mockAvailableAreas[2].code
-      );
+    await userEvent.selectOptions(
+      screen.getByRole('combobox', { name: areaDropDownLabel }),
+      mockAvailableAreas[2].code
+    );
 
-      expect(spy).toHaveBeenCalledWith(
-        null,
-        '',
-        `some-mock-path?ats=england&gts=england&gs=E92000001&${chartAreaSelectedKey}=${mockAvailableAreas[2].code}`
-      );
-    }
-  );
+    expect(spy).toHaveBeenCalledWith(
+      null,
+      '',
+      `some-mock-path?ats=england&gts=england&gs=E92000001&ibas=${areaCodeForEngland}&${SearchParams.InequalityLineChartAreaSelected}=${mockAvailableAreas[2].code}`
+    );
+  });
+
+  it('should alter the browser history state when param type is InequalityBarChartAreaSelected', async () => {
+    const spy = vi.spyOn(window.history, 'pushState');
+
+    render(
+      <ChartSelectArea
+        availableAreas={mockAvailableAreas}
+        chartAreaSelectedKey={SearchParams.InequalityBarChartAreaSelected}
+      />
+    );
+
+    await userEvent.selectOptions(
+      screen.getByRole('combobox', { name: areaDropDownLabel }),
+      mockAvailableAreas[2].code
+    );
+
+    expect(spy).toHaveBeenCalledWith(
+      null,
+      '',
+      `some-mock-path?ats=england&gts=england&gs=E92000001&${SearchParams.InequalityBarChartAreaSelected}=${mockAvailableAreas[2].code}&ilas=${areaCodeForEngland}`
+    );
+  });
 });
