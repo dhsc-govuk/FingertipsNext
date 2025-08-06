@@ -4,6 +4,7 @@ import {
   GetHealthDataForAnIndicatorRequest,
   IndicatorsApi,
   ResponseError,
+  IndicatorWithHealthDataForAreaAPI,
 } from '@/generated-sources/ft-api-client';
 import { mockDeep } from 'vitest-mock-extended';
 import {
@@ -25,10 +26,10 @@ const mockUnpublishedResponse = mockIndicatorWithHealthDataForArea({
 });
 
 mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
-  mockPublishedResponse
+  mockPublishedResponse as IndicatorWithHealthDataForAreaAPI
 );
 mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolvedValue(
-  mockUnpublishedResponse
+  mockUnpublishedResponse as IndicatorWithHealthDataForAreaAPI
 );
 
 const apiRequestParams: GetHealthDataForAnIndicatorRequest = {

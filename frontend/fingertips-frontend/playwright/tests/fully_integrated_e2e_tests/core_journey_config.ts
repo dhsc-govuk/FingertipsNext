@@ -1,5 +1,5 @@
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
-import { ReportingPeriod } from '@/generated-sources/ft-api-client/models/ReportingPeriod';
+import { ReportingPeriod } from '@/generated-sources/ft-api-client';
 import { AreaDocument } from '@/lib/search/searchTypes';
 import {
   AreaMode,

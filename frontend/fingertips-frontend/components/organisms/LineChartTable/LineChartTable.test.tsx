@@ -542,7 +542,7 @@ describe('Line chart table suite', () => {
     it('should map to linechart table row data', () => {
       const expectedRowData: LineChartTableRowData[] = [
         {
-          period: 2008,
+          period: '2008',
           value: 890.305692,
           count: 222,
           upper: 578.32766,
@@ -551,19 +551,19 @@ describe('Line chart table suite', () => {
         {
           count: 267,
           lower: 441.69151,
-          period: 2004,
+          period: '2004',
           upper: 578.32766,
           value: 703.420759,
         },
         {
-          period: 2004,
+          period: '2004',
           count: 267,
           value: 703.420759,
           lower: 441.69151,
           upper: 578.32766,
         },
         {
-          period: 2004,
+          period: '2004',
           count: 267,
           value: 703.420759,
           lower: 441.69151,

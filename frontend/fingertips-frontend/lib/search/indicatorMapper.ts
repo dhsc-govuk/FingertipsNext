@@ -2,7 +2,7 @@
  * Mapper class for handling conversions from the indicator search backend to entities.
  */
 
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 import {
   AreaCodeWithTrend,
   IndicatorDocument,

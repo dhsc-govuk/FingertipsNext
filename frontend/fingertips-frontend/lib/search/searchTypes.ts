@@ -3,7 +3,7 @@
  * These should be updated to take definitions from there rather than duplicating them
  */
 
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 export const INDICATOR_SEARCH_SCORING_PROFILE = 'basicScoringProfile';
 export const INDICATOR_SEARCH_INDEX_NAME = 'indicator-search-index';

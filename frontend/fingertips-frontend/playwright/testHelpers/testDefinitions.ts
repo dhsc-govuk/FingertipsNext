@@ -1,5 +1,5 @@
 import { InequalitiesTypes } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
-import { ReportingPeriod } from '@/generated-sources/ft-api-client/models/ReportingPeriod';
+import { ReportingPeriod } from '@/generated-sources/ft-api-client';
 
 export enum SearchMode {
   ONLY_SUBJECT = 'ONLY_SUBJECT',

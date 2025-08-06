@@ -1,7 +1,7 @@
 import { Trend, TrendCondition } from '@/lib/common-types';
 import { mapTrendResponse, TrendTag } from '.';
 import { render, screen } from '@testing-library/react';
-import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client/models/HealthDataPoint';
+import { HealthDataPointTrendEnum } from '@/generated-sources/ft-api-client';
 
 describe('Trend Tag Suite', () => {
   it('should render expected elements', () => {
