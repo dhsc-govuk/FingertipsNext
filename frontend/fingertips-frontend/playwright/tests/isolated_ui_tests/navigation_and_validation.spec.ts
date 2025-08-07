@@ -461,9 +461,9 @@ test.describe('Area Filter Tests', () => {
 
       const countiesAndUnitaryAuthoritiesAreaType =
         'counties-and-unitary-authorities';
-      const groupType = 'combined-authorities';
-      const area = 'Cambridgeshire';
-      const areaCode = 'E10000003';
+      const groupType = 'england';
+      const area = 'Darlington';
+      const areaCode = 'E06000005';
 
       await resultsPage.selectAreaTypeAndAssertURLUpdated(
         countiesAndUnitaryAuthoritiesAreaType
