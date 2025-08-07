@@ -461,9 +461,9 @@ test.describe('Area Filter Tests', () => {
 
       const countiesAndUnitaryAuthoritiesAreaType =
         'counties-and-unitary-authorities';
-      const groupType = 'combined-authorities';
-      const area = 'County Durham';
-      const areaCode = 'E06000047';
+      const groupType = 'england';
+      const area = 'Darlington';
+      const areaCode = 'E06000005';
 
       await resultsPage.selectAreaTypeAndAssertURLUpdated(
         countiesAndUnitaryAuthoritiesAreaType
