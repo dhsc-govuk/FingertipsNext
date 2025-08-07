@@ -3,7 +3,6 @@ import { SearchParams } from '@/lib/searchStateManager';
 import { singleIndicatorBasicTableData } from '@/components/charts/BasicTable/helpers/singleIndicatorBasicTableData';
 import { useMemo } from 'react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { withoutYears } from '@/lib/healthDataHelpers/withoutYears';
 import { Frequency } from '@/generated-sources/ft-api-client';
 import { useMultipleIndicatorData } from '@/components/charts/hooks/useMultipleIndicatorData';
 import { indicatorsSorted } from '@/lib/healthDataHelpers/indicatorsSorted';
@@ -41,9 +40,8 @@ export const useMultipleIndicatorBasicTableData = () => {
         frequency
       );
 
-      const cleanData = withoutYears(healthData);
       const areaCode = areasSelected?.at(0) ?? areaCodeForEngland;
-      const area = cleanData.areaHealthData?.find(
+      const area = healthData.areaHealthData?.find(
         (healthData) => healthData.areaCode === areaCode
       );
 

@@ -30,7 +30,6 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'Greater Manchester ICB - 00T',
       healthData: [
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2008-01-01'),
@@ -47,7 +46,6 @@ describe('BarChartEmbeddedTable', () => {
           benchmarkComparison: { benchmarkAreaName: 'England' },
         },
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2004-01-01'),
@@ -69,7 +67,6 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'NHS North West Region',
       healthData: [
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2008-01-01'),
@@ -86,7 +83,6 @@ describe('BarChartEmbeddedTable', () => {
           benchmarkComparison: { benchmarkAreaName: 'England' },
         },
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2004-01-01'),
@@ -108,7 +104,6 @@ describe('BarChartEmbeddedTable', () => {
       areaName: 'Area 2',
       healthData: [
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2004-01-01'),
@@ -124,7 +119,6 @@ describe('BarChartEmbeddedTable', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Financial,
             from: new Date('2008-01-01'),
@@ -166,7 +160,6 @@ describe('BarChartEmbeddedTable', () => {
     areaName: 'England',
     healthData: [
       {
-        year: 0,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -182,7 +175,6 @@ describe('BarChartEmbeddedTable', () => {
         deprivation: noDeprivation,
       },
       {
-        year: 0,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2008-01-01'),
@@ -205,7 +197,6 @@ describe('BarChartEmbeddedTable', () => {
     areaName: 'NHS North West Region',
     healthData: [
       {
-        year: 0,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2008-01-01'),
@@ -221,7 +212,6 @@ describe('BarChartEmbeddedTable', () => {
         deprivation: noDeprivation,
       },
       {
-        year: 0,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),

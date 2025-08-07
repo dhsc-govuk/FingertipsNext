@@ -227,13 +227,12 @@ describe('convertBarChartEmbeddedTableToCsv', () => {
     ]);
   });
 
-  it('excludes benchmark row if year does not match', () => {
+  it('excludes benchmark row if period does not match', () => {
     const modifiedBenchmarkData = {
       ...benchmarkData,
       healthData: [
         {
           ...benchmarkData.healthData[0],
-          year: 2020, // no match for 2023
         },
       ],
     };

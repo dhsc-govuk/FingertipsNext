@@ -15,7 +15,6 @@ export const mockIndicatorData: HealthDataForArea[] = [
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 278.29134,
-        year: 2006,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2006-04-01'),
@@ -32,7 +31,6 @@ export const mockIndicatorData: HealthDataForArea[] = [
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 703.420759,
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-04-01'),
@@ -55,7 +53,6 @@ export const mockIndicatorData: HealthDataForArea[] = [
         lowerCi: 750.69151,
         upperCi: 800.32766,
         value: 786.27434,
-        year: 2010,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2010-04-01'),
@@ -72,7 +69,6 @@ export const mockIndicatorData: HealthDataForArea[] = [
         lowerCi: 440.69151,
         upperCi: 420.32766,
         value: 435.420759,
-        year: 2007,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2007-04-01'),
@@ -95,7 +91,6 @@ export const mockIndicatorData: HealthDataForArea[] = [
         lowerCi: 460.69151,
         upperCi: 500.32766,
         value: 478.27434,
-        year: 2020,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2020-04-01'),
@@ -112,7 +107,6 @@ export const mockIndicatorData: HealthDataForArea[] = [
         lowerCi: 220.69151,
         upperCi: 250.32766,
         value: 234.420759,
-        year: 2012,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2012-04-01'),
@@ -137,7 +131,6 @@ export const mockEnglandData: HealthDataForArea = {
       lowerCi: 441.69151,
       upperCi: 578.32766,
       value: 278.29134,
-      year: 2006,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2006-04-01'),
@@ -154,7 +147,6 @@ export const mockEnglandData: HealthDataForArea = {
       lowerCi: 441.69151,
       upperCi: 578.32766,
       value: 703.420759,
-      year: 2004,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2004-04-01'),
@@ -178,7 +170,6 @@ export const mockParentData: HealthDataForArea = {
       lowerCi: 200,
       upperCi: 400,
       value: 300,
-      year: 2006,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2006-04-01'),
@@ -195,7 +186,6 @@ export const mockParentData: HealthDataForArea = {
       lowerCi: 201,
       upperCi: 401,
       value: 301,
-      year: 2004,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2004-04-01'),

@@ -17,7 +17,6 @@ export const MOCK_ENGLAND_DATA: HealthDataForArea = {
   areaName: 'England',
   healthData: [
     {
-      year: 2004,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2004-01-01'),
@@ -33,7 +32,6 @@ export const MOCK_ENGLAND_DATA: HealthDataForArea = {
       deprivation: noDeprivation,
     },
     {
-      year: 2008,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2008-01-01'),
@@ -57,7 +55,6 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
     areaName: 'Greater Manchester ICB - 00T',
     healthData: [
       {
-        year: 2008,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2008-01-01'),
@@ -74,7 +71,6 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         isAggregate: true,
       },
       {
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -91,7 +87,6 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         isAggregate: true,
       },
       {
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -108,7 +103,6 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         isAggregate: false,
       },
       {
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -131,7 +125,6 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
     areaName: 'South FooBar',
     healthData: [
       {
-        year: 2008,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2008-01-01'),
@@ -148,7 +141,6 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         isAggregate: true,
       },
       {
-        year: 2008,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2008-01-01'),
@@ -165,7 +157,6 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         isAggregate: false,
       },
       {
-        year: 2008,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2008-01-01'),
@@ -182,7 +173,6 @@ export const MOCK_HEALTH_DATA: HealthDataForArea[] = [
         isAggregate: false,
       },
       {
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -207,7 +197,6 @@ export const MOCK_PARENT_DATA: HealthDataForArea = {
   areaName: 'NHS North West Region',
   healthData: [
     {
-      year: 2008,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2008-01-01'),
@@ -223,7 +212,6 @@ export const MOCK_PARENT_DATA: HealthDataForArea = {
       deprivation: noDeprivation,
     },
     {
-      year: 2004,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2004-01-01'),
@@ -260,7 +248,6 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
     areaName: 'Manchester - Counties and Unitary Authorities',
     healthData: [
       {
-        year: 2019,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2019-01-01'),
@@ -276,7 +263,6 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
         deprivation: noDeprivation,
       },
       {
-        year: 2022,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2022-01-01'),
@@ -292,7 +278,6 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
         deprivation: noDeprivation,
       },
       {
-        year: 2023,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2023-01-01'),
@@ -308,7 +293,6 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
         deprivation: noDeprivation,
       },
       {
-        year: 2024,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2024-01-01'),
@@ -330,7 +314,6 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
     areaName: 'South FooBar',
     healthData: [
       {
-        year: 2019,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2019-01-01'),
@@ -346,7 +329,6 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
         deprivation: noDeprivation,
       },
       {
-        year: 2022,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2022-01-01'),
@@ -362,7 +344,6 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
         deprivation: noDeprivation,
       },
       {
-        year: 2023,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2023-01-01'),
@@ -378,7 +359,6 @@ export const MOCK_HEALTH_DATA_WITH_TRENDS: HealthDataForArea[] = [
         deprivation: noDeprivation,
       },
       {
-        year: 2024,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2024-01-01'),

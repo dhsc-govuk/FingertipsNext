@@ -1,24 +1,24 @@
 import {
+  AreaTypeLabelEnum,
+  createTooltipHTML,
+  determineAreasForBenchmarking,
+  determineBenchmarkToUse,
+  determineHealthDataForArea,
+  getFirstPeriod,
+  getFirstPeriodForAreas,
+  getFormattedLabel,
+  getIndicatorDataForAreasForMostRecentPeriodOnly,
+  getLatestPeriod,
+  getLatestPeriodForAreas,
   getMostRecentData,
+  getTooltipContent,
   isEnglandSoleSelectedArea,
   seriesDataForIndicatorIndexAndArea,
   seriesDataWithoutEnglandOrGroup,
+  seriesDataWithoutGroup,
   sortHealthDataByYearDescending,
   sortHealthDataForAreasByDate,
   sortHealthDataPointsByDescendingYear,
-  seriesDataWithoutGroup,
-  determineHealthDataForArea,
-  AreaTypeLabelEnum,
-  getTooltipContent,
-  createTooltipHTML,
-  getFormattedLabel,
-  determineAreasForBenchmarking,
-  determineBenchmarkToUse,
-  getLatestPeriod,
-  getFirstPeriod,
-  getLatestPeriodForAreas,
-  getFirstPeriodForAreas,
-  getIndicatorDataForAreasForMostRecentPeriodOnly,
 } from '@/lib/chartHelpers/chartHelpers';
 import { mockHealthData } from '@/mock/data/healthdata';
 import { areaCodeForEngland } from './constants';
@@ -56,7 +56,6 @@ const mockData: HealthDataForArea[] = [
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 278.29134,
-        year: 2006,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2006-01-01'),
@@ -73,7 +72,6 @@ const mockData: HealthDataForArea[] = [
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 703.420759,
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -90,7 +88,6 @@ const mockData: HealthDataForArea[] = [
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 703.420759,
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -118,7 +115,6 @@ describe('sortHealthDataByDate', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             datePeriod: {
               type: PeriodType.Calendar,
               from: new Date('2004-01-01'),
@@ -135,7 +131,6 @@ describe('sortHealthDataByDate', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             datePeriod: {
               type: PeriodType.Calendar,
               from: new Date('2004-01-01'),
@@ -152,7 +147,6 @@ describe('sortHealthDataByDate', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             datePeriod: {
               type: PeriodType.Calendar,
               from: new Date('2006-01-01'),
@@ -185,7 +179,6 @@ describe('sortHealthDataByYearDescending', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             datePeriod: {
               type: PeriodType.Calendar,
               from: new Date('2004-01-01'),
@@ -201,7 +194,6 @@ describe('sortHealthDataByYearDescending', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             datePeriod: {
               type: PeriodType.Calendar,
               from: new Date('2006-01-01'),
@@ -225,7 +217,6 @@ describe('sortHealthDataByYearDescending', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             datePeriod: {
               type: PeriodType.Calendar,
               from: new Date('2006-01-01'),
@@ -241,7 +232,6 @@ describe('sortHealthDataByYearDescending', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             datePeriod: {
               type: PeriodType.Calendar,
               from: new Date('2004-01-01'),
@@ -269,7 +259,6 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 703.420759,
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -285,7 +274,6 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 278.29134,
-        year: 2006,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2006-01-01'),
@@ -304,7 +292,6 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 278.29134,
-        year: 2006,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2006-01-01'),
@@ -320,7 +307,6 @@ describe('sortHealthDataPointsByDescendingYear', () => {
         lowerCi: 441.69151,
         upperCi: 578.32766,
         value: 703.420759,
-        year: 2004,
         datePeriod: {
           type: PeriodType.Calendar,
           from: new Date('2004-01-01'),
@@ -368,7 +354,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -379,7 +364,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -396,7 +380,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -407,7 +390,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -427,7 +409,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -438,7 +419,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -463,7 +443,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -474,7 +453,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -491,7 +469,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -502,7 +479,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -522,7 +498,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 278.29134,
-            year: 2006,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -533,7 +508,6 @@ describe('seriesDataWithoutEnglandOrParent', () => {
             lowerCi: 441.69151,
             upperCi: 578.32766,
             value: 703.420759,
-            year: 2004,
             sex: personsSex,
             ageBand: allAgesAge,
             trend: HealthDataPointTrendEnum.NotYetCalculated,
@@ -679,7 +653,6 @@ describe('getMostRecentDataFromSorted', () => {
       value: 278.29134,
       lowerCi: 441.69151,
       upperCi: 578.32766,
-      year: 2006,
       datePeriod: {
         type: PeriodType.Calendar,
         from: new Date('2006-01-01'),
@@ -704,7 +677,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
       areaName: 'Greater Manchester ICB - 00T',
       healthData: [
         {
-          year: 0,
           datePeriod: mockDatePeriod(2008),
           count: 222,
           value: 890.305692,
@@ -716,7 +688,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2004),
           count: 267,
           value: 703.420759,
@@ -728,7 +699,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2004),
           count: 267,
           value: 703.420759,
@@ -740,7 +710,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2012),
           count: 300,
           value: 602.820845,
@@ -752,7 +721,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2006),
           count: 389,
           value: 278.29134,
@@ -764,7 +732,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2020),
           count: 200,
           value: 971.435418,
@@ -782,7 +749,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
       areaName: 'England',
       healthData: [
         {
-          year: 0,
           datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 904.874,
@@ -794,7 +760,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2006),
           count: 179,
           value: 709.7645,
@@ -806,7 +771,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2008),
           count: 500,
           value: 965.9843,
@@ -818,7 +782,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2012),
           count: 400,
           value: 908.8475,
@@ -836,7 +799,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
       areaName: 'South FooBar',
       healthData: [
         {
-          year: 0,
           datePeriod: mockDatePeriod(2006),
           count: 157,
           value: 723.090354,
@@ -848,7 +810,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2020),
           count: 256,
           value: 905.145997,
@@ -860,7 +821,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2004),
           count: 222,
           value: 135.149304,
@@ -872,7 +832,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2008),
           count: 131,
           value: 890.328253,
@@ -884,7 +843,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2012),
           count: 452,
           value: 478.996862,
@@ -902,7 +860,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
       areaName: 'Area 1427',
       healthData: [
         {
-          year: 0,
           datePeriod: mockDatePeriod(2020),
           count: 411,
           value: 579.848756,
@@ -914,7 +871,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2008),
           count: 367,
           value: 383.964067,
@@ -926,7 +882,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2012),
           count: 289,
           value: 851.163104,
@@ -938,7 +893,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2004),
           count: 356,
           value: 775.129883,
@@ -950,7 +904,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2006),
           count: 489,
           value: 290.465304,
@@ -968,7 +921,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
       areaName: 'Area 1428',
       healthData: [
         {
-          year: 0,
           datePeriod: mockDatePeriod(2020),
           count: 311,
           value: 400.848756,
@@ -980,7 +932,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2004),
           count: 469,
           value: 320.964067,
@@ -992,7 +943,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2006),
           count: 120,
           value: 600.163104,
@@ -1004,7 +954,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2012),
           count: 250,
           value: 650.129883,
@@ -1016,7 +965,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2008),
           count: 344,
           value: 500.650389,
@@ -1034,7 +982,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
       areaName: 'Area 1429',
       healthData: [
         {
-          year: 0,
           datePeriod: mockDatePeriod(2006),
           count: 322,
           value: 472.650389,
@@ -1046,7 +993,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2012),
           count: 234,
           value: 472.7613425,
@@ -1058,7 +1004,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2008),
           count: 299,
           value: 582.306765,
@@ -1070,7 +1015,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2020),
           count: 435,
           value: 563.4002,
@@ -1082,7 +1026,6 @@ describe('getIndicatorDataForAreasForMostRecentPeriodOnly', () => {
           deprivation: noDeprivation,
         },
         {
-          year: 0,
           datePeriod: mockDatePeriod(2004),
           count: 277,
           value: 627.899536,

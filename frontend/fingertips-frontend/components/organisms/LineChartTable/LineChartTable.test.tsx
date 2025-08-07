@@ -42,7 +42,6 @@ describe('Line chart table suite', () => {
       areaName: 'Greater Manchester ICB - 00T',
       healthData: [
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Calendar,
             from: new Date('2008-01-01'),
@@ -61,7 +60,6 @@ describe('Line chart table suite', () => {
           },
         },
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Calendar,
             from: new Date('2004-01-01'),
@@ -86,7 +84,6 @@ describe('Line chart table suite', () => {
       healthData: [
         ...MOCK_HEALTH_DATA[1].healthData.slice(0, -1),
         {
-          year: 0,
           datePeriod: {
             type: PeriodType.Calendar,
             from: new Date('2004-01-01'),

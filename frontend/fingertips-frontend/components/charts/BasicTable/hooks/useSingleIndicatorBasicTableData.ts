@@ -4,7 +4,6 @@ import { singleIndicatorBasicTableData } from '@/components/charts/BasicTable/he
 import { useMemo } from 'react';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import { useOneIndicatorData } from '@/components/charts/hooks/useOneIndicatorData';
-import { withoutYears } from '@/lib/healthDataHelpers/withoutYears';
 import { Frequency } from '@/generated-sources/ft-api-client';
 import { segmentValues } from '@/lib/healthDataHelpers/segmentValues';
 import { isSmallestReportingPeriod } from '@/lib/healthDataHelpers/isSmallestReportingPeriod';
@@ -28,9 +27,8 @@ export const useSingleIndicatorBasicTableData = () => {
       frequency
     );
 
-    const cleanData = withoutYears(healthData);
     const areaCode = areasSelected?.at(0) ?? areaCodeForEngland;
-    const area = cleanData.areaHealthData?.find(
+    const area = healthData.areaHealthData?.find(
       (healthData) => healthData.areaCode === areaCode
     );
 

@@ -5,9 +5,9 @@ import {
   PeriodType,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { generateStandardLineChartOptions } from './generateStandardLineChartOptions';
-import { mockIndicatorData, mockEnglandData, mockParentData } from '../mocks';
+import { mockEnglandData, mockIndicatorData, mockParentData } from '../mocks';
 
 const mockDatePeriod = {
   type: PeriodType.Calendar,
@@ -69,7 +69,6 @@ describe('generateStandardLineChartOptions', () => {
       healthData: [
         ...mockEnglandData.healthData,
         {
-          year: 1999,
           datePeriod: {
             type: PeriodType.Calendar,
             from: new Date('1999-01-01'),

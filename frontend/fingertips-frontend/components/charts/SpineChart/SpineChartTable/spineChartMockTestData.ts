@@ -23,7 +23,6 @@ export const mockSpineHealthDataForArea: HealthDataForArea = {
   areaName: 'Greater Manchester ICB - 00T',
   healthData: [
     {
-      year: 0,
       datePeriod: mockDatePeriod({
         type: PeriodType.Financial,
         from: new Date('2023-04-06'),
@@ -52,7 +51,6 @@ export const mockSpineGroupData = {
   areaName: 'Manchester',
   healthData: [
     {
-      year: 0,
       datePeriod: mockDatePeriod({
         type: PeriodType.Financial,
         from: new Date('2023-04-06'),

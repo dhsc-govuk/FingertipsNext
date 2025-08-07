@@ -8,7 +8,7 @@ import {
   IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { formatNumber } from '@/lib/numberFormatter';
 import { SymbolsEnum } from '@/lib/chartHelpers/pointFormatterHelper';
 import { GovukColours } from '@/lib/styleHelpers/colours';
@@ -23,7 +23,6 @@ import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 const stubAreaData = mockHealthDataForArea({
   healthData: [
     {
-      year: 0,
       datePeriod: mockDatePeriod(2023),
       value: 1,
       ageBand: allAgesAge,

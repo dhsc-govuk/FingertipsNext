@@ -16,6 +16,7 @@ import { mockHealthDataForArea } from '../data/mockHealthDataForArea';
 import { mockIndicatorWithHealthDataForArea } from '../data/mockIndicatorWithHealthDataForArea';
 import { mockHealthDataPoints } from '../data/mockHealthDataPoint';
 import { mockBatch } from '../data/mockBatch';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 faker.seed(1);
 
@@ -302,9 +303,9 @@ export function getGetHealthDataForAnIndicator200Response(
       areaCode: areaCode,
       areaName: areaCode,
       healthData: mockHealthDataPoints([
-        { year: 2020, value: 10 },
-        { year: 2021, value: 9 },
-        { year: 2022, value: 8 },
+        { datePeriod: mockDatePeriod(2020), value: 10 },
+        { datePeriod: mockDatePeriod(2021), value: 9 },
+        { datePeriod: mockDatePeriod(2022), value: 8 },
       ]),
     })
   );

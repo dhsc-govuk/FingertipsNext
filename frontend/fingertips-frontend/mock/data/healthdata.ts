@@ -6,6 +6,7 @@ import {
   HealthDataPointTrendEnum,
   SexData,
 } from '@/generated-sources/ft-api-client';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 const noDeprivation: DeprivationData = {
   sequence: 1,
@@ -48,7 +49,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'England',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 200,
           value: 0,
           lowerCi: 0,
@@ -59,7 +60,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 200,
           value: 0,
           lowerCi: 0,
@@ -70,7 +71,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -81,7 +82,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -92,7 +93,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -103,7 +104,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -114,7 +115,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -125,7 +126,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -136,7 +137,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -147,7 +148,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -158,7 +159,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -169,7 +170,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -180,7 +181,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -191,7 +192,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -202,7 +203,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -213,7 +214,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -224,7 +225,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -235,7 +236,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -246,7 +247,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -257,7 +258,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -268,7 +269,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -279,7 +280,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -290,7 +291,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -301,7 +302,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -312,7 +313,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -323,7 +324,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -334,7 +335,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -345,7 +346,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -356,7 +357,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -367,7 +368,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -378,7 +379,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -389,7 +390,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -400,7 +401,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -411,7 +412,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -422,7 +423,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -433,7 +434,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -444,7 +445,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -455,7 +456,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -466,7 +467,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 500,
           value: 0,
           lowerCi: 0,
@@ -483,7 +484,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 1',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1496012,
           value: 0,
           lowerCi: 0,
@@ -494,7 +495,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1635842,
           value: 0,
           lowerCi: 0,
@@ -505,7 +506,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1721746,
           value: 0,
           lowerCi: 0,
@@ -516,7 +517,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1652231,
           value: 0,
           lowerCi: 0,
@@ -527,7 +528,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1692751,
           value: 0,
           lowerCi: 0,
@@ -538,7 +539,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1905676,
           value: 0,
           lowerCi: 0,
@@ -549,7 +550,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2065216,
           value: 0,
           lowerCi: 0,
@@ -560,7 +561,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2043718,
           value: 0,
           lowerCi: 0,
@@ -571,7 +572,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1942508,
           value: 0,
           lowerCi: 0,
@@ -582,7 +583,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1744723,
           value: 0,
           lowerCi: 0,
@@ -593,7 +594,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1936763,
           value: 0,
           lowerCi: 0,
@@ -604,7 +605,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1968410,
           value: 0,
           lowerCi: 0,
@@ -615,7 +616,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1768357,
           value: 0,
           lowerCi: 0,
@@ -626,7 +627,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1482260,
           value: 0,
           lowerCi: 0,
@@ -637,7 +638,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1357594,
           value: 0,
           lowerCi: 0,
@@ -648,7 +649,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1275145,
           value: 0,
           lowerCi: 0,
@@ -659,7 +660,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 823120,
           value: 0,
           lowerCi: 0,
@@ -670,7 +671,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 547342,
           value: 0,
           lowerCi: 0,
@@ -681,7 +682,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 347835,
           value: 0,
           lowerCi: 0,
@@ -692,7 +693,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1568625,
           value: 0,
           lowerCi: 0,
@@ -703,7 +704,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1712925,
           value: 0,
           lowerCi: 0,
@@ -714,7 +715,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1807194,
           value: 0,
           lowerCi: 0,
@@ -725,7 +726,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1752832,
           value: 0,
           lowerCi: 0,
@@ -736,7 +737,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1763621,
           value: 0,
           lowerCi: 0,
@@ -747,7 +748,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1872173,
           value: 0,
           lowerCi: 0,
@@ -758,7 +759,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1948207,
           value: 0,
           lowerCi: 0,
@@ -769,7 +770,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1907182,
           value: 0,
           lowerCi: 0,
@@ -780,7 +781,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1840894,
           value: 0,
           lowerCi: 0,
@@ -791,7 +792,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1689551,
           value: 0,
           lowerCi: 0,
@@ -802,7 +803,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1872253,
           value: 0,
           lowerCi: 0,
@@ -813,7 +814,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1895440,
           value: 0,
           lowerCi: 0,
@@ -824,7 +825,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1702386,
           value: 0,
           lowerCi: 0,
@@ -835,7 +836,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1400611,
           value: 0,
           lowerCi: 0,
@@ -846,7 +847,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1232400,
           value: 0,
           lowerCi: 0,
@@ -857,7 +858,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1111980,
           value: 0,
           lowerCi: 0,
@@ -868,7 +869,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 653365,
           value: 0,
           lowerCi: 0,
@@ -879,7 +880,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 377979,
           value: 0,
           lowerCi: 0,
@@ -890,7 +891,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 173456,
           value: 0,
           lowerCi: 0,
@@ -907,7 +908,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 2',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 200,
           value: 0,
           lowerCi: 0,
@@ -918,7 +919,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 200,
           value: 0,
           lowerCi: 0,
@@ -929,7 +930,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -940,7 +941,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -951,7 +952,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -962,7 +963,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -973,7 +974,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -984,7 +985,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -995,7 +996,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1006,7 +1007,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1017,7 +1018,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1028,7 +1029,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1039,7 +1040,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1050,7 +1051,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1061,7 +1062,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1072,7 +1073,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1083,7 +1084,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1094,7 +1095,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1105,7 +1106,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1116,7 +1117,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1127,7 +1128,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1138,7 +1139,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1149,7 +1150,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1160,7 +1161,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1171,7 +1172,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1182,7 +1183,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1193,7 +1194,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1204,7 +1205,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1215,7 +1216,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1226,7 +1227,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1237,7 +1238,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1248,7 +1249,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1259,7 +1260,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1270,7 +1271,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1281,7 +1282,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1292,7 +1293,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1303,7 +1304,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1314,7 +1315,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2500,
           value: 0,
           lowerCi: 0,
@@ -1333,7 +1334,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Greater Manchester ICB - 00T',
       healthData: [
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 222,
           value: 890.305692,
           lowerCi: 821.987617,
@@ -1344,7 +1345,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 267,
           value: 703.420759,
           lowerCi: 635.102684,
@@ -1355,7 +1356,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -1366,7 +1367,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 300,
           value: 602.820845,
           lowerCi: 534.50277,
@@ -1377,7 +1378,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 389,
           value: 278.29134,
           lowerCi: 209.973265,
@@ -1388,7 +1389,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 200,
           value: 971.435418,
           lowerCi: 903.117343,
@@ -1405,7 +1406,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'England',
       healthData: [
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 904.874,
           lowerCi: 0,
@@ -1416,7 +1417,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 179,
           value: 709.7645,
           lowerCi: 0,
@@ -1427,7 +1428,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 500,
           value: 965.9843,
           lowerCi: 0,
@@ -1438,7 +1439,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 400,
           value: 908.8475,
           lowerCi: 0,
@@ -1449,7 +1450,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 100,
           value: 734.8973,
           lowerCi: 0,
@@ -1466,7 +1467,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'South FooBar',
       healthData: [
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 157,
           value: 723.090354,
           lowerCi: 612.272279,
@@ -1477,7 +1478,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 256,
           value: 905.145997,
           lowerCi: 833.327922,
@@ -1488,7 +1489,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 222,
           value: 135.149304,
           lowerCi: 85.331229,
@@ -1499,7 +1500,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 131,
           value: 890.328253,
           lowerCi: 829.010178,
@@ -1510,7 +1511,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 452,
           value: 478.996862,
           lowerCi: 404.178787,
@@ -1527,7 +1528,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 1427',
       healthData: [
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 411,
           value: 579.848756,
           lowerCi: 515.030681,
@@ -1538,7 +1539,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 367,
           value: 383.964067,
           lowerCi: 334.145992,
@@ -1549,7 +1550,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 289,
           value: 851.163104,
           lowerCi: 777.34503,
@@ -1560,7 +1561,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 356,
           value: 775.129883,
           lowerCi: 725.311808,
@@ -1571,7 +1572,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 489,
           value: 290.465304,
           lowerCi: 190.647229,
@@ -1588,7 +1589,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 1428',
       healthData: [
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 311,
           value: 400.848756,
           lowerCi: 312.030681,
@@ -1599,7 +1600,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 469,
           value: 320.964067,
           lowerCi: 271.145992,
@@ -1610,7 +1611,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 120,
           value: 600.163104,
           lowerCi: 550.34503,
@@ -1621,7 +1622,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 250,
           value: 650.129883,
           lowerCi: 561.311808,
@@ -1632,7 +1633,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 344,
           value: 500.650389,
           lowerCi: 440.832314,
@@ -1649,7 +1650,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 1429',
       healthData: [
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 322,
           value: 472.650389,
           lowerCi: 404.332314,
@@ -1660,7 +1661,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 234,
           value: 472.7613425,
           lowerCi: 404.443268,
@@ -1671,7 +1672,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 299,
           value: 582.306765,
           lowerCi: 513.98869,
@@ -1682,7 +1683,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 435,
           value: 563.4002,
           lowerCi: 495.082125,
@@ -1693,7 +1694,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 277,
           value: 627.899536,
           lowerCi: 559.581462,
@@ -1712,7 +1713,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'North East',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1000,
           value: 1,
           lowerCi: 0,
@@ -1735,7 +1736,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'North West',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1000,
           value: 1,
           lowerCi: 0,
@@ -1752,7 +1753,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Yorkshire and The Humber',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2000,
           value: 2,
           lowerCi: 0,
@@ -1769,7 +1770,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'East Midlands',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 3000,
           value: 3,
           lowerCi: 0,
@@ -1786,7 +1787,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'West Midlands',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 5000,
           value: 5,
           lowerCi: 0,
@@ -1803,7 +1804,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'East of England',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 8000,
           value: 8,
           lowerCi: 0,
@@ -1820,7 +1821,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'London',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 13000,
           value: 13,
           lowerCi: 0,
@@ -1837,7 +1838,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'South East',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 21000,
           value: 21,
           lowerCi: 0,
@@ -1854,7 +1855,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'South West',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 34000,
           value: 34,
           lowerCi: 0,
@@ -1873,7 +1874,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'London',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1000,
           value: 1,
           lowerCi: 0,
@@ -1890,7 +1891,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'South East',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1000,
           value: 1,
           lowerCi: 0,
@@ -1907,7 +1908,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'South West',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2000,
           value: 2,
           lowerCi: 0,
@@ -1924,7 +1925,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Midlands',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 3000,
           value: 3,
           lowerCi: 0,
@@ -1941,7 +1942,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'North East and Yorkshire',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 5000,
           value: 5,
           lowerCi: 0,
@@ -1958,7 +1959,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'East of England',
       healthData: [
         {
-          year: 2024,
+          datePeriod: mockDatePeriod(2024),
           count: 8000,
           value: 8,
           lowerCi: 0,
@@ -1975,7 +1976,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'North West',
       healthData: [
         {
-          year: 2025,
+          datePeriod: mockDatePeriod(2025),
           count: 13000,
           value: 13,
           lowerCi: 0,
@@ -1994,7 +1995,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Birmingham',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1000,
           value: 1,
           lowerCi: 0,
@@ -2011,7 +2012,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Solihull',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 1000,
           value: 1,
           lowerCi: 0,
@@ -2028,7 +2029,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Walsall',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 2000,
           value: 2,
           lowerCi: 0,
@@ -2045,7 +2046,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Dudley',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 3000,
           value: 3,
           lowerCi: 0,
@@ -2062,7 +2063,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Sandwell',
       healthData: [
         {
-          year: 2023,
+          datePeriod: mockDatePeriod(2023),
           count: 5000,
           value: 5,
           lowerCi: 0,
@@ -2079,7 +2080,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Wolverhampton',
       healthData: [
         {
-          year: 2024,
+          datePeriod: mockDatePeriod(2024),
           count: 8000,
           value: 8,
           lowerCi: 0,
@@ -2096,7 +2097,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Coventry',
       healthData: [
         {
-          year: 2025,
+          datePeriod: mockDatePeriod(2025),
           count: 13000,
           value: 13,
           lowerCi: 0,
@@ -2115,7 +2116,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'England',
       healthData: [
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 904.874,
           lowerCi: 0,
@@ -2127,7 +2128,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 709.7645,
           lowerCi: 0,
@@ -2139,7 +2140,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 853.2,
           lowerCi: 0,
@@ -2151,7 +2152,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 654.232,
           lowerCi: 0,
@@ -2163,7 +2164,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 978.34,
           lowerCi: 0,
@@ -2175,7 +2176,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 800.232,
           lowerCi: 0,
@@ -2193,7 +2194,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'North East region (statistical)',
       healthData: [
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 706.343,
           lowerCi: 0,
@@ -2205,7 +2206,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 567.345,
           lowerCi: 0,
@@ -2217,7 +2218,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 567.343,
           lowerCi: 0,
@@ -2229,7 +2230,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 654.232,
           lowerCi: 0,
@@ -2241,7 +2242,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 856.344,
           lowerCi: 0,
@@ -2253,7 +2254,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 767.343,
           lowerCi: 0,
@@ -2271,7 +2272,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Yorkshire and the Humber region (statistical)',
       healthData: [
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 345.43,
           lowerCi: 0,
@@ -2283,7 +2284,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 453.43,
           lowerCi: 0,
@@ -2295,7 +2296,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 453.432,
           lowerCi: 0,
@@ -2307,7 +2308,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 345.423,
           lowerCi: 0,
@@ -2319,7 +2320,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 674.434,
           lowerCi: 0,
@@ -2331,7 +2332,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 643.434,
           lowerCi: 0,
@@ -2349,7 +2350,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 1',
       healthData: [
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 222,
           value: 890.305692,
           lowerCi: 441.69151,
@@ -2361,7 +2362,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -2379,7 +2380,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Area 2',
       healthData: [
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 157,
           value: 723.090354,
           lowerCi: 441.69151,
@@ -2391,7 +2392,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 256,
           value: 905.145997,
           lowerCi: 441.69151,
@@ -2411,7 +2412,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'England',
       healthData: [
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 222,
           value: 1000,
           lowerCi: 500,
@@ -2422,7 +2423,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 222,
           value: 1000,
           lowerCi: 500,
@@ -2433,7 +2434,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 222,
           value: 1000,
           lowerCi: 500,
@@ -2444,7 +2445,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 222,
           value: 1000,
           lowerCi: 500,
@@ -2455,7 +2456,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 222,
           value: 1000,
           lowerCi: 500,
@@ -2472,7 +2473,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'County Durham',
       healthData: [
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 222,
           value: 890.305692,
           lowerCi: 441.69151,
@@ -2483,7 +2484,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 267,
           value: 703.420759,
           lowerCi: 441.69151,
@@ -2494,7 +2495,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 300,
           value: 602.820845,
           lowerCi: 441.69151,
@@ -2505,7 +2506,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 389,
           value: 278.29134,
           lowerCi: 141.69151,
@@ -2516,7 +2517,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 200,
           value: 971.435418,
           lowerCi: 441.69151,
@@ -2533,7 +2534,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Darlington',
       healthData: [
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 904.874,
           lowerCi: 800,
@@ -2544,7 +2545,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 179,
           value: 709.7645,
           lowerCi: 680,
@@ -2555,7 +2556,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 500,
           value: 965.9843,
           lowerCi: 200,
@@ -2566,7 +2567,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 400,
           value: 908.8475,
           lowerCi: 900,
@@ -2577,7 +2578,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 100,
           value: 734.8973,
           lowerCi: 700,
@@ -2594,7 +2595,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Gateshead',
       healthData: [
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 157,
           value: 723.090354,
           lowerCi: 441.69151,
@@ -2605,7 +2606,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 256,
           value: 905.145997,
           lowerCi: 441.69151,
@@ -2616,7 +2617,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 222,
           value: 135.149304,
           lowerCi: 441.69151,
@@ -2627,7 +2628,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 131,
           value: 890.328253,
           lowerCi: 441.69151,
@@ -2638,7 +2639,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 452,
           value: 478.996862,
           lowerCi: 441.69151,
@@ -2656,7 +2657,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'North East Region',
       healthData: [
         {
-          year: 2020,
+          datePeriod: mockDatePeriod(2020),
           count: 411,
           value: 579.848756,
           lowerCi: 441.69151,
@@ -2667,7 +2668,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 367,
           value: 383.964067,
           lowerCi: 441.69151,
@@ -2678,7 +2679,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2012,
+          datePeriod: mockDatePeriod(2012),
           count: 289,
           value: 851.163104,
           lowerCi: 441.69151,
@@ -2689,7 +2690,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 356,
           value: 775.129883,
           lowerCi: 441.69151,
@@ -2700,7 +2701,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2006,
+          datePeriod: mockDatePeriod(2006),
           count: 489,
           value: 290.465304,
           lowerCi: 441.69151,
@@ -2719,7 +2720,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'England',
       healthData: [
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 904.874,
           lowerCi: 0,
@@ -2731,7 +2732,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 709.7645,
           lowerCi: 0,
@@ -2743,7 +2744,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 853.2,
           lowerCi: 0,
@@ -2755,7 +2756,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 654.232,
           lowerCi: 0,
@@ -2767,7 +2768,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 978.34,
           lowerCi: 0,
@@ -2779,7 +2780,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 800.232,
           lowerCi: 0,
@@ -2797,7 +2798,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
       areaName: 'Archway Medical Centre',
       healthData: [
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 904.874,
           lowerCi: 0,
@@ -2809,7 +2810,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 709.7645,
           lowerCi: 0,
@@ -2821,7 +2822,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 853.2,
           lowerCi: 0,
@@ -2833,7 +2834,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 654.232,
           lowerCi: 0,
@@ -2845,7 +2846,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2004,
+          datePeriod: mockDatePeriod(2004),
           count: 200,
           value: 978.34,
           lowerCi: 0,
@@ -2857,7 +2858,7 @@ export const mockHealthData: Record<string, HealthDataForArea[]> = {
           deprivation: noDeprivation,
         },
         {
-          year: 2008,
+          datePeriod: mockDatePeriod(2008),
           count: 179,
           value: 800.232,
           lowerCi: 0,

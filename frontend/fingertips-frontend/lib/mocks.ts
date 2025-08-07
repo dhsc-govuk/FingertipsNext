@@ -5,6 +5,7 @@ import {
   HealthDataPointTrendEnum,
   SexData,
 } from '@/generated-sources/ft-api-client';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 export const noDeprivation: DeprivationData = {
   sequence: 1,
@@ -45,7 +46,7 @@ export const healthDataPoint: HealthDataPoint = {
   lowerCi: 441.69151,
   upperCi: 578.32766,
   value: 278.29134,
-  year: 2006,
+  datePeriod: mockDatePeriod(2006),
   sex: personsSex,
   ageBand: allAgesAge,
   trend: HealthDataPointTrendEnum.NotYetCalculated,
