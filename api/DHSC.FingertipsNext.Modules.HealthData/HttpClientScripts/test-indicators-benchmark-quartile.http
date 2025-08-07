@@ -34,7 +34,7 @@ GET http://localhost:5144/indicators/quartiles?indicator_ids=94063&area_code=N85
             }
         ]         
         client.assert(response.status === 200, "Response status is not 200");
-        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match");
+        client.assert(JSON.stringify(response.body) === JSON.stringify(expected), "Response body does not match!");
     });
 %}
 
