@@ -23,7 +23,6 @@ const newHealthDataPoint = ({
   outcome?: BenchmarkOutcome;
 }): HealthDataPoint => {
   return {
-    year: 0,
     datePeriod: {
       type: PeriodType.Calendar,
       from: new Date(`${year}-01-01`),

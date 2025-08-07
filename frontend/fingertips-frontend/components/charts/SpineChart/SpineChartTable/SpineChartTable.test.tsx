@@ -32,7 +32,6 @@ describe('Spine chart table suite', () => {
         areaName: areaName,
         healthData: [
           {
-            year: 0,
             datePeriod: mismatchedYears
               ? mockDatePeriod(2022)
               : mockDatePeriod(2023),
@@ -58,7 +57,7 @@ describe('Spine chart table suite', () => {
     areaName: 'Manchester',
     healthData: [
       {
-        year: 2023,
+        datePeriod: mockDatePeriod(2023),
         count: 3333,
         value: 890.305692,
         lowerCi: 341.69151,

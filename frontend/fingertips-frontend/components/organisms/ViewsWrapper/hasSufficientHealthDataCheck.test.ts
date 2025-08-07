@@ -6,11 +6,12 @@ import {
 import { hasSufficientHealthDataCheck } from './hasSufficientHealthDataCheck';
 import { healthDataPoint } from '@/lib/mocks';
 import { mockIndicatorSegment } from '@/mock/data/mockIndicatorSegment';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 export const generateMockHealthDataPoint = (year: number): HealthDataPoint => {
   return {
     ...healthDataPoint,
-    year,
+    datePeriod: mockDatePeriod(year),
   };
 };
 

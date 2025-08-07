@@ -38,7 +38,6 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: 'England',
         healthData: [
           {
-            year: 0,
             datePeriod: mockDatePeriod(2004),
             value: 978.34,
             ageBand: allAgesAge,
@@ -48,7 +47,6 @@ describe('prepareThematicMapSeriesData', () => {
             deprivation: noDeprivation,
           },
           {
-            year: 0,
             datePeriod: mockDatePeriod(2008),
             value: 800.232,
             ageBand: allAgesAge,
@@ -64,7 +62,6 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: 'North East region (statistical)',
         healthData: [
           {
-            year: 0,
             datePeriod: mockDatePeriod(2004),
             value: 856.344,
             ageBand: allAgesAge,
@@ -74,7 +71,6 @@ describe('prepareThematicMapSeriesData', () => {
             deprivation: noDeprivation,
           },
           {
-            year: 0,
             datePeriod: mockDatePeriod(2008),
             value: 767.343,
             ageBand: allAgesAge,
@@ -90,7 +86,6 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: 'Yorkshire and the Humber region (statistical)',
         healthData: [
           {
-            year: 0,
             datePeriod: mockDatePeriod(2004),
             value: 674.434,
             ageBand: allAgesAge,
@@ -100,7 +95,6 @@ describe('prepareThematicMapSeriesData', () => {
             deprivation: noDeprivation,
           },
           {
-            year: 0,
             datePeriod: mockDatePeriod(2008),
             value: 643.434,
             ageBand: allAgesAge,
@@ -154,7 +148,6 @@ describe('prepareThematicMapSeriesData', () => {
         areaName: 'North East region (statistical)',
         healthData: [
           {
-            year: 0,
             datePeriod: mockDatePeriod(2004),
             value: 856.344,
             ageBand: allAgesAge,
@@ -164,7 +157,6 @@ describe('prepareThematicMapSeriesData', () => {
             deprivation: noDeprivation,
           },
           {
-            year: 0,
             datePeriod: mockDatePeriod(2018),
             value: 767.343,
             ageBand: allAgesAge,

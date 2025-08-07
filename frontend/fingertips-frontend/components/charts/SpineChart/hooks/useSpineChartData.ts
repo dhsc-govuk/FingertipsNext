@@ -7,7 +7,6 @@ import { buildSpineChartIndicatorData } from '@/components/charts/SpineChart/hel
 import { SearchParams } from '@/lib/searchStateManager';
 import { IndicatorWithHealthDataForArea } from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
-import { withoutYears } from '@/lib/healthDataHelpers/withoutYears';
 
 export const useSpineChartData = (
   healthData: IndicatorWithHealthDataForArea[],
@@ -34,11 +33,7 @@ export const useSpineChartData = (
     return;
   }
 
-  const cleanedHealthData = healthData.map((dataForArea) =>
-    withoutYears(dataForArea)
-  );
-  const combinedHealthData =
-    indicatorWithHealthDataForAreaCombined(cleanedHealthData);
+  const combinedHealthData = indicatorWithHealthDataForAreaCombined(healthData);
 
   const spineChartData = buildSpineChartIndicatorData(
     combinedHealthData,

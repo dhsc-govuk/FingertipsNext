@@ -7,7 +7,6 @@ import { expectAnyDatePeriod } from './expectAnyDatePeriod';
 export const expectAnyHealthDataPoint = (
   overrides?: Partial<HealthDataPoint>
 ) => ({
-  year: expect.any(Number),
   datePeriod: expectAnyDatePeriod(),
   count: expect.any(Number),
   value: expect.any(Number),

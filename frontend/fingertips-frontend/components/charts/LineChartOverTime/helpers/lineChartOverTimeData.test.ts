@@ -30,7 +30,7 @@ describe('lineChartOverTimeData', () => {
   const healthData = mockIndicatorWithHealthDataForArea({
     areaHealthData: [
       mockHealthDataForArea({
-        healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2024 }]),
+        healthData: mockHealthDataPoints([2023, 2024]),
       }),
     ],
   });
@@ -39,12 +39,12 @@ describe('lineChartOverTimeData', () => {
     benchmarkMethod: BenchmarkComparisonMethod.Quintiles,
     areaHealthData: [
       mockHealthDataForArea({
-        healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2024 }]),
+        healthData: mockHealthDataPoints([2023, 2024]),
       }),
       mockHealthDataForArea({
         areaCode: 'B',
         areaName: 'B',
-        healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2024 }]),
+        healthData: mockHealthDataPoints([2023, 2024]),
       }),
     ],
   });

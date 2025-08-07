@@ -17,7 +17,6 @@ describe('singleIndicatorBasicTableData', () => {
     } = testIndicator;
 
     const testHealthDataPoint = mockHealthDataPoint({
-      year: 0,
       ageBand: undefined,
       sex: undefined,
       datePeriod: mockDatePeriod({

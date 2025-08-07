@@ -41,7 +41,7 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
       healthData: [],
       indicatorSegments: [
         mockIndicatorSegment({
-          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+          healthData: mockHealthDataPoints([2023, 2022]),
         }),
       ],
     }),
@@ -50,7 +50,7 @@ const testHealthData = mockIndicatorWithHealthDataForArea({
       healthData: [],
       indicatorSegments: [
         mockIndicatorSegment({
-          healthData: mockHealthDataPoints([{ year: 2023 }, { year: 2022 }]),
+          healthData: mockHealthDataPoints([2023, 2022]),
         }),
       ],
     }),
@@ -149,10 +149,7 @@ describe('OneIndicatorOneAreaViewPlots', () => {
           healthData: [],
           indicatorSegments: [
             mockIndicatorSegment({
-              healthData: mockHealthDataPoints([
-                { year: 2023 },
-                { year: 2022 },
-              ]),
+              healthData: mockHealthDataPoints([2023, 2022]),
             }),
           ],
         }),
@@ -235,17 +232,11 @@ describe('OneIndicatorOneAreaViewPlots', () => {
           healthData: [],
           indicatorSegments: [
             mockIndicatorSegment({
-              healthData: mockHealthDataPoints([
-                { year: 2023 },
-                { year: 2022 },
-              ]),
+              healthData: mockHealthDataPoints([2023, 2022]),
             }),
             mockIndicatorSegment({
               sex: mockSexData({ value: 'Male' }),
-              healthData: mockHealthDataPoints([
-                { year: 2023 },
-                { year: 2022 },
-              ]),
+              healthData: mockHealthDataPoints([2023, 2022]),
             }),
           ],
         }),

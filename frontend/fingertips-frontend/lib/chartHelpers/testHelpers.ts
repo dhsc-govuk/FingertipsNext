@@ -3,6 +3,7 @@ import {
   HealthDataForArea,
   HealthDataPoint,
 } from '@/generated-sources/ft-api-client';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 export const generateHealthDataPoint = (
   year: number,
@@ -11,8 +12,8 @@ export const generateHealthDataPoint = (
 ): HealthDataPoint => {
   return {
     ...healthDataPoint,
-    year,
     periodLabel: `${year}`,
+    datePeriod: mockDatePeriod(year),
     sex: {
       value: 'male',
       isAggregate: sexIsAggregate,

@@ -12,7 +12,6 @@ export * from '../generated-sources/ft-api-client';
 
 // now we can export and override the types that the UI would like to use a little differently
 export interface HealthDataPoint extends Omit<HealthDataPointAPI, 'value'> {
-  year?: number; // remove this later
   periodLabel?: string; // useful for UI to populate this rather than regenerate over and over
   sex?: SexData;
   ageBand?: AgeData;
