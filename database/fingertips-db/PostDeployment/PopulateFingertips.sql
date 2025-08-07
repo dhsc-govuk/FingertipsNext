@@ -710,7 +710,7 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL
-    AND datedim_from.Year = 2024
+    AND temp.FromDate.Year = 2024
     AND temp.IndicatorId = 90453;
 
 INSERT INTO [dbo].[HealthMeasure]
@@ -773,7 +773,7 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL
-    AND datedim_from.Year = 2023
+    AND temp.FromDate.Year = 2023
     AND temp.IndicatorId = 41101;
 
 INSERT INTO [dbo].[HealthMeasure]
@@ -836,7 +836,7 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL
-    AND datedim_from.Year = 2024
+    AND temp.FromDate.Year = 2024
     AND temp.IndicatorId = 337;
 
 INSERT INTO [dbo].[HealthMeasure]
@@ -899,7 +899,7 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL
-    AND datedim_from.Year = 2023
+    AND temp.FromDate.Year = 2023
     AND temp.IndicatorId = 92708;
 -- END
 
