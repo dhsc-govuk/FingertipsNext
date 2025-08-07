@@ -65,4 +65,21 @@ describe('Inequalities InequalitiesBarChart suite', () => {
     );
     expect(barChart).toHaveTextContent('Inequality type: Sex');
   });
+
+  it('should render the data labels with value and benchmarkOutcome', async () => {
+    render(
+      <InequalitiesBarChart
+        title={'inequalities for South FooBar, 2008'}
+        barChartData={getTestData()}
+        yAxisLabel={'Y Axis'}
+        type={InequalitiesTypes.Sex}
+        measurementUnit={'$'}
+      />
+    );
+
+    const barChart = await screen.findByTestId(
+      'highcharts-react-component-inequalitiesBarChart'
+    );
+    expect(barChart).toHaveTextContent('890.3 - NotCompared');
+  });
 });

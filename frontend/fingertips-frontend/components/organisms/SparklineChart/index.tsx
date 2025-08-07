@@ -18,6 +18,7 @@ import { pointFormatterHelper } from '@/lib/chartHelpers/pointFormatterHelper';
 import { formatNumber } from '@/lib/numberFormatter';
 import { FormatValueAsNumber } from '@/lib/chartHelpers/labelFormatters';
 import { loadHighchartsModules } from '@/lib/chartHelpers/loadHighchartsModules';
+import { getBenchmarkLabelText } from '@/components/organisms/BenchmarkLabel';
 
 interface SparklineChartProps {
   value: (number | undefined)[];
@@ -34,6 +35,17 @@ interface SparklineChartProps {
   benchmarkArea?: string;
   showComparisonLabels?: boolean;
   period?: string;
+}
+
+export function benchmarkTextForBar(
+  area: string | undefined,
+  benchmarkOutcome: BenchmarkOutcome,
+  benchmarkComparisonMethod: BenchmarkComparisonMethod
+): string {
+  if (area === 'England') return '';
+  if (benchmarkComparisonMethod === BenchmarkComparisonMethod.Quintiles)
+    return `${getBenchmarkLabelText(benchmarkOutcome)} quintile`;
+  return getBenchmarkLabelText(benchmarkOutcome);
 }
 
 export function SparklineChart({
@@ -106,7 +118,7 @@ export function SparklineChart({
     chart: {
       type: 'bar',
       height: 90,
-      width: 200,
+      width: 300,
       backgroundColor: 'transparent',
       animation: false,
     },
@@ -118,7 +130,7 @@ export function SparklineChart({
     yAxis: {
       visible: false,
       min: 0,
-      max: maxValue,
+      max: maxValue / 0.8,
       labels: {
         formatter: FormatValueAsNumber,
       },
@@ -132,6 +144,31 @@ export function SparklineChart({
         borderColor: '#000',
         borderWidth: color === '#fff' ? 1 : 0,
         animation: false,
+        dataLabels: {
+          enabled: true,
+          useHTML: true,
+          align: 'left',
+          formatter: function () {
+            const label = benchmarkTextForBar(
+              area,
+              benchmarkOutcome,
+              benchmarkComparisonMethod
+            );
+
+            if (label.includes('quintile')) {
+              return label.replace(' quintile', '<br/>quintile');
+            }
+            return label;
+          },
+          style: {
+            color: '#000',
+            fontSize: '17px',
+            fontWeight: 'normal',
+            textOutline: 'none',
+            whiteSpace: 'normal',
+          },
+          x: showConfidenceIntervalsData ? 50 : 20,
+        },
       },
       confidenceIntervalSeries,
     ],

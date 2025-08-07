@@ -875,6 +875,45 @@ describe('SelectAreasFilterPanel', () => {
         scroll: false,
       });
     });
+
+    it('should default the groupSelected to the first available groups when the groupSelected is in default state', async () => {
+      mockSearchState = {
+        [SearchParams.AreaTypeSelected]: nhsRegionsAreaType.key,
+        [SearchParams.GroupTypeSelected]: regionsAreaType.key,
+        [SearchParams.GroupSelected]: areaCodeForEngland,
+      };
+
+      const availableGroups = [eastEnglandNHSRegion, northWestNHSRegion];
+
+      const expectedPath = [
+        `${mockPath}`,
+        `?${SearchParams.AreasSelected}=${eastEnglandNHSRegion.code}`,
+        `&${SearchParams.AreaTypeSelected}=nhs-regions`,
+        `&${SearchParams.GroupTypeSelected}=${regionsAreaType.key}`,
+        `&${SearchParams.GroupSelected}=${availableGroups[0].code}`,
+        `#area-select-${eastEnglandNHSRegion.code}`,
+      ].join('');
+      const availableAreas = mockAvailableAreas['nhs-regions'];
+
+      render(
+        <SelectAreasFilterPanel
+          areaFilterData={{
+            availableAreaTypes: allAreaTypes,
+            availableAreas: availableAreas,
+            availableGroups: availableGroups,
+          }}
+        />
+      );
+
+      const user = userEvent.setup();
+      await user.click(
+        screen.getByRole('checkbox', { name: eastEnglandNHSRegion.name })
+      );
+
+      expect(mockReplace).toHaveBeenCalledWith(expectedPath, {
+        scroll: false,
+      });
+    });
   });
 
   describe('Select all areas', () => {

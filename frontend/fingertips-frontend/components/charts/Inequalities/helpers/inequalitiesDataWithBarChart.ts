@@ -4,6 +4,7 @@ import {
   InequalitiesBarChartData,
 } from '@/components/charts/Inequalities/helpers/inequalitiesHelpers';
 import { inequalitiesBarChartData } from '@/components/charts/Inequalities/helpers/inequalitiesBarChartData';
+import { getPeriodLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export interface InequalitiesDataWithBarChart
   extends InequalitiesDataWithHealthData {
@@ -24,6 +25,7 @@ export const inequalitiesDataWithBarChart = (
     selectedPeriod,
     dataPeriod,
     indicatorMetaData,
+    frequency,
   } = inequalitiesDataWithYears;
 
   const barChartData =
@@ -36,7 +38,13 @@ export const inequalitiesDataWithBarChart = (
         )
       : null;
 
-  const chartTitle = `${indicatorMetaData?.indicatorName ?? ''} inequalities for ${healthDataForArea.areaName}, ${dataPeriod}`;
+  const periodType = healthDataForArea.healthData.at(0)?.datePeriod?.type;
+  const periodTypeLabel =
+    periodType && frequency ? getPeriodLabel(periodType, frequency) : '';
+  const chartTitle =
+    `${indicatorMetaData?.indicatorName ?? ''} inequalities for ${healthDataForArea.areaName}, ${periodTypeLabel} ${dataPeriod}`
+      .replaceAll(/\s+/g, ' ')
+      .trim();
 
   return {
     ...inequalitiesDataWithYears,

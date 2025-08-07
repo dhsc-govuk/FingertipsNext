@@ -145,7 +145,7 @@ IndicatorSegment:
     sex:
       $ref: "#/SexData"
     reportingPeriod:
-      $ref: "#/ReportingPeriod" 
+      $ref: "#/ReportingPeriod"
     isAggregate:
       type: boolean
       description: Indicates if the segment is the aggregate.
@@ -399,7 +399,7 @@ ReportingPeriod:
       ThreeYearly,
       FiveYearly,
       Unknown
-    ]  
+    ]
 QuartileData:
   title: Quartile Data
   type: object
@@ -410,7 +410,7 @@ QuartileData:
       example: 21404
       description: Unique ID of the indicator
     age:
-      $ref: "#/AgeData"    
+      $ref: "#/AgeData"
     sex:
       $ref: "#/SexData"
     isAggregate:

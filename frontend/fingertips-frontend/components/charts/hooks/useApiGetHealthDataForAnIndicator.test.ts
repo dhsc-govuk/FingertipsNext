@@ -9,7 +9,10 @@ import {
   EndPoints,
   queryKeyFromRequestParams,
 } from '../helpers/queryKeyFromRequestParams';
-import { IndicatorsApi } from '@/generated-sources/ft-api-client';
+import {
+  IndicatorsApi,
+  IndicatorWithHealthDataForAreaAPI,
+} from '@/generated-sources/ft-api-client';
 import {
   API_CACHE_CONFIG,
   ApiClientFactory,
@@ -29,10 +32,10 @@ const mockUnpublishedResponse = mockIndicatorWithHealthDataForArea({
 });
 
 mockIndicatorsApi.getHealthDataForAnIndicatorIncludingUnpublishedData.mockResolvedValue(
-  mockUnpublishedResponse
+  mockUnpublishedResponse as IndicatorWithHealthDataForAreaAPI
 );
 mockIndicatorsApi.getHealthDataForAnIndicator.mockResolvedValue(
-  mockPublishedResponse
+  mockPublishedResponse as IndicatorWithHealthDataForAreaAPI
 );
 
 describe('useApiGetHealthDataForAnIndicator', () => {

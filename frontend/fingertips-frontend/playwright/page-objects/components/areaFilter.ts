@@ -212,14 +212,9 @@ export default class AreaFilter extends BasePage {
   }
 
   /**
-   * Selects the required area filters based on area mode if the search mode is ONLY_SUBJECT
-   *
-   * @param searchMode - search mode from the Enum SearchMode
-   * @param areaMode - area mode from the Enum AreaMode - used to decide which area filters to select
-   * @param searchTerm - search term to be used in the URL check
-   * @param areaFiltersToSelect - area filters configuration object
+   * Selects the required area filters and areas based on area mode
    */
-  async selectAreasFiltersIfRequired(
+  async selectAreasFiltersAndAreas(
     searchMode: SearchMode,
     areaMode: AreaMode,
     areaFiltersToSelect: AreaFilters
@@ -228,23 +223,25 @@ export default class AreaFilter extends BasePage {
 
     if (searchMode === SearchMode.ONLY_SUBJECT) {
       await this.selectAreaFilters(areaMode, areaFiltersToSelect);
-      await this.selectAreaCheckboxes(areaMode, areaFiltersToSelect.areaType);
+      await this.selectAreaCheckboxes(
+        areaMode,
+        false,
+        areaFiltersToSelect.areaType
+      );
+    } else if (
+      (searchMode === SearchMode.ONLY_AREA ||
+        searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) &&
+      areaMode === AreaMode.TWO_AREAS
+    ) {
+      // Select an additional checkbox for these scenarios, as one is already selected
+      await this.selectAreaCheckboxes(areaMode, true);
     } else if (
       (searchMode === SearchMode.ONLY_AREA ||
         searchMode === SearchMode.BOTH_SUBJECT_AND_AREA) &&
       areaMode === AreaMode.THREE_PLUS_AREAS
     ) {
-      // Need to select an additional 2 checkboxes for these scenarios, as one is already selected
-      const areaCheckboxList = this.page
-        .getByTestId(this.areaFilterContainer)
-        .getByRole('checkbox');
-
-      await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(1));
-      await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(2));
-
-      await expect(
-        this.page.getByTestId(this.areaFilterContainer)
-      ).toContainText('Selected areas (3)');
+      // Select an additional 2 checkboxes for these scenarios, as one is already selected
+      await this.selectAreaCheckboxes(areaMode, true);
     }
   }
 
@@ -290,7 +287,8 @@ export default class AreaFilter extends BasePage {
    */
   private async selectAreaCheckboxes(
     areaMode: AreaMode,
-    areaType: string
+    oneAreaAlreadySelected: boolean,
+    areaType?: string
   ): Promise<void> {
     // England area mode doesn't require checkbox selection (handled in selectAreaFilters) so return out
     if (areaMode === AreaMode.ENGLAND_AREA) {
@@ -337,22 +335,28 @@ export default class AreaFilter extends BasePage {
       [AreaMode.THREE_PLUS_AREAS]: 3,
     };
 
-    const checkboxCount = checkboxCountMap[areaMode];
+    const totalCheckboxCount = checkboxCountMap[areaMode];
+
+    // if a checkbox has previously been selected due to the search mode being Only Area or Both Subject and Area then reduce the number of checkboxes to be selected by 1
+    const countOfExtraCheckboxesRequired =
+      oneAreaAlreadySelected === true
+        ? totalCheckboxCount - 1
+        : totalCheckboxCount;
 
     // start at i = 0 to skip the All checkbox
-    for (let i = 1; i <= checkboxCount; i++) {
+    for (let i = 1; i <= countOfExtraCheckboxesRequired; i++) {
       await this.checkAndAwaitLoadingComplete(areaCheckboxList.nth(i));
       await this.page.waitForLoadState();
 
-      // Wait for URL to contain area type after first checkbox selection
-      if (i === 1) {
+      // If area type has been passed, wait for URL to contain area type after first checkbox selection
+      if (i === 1 && areaType) {
         await this.waitForURLToContain(areaType);
       }
     }
 
-    // Assert the correct number of areas are selected
+    // Assert the correct total number of areas are now selected
     await expect(this.page.getByTestId(this.areaFilterContainer)).toContainText(
-      `Selected areas (${checkboxCount})`
+      `Selected areas (${totalCheckboxCount})`
     );
   }
 

@@ -1,6 +1,7 @@
 import { SearchParams, SearchStateParams } from '@/lib/searchStateManager';
 import {
   BenchmarkComparisonMethod,
+  Frequency,
   HealthDataForArea,
   IndicatorPolarity,
   IndicatorWithHealthDataForArea,
@@ -23,6 +24,7 @@ export interface InequalitiesDataBasicInfo {
   activePeriod?: string;
   indicatorMetaData: IndicatorDocument;
   areasSelected: string[];
+  frequency?: Frequency;
 }
 
 export const inequalitiesDataBasicInfo = (
@@ -45,6 +47,7 @@ export const inequalitiesDataBasicInfo = (
     benchmarkMethod = BenchmarkComparisonMethod.Unknown,
     polarity = IndicatorPolarity.Unknown,
     areaHealthData = [],
+    frequency,
   } = healthData;
 
   const { inequalityTypeSelected, inequalityAreaSelected } =
@@ -66,5 +69,6 @@ export const inequalitiesDataBasicInfo = (
     activePeriod,
     indicatorMetaData,
     areasSelected: determineAreaCodes(areasSelected),
+    frequency,
   };
 };

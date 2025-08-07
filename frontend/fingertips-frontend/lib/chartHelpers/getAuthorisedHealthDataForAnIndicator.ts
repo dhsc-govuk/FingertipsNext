@@ -18,19 +18,19 @@ export async function getAuthorisedHealthDataForAnIndicator(
   if (!session) {
     const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
 
-    return await indicatorApi.getHealthDataForAnIndicator(
+    return (await indicatorApi.getHealthDataForAnIndicator(
       apiRequestParams,
       API_CACHE_CONFIG
-    );
+    )) as IndicatorWithHealthDataForArea;
   }
 
   try {
     const indicatorApi =
       await ApiClientFactory.getAuthenticatedIndicatorsApiClient();
-    return await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
+    return (await indicatorApi.getHealthDataForAnIndicatorIncludingUnpublishedData(
       apiRequestParams,
       UNPUBLISHED_API_CACHE_CONFIG
-    );
+    )) as IndicatorWithHealthDataForArea;
   } catch (error: unknown) {
     if (
       error instanceof ResponseError &&
@@ -40,10 +40,10 @@ export async function getAuthorisedHealthDataForAnIndicator(
         `Auth error getting unpublished healthdata for ${apiRequestParams.indicatorId}, falling back to published health data endpoint`
       );
       const indicatorApi = ApiClientFactory.getIndicatorsApiClient();
-      return await indicatorApi.getHealthDataForAnIndicator(
+      return (await indicatorApi.getHealthDataForAnIndicator(
         apiRequestParams,
         API_CACHE_CONFIG
-      );
+      )) as IndicatorWithHealthDataForArea;
     }
     throw error;
   }

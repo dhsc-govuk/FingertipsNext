@@ -1,14 +1,19 @@
 'use client';
 
-import { HealthDataForArea } from '@/generated-sources/ft-api-client/models/HealthDataForArea';
+import {
+  BenchmarkComparisonMethod,
+  DatePeriod,
+  Frequency,
+  HealthDataForArea,
+  IndicatorPolarity,
+  PeriodType,
+} from '@/generated-sources/ft-api-client';
 import { useMemo } from 'react';
 import {
   AreaTypeKeysForMapMeta,
   createThematicMapChartOptions,
   thematicMapTitle,
 } from '@/components/charts/ThematicMap/helpers/thematicMapHelpers';
-import { BenchmarkComparisonMethod } from '@/generated-sources/ft-api-client/models/BenchmarkComparisonMethod';
-import { IndicatorPolarity } from '@/generated-sources/ft-api-client/models/IndicatorPolarity';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
 import { ThematicMapCredits } from './ThematicMapCredits';
 import { useMapGeographyData } from '@/components/charts/ThematicMap/hooks/useMapGeographyData';
@@ -26,11 +31,6 @@ import {
   chartTitleConfig,
   ChartTitleKeysEnum,
 } from '@/lib/ChartTitles/chartTitleEnums';
-import {
-  DatePeriod,
-  Frequency,
-  PeriodType,
-} from '@/generated-sources/ft-api-client';
 
 interface ThematicMapProps {
   name?: string;

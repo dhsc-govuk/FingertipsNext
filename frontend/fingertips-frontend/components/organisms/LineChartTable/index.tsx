@@ -304,7 +304,9 @@ export function LineChartTable({
         healthIndicatorData,
         showGroupColumn ? groupIndicatorData : undefined,
         showEnglandColumn ? englandIndicatorData : undefined,
-        confidenceLimit
+        confidenceLimit,
+        frequency,
+        isSmallestReportingPeriod
       )
     : undefined;
   const id = 'lineChartTable';
