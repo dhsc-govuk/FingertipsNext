@@ -8,11 +8,11 @@ import { GovukColours } from '@/lib/styleHelpers/colours';
 import { formatNumber } from '@/lib/numberFormatter';
 import {
   Area,
+  Cell,
   CellType,
   DataPoint,
-  Cell,
-  Row,
   Indicator,
+  Row,
 } from '../heatmap.types';
 
 export const DEFAULT_BACKGROUND_COLOUR = GovukColours.White;
@@ -28,17 +28,17 @@ export const generateRows = (
   indicators.forEach((indicator, indicatorIndex) => {
     const leadingCols: Cell[] = [
       {
-        key: `col-${indicator.id}-title`,
+        key: `col-${indicator.rowId}-title`,
         type: CellType.IndicatorTitle,
         content: indicator.name,
       },
       {
-        key: `col-${indicator.id}-period`,
+        key: `col-${indicator.rowId}-period`,
         type: CellType.IndicatorPeriod,
         content: indicator.latestDataPeriod,
       },
       {
-        key: `col-${indicator.id}-unitlabel`,
+        key: `col-${indicator.rowId}-unitlabel`,
         type: CellType.IndicatorValueUnit,
         content: indicator.unitLabel,
       },
@@ -52,37 +52,37 @@ export const generateRows = (
 
     areas.forEach((area, areaIndex) => {
       cols[areaIndex + leadingCols.length] = {
-        key: `cell-${indicator.id}-${area.code}`,
+        key: `cell-${indicator.rowId}-${area.code}`,
         type: CellType.Data,
-        content: formatNumber(dataPoints[indicator.id][area.code]?.value),
+        content: formatNumber(dataPoints[indicator.rowId][area.code]?.value),
         backgroundColour: generateDataBackgroundColour(
-          dataPoints[indicator.id][area.code],
+          dataPoints[indicator.rowId][area.code],
           benchmarkAreaCode
         ),
         hoverProps: {
           areaName: getHoverAreaName(area, groupAreaCode, benchmarkAreaCode),
           period: indicator.latestDataPeriod,
           indicatorName: indicator.name,
-          value: dataPoints[indicator.id][area.code]?.value,
+          value: dataPoints[indicator.rowId][area.code]?.value,
           unitLabel: indicator.unitLabel,
           benchmark: {
             outcome:
-              dataPoints[indicator.id][area.code]?.benchmark?.outcome ??
+              dataPoints[indicator.rowId][area.code]?.benchmark?.outcome ??
               BenchmarkOutcome.NotCompared,
             benchmarkMethod:
-              dataPoints[indicator.id][area.code]?.benchmark?.benchmarkMethod ??
-              BenchmarkComparisonMethod.Unknown,
+              dataPoints[indicator.rowId][area.code]?.benchmark
+                ?.benchmarkMethod ?? BenchmarkComparisonMethod.Unknown,
             polarity:
-              dataPoints[indicator.id][area.code]?.benchmark?.polarity ??
+              dataPoints[indicator.rowId][area.code]?.benchmark?.polarity ??
               IndicatorPolarity.Unknown,
             benchmarkAreaCode:
-              dataPoints[indicator.id][area.code]?.benchmark
+              dataPoints[indicator.rowId][area.code]?.benchmark
                 ?.benchmarkAreaCode ?? '',
           },
         },
       };
     });
-    rows[indicatorIndex] = { key: `row-${indicator.id}`, cells: cols };
+    rows[indicatorIndex] = { key: `row-${indicator.rowId}`, cells: cols };
   });
 
   return rows;

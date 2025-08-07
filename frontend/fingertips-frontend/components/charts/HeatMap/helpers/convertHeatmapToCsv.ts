@@ -42,14 +42,20 @@ export const convertHeatmapToCsv = (
   });
 
   indicators.forEach((indicator) => {
-    const { id, name: indicatorName, latestDataPeriod, unitLabel } = indicator;
+    const {
+      rowId,
+      indicatorId,
+      name: indicatorName,
+      latestDataPeriod,
+      unitLabel,
+    } = indicator;
     areasInExportOrder.forEach((area) => {
       const { name: areaName, code: areaCode } = area;
-      const dataPointsForArea = dataPoints[id] ?? {};
+      const dataPointsForArea = dataPoints[rowId] ?? {};
       const { benchmark, value } = dataPointsForArea[areaCode] ?? {};
       const { benchmarkAreaCode, outcome } = benchmark ?? {};
       const row = [
-        id,
+        indicatorId,
         indicatorName,
         latestDataPeriod,
         areaCode === groupAreaCode ? `Group: ${areaName}` : areaName,
