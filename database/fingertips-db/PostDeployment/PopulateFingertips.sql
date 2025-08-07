@@ -468,7 +468,6 @@ FROM
 CREATE TABLE #RawHealthData
 (
     IndicatorId INT,
-    Year INT,
     AreaCode NVARCHAR(255),
     Count FLOAT,
     Value FLOAT,
@@ -515,7 +514,6 @@ WHILE (@INDEX <= 2)
 CREATE TABLE #TempHealthData
 (
     IndicatorId INT,
-    Year INT,
     AreaCode NVARCHAR(255),
     Count FLOAT,
     Value FLOAT,
@@ -539,7 +537,6 @@ CREATE TABLE #TempHealthData
 INSERT INTO #TempHealthData
 (
     IndicatorId,
-    Year,
     AreaCode,
     Count,
     Value,
@@ -561,7 +558,6 @@ INSERT INTO #TempHealthData
 )
 SELECT 
     IndicatorId,
-    Year,
     LTRIM(RTRIM(AreaCode)) AS AreaCode,
     Count,
     Value,
@@ -603,7 +599,6 @@ INSERT INTO [dbo].[HealthMeasure]
     Value,
     LowerCI,
     UpperCI,
-    Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -624,7 +619,6 @@ SELECT
     Value,
     Lower95CI,
     Upper95CI,
-    temp.Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -668,7 +662,6 @@ INSERT INTO [dbo].[HealthMeasure]
     Value,
     LowerCI,
     UpperCI,
-    Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -689,7 +682,6 @@ SELECT
     Value,
     Lower95CI,
     Upper95CI,
-    2025,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -718,7 +710,7 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL
-    AND temp.Year = 2024
+    AND temp.FromDate = '01/01/2024'
     AND temp.IndicatorId = 90453;
 
 INSERT INTO [dbo].[HealthMeasure]
@@ -733,7 +725,6 @@ INSERT INTO [dbo].[HealthMeasure]
     Value,
     LowerCI,
     UpperCI,
-    Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -754,7 +745,6 @@ SELECT
     Value,
     Lower95CI,
     Upper95CI,
-    2024,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -783,7 +773,7 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL
-    AND temp.Year = 2023
+    AND temp.FromDate = '01/04/2023'
     AND temp.IndicatorId = 41101;
 
 INSERT INTO [dbo].[HealthMeasure]
@@ -798,7 +788,6 @@ INSERT INTO [dbo].[HealthMeasure]
     Value,
     LowerCI,
     UpperCI,
-    Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -819,7 +808,6 @@ SELECT
     Value,
     Lower95CI,
     Upper95CI,
-    2025,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -848,7 +836,7 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL
-    AND temp.Year = 2024
+    AND temp.FromDate = '01/01/2024'
     AND temp.IndicatorId = 337;
 
 INSERT INTO [dbo].[HealthMeasure]
@@ -863,7 +851,6 @@ INSERT INTO [dbo].[HealthMeasure]
     Value,
     LowerCI,
     UpperCI,
-    Year,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -884,7 +871,6 @@ SELECT
     Value,
     Lower95CI,
     Upper95CI,
-    2024,
     IsSexAggregatedOrSingle,
     IsAgeAggregatedOrSingle,
     IsDeprivationAggregatedOrSingle,
@@ -913,7 +899,7 @@ JOIN
     [dbo].[PeriodDimension] perioddim ON perioddim.[Period] = temp.Period
 WHERE 
     temp.Value IS NOT NULL
-    AND temp.Year = 2023
+    AND temp.FromDate = '01/01/2023'
     AND temp.IndicatorId = 92708;
 -- END
 

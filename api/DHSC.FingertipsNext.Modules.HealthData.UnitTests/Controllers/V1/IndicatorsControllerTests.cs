@@ -20,22 +20,12 @@ public class IndicatorControllerTests
             new()
             {
                 AreaCode = "AreaCode1",
-                HealthData =
+                IndicatorSegments =
                 [
-                    new HealthDataPoint
+                    new IndicatorSegment
                     {
-                        Year = 2023,
-                        DatePeriod = new DatePeriod
-                        {
-                            PeriodType = DatePeriodType.Calendar,
-                            From = new DateOnly(2023, 1, 1),
-                            To = new DateOnly(2023, 12, 31)
-                        },
-                        Count = 1,
-                        Value = 1,
-                        LowerConfidenceInterval = 1.1111f,
-                        UpperConfidenceInterval = 2.2222f,
-                        AgeBand = new Age
+                        IsAggregate = true,
+                        Age = new Age
                         {
                             Value = "4-5",
                             IsAggregate = false
@@ -46,13 +36,29 @@ public class IndicatorControllerTests
                             IsAggregate = true
                         },
                         ReportingPeriod = ReportingPeriod.Yearly,
-                        Trend = "Sample Trend",
-                        Deprivation = new Deprivation
-                        {
-                            Sequence = 1,
-                            Value = "Most deprived decile",
-                            Type = "County & UA deprivation deciles in England",
-                        }
+                        HealthData =
+                        [
+                            new HealthDataPoint
+                            {
+                                DatePeriod = new DatePeriod
+                                {
+                                    PeriodType = DatePeriodType.Calendar,
+                                    From = new DateOnly(2023, 1, 1),
+                                    To = new DateOnly(2023, 12, 31)
+                                },
+                                Count = 1,
+                                Value = 1,
+                                LowerConfidenceInterval = 1.1111f,
+                                UpperConfidenceInterval = 2.2222f,
+                                Trend = "Sample Trend",
+                                Deprivation = new Deprivation
+                                {
+                                    Sequence = 1,
+                                    Value = "Most deprived decile",
+                                    Type = "County & UA deprivation deciles in England",
+                                }
+                            }
+                        ]
                     }
                 ]
             }
@@ -71,7 +77,7 @@ public class IndicatorControllerTests
     [Fact]
     public async Task GetIndicatorDataDelegatesToServiceWhenAllParametersSpecified()
     {
-        await _controller.GetPublishedIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", years: [1999, 2024], inequalities: ["age", "sex"]);
+        await _controller.GetPublishedIndicatorDataAsync(1, ["ac1", "ac2"], "someAreaType", inequalities: ["age", "sex"]);
 
         // expect
         await _indicatorService
@@ -82,7 +88,6 @@ public class IndicatorControllerTests
                 "someAreaType",
                 "",
                 BenchmarkReferenceType.Unknown,
-                years: ArgEx.IsEquivalentTo<int[]>([1999, 2024]),
                 inequalities: ArgEx.IsEquivalentTo<string[]>(["age", "sex"])
             );
     }
@@ -93,14 +98,14 @@ public class IndicatorControllerTests
         await _controller.GetPublishedIndicatorDataAsync(2);
 
         // expect
-        await _indicatorService.Received().GetIndicatorDataAsync(2, [], "", "", BenchmarkReferenceType.Unknown, [], []);
+        await _indicatorService.Received().GetIndicatorDataAsync(2, [], "", "", BenchmarkReferenceType.Unknown, []);
     }
 
     [Fact]
     public async Task GetIndicatorDataReturnsOkResponseIfServiceReturnsData()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.Success)
             {
                 Content = SampleHealthData
@@ -117,9 +122,8 @@ public class IndicatorControllerTests
     public async Task GetIndicatorDataReturnsSuccessResponseIfServiceReturnsEmptyArray()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.NoDataForIndicator));
-
         var response = await _controller.GetPublishedIndicatorDataAsync(3) as ObjectResult;
 
         // expect
@@ -130,7 +134,7 @@ public class IndicatorControllerTests
     public async Task GetIndicatorDataReturnsNotFoundResponseIfIndicatorDoesNotExist()
     {
         _indicatorService
-            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<int[]>(), Arg.Any<string[]>())
+            .GetIndicatorDataAsync(Arg.Any<int>(), Arg.Any<string[]>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<BenchmarkReferenceType>(), Arg.Any<string[]>())
             .Returns(new ServiceResponse<IndicatorWithHealthDataForAreas>(ResponseStatus.IndicatorDoesNotExist));
 
         var response = await _controller.GetPublishedIndicatorDataAsync(3) as ObjectResult;

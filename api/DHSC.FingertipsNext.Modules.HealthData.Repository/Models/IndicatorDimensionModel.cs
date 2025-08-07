@@ -22,7 +22,9 @@ public class IndicatorDimensionModel
     public string? Polarity { get; set; }
 
     [NotMapped]
-    public int LatestYear { get; set; }
+    public DateOnly? LatestToDate { get; set; }
+    [NotMapped]
+    public DateOnly? LatestFromDate { get; set; }
 
     public string? PeriodType { get; set; }
 

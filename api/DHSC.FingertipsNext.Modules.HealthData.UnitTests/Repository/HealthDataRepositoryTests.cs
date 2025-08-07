@@ -1,6 +1,7 @@
 ﻿using DHSC.FingertipsNext.Modules.HealthData.Repository;
 using DHSC.FingertipsNext.Modules.HealthData.Repository.Models;
 using DHSC.FingertipsNext.Modules.HealthData.Tests.Helpers;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
@@ -75,7 +76,6 @@ public class HealthDataRepositoryTests : IDisposable
                 Name = String.Empty,
                 IndicatorId = INDICATORID
             },
-            Year = LATESTYEAR - 1,
             PublishedAt = new DateTime(2025, 1, 1),
             BatchId = $"{INDICATORID}_2099-01-01T12:00:00:000",
             FromDateDimension = new DateDimensionModel { DateKey = 100, Date = new DateTime(LATESTYEAR - 1, 1, 1) },
@@ -87,7 +87,9 @@ public class HealthDataRepositoryTests : IDisposable
         var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, []);
 
         // assert
-        result!.LatestYear.ShouldBe(LATESTYEAR);
+        result.ShouldNotBeNull();
+        result.LatestToDate.ShouldNotBeNull();
+        result!.LatestToDate.Value.Year.ShouldBe(LATESTYEAR);
     }
 
     [Fact]
@@ -122,7 +124,7 @@ public class HealthDataRepositoryTests : IDisposable
         ]);
 
         // assert
-        result.LatestYear.ShouldBe(DISTRICT_YEAR);
+        result.LatestToDate!.Value.Year.ShouldBe(DISTRICT_YEAR);
     }
 
     [Fact]
@@ -141,7 +143,7 @@ public class HealthDataRepositoryTests : IDisposable
         var result = await _healthDataRepository.GetIndicatorDimensionAsync(1, [ENGLAND_AREA_CODE]);
 
         // assert
-        result.LatestYear.ShouldBe(ENGLAND_YEAR);
+        result.LatestToDate!.Value.Year.ShouldBe(ENGLAND_YEAR);
     }
 
     [Fact]
@@ -163,7 +165,7 @@ public class HealthDataRepositoryTests : IDisposable
         ]);
 
         // assert
-        result.LatestYear.ShouldBe(LATEST_YEAR);
+        result.LatestToDate!.Value.Year.ShouldBe(LATEST_YEAR);
     }
 
     #endregion
@@ -179,7 +181,7 @@ public class HealthDataRepositoryTests : IDisposable
         );
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(2, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(2, [], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -198,7 +200,6 @@ public class HealthDataRepositoryTests : IDisposable
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(
             expectedIndicatorId,
-            [],
             [],
             []
         );
@@ -241,7 +242,6 @@ public class HealthDataRepositoryTests : IDisposable
         var result = await _healthDataRepository.GetIndicatorDataAsync(
             1,
             [expectedAreaCode],
-            [],
             []
         );
 
@@ -269,70 +269,12 @@ public class HealthDataRepositoryTests : IDisposable
         );
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(1, ["Code2"], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(1, ["Code2"], []);
 
         // assert
         result.ShouldBeEmpty();
     }
 
-    [Fact]
-    public async Task GetIndicatorDataAsyncShouldFilterResultsByYearsWhenYearsProvided()
-    {
-        // arrange
-        var unexpectedHealthMeasure1 = new HealthMeasureModelHelper(key: 1, year: 2020)
-            .WithIndicatorDimension()
-            .Build();
-        var unexpectedHealthMeasure2 = new HealthMeasureModelHelper(key: 2, year: 2021)
-            .WithIndicatorDimension()
-            .Build();
-        var expectedHealthMeasure1 = new HealthMeasureModelHelper(key: 3, year: 2022)
-            .WithIndicatorDimension()
-            .Build();
-        var expectedHealthMeasure2 = new HealthMeasureModelHelper(key: 4, year: 2023)
-            .WithIndicatorDimension()
-            .Build();
-
-        PopulateDatabase(unexpectedHealthMeasure1);
-        PopulateDatabase(unexpectedHealthMeasure2);
-        PopulateDatabase(expectedHealthMeasure1);
-        PopulateDatabase(expectedHealthMeasure2);
-
-        // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(1, [], [2022, 2023], []);
-
-        // assert
-        result.ShouldNotBeEmpty();
-        result.Count().ShouldBe(2);
-        result.ShouldBeEquivalentTo(
-            new List<HealthMeasureModel>()
-            {
-                expectedHealthMeasure1,
-                expectedHealthMeasure2,
-            }
-        );
-    }
-
-    [Fact]
-    public async Task GetIndicatorDataAsyncShouldReturnEmptyListIfYearsNotFound()
-    {
-        // arrange
-        PopulateDatabase(
-            new HealthMeasureModelHelper(key: 1, year: 2020)
-                .WithIndicatorDimension(indicatorId: 1)
-                .Build()
-        );
-        PopulateDatabase(
-            new HealthMeasureModelHelper(key: 2, year: 2021)
-                .WithIndicatorDimension(indicatorId: 1)
-                .Build()
-        );
-
-        // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(1, [], [2019], []);
-
-        // assert
-        result.ShouldBeEmpty();
-    }
 
     [Fact]
     public async Task GetIndicatorDataAsyncShouldFilterResultsByAllFiltersWhenProvided()
@@ -384,7 +326,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(expectedHealthMeasure4);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, ["Code1"], [2023], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, ["Code1"], [], new DateOnly(2021, 01, 01));
 
         // assert
         result.ShouldNotBeEmpty();
@@ -428,7 +370,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(expectedHealthMeasure3);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -463,7 +405,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -496,7 +438,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(unexpectedHealthMeasure2);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.Count().ShouldBe(2);
@@ -527,7 +469,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -562,7 +504,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -595,7 +537,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(healthMeasure65);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -636,7 +578,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(expectedHealthMeasure);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -673,7 +615,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(expectedHealthMeasure2);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -706,7 +648,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(unexpectedHealthMeasure2);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], []);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], []);
 
         // assert
         result.ShouldBeEmpty();
@@ -739,7 +681,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(healthMeasureWithNoSexAndNoAge);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], ["sex"]);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], ["sex"]);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -791,7 +733,7 @@ public class HealthDataRepositoryTests : IDisposable
         PopulateDatabase(healthMeasureWithNoAgeAndNoSex);
 
         // act
-        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], [], ["age"]);
+        var result = await _healthDataRepository.GetIndicatorDataAsync(500, [], ["age"]);
 
         // assert
         result.ShouldNotBeEmpty();
@@ -846,7 +788,6 @@ public class HealthDataRepositoryTests : IDisposable
         // act
         var result = await _healthDataRepository.GetIndicatorDataAsync(
             500,
-            [],
             [],
             ["deprivation"]
         );
@@ -996,7 +937,6 @@ public class HealthDataRepositoryTests : IDisposable
         var result = await _healthDataRepository.GetIndicatorDataAsync(
             500,
             [],
-            [],
             ["age", "sex", "deprivation"]
         );
 
@@ -1044,7 +984,7 @@ public class HealthDataRepositoryTests : IDisposable
         ]);
 
         // Assert
-        result.LatestYear.ShouldBe(ENGLAND_YEAR);
+        result.LatestToDate!.Value.Year.ShouldBe(ENGLAND_YEAR);
     }
 
     [Fact]
@@ -1091,7 +1031,6 @@ public class HealthDataRepositoryTests : IDisposable
         var result = await _healthDataRepository.GetIndicatorDataAsync(
                     1,
                     [expectedAreaCode],
-                    [],
                     [],
                     includeUnpublished: false
                 );

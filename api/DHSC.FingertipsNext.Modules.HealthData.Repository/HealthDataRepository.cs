@@ -33,8 +33,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
             .Where(HealthDataPredicates.IsNotEnglandWhenMultipleRequested(areaCodes))
-            .OrderByDescending(healthMeasure => healthMeasure.Year)
+            .OrderByDescending(healthMeasure => healthMeasure.FromDateDimension.Date)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
+            .Include(healthMeasure => healthMeasure.FromDateDimension)
+            .Include(healthMeasure => healthMeasure.ToDateDimension)
             .Select(healthMeasure => new IndicatorDimensionModel
             {
                 IndicatorId = healthMeasure.IndicatorDimension.IndicatorId,
@@ -42,7 +44,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 Name = healthMeasure.IndicatorDimension.Name,
                 Polarity = healthMeasure.IndicatorDimension.Polarity,
                 BenchmarkComparisonMethod = healthMeasure.IndicatorDimension.BenchmarkComparisonMethod,
-                LatestYear = healthMeasure.Year,
+                LatestFromDate = DateOnly.FromDateTime(healthMeasure.FromDate),
+                LatestToDate = DateOnly.FromDateTime(healthMeasure.ToDate),
                 CollectionFrequency = healthMeasure.IndicatorDimension.CollectionFrequency
             })
             .Take(1)
@@ -53,8 +56,10 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         // Default to the latest year for all indicator data if none of the requested areas have data
         return await queryable
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
-            .OrderByDescending(healthMeasure => healthMeasure.Year)
+            .OrderByDescending(healthMeasure => healthMeasure.FromDateDimension.Date)
             .Include(healthMeasure => healthMeasure.IndicatorDimension)
+            .Include(healthMeasure => healthMeasure.FromDateDimension)
+            .Include(healthMeasure => healthMeasure.ToDateDimension)
             .Select(healthMeasure => new IndicatorDimensionModel
             {
                 IndicatorId = healthMeasure.IndicatorDimension.IndicatorId,
@@ -62,7 +67,8 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
                 Name = healthMeasure.IndicatorDimension.Name,
                 Polarity = healthMeasure.IndicatorDimension.Polarity,
                 BenchmarkComparisonMethod = healthMeasure.IndicatorDimension.BenchmarkComparisonMethod,
-                LatestYear = healthMeasure.Year,
+                LatestFromDate = DateOnly.FromDateTime(healthMeasure.FromDate),
+                LatestToDate = DateOnly.FromDateTime(healthMeasure.ToDate),
                 CollectionFrequency = healthMeasure.IndicatorDimension.CollectionFrequency
             })
             .Take(1)
@@ -73,7 +79,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     (
         int indicatorId,
         string[] areaCodes,
-        int[] years,
         string[] inequalities,
         DateOnly? fromDate = null,
         DateOnly? toDate = null,
@@ -87,7 +92,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
         var healthMeasures = await _dbContext.GetHealthMeasures(includeUnpublished)
             .Where(healthMeasure => healthMeasure.IndicatorDimension.IndicatorId == indicatorId)
             .Where(HealthDataPredicates.IsInAreaCodes(areaCodes))
-            .Where(healthMeasure => years.Length == 0 || EF.Constant(years).Contains(healthMeasure.Year))
             .Where(healthMeasure => fromDate == null || healthMeasure.FromDateDimension.Date >= fromDateTime)
             .Where(healthMeasure => toDate == null || healthMeasure.ToDateDimension.Date <= toDateTime)
             .Where(healthMeasure =>
@@ -143,7 +147,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     (
         int indicatorId,
         string[] areaCodes,
-        int[] years,
         string areaTypeKey,
         string benchmarkAreaCode,
         DateOnly? fromDate = null,
@@ -152,7 +155,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
     )
     {
         SqlParameter areasOfInterest;
-        SqlParameter yearsOfInterest;
         // Convert the array parameters into DataTables for presentation to the Stored Procedure.
         using (var areaCodesTable = new DataTable())
         {
@@ -163,18 +165,6 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
             {
                 SqlDbType = SqlDbType.Structured,
                 TypeName = "AreaCodeList"
-            };
-        }
-
-        using (var yearsTable = new DataTable())
-        {
-            ArgumentNullException.ThrowIfNull(years);
-            yearsTable.Columns.Add("YearNum", typeof(int));
-            foreach (var item in years) yearsTable.Rows.Add(item);
-            yearsOfInterest = new SqlParameter("@RequestedYears", yearsTable)
-            {
-                SqlDbType = SqlDbType.Structured,
-                TypeName = "YearList"
             };
         }
 
@@ -189,11 +179,11 @@ public class HealthDataRepository(HealthDataDbContext healthDataDbContext) : IHe
 
         var denormalisedHealthData = await _dbContext.DenormalisedHealthMeasure.FromSqlInterpolated
         (@$"
-              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedYears={yearsOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}, @RequestedFromDate={requestedFromDate}, @RequestedToDate={requestedToDate}, @IncludeUnpublishedData={includeUnpublishedData}
+              EXEC dbo.GetIndicatorDetailsWithQuintileBenchmarkComparison @RequestedAreas={areasOfInterest}, @RequestedAreaType={areaTypeOfInterest}, @RequestedIndicatorId={requestedIndicatorId}, @RequestedBenchmarkAreaCode={requestedBenchmarkAreaCode}, @RequestedFromDate={requestedFromDate}, @RequestedToDate={requestedToDate}, @IncludeUnpublishedData={includeUnpublishedData}
               "
         ).ToListAsync();
 
-        return denormalisedHealthData.OrderBy(a => a.Year);
+        return denormalisedHealthData.OrderBy(a => a.FromDate);
     }
 
     public async Task<IEnumerable<QuartileDataModel>> GetQuartileDataAsync

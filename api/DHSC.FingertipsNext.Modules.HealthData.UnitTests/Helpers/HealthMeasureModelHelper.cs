@@ -259,7 +259,6 @@ internal sealed class HealthMeasureModelHelper(
             Value = value,
             LowerCi = lowerCi,
             UpperCi = upperCi,
-            Year = year,
             FromDateDimension = _fromDateDimension,
             ToDateDimension = _toDateDimension,
             PeriodDimension = _periodDimension,

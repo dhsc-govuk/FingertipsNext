@@ -8,7 +8,8 @@ namespace DataCreator.Tests;
 [TestFixture]
 [TestOf(typeof(DataManager))]
 public class DataManagerTests
-{ [Theory]
+{
+    [Theory]
     [TestCase(PeriodTypeConstants.Calendar, "20090000", "01/01/2009", "31/12/2009")]
     [TestCase(PeriodTypeConstants.Yearly, "20090000", "01/11/2009", "31/10/2010")]
     [TestCase(PeriodTypeConstants.Financial, "20090000", "01/04/2009", "31/03/2010")]
