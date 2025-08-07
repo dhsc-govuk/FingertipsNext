@@ -284,7 +284,7 @@
                 "type": "Persons",
                 "isAggregate": true
               },
-              "trend": "Not yet calculated",
+              "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
                 "benchmarkAreaCode": "E92000001",
@@ -573,7 +573,7 @@
                 "type": "Persons",
                 "isAggregate": true
               },
-              "trend": "Not yet calculated",
+              "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Worse",
                 "benchmarkAreaCode": "E92000001",
@@ -862,7 +862,7 @@
                 "type": "Persons",
                 "isAggregate": true
               },
-              "trend": "Not yet calculated",
+              "trend": "Cannot be calculated",
               "benchmarkComparison": {
                 "outcome": "Similar",
                 "benchmarkAreaCode": "E92000001",
