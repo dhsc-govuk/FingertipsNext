@@ -1,14 +1,20 @@
 import { CsvData, CsvRow } from '@/lib/downloadHelpers/convertToCsv';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  Frequency,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { formatDatePointLabel } from '@/lib/timePeriodHelpers/getTimePeriodLabels';
 
 export const convertLineChartTableToCsvData = (
   indicatorMetadata: IndicatorDocument,
   healthIndicatorData: HealthDataForArea[],
   groupAreaData?: HealthDataForArea,
   benchmarkAreaData?: HealthDataForArea,
-  confidenceLimit = 0
+  confidenceLimit = 0,
+  frequency: Frequency = Frequency.Annually,
+  isSmallestReportingPeriod = true
 ): CsvData => {
   const csvHeaders: CsvRow = [
     CsvHeader.IndicatorId,
@@ -40,19 +46,25 @@ export const convertLineChartTableToCsvData = (
 
     area.healthData.forEach((healthPoint) => {
       const {
-        year,
         benchmarkComparison,
         count,
         value,
         lowerCi,
         upperCi,
         trend,
+        datePeriod,
       } = healthPoint;
+      const period = formatDatePointLabel(
+        datePeriod,
+        frequency,
+        isSmallestReportingPeriod
+      );
+
       const { outcome, benchmarkAreaCode } = benchmarkComparison ?? {};
       csvData.push([
         indicatorMetadata.indicatorID,
         indicatorMetadata.indicatorName,
-        year,
+        period,
         `${benchmarkPrefix}${areaName}`,
         areaCode,
         benchmarkAreaCode,

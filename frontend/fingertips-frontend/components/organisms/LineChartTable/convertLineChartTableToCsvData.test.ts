@@ -1,7 +1,11 @@
 import { convertLineChartTableToCsvData } from './convertLineChartTableToCsvData';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
-import { HealthDataForArea } from '@/generated-sources/ft-api-client';
+import {
+  Frequency,
+  HealthDataForArea,
+} from '@/generated-sources/ft-api-client';
 import { IndicatorDocument } from '@/lib/search/searchTypes';
+import { mockDatePeriod } from '@/mock/data/mockDatePeriod';
 
 describe('convertLineChartTableToCsvData', () => {
   const baseHealthData = [
@@ -10,7 +14,6 @@ describe('convertLineChartTableToCsvData', () => {
       areaName: 'Area One',
       healthData: [
         {
-          year: '2022',
           benchmarkComparison: {
             outcome: 'Better',
             benchmarkAreaCode: 'B1',
@@ -20,6 +23,7 @@ describe('convertLineChartTableToCsvData', () => {
           lowerCi: 9.5,
           upperCi: 11.0,
           trend: 'Increasing',
+          datePeriod: mockDatePeriod(2022),
         },
       ],
     },
@@ -30,7 +34,6 @@ describe('convertLineChartTableToCsvData', () => {
     areaName: 'Group Area',
     healthData: [
       {
-        year: '2022',
         benchmarkComparison: {
           outcome: 'Worse',
           benchmarkAreaCode: 'B1',
@@ -40,22 +43,22 @@ describe('convertLineChartTableToCsvData', () => {
         lowerCi: 11.0,
         upperCi: 13.5,
         trend: 'Decreasing',
+        datePeriod: mockDatePeriod(2022),
       },
     ],
   } as unknown as HealthDataForArea;
 
-  const benchmarkAreaData = {
+  const benchmarkAreaData: HealthDataForArea = {
     areaCode: 'B1',
     areaName: 'Benchmark Area',
     healthData: [
       {
-        year: '2022',
-        benchmarkComparison: null,
         count: 200,
         value: 11.1,
         lowerCi: 10.0,
         upperCi: 12.0,
         trend: 'Not yet calculated',
+        datePeriod: mockDatePeriod(2022),
       },
     ],
   } as unknown as HealthDataForArea;
@@ -70,7 +73,9 @@ describe('convertLineChartTableToCsvData', () => {
       baseHealthData,
       groupAreaData,
       benchmarkAreaData,
-      95
+      95,
+      Frequency.Annually,
+      true
     );
 
     expect(result[0]).toEqual([
