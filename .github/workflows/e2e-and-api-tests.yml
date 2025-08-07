@@ -227,9 +227,9 @@ jobs:
       - name: Install playwright dependencies
         run: npx playwright install chromium
 
-      # - name: Set Job URL for slack message - for CD test execution
-      #   run: |
-      #     echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
+      - name: Set Job URL for slack message - for CD test execution
+        run: |
+          echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: Run Playwright tests in CD - skips screenshot comparisons
         run: npm run test-e2e-cd
@@ -255,13 +255,13 @@ jobs:
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 5
 
-      # - name: Send slack notification based on test results
-      #   if: always()
-      #   run: |
-      #     if [ "${{ job.status }}" == "success" ]; then
-      #       npx slack-ctrf results ctrf/ctrf-report.json --title "PR deployment successful to Fingertips Instance: ${{ vars.FINGERTIPS_FRONTEND_URL }}"
-      #     else
-      #       npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
-      #     fi
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
+      - name: Send slack notification based on test results
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            npx slack-ctrf results ctrf/ctrf-report.json --title "PR deployment successful to Fingertips Instance: ${{ vars.FINGERTIPS_FRONTEND_URL }}"
+          else
+            npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
+          fi
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
