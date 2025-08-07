@@ -10,7 +10,6 @@ import { TabContainer } from '@/components/layouts/tabContainer';
 import { H3, Paragraph } from 'govuk-react';
 import {
   determineHealthDataForArea,
-  getLatestPeriodForAreas,
   seriesDataWithoutGroup,
 } from '@/lib/chartHelpers/chartHelpers';
 import { SearchParams } from '@/lib/searchStateManager';
