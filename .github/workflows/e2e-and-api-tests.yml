@@ -129,7 +129,7 @@ jobs:
 
       - name: Set dynamic HTTP results artifact name
         if: ${{ !inputs.update_screenshots }}
-        run: echo 'HTTP_ARTIFACT_NAME=httpyac-results-$(date +%s)' >> $GITHUB_ENV
+        run: echo "HTTP_ARTIFACT_NAME=httpyac-results-$(date +%s)" >> $GITHUB_ENV
 
       - name: Upload .http test results
         if: ${{ !inputs.update_screenshots }}
@@ -163,30 +163,30 @@ jobs:
       - name: Commit updated baseline screenshots to branch for review
         if: ${{ inputs.update_screenshots }}
         run: |
-          git config --global user.name 'GitHub Actions Bot'
-          git config --global user.email 'actions@github.com'
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
 
           # Add any new or modified screenshot files
           git add .test/spec/snaps/**/*.png
 
           # Check if there are changes to commit
           if git diff --staged --quiet; then
-            echo 'No screenshot changes to commit'
+            echo "No screenshot changes to commit"
           else
             # Commit the changes with a descriptive message
-            git commit -m 'Update visual test baseline screenshots'
+            git commit -m "Update visual test baseline screenshots"
 
             # Push the changes
             git push origin ${{ github.head_ref || github.ref_name }}
 
-            echo 'Updated screenshots committed and pushed'
+            echo "Updated screenshots committed and pushed"
           fi
 
       - name: Set dynamic artifact name
         if: always()
         id: set-artifact-name
         run: |
-          echo 'ARTIFACT_NAME=playwright-artifacts-docker-$(date +%s)' >> $GITHUB_ENV
+          echo "ARTIFACT_NAME=playwright-artifacts-docker-$(date +%s)" >> $GITHUB_ENV
 
       - name: Upload playwright artefacts
         if: always()
@@ -227,10 +227,9 @@ jobs:
       - name: Install playwright dependencies
         run: npx playwright install chromium
 
-      # Uncomment the following section to enable Slack notifications based on test results
       # - name: Set Job URL for slack message - for CD test execution
       #   run: |
-      #     echo 'JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}' >> $GITHUB_ENV
+      #     echo "JOB_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: Run Playwright tests in CD - skips screenshot comparisons
         run: npm run test-e2e-cd
@@ -244,7 +243,7 @@ jobs:
         if: always()
         id: set-artifact-name
         run: |
-          echo 'ARTIFACT_NAME=playwright-artifacts-azure-$(date +%s)' >> $GITHUB_ENV
+          echo "ARTIFACT_NAME=playwright-artifacts-azure-$(date +%s)" >> $GITHUB_ENV
 
       - name: Upload playwright artefacts
         if: always()
@@ -256,14 +255,13 @@ jobs:
             ${{ env.frontend-directory }}/test-results/*/*.png
           retention-days: 5
 
-      # Uncomment the following section to enable Slack notifications based on test results
       # - name: Send slack notification based on test results
       #   if: always()
       #   run: |
-      #     if [ '${{ job.status }}' == 'success' ]; then
-      #       npx slack-ctrf results ctrf/ctrf-report.json --title 'PR deployment successful to Fingertips Instance: ${{ vars.FINGERTIPS_FRONTEND_URL }}'
+      #     if [ "${{ job.status }}" == "success" ]; then
+      #       npx slack-ctrf results ctrf/ctrf-report.json --title "PR deployment successful to Fingertips Instance: ${{ vars.FINGERTIPS_FRONTEND_URL }}"
       #     else
-      #       npx slack-ctrf results ctrf/ctrf-report.json --title 'E2E Test Failure Against Deployed Fingertips Instance'
+      #       npx slack-ctrf results ctrf/ctrf-report.json --title "E2E Test Failure Against Deployed Fingertips Instance"
       #     fi
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
