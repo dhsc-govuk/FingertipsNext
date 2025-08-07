@@ -4,7 +4,7 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { generateRows } from './generateHeatmapRows';
 import { generateHeaders } from './generateHeatmapHeaders';
-import { HeaderType } from '../heatmap.types';
+import { HeaderType, Indicator } from '../heatmap.types';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 
 describe('generate headers and rows - benchmark area is England', () => {
@@ -15,9 +15,10 @@ describe('generate headers and rows - benchmark area is England', () => {
     { code: 'generic code', name: 'Generic Area' },
   ];
 
-  const sortedIndicators = [
+  const sortedIndicators: Indicator[] = [
     {
-      id: '1',
+      rowId: '1',
+      indicatorId: '1',
       name: 'Indicator 1',
       unitLabel: 'per 100',
       latestDataPeriod: '1234',
@@ -25,7 +26,8 @@ describe('generate headers and rows - benchmark area is England', () => {
       polarity: IndicatorPolarity.HighIsGood,
     },
     {
-      id: '2',
+      rowId: '2',
+      indicatorId: '2',
       name: 'Indicator 2',
       unitLabel: 'per 1,000',
       latestDataPeriod: '5678',
@@ -37,7 +39,7 @@ describe('generate headers and rows - benchmark area is England', () => {
 
   const missingDataPoint = {
     areaCode: sortedAreas[2].code,
-    indicatorId: sortedIndicators[1].id,
+    indicatorId: sortedIndicators[1].rowId,
   };
 
   interface DataPoint {
@@ -48,17 +50,17 @@ describe('generate headers and rows - benchmark area is England', () => {
 
   const dataPoints: Record<string, Record<string, DataPoint>> = {};
   sortedIndicators.forEach((indicator, indicatorIndex) => {
-    dataPoints[indicator.id] = {};
+    dataPoints[indicator.rowId] = {};
     sortedAreas.forEach((area, areaIndex) => {
       if (
         !(
-          indicator.id === missingDataPoint.indicatorId &&
+          indicator.rowId === missingDataPoint.indicatorId &&
           area.code === missingDataPoint.areaCode
         )
       ) {
-        dataPoints[indicator.id][area.code] = {
+        dataPoints[indicator.rowId][area.code] = {
           value: areaIndex + indicatorIndex * 10,
-          indicatorId: indicator.id,
+          indicatorId: indicator.rowId,
           areaCode: area.code,
         };
       }

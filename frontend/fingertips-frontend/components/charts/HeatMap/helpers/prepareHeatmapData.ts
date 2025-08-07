@@ -4,12 +4,12 @@ import {
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
 import {
-  HeatmapIndicatorData,
-  HeatmapBenchmarkOutcome,
-  Benchmark,
   Area,
-  Indicator,
+  Benchmark,
   DataPoint,
+  HeatmapBenchmarkOutcome,
+  HeatmapIndicatorData,
+  Indicator,
 } from '../heatmap.types';
 import { filterDefined } from '@/lib/chartHelpers/filterDefined';
 import {
@@ -92,7 +92,8 @@ export const extractAreasIndicatorsAndDataPoints = (
 
     if (!indicators[indicatorData.rowId]) {
       indicators[indicatorData.rowId] = {
-        id: indicatorData.rowId,
+        rowId: indicatorData.rowId,
+        indicatorId: indicatorData.indicatorId,
         name: indicatorData.indicatorName,
         unitLabel: indicatorData.unitLabel,
         latestDataPeriod: formatDatePointLabel(

@@ -1,9 +1,9 @@
 import {
-  HealthDataForArea,
   BenchmarkComparisonMethod,
-  IndicatorPolarity,
   BenchmarkOutcome,
   Frequency,
+  HealthDataForArea,
+  IndicatorPolarity,
 } from '@/generated-sources/ft-api-client';
 
 import { SegmentInfo } from '@/lib/common-types';
@@ -28,7 +28,8 @@ export interface Area {
 }
 
 export interface Indicator {
-  id: string;
+  rowId: string;
+  indicatorId: string;
   position?: number;
   name: string;
   unitLabel: string;

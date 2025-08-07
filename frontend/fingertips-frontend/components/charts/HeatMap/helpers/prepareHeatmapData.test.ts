@@ -1,13 +1,13 @@
 import {
-  BenchmarkOutcome,
-  HealthDataPoint,
   BenchmarkComparisonMethod,
+  BenchmarkOutcome,
+  Frequency,
+  HealthDataPoint,
   IndicatorPolarity,
   PeriodType,
-  Frequency,
 } from '@/generated-sources/ft-api-client';
 import { areaCodeForEngland } from '@/lib/chartHelpers/constants';
-import { allAgesAge, personsSex, noDeprivation } from '@/lib/mocks';
+import { allAgesAge, noDeprivation, personsSex } from '@/lib/mocks';
 import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
 import { HeatmapIndicatorData } from '@/components/charts/HeatMap/heatmap.types';
 
@@ -243,7 +243,7 @@ describe('extract sorted areas, indicators, and data points - benchmark area is 
   });
 
   it('should NOT reorder the indicators this is done in buildHeatmapIndicatorData()', () => {
-    const ids = indicators.map((indicator) => indicator.id);
+    const ids = indicators.map((indicator) => indicator.rowId);
     expect(ids).toEqual([
       'indicator1-sex:persons',
       'indicator2-sex:persons',

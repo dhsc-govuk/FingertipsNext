@@ -1,6 +1,7 @@
 import { convertHeatmapToCsv } from '@/components/charts/HeatMap/helpers/convertHeatmapToCsv';
 import { CsvHeader } from '@/components/molecules/Export/export.types';
 import { extractSortedAreasIndicatorsAndDataPoints } from './prepareHeatmapData';
+import { Indicator } from '@/components/charts/HeatMap/heatmap.types';
 
 const mockEngland = {
   code: 'E92000001',
@@ -18,8 +19,9 @@ const mockBlackburnAndDarwen = {
 };
 const mockAreas = [mockEngland, mockNorthWest, mockBlackburnAndDarwen];
 
-const mockIndicator = {
-  id: '41101',
+const mockIndicator: Indicator = {
+  rowId: '41101',
+  indicatorId: '41101',
   name: 'Emergency readmissions within 30 days of discharge from hospital',
   unitLabel: '%',
   latestDataPeriod: '2023',
@@ -39,6 +41,7 @@ const mockDataPoints = {
       },
       areaCode: 'E06000008',
       indicatorId: '41101',
+      rowId: '41101',
     },
     E92000001: {
       value: 14.8,
@@ -50,6 +53,7 @@ const mockDataPoints = {
       },
       areaCode: 'E92000001',
       indicatorId: '41101',
+      rowId: '41101',
     },
     E12000002: {
       value: 14.2,
@@ -61,6 +65,7 @@ const mockDataPoints = {
       },
       areaCode: 'E12000002',
       indicatorId: '41101',
+      rowId: '41101',
     },
   },
 };
@@ -98,11 +103,11 @@ describe('convertHeatmapToCsv', () => {
       mockEngland.code
     );
     const indicatorPoints =
-      mockDataPoints[mockIndicator.id as keyof typeof mockDataPoints];
+      mockDataPoints[mockIndicator.rowId as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
       indicatorPoints[mockEngland.code as keyof typeof indicatorPoints];
     expect(result[3]).toEqual([
-      mockIndicator.id,
+      mockIndicator.rowId,
       mockIndicator.name,
       mockIndicator.latestDataPeriod,
       mockEngland.name,
@@ -121,12 +126,12 @@ describe('convertHeatmapToCsv', () => {
       mockEngland.code
     );
     const indicatorPoints =
-      mockDataPoints[mockIndicator.id as keyof typeof mockDataPoints];
+      mockDataPoints[mockIndicator.rowId as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
       indicatorPoints[mockNorthWest.code as keyof typeof indicatorPoints];
     const { value, benchmark } = indicatorAreaPoint;
     expect(result[2]).toEqual([
-      mockIndicator.id,
+      mockIndicator.rowId,
       mockIndicator.name,
       mockIndicator.latestDataPeriod,
       `Group: ${mockNorthWest.name}`,
@@ -145,14 +150,14 @@ describe('convertHeatmapToCsv', () => {
       mockEngland.code
     );
     const indicatorPoints =
-      mockDataPoints[mockIndicator.id as keyof typeof mockDataPoints];
+      mockDataPoints[mockIndicator.rowId as keyof typeof mockDataPoints];
     const indicatorAreaPoint =
       indicatorPoints[
         mockBlackburnAndDarwen.code as keyof typeof indicatorPoints
       ];
     const { value, benchmark } = indicatorAreaPoint;
     expect(result[1]).toEqual([
-      mockIndicator.id,
+      mockIndicator.rowId,
       mockIndicator.name,
       mockIndicator.latestDataPeriod,
       mockBlackburnAndDarwen.name,
